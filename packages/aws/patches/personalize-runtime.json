@@ -1,0 +1,12 @@
+{
+  "operations": {
+    "getActionRecommendations": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:personalize:${Region}:${Account}:campaign/*), the call was denied live in the Personalize Bindings suite; the grant stays on *.",
+        "resources": {
+          "personalize:GetActionRecommendations": "*"
+        }
+      }
+    }
+  }
+}

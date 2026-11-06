@@ -175,6 +175,7 @@ export interface AWSConfiguration {
   agentElevatedRoleArnStatus?: ValidationStatus;
 }
 export type GithubRepoOwnerType = "organization" | "user" | (string & {});
+export type AssociationId = string;
 export interface GitHubConfiguration {
   repoName: string;
   repoId: string;
@@ -182,6 +183,7 @@ export interface GitHubConfiguration {
   ownerType: GithubRepoOwnerType;
   instanceIdentifier?: string;
   runtimeRoleArn?: string;
+  releaseManagementAssociationId?: string;
 }
 export interface SlackChannel {
   channelName?: string;
@@ -234,6 +236,7 @@ export interface GitLabConfiguration {
   projectPath: string;
   instanceIdentifier?: string;
   runtimeRoleArn?: string;
+  releaseManagementAssociationId?: string;
 }
 export interface MCPServerSplunkConfiguration {}
 export interface EventChannelConfiguration {}
@@ -263,6 +266,32 @@ export interface MCPServerSigV4Configuration {
 }
 export interface RemoteAgentConfiguration {}
 export interface RemoteAgentSigV4Configuration {}
+export type Guid = string;
+export type MSTeamsChannelId = string;
+export interface MSTeamsChannel {
+  channelName: string;
+  channelId: string;
+}
+export interface MSTeamsTransmissionTarget {
+  opsOncallTarget?: MSTeamsChannel;
+  opsSRETarget?: MSTeamsChannel;
+}
+export interface MSTeamsConfiguration {
+  teamId: string;
+  teamName: string;
+  transmissionTarget: MSTeamsTransmissionTarget;
+}
+export type DisplayName = string;
+export type PrivateConnectionName = string;
+export interface PrivateNetworkAccess {
+  privateConnectionName: string;
+  runtimeRoleArn: string;
+}
+export type NetworkAccessConfiguration = { privateAccess: PrivateNetworkAccess };
+export interface ReleaseManagementConfiguration {
+  name: string;
+  networkAccess: NetworkAccessConfiguration;
+}
 export type ServiceConfiguration =
   | {
       sourceAws: SourceAwsConfiguration;
@@ -284,6 +313,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -305,6 +336,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -326,6 +359,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -347,6 +382,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -368,6 +405,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -389,6 +428,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -410,6 +451,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -431,6 +474,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -452,6 +497,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -473,6 +520,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -494,6 +543,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -515,6 +566,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -536,6 +589,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -557,6 +612,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -578,6 +635,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -599,6 +658,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -620,6 +681,8 @@ export type ServiceConfiguration =
       mcpserversigv4: MCPServerSigV4Configuration;
       remoteagent?: never;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -641,6 +704,8 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent: RemoteAgentConfiguration;
       remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement?: never;
     }
   | {
       sourceAws?: never;
@@ -662,6 +727,54 @@ export type ServiceConfiguration =
       mcpserversigv4?: never;
       remoteagent?: never;
       remoteagentsigv4: RemoteAgentSigV4Configuration;
+      msteams?: never;
+      releaseManagement?: never;
+    }
+  | {
+      sourceAws?: never;
+      aws?: never;
+      github?: never;
+      slack?: never;
+      dynatrace?: never;
+      servicenow?: never;
+      mcpservernewrelic?: never;
+      mcpserverdatadog?: never;
+      mcpserver?: never;
+      gitlab?: never;
+      mcpserversplunk?: never;
+      eventChannel?: never;
+      azure?: never;
+      azuredevops?: never;
+      mcpservergrafana?: never;
+      pagerduty?: never;
+      mcpserversigv4?: never;
+      remoteagent?: never;
+      remoteagentsigv4?: never;
+      msteams: MSTeamsConfiguration;
+      releaseManagement?: never;
+    }
+  | {
+      sourceAws?: never;
+      aws?: never;
+      github?: never;
+      slack?: never;
+      dynatrace?: never;
+      servicenow?: never;
+      mcpservernewrelic?: never;
+      mcpserverdatadog?: never;
+      mcpserver?: never;
+      gitlab?: never;
+      mcpserversplunk?: never;
+      eventChannel?: never;
+      azure?: never;
+      azuredevops?: never;
+      mcpservergrafana?: never;
+      pagerduty?: never;
+      mcpserversigv4?: never;
+      remoteagent?: never;
+      remoteagentsigv4?: never;
+      msteams?: never;
+      releaseManagement: ReleaseManagementConfiguration;
     };
 export type CapabilityType =
   | "RELEASE_READINESS_REVIEW"
@@ -690,7 +803,6 @@ export interface AssociateServiceInput {
   configuration: ServiceConfiguration;
   capabilities?: { [key: string]: CapabilityConfiguration | undefined };
 }
-export type AssociationId = string;
 export interface Association {
   agentSpaceId: string;
   createdAt: Date;
@@ -886,7 +998,6 @@ export interface CreateChatResponse {
   executionId: string;
   createdAt: Date;
 }
-export type PrivateConnectionName = string;
 export type IpAddressOrDnsName = string;
 export type VpcId = string;
 export type SubnetId = string;
@@ -948,8 +1059,41 @@ export interface CreatePrivateConnectionOutput {
 }
 export type TriggerType = string;
 export type ScheduleExpression = string;
-export interface ScheduleCondition {
+export interface CronSchedule {
   expression: string;
+}
+export type TimeOfDay = string;
+export interface DailyRecurrence {}
+export type DayOfWeek =
+  | "MONDAY"
+  | "TUESDAY"
+  | "WEDNESDAY"
+  | "THURSDAY"
+  | "FRIDAY"
+  | "SATURDAY"
+  | "SUNDAY"
+  | (string & {});
+export interface WeeklyRecurrence {
+  dayOfWeek: DayOfWeek;
+}
+export interface MonthlyRecurrence {
+  dayOfMonth: number;
+}
+export type Recurrence =
+  | { daily: DailyRecurrence; weekly?: never; monthly?: never }
+  | { daily?: never; weekly: WeeklyRecurrence; monthly?: never }
+  | { daily?: never; weekly?: never; monthly: MonthlyRecurrence };
+export interface TimeRangeSchedule {
+  startAfter: string;
+  startBefore: string;
+  recurrence: Recurrence;
+}
+export type ScheduleSpec =
+  | { cron: CronSchedule; timeRange?: never }
+  | { cron?: never; timeRange: TimeRangeSchedule };
+export interface ScheduleCondition {
+  expression?: string;
+  spec?: ScheduleSpec;
 }
 export type TriggerCondition = { schedule: ScheduleCondition };
 export type TriggerAction = unknown;
@@ -1083,11 +1227,14 @@ export interface GetAccountUsageOutput {
   monthlyAccountEvaluationHours?: UsageMetric;
   monthlyAccountSystemLearningHours?: UsageMetric;
   monthlyAccountOnDemandHours?: UsageMetric;
+  monthlyAccountGraderHours?: UsageMetric;
   usagePeriodStartTime: Date;
   usagePeriodEndTime: Date;
 }
+export type IncludedData = "METADATA_ONLY" | "ALL_DATA" | (string & {});
 export interface GetAgentSpaceInput {
   agentSpaceId: string;
+  includedData?: IncludedData;
 }
 export interface GetAgentSpaceOutput {
   agentSpace: AgentSpace;
@@ -1188,6 +1335,7 @@ export type Service =
   | "slack"
   | "azure"
   | "azuredevops"
+  | "msteams"
   | "dynatrace"
   | "servicenow"
   | "pagerduty"
@@ -1219,13 +1367,17 @@ export type MCPServerAuthorizationMethod =
   | "oauth-3lo"
   | "api-key"
   | "bearer-token"
+  | "custom-headers"
   | (string & {});
+export type CustomHeaderName = string;
+export type CustomHeaderNames = string[];
 export interface RegisteredMCPServerDetails {
   name: string;
   endpoint: string;
   authorizationMethod: MCPServerAuthorizationMethod;
   description?: string | redacted.Redacted<string>;
   apiKeyHeader?: string;
+  customHeaderNames?: string[];
 }
 export type ServiceNowInstanceUrl = string;
 export interface RegisteredServiceNowDetails {
@@ -1246,7 +1398,6 @@ export interface RegisteredNewRelicDetails {
 export interface RegisteredAzureDevOpsServiceDetails {
   organizationName: string;
 }
-export type Guid = string;
 export type WebIdentityTokenAudienceList = string[];
 export interface RegisteredAzureIdentityDetails {
   tenantId: string;
@@ -1265,7 +1416,6 @@ export interface RegisteredPagerDutyDetails {
 }
 export type MCPServerName = string;
 export type SigV4Region = string;
-export type CustomHeaderName = string;
 export type CustomHeaderValue = string | redacted.Redacted<string>;
 export type CustomHeaders = { [key: string]: string | redacted.Redacted<string> | undefined };
 export interface RegisteredMCPServerSigV4Details {
@@ -1582,6 +1732,7 @@ export type NextToken = string;
 export interface ListAgentSpacesInput {
   maxResults?: number;
   nextToken?: string;
+  includedData?: IncludedData;
 }
 export type AgentSpaceList = AgentSpace[];
 export interface ListAgentSpacesOutput {
@@ -1986,12 +2137,16 @@ export interface MCPServerBearerTokenConfig {
   tokenValue: string | redacted.Redacted<string>;
   authorizationHeader?: string;
 }
+export interface MCPServerCustomHeadersConfig {
+  headers: { [key: string]: string | redacted.Redacted<string> | undefined };
+}
 export type MCPServerAuthorizationConfig =
   | {
       oAuthClientCredentials: MCPServerOAuthClientCredentialsConfig;
       oAuth3LO?: never;
       apiKey?: never;
       bearerToken?: never;
+      customHeaders?: never;
       authorizationDiscovery?: never;
     }
   | {
@@ -1999,6 +2154,7 @@ export type MCPServerAuthorizationConfig =
       oAuth3LO: MCPServerOAuth3LOConfig;
       apiKey?: never;
       bearerToken?: never;
+      customHeaders?: never;
       authorizationDiscovery?: never;
     }
   | {
@@ -2006,6 +2162,7 @@ export type MCPServerAuthorizationConfig =
       oAuth3LO?: never;
       apiKey: MCPServerAPIKeyConfig;
       bearerToken?: never;
+      customHeaders?: never;
       authorizationDiscovery?: never;
     }
   | {
@@ -2013,6 +2170,7 @@ export type MCPServerAuthorizationConfig =
       oAuth3LO?: never;
       apiKey?: never;
       bearerToken: MCPServerBearerTokenConfig;
+      customHeaders?: never;
       authorizationDiscovery?: never;
     }
   | {
@@ -2020,6 +2178,15 @@ export type MCPServerAuthorizationConfig =
       oAuth3LO?: never;
       apiKey?: never;
       bearerToken?: never;
+      customHeaders: MCPServerCustomHeadersConfig;
+      authorizationDiscovery?: never;
+    }
+  | {
+      oAuthClientCredentials?: never;
+      oAuth3LO?: never;
+      apiKey?: never;
+      bearerToken?: never;
+      customHeaders?: never;
       authorizationDiscovery: MCPServerAuthorizationDiscoveryConfig;
     };
 export interface MCPServerDetails {
@@ -2356,6 +2523,7 @@ export type ServiceDetails =
       remoteagent?: never;
       remoteagentsigv4: RemoteAgentSigV4ServiceDetails;
     };
+export type ServiceNameInput = string;
 export interface RegisterServiceInput {
   service: PostRegisterServiceSupportedService;
   serviceDetails: ServiceDetails;
@@ -2726,7 +2894,7 @@ export type AssociateServiceError =
   | InternalServerException
   | InvalidParameterException
   | ResourceNotFoundException
-  | ThrottlingException
+  | ServiceQuotaExceededException
   | ValidationException
   | CommonErrors;
 /**
@@ -2745,13 +2913,23 @@ export const associateService: API.OperationMethod<
     InternalServerException,
     InvalidParameterException,
     ResourceNotFoundException,
-    ThrottlingException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:AssociateService", "iam:PassRole"],
+    resources: {
+      "aidevops:AssociateService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateService",
 }));
@@ -2761,7 +2939,6 @@ export type CreateAgentSpaceError =
   | InternalServerException
   | InvalidParameterException
   | ServiceQuotaExceededException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2780,13 +2957,21 @@ export const createAgentSpace: API.OperationMethod<
     InternalServerException,
     InvalidParameterException,
     ServiceQuotaExceededException,
-    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentSpace",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:CreateAgentSpace", "aidevops:TagResource"],
+    resources: {
+      "aidevops:CreateAgentSpace": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+    conditional: { "aidevops:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgentSpace",
 }));
@@ -2820,6 +3005,14 @@ export const createAsset: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAsset",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateAsset"],
+    resources: {
+      "aidevops:CreateAsset": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAsset",
 }));
@@ -2857,6 +3050,14 @@ export const createAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateAssetFile",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateAssetFile"],
+    resources: {
+      "aidevops:CreateAssetFile": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAssetFile",
 }));
@@ -2892,6 +3093,14 @@ export const createBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "CreateBacklogTask",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateBacklogTask"],
+    resources: {
+      "aidevops:CreateBacklogTask": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBacklogTask",
 }));
@@ -2923,6 +3132,14 @@ export const createChat: API.OperationMethod<
   retry: Retry,
   operationName: "CreateChat",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateChat"],
+    resources: {
+      "aidevops:CreateChat": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateChat",
 }));
@@ -2931,7 +3148,6 @@ export type CreatePrivateConnectionError =
   | AccessDeniedException
   | InternalServerException
   | InvalidParameterException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -2949,13 +3165,21 @@ export const createPrivateConnection: API.OperationMethod<
     AccessDeniedException,
     InternalServerException,
     InvalidParameterException,
-    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateConnection",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:CreatePrivateConnection", "aidevops:TagResource"],
+    resources: {
+      "aidevops:CreatePrivateConnection": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}",
+      ],
+    },
+    conditional: { "aidevops:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePrivateConnection",
 }));
@@ -2991,6 +3215,14 @@ export const createTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTrigger",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:CreateTrigger"],
+    resources: {
+      "aidevops:CreateTrigger": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrigger",
 }));
@@ -2999,7 +3231,6 @@ export type DeleteAgentSpaceError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3017,13 +3248,20 @@ export const deleteAgentSpace: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentSpace",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DeleteAgentSpace"],
+    resources: {
+      "aidevops:DeleteAgentSpace": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgentSpace",
 }));
@@ -3059,6 +3297,14 @@ export const deleteAsset: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAsset",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:DeleteAsset"],
+    resources: {
+      "aidevops:DeleteAsset": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAsset",
 }));
@@ -3092,6 +3338,14 @@ export const deleteAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteAssetFile",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:DeleteAssetFile"],
+    resources: {
+      "aidevops:DeleteAssetFile": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAssetFile",
 }));
@@ -3100,7 +3354,6 @@ export type DeletePrivateConnectionError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3118,13 +3371,20 @@ export const deletePrivateConnection: API.OperationMethod<
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivateConnection",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DeletePrivateConnection"],
+    resources: {
+      "aidevops:DeletePrivateConnection": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePrivateConnection",
 }));
@@ -3160,6 +3420,14 @@ export const deleteTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTrigger",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:DeleteTrigger"],
+    resources: {
+      "aidevops:DeleteTrigger": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrigger",
 }));
@@ -3168,7 +3436,6 @@ export type DeregisterServiceError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3186,13 +3453,20 @@ export const deregisterService: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DeregisterService"],
+    resources: {
+      "aidevops:DeregisterService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterService",
 }));
@@ -3201,7 +3475,6 @@ export type DescribePrivateConnectionError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3219,13 +3492,20 @@ export const describePrivateConnection: API.OperationMethod<
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePrivateConnection",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DescribePrivateConnection"],
+    resources: {
+      "aidevops:DescribePrivateConnection": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePrivateConnection",
 }));
@@ -3233,7 +3513,6 @@ export const describePrivateConnection: API.OperationMethod<
 export type DisableOperatorAppError =
   | IdentityCenterServiceException
   | InternalServerException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3247,16 +3526,19 @@ export const disableOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1088, __c34, 0) as any as S.Schema<DisableOperatorAppInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DisableOperatorAppResponse>,
-  errors: [
-    IdentityCenterServiceException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [IdentityCenterServiceException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOperatorApp",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DisableOperatorApp"],
+    resources: {
+      "aidevops:DisableOperatorApp": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableOperatorApp",
 }));
@@ -3264,7 +3546,6 @@ export const disableOperatorApp: API.OperationMethod<
 export type DisassociateServiceError =
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3278,16 +3559,20 @@ export const disassociateService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1120, __c35, 0) as any as S.Schema<DisassociateServiceInput>,
   output: __S(64, __c2, 0) as any as S.Schema<DisassociateServiceOutput>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:DisassociateService"],
+    resources: {
+      "aidevops:DisassociateService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateService",
 }));
@@ -3295,7 +3580,6 @@ export const disassociateService: API.OperationMethod<
 export type EnableOperatorAppError =
   | IdentityCenterServiceException
   | InternalServerException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3309,16 +3593,20 @@ export const enableOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<EnableOperatorAppInput>,
   output: __S(1153, __c36, 1) as any as S.Schema<EnableOperatorAppOutput>,
-  errors: [
-    IdentityCenterServiceException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [IdentityCenterServiceException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOperatorApp",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:EnableOperatorApp", "iam:PassRole"],
+    resources: {
+      "aidevops:EnableOperatorApp": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableOperatorApp",
 }));
@@ -3352,6 +3640,7 @@ export const getAccountUsage: API.OperationMethod<
   retry: Retry,
   operationName: "GetAccountUsage",
   endpointHostPrefix: "dp.",
+  iam: { actions: ["aidevops:GetAccountUsage"] },
   telemetry: TELEMETRY,
   span: "GetAccountUsage",
 }));
@@ -3359,7 +3648,6 @@ export const getAccountUsage: API.OperationMethod<
 export type GetAgentSpaceError =
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3373,16 +3661,19 @@ export const getAgentSpace: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<GetAgentSpaceInput>,
   output: __S(256, __c8, 0) as any as S.Schema<GetAgentSpaceOutput>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentSpace",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:GetAgentSpace"],
+    resources: {
+      "aidevops:GetAgentSpace": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentSpace",
 }));
@@ -3416,6 +3707,14 @@ export const getAsset: API.OperationMethod<
   retry: Retry,
   operationName: "GetAsset",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetAsset"],
+    resources: {
+      "aidevops:GetAsset": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAsset",
 }));
@@ -3449,6 +3748,14 @@ export const getAssetContent: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetContent",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetAssetContent"],
+    resources: {
+      "aidevops:GetAssetContent": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssetContent",
 }));
@@ -3482,6 +3789,14 @@ export const getAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "GetAssetFile",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetAssetFile"],
+    resources: {
+      "aidevops:GetAssetFile": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssetFile",
 }));
@@ -3489,7 +3804,6 @@ export const getAssetFile: API.OperationMethod<
 export type GetAssociationError =
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3503,16 +3817,20 @@ export const getAssociation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1408, __c44, 0) as any as S.Schema<GetAssociationInput>,
   output: __S(1409, __c44, 1) as any as S.Schema<GetAssociationOutput>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociation",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:GetAssociation"],
+    resources: {
+      "aidevops:GetAssociation": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAssociation",
 }));
@@ -3548,15 +3866,19 @@ export const getBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "GetBacklogTask",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetBacklogTask"],
+    resources: {
+      "aidevops:GetBacklogTask": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBacklogTask",
 }));
 
-export type GetOperatorAppError =
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors;
+export type GetOperatorAppError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Get the full auth configuration of operator including any enabled auth flow
  */
@@ -3568,11 +3890,19 @@ export const getOperatorApp: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<GetOperatorAppInput>,
   output: __S(1473, __c46, 1) as any as S.Schema<GetOperatorAppOutput>,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
+  errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperatorApp",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:GetOperatorApp"],
+    resources: {
+      "aidevops:GetOperatorApp": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOperatorApp",
 }));
@@ -3606,6 +3936,14 @@ export const getRecommendation: API.OperationMethod<
   retry: Retry,
   operationName: "GetRecommendation",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetRecommendation"],
+    resources: {
+      "aidevops:GetRecommendation": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommendation",
 }));
@@ -3613,7 +3951,6 @@ export const getRecommendation: API.OperationMethod<
 export type GetServiceError =
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3627,16 +3964,19 @@ export const getService: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1600, __c50, 0) as any as S.Schema<GetServiceInput>,
   output: __S(1601, __c50, 1) as any as S.Schema<GetServiceOutput>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:GetService"],
+    resources: {
+      "aidevops:GetService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetService",
 }));
@@ -3670,15 +4010,19 @@ export const getTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "GetTrigger",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:GetTrigger"],
+    resources: {
+      "aidevops:GetTrigger": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrigger",
 }));
 
-export type ListAgentSpacesError =
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors;
+export type ListAgentSpacesError = InternalServerException | ValidationException | CommonErrors;
 /**
  * Lists all AgentSpaces with optional pagination.
  */
@@ -3691,7 +4035,7 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1728, __c54, 0) as any as S.Schema<ListAgentSpacesInput>,
   output: __S(1730, __c54, 2) as any as S.Schema<ListAgentSpacesOutput>,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
+  errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgentSpaces",
@@ -3702,6 +4046,7 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
     items: "agentSpaces",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aidevops:ListAgentSpaces"] },
   telemetry: TELEMETRY,
   span: "ListAgentSpaces",
 })) as any;
@@ -3742,6 +4087,14 @@ export const listAssetFiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListAssetFiles"],
+    resources: {
+      "aidevops:ListAssetFiles": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetFiles",
 })) as any;
@@ -3780,6 +4133,14 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListAssets"],
+    resources: {
+      "aidevops:ListAssets": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssets",
 })) as any;
@@ -3818,6 +4179,7 @@ export const listAssetTypes: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aidevops:ListAssetTypes"] },
   telemetry: TELEMETRY,
   span: "ListAssetTypes",
 })) as any;
@@ -3858,6 +4220,14 @@ export const listAssetVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListAssetVersions"],
+    resources: {
+      "aidevops:ListAssetVersions": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetVersions",
 })) as any;
@@ -3865,7 +4235,6 @@ export const listAssetVersions: API.PaginatedOperationMethod<
 export type ListAssociationsError =
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -3880,12 +4249,7 @@ export const listAssociations: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(1888, __c59, 0) as any as S.Schema<ListAssociationsInput>,
   output: __S(1890, __c59, 2) as any as S.Schema<ListAssociationsOutput>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociations",
@@ -3896,6 +4260,14 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "associations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListAssociations"],
+    resources: {
+      "aidevops:ListAssociations": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociations",
 })) as any;
@@ -3934,6 +4306,14 @@ export const listBacklogTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["aidevops:ListBacklogTasks"],
+    resources: {
+      "aidevops:ListBacklogTasks": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBacklogTasks",
 })) as any;
@@ -3965,6 +4345,14 @@ export const listChats: API.OperationMethod<
   retry: Retry,
   operationName: "ListChats",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:ListChats"],
+    resources: {
+      "aidevops:ListChats": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListChats",
 }));
@@ -4005,6 +4393,14 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executions",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["aidevops:ListExecutions"],
+    resources: {
+      "aidevops:ListExecutions": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExecutions",
 })) as any;
@@ -4043,6 +4439,14 @@ export const listGoals: API.PaginatedOperationMethod<
     items: "goals",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["aidevops:ListGoals"],
+    resources: {
+      "aidevops:ListGoals": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGoals",
 })) as any;
@@ -4083,6 +4487,14 @@ export const listJournalRecords: API.PaginatedOperationMethod<
     items: "records",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["aidevops:ListJournalRecords"],
+    resources: {
+      "aidevops:ListJournalRecords": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJournalRecords",
 })) as any;
@@ -4116,6 +4528,14 @@ export const listPendingMessages: API.OperationMethod<
   retry: Retry,
   operationName: "ListPendingMessages",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:ListPendingMessages"],
+    resources: {
+      "aidevops:ListPendingMessages": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPendingMessages",
 }));
@@ -4123,7 +4543,6 @@ export const listPendingMessages: API.OperationMethod<
 export type ListPrivateConnectionsError =
   | AccessDeniedException
   | InternalServerException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4137,16 +4556,12 @@ export const listPrivateConnections: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c67, 0) as any as S.Schema<ListPrivateConnectionsInput>,
   output: __S(2146, __c67, 2) as any as S.Schema<ListPrivateConnectionsOutput>,
-  errors: [
-    AccessDeniedException,
-    InternalServerException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [AccessDeniedException, InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPrivateConnections",
   endpointHostPrefix: "cp.",
+  iam: { actions: ["aidevops:ListPrivateConnections"] },
   telemetry: TELEMETRY,
   span: "ListPrivateConnections",
 }));
@@ -4178,15 +4593,19 @@ export const listRecommendations: API.OperationMethod<
   retry: Retry,
   operationName: "ListRecommendations",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:ListRecommendations"],
+    resources: {
+      "aidevops:ListRecommendations": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecommendations",
 }));
 
-export type ListServicesError =
-  | InternalServerException
-  | ThrottlingException
-  | ValidationException
-  | CommonErrors;
+export type ListServicesError = InternalServerException | ValidationException | CommonErrors;
 /**
  * List a list of registered service on the account level.
  */
@@ -4199,7 +4618,7 @@ export const listServices: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(2240, __c70, 0) as any as S.Schema<ListServicesInput>,
   output: __S(2242, __c70, 2) as any as S.Schema<ListServicesOutput>,
-  errors: [InternalServerException, ThrottlingException, ValidationException],
+  errors: [InternalServerException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServices",
@@ -4210,6 +4629,7 @@ export const listServices: API.PaginatedOperationMethod<
     items: "services",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aidevops:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -4241,6 +4661,7 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "cp.",
+  iam: { actions: ["aidevops:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4281,6 +4702,14 @@ export const listTriggers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aidevops:ListTriggers"],
+    resources: {
+      "aidevops:ListTriggers": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTriggers",
 })) as any;
@@ -4288,7 +4717,6 @@ export const listTriggers: API.PaginatedOperationMethod<
 export type ListWebhooksError =
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4302,16 +4730,20 @@ export const listWebhooks: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2336, __c73, 0) as any as S.Schema<ListWebhooksInput>,
   output: __S(2339, __c73, 3) as any as S.Schema<ListWebhooksOutput>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebhooks",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:ListWebhooks"],
+    resources: {
+      "aidevops:ListWebhooks": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWebhooks",
 }));
@@ -4331,8 +4763,8 @@ export const registerService: API.OperationMethod<
   RegisterServiceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2394, __c74, 26) as any as S.Schema<RegisterServiceInput>,
-  output: __S(2397, __c74, 29) as any as S.Schema<RegisterServiceOutput>,
+  input: __S(2395, __c74, 27) as any as S.Schema<RegisterServiceInput>,
+  output: __S(2398, __c74, 30) as any as S.Schema<RegisterServiceOutput>,
   errors: [
     InternalServerException,
     InvalidParameterException,
@@ -4343,6 +4775,16 @@ export const registerService: API.OperationMethod<
   retry: Retry,
   operationName: "RegisterService",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["iam:PassRole", "aidevops:RegisterService", "aidevops:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "aidevops:RegisterService": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:service/${ServiceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "aidevops:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterService",
 }));
@@ -4378,6 +4820,14 @@ export const sendMessage: API.OperationMethod<
   retry: Retry,
   operationName: "SendMessage",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:SendMessage"],
+    resources: {
+      "aidevops:SendMessage": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendMessage",
 }));
@@ -4409,6 +4859,7 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "cp.",
+  iam: { actions: ["aidevops:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4440,6 +4891,7 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "cp.",
+  iam: { actions: ["aidevops:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4448,7 +4900,6 @@ export type UpdateAgentSpaceError =
   | ConflictException
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4466,13 +4917,20 @@ export const updateAgentSpace: API.OperationMethod<
     ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentSpace",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:UpdateAgentSpace"],
+    resources: {
+      "aidevops:UpdateAgentSpace": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentSpace",
 }));
@@ -4510,6 +4968,14 @@ export const updateApprovalAction: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateApprovalAction",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateApprovalAction"],
+    resources: {
+      "aidevops:UpdateApprovalAction": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApprovalAction",
 }));
@@ -4545,6 +5011,14 @@ export const updateAsset: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAsset",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateAsset"],
+    resources: {
+      "aidevops:UpdateAsset": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAsset",
 }));
@@ -4582,14 +5056,23 @@ export const updateAssetFile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateAssetFile",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateAssetFile"],
+    resources: {
+      "aidevops:UpdateAssetFile": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssetFile",
 }));
 
 export type UpdateAssociationError =
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
+  | ServiceQuotaExceededException
   | ValidationException
   | CommonErrors;
 /**
@@ -4604,15 +5087,27 @@ export const updateAssociation: API.OperationMethod<
   input: __S(2624, __c82, 0) as any as S.Schema<UpdateAssociationInput>,
   output: __S(161, __c5, 1) as any as S.Schema<UpdateAssociationOutput>,
   errors: [
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
+    ServiceQuotaExceededException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociation",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["iam:PassRole", "aidevops:UpdateAssociation"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "aidevops:UpdateAssociation": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}/association/${AssociationId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAssociation",
 }));
@@ -4648,6 +5143,14 @@ export const updateBacklogTask: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateBacklogTask",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateBacklogTask"],
+    resources: {
+      "aidevops:UpdateBacklogTask": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBacklogTask",
 }));
@@ -4683,6 +5186,14 @@ export const updateGoal: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGoal",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateGoal"],
+    resources: {
+      "aidevops:UpdateGoal": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGoal",
 }));
@@ -4690,7 +5201,6 @@ export const updateGoal: API.OperationMethod<
 export type UpdateOperatorAppIdpConfigError =
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4704,16 +5214,19 @@ export const updateOperatorAppIdpConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2720, __c85, 0) as any as S.Schema<UpdateOperatorAppIdpConfigInput>,
   output: __S(2721, __c85, 1) as any as S.Schema<UpdateOperatorAppIdpConfigOutput>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOperatorAppIdpConfig",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:UpdateOperatorAppIdpConfig"],
+    resources: {
+      "aidevops:UpdateOperatorAppIdpConfig": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOperatorAppIdpConfig",
 }));
@@ -4722,7 +5235,6 @@ export type UpdatePrivateConnectionCertificateError =
   | AccessDeniedException
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4740,13 +5252,20 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
     AccessDeniedException,
     InternalServerException,
     ResourceNotFoundException,
-    ThrottlingException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivateConnectionCertificate",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:UpdatePrivateConnectionCertificate"],
+    resources: {
+      "aidevops:UpdatePrivateConnectionCertificate": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:private-connection/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePrivateConnectionCertificate",
 }));
@@ -4782,6 +5301,14 @@ export const updateRecommendation: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRecommendation",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateRecommendation"],
+    resources: {
+      "aidevops:UpdateRecommendation": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRecommendation",
 }));
@@ -4815,6 +5342,14 @@ export const updateTrigger: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTrigger",
   endpointHostPrefix: "dp.",
+  iam: {
+    actions: ["aidevops:UpdateTrigger"],
+    resources: {
+      "aidevops:UpdateTrigger": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrigger",
 }));
@@ -4822,7 +5357,6 @@ export const updateTrigger: API.OperationMethod<
 export type ValidateAwsAssociationsError =
   | InternalServerException
   | ResourceNotFoundException
-  | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
@@ -4836,16 +5370,19 @@ export const validateAwsAssociations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2848, __c89, 0) as any as S.Schema<ValidateAwsAssociationsInput>,
   output: __S(64, __c2, 0) as any as S.Schema<ValidateAwsAssociationsOutput>,
-  errors: [
-    InternalServerException,
-    ResourceNotFoundException,
-    ThrottlingException,
-    ValidationException,
-  ],
+  errors: [InternalServerException, ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateAwsAssociations",
   endpointHostPrefix: "cp.",
+  iam: {
+    actions: ["aidevops:ValidateAwsAssociations"],
+    resources: {
+      "aidevops:ValidateAwsAssociations": [
+        "arn:${Partition}:aidevops:${Region}:${Account}:agentspace/${AgentSpaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ValidateAwsAssociations",
 }));
@@ -4858,8 +5395,8 @@ function __c0(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           serviceId: S.String,
-          configuration: __S(147, __c4, 19),
-          capabilities: S.optional(__S(152, __c4, 24)),
+          configuration: __S(153, __c4, 25),
+          capabilities: S.optional(__S(158, __c4, 30)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/agentspaces/{agentSpaceId}/associations" }),
@@ -4923,6 +5460,7 @@ function __c4(j: number): any {
           ownerType: S.String,
           instanceIdentifier: S.optional(S.String),
           runtimeRoleArn: S.optional(S.String),
+          releaseManagementAssociationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitHubConfiguration" });
     case 3:
@@ -4982,6 +5520,7 @@ function __c4(j: number): any {
           projectPath: S.String,
           instanceIdentifier: S.optional(S.String),
           runtimeRoleArn: S.optional(S.String),
+          releaseManagementAssociationId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitLabConfiguration" });
     case 15:
@@ -5006,6 +5545,31 @@ function __c4(j: number): any {
         S.Struct({ services: __S(32, __c1, 0), customerEmail: SensitiveString }),
       ).annotate({ identifier: "PagerDutyConfiguration" });
     case 19:
+      return S.suspend(() => S.Struct({ channelName: S.String, channelId: S.String })).annotate({
+        identifier: "MSTeamsChannel",
+      });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          opsOncallTarget: S.optional(__S(147, __c4, 19)),
+          opsSRETarget: S.optional(__S(147, __c4, 19)),
+        }),
+      ).annotate({ identifier: "MSTeamsTransmissionTarget" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({ teamId: S.String, teamName: S.String, transmissionTarget: __S(148, __c4, 20) }),
+      ).annotate({ identifier: "MSTeamsConfiguration" });
+    case 22:
+      return S.suspend(() =>
+        S.Struct({ privateConnectionName: S.String, runtimeRoleArn: S.String }),
+      ).annotate({ identifier: "PrivateNetworkAccess" });
+    case 23:
+      return S.Union([/*@__PURE__*/ S.Struct({ privateAccess: __S(150, __c4, 22) })]);
+    case 24:
+      return S.suspend(() =>
+        S.Struct({ name: S.String, networkAccess: __S(151, __c4, 23) }),
+      ).annotate({ identifier: "ReleaseManagementConfiguration" });
+    case 25:
       return S.Union([
         /*@__PURE__*/ S.Struct({ sourceAws: __S(128, __c4, 0) }),
         /*@__PURE__*/ S.Struct({ aws: __S(129, __c4, 1) }),
@@ -5026,30 +5590,32 @@ function __c4(j: number): any {
         /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(141, __c4, 13) }),
         /*@__PURE__*/ S.Struct({ remoteagent: __S(64, __c2, 0) }),
         /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(64, __c2, 0) }),
+        /*@__PURE__*/ S.Struct({ msteams: __S(149, __c4, 21) }),
+        /*@__PURE__*/ S.Struct({ releaseManagement: __S(152, __c4, 24) }),
       ]);
-    case 20:
+    case 26:
       return S.suspend(() => S.Struct({ patterns: __S(32, __c1, 0) })).annotate({
         identifier: "PatternFilter",
       });
-    case 21:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           events: S.optional(__S(96, __c3, 0)),
-          targetBranches: S.optional(__S(148, __c4, 20)),
+          targetBranches: S.optional(__S(154, __c4, 26)),
         }),
       ).annotate({ identifier: "TriggerFilterGroup" });
-    case 22:
-      return S.Array(__S(149, __c4, 21));
-    case 23:
+    case 28:
+      return S.Array(__S(155, __c4, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           enabled: S.optional(S.Boolean),
-          triggerFilterGroups: S.optional(__S(150, __c4, 22)),
+          triggerFilterGroups: S.optional(__S(156, __c4, 28)),
         }),
       ).annotate({ identifier: "CapabilityConfiguration" });
-    case 24:
-      return S.Record(S.String, /*@__PURE__*/ __S(151, __c4, 23).pipe(S.optional));
-    case 25:
+    case 30:
+      return S.Record(S.String, /*@__PURE__*/ __S(157, __c4, 29).pipe(S.optional));
+    case 31:
       return S.suspend(() =>
         S.Struct({
           agentSpaceId: S.String,
@@ -5058,8 +5624,8 @@ function __c4(j: number): any {
           status: S.optional(S.String),
           associationId: S.String,
           serviceId: S.String,
-          configuration: __S(147, __c4, 19),
-          capabilities: S.optional(__S(152, __c4, 24)),
+          configuration: __S(153, __c4, 25),
+          capabilities: S.optional(__S(158, __c4, 30)),
         }),
       ).annotate({ identifier: "Association" });
   }
@@ -5078,7 +5644,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "GenericWebhook" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ association: __S(153, __c4, 25), webhook: S.optional(__S(160, __c5, 0)) }),
+        S.Struct({ association: __S(159, __c4, 31), webhook: S.optional(__S(160, __c5, 0)) }),
       ).annotate({ identifier: "AssociateServiceOutput" });
   }
 }
@@ -5428,7 +5994,7 @@ function __c24(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           type: S.String,
-          condition: __S(801, __c25, 1),
+          condition: __S(807, __c25, 7),
           action: S.Any,
           status: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
@@ -5449,17 +6015,44 @@ function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ expression: S.String })).annotate({
-        identifier: "ScheduleCondition",
+        identifier: "CronSchedule",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ schedule: __S(800, __c25, 0) })]);
+      return S.suspend(() => S.Struct({ dayOfWeek: S.String })).annotate({
+        identifier: "WeeklyRecurrence",
+      });
     case 2:
+      return S.suspend(() => S.Struct({ dayOfMonth: S.Number })).annotate({
+        identifier: "MonthlyRecurrence",
+      });
+    case 3:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ daily: __S(64, __c2, 0) }),
+        /*@__PURE__*/ S.Struct({ weekly: __S(801, __c25, 1) }),
+        /*@__PURE__*/ S.Struct({ monthly: __S(802, __c25, 2) }),
+      ]);
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ startAfter: S.String, startBefore: S.String, recurrence: __S(803, __c25, 3) }),
+      ).annotate({ identifier: "TimeRangeSchedule" });
+    case 5:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ cron: __S(800, __c25, 0) }),
+        /*@__PURE__*/ S.Struct({ timeRange: __S(804, __c25, 4) }),
+      ]);
+    case 6:
+      return S.suspend(() =>
+        S.Struct({ expression: S.optional(S.String), spec: S.optional(__S(805, __c25, 5)) }),
+      ).annotate({ identifier: "ScheduleCondition" });
+    case 7:
+      return S.Union([/*@__PURE__*/ S.Struct({ schedule: __S(806, __c25, 6) })]);
+    case 8:
       return S.suspend(() =>
         S.Struct({
           triggerId: S.String,
           agentSpaceId: S.String,
           type: S.String,
-          condition: __S(801, __c25, 1),
+          condition: __S(807, __c25, 7),
           action: S.Any,
           status: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -5471,7 +6064,7 @@ function __c25(j: number): any {
 function __c26(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ trigger: __S(802, __c25, 2) })).annotate({
+      return S.suspend(() => S.Struct({ trigger: __S(808, __c25, 8) })).annotate({
         identifier: "CreateTriggerResponse",
       });
   }
@@ -5750,6 +6343,7 @@ function __c39(j: number): any {
           monthlyAccountEvaluationHours: S.optional(__S(1249, __c39, 1)),
           monthlyAccountSystemLearningHours: S.optional(__S(1249, __c39, 1)),
           monthlyAccountOnDemandHours: S.optional(__S(1249, __c39, 1)),
+          monthlyAccountGraderHours: S.optional(__S(1249, __c39, 1)),
           usagePeriodStartTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           usagePeriodEndTime: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
@@ -5760,7 +6354,10 @@ function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")) }).pipe(
+        S.Struct({
+          agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
+          includedData: S.optional(S.String).pipe(T.HttpQuery("includedData")),
+        }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/v1/agentspaces/{agentSpaceId}" }),
             svc,
@@ -5869,7 +6466,7 @@ function __c44(j: number): any {
         ),
       ).annotate({ identifier: "GetAssociationInput" });
     case 1:
-      return S.suspend(() => S.Struct({ association: __S(153, __c4, 25) })).annotate({
+      return S.suspend(() => S.Struct({ association: __S(159, __c4, 31) })).annotate({
         identifier: "GetAssociationOutput",
       });
   }
@@ -6021,6 +6618,7 @@ function __c51(j: number): any {
           authorizationMethod: S.String,
           description: S.optional(SensitiveString),
           apiKeyHeader: S.optional(S.String),
+          customHeaderNames: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "RegisteredMCPServerDetails" });
     case 4:
@@ -6164,6 +6762,7 @@ function __c54(j: number): any {
         S.Struct({
           maxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
           nextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
+          includedData: S.optional(S.String).pipe(T.HttpQuery("includedData")),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/agentspaces/list" }),
@@ -6342,7 +6941,7 @@ function __c59(j: number): any {
         ),
       ).annotate({ identifier: "ListAssociationsInput" });
     case 1:
-      return S.Array(__S(153, __c4, 25));
+      return S.Array(__S(159, __c4, 31));
     case 2:
       return S.suspend(() =>
         S.Struct({ nextToken: S.optional(S.String), associations: __S(1889, __c59, 1) }),
@@ -6766,7 +7365,7 @@ function __c72(j: number): any {
         ),
       ).annotate({ identifier: "ListTriggersRequest" });
     case 1:
-      return S.Array(__S(802, __c25, 2));
+      return S.Array(__S(808, __c25, 8));
     case 2:
       return S.suspend(() =>
         S.Struct({ items: __S(2305, __c72, 1), nextToken: S.optional(S.String) }),
@@ -6880,23 +7479,28 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "MCPServerBearerTokenConfig" });
     case 11:
+      return S.suspend(() => S.Struct({ headers: __S(1665, __c52, 1) })).annotate({
+        identifier: "MCPServerCustomHeadersConfig",
+      });
+    case 12:
       return S.Union([
         /*@__PURE__*/ S.Struct({ oAuthClientCredentials: __S(2375, __c74, 7) }),
         /*@__PURE__*/ S.Struct({ oAuth3LO: __S(2376, __c74, 8) }),
         /*@__PURE__*/ S.Struct({ apiKey: __S(2377, __c74, 9) }),
         /*@__PURE__*/ S.Struct({ bearerToken: __S(2378, __c74, 10) }),
+        /*@__PURE__*/ S.Struct({ customHeaders: __S(2379, __c74, 11) }),
         /*@__PURE__*/ S.Struct({ authorizationDiscovery: __S(2372, __c74, 4) }),
       ]);
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2379, __c74, 11),
+          authorizationConfig: __S(2380, __c74, 12),
         }),
       ).annotate({ identifier: "MCPServerDetails" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           targetUrl: S.String,
@@ -6905,7 +7509,7 @@ function __c74(j: number): any {
           groupId: S.optional(S.String),
         }),
       ).annotate({ identifier: "GitLabDetails" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           apiKey: SensitiveString,
@@ -6916,21 +7520,21 @@ function __c74(j: number): any {
           alertPolicyIds: S.optional(__S(32, __c1, 0)),
         }),
       ).annotate({ identifier: "NewRelicApiKeyConfig" });
-    case 15:
-      return S.Union([/*@__PURE__*/ S.Struct({ apiKey: __S(2382, __c74, 14) })]);
     case 16:
-      return S.suspend(() => S.Struct({ authorizationConfig: __S(2383, __c74, 15) })).annotate({
+      return S.Union([/*@__PURE__*/ S.Struct({ apiKey: __S(2383, __c74, 15) })]);
+    case 17:
+      return S.suspend(() => S.Struct({ authorizationConfig: __S(2384, __c74, 16) })).annotate({
         identifier: "NewRelicServiceDetails",
       });
-    case 17:
+    case 18:
       return S.suspend(() => S.Struct({ type: S.optional(S.String) })).annotate({
         identifier: "EventChannelDetails",
       });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({ scopes: __S(32, __c1, 0), authorizationConfig: __S(2369, __c74, 1) }),
       ).annotate({ identifier: "PagerDutyDetails" });
-    case 19:
+    case 20:
       return S.suspend(() =>
         S.Struct({
           region: S.String,
@@ -6940,65 +7544,65 @@ function __c74(j: number): any {
           customHeaders: S.optional(__S(1665, __c52, 1)),
         }),
       ).annotate({ identifier: "MCPServerSigV4AuthorizationConfig" });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2387, __c74, 19),
+          authorizationConfig: __S(2388, __c74, 20),
         }),
       ).annotate({ identifier: "MCPServerSigV4ServiceDetails" });
-    case 21:
+    case 22:
       return S.Union([
         /*@__PURE__*/ S.Struct({ apiKey: __S(2377, __c74, 9) }),
         /*@__PURE__*/ S.Struct({ oAuthClientCredentials: __S(2375, __c74, 7) }),
         /*@__PURE__*/ S.Struct({ bearerToken: __S(2378, __c74, 10) }),
       ]);
-    case 22:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2389, __c74, 21),
+          authorizationConfig: __S(2390, __c74, 22),
         }),
       ).annotate({ identifier: "RemoteAgentServiceDetails" });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({ region: S.String, service: S.String, roleArn: S.optional(S.String) }),
       ).annotate({ identifier: "RemoteAgentSigV4AuthorizationConfig" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           endpoint: S.String,
           description: S.optional(SensitiveString),
-          authorizationConfig: __S(2391, __c74, 23),
+          authorizationConfig: __S(2392, __c74, 24),
         }),
       ).annotate({ identifier: "RemoteAgentSigV4ServiceDetails" });
-    case 25:
+    case 26:
       return S.Union([
         /*@__PURE__*/ S.Struct({ dynatrace: __S(2370, __c74, 2) }),
         /*@__PURE__*/ S.Struct({ servicenow: __S(2371, __c74, 3) }),
         /*@__PURE__*/ S.Struct({ mcpserverdatadog: __S(2374, __c74, 6) }),
-        /*@__PURE__*/ S.Struct({ mcpserver: __S(2380, __c74, 12) }),
-        /*@__PURE__*/ S.Struct({ gitlab: __S(2381, __c74, 13) }),
-        /*@__PURE__*/ S.Struct({ mcpserversplunk: __S(2380, __c74, 12) }),
-        /*@__PURE__*/ S.Struct({ mcpservernewrelic: __S(2384, __c74, 16) }),
-        /*@__PURE__*/ S.Struct({ eventChannel: __S(2385, __c74, 17) }),
-        /*@__PURE__*/ S.Struct({ mcpservergrafana: __S(2380, __c74, 12) }),
-        /*@__PURE__*/ S.Struct({ pagerduty: __S(2386, __c74, 18) }),
+        /*@__PURE__*/ S.Struct({ mcpserver: __S(2381, __c74, 13) }),
+        /*@__PURE__*/ S.Struct({ gitlab: __S(2382, __c74, 14) }),
+        /*@__PURE__*/ S.Struct({ mcpserversplunk: __S(2381, __c74, 13) }),
+        /*@__PURE__*/ S.Struct({ mcpservernewrelic: __S(2385, __c74, 17) }),
+        /*@__PURE__*/ S.Struct({ eventChannel: __S(2386, __c74, 18) }),
+        /*@__PURE__*/ S.Struct({ mcpservergrafana: __S(2381, __c74, 13) }),
+        /*@__PURE__*/ S.Struct({ pagerduty: __S(2387, __c74, 19) }),
         /*@__PURE__*/ S.Struct({ azureidentity: __S(1664, __c52, 0) }),
-        /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(2388, __c74, 20) }),
-        /*@__PURE__*/ S.Struct({ remoteagent: __S(2390, __c74, 22) }),
-        /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(2392, __c74, 24) }),
+        /*@__PURE__*/ S.Struct({ mcpserversigv4: __S(2389, __c74, 21) }),
+        /*@__PURE__*/ S.Struct({ remoteagent: __S(2391, __c74, 23) }),
+        /*@__PURE__*/ S.Struct({ remoteagentsigv4: __S(2393, __c74, 25) }),
       ]);
-    case 26:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           service: S.String.pipe(T.HttpLabel("service")),
-          serviceDetails: __S(2393, __c74, 25),
+          serviceDetails: __S(2394, __c74, 26),
           kmsKeyArn: S.optional(S.String),
           privateConnectionName: S.optional(S.String),
           targetUrlPrivateConnectionName: S.optional(S.String),
@@ -7016,17 +7620,17 @@ function __c74(j: number): any {
           ),
         ),
       ).annotate({ identifier: "RegisterServiceInput" });
-    case 27:
+    case 28:
       return S.suspend(() => S.Struct({ authorizationUrl: S.String })).annotate({
         identifier: "OAuthAdditionalStepDetails",
       });
-    case 28:
-      return S.Union([/*@__PURE__*/ S.Struct({ oauth: __S(2395, __c74, 27) })]);
     case 29:
+      return S.Union([/*@__PURE__*/ S.Struct({ oauth: __S(2396, __c74, 28) })]);
+    case 30:
       return S.suspend(() =>
         S.Struct({
           serviceId: S.optional(S.String),
-          additionalStep: S.optional(__S(2396, __c74, 28)),
+          additionalStep: S.optional(__S(2397, __c74, 29)),
           kmsKeyArn: S.optional(S.String),
           tags: S.optional(__S(224, __c7, 0)),
         }),
@@ -7333,8 +7937,8 @@ function __c82(j: number): any {
         S.Struct({
           agentSpaceId: S.String.pipe(T.HttpLabel("agentSpaceId")),
           associationId: S.String.pipe(T.HttpLabel("associationId")),
-          configuration: __S(147, __c4, 19),
-          capabilities: S.optional(__S(152, __c4, 24)),
+          configuration: __S(153, __c4, 25),
+          capabilities: S.optional(__S(158, __c4, 30)),
         }).pipe(
           T.all(
             T.Http({

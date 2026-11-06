@@ -1028,6 +1028,10 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: {
+    actions: ["appconfig:CreateApplication", "appconfig:TagResource"],
+    conditional: { "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -1086,6 +1090,16 @@ export const createConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationProfile",
+  iam: {
+    actions: ["appconfig:CreateConfigurationProfile", "iam:PassRole", "appconfig:TagResource"],
+    resources: {
+      "appconfig:CreateConfigurationProfile": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "RetrievalRoleArn", "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfigurationProfile",
 }));
@@ -1113,6 +1127,10 @@ export const createDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentStrategy",
+  iam: {
+    actions: ["appconfig:CreateDeploymentStrategy", "appconfig:TagResource"],
+    conditional: { "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDeploymentStrategy",
 }));
@@ -1150,6 +1168,16 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  iam: {
+    actions: ["appconfig:CreateEnvironment", "iam:PassRole", "appconfig:TagResource"],
+    resources: {
+      "appconfig:CreateEnvironment": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -1182,6 +1210,15 @@ export const createExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperimentDefinition",
+  iam: {
+    actions: ["appconfig:CreateExperimentDefinition", "appconfig:TagResource"],
+    resources: {
+      "appconfig:CreateExperimentDefinition": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+    conditional: { "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateExperimentDefinition",
 }));
@@ -1232,6 +1269,11 @@ export const createExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtension",
+  iam: {
+    actions: ["appconfig:CreateExtension", "iam:PassRole", "appconfig:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateExtension",
 }));
@@ -1273,6 +1315,10 @@ export const createExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtensionAssociation",
+  iam: {
+    actions: ["appconfig:CreateExtensionAssociation", "appconfig:TagResource"],
+    conditional: { "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateExtensionAssociation",
 }));
@@ -1310,6 +1356,15 @@ export const createHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHostedConfigurationVersion",
+  iam: {
+    actions: ["appconfig:CreateHostedConfigurationVersion"],
+    resources: {
+      "appconfig:CreateHostedConfigurationVersion": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateHostedConfigurationVersion",
 }));
@@ -1334,6 +1389,14 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  iam: {
+    actions: ["appconfig:DeleteApplication"],
+    resources: {
+      "appconfig:DeleteApplication": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -1368,6 +1431,15 @@ export const deleteConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationProfile",
+  iam: {
+    actions: ["appconfig:DeleteConfigurationProfile"],
+    resources: {
+      "appconfig:DeleteConfigurationProfile": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationProfile",
 }));
@@ -1392,6 +1464,14 @@ export const deleteDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentStrategy",
+  iam: {
+    actions: ["appconfig:DeleteDeploymentStrategy"],
+    resources: {
+      "appconfig:DeleteDeploymentStrategy": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:deploymentstrategy/${DeploymentStrategyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeploymentStrategy",
 }));
@@ -1425,6 +1505,15 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
+  iam: {
+    actions: ["appconfig:DeleteEnvironment"],
+    resources: {
+      "appconfig:DeleteEnvironment": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -1455,6 +1544,15 @@ export const deleteExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperimentDefinition",
+  iam: {
+    actions: ["appconfig:DeleteExperimentDefinition"],
+    resources: {
+      "appconfig:DeleteExperimentDefinition": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteExperimentDefinition",
 }));
@@ -1480,6 +1578,14 @@ export const deleteExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtension",
+  iam: {
+    actions: ["appconfig:DeleteExtension"],
+    resources: {
+      "appconfig:DeleteExtension": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:extension/${ExtensionId}/${ExtensionVersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteExtension",
 }));
@@ -1505,6 +1611,14 @@ export const deleteExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExtensionAssociation",
+  iam: {
+    actions: ["appconfig:DeleteExtensionAssociation"],
+    resources: {
+      "appconfig:DeleteExtensionAssociation": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:extensionassociation/${ExtensionAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteExtensionAssociation",
 }));
@@ -1530,6 +1644,15 @@ export const deleteHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostedConfigurationVersion",
+  iam: {
+    actions: ["appconfig:DeleteHostedConfigurationVersion"],
+    resources: {
+      "appconfig:DeleteHostedConfigurationVersion": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHostedConfigurationVersion",
 }));
@@ -1551,6 +1674,7 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
+  iam: { actions: ["appconfig:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -1575,6 +1699,14 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  iam: {
+    actions: ["appconfig:GetApplication"],
+    resources: {
+      "appconfig:GetApplication": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -1607,6 +1739,16 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  iam: {
+    actions: ["appconfig:GetConfiguration"],
+    resources: {
+      "appconfig:GetConfiguration": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguration",
 }));
@@ -1631,6 +1773,15 @@ export const getConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationProfile",
+  iam: {
+    actions: ["appconfig:GetConfigurationProfile"],
+    resources: {
+      "appconfig:GetConfigurationProfile": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfigurationProfile",
 }));
@@ -1655,6 +1806,16 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
+  iam: {
+    actions: ["appconfig:GetDeployment"],
+    resources: {
+      "appconfig:GetDeployment": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}/deployment/${DeploymentNumber}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
@@ -1683,6 +1844,14 @@ export const getDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStrategy",
+  iam: {
+    actions: ["appconfig:GetDeploymentStrategy"],
+    resources: {
+      "appconfig:GetDeploymentStrategy": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:deploymentstrategy/${DeploymentStrategyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeploymentStrategy",
 }));
@@ -1712,6 +1881,15 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  iam: {
+    actions: ["appconfig:GetEnvironment"],
+    resources: {
+      "appconfig:GetEnvironment": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -1736,6 +1914,15 @@ export const getExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentDefinition",
+  iam: {
+    actions: ["appconfig:GetExperimentDefinition"],
+    resources: {
+      "appconfig:GetExperimentDefinition": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExperimentDefinition",
 }));
@@ -1760,6 +1947,16 @@ export const getExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExperimentRun",
+  iam: {
+    actions: ["appconfig:GetExperimentRun"],
+    resources: {
+      "appconfig:GetExperimentRun": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}/experimentrun/${ExperimentRunNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExperimentRun",
 }));
@@ -1784,6 +1981,14 @@ export const getExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtension",
+  iam: {
+    actions: ["appconfig:GetExtension"],
+    resources: {
+      "appconfig:GetExtension": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:extension/${ExtensionId}/${ExtensionVersionNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExtension",
 }));
@@ -1810,6 +2015,14 @@ export const getExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExtensionAssociation",
+  iam: {
+    actions: ["appconfig:GetExtensionAssociation"],
+    resources: {
+      "appconfig:GetExtensionAssociation": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:extensionassociation/${ExtensionAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExtensionAssociation",
 }));
@@ -1834,6 +2047,15 @@ export const getHostedConfigurationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedConfigurationVersion",
+  iam: {
+    actions: ["appconfig:GetHostedConfigurationVersion"],
+    resources: {
+      "appconfig:GetHostedConfigurationVersion": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetHostedConfigurationVersion",
 }));
@@ -1861,6 +2083,7 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["appconfig:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -1892,6 +2115,14 @@ export const listConfigurationProfiles: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["appconfig:ListConfigurationProfiles"],
+    resources: {
+      "appconfig:ListConfigurationProfiles": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConfigurationProfiles",
 })) as any;
@@ -1923,6 +2154,15 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["appconfig:ListDeployments"],
+    resources: {
+      "appconfig:ListDeployments": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDeployments",
 })) as any;
@@ -1953,6 +2193,7 @@ export const listDeploymentStrategies: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["appconfig:ListDeploymentStrategies"] },
   telemetry: TELEMETRY,
   span: "ListDeploymentStrategies",
 })) as any;
@@ -1984,6 +2225,14 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["appconfig:ListEnvironments"],
+    resources: {
+      "appconfig:ListEnvironments": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -2015,6 +2264,7 @@ export const listExperimentDefinitions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["appconfig:ListExperimentDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListExperimentDefinitions",
 })) as any;
@@ -2046,6 +2296,16 @@ export const listExperimentRunEvents: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["appconfig:ListExperimentRunEvents"],
+    resources: {
+      "appconfig:ListExperimentRunEvents": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}/experimentrun/${ExperimentRunNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExperimentRunEvents",
 })) as any;
@@ -2077,6 +2337,15 @@ export const listExperimentRuns: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["appconfig:ListExperimentRuns"],
+    resources: {
+      "appconfig:ListExperimentRuns": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExperimentRuns",
 })) as any;
@@ -2109,6 +2378,7 @@ export const listExtensionAssociations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["appconfig:ListExtensionAssociations"] },
   telemetry: TELEMETRY,
   span: "ListExtensionAssociations",
 })) as any;
@@ -2138,6 +2408,7 @@ export const listExtensions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["appconfig:ListExtensions"] },
   telemetry: TELEMETRY,
   span: "ListExtensions",
 })) as any;
@@ -2170,6 +2441,15 @@ export const listHostedConfigurationVersions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["appconfig:ListHostedConfigurationVersions"],
+    resources: {
+      "appconfig:ListHostedConfigurationVersions": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListHostedConfigurationVersions",
 })) as any;
@@ -2194,6 +2474,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["appconfig:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2226,6 +2507,18 @@ export const startDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeployment",
+  iam: {
+    actions: ["appconfig:StartDeployment", "appconfig:TagResource"],
+    resources: {
+      "appconfig:StartDeployment": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:deploymentstrategy/${DeploymentStrategyId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}",
+      ],
+    },
+    conditional: { "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartDeployment",
 }));
@@ -2258,6 +2551,16 @@ export const startExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExperimentRun",
+  iam: {
+    actions: ["appconfig:StartExperimentRun", "appconfig:TagResource"],
+    resources: {
+      "appconfig:StartExperimentRun": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+      ],
+    },
+    conditional: { "appconfig:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartExperimentRun",
 }));
@@ -2287,6 +2590,16 @@ export const stopDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeployment",
+  iam: {
+    actions: ["appconfig:StopDeployment"],
+    resources: {
+      "appconfig:StopDeployment": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}/deployment/${DeploymentNumber}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopDeployment",
 }));
@@ -2317,6 +2630,16 @@ export const stopExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExperimentRun",
+  iam: {
+    actions: ["appconfig:StopExperimentRun"],
+    resources: {
+      "appconfig:StopExperimentRun": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}/experimentrun/${ExperimentRunNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopExperimentRun",
 }));
@@ -2343,6 +2666,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["appconfig:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2367,6 +2691,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["appconfig:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2390,6 +2715,7 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  iam: { actions: ["appconfig:UpdateAccountSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountSettings",
 }));
@@ -2414,6 +2740,14 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: {
+    actions: ["appconfig:UpdateApplication"],
+    resources: {
+      "appconfig:UpdateApplication": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -2438,6 +2772,17 @@ export const updateConfigurationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationProfile",
+  iam: {
+    actions: ["iam:PassRole", "appconfig:UpdateConfigurationProfile"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "appconfig:UpdateConfigurationProfile": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RetrievalRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationProfile",
 }));
@@ -2462,6 +2807,14 @@ export const updateDeploymentStrategy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeploymentStrategy",
+  iam: {
+    actions: ["appconfig:UpdateDeploymentStrategy"],
+    resources: {
+      "appconfig:UpdateDeploymentStrategy": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:deploymentstrategy/${DeploymentStrategyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDeploymentStrategy",
 }));
@@ -2486,6 +2839,17 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  iam: {
+    actions: ["iam:PassRole", "appconfig:UpdateEnvironment"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "appconfig:UpdateEnvironment": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/environment/${EnvironmentId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
@@ -2516,6 +2880,15 @@ export const updateExperimentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentDefinition",
+  iam: {
+    actions: ["appconfig:UpdateExperimentDefinition"],
+    resources: {
+      "appconfig:UpdateExperimentDefinition": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateExperimentDefinition",
 }));
@@ -2546,6 +2919,16 @@ export const updateExperimentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperimentRun",
+  iam: {
+    actions: ["appconfig:UpdateExperimentRun"],
+    resources: {
+      "appconfig:UpdateExperimentRun": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/experimentdefinition/${ExperimentDefinitionId}/experimentrun/${ExperimentRunNumber}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateExperimentRun",
 }));
@@ -2578,6 +2961,16 @@ export const updateExtension: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtension",
+  iam: {
+    actions: ["iam:PassRole", "appconfig:UpdateExtension"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "appconfig:UpdateExtension": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:extension/${ExtensionId}/${ExtensionVersionNumber}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateExtension",
 }));
@@ -2604,6 +2997,14 @@ export const updateExtensionAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExtensionAssociation",
+  iam: {
+    actions: ["appconfig:UpdateExtensionAssociation"],
+    resources: {
+      "appconfig:UpdateExtensionAssociation": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:extensionassociation/${ExtensionAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateExtensionAssociation",
 }));
@@ -2628,6 +3029,15 @@ export const validateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfiguration",
+  iam: {
+    actions: ["appconfig:ValidateConfiguration"],
+    resources: {
+      "appconfig:ValidateConfiguration": [
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}",
+        "arn:${Partition}:appconfig:${Region}:${Account}:application/${ApplicationId}/configurationprofile/${ConfigurationProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ValidateConfiguration",
 }));

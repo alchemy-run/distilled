@@ -1967,6 +1967,19 @@ export const applyGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyGuardrail",
+  iam: {
+    actions: [
+      "bedrock:ApplyGuardrail",
+      "bedrock:CallWithBearerToken",
+      "bedrock:InvokeAutomatedReasoningPolicy",
+    ],
+    resources: {
+      "bedrock:InvokeAutomatedReasoningPolicy": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ApplyGuardrail",
 }));
@@ -2023,6 +2036,31 @@ export const converse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Converse",
+  iam: {
+    actions: [
+      "bedrock:ApplyGuardrail",
+      "bedrock:CallWithBearerToken",
+      "bedrock:InvokeModel",
+      "bedrock:InvokeTool",
+    ],
+    resources: {
+      "bedrock:InvokeModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:project/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}",
+      ],
+      "bedrock:InvokeTool": ["arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "Converse",
@@ -2114,6 +2152,29 @@ export const converseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConverseStream",
+  iam: {
+    actions: [
+      "bedrock:ApplyGuardrail",
+      "bedrock:CallWithBearerToken",
+      "bedrock:InvokeModelWithResponseStream",
+      "bedrock:InvokeTool",
+    ],
+    resources: {
+      "bedrock:InvokeModelWithResponseStream": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}",
+      ],
+      "bedrock:InvokeTool": ["arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ConverseStream",
@@ -2207,6 +2268,12 @@ export const countTokens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CountTokens",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:CountTokens"],
+    resources: {
+      "bedrock:CountTokens": ["arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CountTokens",
 }));
@@ -2237,6 +2304,14 @@ export const getAsyncInvoke: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsyncInvoke",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetAsyncInvoke"],
+    resources: {
+      "bedrock:GetAsyncInvoke": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAsyncInvoke",
 }));
@@ -2269,6 +2344,7 @@ export const invokeGuardrailChecks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeGuardrailChecks",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:InvokeGuardrailChecks"] },
   telemetry: TELEMETRY,
   span: "InvokeGuardrailChecks",
 }));
@@ -2319,6 +2395,31 @@ export const invokeModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModel",
+  iam: {
+    actions: [
+      "bedrock:ApplyGuardrail",
+      "bedrock:CallWithBearerToken",
+      "bedrock:InvokeModel",
+      "bedrock:InvokeTool",
+    ],
+    resources: {
+      "bedrock:InvokeModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:project/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}",
+      ],
+      "bedrock:InvokeTool": ["arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeModel",
 }));
@@ -2365,6 +2466,25 @@ export const invokeModelWithBidirectionalStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithBidirectionalStream",
+  iam: {
+    actions: ["bedrock:InvokeModel"],
+    resources: {
+      "bedrock:InvokeModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:project/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeModelWithBidirectionalStream",
 }));
@@ -2421,6 +2541,44 @@ export const invokeModelWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeModelWithResponseStream",
+  iam: {
+    actions: [
+      "bedrock:ApplyGuardrail",
+      "bedrock:CallWithBearerToken",
+      "bedrock:InvokeModel",
+      "bedrock:InvokeModelWithResponseStream",
+      "bedrock:InvokeTool",
+    ],
+    resources: {
+      "bedrock:InvokeModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:project/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}",
+      ],
+      "bedrock:InvokeModelWithResponseStream": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}",
+      ],
+      "bedrock:InvokeTool": ["arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeModelWithResponseStream",
 }));
@@ -2458,6 +2616,7 @@ export const listAsyncInvokes: API.PaginatedOperationMethod<
     items: "asyncInvokeSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListAsyncInvokes"] },
   telemetry: TELEMETRY,
   span: "ListAsyncInvokes",
 })) as any;
@@ -2500,6 +2659,26 @@ export const startAsyncInvoke: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAsyncInvoke",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:InvokeModel", "bedrock:TagResource"],
+    resources: {
+      "bedrock:InvokeModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:project/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock::${Account}:system-tool/${ResourceId}",
+      ],
+    },
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartAsyncInvoke",
 }));

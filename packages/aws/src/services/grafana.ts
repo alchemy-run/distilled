@@ -624,6 +624,14 @@ export const associateLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLicense",
+  iam: {
+    actions: ["grafana:AssociateLicense"],
+    resources: {
+      "grafana:AssociateLicense": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateLicense",
 }));
@@ -660,6 +668,16 @@ export const createWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspace",
+  iam: {
+    actions: ["grafana:CreateWorkspace", "iam:PassRole", "grafana:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "grafana:TagResource": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "organizationRoleName", "grafana:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspace",
 }));
@@ -674,7 +692,7 @@ export type CreateWorkspaceApiKeyError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.
+ * Creates a Grafana API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See for available APIs and example requests.
  *
  * In workspaces compatible with Grafana version 9 or above, use workspace service accounts instead of API keys. API keys will be removed in a future release.
  */
@@ -698,6 +716,14 @@ export const createWorkspaceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceApiKey",
+  iam: {
+    actions: ["grafana:CreateWorkspaceApiKey"],
+    resources: {
+      "grafana:CreateWorkspaceApiKey": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspaceApiKey",
 }));
@@ -716,9 +742,9 @@ export type CreateWorkspaceServiceAccountError =
  *
  * You can only create service accounts for workspaces that are compatible with Grafana version 9 and above.
  *
- * For more information about service accounts, see Service accounts in the *Amazon Managed Grafana User Guide*.
+ * For more information about service accounts, see Service accounts in the * Amazon Managed Grafana User Guide*.
  *
- * For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the *Amazon Managed Grafana User Guide*.
+ * For more information about the Grafana HTTP APIs, see Using Grafana HTTP APIs in the * Amazon Managed Grafana User Guide*.
  */
 export const createWorkspaceServiceAccount: API.OperationMethod<
   CreateWorkspaceServiceAccountRequest & RegionInput,
@@ -740,6 +766,14 @@ export const createWorkspaceServiceAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceServiceAccount",
+  iam: {
+    actions: ["grafana:CreateWorkspaceServiceAccount"],
+    resources: {
+      "grafana:CreateWorkspaceServiceAccount": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspaceServiceAccount",
 }));
@@ -782,6 +816,14 @@ export const createWorkspaceServiceAccountToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceServiceAccountToken",
+  iam: {
+    actions: ["grafana:CreateWorkspaceServiceAccountToken"],
+    resources: {
+      "grafana:CreateWorkspaceServiceAccountToken": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspaceServiceAccountToken",
 }));
@@ -816,6 +858,14 @@ export const deleteWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspace",
+  iam: {
+    actions: ["grafana:DeleteWorkspace"],
+    resources: {
+      "grafana:DeleteWorkspace": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspace",
 }));
@@ -852,6 +902,14 @@ export const deleteWorkspaceApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceApiKey",
+  iam: {
+    actions: ["grafana:DeleteWorkspaceApiKey"],
+    resources: {
+      "grafana:DeleteWorkspaceApiKey": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspaceApiKey",
 }));
@@ -890,6 +948,14 @@ export const deleteWorkspaceServiceAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceServiceAccount",
+  iam: {
+    actions: ["grafana:DeleteWorkspaceServiceAccount"],
+    resources: {
+      "grafana:DeleteWorkspaceServiceAccount": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspaceServiceAccount",
 }));
@@ -928,6 +994,14 @@ export const deleteWorkspaceServiceAccountToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceServiceAccountToken",
+  iam: {
+    actions: ["grafana:DeleteWorkspaceServiceAccountToken"],
+    resources: {
+      "grafana:DeleteWorkspaceServiceAccountToken": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspaceServiceAccountToken",
 }));
@@ -960,6 +1034,14 @@ export const describeWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspace",
+  iam: {
+    actions: ["grafana:DescribeWorkspace"],
+    resources: {
+      "grafana:DescribeWorkspace": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspace",
 }));
@@ -994,6 +1076,14 @@ export const describeWorkspaceAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceAuthentication",
+  iam: {
+    actions: ["grafana:DescribeWorkspaceAuthentication"],
+    resources: {
+      "grafana:DescribeWorkspaceAuthentication": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceAuthentication",
 }));
@@ -1024,6 +1114,14 @@ export const describeWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceConfiguration",
+  iam: {
+    actions: ["grafana:DescribeWorkspaceConfiguration"],
+    resources: {
+      "grafana:DescribeWorkspaceConfiguration": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceConfiguration",
 }));
@@ -1056,6 +1154,14 @@ export const disassociateLicense: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLicense",
+  iam: {
+    actions: ["grafana:DisassociateLicense"],
+    resources: {
+      "grafana:DisassociateLicense": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateLicense",
 }));
@@ -1095,6 +1201,14 @@ export const listPermissions: API.PaginatedOperationMethod<
     items: "permissions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["grafana:ListPermissions"],
+    resources: {
+      "grafana:ListPermissions": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPermissions",
 })) as any;
@@ -1127,6 +1241,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["grafana:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1166,6 +1281,7 @@ export const listVersions: API.PaginatedOperationMethod<
     items: "grafanaVersions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["grafana:ListVersions"] },
   telemetry: TELEMETRY,
   span: "ListVersions",
 })) as any;
@@ -1197,6 +1313,7 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaces",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["grafana:ListWorkspaces"] },
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
 })) as any;
@@ -1240,6 +1357,14 @@ export const listWorkspaceServiceAccounts: API.PaginatedOperationMethod<
     items: "serviceAccounts",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["grafana:ListWorkspaceServiceAccounts"],
+    resources: {
+      "grafana:ListWorkspaceServiceAccounts": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkspaceServiceAccounts",
 })) as any;
@@ -1285,6 +1410,14 @@ export const listWorkspaceServiceAccountTokens: API.PaginatedOperationMethod<
     items: "serviceAccountTokens",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["grafana:ListWorkspaceServiceAccountTokens"],
+    resources: {
+      "grafana:ListWorkspaceServiceAccountTokens": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkspaceServiceAccountTokens",
 })) as any;
@@ -1319,6 +1452,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["grafana:TagResource"],
+    resources: {
+      "grafana:TagResource": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1351,6 +1492,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["grafana:UntagResource"],
+    resources: {
+      "grafana:UntagResource": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1383,6 +1532,14 @@ export const updatePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePermissions",
+  iam: {
+    actions: ["grafana:UpdatePermissions"],
+    resources: {
+      "grafana:UpdatePermissions": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePermissions",
 }));
@@ -1421,6 +1578,16 @@ export const updateWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspace",
+  iam: {
+    actions: ["iam:PassRole", "grafana:UpdateWorkspace"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "grafana:UpdateWorkspace": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "organizationRoleName" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspace",
 }));
@@ -1457,6 +1624,14 @@ export const updateWorkspaceAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceAuthentication",
+  iam: {
+    actions: ["grafana:UpdateWorkspaceAuthentication"],
+    resources: {
+      "grafana:UpdateWorkspaceAuthentication": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceAuthentication",
 }));
@@ -1491,6 +1666,14 @@ export const updateWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceConfiguration",
+  iam: {
+    actions: ["grafana:UpdateWorkspaceConfiguration"],
+    resources: {
+      "grafana:UpdateWorkspaceConfiguration": [
+        "arn:${Partition}:grafana:${Region}:${Account}:/workspaces/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceConfiguration",
 }));

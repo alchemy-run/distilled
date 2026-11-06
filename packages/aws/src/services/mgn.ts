@@ -556,6 +556,7 @@ export interface LaunchConfigurationTemplate {
   enableParametersEncryption?: boolean;
   parametersEncryptionKey?: string;
 }
+export type ClientIdempotencyToken = string;
 export type NetworkMigrationDefinitionName = string;
 export type NetworkMigrationDefinitionDescription = string;
 export type SourceEnvironment = string;
@@ -593,6 +594,7 @@ export type ScopeTagKey = string;
 export type ScopeTagValue = string;
 export type ScopeTagsMap = { [key: string]: string | undefined };
 export interface CreateNetworkMigrationDefinitionRequest {
+  clientToken?: string;
   name: string;
   description?: string;
   sourceConfigurations?: SourceConfiguration[];
@@ -1707,7 +1709,6 @@ export interface StartExportRequest {
 export interface StartExportResponse {
   exportTask?: ExportTask;
 }
-export type ClientIdempotencyToken = string;
 export interface StartImportRequest {
   clientToken?: string;
   s3BucketSource: S3BucketSource;
@@ -2031,6 +2032,14 @@ export const archiveApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ArchiveApplication",
+  iam: {
+    actions: ["mgn:ArchiveApplication"],
+    resources: {
+      "mgn:ArchiveApplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:application/${ApplicationID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ArchiveApplication",
 }));
@@ -2061,6 +2070,10 @@ export const archiveWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ArchiveWave",
+  iam: {
+    actions: ["mgn:ArchiveWave"],
+    resources: { "mgn:ArchiveWave": ["arn:${Partition}:mgn:${Region}:${Account}:wave/${WaveID}"] },
+  },
   telemetry: TELEMETRY,
   span: "ArchiveWave",
 }));
@@ -2091,6 +2104,15 @@ export const associateApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplications",
+  iam: {
+    actions: ["mgn:AssociateApplications"],
+    resources: {
+      "mgn:AssociateApplications": [
+        "arn:${Partition}:mgn:${Region}:${Account}:application/${ApplicationID}",
+        "arn:${Partition}:mgn:${Region}:${Account}:wave/${WaveID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateApplications",
 }));
@@ -2121,6 +2143,15 @@ export const associateSourceServers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceServers",
+  iam: {
+    actions: ["mgn:AssociateSourceServers"],
+    resources: {
+      "mgn:AssociateSourceServers": [
+        "arn:${Partition}:mgn:${Region}:${Account}:application/${ApplicationID}",
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateSourceServers",
 }));
@@ -2151,6 +2182,14 @@ export const changeServerLifeCycleState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeServerLifeCycleState",
+  iam: {
+    actions: ["mgn:ChangeServerLifeCycleState"],
+    resources: {
+      "mgn:ChangeServerLifeCycleState": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ChangeServerLifeCycleState",
 }));
@@ -2175,6 +2214,10 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: {
+    actions: ["mgn:CreateApplication", "mgn:TagResource"],
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -2198,6 +2241,10 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  iam: {
+    actions: ["mgn:CreateConnector", "mgn:TagResource"],
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -2222,6 +2269,10 @@ export const createLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfigurationTemplate",
+  iam: {
+    actions: ["mgn:CreateLaunchConfigurationTemplate", "mgn:TagResource"],
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLaunchConfigurationTemplate",
 }));
@@ -2245,6 +2296,10 @@ export const createNetworkMigrationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkMigrationDefinition",
+  iam: {
+    actions: ["mgn:CreateNetworkMigrationDefinition", "mgn:TagResource"],
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkMigrationDefinition",
 }));
@@ -2269,6 +2324,10 @@ export const createReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfigurationTemplate",
+  iam: {
+    actions: ["mgn:CreateReplicationConfigurationTemplate", "mgn:TagResource"],
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateReplicationConfigurationTemplate",
 }));
@@ -2293,6 +2352,10 @@ export const createWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWave",
+  iam: {
+    actions: ["mgn:CreateWave", "mgn:TagResource"],
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWave",
 }));
@@ -2317,6 +2380,14 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  iam: {
+    actions: ["mgn:DeleteApplication"],
+    resources: {
+      "mgn:DeleteApplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:application/${ApplicationID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -2341,6 +2412,12 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  iam: {
+    actions: ["mgn:DeleteConnector"],
+    resources: {
+      "mgn:DeleteConnector": ["arn:${Partition}:mgn:${Region}:${Account}:connector/${ConnectorID}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -2365,6 +2442,10 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  iam: {
+    actions: ["mgn:DeleteJob"],
+    resources: { "mgn:DeleteJob": ["arn:${Partition}:mgn:${Region}:${Account}:job/${JobID}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJob",
 }));
@@ -2389,6 +2470,14 @@ export const deleteLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfigurationTemplate",
+  iam: {
+    actions: ["mgn:DeleteLaunchConfigurationTemplate"],
+    resources: {
+      "mgn:DeleteLaunchConfigurationTemplate": [
+        "arn:${Partition}:mgn:${Region}:${Account}:launch-configuration-template/${LaunchConfigurationTemplateID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLaunchConfigurationTemplate",
 }));
@@ -2413,6 +2502,14 @@ export const deleteNetworkMigrationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkMigrationDefinition",
+  iam: {
+    actions: ["mgn:DeleteNetworkMigrationDefinition"],
+    resources: {
+      "mgn:DeleteNetworkMigrationDefinition": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkMigrationDefinition",
 }));
@@ -2437,6 +2534,14 @@ export const deleteReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfigurationTemplate",
+  iam: {
+    actions: ["mgn:DeleteReplicationConfigurationTemplate"],
+    resources: {
+      "mgn:DeleteReplicationConfigurationTemplate": [
+        "arn:${Partition}:mgn:${Region}:${Account}:replication-configuration-template/${ReplicationConfigurationTemplateID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationConfigurationTemplate",
 }));
@@ -2461,6 +2566,14 @@ export const deleteSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceServer",
+  iam: {
+    actions: ["mgn:DeleteSourceServer"],
+    resources: {
+      "mgn:DeleteSourceServer": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSourceServer",
 }));
@@ -2485,6 +2598,14 @@ export const deleteVcenterClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVcenterClient",
+  iam: {
+    actions: ["mgn:DeleteVcenterClient"],
+    resources: {
+      "mgn:DeleteVcenterClient": [
+        "arn:${Partition}:mgn:${Region}:${Account}:vcenter-client/${VcenterClientID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVcenterClient",
 }));
@@ -2509,6 +2630,10 @@ export const deleteWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWave",
+  iam: {
+    actions: ["mgn:DeleteWave"],
+    resources: { "mgn:DeleteWave": ["arn:${Partition}:mgn:${Region}:${Account}:wave/${WaveID}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWave",
 }));
@@ -2539,6 +2664,12 @@ export const describeJobLogItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:DescribeJobLogItems"],
+    resources: {
+      "mgn:DescribeJobLogItems": ["arn:${Partition}:mgn:${Region}:${Account}:job/${JobID}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJobLogItems",
 })) as any;
@@ -2566,6 +2697,7 @@ export const describeJobs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:DescribeJobs"] },
   telemetry: TELEMETRY,
   span: "DescribeJobs",
 })) as any;
@@ -2597,6 +2729,7 @@ export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:DescribeLaunchConfigurationTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeLaunchConfigurationTemplates",
 })) as any;
@@ -2628,6 +2761,7 @@ export const describeReplicationConfigurationTemplates: API.PaginatedOperationMe
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:DescribeReplicationConfigurationTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationConfigurationTemplates",
 })) as any;
@@ -2658,6 +2792,7 @@ export const describeSourceServers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:DescribeSourceServers"] },
   telemetry: TELEMETRY,
   span: "DescribeSourceServers",
 })) as any;
@@ -2689,6 +2824,7 @@ export const describeVcenterClients: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:DescribeVcenterClients"] },
   telemetry: TELEMETRY,
   span: "DescribeVcenterClients",
 })) as any;
@@ -2713,6 +2849,15 @@ export const disassociateApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplications",
+  iam: {
+    actions: ["mgn:DisassociateApplications"],
+    resources: {
+      "mgn:DisassociateApplications": [
+        "arn:${Partition}:mgn:${Region}:${Account}:application/${ApplicationID}",
+        "arn:${Partition}:mgn:${Region}:${Account}:wave/${WaveID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateApplications",
 }));
@@ -2737,6 +2882,15 @@ export const disassociateSourceServers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceServers",
+  iam: {
+    actions: ["mgn:DisassociateSourceServers"],
+    resources: {
+      "mgn:DisassociateSourceServers": [
+        "arn:${Partition}:mgn:${Region}:${Account}:application/${ApplicationID}",
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateSourceServers",
 }));
@@ -2747,7 +2901,7 @@ export type DisconnectFromServiceError =
   | UninitializedAccountException
   | CommonErrors;
 /**
- * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+ * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with Application Migration Service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.etaDateTime will be nullified.
  */
 export const disconnectFromService: API.OperationMethod<
   DisconnectFromServiceRequest & RegionInput,
@@ -2761,6 +2915,14 @@ export const disconnectFromService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectFromService",
+  iam: {
+    actions: ["mgn:DisconnectFromService"],
+    resources: {
+      "mgn:DisconnectFromService": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisconnectFromService",
 }));
@@ -2772,7 +2934,7 @@ export type FinalizeCutoverError =
   | ValidationException
   | CommonErrors;
 /**
- * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
+ * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.etaDateTime will be nullified.
  */
 export const finalizeCutover: API.OperationMethod<
   FinalizeCutoverRequest & RegionInput,
@@ -2791,6 +2953,14 @@ export const finalizeCutover: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FinalizeCutover",
+  iam: {
+    actions: ["mgn:FinalizeCutover"],
+    resources: {
+      "mgn:FinalizeCutover": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "FinalizeCutover",
 }));
@@ -2814,6 +2984,14 @@ export const getLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLaunchConfiguration",
+  iam: {
+    actions: ["mgn:GetLaunchConfiguration"],
+    resources: {
+      "mgn:GetLaunchConfiguration": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLaunchConfiguration",
 }));
@@ -2837,6 +3015,14 @@ export const getNetworkMigrationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkMigrationDefinition",
+  iam: {
+    actions: ["mgn:GetNetworkMigrationDefinition"],
+    resources: {
+      "mgn:GetNetworkMigrationDefinition": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkMigrationDefinition",
 }));
@@ -2861,6 +3047,14 @@ export const getNetworkMigrationMapperSegmentConstruct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkMigrationMapperSegmentConstruct",
+  iam: {
+    actions: ["mgn:GetNetworkMigrationMapperSegmentConstruct"],
+    resources: {
+      "mgn:GetNetworkMigrationMapperSegmentConstruct": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkMigrationMapperSegmentConstruct",
 }));
@@ -2884,6 +3078,14 @@ export const getReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReplicationConfiguration",
+  iam: {
+    actions: ["mgn:GetReplicationConfiguration"],
+    resources: {
+      "mgn:GetReplicationConfiguration": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReplicationConfiguration",
 }));
@@ -2904,6 +3106,7 @@ export const initializeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeService",
+  iam: { actions: ["mgn:InitializeService"] },
   telemetry: TELEMETRY,
   span: "InitializeService",
 }));
@@ -2931,6 +3134,7 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -2961,6 +3165,7 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -2991,6 +3196,12 @@ export const listExportErrors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListExportErrors"],
+    resources: {
+      "mgn:ListExportErrors": ["arn:${Partition}:mgn:${Region}:${Account}:export/${ExportID}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExportErrors",
 })) as any;
@@ -3018,6 +3229,7 @@ export const listExports: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:ListExports"] },
   telemetry: TELEMETRY,
   span: "ListExports",
 })) as any;
@@ -3048,6 +3260,12 @@ export const listImportErrors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListImportErrors"],
+    resources: {
+      "mgn:ListImportErrors": ["arn:${Partition}:mgn:${Region}:${Account}:import/${ImportID}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListImportErrors",
 })) as any;
@@ -3075,6 +3293,7 @@ export const listImportFileEnrichments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:ListImportFileEnrichments"] },
   telemetry: TELEMETRY,
   span: "ListImportFileEnrichments",
 })) as any;
@@ -3102,6 +3321,7 @@ export const listImports: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:ListImports"] },
   telemetry: TELEMETRY,
   span: "ListImports",
 })) as any;
@@ -3132,6 +3352,7 @@ export const listManagedAccounts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:ListManagedAccounts"] },
   telemetry: TELEMETRY,
   span: "ListManagedAccounts",
 })) as any;
@@ -3169,6 +3390,14 @@ export const listNetworkMigrationAnalyses: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationAnalyses"],
+    resources: {
+      "mgn:ListNetworkMigrationAnalyses": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationAnalyses",
 })) as any;
@@ -3206,6 +3435,14 @@ export const listNetworkMigrationAnalysisResults: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationAnalysisResults"],
+    resources: {
+      "mgn:ListNetworkMigrationAnalysisResults": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationAnalysisResults",
 })) as any;
@@ -3243,6 +3480,14 @@ export const listNetworkMigrationCodeGenerations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationCodeGenerations"],
+    resources: {
+      "mgn:ListNetworkMigrationCodeGenerations": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationCodeGenerations",
 })) as any;
@@ -3284,6 +3529,14 @@ export const listNetworkMigrationCodeGenerationSegments: API.PaginatedOperationM
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationCodeGenerationSegments"],
+    resources: {
+      "mgn:ListNetworkMigrationCodeGenerationSegments": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationCodeGenerationSegments",
 })) as any;
@@ -3311,6 +3564,7 @@ export const listNetworkMigrationDefinitions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:ListNetworkMigrationDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationDefinitions",
 })) as any;
@@ -3348,6 +3602,14 @@ export const listNetworkMigrationDeployedStacks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationDeployedStacks"],
+    resources: {
+      "mgn:ListNetworkMigrationDeployedStacks": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationDeployedStacks",
 })) as any;
@@ -3385,6 +3647,14 @@ export const listNetworkMigrationDeployments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationDeployments"],
+    resources: {
+      "mgn:ListNetworkMigrationDeployments": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationDeployments",
 })) as any;
@@ -3415,6 +3685,14 @@ export const listNetworkMigrationExecutions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationExecutions"],
+    resources: {
+      "mgn:ListNetworkMigrationExecutions": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationExecutions",
 })) as any;
@@ -3456,6 +3734,14 @@ export const listNetworkMigrationMapperSegmentConstructs: API.PaginatedOperation
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationMapperSegmentConstructs"],
+    resources: {
+      "mgn:ListNetworkMigrationMapperSegmentConstructs": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationMapperSegmentConstructs",
 })) as any;
@@ -3493,6 +3779,14 @@ export const listNetworkMigrationMapperSegments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationMapperSegments"],
+    resources: {
+      "mgn:ListNetworkMigrationMapperSegments": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationMapperSegments",
 })) as any;
@@ -3530,6 +3824,14 @@ export const listNetworkMigrationMappings: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationMappings"],
+    resources: {
+      "mgn:ListNetworkMigrationMappings": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationMappings",
 })) as any;
@@ -3567,6 +3869,14 @@ export const listNetworkMigrationMappingUpdates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListNetworkMigrationMappingUpdates"],
+    resources: {
+      "mgn:ListNetworkMigrationMappingUpdates": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNetworkMigrationMappingUpdates",
 })) as any;
@@ -3597,6 +3907,14 @@ export const listSourceServerActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListSourceServerActions"],
+    resources: {
+      "mgn:ListSourceServerActions": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSourceServerActions",
 })) as any;
@@ -3629,6 +3947,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["mgn:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3659,6 +3978,14 @@ export const listTemplateActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["mgn:ListTemplateActions"],
+    resources: {
+      "mgn:ListTemplateActions": [
+        "arn:${Partition}:mgn:${Region}:${Account}:launch-configuration-template/${LaunchConfigurationTemplateID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTemplateActions",
 })) as any;
@@ -3686,6 +4013,7 @@ export const listWaves: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["mgn:ListWaves"] },
   telemetry: TELEMETRY,
   span: "ListWaves",
 })) as any;
@@ -3710,6 +4038,14 @@ export const markAsArchived: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MarkAsArchived",
+  iam: {
+    actions: ["mgn:MarkAsArchived"],
+    resources: {
+      "mgn:MarkAsArchived": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MarkAsArchived",
 }));
@@ -3742,6 +4078,14 @@ export const pauseReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseReplication",
+  iam: {
+    actions: ["mgn:PauseReplication"],
+    resources: {
+      "mgn:PauseReplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PauseReplication",
 }));
@@ -3772,6 +4116,14 @@ export const putSourceServerAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSourceServerAction",
+  iam: {
+    actions: ["mgn:PutSourceServerAction"],
+    resources: {
+      "mgn:PutSourceServerAction": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSourceServerAction",
 }));
@@ -3802,6 +4154,14 @@ export const putTemplateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTemplateAction",
+  iam: {
+    actions: ["mgn:PutTemplateAction"],
+    resources: {
+      "mgn:PutTemplateAction": [
+        "arn:${Partition}:mgn:${Region}:${Account}:launch-configuration-template/${LaunchConfigurationTemplateID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutTemplateAction",
 }));
@@ -3826,6 +4186,14 @@ export const removeSourceServerAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveSourceServerAction",
+  iam: {
+    actions: ["mgn:RemoveSourceServerAction"],
+    resources: {
+      "mgn:RemoveSourceServerAction": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveSourceServerAction",
 }));
@@ -3850,6 +4218,14 @@ export const removeTemplateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTemplateAction",
+  iam: {
+    actions: ["mgn:RemoveTemplateAction"],
+    resources: {
+      "mgn:RemoveTemplateAction": [
+        "arn:${Partition}:mgn:${Region}:${Account}:launch-configuration-template/${LaunchConfigurationTemplateID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveTemplateAction",
 }));
@@ -3882,6 +4258,14 @@ export const resumeReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeReplication",
+  iam: {
+    actions: ["mgn:ResumeReplication"],
+    resources: {
+      "mgn:ResumeReplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResumeReplication",
 }));
@@ -3906,6 +4290,14 @@ export const retryDataReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryDataReplication",
+  iam: {
+    actions: ["mgn:RetryDataReplication"],
+    resources: {
+      "mgn:RetryDataReplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetryDataReplication",
 }));
@@ -3930,6 +4322,15 @@ export const startCutover: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCutover",
+  iam: {
+    actions: ["mgn:StartCutover", "mgn:TagResource"],
+    resources: {
+      "mgn:StartCutover": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartCutover",
 }));
@@ -3954,6 +4355,10 @@ export const startExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExport",
+  iam: {
+    actions: ["mgn:StartExport", "mgn:TagResource"],
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartExport",
 }));
@@ -3986,6 +4391,10 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
+  iam: {
+    actions: ["mgn:StartImport", "mgn:TagResource"],
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartImport",
 }));
@@ -4018,6 +4427,7 @@ export const startImportFileEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportFileEnrichment",
+  iam: { actions: ["mgn:StartImportFileEnrichment"] },
   telemetry: TELEMETRY,
   span: "StartImportFileEnrichment",
 }));
@@ -4052,6 +4462,14 @@ export const startNetworkMigrationAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationAnalysis",
+  iam: {
+    actions: ["mgn:StartNetworkMigrationAnalysis"],
+    resources: {
+      "mgn:StartNetworkMigrationAnalysis": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartNetworkMigrationAnalysis",
 }));
@@ -4086,6 +4504,14 @@ export const startNetworkMigrationCodeGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationCodeGeneration",
+  iam: {
+    actions: ["mgn:StartNetworkMigrationCodeGeneration"],
+    resources: {
+      "mgn:StartNetworkMigrationCodeGeneration": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartNetworkMigrationCodeGeneration",
 }));
@@ -4120,6 +4546,14 @@ export const startNetworkMigrationDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationDeployment",
+  iam: {
+    actions: ["mgn:StartNetworkMigrationDeployment"],
+    resources: {
+      "mgn:StartNetworkMigrationDeployment": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartNetworkMigrationDeployment",
 }));
@@ -4154,6 +4588,14 @@ export const startNetworkMigrationMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationMapping",
+  iam: {
+    actions: ["mgn:StartNetworkMigrationMapping"],
+    resources: {
+      "mgn:StartNetworkMigrationMapping": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartNetworkMigrationMapping",
 }));
@@ -4188,6 +4630,14 @@ export const startNetworkMigrationMappingUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNetworkMigrationMappingUpdate",
+  iam: {
+    actions: ["mgn:StartNetworkMigrationMappingUpdate"],
+    resources: {
+      "mgn:StartNetworkMigrationMappingUpdate": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartNetworkMigrationMappingUpdate",
 }));
@@ -4220,6 +4670,14 @@ export const startReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplication",
+  iam: {
+    actions: ["mgn:StartReplication"],
+    resources: {
+      "mgn:StartReplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartReplication",
 }));
@@ -4244,6 +4702,15 @@ export const startTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTest",
+  iam: {
+    actions: ["mgn:StartTest", "mgn:TagResource"],
+    resources: {
+      "mgn:StartTest": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartTest",
 }));
@@ -4276,6 +4743,14 @@ export const stopReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplication",
+  iam: {
+    actions: ["mgn:StopReplication"],
+    resources: {
+      "mgn:StopReplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopReplication",
 }));
@@ -4308,6 +4783,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["mgn:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4332,6 +4808,15 @@ export const terminateTargetInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateTargetInstances",
+  iam: {
+    actions: ["mgn:TagResource", "mgn:TerminateTargetInstances"],
+    resources: {
+      "mgn:TerminateTargetInstances": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+    conditional: { "mgn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "TerminateTargetInstances",
 }));
@@ -4356,6 +4841,14 @@ export const unarchiveApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnarchiveApplication",
+  iam: {
+    actions: ["mgn:UnarchiveApplication"],
+    resources: {
+      "mgn:UnarchiveApplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:application/${ApplicationID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnarchiveApplication",
 }));
@@ -4380,6 +4873,12 @@ export const unarchiveWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnarchiveWave",
+  iam: {
+    actions: ["mgn:UnarchiveWave"],
+    resources: {
+      "mgn:UnarchiveWave": ["arn:${Partition}:mgn:${Region}:${Account}:wave/${WaveID}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnarchiveWave",
 }));
@@ -4412,6 +4911,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["mgn:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4436,6 +4936,14 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: {
+    actions: ["mgn:UpdateApplication"],
+    resources: {
+      "mgn:UpdateApplication": [
+        "arn:${Partition}:mgn:${Region}:${Account}:application/${ApplicationID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -4460,6 +4968,12 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  iam: {
+    actions: ["mgn:UpdateConnector"],
+    resources: {
+      "mgn:UpdateConnector": ["arn:${Partition}:mgn:${Region}:${Account}:connector/${ConnectorID}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnector",
 }));
@@ -4492,6 +5006,14 @@ export const updateLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfiguration",
+  iam: {
+    actions: ["mgn:UpdateLaunchConfiguration"],
+    resources: {
+      "mgn:UpdateLaunchConfiguration": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLaunchConfiguration",
 }));
@@ -4522,6 +5044,14 @@ export const updateLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfigurationTemplate",
+  iam: {
+    actions: ["mgn:UpdateLaunchConfigurationTemplate"],
+    resources: {
+      "mgn:UpdateLaunchConfigurationTemplate": [
+        "arn:${Partition}:mgn:${Region}:${Account}:launch-configuration-template/${LaunchConfigurationTemplateID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLaunchConfigurationTemplate",
 }));
@@ -4546,6 +5076,14 @@ export const updateNetworkMigrationDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkMigrationDefinition",
+  iam: {
+    actions: ["mgn:UpdateNetworkMigrationDefinition"],
+    resources: {
+      "mgn:UpdateNetworkMigrationDefinition": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetworkMigrationDefinition",
 }));
@@ -4570,6 +5108,14 @@ export const updateNetworkMigrationMapperSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkMigrationMapperSegment",
+  iam: {
+    actions: ["mgn:UpdateNetworkMigrationMapperSegment"],
+    resources: {
+      "mgn:UpdateNetworkMigrationMapperSegment": [
+        "arn:${Partition}:mgn:${Region}:${Account}:network-migration-definition/${NetworkMigrationDefinitionID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetworkMigrationMapperSegment",
 }));
@@ -4602,6 +5148,14 @@ export const updateReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfiguration",
+  iam: {
+    actions: ["mgn:UpdateReplicationConfiguration"],
+    resources: {
+      "mgn:UpdateReplicationConfiguration": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReplicationConfiguration",
 }));
@@ -4632,6 +5186,14 @@ export const updateReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfigurationTemplate",
+  iam: {
+    actions: ["mgn:UpdateReplicationConfigurationTemplate"],
+    resources: {
+      "mgn:UpdateReplicationConfigurationTemplate": [
+        "arn:${Partition}:mgn:${Region}:${Account}:replication-configuration-template/${ReplicationConfigurationTemplateID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReplicationConfigurationTemplate",
 }));
@@ -4656,6 +5218,14 @@ export const updateSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceServer",
+  iam: {
+    actions: ["mgn:UpdateSourceServer"],
+    resources: {
+      "mgn:UpdateSourceServer": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSourceServer",
 }));
@@ -4688,6 +5258,14 @@ export const updateSourceServerReplicationType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceServerReplicationType",
+  iam: {
+    actions: ["mgn:UpdateSourceServerReplicationType"],
+    resources: {
+      "mgn:UpdateSourceServerReplicationType": [
+        "arn:${Partition}:mgn:${Region}:${Account}:source-server/${SourceServerID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSourceServerReplicationType",
 }));
@@ -4712,6 +5290,10 @@ export const updateWave: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWave",
+  iam: {
+    actions: ["mgn:UpdateWave"],
+    resources: { "mgn:UpdateWave": ["arn:${Partition}:mgn:${Region}:${Account}:wave/${WaveID}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWave",
 }));
@@ -5234,6 +5816,7 @@ function __c18(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           name: S.String,
           description: S.optional(S.String),
           sourceConfigurations: S.optional(__S(641, __c20, 1)),

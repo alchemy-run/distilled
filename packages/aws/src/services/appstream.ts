@@ -470,6 +470,7 @@ export type PlatformType =
   | "WINDOWS_SERVER_2019"
   | "WINDOWS_SERVER_2022"
   | "WINDOWS_SERVER_2025"
+  | "WINDOWS_11"
   | "AMAZON_LINUX2"
   | "RHEL8"
   | "ROCKY_LINUX8"
@@ -975,6 +976,10 @@ export interface AgentAccessConfig {
   ScreenImageFormat?: ScreenImageFormat;
   UserControlMode?: UserControlMode;
 }
+export type StorageConnectorAuthentication =
+  | "FORCE_REAUTHENTICATION"
+  | "REUSE_CREDENTIALS"
+  | (string & {});
 export interface CreateStackRequest {
   Name?: string;
   Description?: string;
@@ -990,6 +995,7 @@ export interface CreateStackRequest {
   StreamingExperienceSettings?: StreamingExperienceSettings;
   ContentRedirection?: ContentRedirection;
   AgentAccessConfig?: AgentAccessConfig;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication;
 }
 export type StackErrorCode = "STORAGE_CONNECTOR_ERROR" | "INTERNAL_SERVICE_ERROR" | (string & {});
 export interface StackError {
@@ -1019,6 +1025,7 @@ export interface Stack {
   StreamingExperienceSettings?: StreamingExperienceSettings;
   ContentRedirection?: ContentRedirection;
   AgentAccessConfig?: AgentAccessConfig;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication;
 }
 export interface CreateStackResult {
   Stack?: Stack & {
@@ -1861,6 +1868,7 @@ export type StackAttribute =
   | "STREAMING_EXPERIENCE_SETTINGS"
   | "CONTENT_REDIRECTION"
   | "AGENT_ACCESS_CONFIG"
+  | "STORAGE_CONNECTOR_AUTHENTICATION"
   | (string & {});
 export type StackAttributes = StackAttribute[];
 export interface AgentAccessConfigForUpdate {
@@ -1887,6 +1895,7 @@ export interface UpdateStackRequest {
   StreamingExperienceSettings?: StreamingExperienceSettings;
   ContentRedirection?: ContentRedirection;
   AgentAccessConfig?: AgentAccessConfigForUpdate;
+  StorageConnectorAuthentication?: StorageConnectorAuthentication;
 }
 export interface UpdateStackResult {
   Stack?: Stack & {
@@ -1948,6 +1957,15 @@ export const associateAppBlockBuilderAppBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAppBlockBuilderAppBlock",
+  iam: {
+    actions: ["appstream:AssociateAppBlockBuilderAppBlock"],
+    resources: {
+      "appstream:AssociateAppBlockBuilderAppBlock": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block/${AppBlockName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block-builder/${AppBlockBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateAppBlockBuilderAppBlock",
 }));
@@ -1980,6 +1998,15 @@ export const associateApplicationFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplicationFleet",
+  iam: {
+    actions: ["appstream:AssociateApplicationFleet"],
+    resources: {
+      "appstream:AssociateApplicationFleet": [
+        "arn:${Partition}:appstream:${Region}:${Account}:application/${ApplicationName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateApplicationFleet",
 }));
@@ -2010,6 +2037,14 @@ export const associateApplicationToEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApplicationToEntitlement",
+  iam: {
+    actions: ["appstream:AssociateApplicationToEntitlement"],
+    resources: {
+      "appstream:AssociateApplicationToEntitlement": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateApplicationToEntitlement",
 }));
@@ -2044,6 +2079,15 @@ export const associateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFleet",
+  iam: {
+    actions: ["appstream:AssociateFleet"],
+    resources: {
+      "appstream:AssociateFleet": [
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateFleet",
 }));
@@ -2076,6 +2120,14 @@ export const associateSoftwareToImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSoftwareToImageBuilder",
+  iam: {
+    actions: ["appstream:AssociateSoftwareToImageBuilder"],
+    resources: {
+      "appstream:AssociateSoftwareToImageBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image-builder/${ImageBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateSoftwareToImageBuilder",
 }));
@@ -2099,6 +2151,14 @@ export const batchAssociateUserStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateUserStack",
+  iam: {
+    actions: ["appstream:BatchAssociateUserStack"],
+    resources: {
+      "appstream:BatchAssociateUserStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchAssociateUserStack",
 }));
@@ -2122,6 +2182,14 @@ export const batchDisassociateUserStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateUserStack",
+  iam: {
+    actions: ["appstream:BatchDisassociateUserStack"],
+    resources: {
+      "appstream:BatchDisassociateUserStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateUserStack",
 }));
@@ -2156,6 +2224,12 @@ export const copyImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyImage",
+  iam: {
+    actions: ["appstream:CopyImage"],
+    resources: {
+      "appstream:CopyImage": ["arn:${Partition}:appstream:${Region}:${Account}:image/${ImageName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CopyImage",
 }));
@@ -2194,6 +2268,7 @@ export const createAppBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlock",
+  iam: { actions: ["appstream:CreateAppBlock"] },
   telemetry: TELEMETRY,
   span: "CreateAppBlock",
 }));
@@ -2236,6 +2311,14 @@ export const createAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlockBuilder",
+  iam: {
+    actions: ["appstream:CreateAppBlockBuilder"],
+    resources: {
+      "appstream:CreateAppBlockBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block-builder/${AppBlockBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppBlockBuilder",
 }));
@@ -2259,6 +2342,14 @@ export const createAppBlockBuilderStreamingURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppBlockBuilderStreamingURL",
+  iam: {
+    actions: ["appstream:CreateAppBlockBuilderStreamingURL"],
+    resources: {
+      "appstream:CreateAppBlockBuilderStreamingURL": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block-builder/${AppBlockBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppBlockBuilderStreamingURL",
 }));
@@ -2299,6 +2390,14 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: {
+    actions: ["appstream:CreateApplication"],
+    resources: {
+      "appstream:CreateApplication": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block/${AppBlockName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -2333,6 +2432,7 @@ export const createDirectoryConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectoryConfig",
+  iam: { actions: ["appstream:CreateDirectoryConfig"] },
   telemetry: TELEMETRY,
   span: "CreateDirectoryConfig",
 }));
@@ -2368,6 +2468,14 @@ export const createEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
+  iam: {
+    actions: ["appstream:CreateEntitlement"],
+    resources: {
+      "appstream:CreateEntitlement": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEntitlement",
 }));
@@ -2404,6 +2512,7 @@ export const createExportImageTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExportImageTask",
+  iam: { actions: ["appstream:CreateExportImageTask"] },
   telemetry: TELEMETRY,
   span: "CreateExportImageTask",
 }));
@@ -2448,6 +2557,11 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  iam: {
+    actions: ["appstream:CreateFleet", "iam:PassRole", "appstream:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "IamRoleArn", "appstream:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFleet",
 }));
@@ -2494,6 +2608,17 @@ export const createImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageBuilder",
+  iam: {
+    actions: ["appstream:CreateImageBuilder", "iam:PassRole", "appstream:TagResource"],
+    resources: {
+      "appstream:CreateImageBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image/${ImageName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:image-builder/${ImageBuilderName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "IamRoleArn", "appstream:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateImageBuilder",
 }));
@@ -2517,6 +2642,14 @@ export const createImageBuilderStreamingURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageBuilderStreamingURL",
+  iam: {
+    actions: ["appstream:CreateImageBuilderStreamingURL"],
+    resources: {
+      "appstream:CreateImageBuilderStreamingURL": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image-builder/${ImageBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateImageBuilderStreamingURL",
 }));
@@ -2557,6 +2690,7 @@ export const createImportedImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImportedImage",
+  iam: { actions: ["appstream:CreateImportedImage"] },
   telemetry: TELEMETRY,
   span: "CreateImportedImage",
 }));
@@ -2595,6 +2729,15 @@ export const createStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStack",
+  iam: {
+    actions: ["appstream:CreateStack", "appstream:TagResource"],
+    resources: {
+      "appstream:CreateStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+    conditional: { "appstream:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStack",
 }));
@@ -2625,6 +2768,15 @@ export const createStreamingURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamingURL",
+  iam: {
+    actions: ["appstream:CreateStreamingURL"],
+    resources: {
+      "appstream:CreateStreamingURL": [
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStreamingURL",
 }));
@@ -2659,6 +2811,14 @@ export const createThemeForStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThemeForStack",
+  iam: {
+    actions: ["appstream:CreateThemeForStack"],
+    resources: {
+      "appstream:CreateThemeForStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateThemeForStack",
 }));
@@ -2698,6 +2858,14 @@ export const createUpdatedImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUpdatedImage",
+  iam: {
+    actions: ["appstream:CreateUpdatedImage", "appstream:TagResource"],
+    resources: {
+      "appstream:CreateUpdatedImage": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image/${ImageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateUpdatedImage",
 }));
@@ -2722,6 +2890,7 @@ export const createUsageReportSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsageReportSubscription",
+  iam: { actions: ["appstream:CreateUsageReportSubscription"] },
   telemetry: TELEMETRY,
   span: "CreateUsageReportSubscription",
 }));
@@ -2754,6 +2923,7 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  iam: { actions: ["appstream:CreateUser"] },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -2778,6 +2948,14 @@ export const deleteAppBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppBlock",
+  iam: {
+    actions: ["appstream:DeleteAppBlock"],
+    resources: {
+      "appstream:DeleteAppBlock": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block/${AppBlockName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppBlock",
 }));
@@ -2811,6 +2989,14 @@ export const deleteAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppBlockBuilder",
+  iam: {
+    actions: ["appstream:DeleteAppBlockBuilder"],
+    resources: {
+      "appstream:DeleteAppBlockBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block-builder/${AppBlockBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppBlockBuilder",
 }));
@@ -2841,6 +3027,14 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  iam: {
+    actions: ["appstream:DeleteApplication"],
+    resources: {
+      "appstream:DeleteApplication": [
+        "arn:${Partition}:appstream:${Region}:${Account}:application/${ApplicationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -2864,6 +3058,7 @@ export const deleteDirectoryConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectoryConfig",
+  iam: { actions: ["appstream:DeleteDirectoryConfig"] },
   telemetry: TELEMETRY,
   span: "DeleteDirectoryConfig",
 }));
@@ -2894,6 +3089,14 @@ export const deleteEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
+  iam: {
+    actions: ["appstream:DeleteEntitlement"],
+    resources: {
+      "appstream:DeleteEntitlement": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEntitlement",
 }));
@@ -2918,6 +3121,14 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  iam: {
+    actions: ["appstream:DeleteFleet"],
+    resources: {
+      "appstream:DeleteFleet": [
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFleet",
 }));
@@ -2949,6 +3160,14 @@ export const deleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImage",
+  iam: {
+    actions: ["appstream:DeleteImage"],
+    resources: {
+      "appstream:DeleteImage": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image/${ImageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImage",
 }));
@@ -2977,6 +3196,14 @@ export const deleteImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageBuilder",
+  iam: {
+    actions: ["appstream:DeleteImageBuilder"],
+    resources: {
+      "appstream:DeleteImageBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image-builder/${ImageBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImageBuilder",
 }));
@@ -3000,6 +3227,14 @@ export const deleteImagePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImagePermissions",
+  iam: {
+    actions: ["appstream:DeleteImagePermissions"],
+    resources: {
+      "appstream:DeleteImagePermissions": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image/${ImageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImagePermissions",
 }));
@@ -3030,6 +3265,14 @@ export const deleteStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStack",
+  iam: {
+    actions: ["appstream:DeleteStack"],
+    resources: {
+      "appstream:DeleteStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStack",
 }));
@@ -3058,6 +3301,14 @@ export const deleteThemeForStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThemeForStack",
+  iam: {
+    actions: ["appstream:DeleteThemeForStack"],
+    resources: {
+      "appstream:DeleteThemeForStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteThemeForStack",
 }));
@@ -3081,6 +3332,7 @@ export const deleteUsageReportSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsageReportSubscription",
+  iam: { actions: ["appstream:DeleteUsageReportSubscription"] },
   telemetry: TELEMETRY,
   span: "DeleteUsageReportSubscription",
 }));
@@ -3101,6 +3353,7 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  iam: { actions: ["appstream:DeleteUser"] },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -3130,6 +3383,7 @@ export const describeAppBlockBuilderAppBlockAssociations: API.PaginatedOperation
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["appstream:DescribeAppBlockBuilderAppBlockAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeAppBlockBuilderAppBlockAssociations",
 })) as any;
@@ -3159,6 +3413,7 @@ export const describeAppBlockBuilders: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["appstream:DescribeAppBlockBuilders"] },
   telemetry: TELEMETRY,
   span: "DescribeAppBlockBuilders",
 })) as any;
@@ -3182,6 +3437,7 @@ export const describeAppBlocks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppBlocks",
+  iam: { actions: ["appstream:DescribeAppBlocks"] },
   telemetry: TELEMETRY,
   span: "DescribeAppBlocks",
 }));
@@ -3205,6 +3461,7 @@ export const describeApplicationFleetAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationFleetAssociations",
+  iam: { actions: ["appstream:DescribeApplicationFleetAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeApplicationFleetAssociations",
 }));
@@ -3228,6 +3485,7 @@ export const describeApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplications",
+  iam: { actions: ["appstream:DescribeApplications"] },
   telemetry: TELEMETRY,
   span: "DescribeApplications",
 }));
@@ -3256,6 +3514,7 @@ export const describeAppLicenseUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppLicenseUsage",
+  iam: { actions: ["appstream:DescribeAppLicenseUsage"] },
   telemetry: TELEMETRY,
   span: "DescribeAppLicenseUsage",
 }));
@@ -3278,6 +3537,7 @@ export const describeDirectoryConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectoryConfigs",
+  iam: { actions: ["appstream:DescribeDirectoryConfigs"] },
   telemetry: TELEMETRY,
   span: "DescribeDirectoryConfigs",
 }));
@@ -3302,6 +3562,14 @@ export const describeEntitlements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntitlements",
+  iam: {
+    actions: ["appstream:DescribeEntitlements"],
+    resources: {
+      "appstream:DescribeEntitlements": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEntitlements",
 }));
@@ -3322,6 +3590,7 @@ export const describeFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFleets",
+  iam: { actions: ["appstream:DescribeFleets"] },
   telemetry: TELEMETRY,
   span: "DescribeFleets",
 }));
@@ -3342,6 +3611,7 @@ export const describeImageBuilders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageBuilders",
+  iam: { actions: ["appstream:DescribeImageBuilders"] },
   telemetry: TELEMETRY,
   span: "DescribeImageBuilders",
 }));
@@ -3368,6 +3638,14 @@ export const describeImagePermissions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["appstream:DescribeImagePermissions"],
+    resources: {
+      "appstream:DescribeImagePermissions": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image/${ImageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeImagePermissions",
 })) as any;
@@ -3397,6 +3675,7 @@ export const describeImages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["appstream:DescribeImages"] },
   telemetry: TELEMETRY,
   span: "DescribeImages",
 })) as any;
@@ -3419,6 +3698,15 @@ export const describeSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSessions",
+  iam: {
+    actions: ["appstream:DescribeSessions"],
+    resources: {
+      "appstream:DescribeSessions": [
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSessions",
 }));
@@ -3442,6 +3730,7 @@ export const describeSoftwareAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSoftwareAssociations",
+  iam: { actions: ["appstream:DescribeSoftwareAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeSoftwareAssociations",
 }));
@@ -3462,6 +3751,7 @@ export const describeStacks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStacks",
+  iam: { actions: ["appstream:DescribeStacks"] },
   telemetry: TELEMETRY,
   span: "DescribeStacks",
 }));
@@ -3485,6 +3775,14 @@ export const describeThemeForStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThemeForStack",
+  iam: {
+    actions: ["appstream:DescribeThemeForStack"],
+    resources: {
+      "appstream:DescribeThemeForStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeThemeForStack",
 }));
@@ -3508,6 +3806,7 @@ export const describeUsageReportSubscriptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUsageReportSubscriptions",
+  iam: { actions: ["appstream:DescribeUsageReportSubscriptions"] },
   telemetry: TELEMETRY,
   span: "DescribeUsageReportSubscriptions",
 }));
@@ -3536,6 +3835,7 @@ export const describeUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUsers",
+  iam: { actions: ["appstream:DescribeUsers"] },
   telemetry: TELEMETRY,
   span: "DescribeUsers",
 }));
@@ -3563,6 +3863,7 @@ export const describeUserStackAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserStackAssociations",
+  iam: { actions: ["appstream:DescribeUserStackAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeUserStackAssociations",
 }));
@@ -3583,6 +3884,7 @@ export const disableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableUser",
+  iam: { actions: ["appstream:DisableUser"] },
   telemetry: TELEMETRY,
   span: "DisableUser",
 }));
@@ -3613,6 +3915,15 @@ export const disassociateAppBlockBuilderAppBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAppBlockBuilderAppBlock",
+  iam: {
+    actions: ["appstream:DisassociateAppBlockBuilderAppBlock"],
+    resources: {
+      "appstream:DisassociateAppBlockBuilderAppBlock": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block/${AppBlockName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block-builder/${AppBlockBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateAppBlockBuilderAppBlock",
 }));
@@ -3641,6 +3952,15 @@ export const disassociateApplicationFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplicationFleet",
+  iam: {
+    actions: ["appstream:DisassociateApplicationFleet"],
+    resources: {
+      "appstream:DisassociateApplicationFleet": [
+        "arn:${Partition}:appstream:${Region}:${Account}:application/${ApplicationName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateApplicationFleet",
 }));
@@ -3665,6 +3985,14 @@ export const disassociateApplicationFromEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApplicationFromEntitlement",
+  iam: {
+    actions: ["appstream:DisassociateApplicationFromEntitlement"],
+    resources: {
+      "appstream:DisassociateApplicationFromEntitlement": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateApplicationFromEntitlement",
 }));
@@ -3695,6 +4023,15 @@ export const disassociateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFleet",
+  iam: {
+    actions: ["appstream:DisassociateFleet"],
+    resources: {
+      "appstream:DisassociateFleet": [
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateFleet",
 }));
@@ -3725,6 +4062,14 @@ export const disassociateSoftwareFromImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSoftwareFromImageBuilder",
+  iam: {
+    actions: ["appstream:DisassociateSoftwareFromImageBuilder"],
+    resources: {
+      "appstream:DisassociateSoftwareFromImageBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image-builder/${ImageBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateSoftwareFromImageBuilder",
 }));
@@ -3776,6 +4121,7 @@ export const enableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableUser",
+  iam: { actions: ["appstream:EnableUser"] },
   telemetry: TELEMETRY,
   span: "EnableUser",
 }));
@@ -3796,6 +4142,7 @@ export const expireSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExpireSession",
+  iam: { actions: ["appstream:ExpireSession"] },
   telemetry: TELEMETRY,
   span: "ExpireSession",
 }));
@@ -3819,6 +4166,7 @@ export const getExportImageTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportImageTask",
+  iam: { actions: ["appstream:GetExportImageTask"] },
   telemetry: TELEMETRY,
   span: "GetExportImageTask",
 }));
@@ -3839,6 +4187,14 @@ export const listAssociatedFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedFleets",
+  iam: {
+    actions: ["appstream:ListAssociatedFleets"],
+    resources: {
+      "appstream:ListAssociatedFleets": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociatedFleets",
 }));
@@ -3859,6 +4215,14 @@ export const listAssociatedStacks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAssociatedStacks",
+  iam: {
+    actions: ["appstream:ListAssociatedStacks"],
+    resources: {
+      "appstream:ListAssociatedStacks": [
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssociatedStacks",
 }));
@@ -3883,6 +4247,14 @@ export const listEntitledApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEntitledApplications",
+  iam: {
+    actions: ["appstream:ListEntitledApplications"],
+    resources: {
+      "appstream:ListEntitledApplications": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEntitledApplications",
 }));
@@ -3903,6 +4275,7 @@ export const listExportImageTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListExportImageTasks",
+  iam: { actions: ["appstream:ListExportImageTasks"] },
   telemetry: TELEMETRY,
   span: "ListExportImageTasks",
 }));
@@ -3925,6 +4298,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["appstream:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3967,6 +4341,14 @@ export const startAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAppBlockBuilder",
+  iam: {
+    actions: ["appstream:StartAppBlockBuilder"],
+    resources: {
+      "appstream:StartAppBlockBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block-builder/${AppBlockBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAppBlockBuilder",
 }));
@@ -4005,6 +4387,14 @@ export const startFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFleet",
+  iam: {
+    actions: ["appstream:StartFleet"],
+    resources: {
+      "appstream:StartFleet": [
+        "arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartFleet",
 }));
@@ -4037,6 +4427,14 @@ export const startImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImageBuilder",
+  iam: {
+    actions: ["appstream:StartImageBuilder"],
+    resources: {
+      "appstream:StartImageBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image-builder/${ImageBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartImageBuilder",
 }));
@@ -4065,6 +4463,14 @@ export const startSoftwareDeploymentToImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSoftwareDeploymentToImageBuilder",
+  iam: {
+    actions: ["appstream:StartSoftwareDeploymentToImageBuilder"],
+    resources: {
+      "appstream:StartSoftwareDeploymentToImageBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image-builder/${ImageBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartSoftwareDeploymentToImageBuilder",
 }));
@@ -4096,6 +4502,14 @@ export const stopAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAppBlockBuilder",
+  iam: {
+    actions: ["appstream:StopAppBlockBuilder"],
+    resources: {
+      "appstream:StopAppBlockBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block-builder/${AppBlockBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopAppBlockBuilder",
 }));
@@ -4119,6 +4533,12 @@ export const stopFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFleet",
+  iam: {
+    actions: ["appstream:StopFleet"],
+    resources: {
+      "appstream:StopFleet": ["arn:${Partition}:appstream:${Region}:${Account}:fleet/${FleetName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopFleet",
 }));
@@ -4147,6 +4567,14 @@ export const stopImageBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopImageBuilder",
+  iam: {
+    actions: ["appstream:StopImageBuilder"],
+    resources: {
+      "appstream:StopImageBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image-builder/${ImageBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopImageBuilder",
 }));
@@ -4179,6 +4607,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["appstream:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4203,6 +4632,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["appstream:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4250,6 +4680,14 @@ export const updateAppBlockBuilder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppBlockBuilder",
+  iam: {
+    actions: ["appstream:UpdateAppBlockBuilder"],
+    resources: {
+      "appstream:UpdateAppBlockBuilder": [
+        "arn:${Partition}:appstream:${Region}:${Account}:app-block-builder/${AppBlockBuilderName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAppBlockBuilder",
 }));
@@ -4278,6 +4716,7 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: { actions: ["appstream:UpdateApplication"] },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -4312,6 +4751,7 @@ export const updateDirectoryConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectoryConfig",
+  iam: { actions: ["appstream:UpdateDirectoryConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateDirectoryConfig",
 }));
@@ -4342,6 +4782,14 @@ export const updateEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEntitlement",
+  iam: {
+    actions: ["appstream:UpdateEntitlement"],
+    resources: {
+      "appstream:UpdateEntitlement": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEntitlement",
 }));
@@ -4408,6 +4856,11 @@ export const updateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
+  iam: {
+    actions: ["iam:PassRole", "appstream:UpdateFleet"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "IamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFleet",
 }));
@@ -4432,6 +4885,14 @@ export const updateImagePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImagePermissions",
+  iam: {
+    actions: ["appstream:UpdateImagePermissions"],
+    resources: {
+      "appstream:UpdateImagePermissions": [
+        "arn:${Partition}:appstream:${Region}:${Account}:image/${ImageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateImagePermissions",
 }));
@@ -4472,6 +4933,14 @@ export const updateStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStack",
+  iam: {
+    actions: ["appstream:UpdateStack"],
+    resources: {
+      "appstream:UpdateStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStack",
 }));
@@ -4506,6 +4975,14 @@ export const updateThemeForStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThemeForStack",
+  iam: {
+    actions: ["appstream:UpdateThemeForStack"],
+    resources: {
+      "appstream:UpdateThemeForStack": [
+        "arn:${Partition}:appstream:${Region}:${Account}:stack/${StackName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateThemeForStack",
 }));
@@ -4576,6 +5053,7 @@ function __c2(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateStackRequest" });
   }
@@ -5458,6 +5936,7 @@ function __c59(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateStackRequest" });
   }
@@ -5557,6 +6036,7 @@ function __c61(j: number): any {
           StreamingExperienceSettings: S.optional(__S(980, __c61, 4)),
           ContentRedirection: S.optional(__S(982, __c61, 6)),
           AgentAccessConfig: S.optional(__S(985, __c61, 9)),
+          StorageConnectorAuthentication: S.optional(S.String),
         }),
       ).annotate({ identifier: "Stack" });
   }

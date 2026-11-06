@@ -1,0 +1,28 @@
+{
+  "operations": {
+    "deleteResourcePolicy": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:cloudhsm:${Region}:${Account}:backup/*), the call was denied live in the CloudHSMV2 Bindings suite; the grant stays on *.",
+        "resources": {
+          "cloudhsm:DeleteResourcePolicy": "*"
+        }
+      }
+    },
+    "getResourcePolicy": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:cloudhsm:${Region}:${Account}:backup/*), the call was denied live in the CloudHSMV2 Bindings suite; the grant stays on *.",
+        "resources": {
+          "cloudhsm:GetResourcePolicy": "*"
+        }
+      }
+    },
+    "putResourcePolicy": {
+      "iam": {
+        "reason": "Narrowed to AWS's ARN formats (arn:${Partition}:cloudhsm:${Region}:${Account}:backup/*), the call was denied live in the CloudHSMV2 Bindings suite; the grant stays on *.",
+        "resources": {
+          "cloudhsm:PutResourcePolicy": "*"
+        }
+      }
+    }
+  }
+}

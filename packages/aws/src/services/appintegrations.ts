@@ -197,11 +197,13 @@ export interface IframeConfig {
   Sandbox?: string[];
 }
 export type ApplicationType = "STANDARD" | "SERVICE" | "MCP_SERVER" | "A2A_SERVER" | (string & {});
-export type AuthType = "API_KEY" | (string & {});
+export type AuthType = "API_KEY" | "CONNECT_JWT" | (string & {});
 export type Arn = string;
+export type Identifier = string;
 export interface AuthConfig {
   AuthType?: AuthType;
   CredentialProviderIdentifier?: string;
+  AudienceOverride?: string;
 }
 export interface CreateApplicationRequest {
   Name: string;
@@ -269,7 +271,6 @@ export interface CreateDataIntegrationResponse {
   FileConfiguration?: FileConfiguration;
   ObjectConfiguration?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
 }
-export type Identifier = string;
 export type ClientId = string;
 export type DestinationURI = string;
 export type ClientAssociationMetadata = { [key: string]: string | undefined };
@@ -570,6 +571,15 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: {
+    actions: ["app-integrations:CreateApplication", "app-integrations:TagResource"],
+    resources: {
+      "app-integrations:CreateApplication": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+    conditional: { "app-integrations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -610,6 +620,15 @@ export const createDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegration",
+  iam: {
+    actions: ["app-integrations:CreateDataIntegration", "app-integrations:TagResource"],
+    resources: {
+      "app-integrations:CreateDataIntegration": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:data-integration/${DataIntegrationId}",
+      ],
+    },
+    conditional: { "app-integrations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataIntegration",
 }));
@@ -646,6 +665,14 @@ export const createDataIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegrationAssociation",
+  iam: {
+    actions: ["app-integrations:CreateDataIntegrationAssociation"],
+    resources: {
+      "app-integrations:CreateDataIntegrationAssociation": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:data-integration/${DataIntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataIntegrationAssociation",
 }));
@@ -685,6 +712,15 @@ export const createEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventIntegration",
+  iam: {
+    actions: ["app-integrations:CreateEventIntegration", "app-integrations:TagResource"],
+    resources: {
+      "app-integrations:CreateEventIntegration": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:event-integration/${EventIntegrationName}",
+      ],
+    },
+    conditional: { "app-integrations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEventIntegration",
 }));
@@ -721,6 +757,14 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  iam: {
+    actions: ["app-integrations:DeleteApplication"],
+    resources: {
+      "app-integrations:DeleteApplication": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -761,6 +805,14 @@ export const deleteDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataIntegration",
+  iam: {
+    actions: ["app-integrations:DeleteDataIntegration"],
+    resources: {
+      "app-integrations:DeleteDataIntegration": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:data-integration/${DataIntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataIntegration",
 }));
@@ -796,6 +848,14 @@ export const deleteEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventIntegration",
+  iam: {
+    actions: ["app-integrations:DeleteEventIntegration"],
+    resources: {
+      "app-integrations:DeleteEventIntegration": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:event-integration/${EventIntegrationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEventIntegration",
 }));
@@ -830,6 +890,14 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  iam: {
+    actions: ["app-integrations:GetApplication"],
+    resources: {
+      "app-integrations:GetApplication": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -868,6 +936,14 @@ export const getDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegration",
+  iam: {
+    actions: ["app-integrations:GetDataIntegration"],
+    resources: {
+      "app-integrations:GetDataIntegration": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:data-integration/${DataIntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataIntegration",
 }));
@@ -902,6 +978,14 @@ export const getEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventIntegration",
+  iam: {
+    actions: ["app-integrations:GetEventIntegration"],
+    resources: {
+      "app-integrations:GetEventIntegration": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:event-integration/${EventIntegrationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEventIntegration",
 }));
@@ -943,6 +1027,7 @@ export const listApplicationAssociations: API.PaginatedOperationMethod<
     items: "ApplicationAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["app-integrations:ListApplicationAssociations"] },
   telemetry: TELEMETRY,
   span: "ListApplicationAssociations",
 })) as any;
@@ -982,6 +1067,7 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["app-integrations:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -1027,6 +1113,7 @@ export const listDataIntegrationAssociations: API.PaginatedOperationMethod<
     items: "DataIntegrationAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["app-integrations:ListDataIntegrationAssociations"] },
   telemetry: TELEMETRY,
   span: "ListDataIntegrationAssociations",
 })) as any;
@@ -1070,6 +1157,7 @@ export const listDataIntegrations: API.PaginatedOperationMethod<
     items: "DataIntegrations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["app-integrations:ListDataIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListDataIntegrations",
 })) as any;
@@ -1111,6 +1199,7 @@ export const listEventIntegrationAssociations: API.PaginatedOperationMethod<
     items: "EventIntegrationAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["app-integrations:ListEventIntegrationAssociations"] },
   telemetry: TELEMETRY,
   span: "ListEventIntegrationAssociations",
 })) as any;
@@ -1150,6 +1239,7 @@ export const listEventIntegrations: API.PaginatedOperationMethod<
     items: "EventIntegrations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["app-integrations:ListEventIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListEventIntegrations",
 })) as any;
@@ -1182,6 +1272,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["app-integrations:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1214,6 +1305,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["app-integrations:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1246,6 +1338,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["app-integrations:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1284,6 +1377,14 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: {
+    actions: ["app-integrations:UpdateApplication"],
+    resources: {
+      "app-integrations:UpdateApplication": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:application/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -1322,6 +1423,14 @@ export const updateDataIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegration",
+  iam: {
+    actions: ["app-integrations:UpdateDataIntegration"],
+    resources: {
+      "app-integrations:UpdateDataIntegration": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:data-integration/${DataIntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataIntegration",
 }));
@@ -1358,6 +1467,14 @@ export const updateDataIntegrationAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegrationAssociation",
+  iam: {
+    actions: ["app-integrations:UpdateDataIntegrationAssociation"],
+    resources: {
+      "app-integrations:UpdateDataIntegrationAssociation": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:data-integration-association/${DataIntegrationId}/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataIntegrationAssociation",
 }));
@@ -1392,6 +1509,14 @@ export const updateEventIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventIntegration",
+  iam: {
+    actions: ["app-integrations:UpdateEventIntegration"],
+    resources: {
+      "app-integrations:UpdateEventIntegration": [
+        "arn:${Partition}:app-integrations:${Region}:${Account}:event-integration/${EventIntegrationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEventIntegration",
 }));
@@ -1478,6 +1603,7 @@ function __c3(j: number): any {
         S.Struct({
           AuthType: S.optional(S.String),
           CredentialProviderIdentifier: S.optional(S.String),
+          AudienceOverride: S.optional(S.String),
         }),
       ).annotate({ identifier: "AuthConfig" });
   }

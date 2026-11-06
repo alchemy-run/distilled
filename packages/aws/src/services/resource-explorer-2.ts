@@ -566,6 +566,7 @@ export const associateDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDefaultView",
+  iam: { actions: ["resource-explorer-2:AssociateDefaultView"] },
   telemetry: TELEMETRY,
   span: "AssociateDefaultView",
 }));
@@ -598,6 +599,14 @@ export const batchGetView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetView",
+  iam: {
+    actions: ["resource-explorer-2:BatchGetView", "resource-explorer-2:GetView"],
+    resources: {
+      "resource-explorer-2:GetView": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:view/${ViewName}/${ViewUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetView",
 }));
@@ -650,6 +659,10 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
+  iam: {
+    actions: ["resource-explorer-2:CreateIndex", "resource-explorer-2:TagResource"],
+    conditional: { "resource-explorer-2:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIndex",
 }));
@@ -682,6 +695,7 @@ export const createResourceExplorerSetup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceExplorerSetup",
+  iam: { actions: ["resource-explorer-2:CreateResourceExplorerSetup"] },
   telemetry: TELEMETRY,
   span: "CreateResourceExplorerSetup",
 }));
@@ -720,6 +734,10 @@ export const createView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateView",
+  iam: {
+    actions: ["resource-explorer-2:CreateView", "resource-explorer-2:TagResource"],
+    conditional: { "resource-explorer-2:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateView",
 }));
@@ -754,6 +772,14 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
+  iam: {
+    actions: ["resource-explorer-2:DeleteIndex"],
+    resources: {
+      "resource-explorer-2:DeleteIndex": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:index/${IndexUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIndex",
 }));
@@ -786,6 +812,7 @@ export const deleteResourceExplorerSetup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceExplorerSetup",
+  iam: { actions: ["resource-explorer-2:DeleteResourceExplorerSetup"] },
   telemetry: TELEMETRY,
   span: "DeleteResourceExplorerSetup",
 }));
@@ -822,6 +849,14 @@ export const deleteView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteView",
+  iam: {
+    actions: ["resource-explorer-2:DeleteView"],
+    resources: {
+      "resource-explorer-2:DeleteView": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:view/${ViewName}/${ViewUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteView",
 }));
@@ -856,6 +891,7 @@ export const disassociateDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDefaultView",
+  iam: { actions: ["resource-explorer-2:DisassociateDefaultView"] },
   telemetry: TELEMETRY,
   span: "DisassociateDefaultView",
 }));
@@ -886,6 +922,7 @@ export const getAccountLevelServiceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountLevelServiceConfiguration",
+  iam: { actions: ["resource-explorer-2:GetAccountLevelServiceConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetAccountLevelServiceConfiguration",
 }));
@@ -918,6 +955,7 @@ export const getDefaultView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultView",
+  iam: { actions: ["resource-explorer-2:GetDefaultView"] },
   telemetry: TELEMETRY,
   span: "GetDefaultView",
 }));
@@ -950,6 +988,7 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
+  iam: { actions: ["resource-explorer-2:GetIndex"] },
   telemetry: TELEMETRY,
   span: "GetIndex",
 }));
@@ -984,6 +1023,14 @@ export const getManagedView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedView",
+  iam: {
+    actions: ["resource-explorer-2:GetManagedView"],
+    resources: {
+      "resource-explorer-2:GetManagedView": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:managed-view/${ManagedViewName}/${ManagedViewUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetManagedView",
 }));
@@ -1023,6 +1070,7 @@ export const getResourceExplorerSetup: API.PaginatedOperationMethod<
     items: "Regions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:GetResourceExplorerSetup"] },
   telemetry: TELEMETRY,
   span: "GetResourceExplorerSetup",
 })) as any;
@@ -1055,6 +1103,7 @@ export const getServiceIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceIndex",
+  iam: { actions: ["resource-explorer-2:GetServiceIndex"] },
   telemetry: TELEMETRY,
   span: "GetServiceIndex",
 }));
@@ -1087,6 +1136,7 @@ export const getServiceView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceView",
+  iam: { actions: ["resource-explorer-2:GetServiceView"] },
   telemetry: TELEMETRY,
   span: "GetServiceView",
 }));
@@ -1121,6 +1171,14 @@ export const getView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetView",
+  iam: {
+    actions: ["resource-explorer-2:GetView"],
+    resources: {
+      "resource-explorer-2:GetView": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:view/${ViewName}/${ViewUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetView",
 }));
@@ -1158,6 +1216,7 @@ export const listIndexes: API.PaginatedOperationMethod<
     items: "Indexes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:ListIndexes"] },
   telemetry: TELEMETRY,
   span: "ListIndexes",
 })) as any;
@@ -1195,6 +1254,7 @@ export const listIndexesForMembers: API.PaginatedOperationMethod<
     items: "Indexes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:ListIndexesForMembers"] },
   telemetry: TELEMETRY,
   span: "ListIndexesForMembers",
 })) as any;
@@ -1234,6 +1294,7 @@ export const listManagedViews: API.PaginatedOperationMethod<
     items: "ManagedViews",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:ListManagedViews"] },
   telemetry: TELEMETRY,
   span: "ListManagedViews",
 })) as any;
@@ -1275,6 +1336,14 @@ export const listResources: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["resource-explorer-2:Search"],
+    resources: {
+      "resource-explorer-2:Search": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:view/${ViewName}/${ViewUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListResources",
 })) as any;
@@ -1312,6 +1381,7 @@ export const listServiceIndexes: API.PaginatedOperationMethod<
     items: "Indexes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:ListServiceIndexes"] },
   telemetry: TELEMETRY,
   span: "ListServiceIndexes",
 })) as any;
@@ -1349,6 +1419,7 @@ export const listServiceViews: API.PaginatedOperationMethod<
     items: "ServiceViews",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:ListServiceViews"] },
   telemetry: TELEMETRY,
   span: "ListServiceViews",
 })) as any;
@@ -1380,6 +1451,7 @@ export const listStreamingAccessForServices: API.PaginatedOperationMethod<
     items: "StreamingAccessForServices",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:ListStreamingAccessForServices"] },
   telemetry: TELEMETRY,
   span: "ListStreamingAccessForServices",
 })) as any;
@@ -1417,6 +1489,7 @@ export const listSupportedResourceTypes: API.PaginatedOperationMethod<
     items: "ResourceTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:ListSupportedResourceTypes"] },
   telemetry: TELEMETRY,
   span: "ListSupportedResourceTypes",
 })) as any;
@@ -1451,6 +1524,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["resource-explorer-2:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1490,6 +1564,7 @@ export const listViews: API.PaginatedOperationMethod<
     items: "Views",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["resource-explorer-2:ListViews"] },
   telemetry: TELEMETRY,
   span: "ListViews",
 })) as any;
@@ -1537,6 +1612,14 @@ export const search: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["resource-explorer-2:Search"],
+    resources: {
+      "resource-explorer-2:Search": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:view/${ViewName}/${ViewUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Search",
 })) as any;
@@ -1571,6 +1654,10 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["resource-explorer-2:TagResource"],
+    conditional: { "resource-explorer-2:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1605,6 +1692,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["resource-explorer-2:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1657,6 +1745,14 @@ export const updateIndexType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexType",
+  iam: {
+    actions: ["resource-explorer-2:UpdateIndexType"],
+    resources: {
+      "resource-explorer-2:UpdateIndexType": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:index/${IndexUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIndexType",
 }));
@@ -1691,6 +1787,14 @@ export const updateView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateView",
+  iam: {
+    actions: ["resource-explorer-2:UpdateView"],
+    resources: {
+      "resource-explorer-2:UpdateView": [
+        "arn:${Partition}:resource-explorer-2:${Region}:${Account}:view/${ViewName}/${ViewUuid}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateView",
 }));

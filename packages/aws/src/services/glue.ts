@@ -978,10 +978,16 @@ export type WorkerType =
   | "Standard"
   | "G.1X"
   | "G.2X"
-  | "G.025X"
   | "G.4X"
   | "G.8X"
+  | "G.025X"
   | "Z.2X"
+  | "G.12X"
+  | "G.16X"
+  | "R.1X"
+  | "R.2X"
+  | "R.4X"
+  | "R.8X"
   | (string & {});
 export type GlueVersionString = string;
 export type PublicKeysList = string[];
@@ -7992,6 +7998,7 @@ export const batchCreatePartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreatePartition",
+  iam: { actions: ["glue:BatchCreatePartition"] },
   telemetry: TELEMETRY,
   span: "BatchCreatePartition",
 }));
@@ -8015,6 +8022,19 @@ export const batchDeleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteConnection",
+  iam: {
+    actions: ["glue:BatchDeleteConnection", "glue:DeleteConnection"],
+    resources: {
+      "glue:BatchDeleteConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+      ],
+      "glue:DeleteConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteConnection",
 }));
@@ -8047,6 +8067,7 @@ export const batchDeletePartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePartition",
+  iam: { actions: ["glue:BatchDeletePartition"] },
   telemetry: TELEMETRY,
   span: "BatchDeletePartition",
 }));
@@ -8093,6 +8114,7 @@ export const batchDeleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteTable",
+  iam: { actions: ["glue:BatchDeleteTable"] },
   telemetry: TELEMETRY,
   span: "BatchDeleteTable",
 }));
@@ -8123,6 +8145,7 @@ export const batchDeleteTableVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteTableVersion",
+  iam: { actions: ["glue:BatchDeleteTableVersion", "glue:DeleteTableVersion"] },
   telemetry: TELEMETRY,
   span: "BatchDeleteTableVersion",
 }));
@@ -8147,6 +8170,17 @@ export const batchGetBlueprints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetBlueprints",
+  iam: {
+    actions: ["glue:BatchGetBlueprints", "glue:GetBlueprint"],
+    resources: {
+      "glue:BatchGetBlueprints": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+      "glue:GetBlueprint": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetBlueprints",
 }));
@@ -8170,6 +8204,14 @@ export const batchGetCrawlers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCrawlers",
+  iam: {
+    actions: ["glue:BatchGetCrawlers"],
+    resources: {
+      "glue:BatchGetCrawlers": [
+        "arn:${Partition}:glue:${Region}:${Account}:crawler/${CrawlerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetCrawlers",
 }));
@@ -8194,6 +8236,7 @@ export const batchGetCustomEntityTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCustomEntityTypes",
+  iam: { actions: ["glue:BatchGetCustomEntityTypes", "glue:GetCustomEntityType"] },
   telemetry: TELEMETRY,
   span: "BatchGetCustomEntityTypes",
 }));
@@ -8218,6 +8261,14 @@ export const batchGetDataQualityResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDataQualityResult",
+  iam: {
+    actions: ["glue:GetDataQualityResult"],
+    resources: {
+      "glue:GetDataQualityResult": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetDataQualityResult",
 }));
@@ -8242,6 +8293,14 @@ export const batchGetDataQualityResultV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDataQualityResultV2",
+  iam: {
+    actions: ["glue:GetDataQualityResult"],
+    resources: {
+      "glue:GetDataQualityResult": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetDataQualityResultV2",
 }));
@@ -8266,6 +8325,14 @@ export const batchGetDataQualityRulesetEvaluationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDataQualityRulesetEvaluationRun",
+  iam: {
+    actions: ["glue:GetDataQualityRulesetEvaluationRun"],
+    resources: {
+      "glue:GetDataQualityRulesetEvaluationRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetDataQualityRulesetEvaluationRun",
 }));
@@ -8299,6 +8366,17 @@ export const batchGetDevEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDevEndpoints",
+  iam: {
+    actions: ["glue:BatchGetDevEndpoints", "glue:GetDevEndpoint"],
+    resources: {
+      "glue:BatchGetDevEndpoints": [
+        "arn:${Partition}:glue:${Region}:${Account}:devEndpoint/${DevEndpointName}",
+      ],
+      "glue:GetDevEndpoint": [
+        "arn:${Partition}:glue:${Region}:${Account}:devEndpoint/${DevEndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetDevEndpoints",
 }));
@@ -8360,6 +8438,13 @@ export const batchGetJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetJobs",
+  iam: {
+    actions: ["glue:BatchGetJobs", "glue:GetJob"],
+    resources: {
+      "glue:BatchGetJobs": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+      "glue:GetJob": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetJobs",
 }));
@@ -8398,6 +8483,7 @@ export const batchGetPartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPartition",
+  iam: { actions: ["glue:BatchGetPartition"] },
   telemetry: TELEMETRY,
   span: "BatchGetPartition",
 }));
@@ -8430,6 +8516,16 @@ export const batchGetTableOptimizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTableOptimizer",
+  iam: {
+    actions: ["glue:BatchGetTableOptimizer"],
+    resources: {
+      "glue:BatchGetTableOptimizer": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetTableOptimizer",
 }));
@@ -8454,6 +8550,15 @@ export const batchGetTriggers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTriggers",
+  iam: {
+    actions: ["glue:BatchGetTriggers", "glue:GetTrigger"],
+    resources: {
+      "glue:BatchGetTriggers": [
+        "arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}",
+      ],
+      "glue:GetTrigger": ["arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetTriggers",
 }));
@@ -8478,6 +8583,15 @@ export const batchGetWorkflows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetWorkflows",
+  iam: {
+    actions: ["glue:BatchGetWorkflows", "glue:GetWorkflow"],
+    resources: {
+      "glue:BatchGetWorkflows": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+      "glue:GetWorkflow": ["arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetWorkflows",
 }));
@@ -8510,6 +8624,15 @@ export const batchPutDataQualityStatisticAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutDataQualityStatisticAnnotation",
+  iam: {
+    actions: ["glue:PutDataQualityStatisticAnnotation"],
+    resources: {
+      "glue:PutDataQualityStatisticAnnotation": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+        "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchPutDataQualityStatisticAnnotation",
 }));
@@ -8534,6 +8657,12 @@ export const batchStopJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStopJobRun",
+  iam: {
+    actions: ["glue:BatchStopJobRun"],
+    resources: {
+      "glue:BatchStopJobRun": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchStopJobRun",
 }));
@@ -8568,6 +8697,7 @@ export const batchUpdatePartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdatePartition",
+  iam: { actions: ["glue:BatchUpdatePartition"] },
   telemetry: TELEMETRY,
   span: "BatchUpdatePartition",
 }));
@@ -8598,6 +8728,14 @@ export const cancelDataQualityRuleRecommendationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDataQualityRuleRecommendationRun",
+  iam: {
+    actions: ["glue:CancelDataQualityRuleRecommendationRun"],
+    resources: {
+      "glue:CancelDataQualityRuleRecommendationRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelDataQualityRuleRecommendationRun",
 }));
@@ -8628,6 +8766,14 @@ export const cancelDataQualityRulesetEvaluationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDataQualityRulesetEvaluationRun",
+  iam: {
+    actions: ["glue:CancelDataQualityRulesetEvaluationRun"],
+    resources: {
+      "glue:CancelDataQualityRulesetEvaluationRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelDataQualityRulesetEvaluationRun",
 }));
@@ -8660,6 +8806,14 @@ export const cancelMLTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMLTaskRun",
+  iam: {
+    actions: ["glue:CancelMLTaskRun"],
+    resources: {
+      "glue:CancelMLTaskRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelMLTaskRun",
 }));
@@ -8694,6 +8848,12 @@ export const cancelStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelStatement",
+  iam: {
+    actions: ["glue:CancelStatement"],
+    resources: {
+      "glue:CancelStatement": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelStatement",
 }));
@@ -8718,6 +8878,7 @@ export const checkSchemaVersionValidity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckSchemaVersionValidity",
+  iam: { actions: ["glue:CheckSchemaVersionValidity"] },
   telemetry: TELEMETRY,
   span: "CheckSchemaVersionValidity",
 }));
@@ -8750,6 +8911,15 @@ export const createBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueprint",
+  iam: {
+    actions: ["glue:CreateBlueprint", "glue:TagResource"],
+    resources: {
+      "glue:CreateBlueprint": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBlueprint",
 }));
@@ -8794,6 +8964,20 @@ export const createCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCatalog",
+  iam: {
+    actions: ["glue:CreateCatalog", "glue:PassConnection", "iam:PassRole", "glue:TagResource"],
+    resources: {
+      "glue:CreateCatalog": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+      ],
+      "glue:PassConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCatalog",
 }));
@@ -8820,6 +9004,7 @@ export const createClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClassifier",
+  iam: { actions: ["glue:CreateClassifier"] },
   telemetry: TELEMETRY,
   span: "CreateClassifier",
 }));
@@ -8856,6 +9041,17 @@ export const createColumnStatisticsTaskSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateColumnStatisticsTaskSettings",
+  iam: {
+    actions: ["glue:CreateColumnStatisticsTaskSettings", "iam:PassRole"],
+    resources: {
+      "glue:CreateColumnStatisticsTaskSettings": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateColumnStatisticsTaskSettings",
 }));
@@ -8890,6 +9086,16 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  iam: {
+    actions: [
+      "glue:CreateConnection",
+      "glue:DescribeConnectionType",
+      "iam:PassRole",
+      "glue:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnection",
 }));
@@ -8926,6 +9132,11 @@ export const createCrawler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCrawler",
+  iam: {
+    actions: ["glue:CreateCrawler", "iam:PassRole", "glue:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCrawler",
 }));
@@ -8964,6 +9175,10 @@ export const createCustomEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomEntityType",
+  iam: {
+    actions: ["glue:CreateCustomEntityType", "glue:TagResource"],
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomEntityType",
 }));
@@ -9006,6 +9221,15 @@ export const createDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatabase",
+  iam: {
+    actions: ["glue:CreateDatabase", "glue:PassConnection", "glue:TagResource"],
+    resources: {
+      "glue:PassConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+      ],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDatabase",
 }));
@@ -9040,6 +9264,10 @@ export const createDataQualityRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataQualityRuleset",
+  iam: {
+    actions: ["glue:CreateDataQualityRuleset", "glue:TagResource"],
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataQualityRuleset",
 }));
@@ -9078,6 +9306,11 @@ export const createDevEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDevEndpoint",
+  iam: {
+    actions: ["glue:CreateDevEndpoint", "iam:PassRole", "glue:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDevEndpoint",
 }));
@@ -9183,6 +9416,7 @@ export const createGlueIdentityCenterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlueIdentityCenterConfiguration",
+  iam: { actions: ["glue:CreateGlueIdentityCenterConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateGlueIdentityCenterConfiguration",
 }));
@@ -9229,6 +9463,18 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
+  iam: {
+    actions: ["glue:CreateIntegration", "glue:TagResource"],
+    resources: {
+      "glue:CreateIntegration": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:integration:${IntegrationId}",
+      ],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIntegration",
 }));
@@ -9267,6 +9513,22 @@ export const createIntegrationResourceProperty: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationResourceProperty",
+  iam: {
+    actions: ["glue:CreateIntegrationResourceProperty", "iam:PassRole", "glue:TagResource"],
+    resources: {
+      "glue:CreateIntegrationResourceProperty": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:integrationresourceproperty/${ResourceType}/${ResourceName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: {
+      "iam:PassRole": "SourceProcessingProperties.RoleArn",
+      "glue:TagResource": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIntegrationResourceProperty",
 }));
@@ -9303,6 +9565,16 @@ export const createIntegrationTableProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationTableProperties",
+  iam: {
+    actions: ["glue:CreateIntegrationTableProperties"],
+    resources: {
+      "glue:CreateIntegrationTableProperties": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIntegrationTableProperties",
 }));
@@ -9341,6 +9613,17 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  iam: {
+    actions: ["glue:CreateJob", "glue:GetUsageProfile", "iam:PassRole", "glue:TagResource"],
+    resources: {
+      "glue:CreateJob": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+      "glue:GetUsageProfile": [
+        "arn:${Partition}:glue:${Region}:${Account}:usageProfile/${UsageProfileId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -9389,6 +9672,11 @@ export const createMLTransform: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMLTransform",
+  iam: {
+    actions: ["glue:CreateMLTransform", "iam:PassRole", "glue:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMLTransform",
 }));
@@ -9425,6 +9713,7 @@ export const createPartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartition",
+  iam: { actions: ["glue:CreatePartition"] },
   telemetry: TELEMETRY,
   span: "CreatePartition",
 }));
@@ -9461,6 +9750,7 @@ export const createPartitionIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartitionIndex",
+  iam: { actions: ["glue:UpdateTable"] },
   telemetry: TELEMETRY,
   span: "CreatePartitionIndex",
 }));
@@ -9495,6 +9785,15 @@ export const createRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistry",
+  iam: {
+    actions: ["glue:CreateRegistry", "glue:TagResource"],
+    resources: {
+      "glue:CreateRegistry": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRegistry",
 }));
@@ -9535,6 +9834,16 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
+  iam: {
+    actions: ["glue:CreateSchema", "glue:TagResource"],
+    resources: {
+      "glue:CreateSchema": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSchema",
 }));
@@ -9559,6 +9868,7 @@ export const createScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScript",
+  iam: { actions: ["glue:CreateScript"] },
   telemetry: TELEMETRY,
   span: "CreateScript",
 }));
@@ -9591,6 +9901,7 @@ export const createSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
+  iam: { actions: ["glue:CreateSecurityConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateSecurityConfiguration",
 }));
@@ -9631,6 +9942,17 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  iam: {
+    actions: ["glue:CreateSession", "glue:GetUsageProfile", "iam:PassRole", "glue:TagResource"],
+    resources: {
+      "glue:CreateSession": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+      "glue:GetUsageProfile": [
+        "arn:${Partition}:glue:${Region}:${Account}:usageProfile/${UsageProfileId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSession",
 }));
@@ -9675,6 +9997,16 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  iam: {
+    actions: ["glue:CreateTable", "glue:PassConnection", "iam:PassRole"],
+    resources: {
+      "glue:PassConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTable",
 }));
@@ -9711,6 +10043,21 @@ export const createTableOptimizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTableOptimizer",
+  iam: {
+    actions: ["glue:CreateTableOptimizer", "glue:PassConnection", "iam:PassRole"],
+    resources: {
+      "glue:CreateTableOptimizer": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+      "glue:PassConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "TableOptimizerConfiguration.roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTableOptimizer",
 }));
@@ -9751,6 +10098,13 @@ export const createTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrigger",
+  iam: {
+    actions: ["glue:CreateTrigger", "glue:TagResource"],
+    resources: {
+      "glue:CreateTrigger": ["arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}"],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrigger",
 }));
@@ -9785,6 +10139,15 @@ export const createUsageProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsageProfile",
+  iam: {
+    actions: ["glue:CreateUsageProfile", "glue:TagResource"],
+    resources: {
+      "glue:CreateUsageProfile": [
+        "arn:${Partition}:glue:${Region}:${Account}:usageProfile/${UsageProfileId}",
+      ],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUsageProfile",
 }));
@@ -9821,6 +10184,7 @@ export const createUserDefinedFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserDefinedFunction",
+  iam: { actions: ["glue:CreateUserDefinedFunction"] },
   telemetry: TELEMETRY,
   span: "CreateUserDefinedFunction",
 }));
@@ -9855,6 +10219,15 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  iam: {
+    actions: ["glue:CreateWorkflow", "glue:TagResource"],
+    resources: {
+      "glue:CreateWorkflow": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflow",
 }));
@@ -9980,6 +10353,14 @@ export const deleteBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBlueprint",
+  iam: {
+    actions: ["glue:DeleteBlueprint"],
+    resources: {
+      "glue:DeleteBlueprint": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBlueprint",
 }));
@@ -10022,6 +10403,7 @@ export const deleteCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCatalog",
+  iam: { actions: ["glue:DeleteCatalog"] },
   telemetry: TELEMETRY,
   span: "DeleteCatalog",
 }));
@@ -10045,6 +10427,7 @@ export const deleteClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClassifier",
+  iam: { actions: ["glue:DeleteClassifier"] },
   telemetry: TELEMETRY,
   span: "DeleteClassifier",
 }));
@@ -10079,6 +10462,7 @@ export const deleteColumnStatisticsForPartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteColumnStatisticsForPartition",
+  iam: { actions: ["glue:UpdatePartition"] },
   telemetry: TELEMETRY,
   span: "DeleteColumnStatisticsForPartition",
 }));
@@ -10113,6 +10497,7 @@ export const deleteColumnStatisticsForTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteColumnStatisticsForTable",
+  iam: { actions: ["glue:UpdateTable"] },
   telemetry: TELEMETRY,
   span: "DeleteColumnStatisticsForTable",
 }));
@@ -10137,6 +10522,16 @@ export const deleteColumnStatisticsTaskSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteColumnStatisticsTaskSettings",
+  iam: {
+    actions: ["glue:DeleteColumnStatisticsTaskSettings"],
+    resources: {
+      "glue:DeleteColumnStatisticsTaskSettings": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteColumnStatisticsTaskSettings",
 }));
@@ -10160,6 +10555,15 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  iam: {
+    actions: ["glue:DeleteConnection"],
+    resources: {
+      "glue:DeleteConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -10196,6 +10600,14 @@ export const deleteConnectionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionType",
+  iam: {
+    actions: ["glue:DeleteConnectionType"],
+    resources: {
+      "glue:DeleteConnectionType": [
+        "arn:${Partition}:glue:${Region}:${Account}:connectionType:${ConnectionTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnectionType",
 }));
@@ -10227,6 +10639,12 @@ export const deleteCrawler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrawler",
+  iam: {
+    actions: ["glue:DeleteCrawler"],
+    resources: {
+      "glue:DeleteCrawler": ["arn:${Partition}:glue:${Region}:${Account}:crawler/${CrawlerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCrawler",
 }));
@@ -10259,6 +10677,7 @@ export const deleteCustomEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomEntityType",
+  iam: { actions: ["glue:DeleteCustomEntityType"] },
   telemetry: TELEMETRY,
   span: "DeleteCustomEntityType",
 }));
@@ -10309,6 +10728,7 @@ export const deleteDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatabase",
+  iam: { actions: ["glue:DeleteDatabase"] },
   telemetry: TELEMETRY,
   span: "DeleteDatabase",
 }));
@@ -10339,6 +10759,14 @@ export const deleteDataQualityRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataQualityRuleset",
+  iam: {
+    actions: ["glue:DeleteDataQualityRuleset"],
+    resources: {
+      "glue:DeleteDataQualityRuleset": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataQualityRuleset",
 }));
@@ -10369,6 +10797,14 @@ export const deleteDevEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDevEndpoint",
+  iam: {
+    actions: ["glue:DeleteDevEndpoint"],
+    resources: {
+      "glue:DeleteDevEndpoint": [
+        "arn:${Partition}:glue:${Region}:${Account}:devEndpoint/${DevEndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDevEndpoint",
 }));
@@ -10507,6 +10943,7 @@ export const deleteGlueIdentityCenterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlueIdentityCenterConfiguration",
+  iam: { actions: ["glue:DeleteGlueIdentityCenterConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteGlueIdentityCenterConfiguration",
 }));
@@ -10551,6 +10988,14 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  iam: {
+    actions: ["glue:DeleteIntegration"],
+    resources: {
+      "glue:DeleteIntegration": [
+        "arn:${Partition}:glue:${Region}:${Account}:integration:${IntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
 }));
@@ -10587,6 +11032,17 @@ export const deleteIntegrationResourceProperty: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegrationResourceProperty",
+  iam: {
+    actions: ["glue:DeleteIntegrationResourceProperty"],
+    resources: {
+      "glue:DeleteIntegrationResourceProperty": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:integrationresourceproperty/${ResourceType}/${ResourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntegrationResourceProperty",
 }));
@@ -10623,6 +11079,16 @@ export const deleteIntegrationTableProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegrationTableProperties",
+  iam: {
+    actions: ["glue:DeleteIntegrationTableProperties"],
+    resources: {
+      "glue:DeleteIntegrationTableProperties": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntegrationTableProperties",
 }));
@@ -10648,6 +11114,10 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
+  iam: {
+    actions: ["glue:DeleteJob"],
+    resources: { "glue:DeleteJob": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJob",
 }));
@@ -10683,6 +11153,14 @@ export const deleteMLTransform: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMLTransform",
+  iam: {
+    actions: ["glue:DeleteMLTransform"],
+    resources: {
+      "glue:DeleteMLTransform": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMLTransform",
 }));
@@ -10713,6 +11191,7 @@ export const deletePartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartition",
+  iam: { actions: ["glue:DeletePartition"] },
   telemetry: TELEMETRY,
   span: "DeletePartition",
 }));
@@ -10747,6 +11226,7 @@ export const deletePartitionIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartitionIndex",
+  iam: { actions: ["glue:UpdateTable"] },
   telemetry: TELEMETRY,
   span: "DeletePartitionIndex",
 }));
@@ -10777,6 +11257,14 @@ export const deleteRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistry",
+  iam: {
+    actions: ["glue:DeleteRegistry"],
+    resources: {
+      "glue:DeleteRegistry": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegistry",
 }));
@@ -10809,6 +11297,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["glue:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -10839,6 +11328,15 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
+  iam: {
+    actions: ["glue:DeleteSchema"],
+    resources: {
+      "glue:DeleteSchema": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSchema",
 }));
@@ -10875,6 +11373,15 @@ export const deleteSchemaVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchemaVersions",
+  iam: {
+    actions: ["glue:DeleteSchemaVersions"],
+    resources: {
+      "glue:DeleteSchemaVersions": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSchemaVersions",
 }));
@@ -10905,6 +11412,7 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
+  iam: { actions: ["glue:DeleteSecurityConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteSecurityConfiguration",
 }));
@@ -10939,6 +11447,12 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
+  iam: {
+    actions: ["glue:DeleteSession"],
+    resources: {
+      "glue:DeleteSession": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSession",
 }));
@@ -10987,6 +11501,7 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  iam: { actions: ["glue:DeleteTable"] },
   telemetry: TELEMETRY,
   span: "DeleteTable",
 }));
@@ -11019,6 +11534,16 @@ export const deleteTableOptimizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableOptimizer",
+  iam: {
+    actions: ["glue:DeleteTableOptimizer"],
+    resources: {
+      "glue:DeleteTableOptimizer": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTableOptimizer",
 }));
@@ -11049,6 +11574,7 @@ export const deleteTableVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableVersion",
+  iam: { actions: ["glue:DeleteTableVersion"] },
   telemetry: TELEMETRY,
   span: "DeleteTableVersion",
 }));
@@ -11080,6 +11606,12 @@ export const deleteTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrigger",
+  iam: {
+    actions: ["glue:DeleteTrigger"],
+    resources: {
+      "glue:DeleteTrigger": ["arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrigger",
 }));
@@ -11110,6 +11642,14 @@ export const deleteUsageProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsageProfile",
+  iam: {
+    actions: ["glue:DeleteUsageProfile"],
+    resources: {
+      "glue:DeleteUsageProfile": [
+        "arn:${Partition}:glue:${Region}:${Account}:usageProfile/${UsageProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUsageProfile",
 }));
@@ -11140,6 +11680,7 @@ export const deleteUserDefinedFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserDefinedFunction",
+  iam: { actions: ["glue:DeleteUserDefinedFunction"] },
   telemetry: TELEMETRY,
   span: "DeleteUserDefinedFunction",
 }));
@@ -11170,6 +11711,14 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  iam: {
+    actions: ["glue:DeleteWorkflow"],
+    resources: {
+      "glue:DeleteWorkflow": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflow",
 }));
@@ -11202,6 +11751,7 @@ export const describeConnectionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionType",
+  iam: { actions: ["glue:DescribeConnectionType"] },
   telemetry: TELEMETRY,
   span: "DescribeConnectionType",
 }));
@@ -11242,6 +11792,7 @@ export const describeEntity: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEntity",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Fields" } as const,
+  iam: { actions: ["glue:DescribeEntity"] },
   telemetry: TELEMETRY,
   span: "DescribeEntity",
 })) as any;
@@ -11282,6 +11833,7 @@ export const describeInboundIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInboundIntegrations",
+  iam: { actions: ["glue:DescribeInboundIntegrations"] },
   telemetry: TELEMETRY,
   span: "DescribeInboundIntegrations",
 }));
@@ -11318,6 +11870,14 @@ export const describeIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIntegrations",
+  iam: {
+    actions: ["glue:DescribeIntegrations"],
+    resources: {
+      "glue:DescribeIntegrations": [
+        "arn:${Partition}:glue:${Region}:${Account}:integration:${IntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIntegrations",
 }));
@@ -11449,6 +12009,14 @@ export const getBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprint",
+  iam: {
+    actions: ["glue:GetBlueprint"],
+    resources: {
+      "glue:GetBlueprint": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBlueprint",
 }));
@@ -11473,6 +12041,14 @@ export const getBlueprintRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprintRun",
+  iam: {
+    actions: ["glue:GetBlueprintRun"],
+    resources: {
+      "glue:GetBlueprintRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBlueprintRun",
 }));
@@ -11509,6 +12085,14 @@ export const getBlueprintRuns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:GetBlueprintRuns"],
+    resources: {
+      "glue:GetBlueprintRuns": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBlueprintRuns",
 })) as any;
@@ -11547,6 +12131,7 @@ export const getCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCatalog",
+  iam: { actions: ["glue:GetCatalog"] },
   telemetry: TELEMETRY,
   span: "GetCatalog",
 }));
@@ -11570,6 +12155,12 @@ export const getCatalogImportStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCatalogImportStatus",
+  iam: {
+    actions: ["glue:GetCatalogImportStatus"],
+    resources: {
+      "glue:GetCatalogImportStatus": ["arn:${Partition}:glue:${Region}:${Account}:catalog"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCatalogImportStatus",
 }));
@@ -11608,6 +12199,7 @@ export const getCatalogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCatalogs",
+  iam: { actions: ["athena:GetCatalogs", "glue:GetCatalogs"] },
   telemetry: TELEMETRY,
   span: "GetCatalogs",
 }));
@@ -11628,6 +12220,7 @@ export const getClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClassifier",
+  iam: { actions: ["glue:GetClassifier"] },
   telemetry: TELEMETRY,
   span: "GetClassifier",
 }));
@@ -11654,6 +12247,7 @@ export const getClassifiers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetClassifiers"] },
   telemetry: TELEMETRY,
   span: "GetClassifiers",
 })) as any;
@@ -11688,6 +12282,7 @@ export const getColumnStatisticsForPartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetColumnStatisticsForPartition",
+  iam: { actions: ["glue:GetPartition"] },
   telemetry: TELEMETRY,
   span: "GetColumnStatisticsForPartition",
 }));
@@ -11722,6 +12317,7 @@ export const getColumnStatisticsForTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetColumnStatisticsForTable",
+  iam: { actions: ["glue:GetTable"] },
   telemetry: TELEMETRY,
   span: "GetColumnStatisticsForTable",
 }));
@@ -11746,6 +12342,7 @@ export const getColumnStatisticsTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetColumnStatisticsTaskRun",
+  iam: { actions: ["glue:GetColumnStatisticsTaskRun"] },
   telemetry: TELEMETRY,
   span: "GetColumnStatisticsTaskRun",
 }));
@@ -11772,6 +12369,7 @@ export const getColumnStatisticsTaskRuns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetColumnStatisticsTaskRuns"] },
   telemetry: TELEMETRY,
   span: "GetColumnStatisticsTaskRuns",
 })) as any;
@@ -11796,6 +12394,7 @@ export const getColumnStatisticsTaskSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetColumnStatisticsTaskSettings",
+  iam: { actions: ["glue:GetColumnStatisticsTaskSettings"] },
   telemetry: TELEMETRY,
   span: "GetColumnStatisticsTaskSettings",
 }));
@@ -11826,6 +12425,15 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  iam: {
+    actions: ["glue:GetConnection"],
+    resources: {
+      "glue:GetConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnection",
 }));
@@ -11862,6 +12470,15 @@ export const getConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:GetConnections"],
+    resources: {
+      "glue:GetConnections": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnections",
 })) as any;
@@ -11882,6 +12499,12 @@ export const getCrawler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCrawler",
+  iam: {
+    actions: ["glue:GetCrawler"],
+    resources: {
+      "glue:GetCrawler": ["arn:${Partition}:glue:${Region}:${Account}:crawler/${CrawlerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCrawler",
 }));
@@ -11908,6 +12531,7 @@ export const getCrawlerMetrics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetCrawlerMetrics"] },
   telemetry: TELEMETRY,
   span: "GetCrawlerMetrics",
 })) as any;
@@ -11935,6 +12559,7 @@ export const getCrawlers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetCrawlers"] },
   telemetry: TELEMETRY,
   span: "GetCrawlers",
 })) as any;
@@ -11967,6 +12592,7 @@ export const getCustomEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomEntityType",
+  iam: { actions: ["glue:GetCustomEntityType"] },
   telemetry: TELEMETRY,
   span: "GetCustomEntityType",
 }));
@@ -11999,6 +12625,12 @@ export const getDashboardUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboardUrl",
+  iam: {
+    actions: ["glue:GetDashboardUrl"],
+    resources: {
+      "glue:GetDashboardUrl": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDashboardUrl",
 }));
@@ -12035,6 +12667,7 @@ export const getDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatabase",
+  iam: { actions: ["glue:GetDatabase"] },
   telemetry: TELEMETRY,
   span: "GetDatabase",
 }));
@@ -12077,6 +12710,7 @@ export const getDatabases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetDatabases"] },
   telemetry: TELEMETRY,
   span: "GetDatabases",
 })) as any;
@@ -12101,6 +12735,14 @@ export const getDataCatalogEncryptionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataCatalogEncryptionSettings",
+  iam: {
+    actions: ["glue:GetDataCatalogEncryptionSettings"],
+    resources: {
+      "glue:GetDataCatalogEncryptionSettings": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataCatalogEncryptionSettings",
 }));
@@ -12158,6 +12800,7 @@ export const getDataflowGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataflowGraph",
+  iam: { actions: ["glue:GetDataflowGraph"] },
   telemetry: TELEMETRY,
   span: "GetDataflowGraph",
 }));
@@ -12188,6 +12831,15 @@ export const getDataQualityModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataQualityModel",
+  iam: {
+    actions: ["glue:GetDataQualityModel"],
+    resources: {
+      "glue:GetDataQualityModel": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+        "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataQualityModel",
 }));
@@ -12218,6 +12870,15 @@ export const getDataQualityModelResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataQualityModelResult",
+  iam: {
+    actions: ["glue:GetDataQualityModelResult"],
+    resources: {
+      "glue:GetDataQualityModelResult": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+        "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataQualityModelResult",
 }));
@@ -12248,6 +12909,14 @@ export const getDataQualityResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataQualityResult",
+  iam: {
+    actions: ["glue:GetDataQualityResult"],
+    resources: {
+      "glue:GetDataQualityResult": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataQualityResult",
 }));
@@ -12278,6 +12947,14 @@ export const getDataQualityResultV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataQualityResultV2",
+  iam: {
+    actions: ["glue:GetDataQualityResult"],
+    resources: {
+      "glue:GetDataQualityResult": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataQualityResultV2",
 }));
@@ -12308,6 +12985,14 @@ export const getDataQualityRuleRecommendationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataQualityRuleRecommendationRun",
+  iam: {
+    actions: ["glue:GetDataQualityRuleRecommendationRun"],
+    resources: {
+      "glue:GetDataQualityRuleRecommendationRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataQualityRuleRecommendationRun",
 }));
@@ -12338,6 +13023,14 @@ export const getDataQualityRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataQualityRuleset",
+  iam: {
+    actions: ["glue:GetDataQualityRuleset"],
+    resources: {
+      "glue:GetDataQualityRuleset": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataQualityRuleset",
 }));
@@ -12368,6 +13061,14 @@ export const getDataQualityRulesetEvaluationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataQualityRulesetEvaluationRun",
+  iam: {
+    actions: ["glue:GetDataQualityRulesetEvaluationRun"],
+    resources: {
+      "glue:GetDataQualityRulesetEvaluationRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataQualityRulesetEvaluationRun",
 }));
@@ -12402,6 +13103,14 @@ export const getDevEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevEndpoint",
+  iam: {
+    actions: ["glue:GetDevEndpoint"],
+    resources: {
+      "glue:GetDevEndpoint": [
+        "arn:${Partition}:glue:${Region}:${Account}:devEndpoint/${DevEndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDevEndpoint",
 }));
@@ -12442,6 +13151,7 @@ export const getDevEndpoints: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetDevEndpoints"] },
   telemetry: TELEMETRY,
   span: "GetDevEndpoints",
 })) as any;
@@ -12482,6 +13192,7 @@ export const getEntityRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEntityRecords",
+  iam: { actions: ["glue:GetEntityRecords"] },
   telemetry: TELEMETRY,
   span: "GetEntityRecords",
 }));
@@ -12609,6 +13320,7 @@ export const getGlueIdentityCenterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlueIdentityCenterConfiguration",
+  iam: { actions: ["glue:GetGlueIdentityCenterConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetGlueIdentityCenterConfiguration",
 }));
@@ -12645,6 +13357,17 @@ export const getIntegrationResourceProperty: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegrationResourceProperty",
+  iam: {
+    actions: ["glue:GetIntegrationResourceProperty"],
+    resources: {
+      "glue:GetIntegrationResourceProperty": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:integrationresourceproperty/${ResourceType}/${ResourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIntegrationResourceProperty",
 }));
@@ -12681,6 +13404,16 @@ export const getIntegrationTableProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegrationTableProperties",
+  iam: {
+    actions: ["glue:GetIntegrationTableProperties"],
+    resources: {
+      "glue:GetIntegrationTableProperties": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIntegrationTableProperties",
 }));
@@ -12711,6 +13444,14 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  iam: {
+    actions: ["glue:GetJob", "iam:PassRole"],
+    resources: {
+      "glue:GetJob": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -12751,6 +13492,7 @@ export const getJobBookmark: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobBookmark",
+  iam: { actions: ["glue:GetJobBookmark"] },
   telemetry: TELEMETRY,
   span: "GetJobBookmark",
 }));
@@ -12781,6 +13523,10 @@ export const getJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobRun",
+  iam: {
+    actions: ["glue:GetJobRun"],
+    resources: { "glue:GetJobRun": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetJobRun",
 }));
@@ -12820,6 +13566,10 @@ export const getJobRuns: API.PaginatedOperationMethod<
     items: "JobRuns",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:GetJobRuns"],
+    resources: { "glue:GetJobRuns": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetJobRuns",
 })) as any;
@@ -12857,6 +13607,11 @@ export const getJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:GetJobs", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "GetJobs",
 })) as any;
@@ -12887,6 +13642,7 @@ export const getMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMapping",
+  iam: { actions: ["glue:GetMapping"] },
   telemetry: TELEMETRY,
   span: "GetMapping",
 }));
@@ -12951,6 +13707,14 @@ export const getMLTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLTaskRun",
+  iam: {
+    actions: ["glue:GetMLTaskRun"],
+    resources: {
+      "glue:GetMLTaskRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMLTaskRun",
 }));
@@ -12993,6 +13757,14 @@ export const getMLTaskRuns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:GetMLTaskRuns"],
+    resources: {
+      "glue:GetMLTaskRuns": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMLTaskRuns",
 })) as any;
@@ -13027,6 +13799,14 @@ export const getMLTransform: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMLTransform",
+  iam: {
+    actions: ["glue:GetMLTransform"],
+    resources: {
+      "glue:GetMLTransform": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMLTransform",
 }));
@@ -13067,6 +13847,14 @@ export const getMLTransforms: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:GetMLTransforms"],
+    resources: {
+      "glue:GetMLTransforms": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMLTransforms",
 })) as any;
@@ -13103,6 +13891,7 @@ export const getPartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPartition",
+  iam: { actions: ["glue:GetPartition"] },
   telemetry: TELEMETRY,
   span: "GetPartition",
 }));
@@ -13141,6 +13930,7 @@ export const getPartitionIndexes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PartitionIndexDescriptorList",
   } as const,
+  iam: { actions: ["glue:GetPartitionIndexes"] },
   telemetry: TELEMETRY,
   span: "GetPartitionIndexes",
 })) as any;
@@ -13187,6 +13977,7 @@ export const getPartitions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetPartitions"] },
   telemetry: TELEMETRY,
   span: "GetPartitions",
 })) as any;
@@ -13211,6 +14002,7 @@ export const getPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlan",
+  iam: { actions: ["glue:GetPlan"] },
   telemetry: TELEMETRY,
   span: "GetPlan",
 }));
@@ -13241,6 +14033,12 @@ export const getRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistry",
+  iam: {
+    actions: ["glue:GetRegistry"],
+    resources: {
+      "glue:GetRegistry": ["arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRegistry",
 }));
@@ -13284,6 +14082,12 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     items: "GetResourcePoliciesResponseList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:GetResourcePolicies"],
+    resources: {
+      "glue:GetResourcePolicies": ["arn:${Partition}:glue:${Region}:${Account}:catalog"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicies",
 })) as any;
@@ -13314,6 +14118,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["glue:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -13344,6 +14149,15 @@ export const getSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
+  iam: {
+    actions: ["glue:GetSchema"],
+    resources: {
+      "glue:GetSchema": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSchema",
 }));
@@ -13374,6 +14188,15 @@ export const getSchemaByDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaByDefinition",
+  iam: {
+    actions: ["glue:GetSchemaByDefinition"],
+    resources: {
+      "glue:GetSchemaByDefinition": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSchemaByDefinition",
 }));
@@ -13404,6 +14227,7 @@ export const getSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaVersion",
+  iam: { actions: ["glue:GetSchemaVersion"] },
   telemetry: TELEMETRY,
   span: "GetSchemaVersion",
 }));
@@ -13436,6 +14260,15 @@ export const getSchemaVersionsDiff: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaVersionsDiff",
+  iam: {
+    actions: ["glue:GetSchemaVersionsDiff"],
+    resources: {
+      "glue:GetSchemaVersionsDiff": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSchemaVersionsDiff",
 }));
@@ -13466,6 +14299,7 @@ export const getSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityConfiguration",
+  iam: { actions: ["glue:GetSecurityConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetSecurityConfiguration",
 }));
@@ -13503,6 +14337,7 @@ export const getSecurityConfigurations: API.PaginatedOperationMethod<
     items: "SecurityConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetSecurityConfigurations"] },
   telemetry: TELEMETRY,
   span: "GetSecurityConfigurations",
 })) as any;
@@ -13535,6 +14370,12 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  iam: {
+    actions: ["glue:GetSession"],
+    resources: {
+      "glue:GetSession": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -13571,6 +14412,14 @@ export const getSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
+  iam: {
+    actions: ["glue:GetSessionEndpoint"],
+    resources: {
+      "glue:GetSessionEndpoint": [
+        "arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSessionEndpoint",
 }));
@@ -13605,6 +14454,12 @@ export const getStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStatement",
+  iam: {
+    actions: ["glue:GetStatement"],
+    resources: {
+      "glue:GetStatement": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStatement",
 }));
@@ -13637,6 +14492,12 @@ export const getSystemLogsForJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystemLogsForJobRun",
+  iam: {
+    actions: ["glue:GetDatabases", "glue:GetSystemLogsForJobRun", "glue:SearchTables"],
+    resources: {
+      "glue:GetSystemLogsForJobRun": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSystemLogsForJobRun",
 }));
@@ -13667,6 +14528,14 @@ export const getSystemLogsForSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystemLogsForSession",
+  iam: {
+    actions: ["glue:GetDatabases", "glue:GetSystemLogsForSession", "glue:SearchTables"],
+    resources: {
+      "glue:GetSystemLogsForSession": [
+        "arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSystemLogsForSession",
 }));
@@ -13706,6 +14575,7 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
+  iam: { actions: ["glue:GetTable"] },
   telemetry: TELEMETRY,
   span: "GetTable",
 }));
@@ -13738,6 +14608,16 @@ export const getTableOptimizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableOptimizer",
+  iam: {
+    actions: ["glue:GetTableOptimizer"],
+    resources: {
+      "glue:GetTableOptimizer": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTableOptimizer",
 }));
@@ -13781,6 +14661,7 @@ export const getTables: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetTables"] },
   telemetry: TELEMETRY,
   span: "GetTables",
 })) as any;
@@ -13813,6 +14694,7 @@ export const getTableVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableVersion",
+  iam: { actions: ["glue:GetTableVersion"] },
   telemetry: TELEMETRY,
   span: "GetTableVersion",
 }));
@@ -13852,6 +14734,7 @@ export const getTableVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetTableVersions"] },
   telemetry: TELEMETRY,
   span: "GetTableVersions",
 })) as any;
@@ -13882,6 +14765,7 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
+  iam: { actions: ["glue:GetTags"] },
   telemetry: TELEMETRY,
   span: "GetTags",
 }));
@@ -13912,6 +14796,12 @@ export const getTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrigger",
+  iam: {
+    actions: ["glue:GetTrigger"],
+    resources: {
+      "glue:GetTrigger": ["arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrigger",
 }));
@@ -13949,6 +14839,7 @@ export const getTriggers: API.PaginatedOperationMethod<
     items: "Triggers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetTriggers"] },
   telemetry: TELEMETRY,
   span: "GetTriggers",
 })) as any;
@@ -14109,6 +15000,14 @@ export const getUsageProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsageProfile",
+  iam: {
+    actions: ["glue:GetUsageProfile"],
+    resources: {
+      "glue:GetUsageProfile": [
+        "arn:${Partition}:glue:${Region}:${Account}:usageProfile/${UsageProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUsageProfile",
 }));
@@ -14141,6 +15040,7 @@ export const getUserDefinedFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserDefinedFunction",
+  iam: { actions: ["glue:GetUserDefinedFunction"] },
   telemetry: TELEMETRY,
   span: "GetUserDefinedFunction",
 }));
@@ -14179,6 +15079,7 @@ export const getUserDefinedFunctions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:GetUserDefinedFunctions"] },
   telemetry: TELEMETRY,
   span: "GetUserDefinedFunctions",
 })) as any;
@@ -14209,6 +15110,12 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  iam: {
+    actions: ["glue:GetWorkflow"],
+    resources: {
+      "glue:GetWorkflow": ["arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflow",
 }));
@@ -14239,6 +15146,14 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
+  iam: {
+    actions: ["glue:GetWorkflowRun"],
+    resources: {
+      "glue:GetWorkflowRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowRun",
 }));
@@ -14269,6 +15184,14 @@ export const getWorkflowRunProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRunProperties",
+  iam: {
+    actions: ["glue:GetWorkflowRunProperties"],
+    resources: {
+      "glue:GetWorkflowRunProperties": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowRunProperties",
 }));
@@ -14306,6 +15229,14 @@ export const getWorkflowRuns: API.PaginatedOperationMethod<
     items: "Runs",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:GetWorkflowRuns"],
+    resources: {
+      "glue:GetWorkflowRuns": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowRuns",
 })) as any;
@@ -14329,6 +15260,12 @@ export const importCatalogToGlue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCatalogToGlue",
+  iam: {
+    actions: ["glue:ImportCatalogToGlue"],
+    resources: {
+      "glue:ImportCatalogToGlue": ["arn:${Partition}:glue:${Region}:${Account}:catalog"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportCatalogToGlue",
 }));
@@ -14397,6 +15334,7 @@ export const listBlueprints: API.PaginatedOperationMethod<
     items: "Blueprints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListBlueprints"] },
   telemetry: TELEMETRY,
   span: "ListBlueprints",
 })) as any;
@@ -14423,6 +15361,7 @@ export const listColumnStatisticsTaskRuns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListColumnStatisticsTaskRuns"] },
   telemetry: TELEMETRY,
   span: "ListColumnStatisticsTaskRuns",
 })) as any;
@@ -14455,6 +15394,7 @@ export const listConnectionTypes: API.PaginatedOperationMethod<
     items: "ConnectionTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListConnectionTypes"] },
   telemetry: TELEMETRY,
   span: "ListConnectionTypes",
 })) as any;
@@ -14487,6 +15427,7 @@ export const listCrawlers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListCrawlers"] },
   telemetry: TELEMETRY,
   span: "ListCrawlers",
 })) as any;
@@ -14521,6 +15462,12 @@ export const listCrawls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrawls",
+  iam: {
+    actions: ["glue:ListCrawls"],
+    resources: {
+      "glue:ListCrawls": ["arn:${Partition}:glue:${Region}:${Account}:crawler/${CrawlerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCrawls",
 }));
@@ -14551,6 +15498,7 @@ export const listCustomEntityTypes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListCustomEntityTypes"] },
   telemetry: TELEMETRY,
   span: "ListCustomEntityTypes",
 })) as any;
@@ -14581,6 +15529,14 @@ export const listDataQualityResults: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:ListDataQualityResults"],
+    resources: {
+      "glue:ListDataQualityResults": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataQualityResults",
 })) as any;
@@ -14612,6 +15568,14 @@ export const listDataQualityResultsV2: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:ListDataQualityResults"],
+    resources: {
+      "glue:ListDataQualityResults": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataQualityResultsV2",
 })) as any;
@@ -14642,6 +15606,14 @@ export const listDataQualityRuleRecommendationRuns: API.PaginatedOperationMethod
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:ListDataQualityRuleRecommendationRuns"],
+    resources: {
+      "glue:ListDataQualityRuleRecommendationRuns": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataQualityRuleRecommendationRuns",
 })) as any;
@@ -14672,6 +15644,14 @@ export const listDataQualityRulesetEvaluationRuns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:ListDataQualityRulesetEvaluationRuns"],
+    resources: {
+      "glue:ListDataQualityRulesetEvaluationRuns": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataQualityRulesetEvaluationRuns",
 })) as any;
@@ -14708,6 +15688,14 @@ export const listDataQualityRulesets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:ListDataQualityRulesets"],
+    resources: {
+      "glue:ListDataQualityRulesets": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataQualityRulesets",
 })) as any;
@@ -14731,6 +15719,14 @@ export const listDataQualityStatisticAnnotations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataQualityStatisticAnnotations",
+  iam: {
+    actions: ["glue:GetDataQualityResult"],
+    resources: {
+      "glue:GetDataQualityResult": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataQualityStatisticAnnotations",
 }));
@@ -14755,6 +15751,14 @@ export const listDataQualityStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataQualityStatistics",
+  iam: {
+    actions: ["glue:GetDataQualityResult"],
+    resources: {
+      "glue:GetDataQualityResult": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataQualityStatistics",
 }));
@@ -14797,6 +15801,7 @@ export const listDevEndpoints: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListDevEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListDevEndpoints",
 })) as any;
@@ -14835,6 +15840,7 @@ export const listEntities: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEntities",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Entities" } as const,
+  iam: { actions: ["glue:ListEntities"] },
   telemetry: TELEMETRY,
   span: "ListEntities",
 })) as any;
@@ -14982,6 +15988,17 @@ export const listIntegrationResourceProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIntegrationResourceProperties",
+  iam: {
+    actions: ["glue:ListIntegrationResourceProperties"],
+    resources: {
+      "glue:ListIntegrationResourceProperties": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:integrationresourceproperty/${ResourceType}/${ResourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIntegrationResourceProperties",
 }));
@@ -15101,6 +16118,7 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "JobNames",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -15171,6 +16189,14 @@ export const listMLTransforms: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:ListMLTransforms"],
+    resources: {
+      "glue:ListMLTransforms": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMLTransforms",
 })) as any;
@@ -15202,6 +16228,7 @@ export const listRegistries: API.PaginatedOperationMethod<
     items: "Registries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListRegistries"] },
   telemetry: TELEMETRY,
   span: "ListRegistries",
 })) as any;
@@ -15241,6 +16268,7 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListSchemas"] },
   telemetry: TELEMETRY,
   span: "ListSchemas",
 })) as any;
@@ -15278,6 +16306,15 @@ export const listSchemaVersions: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:ListSchemaVersions"],
+    resources: {
+      "glue:ListSchemaVersions": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSchemaVersions",
 })) as any;
@@ -15314,6 +16351,7 @@ export const listSessions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListSessions"] },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -15348,6 +16386,12 @@ export const listStatements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStatements",
+  iam: {
+    actions: ["glue:ListStatements"],
+    resources: {
+      "glue:ListStatements": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStatements",
 }));
@@ -15389,6 +16433,16 @@ export const listTableOptimizerRuns: API.PaginatedOperationMethod<
     items: "TableOptimizerRuns",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["glue:ListTableOptimizerRuns"],
+    resources: {
+      "glue:ListTableOptimizerRuns": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTableOptimizerRuns",
 })) as any;
@@ -15430,6 +16484,7 @@ export const listTriggers: API.PaginatedOperationMethod<
     items: "TriggerNames",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListTriggers"] },
   telemetry: TELEMETRY,
   span: "ListTriggers",
 })) as any;
@@ -15467,6 +16522,7 @@ export const listUsageProfiles: API.PaginatedOperationMethod<
     items: "Profiles",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListUsageProfiles"] },
   telemetry: TELEMETRY,
   span: "ListUsageProfiles",
 })) as any;
@@ -15498,6 +16554,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "Workflows",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:ListWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListWorkflows",
 })) as any;
@@ -15542,6 +16599,14 @@ export const modifyIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIntegration",
+  iam: {
+    actions: ["glue:ModifyIntegration"],
+    resources: {
+      "glue:ModifyIntegration": [
+        "arn:${Partition}:glue:${Region}:${Account}:integration:${IntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyIntegration",
 }));
@@ -15576,6 +16641,14 @@ export const publishDataQualityResultV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishDataQualityResultV2",
+  iam: {
+    actions: ["glue:PublishDataQuality"],
+    resources: {
+      "glue:PublishDataQuality": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PublishDataQualityResultV2",
 }));
@@ -15706,6 +16779,16 @@ export const putDataCatalogEncryptionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataCatalogEncryptionSettings",
+  iam: {
+    actions: ["iam:PassRole", "glue:PutDataCatalogEncryptionSettings"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:PutDataCatalogEncryptionSettings": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "PutDataCatalogEncryptionSettings",
 }));
@@ -15765,6 +16848,15 @@ export const putDataQualityProfileAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataQualityProfileAnnotation",
+  iam: {
+    actions: ["glue:PutDataQualityProfileAnnotation"],
+    resources: {
+      "glue:PutDataQualityProfileAnnotation": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+        "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDataQualityProfileAnnotation",
 }));
@@ -15829,6 +16921,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["glue:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -15861,6 +16954,7 @@ export const putSchemaVersionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSchemaVersionMetadata",
+  iam: { actions: ["glue:PutSchemaVersionMetadata"] },
   telemetry: TELEMETRY,
   span: "PutSchemaVersionMetadata",
 }));
@@ -15897,6 +16991,14 @@ export const putWorkflowRunProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWorkflowRunProperties",
+  iam: {
+    actions: ["glue:PutWorkflowRunProperties"],
+    resources: {
+      "glue:PutWorkflowRunProperties": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutWorkflowRunProperties",
 }));
@@ -15921,6 +17023,7 @@ export const querySchemaVersionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "QuerySchemaVersionMetadata",
+  iam: { actions: ["glue:QuerySchemaVersionMetadata"] },
   telemetry: TELEMETRY,
   span: "QuerySchemaVersionMetadata",
 }));
@@ -15959,6 +17062,15 @@ export const registerConnectionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterConnectionType",
+  iam: {
+    actions: ["glue:RegisterConnectionType", "glue:TagResource"],
+    resources: {
+      "glue:RegisterConnectionType": [
+        "arn:${Partition}:glue:${Region}:${Account}:connectionType:${ConnectionTypeName}",
+      ],
+    },
+    conditional: { "glue:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterConnectionType",
 }));
@@ -15997,6 +17109,15 @@ export const registerSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSchemaVersion",
+  iam: {
+    actions: ["glue:RegisterSchemaVersion"],
+    resources: {
+      "glue:RegisterSchemaVersion": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterSchemaVersion",
 }));
@@ -16021,6 +17142,7 @@ export const removeSchemaVersionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveSchemaVersionMetadata",
+  iam: { actions: ["glue:RemoveSchemaVersionMetadata"] },
   telemetry: TELEMETRY,
   span: "RemoveSchemaVersionMetadata",
 }));
@@ -16059,6 +17181,7 @@ export const resetJobBookmark: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetJobBookmark",
+  iam: { actions: ["glue:ResetJobBookmark"] },
   telemetry: TELEMETRY,
   span: "ResetJobBookmark",
 }));
@@ -16093,6 +17216,14 @@ export const resumeWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeWorkflowRun",
+  iam: {
+    actions: ["glue:ResumeWorkflowRun"],
+    resources: {
+      "glue:ResumeWorkflowRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResumeWorkflowRun",
 }));
@@ -16135,6 +17266,12 @@ export const runStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunStatement",
+  iam: {
+    actions: ["glue:RunStatement"],
+    resources: {
+      "glue:RunStatement": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RunStatement",
 }));
@@ -16204,6 +17341,7 @@ export const searchTables: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["glue:SearchTables"] },
   telemetry: TELEMETRY,
   span: "SearchTables",
 })) as any;
@@ -16238,6 +17376,15 @@ export const startBlueprintRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBlueprintRun",
+  iam: {
+    actions: ["iam:PassRole", "glue:StartBlueprintRun"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:StartBlueprintRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartBlueprintRun",
 }));
@@ -16272,6 +17419,17 @@ export const startColumnStatisticsTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartColumnStatisticsTaskRun",
+  iam: {
+    actions: ["iam:PassRole", "glue:StartColumnStatisticsTaskRun"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:StartColumnStatisticsTaskRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartColumnStatisticsTaskRun",
 }));
@@ -16302,6 +17460,16 @@ export const startColumnStatisticsTaskRunSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartColumnStatisticsTaskRunSchedule",
+  iam: {
+    actions: ["glue:StartColumnStatisticsTaskRunSchedule"],
+    resources: {
+      "glue:StartColumnStatisticsTaskRunSchedule": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartColumnStatisticsTaskRunSchedule",
 }));
@@ -16328,6 +17496,12 @@ export const startCrawler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCrawler",
+  iam: {
+    actions: ["glue:StartCrawler"],
+    resources: {
+      "glue:StartCrawler": ["arn:${Partition}:glue:${Region}:${Account}:crawler/${CrawlerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartCrawler",
 }));
@@ -16362,6 +17536,7 @@ export const startCrawlerSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCrawlerSchedule",
+  iam: { actions: ["glue:StartCrawlerSchedule"] },
   telemetry: TELEMETRY,
   span: "StartCrawlerSchedule",
 }));
@@ -16394,6 +17569,15 @@ export const startDataQualityRuleRecommendationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataQualityRuleRecommendationRun",
+  iam: {
+    actions: ["iam:PassRole", "glue:StartDataQualityRuleRecommendationRun"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:StartDataQualityRuleRecommendationRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDataQualityRuleRecommendationRun",
 }));
@@ -16426,6 +17610,15 @@ export const startDataQualityRulesetEvaluationRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataQualityRulesetEvaluationRun",
+  iam: {
+    actions: ["iam:PassRole", "glue:StartDataQualityRulesetEvaluationRun"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:StartDataQualityRulesetEvaluationRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDataQualityRulesetEvaluationRun",
 }));
@@ -16464,6 +17657,14 @@ export const startExportLabelsTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportLabelsTaskRun",
+  iam: {
+    actions: ["glue:StartExportLabelsTaskRun"],
+    resources: {
+      "glue:StartExportLabelsTaskRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartExportLabelsTaskRun",
 }));
@@ -16520,6 +17721,14 @@ export const startImportLabelsTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportLabelsTaskRun",
+  iam: {
+    actions: ["glue:StartImportLabelsTaskRun"],
+    resources: {
+      "glue:StartImportLabelsTaskRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartImportLabelsTaskRun",
 }));
@@ -16556,6 +17765,12 @@ export const startJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
+  iam: {
+    actions: ["glue:StartJobRun"],
+    resources: {
+      "glue:StartJobRun": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartJobRun",
 }));
@@ -16631,6 +17846,14 @@ export const startMLEvaluationTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLEvaluationTaskRun",
+  iam: {
+    actions: ["glue:StartMLEvaluationTaskRun"],
+    resources: {
+      "glue:StartMLEvaluationTaskRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMLEvaluationTaskRun",
 }));
@@ -16679,6 +17902,14 @@ export const startMLLabelingSetGenerationTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMLLabelingSetGenerationTaskRun",
+  iam: {
+    actions: ["glue:StartMLLabelingSetGenerationTaskRun"],
+    resources: {
+      "glue:StartMLLabelingSetGenerationTaskRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMLLabelingSetGenerationTaskRun",
 }));
@@ -16715,6 +17946,12 @@ export const startTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTrigger",
+  iam: {
+    actions: ["glue:StartTrigger"],
+    resources: {
+      "glue:StartTrigger": ["arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartTrigger",
 }));
@@ -16749,6 +17986,14 @@ export const startWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
+  iam: {
+    actions: ["glue:StartWorkflowRun"],
+    resources: {
+      "glue:StartWorkflowRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartWorkflowRun",
 }));
@@ -16779,6 +18024,16 @@ export const stopColumnStatisticsTaskRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopColumnStatisticsTaskRun",
+  iam: {
+    actions: ["glue:StopColumnStatisticsTaskRun"],
+    resources: {
+      "glue:StopColumnStatisticsTaskRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopColumnStatisticsTaskRun",
 }));
@@ -16803,6 +18058,16 @@ export const stopColumnStatisticsTaskRunSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopColumnStatisticsTaskRunSchedule",
+  iam: {
+    actions: ["glue:StopColumnStatisticsTaskRunSchedule"],
+    resources: {
+      "glue:StopColumnStatisticsTaskRunSchedule": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopColumnStatisticsTaskRunSchedule",
 }));
@@ -16833,6 +18098,12 @@ export const stopCrawler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCrawler",
+  iam: {
+    actions: ["glue:StopCrawler"],
+    resources: {
+      "glue:StopCrawler": ["arn:${Partition}:glue:${Region}:${Account}:crawler/${CrawlerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopCrawler",
 }));
@@ -16865,6 +18136,7 @@ export const stopCrawlerSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCrawlerSchedule",
+  iam: { actions: ["glue:StopCrawlerSchedule"] },
   telemetry: TELEMETRY,
   span: "StopCrawlerSchedule",
 }));
@@ -16931,6 +18203,12 @@ export const stopSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSession",
+  iam: {
+    actions: ["glue:StopSession"],
+    resources: {
+      "glue:StopSession": ["arn:${Partition}:glue:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopSession",
 }));
@@ -16963,6 +18241,12 @@ export const stopTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrigger",
+  iam: {
+    actions: ["glue:StopTrigger"],
+    resources: {
+      "glue:StopTrigger": ["arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopTrigger",
 }));
@@ -16995,6 +18279,14 @@ export const stopWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkflowRun",
+  iam: {
+    actions: ["glue:StopWorkflowRun"],
+    resources: {
+      "glue:StopWorkflowRun": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopWorkflowRun",
 }));
@@ -17027,6 +18319,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["glue:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -17071,6 +18364,11 @@ export const testConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnection",
+  iam: {
+    actions: ["iam:PassRole", "glue:TestConnection"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "TestConnection",
 }));
@@ -17101,6 +18399,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["glue:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -17169,6 +18468,14 @@ export const updateBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBlueprint",
+  iam: {
+    actions: ["glue:UpdateBlueprint"],
+    resources: {
+      "glue:UpdateBlueprint": [
+        "arn:${Partition}:glue:${Region}:${Account}:blueprint/${BlueprintName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBlueprint",
 }));
@@ -17207,6 +18514,11 @@ export const updateCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCatalog",
+  iam: {
+    actions: ["iam:PassRole", "glue:UpdateCatalog"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCatalog",
 }));
@@ -17239,6 +18551,7 @@ export const updateClassifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClassifier",
+  iam: { actions: ["glue:UpdateClassifier"] },
   telemetry: TELEMETRY,
   span: "UpdateClassifier",
 }));
@@ -17273,6 +18586,7 @@ export const updateColumnStatisticsForPartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateColumnStatisticsForPartition",
+  iam: { actions: ["glue:UpdatePartition"] },
   telemetry: TELEMETRY,
   span: "UpdateColumnStatisticsForPartition",
 }));
@@ -17307,6 +18621,7 @@ export const updateColumnStatisticsForTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateColumnStatisticsForTable",
+  iam: { actions: ["glue:UpdateTable"] },
   telemetry: TELEMETRY,
   span: "UpdateColumnStatisticsForTable",
 }));
@@ -17339,6 +18654,18 @@ export const updateColumnStatisticsTaskSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateColumnStatisticsTaskSettings",
+  iam: {
+    actions: ["iam:PassRole", "glue:UpdateColumnStatisticsTaskSettings"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:UpdateColumnStatisticsTaskSettings": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Role" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateColumnStatisticsTaskSettings",
 }));
@@ -17369,6 +18696,11 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  iam: {
+    actions: ["glue:DescribeConnectionType", "iam:PassRole", "glue:UpdateConnection"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnection",
 }));
@@ -17407,6 +18739,14 @@ export const updateCrawler: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrawler",
+  iam: {
+    actions: ["iam:PassRole", "glue:UpdateCrawler"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:UpdateCrawler": ["arn:${Partition}:glue:${Region}:${Account}:crawler/${CrawlerName}"],
+    },
+    conditional: { "iam:PassRole": "Role" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCrawler",
 }));
@@ -17439,6 +18779,7 @@ export const updateCrawlerSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrawlerSchedule",
+  iam: { actions: ["glue:UpdateCrawlerSchedule"] },
   telemetry: TELEMETRY,
   span: "UpdateCrawlerSchedule",
 }));
@@ -17479,6 +18820,7 @@ export const updateDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatabase",
+  iam: { actions: ["glue:UpdateDatabase"] },
   telemetry: TELEMETRY,
   span: "UpdateDatabase",
 }));
@@ -17515,6 +18857,14 @@ export const updateDataQualityRuleset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataQualityRuleset",
+  iam: {
+    actions: ["glue:UpdateDataQualityRuleset"],
+    resources: {
+      "glue:UpdateDataQualityRuleset": [
+        "arn:${Partition}:glue:${Region}:${Account}:dataQualityRuleset/${RulesetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataQualityRuleset",
 }));
@@ -17547,6 +18897,14 @@ export const updateDevEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevEndpoint",
+  iam: {
+    actions: ["glue:UpdateDevEndpoint"],
+    resources: {
+      "glue:UpdateDevEndpoint": [
+        "arn:${Partition}:glue:${Region}:${Account}:devEndpoint/${DevEndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDevEndpoint",
 }));
@@ -17656,6 +19014,7 @@ export const updateGlueIdentityCenterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlueIdentityCenterConfiguration",
+  iam: { actions: ["glue:UpdateGlueIdentityCenterConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateGlueIdentityCenterConfiguration",
 }));
@@ -17692,6 +19051,19 @@ export const updateIntegrationResourceProperty: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegrationResourceProperty",
+  iam: {
+    actions: ["iam:PassRole", "glue:UpdateIntegrationResourceProperty"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:UpdateIntegrationResourceProperty": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:integrationresourceproperty/${ResourceType}/${ResourceName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "SourceProcessingProperties.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIntegrationResourceProperty",
 }));
@@ -17730,6 +19102,16 @@ export const updateIntegrationTableProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegrationTableProperties",
+  iam: {
+    actions: ["glue:UpdateIntegrationTableProperties"],
+    resources: {
+      "glue:UpdateIntegrationTableProperties": [
+        "arn:${Partition}:glue:${Region}:${Account}:catalog/${CatalogName}",
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIntegrationTableProperties",
 }));
@@ -17764,6 +19146,17 @@ export const updateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJob",
+  iam: {
+    actions: ["glue:GetUsageProfile", "iam:PassRole", "glue:UpdateJob"],
+    resources: {
+      "glue:GetUsageProfile": [
+        "arn:${Partition}:glue:${Region}:${Account}:usageProfile/${UsageProfileId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:UpdateJob": ["arn:${Partition}:glue:${Region}:${Account}:job/${JobName}"],
+    },
+    conditional: { "iam:PassRole": "JobUpdate.Role" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateJob",
 }));
@@ -17802,6 +19195,14 @@ export const updateJobFromSourceControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobFromSourceControl",
+  iam: {
+    actions: ["glue:UpdateJobFromSourceControl"],
+    resources: {
+      "glue:UpdateJobFromSourceControl": [
+        "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateJobFromSourceControl",
 }));
@@ -17838,6 +19239,16 @@ export const updateMLTransform: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMLTransform",
+  iam: {
+    actions: ["iam:PassRole", "glue:UpdateMLTransform"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:UpdateMLTransform": [
+        "arn:${Partition}:glue:${Region}:${Account}:mlTransform/${TransformId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Role" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMLTransform",
 }));
@@ -17870,6 +19281,7 @@ export const updatePartition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartition",
+  iam: { actions: ["glue:UpdatePartition"] },
   telemetry: TELEMETRY,
   span: "UpdatePartition",
 }));
@@ -17902,6 +19314,14 @@ export const updateRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistry",
+  iam: {
+    actions: ["glue:UpdateRegistry"],
+    resources: {
+      "glue:UpdateRegistry": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRegistry",
 }));
@@ -17940,6 +19360,15 @@ export const updateSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchema",
+  iam: {
+    actions: ["glue:UpdateSchema"],
+    resources: {
+      "glue:UpdateSchema": [
+        "arn:${Partition}:glue:${Region}:${Account}:registry/${RegistryName}",
+        "arn:${Partition}:glue:${Region}:${Account}:schema/${SchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSchema",
 }));
@@ -17978,6 +19407,14 @@ export const updateSourceControlFromJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceControlFromJob",
+  iam: {
+    actions: ["glue:UpdateSourceControlFromJob"],
+    resources: {
+      "glue:UpdateSourceControlFromJob": [
+        "arn:${Partition}:glue:${Region}:${Account}:job/${JobName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSourceControlFromJob",
 }));
@@ -18022,6 +19459,16 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  iam: {
+    actions: ["glue:PassConnection", "iam:PassRole", "glue:UpdateTable"],
+    resources: {
+      "glue:PassConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTable",
 }));
@@ -18058,6 +19505,21 @@ export const updateTableOptimizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableOptimizer",
+  iam: {
+    actions: ["glue:PassConnection", "iam:PassRole", "glue:UpdateTableOptimizer"],
+    resources: {
+      "glue:PassConnection": [
+        "arn:${Partition}:glue:${Region}:${Account}:connection/${ConnectionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "glue:UpdateTableOptimizer": [
+        "arn:${Partition}:glue:${Region}:${Account}:database/${DatabaseName}",
+        "arn:${Partition}:glue:${Region}:${Account}:catalog",
+        "arn:${Partition}:glue:${Region}:${Account}:table/${DatabaseName}/${TableName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "TableOptimizerConfiguration.roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTableOptimizer",
 }));
@@ -18092,6 +19554,12 @@ export const updateTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrigger",
+  iam: {
+    actions: ["glue:UpdateTrigger"],
+    resources: {
+      "glue:UpdateTrigger": ["arn:${Partition}:glue:${Region}:${Account}:trigger/${TriggerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrigger",
 }));
@@ -18126,6 +19594,14 @@ export const updateUsageProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsageProfile",
+  iam: {
+    actions: ["glue:UpdateUsageProfile"],
+    resources: {
+      "glue:UpdateUsageProfile": [
+        "arn:${Partition}:glue:${Region}:${Account}:usageProfile/${UsageProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUsageProfile",
 }));
@@ -18158,6 +19634,7 @@ export const updateUserDefinedFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserDefinedFunction",
+  iam: { actions: ["glue:UpdateUserDefinedFunction"] },
   telemetry: TELEMETRY,
   span: "UpdateUserDefinedFunction",
 }));
@@ -18190,6 +19667,14 @@ export const updateWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflow",
+  iam: {
+    actions: ["glue:UpdateWorkflow"],
+    resources: {
+      "glue:UpdateWorkflow": [
+        "arn:${Partition}:glue:${Region}:${Account}:workflow/${WorkflowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflow",
 }));

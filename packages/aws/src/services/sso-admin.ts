@@ -911,9 +911,11 @@ export interface ListCustomerManagedPolicyReferencesInPermissionSetResponse {
   CustomerManagedPolicyReferences?: CustomerManagedPolicyReference[];
   NextToken?: string;
 }
+export type RegionScope = "CURRENT_REGION" | "ALL_REGIONS" | (string & {});
 export interface ListInstancesRequest {
   MaxResults?: number;
   NextToken?: string;
+  RegionScope?: RegionScope;
 }
 export interface InstanceMetadata {
   InstanceArn?: string;
@@ -1192,6 +1194,10 @@ export const addRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddRegion",
+  iam: {
+    actions: ["sso:AddRegion"],
+    resources: { "sso:AddRegion": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "AddRegion",
 }));
@@ -1236,6 +1242,15 @@ export const attachCustomerManagedPolicyReferenceToPermissionSet: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachCustomerManagedPolicyReferenceToPermissionSet",
+  iam: {
+    actions: ["sso:AttachCustomerManagedPolicyReferenceToPermissionSet"],
+    resources: {
+      "sso:AttachCustomerManagedPolicyReferenceToPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachCustomerManagedPolicyReferenceToPermissionSet",
 }));
@@ -1274,6 +1289,15 @@ export const attachManagedPolicyToPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachManagedPolicyToPermissionSet",
+  iam: {
+    actions: ["sso:AttachManagedPolicyToPermissionSet", "sso:PutPermissionsPolicy"],
+    resources: {
+      "sso:AttachManagedPolicyToPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachManagedPolicyToPermissionSet",
 }));
@@ -1316,6 +1340,27 @@ export const createAccountAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountAssignment",
+  iam: {
+    actions: [
+      "sso:AssociateProfile",
+      "sso:CreateAccountAssignment",
+      "sso:CreateApplicationInstance",
+      "sso:CreateProfile",
+      "sso:CreateTrust",
+      "sso:GetApplicationInstance",
+      "sso:GetProfile",
+      "sso:GetTrust",
+      "sso:UpdateProfile",
+      "sso:UpdateTrust",
+    ],
+    resources: {
+      "sso:CreateAccountAssignment": [
+        "arn:${Partition}:sso:::account/${AccountId}",
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccountAssignment",
 }));
@@ -1354,6 +1399,26 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: {
+    actions: [
+      "sso:CreateApplication",
+      "sso:CreateApplicationInstance",
+      "sso:CreateManagedApplicationInstance",
+      "sso:PutApplicationAssignmentConfiguration",
+      "sso:TagResource",
+    ],
+    resources: {
+      "sso:CreateApplication": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+        "arn:${Partition}:sso::aws:applicationProvider/${ApplicationProviderId}",
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+      "sso:PutApplicationAssignmentConfiguration": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+    conditional: { "sso:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -1390,6 +1455,14 @@ export const createApplicationAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationAssignment",
+  iam: {
+    actions: ["sso:AssociateProfile", "sso:CreateApplicationAssignment"],
+    resources: {
+      "sso:CreateApplicationAssignment": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplicationAssignment",
 }));
@@ -1430,6 +1503,11 @@ export const createInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstance",
+  iam: {
+    actions: ["sso:CreateInstance", "sso:TagResource"],
+    resources: { "sso:CreateInstance": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+    conditional: { "sso:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstance",
 }));
@@ -1474,6 +1552,14 @@ export const createInstanceAccessControlAttributeConfiguration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceAccessControlAttributeConfiguration",
+  iam: {
+    actions: ["sso:CreateInstanceAccessControlAttributeConfiguration"],
+    resources: {
+      "sso:CreateInstanceAccessControlAttributeConfiguration": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstanceAccessControlAttributeConfiguration",
 }));
@@ -1512,6 +1598,16 @@ export const createPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermissionSet",
+  iam: {
+    actions: ["sso:CreatePermissionSet", "sso:TagResource"],
+    resources: {
+      "sso:CreatePermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+    conditional: { "sso:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePermissionSet",
 }));
@@ -1548,6 +1644,16 @@ export const createTrustedTokenIssuer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustedTokenIssuer",
+  iam: {
+    actions: ["sso:CreateTrustedTokenIssuer", "sso:TagResource"],
+    resources: {
+      "sso:CreateTrustedTokenIssuer": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso::${AccountId}:trustedTokenIssuer/${InstanceId}/${TrustedTokenIssuerId}",
+      ],
+    },
+    conditional: { "sso:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrustedTokenIssuer",
 }));
@@ -1584,6 +1690,16 @@ export const deleteAccountAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAssignment",
+  iam: {
+    actions: ["sso:DeleteAccountAssignment", "sso:DeleteProfile"],
+    resources: {
+      "sso:DeleteAccountAssignment": [
+        "arn:${Partition}:sso:::account/${AccountId}",
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccountAssignment",
 }));
@@ -1618,6 +1734,18 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  iam: {
+    actions: [
+      "sso:DeleteApplication",
+      "sso:DeleteApplicationInstance",
+      "sso:DeleteManagedApplicationInstance",
+    ],
+    resources: {
+      "sso:DeleteApplication": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -1652,6 +1780,14 @@ export const deleteApplicationAccessScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationAccessScope",
+  iam: {
+    actions: ["sso:DeleteApplicationAccessScope"],
+    resources: {
+      "sso:DeleteApplicationAccessScope": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationAccessScope",
 }));
@@ -1686,6 +1822,14 @@ export const deleteApplicationAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationAssignment",
+  iam: {
+    actions: ["sso:DeleteApplicationAssignment", "sso:DisassociateProfile"],
+    resources: {
+      "sso:DeleteApplicationAssignment": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationAssignment",
 }));
@@ -1720,6 +1864,14 @@ export const deleteApplicationAuthenticationMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationAuthenticationMethod",
+  iam: {
+    actions: ["sso:DeleteApplicationAuthenticationMethod"],
+    resources: {
+      "sso:DeleteApplicationAuthenticationMethod": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationAuthenticationMethod",
 }));
@@ -1754,6 +1906,14 @@ export const deleteApplicationGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationGrant",
+  iam: {
+    actions: ["sso:DeleteApplicationGrant"],
+    resources: {
+      "sso:DeleteApplicationGrant": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationGrant",
 }));
@@ -1788,6 +1948,15 @@ export const deleteInlinePolicyFromPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInlinePolicyFromPermissionSet",
+  iam: {
+    actions: ["sso:DeleteInlinePolicyFromPermissionSet"],
+    resources: {
+      "sso:DeleteInlinePolicyFromPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInlinePolicyFromPermissionSet",
 }));
@@ -1820,6 +1989,10 @@ export const deleteInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
+  iam: {
+    actions: ["sso:DeleteInstance", "sso:StartSSO"],
+    resources: { "sso:DeleteInstance": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstance",
 }));
@@ -1862,6 +2035,14 @@ export const deleteInstanceAccessControlAttributeConfiguration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceAccessControlAttributeConfiguration",
+  iam: {
+    actions: ["sso:DeleteInstanceAccessControlAttributeConfiguration"],
+    resources: {
+      "sso:DeleteInstanceAccessControlAttributeConfiguration": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstanceAccessControlAttributeConfiguration",
 }));
@@ -1896,6 +2077,15 @@ export const deletePermissionsBoundaryFromPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionsBoundaryFromPermissionSet",
+  iam: {
+    actions: ["sso:DeletePermissionsBoundaryFromPermissionSet"],
+    resources: {
+      "sso:DeletePermissionsBoundaryFromPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePermissionsBoundaryFromPermissionSet",
 }));
@@ -1930,6 +2120,15 @@ export const deletePermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionSet",
+  iam: {
+    actions: ["sso:DeletePermissionSet"],
+    resources: {
+      "sso:DeletePermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePermissionSet",
 }));
@@ -1966,6 +2165,14 @@ export const deleteTrustedTokenIssuer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustedTokenIssuer",
+  iam: {
+    actions: ["sso:DeleteTrustedTokenIssuer"],
+    resources: {
+      "sso:DeleteTrustedTokenIssuer": [
+        "arn:${Partition}:sso::${AccountId}:trustedTokenIssuer/${InstanceId}/${TrustedTokenIssuerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrustedTokenIssuer",
 }));
@@ -1998,6 +2205,14 @@ export const describeAccountAssignmentCreationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAssignmentCreationStatus",
+  iam: {
+    actions: ["sso:DescribeAccountAssignmentCreationStatus"],
+    resources: {
+      "sso:DescribeAccountAssignmentCreationStatus": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAccountAssignmentCreationStatus",
 }));
@@ -2030,6 +2245,14 @@ export const describeAccountAssignmentDeletionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAssignmentDeletionStatus",
+  iam: {
+    actions: ["sso:DescribeAccountAssignmentDeletionStatus"],
+    resources: {
+      "sso:DescribeAccountAssignmentDeletionStatus": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAccountAssignmentDeletionStatus",
 }));
@@ -2062,6 +2285,18 @@ export const describeApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplication",
+  iam: {
+    actions: [
+      "sso:DescribeApplication",
+      "sso:GetApplicationInstance",
+      "sso:GetManagedApplicationInstance",
+    ],
+    resources: {
+      "sso:DescribeApplication": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeApplication",
 }));
@@ -2094,6 +2329,14 @@ export const describeApplicationAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationAssignment",
+  iam: {
+    actions: ["sso:DescribeApplicationAssignment"],
+    resources: {
+      "sso:DescribeApplicationAssignment": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeApplicationAssignment",
 }));
@@ -2126,6 +2369,14 @@ export const describeApplicationProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationProvider",
+  iam: {
+    actions: ["sso:DescribeApplicationProvider", "sso:GetApplicationTemplate"],
+    resources: {
+      "sso:DescribeApplicationProvider": [
+        "arn:${Partition}:sso::aws:applicationProvider/${ApplicationProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeApplicationProvider",
 }));
@@ -2162,6 +2413,14 @@ export const describeInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstance",
+  iam: {
+    actions: [
+      "sso:DescribeInstance",
+      "sso:GetSharedSsoConfiguration",
+      "sso:ListDirectoryAssociations",
+    ],
+    resources: { "sso:DescribeInstance": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInstance",
 }));
@@ -2202,6 +2461,14 @@ export const describeInstanceAccessControlAttributeConfiguration: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceAccessControlAttributeConfiguration",
+  iam: {
+    actions: ["sso:DescribeInstanceAccessControlAttributeConfiguration"],
+    resources: {
+      "sso:DescribeInstanceAccessControlAttributeConfiguration": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInstanceAccessControlAttributeConfiguration",
 }));
@@ -2234,6 +2501,15 @@ export const describePermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePermissionSet",
+  iam: {
+    actions: ["sso:DescribePermissionSet"],
+    resources: {
+      "sso:DescribePermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePermissionSet",
 }));
@@ -2266,6 +2542,14 @@ export const describePermissionSetProvisioningStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePermissionSetProvisioningStatus",
+  iam: {
+    actions: ["sso:DescribePermissionSetProvisioningStatus"],
+    resources: {
+      "sso:DescribePermissionSetProvisioningStatus": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePermissionSetProvisioningStatus",
 }));
@@ -2306,6 +2590,10 @@ export const describeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegion",
+  iam: {
+    actions: ["sso:DescribeRegion"],
+    resources: { "sso:DescribeRegion": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRegion",
 }));
@@ -2338,6 +2626,14 @@ export const describeTrustedTokenIssuer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedTokenIssuer",
+  iam: {
+    actions: ["sso:DescribeTrustedTokenIssuer"],
+    resources: {
+      "sso:DescribeTrustedTokenIssuer": [
+        "arn:${Partition}:sso::${AccountId}:trustedTokenIssuer/${InstanceId}/${TrustedTokenIssuerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTrustedTokenIssuer",
 }));
@@ -2380,6 +2676,15 @@ export const detachCustomerManagedPolicyReferenceFromPermissionSet: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachCustomerManagedPolicyReferenceFromPermissionSet",
+  iam: {
+    actions: ["sso:DetachCustomerManagedPolicyReferenceFromPermissionSet"],
+    resources: {
+      "sso:DetachCustomerManagedPolicyReferenceFromPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachCustomerManagedPolicyReferenceFromPermissionSet",
 }));
@@ -2414,6 +2719,15 @@ export const detachManagedPolicyFromPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachManagedPolicyFromPermissionSet",
+  iam: {
+    actions: ["sso:DetachManagedPolicyFromPermissionSet"],
+    resources: {
+      "sso:DetachManagedPolicyFromPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachManagedPolicyFromPermissionSet",
 }));
@@ -2446,6 +2760,14 @@ export const getApplicationAccessScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationAccessScope",
+  iam: {
+    actions: ["sso:GetApplicationAccessScope"],
+    resources: {
+      "sso:GetApplicationAccessScope": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplicationAccessScope",
 }));
@@ -2478,6 +2800,14 @@ export const getApplicationAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationAssignmentConfiguration",
+  iam: {
+    actions: ["sso:GetApplicationAssignmentConfiguration"],
+    resources: {
+      "sso:GetApplicationAssignmentConfiguration": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplicationAssignmentConfiguration",
 }));
@@ -2510,6 +2840,14 @@ export const getApplicationAuthenticationMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationAuthenticationMethod",
+  iam: {
+    actions: ["sso:GetApplicationAuthenticationMethod"],
+    resources: {
+      "sso:GetApplicationAuthenticationMethod": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplicationAuthenticationMethod",
 }));
@@ -2542,6 +2880,14 @@ export const getApplicationGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationGrant",
+  iam: {
+    actions: ["sso:GetApplicationGrant"],
+    resources: {
+      "sso:GetApplicationGrant": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplicationGrant",
 }));
@@ -2576,6 +2922,14 @@ export const getApplicationSessionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationSessionConfiguration",
+  iam: {
+    actions: ["sso:GetApplicationSessionConfiguration"],
+    resources: {
+      "sso:GetApplicationSessionConfiguration": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplicationSessionConfiguration",
 }));
@@ -2608,6 +2962,15 @@ export const getInlinePolicyForPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInlinePolicyForPermissionSet",
+  iam: {
+    actions: ["sso:GetInlinePolicyForPermissionSet"],
+    resources: {
+      "sso:GetInlinePolicyForPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInlinePolicyForPermissionSet",
 }));
@@ -2640,6 +3003,15 @@ export const getPermissionsBoundaryForPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionsBoundaryForPermissionSet",
+  iam: {
+    actions: ["sso:GetPermissionsBoundaryForPermissionSet"],
+    resources: {
+      "sso:GetPermissionsBoundaryForPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPermissionsBoundaryForPermissionSet",
 }));
@@ -2679,6 +3051,12 @@ export const listAccountAssignmentCreationStatus: API.PaginatedOperationMethod<
     items: "AccountAssignmentsCreationStatus",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListAccountAssignmentCreationStatus"],
+    resources: {
+      "sso:ListAccountAssignmentCreationStatus": ["arn:${Partition}:sso:::instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccountAssignmentCreationStatus",
 })) as any;
@@ -2718,6 +3096,12 @@ export const listAccountAssignmentDeletionStatus: API.PaginatedOperationMethod<
     items: "AccountAssignmentsDeletionStatus",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListAccountAssignmentDeletionStatus"],
+    resources: {
+      "sso:ListAccountAssignmentDeletionStatus": ["arn:${Partition}:sso:::instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccountAssignmentDeletionStatus",
 })) as any;
@@ -2757,6 +3141,16 @@ export const listAccountAssignments: API.PaginatedOperationMethod<
     items: "AccountAssignments",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListAccountAssignments"],
+    resources: {
+      "sso:ListAccountAssignments": [
+        "arn:${Partition}:sso:::account/${AccountId}",
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccountAssignments",
 })) as any;
@@ -2796,6 +3190,12 @@ export const listAccountAssignmentsForPrincipal: API.PaginatedOperationMethod<
     items: "AccountAssignments",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListAccountAssignmentsForPrincipal"],
+    resources: {
+      "sso:ListAccountAssignmentsForPrincipal": ["arn:${Partition}:sso:::instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccountAssignmentsForPrincipal",
 })) as any;
@@ -2835,6 +3235,15 @@ export const listAccountsForProvisionedPermissionSet: API.PaginatedOperationMeth
     items: "AccountIds",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListAccountsForProvisionedPermissionSet"],
+    resources: {
+      "sso:ListAccountsForProvisionedPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccountsForProvisionedPermissionSet",
 })) as any;
@@ -2874,6 +3283,14 @@ export const listApplicationAccessScopes: API.PaginatedOperationMethod<
     items: "Scopes",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListApplicationAccessScopes"],
+    resources: {
+      "sso:ListApplicationAccessScopes": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApplicationAccessScopes",
 })) as any;
@@ -2913,6 +3330,14 @@ export const listApplicationAssignments: API.PaginatedOperationMethod<
     items: "ApplicationAssignments",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListApplicationAssignments", "sso:ListProfileAssociations"],
+    resources: {
+      "sso:ListApplicationAssignments": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApplicationAssignments",
 })) as any;
@@ -2952,6 +3377,14 @@ export const listApplicationAssignmentsForPrincipal: API.PaginatedOperationMetho
     items: "ApplicationAssignments",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListApplicationAssignmentsForPrincipal"],
+    resources: {
+      "sso:ListApplicationAssignmentsForPrincipal": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApplicationAssignmentsForPrincipal",
 })) as any;
@@ -2990,6 +3423,14 @@ export const listApplicationAuthenticationMethods: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "AuthenticationMethods",
   } as const,
+  iam: {
+    actions: ["sso:ListApplicationAuthenticationMethods"],
+    resources: {
+      "sso:ListApplicationAuthenticationMethods": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApplicationAuthenticationMethods",
 })) as any;
@@ -3024,6 +3465,14 @@ export const listApplicationGrants: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationGrants",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Grants" } as const,
+  iam: {
+    actions: ["sso:ListApplicationGrants"],
+    resources: {
+      "sso:ListApplicationGrants": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApplicationGrants",
 })) as any;
@@ -3061,6 +3510,18 @@ export const listApplicationProviders: API.PaginatedOperationMethod<
     items: "ApplicationProviders",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: [
+      "sso:GetApplicationTemplate",
+      "sso:ListApplicationProviders",
+      "sso:ListApplicationTemplates",
+    ],
+    resources: {
+      "sso:ListApplicationProviders": [
+        "arn:${Partition}:sso::aws:applicationProvider/${ApplicationProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApplicationProviders",
 })) as any;
@@ -3098,6 +3559,19 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "Applications",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: [
+      "sso:GetApplicationInstance",
+      "sso:ListApplicationInstances",
+      "sso:ListApplicationProviders",
+      "sso:ListApplications",
+    ],
+    resources: {
+      "sso:ListApplicationProviders": [
+        "arn:${Partition}:sso::aws:applicationProvider/${ApplicationProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -3145,6 +3619,15 @@ export const listCustomerManagedPolicyReferencesInPermissionSet: API.PaginatedOp
     items: "CustomerManagedPolicyReferences",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListCustomerManagedPolicyReferencesInPermissionSet"],
+    resources: {
+      "sso:ListCustomerManagedPolicyReferencesInPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCustomerManagedPolicyReferencesInPermissionSet",
 })) as any;
@@ -3182,6 +3665,7 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["sso:ListInstances"] },
   telemetry: TELEMETRY,
   span: "ListInstances",
 })) as any;
@@ -3221,6 +3705,15 @@ export const listManagedPoliciesInPermissionSet: API.PaginatedOperationMethod<
     items: "AttachedManagedPolicies",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListManagedPoliciesInPermissionSet"],
+    resources: {
+      "sso:ListManagedPoliciesInPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListManagedPoliciesInPermissionSet",
 })) as any;
@@ -3260,6 +3753,12 @@ export const listPermissionSetProvisioningStatus: API.PaginatedOperationMethod<
     items: "PermissionSetsProvisioningStatus",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListPermissionSetProvisioningStatus"],
+    resources: {
+      "sso:ListPermissionSetProvisioningStatus": ["arn:${Partition}:sso:::instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPermissionSetProvisioningStatus",
 })) as any;
@@ -3299,6 +3798,10 @@ export const listPermissionSets: API.PaginatedOperationMethod<
     items: "PermissionSets",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListPermissionSets"],
+    resources: { "sso:ListPermissionSets": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "ListPermissionSets",
 })) as any;
@@ -3338,6 +3841,15 @@ export const listPermissionSetsProvisionedToAccount: API.PaginatedOperationMetho
     items: "PermissionSets",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:GetProfile", "sso:ListPermissionSetsProvisionedToAccount", "sso:ListProfiles"],
+    resources: {
+      "sso:ListPermissionSetsProvisionedToAccount": [
+        "arn:${Partition}:sso:::account/${AccountId}",
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPermissionSetsProvisionedToAccount",
 })) as any;
@@ -3383,6 +3895,10 @@ export const listRegions: API.PaginatedOperationMethod<
     items: "Regions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListRegions"],
+    resources: { "sso:ListRegions": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "ListRegions",
 })) as any;
@@ -3417,6 +3933,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Tags" } as const,
+  iam: { actions: ["sso:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -3454,6 +3971,10 @@ export const listTrustedTokenIssuers: API.PaginatedOperationMethod<
     items: "TrustedTokenIssuers",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["sso:ListTrustedTokenIssuers"],
+    resources: { "sso:ListTrustedTokenIssuers": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "ListTrustedTokenIssuers",
 })) as any;
@@ -3488,6 +4009,16 @@ export const provisionPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionPermissionSet",
+  iam: {
+    actions: ["sso:ProvisionPermissionSet"],
+    resources: {
+      "sso:ProvisionPermissionSet": [
+        "arn:${Partition}:sso:::account/${AccountId}",
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ProvisionPermissionSet",
 }));
@@ -3522,6 +4053,14 @@ export const putApplicationAccessScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationAccessScope",
+  iam: {
+    actions: ["sso:PutApplicationAccessScope"],
+    resources: {
+      "sso:PutApplicationAccessScope": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutApplicationAccessScope",
 }));
@@ -3556,6 +4095,14 @@ export const putApplicationAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationAssignmentConfiguration",
+  iam: {
+    actions: ["sso:PutApplicationAssignmentConfiguration"],
+    resources: {
+      "sso:PutApplicationAssignmentConfiguration": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutApplicationAssignmentConfiguration",
 }));
@@ -3590,6 +4137,14 @@ export const putApplicationAuthenticationMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationAuthenticationMethod",
+  iam: {
+    actions: ["sso:CreateManagedApplicationInstance", "sso:PutApplicationAuthenticationMethod"],
+    resources: {
+      "sso:PutApplicationAuthenticationMethod": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutApplicationAuthenticationMethod",
 }));
@@ -3649,6 +4204,14 @@ export const putApplicationGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationGrant",
+  iam: {
+    actions: ["sso:CreateManagedApplicationInstance", "sso:PutApplicationGrant"],
+    resources: {
+      "sso:PutApplicationGrant": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutApplicationGrant",
 }));
@@ -3685,6 +4248,14 @@ export const putApplicationSessionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationSessionConfiguration",
+  iam: {
+    actions: ["sso:PutApplicationSessionConfiguration"],
+    resources: {
+      "sso:PutApplicationSessionConfiguration": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutApplicationSessionConfiguration",
 }));
@@ -3723,6 +4294,15 @@ export const putInlinePolicyToPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInlinePolicyToPermissionSet",
+  iam: {
+    actions: ["sso:PutInlinePolicyToPermissionSet", "sso:PutPermissionsPolicy"],
+    resources: {
+      "sso:PutInlinePolicyToPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutInlinePolicyToPermissionSet",
 }));
@@ -3757,6 +4337,15 @@ export const putPermissionsBoundaryToPermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermissionsBoundaryToPermissionSet",
+  iam: {
+    actions: ["sso:PutPermissionsBoundaryToPermissionSet"],
+    resources: {
+      "sso:PutPermissionsBoundaryToPermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutPermissionsBoundaryToPermissionSet",
 }));
@@ -3799,6 +4388,10 @@ export const removeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRegion",
+  iam: {
+    actions: ["sso:RemoveRegion"],
+    resources: { "sso:RemoveRegion": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "RemoveRegion",
 }));
@@ -3835,6 +4428,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["sso:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3869,6 +4463,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["sso:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3903,6 +4498,23 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: {
+    actions: [
+      "sso:PutApplicationAssignmentConfiguration",
+      "sso:UpdateApplication",
+      "sso:UpdateApplicationInstanceDisplayData",
+      "sso:UpdateApplicationInstanceStatus",
+      "sso:UpdateManagedApplicationInstanceStatus",
+    ],
+    resources: {
+      "sso:PutApplicationAssignmentConfiguration": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+      "sso:UpdateApplication": [
+        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -3924,7 +4536,7 @@ export type UpdateInstanceError =
  *
  * - Enable permission sets for the instance by specifying `PermissionSetsEnabled`.
  *
- * A request that specifies both `EncryptionConfiguration` and `PermissionSetsEnabled` returns a `ValidationException`. To perform both operations, call `UpdateInstance` separately for each. The two calls can be made in parallel.
+ * If you specify both `EncryptionConfiguration` and `PermissionSetsEnabled` in a request, the request returns a `ValidationException`. To perform both operations, call `UpdateInstance` separately for each. You can make the two calls in parallel.
  */
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest & RegionInput,
@@ -3945,6 +4557,10 @@ export const updateInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstance",
+  iam: {
+    actions: ["sso:UpdateInstance"],
+    resources: { "sso:UpdateInstance": ["arn:${Partition}:sso:::instance/${InstanceId}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInstance",
 }));
@@ -3987,6 +4603,14 @@ export const updateInstanceAccessControlAttributeConfiguration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceAccessControlAttributeConfiguration",
+  iam: {
+    actions: ["sso:UpdateInstanceAccessControlAttributeConfiguration"],
+    resources: {
+      "sso:UpdateInstanceAccessControlAttributeConfiguration": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInstanceAccessControlAttributeConfiguration",
 }));
@@ -4021,6 +4645,15 @@ export const updatePermissionSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePermissionSet",
+  iam: {
+    actions: ["sso:UpdatePermissionSet"],
+    resources: {
+      "sso:UpdatePermissionSet": [
+        "arn:${Partition}:sso:::instance/${InstanceId}",
+        "arn:${Partition}:sso:::permissionSet/${InstanceId}/${PermissionSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePermissionSet",
 }));
@@ -4057,6 +4690,14 @@ export const updateTrustedTokenIssuer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustedTokenIssuer",
+  iam: {
+    actions: ["sso:UpdateTrustedTokenIssuer"],
+    resources: {
+      "sso:UpdateTrustedTokenIssuer": [
+        "arn:${Partition}:sso::${AccountId}:trustedTokenIssuer/${InstanceId}/${TrustedTokenIssuerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrustedTokenIssuer",
 }));
@@ -5178,9 +5819,11 @@ function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ MaxResults: S.optional(S.Number), NextToken: S.optional(S.String) }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          MaxResults: S.optional(S.Number),
+          NextToken: S.optional(S.String),
+          RegionScope: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
       return S.suspend(() =>

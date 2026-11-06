@@ -719,6 +719,25 @@ export interface DescribeAccountLimitsAnswer {
   NumberOfAutoScalingGroups?: number;
   NumberOfLaunchConfigurations?: number;
 }
+export type MaxRecords = number;
+export interface DescribeAccountSettingsType {
+  Name?: string;
+  NextToken?: string;
+  MaxRecords?: number;
+}
+export interface AccountSetting {
+  Name?: string;
+  Value?: string;
+  EnforcementType?: string;
+  EnforcementDate?: Date;
+  DefaultValue?: string;
+  EnforcedValue?: string;
+}
+export type AccountSettings = AccountSetting[];
+export interface DescribeAccountSettingsAnswer {
+  Settings?: AccountSetting[];
+  NextToken?: string;
+}
 export interface DescribeAdjustmentTypesRequest {}
 export interface AdjustmentType {
   AdjustmentType?: string;
@@ -729,7 +748,6 @@ export interface DescribeAdjustmentTypesAnswer {
 }
 export type AutoScalingGroupNames = string[];
 export type IncludeInstances = boolean;
-export type MaxRecords = number;
 export type Values = string[];
 export interface Filter {
   Name?: string;
@@ -1788,6 +1806,11 @@ export interface LaunchInstancesResult {
   Instances?: InstanceCollection[];
   Errors?: LaunchInstancesError_[];
 }
+export interface PutAccountSettingType {
+  Name?: string;
+  Value?: string;
+}
+export interface PutAccountSettingAnswer {}
 export interface PutLifecycleHookType {
   LifecycleHookName?: string;
   AutoScalingGroupName?: string;
@@ -1982,6 +2005,14 @@ export const attachInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachInstances",
+  iam: {
+    actions: ["autoscaling:AttachInstances"],
+    resources: {
+      "autoscaling:AttachInstances": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachInstances",
 }));
@@ -2025,6 +2056,14 @@ export const attachLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancers",
+  iam: {
+    actions: ["autoscaling:AttachLoadBalancers"],
+    resources: {
+      "autoscaling:AttachLoadBalancers": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachLoadBalancers",
 }));
@@ -2077,6 +2116,14 @@ export const attachLoadBalancerTargetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerTargetGroups",
+  iam: {
+    actions: ["autoscaling:AttachLoadBalancerTargetGroups"],
+    resources: {
+      "autoscaling:AttachLoadBalancerTargetGroups": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachLoadBalancerTargetGroups",
 }));
@@ -2121,6 +2168,14 @@ export const attachTrafficSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachTrafficSources",
+  iam: {
+    actions: ["autoscaling:AttachTrafficSources"],
+    resources: {
+      "autoscaling:AttachTrafficSources": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachTrafficSources",
 }));
@@ -2141,6 +2196,14 @@ export const batchDeleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteScheduledAction",
+  iam: {
+    actions: ["autoscaling:BatchDeleteScheduledAction"],
+    resources: {
+      "autoscaling:BatchDeleteScheduledAction": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteScheduledAction",
 }));
@@ -2165,6 +2228,14 @@ export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutScheduledUpdateGroupAction",
+  iam: {
+    actions: ["autoscaling:BatchPutScheduledUpdateGroupAction"],
+    resources: {
+      "autoscaling:BatchPutScheduledUpdateGroupAction": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchPutScheduledUpdateGroupAction",
 }));
@@ -2198,6 +2269,14 @@ export const cancelInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelInstanceRefresh",
+  iam: {
+    actions: ["autoscaling:CancelInstanceRefresh"],
+    resources: {
+      "autoscaling:CancelInstanceRefresh": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelInstanceRefresh",
 }));
@@ -2247,6 +2326,14 @@ export const completeLifecycleAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLifecycleAction",
+  iam: {
+    actions: ["autoscaling:CompleteLifecycleAction"],
+    resources: {
+      "autoscaling:CompleteLifecycleAction": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CompleteLifecycleAction",
 }));
@@ -2295,6 +2382,23 @@ export const createAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoScalingGroup",
+  iam: {
+    actions: [
+      "autoscaling:CreateAutoScalingGroup",
+      "autoscaling:CreateOrUpdateTags",
+      "iam:PassRole",
+    ],
+    resources: {
+      "autoscaling:CreateAutoScalingGroup": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+      "autoscaling:CreateOrUpdateTags": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "ServiceLinkedRoleARN" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAutoScalingGroup",
 }));
@@ -2332,6 +2436,16 @@ export const createLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfiguration",
+  iam: {
+    actions: ["autoscaling:CreateLaunchConfiguration", "iam:PassRole"],
+    resources: {
+      "autoscaling:CreateLaunchConfiguration": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:launchConfiguration:${Id}:launchConfigurationName/${LaunchConfigurationName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLaunchConfiguration",
 }));
@@ -2363,6 +2477,14 @@ export const createOrUpdateTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrUpdateTags",
+  iam: {
+    actions: ["autoscaling:CreateOrUpdateTags"],
+    resources: {
+      "autoscaling:CreateOrUpdateTags": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateOrUpdateTags",
 }));
@@ -2408,6 +2530,14 @@ export const deleteAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoScalingGroup",
+  iam: {
+    actions: ["autoscaling:DeleteAutoScalingGroup"],
+    resources: {
+      "autoscaling:DeleteAutoScalingGroup": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAutoScalingGroup",
 }));
@@ -2434,6 +2564,14 @@ export const deleteLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfiguration",
+  iam: {
+    actions: ["autoscaling:DeleteLaunchConfiguration"],
+    resources: {
+      "autoscaling:DeleteLaunchConfiguration": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:launchConfiguration:${Id}:launchConfigurationName/${LaunchConfigurationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLaunchConfiguration",
 }));
@@ -2461,6 +2599,14 @@ export const deleteLifecycleHook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecycleHook",
+  iam: {
+    actions: ["autoscaling:DeleteLifecycleHook"],
+    resources: {
+      "autoscaling:DeleteLifecycleHook": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLifecycleHook",
 }));
@@ -2481,6 +2627,14 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
+  iam: {
+    actions: ["autoscaling:DeleteNotificationConfiguration"],
+    resources: {
+      "autoscaling:DeleteNotificationConfiguration": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNotificationConfiguration",
 }));
@@ -2508,6 +2662,14 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: {
+    actions: ["autoscaling:DeletePolicy"],
+    resources: {
+      "autoscaling:DeletePolicy": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -2531,6 +2693,14 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
+  iam: {
+    actions: ["autoscaling:DeleteScheduledAction"],
+    resources: {
+      "autoscaling:DeleteScheduledAction": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScheduledAction",
 }));
@@ -2551,6 +2721,14 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  iam: {
+    actions: ["autoscaling:DeleteTags"],
+    resources: {
+      "autoscaling:DeleteTags": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -2584,6 +2762,14 @@ export const deleteWarmPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWarmPool",
+  iam: {
+    actions: ["autoscaling:DeleteWarmPool"],
+    resources: {
+      "autoscaling:DeleteWarmPool": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWarmPool",
 }));
@@ -2609,8 +2795,30 @@ export const describeAccountLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountLimits",
+  iam: { actions: ["autoscaling:DescribeAccountLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountLimits",
+}));
+
+export type DescribeAccountSettingsError = InvalidNextToken | CommonErrors;
+/**
+ * Describes the current Amazon EC2 Auto Scaling account settings for your account. Account settings are a framework that allows you to enable or disable features for your account. The framework also gives you visibility into features that will be enforced by a given date, providing a time window to prepare for backwards-incompatible changes.
+ */
+export const describeAccountSettings: API.OperationMethod<
+  DescribeAccountSettingsType & RegionInput,
+  DescribeAccountSettingsAnswer,
+  DescribeAccountSettingsError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(1056, __c33, 0) as any as S.Schema<DescribeAccountSettingsType>,
+  output: __S(1059, __c33, 3) as any as S.Schema<DescribeAccountSettingsAnswer>,
+  errors: [InvalidNextToken],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "DescribeAccountSettings",
+  iam: { actions: ["autoscaling:DescribeAccountSettings"] },
+  telemetry: TELEMETRY,
+  span: "DescribeAccountSettings",
 }));
 
 export type DescribeAdjustmentTypesError = ResourceContentionFault | CommonErrors;
@@ -2632,12 +2840,13 @@ export const describeAdjustmentTypes: API.OperationMethod<
   DescribeAdjustmentTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1056, __c33, 0) as any as S.Schema<DescribeAdjustmentTypesRequest>,
-  output: __S(1059, __c33, 3) as any as S.Schema<DescribeAdjustmentTypesAnswer>,
+  input: __S(1088, __c34, 0) as any as S.Schema<DescribeAdjustmentTypesRequest>,
+  output: __S(1091, __c34, 3) as any as S.Schema<DescribeAdjustmentTypesAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAdjustmentTypes",
+  iam: { actions: ["autoscaling:DescribeAdjustmentTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeAdjustmentTypes",
 }));
@@ -2665,8 +2874,8 @@ export const describeAutoScalingGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutoScalingGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1088, __c34, 0) as any as S.Schema<AutoScalingGroupNamesType>,
-  output: __S(1095, __c34, 7) as any as S.Schema<AutoScalingGroupsType>,
+  input: __S(1120, __c35, 0) as any as S.Schema<AutoScalingGroupNamesType>,
+  output: __S(1127, __c35, 7) as any as S.Schema<AutoScalingGroupsType>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2677,6 +2886,7 @@ export const describeAutoScalingGroups: API.PaginatedOperationMethod<
     items: "AutoScalingGroups",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeAutoScalingGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeAutoScalingGroups",
 })) as any;
@@ -2695,8 +2905,8 @@ export const describeAutoScalingInstances: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AutoScalingInstanceDetails
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1280, __c40, 0) as any as S.Schema<DescribeAutoScalingInstancesType>,
-  output: __S(1283, __c40, 3) as any as S.Schema<AutoScalingInstancesType>,
+  input: __S(1312, __c41, 0) as any as S.Schema<DescribeAutoScalingInstancesType>,
+  output: __S(1315, __c41, 3) as any as S.Schema<AutoScalingInstancesType>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2707,6 +2917,7 @@ export const describeAutoScalingInstances: API.PaginatedOperationMethod<
     items: "AutoScalingInstances",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeAutoScalingInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeAutoScalingInstances",
 })) as any;
@@ -2721,12 +2932,13 @@ export const describeAutoScalingNotificationTypes: API.OperationMethod<
   DescribeAutoScalingNotificationTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1312, __c41, 0) as any as S.Schema<DescribeAutoScalingNotificationTypesRequest>,
-  output: __S(1313, __c41, 1) as any as S.Schema<DescribeAutoScalingNotificationTypesAnswer>,
+  input: __S(1344, __c42, 0) as any as S.Schema<DescribeAutoScalingNotificationTypesRequest>,
+  output: __S(1345, __c42, 1) as any as S.Schema<DescribeAutoScalingNotificationTypesAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoScalingNotificationTypes",
+  iam: { actions: ["autoscaling:DescribeAutoScalingNotificationTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeAutoScalingNotificationTypes",
 }));
@@ -2757,8 +2969,8 @@ export const describeInstanceRefreshes: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1377, __c43, 1) as any as S.Schema<DescribeInstanceRefreshesType>,
-  output: __S(1384, __c43, 8) as any as S.Schema<DescribeInstanceRefreshesAnswer>,
+  input: __S(1409, __c44, 1) as any as S.Schema<DescribeInstanceRefreshesType>,
+  output: __S(1416, __c44, 8) as any as S.Schema<DescribeInstanceRefreshesAnswer>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2768,6 +2980,7 @@ export const describeInstanceRefreshes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeInstanceRefreshes"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceRefreshes",
 })) as any;
@@ -2786,8 +2999,8 @@ export const describeLaunchConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LaunchConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1441, __c45, 1) as any as S.Schema<LaunchConfigurationNamesType>,
-  output: __S(1444, __c45, 4) as any as S.Schema<LaunchConfigurationsType>,
+  input: __S(1473, __c46, 1) as any as S.Schema<LaunchConfigurationNamesType>,
+  output: __S(1476, __c46, 4) as any as S.Schema<LaunchConfigurationsType>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2798,6 +3011,7 @@ export const describeLaunchConfigurations: API.PaginatedOperationMethod<
     items: "LaunchConfigurations",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeLaunchConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeLaunchConfigurations",
 })) as any;
@@ -2815,12 +3029,13 @@ export const describeLifecycleHooks: API.OperationMethod<
   DescribeLifecycleHooksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1473, __c46, 1) as any as S.Schema<DescribeLifecycleHooksType>,
-  output: __S(1476, __c46, 4) as any as S.Schema<DescribeLifecycleHooksAnswer>,
+  input: __S(1505, __c47, 1) as any as S.Schema<DescribeLifecycleHooksType>,
+  output: __S(1508, __c47, 4) as any as S.Schema<DescribeLifecycleHooksAnswer>,
   errors: [ResourceContentionFault, AutoScalingGroupNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleHooks",
+  iam: { actions: ["autoscaling:DescribeLifecycleHooks"] },
   telemetry: TELEMETRY,
   span: "DescribeLifecycleHooks",
 }));
@@ -2841,12 +3056,13 @@ export const describeLifecycleHookTypes: API.OperationMethod<
   DescribeLifecycleHookTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c47, 0) as any as S.Schema<DescribeLifecycleHookTypesRequest>,
-  output: __S(1505, __c47, 1) as any as S.Schema<DescribeLifecycleHookTypesAnswer>,
+  input: __S(1536, __c48, 0) as any as S.Schema<DescribeLifecycleHookTypesRequest>,
+  output: __S(1537, __c48, 1) as any as S.Schema<DescribeLifecycleHookTypesAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleHookTypes",
+  iam: { actions: ["autoscaling:DescribeLifecycleHookTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeLifecycleHookTypes",
 }));
@@ -2895,8 +3111,8 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DescribeLoadBalancersRequest>,
-  output: __S(1539, __c48, 3) as any as S.Schema<DescribeLoadBalancersResponse>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DescribeLoadBalancersRequest>,
+  output: __S(1571, __c49, 3) as any as S.Schema<DescribeLoadBalancersResponse>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2906,6 +3122,7 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeLoadBalancers"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancers",
 })) as any;
@@ -2957,8 +3174,8 @@ export const describeLoadBalancerTargetGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1568, __c49, 0) as any as S.Schema<DescribeLoadBalancerTargetGroupsRequest>,
-  output: __S(1571, __c49, 3) as any as S.Schema<DescribeLoadBalancerTargetGroupsResponse>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DescribeLoadBalancerTargetGroupsRequest>,
+  output: __S(1603, __c50, 3) as any as S.Schema<DescribeLoadBalancerTargetGroupsResponse>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -2968,6 +3185,7 @@ export const describeLoadBalancerTargetGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeLoadBalancerTargetGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancerTargetGroups",
 })) as any;
@@ -2982,12 +3200,13 @@ export const describeMetricCollectionTypes: API.OperationMethod<
   DescribeMetricCollectionTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DescribeMetricCollectionTypesRequest>,
-  output: __S(1605, __c50, 5) as any as S.Schema<DescribeMetricCollectionTypesAnswer>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DescribeMetricCollectionTypesRequest>,
+  output: __S(1637, __c51, 5) as any as S.Schema<DescribeMetricCollectionTypesAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricCollectionTypes",
+  iam: { actions: ["autoscaling:DescribeMetricCollectionTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeMetricCollectionTypes",
 }));
@@ -3007,8 +3226,8 @@ export const describeNotificationConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   NotificationConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DescribeNotificationConfigurationsType>,
-  output: __S(1635, __c51, 3) as any as S.Schema<DescribeNotificationConfigurationsAnswer>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DescribeNotificationConfigurationsType>,
+  output: __S(1667, __c52, 3) as any as S.Schema<DescribeNotificationConfigurationsAnswer>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3019,6 +3238,7 @@ export const describeNotificationConfigurations: API.PaginatedOperationMethod<
     items: "NotificationConfigurations",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeNotificationConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeNotificationConfigurations",
 })) as any;
@@ -3038,8 +3258,8 @@ export const describePolicies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ScalingPolicy
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1666, __c52, 2) as any as S.Schema<DescribePoliciesType>,
-  output: __S(1669, __c52, 5) as any as S.Schema<PoliciesType>,
+  input: __S(1698, __c53, 2) as any as S.Schema<DescribePoliciesType>,
+  output: __S(1701, __c53, 5) as any as S.Schema<PoliciesType>,
   errors: [InvalidNextToken, ResourceContentionFault, ServiceLinkedRoleFailure],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3050,6 +3270,7 @@ export const describePolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribePolicies"] },
   telemetry: TELEMETRY,
   span: "DescribePolicies",
 })) as any;
@@ -3078,8 +3299,8 @@ export const describeScalingActivities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Activity
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1761, __c55, 1) as any as S.Schema<DescribeScalingActivitiesType>,
-  output: __S(1762, __c55, 2) as any as S.Schema<ActivitiesType>,
+  input: __S(1793, __c56, 1) as any as S.Schema<DescribeScalingActivitiesType>,
+  output: __S(1794, __c56, 2) as any as S.Schema<ActivitiesType>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3090,6 +3311,7 @@ export const describeScalingActivities: API.PaginatedOperationMethod<
     items: "Activities",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeScalingActivities"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingActivities",
 })) as any;
@@ -3105,12 +3327,13 @@ export const describeScalingProcessTypes: API.OperationMethod<
   DescribeScalingProcessTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DescribeScalingProcessTypesRequest>,
-  output: __S(1827, __c57, 3) as any as S.Schema<ProcessesType>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DescribeScalingProcessTypesRequest>,
+  output: __S(1859, __c58, 3) as any as S.Schema<ProcessesType>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingProcessTypes",
+  iam: { actions: ["autoscaling:DescribeScalingProcessTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingProcessTypes",
 }));
@@ -3134,8 +3357,8 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ScheduledUpdateGroupAction
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<DescribeScheduledActionsType>,
-  output: __S(1859, __c58, 3) as any as S.Schema<ScheduledActionsType>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DescribeScheduledActionsType>,
+  output: __S(1891, __c59, 3) as any as S.Schema<ScheduledActionsType>,
   errors: [InvalidNextToken, ResourceContentionFault, AutoScalingGroupNotFound],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3146,6 +3369,7 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
     items: "ScheduledUpdateGroupActions",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeScheduledActions"] },
   telemetry: TELEMETRY,
   span: "DescribeScheduledActions",
 })) as any;
@@ -3172,8 +3396,8 @@ export const describeTags: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TagDescription
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<DescribeTagsType>,
-  output: __S(1889, __c59, 1) as any as S.Schema<TagsType>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DescribeTagsType>,
+  output: __S(1921, __c60, 1) as any as S.Schema<TagsType>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3184,6 +3408,7 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 })) as any;
@@ -3202,12 +3427,13 @@ export const describeTerminationPolicyTypes: API.OperationMethod<
   DescribeTerminationPolicyTypesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<DescribeTerminationPolicyTypesRequest>,
-  output: __S(1921, __c60, 1) as any as S.Schema<DescribeTerminationPolicyTypesAnswer>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DescribeTerminationPolicyTypesRequest>,
+  output: __S(1953, __c61, 1) as any as S.Schema<DescribeTerminationPolicyTypesAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTerminationPolicyTypes",
+  iam: { actions: ["autoscaling:DescribeTerminationPolicyTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeTerminationPolicyTypes",
 }));
@@ -3229,8 +3455,8 @@ export const describeTrafficSources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DescribeTrafficSourcesRequest>,
-  output: __S(1955, __c61, 3) as any as S.Schema<DescribeTrafficSourcesResponse>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DescribeTrafficSourcesRequest>,
+  output: __S(1987, __c62, 3) as any as S.Schema<DescribeTrafficSourcesResponse>,
   errors: [InvalidNextToken, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3240,6 +3466,7 @@ export const describeTrafficSources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeTrafficSources"] },
   telemetry: TELEMETRY,
   span: "DescribeTrafficSources",
 })) as any;
@@ -3262,8 +3489,8 @@ export const describeWarmPool: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Instance
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DescribeWarmPoolType>,
-  output: __S(1985, __c62, 1) as any as S.Schema<DescribeWarmPoolAnswer>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DescribeWarmPoolType>,
+  output: __S(2017, __c63, 1) as any as S.Schema<DescribeWarmPoolAnswer>,
   errors: [InvalidNextToken, LimitExceededFault, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3274,6 +3501,7 @@ export const describeWarmPool: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["autoscaling:DescribeWarmPool"] },
   telemetry: TELEMETRY,
   span: "DescribeWarmPool",
 })) as any;
@@ -3301,12 +3529,20 @@ export const detachInstances: API.OperationMethod<
   DetachInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DetachInstancesQuery>,
-  output: __S(2017, __c63, 1) as any as S.Schema<DetachInstancesAnswer>,
+  input: __S(2048, __c64, 0) as any as S.Schema<DetachInstancesQuery>,
+  output: __S(2049, __c64, 1) as any as S.Schema<DetachInstancesAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachInstances",
+  iam: {
+    actions: ["autoscaling:DetachInstances"],
+    resources: {
+      "autoscaling:DetachInstances": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachInstances",
 }));
@@ -3336,12 +3572,20 @@ export const detachLoadBalancers: API.OperationMethod<
   DetachLoadBalancersError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<DetachLoadBalancersType>,
-  output: __S(2049, __c64, 1) as any as S.Schema<DetachLoadBalancersResultType>,
+  input: __S(2080, __c65, 0) as any as S.Schema<DetachLoadBalancersType>,
+  output: __S(2081, __c65, 1) as any as S.Schema<DetachLoadBalancersResultType>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancers",
+  iam: {
+    actions: ["autoscaling:DetachLoadBalancers"],
+    resources: {
+      "autoscaling:DetachLoadBalancers": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachLoadBalancers",
 }));
@@ -3373,12 +3617,20 @@ export const detachLoadBalancerTargetGroups: API.OperationMethod<
   DetachLoadBalancerTargetGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DetachLoadBalancerTargetGroupsType>,
-  output: __S(2081, __c65, 1) as any as S.Schema<DetachLoadBalancerTargetGroupsResultType>,
+  input: __S(2112, __c66, 0) as any as S.Schema<DetachLoadBalancerTargetGroupsType>,
+  output: __S(2113, __c66, 1) as any as S.Schema<DetachLoadBalancerTargetGroupsResultType>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancerTargetGroups",
+  iam: {
+    actions: ["autoscaling:DetachLoadBalancerTargetGroups"],
+    resources: {
+      "autoscaling:DetachLoadBalancerTargetGroups": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachLoadBalancerTargetGroups",
 }));
@@ -3399,12 +3651,20 @@ export const detachTrafficSources: API.OperationMethod<
   DetachTrafficSourcesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<DetachTrafficSourcesType>,
-  output: __S(2113, __c66, 1) as any as S.Schema<DetachTrafficSourcesResultType>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DetachTrafficSourcesType>,
+  output: __S(2145, __c67, 1) as any as S.Schema<DetachTrafficSourcesResultType>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachTrafficSources",
+  iam: {
+    actions: ["autoscaling:DetachTrafficSources"],
+    resources: {
+      "autoscaling:DetachTrafficSources": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachTrafficSources",
 }));
@@ -3419,12 +3679,20 @@ export const disableMetricsCollection: API.OperationMethod<
   DisableMetricsCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DisableMetricsCollectionQuery>,
-  output: __S(2145, __c67, 1) as any as S.Schema<DisableMetricsCollectionResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DisableMetricsCollectionQuery>,
+  output: __S(2177, __c68, 1) as any as S.Schema<DisableMetricsCollectionResponse>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableMetricsCollection",
+  iam: {
+    actions: ["autoscaling:DisableMetricsCollection"],
+    resources: {
+      "autoscaling:DisableMetricsCollection": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableMetricsCollection",
 }));
@@ -3445,12 +3713,20 @@ export const enableMetricsCollection: API.OperationMethod<
   EnableMetricsCollectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<EnableMetricsCollectionQuery>,
-  output: __S(2209, __c69, 1) as any as S.Schema<EnableMetricsCollectionResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<EnableMetricsCollectionQuery>,
+  output: __S(2241, __c70, 1) as any as S.Schema<EnableMetricsCollectionResponse>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMetricsCollection",
+  iam: {
+    actions: ["autoscaling:EnableMetricsCollection"],
+    resources: {
+      "autoscaling:EnableMetricsCollection": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableMetricsCollection",
 }));
@@ -3477,12 +3753,20 @@ export const enterStandby: API.OperationMethod<
   EnterStandbyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<EnterStandbyQuery>,
-  output: __S(2241, __c70, 1) as any as S.Schema<EnterStandbyAnswer>,
+  input: __S(2272, __c71, 0) as any as S.Schema<EnterStandbyQuery>,
+  output: __S(2273, __c71, 1) as any as S.Schema<EnterStandbyAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnterStandby",
+  iam: {
+    actions: ["autoscaling:EnterStandby"],
+    resources: {
+      "autoscaling:EnterStandby": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnterStandby",
 }));
@@ -3501,12 +3785,20 @@ export const executePolicy: API.OperationMethod<
   ExecutePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ExecutePolicyType>,
-  output: __S(2273, __c71, 1) as any as S.Schema<ExecutePolicyResponse>,
+  input: __S(2304, __c72, 0) as any as S.Schema<ExecutePolicyType>,
+  output: __S(2305, __c72, 1) as any as S.Schema<ExecutePolicyResponse>,
   errors: [ResourceContentionFault, ScalingActivityInProgressFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecutePolicy",
+  iam: {
+    actions: ["autoscaling:ExecutePolicy"],
+    resources: {
+      "autoscaling:ExecutePolicy": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExecutePolicy",
 }));
@@ -3528,12 +3820,20 @@ export const exitStandby: API.OperationMethod<
   ExitStandbyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<ExitStandbyQuery>,
-  output: __S(2305, __c72, 1) as any as S.Schema<ExitStandbyAnswer>,
+  input: __S(2336, __c73, 0) as any as S.Schema<ExitStandbyQuery>,
+  output: __S(2337, __c73, 1) as any as S.Schema<ExitStandbyAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExitStandby",
+  iam: {
+    actions: ["autoscaling:ExitStandby"],
+    resources: {
+      "autoscaling:ExitStandby": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExitStandby",
 }));
@@ -3559,12 +3859,13 @@ export const getPredictiveScalingForecast: API.OperationMethod<
   GetPredictiveScalingForecastError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<GetPredictiveScalingForecastType>,
-  output: __S(2342, __c73, 6) as any as S.Schema<GetPredictiveScalingForecastAnswer>,
+  input: __S(2368, __c74, 0) as any as S.Schema<GetPredictiveScalingForecastType>,
+  output: __S(2374, __c74, 6) as any as S.Schema<GetPredictiveScalingForecastAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPredictiveScalingForecast",
+  iam: { actions: ["autoscaling:GetPredictiveScalingForecast"] },
   telemetry: TELEMETRY,
   span: "GetPredictiveScalingForecast",
 }));
@@ -3584,8 +3885,8 @@ export const launchInstances: API.OperationMethod<
   LaunchInstancesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2371, __c74, 3) as any as S.Schema<LaunchInstancesRequest>,
-  output: __S(2376, __c74, 8) as any as S.Schema<LaunchInstancesResult>,
+  input: __S(2403, __c75, 3) as any as S.Schema<LaunchInstancesRequest>,
+  output: __S(2408, __c75, 8) as any as S.Schema<LaunchInstancesResult>,
   errors: [
     IdempotentCallInProgressFault,
     IdempotentParameterMismatchError,
@@ -3594,8 +3895,37 @@ export const launchInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LaunchInstances",
+  iam: {
+    actions: ["autoscaling:LaunchInstances"],
+    resources: {
+      "autoscaling:LaunchInstances": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "LaunchInstances",
+}));
+
+export type PutAccountSettingError = CommonErrors;
+/**
+ * Modifies an account setting for your account. You can use this operation to opt in or opt out of features provided through account settings when permitted. Account settings give you control over features that might have backwards-incompatible changes. When Amazon EC2 Auto Scaling introduces such changes, account settings allow you to test and adopt new features. Some account settings are enforced after a specified date. This means that after the enforcement date, you can no longer modify the setting.
+ */
+export const putAccountSetting: API.OperationMethod<
+  PutAccountSettingType & RegionInput,
+  PutAccountSettingAnswer,
+  PutAccountSettingError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2432, __c76, 0) as any as S.Schema<PutAccountSettingType>,
+  output: __S(2433, __c76, 1) as any as S.Schema<PutAccountSettingAnswer>,
+  errors: [],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PutAccountSetting",
+  iam: { actions: ["autoscaling:PutAccountSetting"] },
+  telemetry: TELEMETRY,
+  span: "PutAccountSetting",
 }));
 
 export type PutLifecycleHookError =
@@ -3650,12 +3980,22 @@ export const putLifecycleHook: API.OperationMethod<
   PutLifecycleHookError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2400, __c75, 0) as any as S.Schema<PutLifecycleHookType>,
-  output: __S(2401, __c75, 1) as any as S.Schema<PutLifecycleHookAnswer>,
+  input: __S(2464, __c77, 0) as any as S.Schema<PutLifecycleHookType>,
+  output: __S(2465, __c77, 1) as any as S.Schema<PutLifecycleHookAnswer>,
   errors: [LimitExceededFault, ResourceContentionFault, AutoScalingGroupNotFound],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleHook",
+  iam: {
+    actions: ["iam:PassRole", "autoscaling:PutLifecycleHook"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "autoscaling:PutLifecycleHook": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleARN" },
+  },
   telemetry: TELEMETRY,
   span: "PutLifecycleHook",
 }));
@@ -3685,12 +4025,20 @@ export const putNotificationConfiguration: API.OperationMethod<
   PutNotificationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<PutNotificationConfigurationType>,
-  output: __S(2433, __c76, 1) as any as S.Schema<PutNotificationConfigurationResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<PutNotificationConfigurationType>,
+  output: __S(2497, __c78, 1) as any as S.Schema<PutNotificationConfigurationResponse>,
   errors: [LimitExceededFault, ResourceContentionFault, ServiceLinkedRoleFailure],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationConfiguration",
+  iam: {
+    actions: ["autoscaling:PutNotificationConfiguration"],
+    resources: {
+      "autoscaling:PutNotificationConfiguration": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutNotificationConfiguration",
 }));
@@ -3722,12 +4070,20 @@ export const putScalingPolicy: API.OperationMethod<
   PutScalingPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<PutScalingPolicyType>,
-  output: __S(2465, __c77, 1) as any as S.Schema<PolicyARNType>,
+  input: __S(2528, __c79, 0) as any as S.Schema<PutScalingPolicyType>,
+  output: __S(2529, __c79, 1) as any as S.Schema<PolicyARNType>,
   errors: [LimitExceededFault, ResourceContentionFault, ServiceLinkedRoleFailure],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
+  iam: {
+    actions: ["autoscaling:PutScalingPolicy"],
+    resources: {
+      "autoscaling:PutScalingPolicy": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutScalingPolicy",
 }));
@@ -3758,8 +4114,8 @@ export const putScheduledUpdateGroupAction: API.OperationMethod<
   PutScheduledUpdateGroupActionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<PutScheduledUpdateGroupActionType>,
-  output: __S(2497, __c78, 1) as any as S.Schema<PutScheduledUpdateGroupActionResponse>,
+  input: __S(2560, __c80, 0) as any as S.Schema<PutScheduledUpdateGroupActionType>,
+  output: __S(2561, __c80, 1) as any as S.Schema<PutScheduledUpdateGroupActionResponse>,
   errors: [
     AlreadyExistsFault,
     LimitExceededFault,
@@ -3769,6 +4125,14 @@ export const putScheduledUpdateGroupAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScheduledUpdateGroupAction",
+  iam: {
+    actions: ["autoscaling:PutScheduledUpdateGroupAction"],
+    resources: {
+      "autoscaling:PutScheduledUpdateGroupAction": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutScheduledUpdateGroupAction",
 }));
@@ -3799,12 +4163,20 @@ export const putWarmPool: API.OperationMethod<
   PutWarmPoolError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<PutWarmPoolType>,
-  output: __S(2529, __c79, 1) as any as S.Schema<PutWarmPoolAnswer>,
+  input: __S(2592, __c81, 0) as any as S.Schema<PutWarmPoolType>,
+  output: __S(2593, __c81, 1) as any as S.Schema<PutWarmPoolAnswer>,
   errors: [InstanceRefreshInProgressFault, LimitExceededFault, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWarmPool",
+  iam: {
+    actions: ["autoscaling:PutWarmPool"],
+    resources: {
+      "autoscaling:PutWarmPool": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutWarmPool",
 }));
@@ -3848,12 +4220,20 @@ export const recordLifecycleActionHeartbeat: API.OperationMethod<
   RecordLifecycleActionHeartbeatError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<RecordLifecycleActionHeartbeatType>,
-  output: __S(2561, __c80, 1) as any as S.Schema<RecordLifecycleActionHeartbeatAnswer>,
+  input: __S(2624, __c82, 0) as any as S.Schema<RecordLifecycleActionHeartbeatType>,
+  output: __S(2625, __c82, 1) as any as S.Schema<RecordLifecycleActionHeartbeatAnswer>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordLifecycleActionHeartbeat",
+  iam: {
+    actions: ["autoscaling:RecordLifecycleActionHeartbeat"],
+    resources: {
+      "autoscaling:RecordLifecycleActionHeartbeat": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RecordLifecycleActionHeartbeat",
 }));
@@ -3872,12 +4252,20 @@ export const resumeProcesses: API.OperationMethod<
   ResumeProcessesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2625, __c82, 1) as any as S.Schema<ScalingProcessQuery>,
-  output: __S(2592, __c81, 0) as any as S.Schema<ResumeProcessesResponse>,
+  input: __S(2689, __c84, 1) as any as S.Schema<ScalingProcessQuery>,
+  output: __S(2656, __c83, 0) as any as S.Schema<ResumeProcessesResponse>,
   errors: [ResourceContentionFault, ResourceInUseFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeProcesses",
+  iam: {
+    actions: ["autoscaling:ResumeProcesses"],
+    resources: {
+      "autoscaling:ResumeProcesses": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResumeProcesses",
 }));
@@ -3918,8 +4306,8 @@ export const rollbackInstanceRefresh: API.OperationMethod<
   RollbackInstanceRefreshError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<RollbackInstanceRefreshType>,
-  output: __S(2657, __c83, 1) as any as S.Schema<RollbackInstanceRefreshAnswer>,
+  input: __S(2720, __c85, 0) as any as S.Schema<RollbackInstanceRefreshType>,
+  output: __S(2721, __c85, 1) as any as S.Schema<RollbackInstanceRefreshAnswer>,
   errors: [
     ActiveInstanceRefreshNotFoundFault,
     IrreversibleInstanceRefreshFault,
@@ -3929,6 +4317,14 @@ export const rollbackInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackInstanceRefresh",
+  iam: {
+    actions: ["autoscaling:RollbackInstanceRefresh"],
+    resources: {
+      "autoscaling:RollbackInstanceRefresh": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RollbackInstanceRefresh",
 }));
@@ -3953,12 +4349,20 @@ export const setDesiredCapacity: API.OperationMethod<
   SetDesiredCapacityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<SetDesiredCapacityType>,
-  output: __S(2689, __c84, 1) as any as S.Schema<SetDesiredCapacityResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<SetDesiredCapacityType>,
+  output: __S(2753, __c86, 1) as any as S.Schema<SetDesiredCapacityResponse>,
   errors: [ResourceContentionFault, ScalingActivityInProgressFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDesiredCapacity",
+  iam: {
+    actions: ["autoscaling:SetDesiredCapacity"],
+    resources: {
+      "autoscaling:SetDesiredCapacity": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetDesiredCapacity",
 }));
@@ -3977,12 +4381,20 @@ export const setInstanceHealth: API.OperationMethod<
   SetInstanceHealthError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<SetInstanceHealthQuery>,
-  output: __S(2721, __c85, 1) as any as S.Schema<SetInstanceHealthResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<SetInstanceHealthQuery>,
+  output: __S(2785, __c87, 1) as any as S.Schema<SetInstanceHealthResponse>,
   errors: [ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetInstanceHealth",
+  iam: {
+    actions: ["autoscaling:SetInstanceHealth"],
+    resources: {
+      "autoscaling:SetInstanceHealth": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetInstanceHealth",
 }));
@@ -4008,12 +4420,20 @@ export const setInstanceProtection: API.OperationMethod<
   SetInstanceProtectionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<SetInstanceProtectionQuery>,
-  output: __S(2753, __c86, 1) as any as S.Schema<SetInstanceProtectionAnswer>,
+  input: __S(2816, __c88, 0) as any as S.Schema<SetInstanceProtectionQuery>,
+  output: __S(2817, __c88, 1) as any as S.Schema<SetInstanceProtectionAnswer>,
   errors: [LimitExceededFault, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetInstanceProtection",
+  iam: {
+    actions: ["autoscaling:SetInstanceProtection"],
+    resources: {
+      "autoscaling:SetInstanceProtection": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetInstanceProtection",
 }));
@@ -4058,12 +4478,20 @@ export const startInstanceRefresh: API.OperationMethod<
   StartInstanceRefreshError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<StartInstanceRefreshType>,
-  output: __S(2785, __c87, 1) as any as S.Schema<StartInstanceRefreshAnswer>,
+  input: __S(2848, __c89, 0) as any as S.Schema<StartInstanceRefreshType>,
+  output: __S(2849, __c89, 1) as any as S.Schema<StartInstanceRefreshAnswer>,
   errors: [InstanceRefreshInProgressFault, LimitExceededFault, ResourceContentionFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstanceRefresh",
+  iam: {
+    actions: ["autoscaling:StartInstanceRefresh"],
+    resources: {
+      "autoscaling:StartInstanceRefresh": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartInstanceRefresh",
 }));
@@ -4086,12 +4514,20 @@ export const suspendProcesses: API.OperationMethod<
   SuspendProcessesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2625, __c82, 1) as any as S.Schema<ScalingProcessQuery>,
-  output: __S(2816, __c88, 0) as any as S.Schema<SuspendProcessesResponse>,
+  input: __S(2689, __c84, 1) as any as S.Schema<ScalingProcessQuery>,
+  output: __S(2880, __c90, 0) as any as S.Schema<SuspendProcessesResponse>,
   errors: [ResourceContentionFault, ResourceInUseFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendProcesses",
+  iam: {
+    actions: ["autoscaling:SuspendProcesses"],
+    resources: {
+      "autoscaling:SuspendProcesses": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SuspendProcesses",
 }));
@@ -4129,12 +4565,20 @@ export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
   TerminateInstanceInAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2849, __c89, 1) as any as S.Schema<TerminateInstanceInAutoScalingGroupType>,
-  output: __S(2850, __c89, 2) as any as S.Schema<ActivityType>,
+  input: __S(2913, __c91, 1) as any as S.Schema<TerminateInstanceInAutoScalingGroupType>,
+  output: __S(2914, __c91, 2) as any as S.Schema<ActivityType>,
   errors: [ResourceContentionFault, ScalingActivityInProgressFault],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateInstanceInAutoScalingGroup",
+  iam: {
+    actions: ["autoscaling:TerminateInstanceInAutoScalingGroup"],
+    resources: {
+      "autoscaling:TerminateInstanceInAutoScalingGroup": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateInstanceInAutoScalingGroup",
 }));
@@ -4194,8 +4638,8 @@ export const updateAutoScalingGroup: API.OperationMethod<
   UpdateAutoScalingGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2880, __c90, 0) as any as S.Schema<UpdateAutoScalingGroupType>,
-  output: __S(2881, __c90, 1) as any as S.Schema<UpdateAutoScalingGroupResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<UpdateAutoScalingGroupType>,
+  output: __S(2945, __c92, 1) as any as S.Schema<UpdateAutoScalingGroupResponse>,
   errors: [
     ResourceContentionFault,
     ScalingActivityInProgressFault,
@@ -4205,6 +4649,16 @@ export const updateAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoScalingGroup",
+  iam: {
+    actions: ["iam:PassRole", "autoscaling:UpdateAutoScalingGroup"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "autoscaling:UpdateAutoScalingGroup": [
+        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ServiceLinkedRoleARN" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAutoScalingGroup",
 }));
@@ -4932,6 +5386,38 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          NextToken: S.optional(S.String),
+          MaxRecords: S.optional(S.Number),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeAccountSettingsType" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.optional(S.String),
+          Value: S.optional(S.String),
+          EnforcementType: S.optional(S.String),
+          EnforcementDate: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+          DefaultValue: S.optional(S.String),
+          EnforcedValue: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "AccountSetting" });
+    case 2:
+      return S.Array(__S(1057, __c33, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          Settings: S.optional(__S(1058, __c33, 2)),
+          NextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeAccountSettingsAnswer" });
+  }
+}
+function __c34(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
         S.Struct({}).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
@@ -4941,23 +5427,23 @@ function __c33(j: number): any {
         identifier: "AdjustmentType",
       });
     case 2:
-      return S.Array(__S(1057, __c33, 1));
+      return S.Array(__S(1089, __c34, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ AdjustmentTypes: S.optional(__S(1058, __c33, 2)) }).pipe(ns),
+        S.Struct({ AdjustmentTypes: S.optional(__S(1090, __c34, 2)) }).pipe(ns),
       ).annotate({ identifier: "DescribeAdjustmentTypesAnswer" });
   }
 }
-function __c34(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AutoScalingGroupNames: S.optional(__S(1120, __c35, 0)),
+          AutoScalingGroupNames: S.optional(__S(1152, __c36, 0)),
           IncludeInstances: S.optional(S.Boolean),
           NextToken: S.optional(S.String),
           MaxRecords: S.optional(S.Number),
-          Filters: S.optional(__S(1154, __c36, 2)),
+          Filters: S.optional(__S(1186, __c37, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "AutoScalingGroupNamesType" });
     case 1:
@@ -4965,13 +5451,13 @@ function __c34(j: number): any {
         S.Struct({ ProcessName: S.optional(S.String), SuspensionReason: S.optional(S.String) }),
       ).annotate({ identifier: "SuspendedProcess" });
     case 2:
-      return S.Array(__S(1089, __c34, 1));
+      return S.Array(__S(1121, __c35, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({ Metric: S.optional(S.String), Granularity: S.optional(S.String) }),
       ).annotate({ identifier: "EnabledMetric" });
     case 4:
-      return S.Array(__S(1091, __c34, 3));
+      return S.Array(__S(1123, __c35, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -4991,20 +5477,20 @@ function __c34(j: number): any {
           TargetGroupARNs: S.optional(__S(160, __c5, 0)),
           HealthCheckType: S.optional(S.String),
           HealthCheckGracePeriod: S.optional(S.Number),
-          Instances: S.optional(__S(1217, __c38, 1)),
+          Instances: S.optional(__S(1249, __c39, 1)),
           CreatedTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          SuspendedProcesses: S.optional(__S(1090, __c34, 2)),
+          SuspendedProcesses: S.optional(__S(1122, __c35, 2)),
           PlacementGroup: S.optional(S.String),
           VPCZoneIdentifier: S.optional(S.String),
-          EnabledMetrics: S.optional(__S(1092, __c34, 4)),
+          EnabledMetrics: S.optional(__S(1124, __c35, 4)),
           Status: S.optional(S.String),
-          Tags: S.optional(__S(1185, __c37, 1)),
+          Tags: S.optional(__S(1217, __c38, 1)),
           TerminationPolicies: S.optional(__S(608, __c19, 0)),
           NewInstancesProtectedFromScaleIn: S.optional(S.Boolean),
           ServiceLinkedRoleARN: S.optional(S.String),
           MaxInstanceLifetime: S.optional(S.Number),
           CapacityRebalance: S.optional(S.Boolean),
-          WarmPoolConfiguration: S.optional(__S(1218, __c38, 2)),
+          WarmPoolConfiguration: S.optional(__S(1250, __c39, 2)),
           WarmPoolSize: S.optional(S.Number),
           Context: S.optional(S.String),
           DesiredCapacityType: S.optional(S.String),
@@ -5020,35 +5506,35 @@ function __c34(j: number): any {
         }),
       ).annotate({ identifier: "AutoScalingGroup" });
     case 6:
-      return S.Array(__S(1093, __c34, 5));
+      return S.Array(__S(1125, __c35, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          AutoScalingGroups: S.optional(__S(1094, __c34, 6)),
+          AutoScalingGroups: S.optional(__S(1126, __c35, 6)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "AutoScalingGroupsType" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
   }
 }
 function __c36(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
-    case 1:
-      return S.suspend(() =>
-        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(1152, __c36, 0)) }),
-      ).annotate({ identifier: "Filter" });
-    case 2:
-      return S.Array(__S(1153, __c36, 1));
   }
 }
 function __c37(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(1184, __c37, 0)) }),
+      ).annotate({ identifier: "Filter" });
+    case 2:
+      return S.Array(__S(1185, __c37, 1));
+  }
+}
+function __c38(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5061,10 +5547,10 @@ function __c37(j: number): any {
         }),
       ).annotate({ identifier: "TagDescription" });
     case 1:
-      return S.Array(__S(1184, __c37, 0));
+      return S.Array(__S(1216, __c38, 0));
   }
 }
-function __c38(j: number): any {
+function __c39(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5083,7 +5569,7 @@ function __c38(j: number): any {
         }),
       ).annotate({ identifier: "Instance" });
     case 1:
-      return S.Array(__S(1216, __c38, 0));
+      return S.Array(__S(1248, __c39, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5091,12 +5577,12 @@ function __c38(j: number): any {
           MinSize: S.optional(S.Number),
           PoolState: S.optional(S.String),
           Status: S.optional(S.String),
-          InstanceReusePolicy: S.optional(__S(1248, __c39, 0)),
+          InstanceReusePolicy: S.optional(__S(1280, __c40, 0)),
         }),
       ).annotate({ identifier: "WarmPoolConfiguration" });
   }
 }
-function __c39(j: number): any {
+function __c40(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ ReuseOnScaleIn: S.optional(S.Boolean) })).annotate({
@@ -5104,7 +5590,7 @@ function __c39(j: number): any {
       });
   }
 }
-function __c40(j: number): any {
+function __c41(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5132,17 +5618,17 @@ function __c40(j: number): any {
         }),
       ).annotate({ identifier: "AutoScalingInstanceDetails" });
     case 2:
-      return S.Array(__S(1281, __c40, 1));
+      return S.Array(__S(1313, __c41, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AutoScalingInstances: S.optional(__S(1282, __c40, 2)),
+          AutoScalingInstances: S.optional(__S(1314, __c41, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "AutoScalingInstancesType" });
   }
 }
-function __c41(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5152,17 +5638,17 @@ function __c41(j: number): any {
       ).annotate({ identifier: "DescribeAutoScalingNotificationTypesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ AutoScalingNotificationTypes: S.optional(__S(1344, __c42, 0)) }).pipe(ns),
+        S.Struct({ AutoScalingNotificationTypes: S.optional(__S(1376, __c43, 0)) }).pipe(ns),
       ).annotate({ identifier: "DescribeAutoScalingNotificationTypesAnswer" });
   }
 }
-function __c42(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c43(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -5170,7 +5656,7 @@ function __c43(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
-          InstanceRefreshIds: S.optional(__S(1376, __c43, 0)),
+          InstanceRefreshIds: S.optional(__S(1408, __c44, 0)),
           NextToken: S.optional(S.String),
           MaxRecords: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5192,8 +5678,8 @@ function __c43(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          LivePoolProgress: S.optional(__S(1378, __c43, 2)),
-          WarmPoolProgress: S.optional(__S(1379, __c43, 3)),
+          LivePoolProgress: S.optional(__S(1410, __c44, 2)),
+          WarmPoolProgress: S.optional(__S(1411, __c44, 3)),
         }),
       ).annotate({ identifier: "InstanceRefreshProgressDetails" });
     case 5:
@@ -5203,7 +5689,7 @@ function __c43(j: number): any {
           RollbackStartTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           PercentageCompleteOnRollback: S.optional(S.Number),
           InstancesToUpdateOnRollback: S.optional(S.Number),
-          ProgressDetailsOnRollback: S.optional(__S(1380, __c43, 4)),
+          ProgressDetailsOnRollback: S.optional(__S(1412, __c44, 4)),
         }),
       ).annotate({ identifier: "RollbackDetails" });
     case 6:
@@ -5217,32 +5703,32 @@ function __c43(j: number): any {
           EndTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           PercentageComplete: S.optional(S.Number),
           InstancesToUpdate: S.optional(S.Number),
-          ProgressDetails: S.optional(__S(1380, __c43, 4)),
-          Preferences: S.optional(__S(1411, __c44, 3)),
-          DesiredConfiguration: S.optional(__S(1412, __c44, 4)),
-          RollbackDetails: S.optional(__S(1381, __c43, 5)),
+          ProgressDetails: S.optional(__S(1412, __c44, 4)),
+          Preferences: S.optional(__S(1443, __c45, 3)),
+          DesiredConfiguration: S.optional(__S(1444, __c45, 4)),
+          RollbackDetails: S.optional(__S(1413, __c44, 5)),
           Strategy: S.optional(S.String),
         }),
       ).annotate({ identifier: "InstanceRefresh" });
     case 7:
-      return S.Array(__S(1382, __c43, 6));
+      return S.Array(__S(1414, __c44, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          InstanceRefreshes: S.optional(__S(1383, __c43, 7)),
+          InstanceRefreshes: S.optional(__S(1415, __c44, 7)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeInstanceRefreshesAnswer" });
   }
 }
-function __c44(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.Number);
     case 1:
       return S.Array(S.String);
     case 2:
-      return S.suspend(() => S.Struct({ Alarms: S.optional(__S(1409, __c44, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ Alarms: S.optional(__S(1441, __c45, 1)) })).annotate({
         identifier: "AlarmSpecification",
       });
     case 3:
@@ -5250,13 +5736,13 @@ function __c44(j: number): any {
         S.Struct({
           MinHealthyPercentage: S.optional(S.Number),
           InstanceWarmup: S.optional(S.Number),
-          CheckpointPercentages: S.optional(__S(1408, __c44, 0)),
+          CheckpointPercentages: S.optional(__S(1440, __c45, 0)),
           CheckpointDelay: S.optional(S.Number),
           SkipMatching: S.optional(S.Boolean),
           AutoRollback: S.optional(S.Boolean),
           ScaleInProtectedInstances: S.optional(S.String),
           StandbyInstances: S.optional(S.String),
-          AlarmSpecification: S.optional(__S(1410, __c44, 2)),
+          AlarmSpecification: S.optional(__S(1442, __c45, 2)),
           MaxHealthyPercentage: S.optional(S.Number),
           BakeTime: S.optional(S.Number),
         }),
@@ -5270,14 +5756,14 @@ function __c44(j: number): any {
       ).annotate({ identifier: "DesiredConfiguration" });
   }
 }
-function __c45(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          LaunchConfigurationNames: S.optional(__S(1440, __c45, 0)),
+          LaunchConfigurationNames: S.optional(__S(1472, __c46, 0)),
           NextToken: S.optional(S.String),
           MaxRecords: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5308,17 +5794,17 @@ function __c45(j: number): any {
         }),
       ).annotate({ identifier: "LaunchConfiguration" });
     case 3:
-      return S.Array(__S(1442, __c45, 2));
+      return S.Array(__S(1474, __c46, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          LaunchConfigurations: S.optional(__S(1443, __c45, 3)),
+          LaunchConfigurations: S.optional(__S(1475, __c46, 3)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "LaunchConfigurationsType" });
   }
 }
-function __c46(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -5326,7 +5812,7 @@ function __c46(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
-          LifecycleHookNames: S.optional(__S(1472, __c46, 0)),
+          LifecycleHookNames: S.optional(__S(1504, __c47, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeLifecycleHooksType" });
     case 2:
@@ -5344,14 +5830,14 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "LifecycleHook" });
     case 3:
-      return S.Array(__S(1474, __c46, 2));
+      return S.Array(__S(1506, __c47, 2));
     case 4:
       return S.suspend(() =>
-        S.Struct({ LifecycleHooks: S.optional(__S(1475, __c46, 3)) }).pipe(ns),
+        S.Struct({ LifecycleHooks: S.optional(__S(1507, __c47, 3)) }).pipe(ns),
       ).annotate({ identifier: "DescribeLifecycleHooksAnswer" });
   }
 }
-function __c47(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5361,11 +5847,11 @@ function __c47(j: number): any {
       ).annotate({ identifier: "DescribeLifecycleHookTypesRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ LifecycleHookTypes: S.optional(__S(1344, __c42, 0)) }).pipe(ns),
+        S.Struct({ LifecycleHookTypes: S.optional(__S(1376, __c43, 0)) }).pipe(ns),
       ).annotate({ identifier: "DescribeLifecycleHookTypesAnswer" });
   }
 }
-function __c48(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5380,17 +5866,17 @@ function __c48(j: number): any {
         S.Struct({ LoadBalancerName: S.optional(S.String), State: S.optional(S.String) }),
       ).annotate({ identifier: "LoadBalancerState" });
     case 2:
-      return S.Array(__S(1537, __c48, 1));
+      return S.Array(__S(1569, __c49, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          LoadBalancers: S.optional(__S(1538, __c48, 2)),
+          LoadBalancers: S.optional(__S(1570, __c49, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeLoadBalancersResponse" });
   }
 }
-function __c49(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5405,17 +5891,17 @@ function __c49(j: number): any {
         S.Struct({ LoadBalancerTargetGroupARN: S.optional(S.String), State: S.optional(S.String) }),
       ).annotate({ identifier: "LoadBalancerTargetGroupState" });
     case 2:
-      return S.Array(__S(1569, __c49, 1));
+      return S.Array(__S(1601, __c50, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          LoadBalancerTargetGroups: S.optional(__S(1570, __c49, 2)),
+          LoadBalancerTargetGroups: S.optional(__S(1602, __c50, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeLoadBalancerTargetGroupsResponse" });
   }
 }
-function __c50(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5428,28 +5914,28 @@ function __c50(j: number): any {
         identifier: "MetricCollectionType",
       });
     case 2:
-      return S.Array(__S(1601, __c50, 1));
+      return S.Array(__S(1633, __c51, 1));
     case 3:
       return S.suspend(() => S.Struct({ Granularity: S.optional(S.String) })).annotate({
         identifier: "MetricGranularityType",
       });
     case 4:
-      return S.Array(__S(1603, __c50, 3));
+      return S.Array(__S(1635, __c51, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Metrics: S.optional(__S(1602, __c50, 2)),
-          Granularities: S.optional(__S(1604, __c50, 4)),
+          Metrics: S.optional(__S(1634, __c51, 2)),
+          Granularities: S.optional(__S(1636, __c51, 4)),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMetricCollectionTypesAnswer" });
   }
 }
-function __c51(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          AutoScalingGroupNames: S.optional(__S(1120, __c35, 0)),
+          AutoScalingGroupNames: S.optional(__S(1152, __c36, 0)),
           NextToken: S.optional(S.String),
           MaxRecords: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5463,17 +5949,17 @@ function __c51(j: number): any {
         }),
       ).annotate({ identifier: "NotificationConfiguration" });
     case 2:
-      return S.Array(__S(1633, __c51, 1));
+      return S.Array(__S(1665, __c52, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          NotificationConfigurations: S.optional(__S(1634, __c51, 2)),
+          NotificationConfigurations: S.optional(__S(1666, __c52, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeNotificationConfigurationsAnswer" });
   }
 }
-function __c52(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -5483,8 +5969,8 @@ function __c52(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
-          PolicyNames: S.optional(__S(1664, __c52, 0)),
-          PolicyTypes: S.optional(__S(1665, __c52, 1)),
+          PolicyNames: S.optional(__S(1696, __c53, 0)),
+          PolicyTypes: S.optional(__S(1697, __c53, 1)),
           NextToken: S.optional(S.String),
           MaxRecords: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -5501,40 +5987,40 @@ function __c52(j: number): any {
           MinAdjustmentMagnitude: S.optional(S.Number),
           ScalingAdjustment: S.optional(S.Number),
           Cooldown: S.optional(S.Number),
-          StepAdjustments: S.optional(__S(1729, __c54, 1)),
+          StepAdjustments: S.optional(__S(1761, __c55, 1)),
           MetricAggregationType: S.optional(S.String),
           EstimatedInstanceWarmup: S.optional(S.Number),
-          Alarms: S.optional(__S(1731, __c54, 3)),
-          TargetTrackingConfiguration: S.optional(__S(1737, __c54, 9)),
+          Alarms: S.optional(__S(1763, __c55, 3)),
+          TargetTrackingConfiguration: S.optional(__S(1769, __c55, 9)),
           Enabled: S.optional(S.Boolean),
-          PredictiveScalingConfiguration: S.optional(__S(1739, __c54, 11)),
+          PredictiveScalingConfiguration: S.optional(__S(1771, __c55, 11)),
         }),
       ).annotate({ identifier: "ScalingPolicy" });
     case 4:
-      return S.Array(__S(1667, __c52, 3));
+      return S.Array(__S(1699, __c53, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          ScalingPolicies: S.optional(__S(1668, __c52, 4)),
+          ScalingPolicies: S.optional(__S(1700, __c53, 4)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "PoliciesType" });
   }
 }
-function __c53(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }),
       ).annotate({ identifier: "MetricDimension" });
     case 1:
-      return S.Array(__S(1696, __c53, 0));
+      return S.Array(__S(1728, __c54, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           Namespace: S.optional(S.String),
           MetricName: S.optional(S.String),
-          Dimensions: S.optional(__S(1697, __c53, 1)),
+          Dimensions: S.optional(__S(1729, __c54, 1)),
         }),
       ).annotate({ identifier: "Metric" });
     case 3:
@@ -5561,7 +6047,7 @@ function __c53(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
-          Metric: S.optional(__S(1698, __c53, 2)),
+          Metric: S.optional(__S(1730, __c54, 2)),
           Stat: S.optional(S.String),
           Unit: S.optional(S.String),
         }),
@@ -5571,40 +6057,40 @@ function __c53(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           Expression: S.optional(S.String),
-          MetricStat: S.optional(__S(1702, __c53, 6)),
+          MetricStat: S.optional(__S(1734, __c54, 6)),
           Label: S.optional(S.String),
           ReturnData: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MetricDataQuery" });
     case 8:
-      return S.Array(__S(1703, __c53, 7));
+      return S.Array(__S(1735, __c54, 7));
     case 9:
       return S.suspend(() =>
-        S.Struct({ MetricDataQueries: S.optional(__S(1704, __c53, 8)) }),
+        S.Struct({ MetricDataQueries: S.optional(__S(1736, __c54, 8)) }),
       ).annotate({ identifier: "PredictiveScalingCustomizedScalingMetric" });
     case 10:
       return S.suspend(() =>
-        S.Struct({ MetricDataQueries: S.optional(__S(1704, __c53, 8)) }),
+        S.Struct({ MetricDataQueries: S.optional(__S(1736, __c54, 8)) }),
       ).annotate({ identifier: "PredictiveScalingCustomizedLoadMetric" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ MetricDataQueries: S.optional(__S(1704, __c53, 8)) }),
+        S.Struct({ MetricDataQueries: S.optional(__S(1736, __c54, 8)) }),
       ).annotate({ identifier: "PredictiveScalingCustomizedCapacityMetric" });
     case 12:
       return S.suspend(() =>
         S.Struct({
           TargetValue: S.optional(S.Number),
-          PredefinedMetricPairSpecification: S.optional(__S(1699, __c53, 3)),
-          PredefinedScalingMetricSpecification: S.optional(__S(1700, __c53, 4)),
-          PredefinedLoadMetricSpecification: S.optional(__S(1701, __c53, 5)),
-          CustomizedScalingMetricSpecification: S.optional(__S(1705, __c53, 9)),
-          CustomizedLoadMetricSpecification: S.optional(__S(1706, __c53, 10)),
-          CustomizedCapacityMetricSpecification: S.optional(__S(1707, __c53, 11)),
+          PredefinedMetricPairSpecification: S.optional(__S(1731, __c54, 3)),
+          PredefinedScalingMetricSpecification: S.optional(__S(1732, __c54, 4)),
+          PredefinedLoadMetricSpecification: S.optional(__S(1733, __c54, 5)),
+          CustomizedScalingMetricSpecification: S.optional(__S(1737, __c54, 9)),
+          CustomizedLoadMetricSpecification: S.optional(__S(1738, __c54, 10)),
+          CustomizedCapacityMetricSpecification: S.optional(__S(1739, __c54, 11)),
         }),
       ).annotate({ identifier: "PredictiveScalingMetricSpecification" });
   }
 }
-function __c54(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5615,13 +6101,13 @@ function __c54(j: number): any {
         }),
       ).annotate({ identifier: "StepAdjustment" });
     case 1:
-      return S.Array(__S(1728, __c54, 0));
+      return S.Array(__S(1760, __c55, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ AlarmName: S.optional(S.String), AlarmARN: S.optional(S.String) }),
       ).annotate({ identifier: "Alarm" });
     case 3:
-      return S.Array(__S(1730, __c54, 2));
+      return S.Array(__S(1762, __c55, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5632,7 +6118,7 @@ function __c54(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Metric: S.optional(__S(1698, __c53, 2)),
+          Metric: S.optional(__S(1730, __c54, 2)),
           Stat: S.optional(S.String),
           Unit: S.optional(S.String),
           Period: S.optional(S.Number),
@@ -5643,41 +6129,41 @@ function __c54(j: number): any {
         S.Struct({
           Id: S.optional(S.String),
           Expression: S.optional(S.String),
-          MetricStat: S.optional(__S(1733, __c54, 5)),
+          MetricStat: S.optional(__S(1765, __c55, 5)),
           Label: S.optional(S.String),
           Period: S.optional(S.Number),
           ReturnData: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TargetTrackingMetricDataQuery" });
     case 7:
-      return S.Array(__S(1734, __c54, 6));
+      return S.Array(__S(1766, __c55, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           MetricName: S.optional(S.String),
           Namespace: S.optional(S.String),
-          Dimensions: S.optional(__S(1697, __c53, 1)),
+          Dimensions: S.optional(__S(1729, __c54, 1)),
           Statistic: S.optional(S.String),
           Unit: S.optional(S.String),
           Period: S.optional(S.Number),
-          Metrics: S.optional(__S(1735, __c54, 7)),
+          Metrics: S.optional(__S(1767, __c55, 7)),
         }),
       ).annotate({ identifier: "CustomizedMetricSpecification" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          PredefinedMetricSpecification: S.optional(__S(1732, __c54, 4)),
-          CustomizedMetricSpecification: S.optional(__S(1736, __c54, 8)),
+          PredefinedMetricSpecification: S.optional(__S(1764, __c55, 4)),
+          CustomizedMetricSpecification: S.optional(__S(1768, __c55, 8)),
           TargetValue: S.optional(S.Number),
           DisableScaleIn: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "TargetTrackingConfiguration" });
     case 10:
-      return S.Array(__S(1708, __c53, 12));
+      return S.Array(__S(1740, __c54, 12));
     case 11:
       return S.suspend(() =>
         S.Struct({
-          MetricSpecifications: S.optional(__S(1738, __c54, 10)),
+          MetricSpecifications: S.optional(__S(1770, __c55, 10)),
           Mode: S.optional(S.String),
           SchedulingBufferTime: S.optional(S.Number),
           MaxCapacityBreachBehavior: S.optional(S.String),
@@ -5686,31 +6172,31 @@ function __c54(j: number): any {
       ).annotate({ identifier: "PredictiveScalingConfiguration" });
   }
 }
-function __c55(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          ActivityIds: S.optional(__S(1760, __c55, 0)),
+          ActivityIds: S.optional(__S(1792, __c56, 0)),
           AutoScalingGroupName: S.optional(S.String),
           IncludeDeletedGroups: S.optional(S.Boolean),
           MaxRecords: S.optional(S.Number),
           NextToken: S.optional(S.String),
-          Filters: S.optional(__S(1154, __c36, 2)),
+          Filters: S.optional(__S(1186, __c37, 2)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeScalingActivitiesType" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Activities: S.optional(__S(1793, __c56, 1)),
+          Activities: S.optional(__S(1825, __c57, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ActivitiesType" });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5730,10 +6216,10 @@ function __c56(j: number): any {
         }),
       ).annotate({ identifier: "Activity" });
     case 1:
-      return S.Array(__S(1792, __c56, 0));
+      return S.Array(__S(1824, __c57, 0));
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5746,14 +6232,14 @@ function __c57(j: number): any {
         identifier: "ProcessType",
       });
     case 2:
-      return S.Array(__S(1825, __c57, 1));
+      return S.Array(__S(1857, __c58, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ Processes: S.optional(__S(1826, __c57, 2)) }).pipe(ns),
+        S.Struct({ Processes: S.optional(__S(1858, __c58, 2)) }).pipe(ns),
       ).annotate({ identifier: "ProcessesType" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5783,35 +6269,35 @@ function __c58(j: number): any {
         }),
       ).annotate({ identifier: "ScheduledUpdateGroupAction" });
     case 2:
-      return S.Array(__S(1857, __c58, 1));
+      return S.Array(__S(1889, __c59, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          ScheduledUpdateGroupActions: S.optional(__S(1858, __c58, 2)),
+          ScheduledUpdateGroupActions: S.optional(__S(1890, __c59, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ScheduledActionsType" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          Filters: S.optional(__S(1154, __c36, 2)),
+          Filters: S.optional(__S(1186, __c37, 2)),
           NextToken: S.optional(S.String),
           MaxRecords: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeTagsType" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Tags: S.optional(__S(1185, __c37, 1)), NextToken: S.optional(S.String) }).pipe(
+        S.Struct({ Tags: S.optional(__S(1217, __c38, 1)), NextToken: S.optional(S.String) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "TagsType" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5825,7 +6311,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DescribeTerminationPolicyTypesAnswer" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5846,17 +6332,17 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "TrafficSourceState" });
     case 2:
-      return S.Array(__S(1953, __c61, 1));
+      return S.Array(__S(1985, __c62, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          TrafficSources: S.optional(__S(1954, __c61, 2)),
+          TrafficSources: S.optional(__S(1986, __c62, 2)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeTrafficSourcesResponse" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5869,14 +6355,14 @@ function __c62(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          WarmPoolConfiguration: S.optional(__S(1218, __c38, 2)),
-          Instances: S.optional(__S(1217, __c38, 1)),
+          WarmPoolConfiguration: S.optional(__S(1250, __c39, 2)),
+          Instances: S.optional(__S(1249, __c39, 1)),
           NextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeWarmPoolAnswer" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5888,11 +6374,11 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DetachInstancesQuery" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Activities: S.optional(__S(1793, __c56, 1)) }).pipe(ns),
+        S.Struct({ Activities: S.optional(__S(1825, __c57, 1)) }).pipe(ns),
       ).annotate({ identifier: "DetachInstancesAnswer" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5907,7 +6393,7 @@ function __c64(j: number): any {
       });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5922,7 +6408,7 @@ function __c65(j: number): any {
       });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5937,13 +6423,13 @@ function __c66(j: number): any {
       });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
-          Metrics: S.optional(__S(2176, __c68, 0)),
+          Metrics: S.optional(__S(2208, __c69, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DisableMetricsCollectionQuery" });
     case 1:
@@ -5952,19 +6438,19 @@ function __c67(j: number): any {
       });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
-          Metrics: S.optional(__S(2176, __c68, 0)),
+          Metrics: S.optional(__S(2208, __c69, 0)),
           Granularity: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "EnableMetricsCollectionQuery" });
@@ -5974,7 +6460,7 @@ function __c69(j: number): any {
       });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5986,11 +6472,11 @@ function __c70(j: number): any {
       ).annotate({ identifier: "EnterStandbyQuery" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Activities: S.optional(__S(1793, __c56, 1)) }).pipe(ns),
+        S.Struct({ Activities: S.optional(__S(1825, __c57, 1)) }).pipe(ns),
       ).annotate({ identifier: "EnterStandbyAnswer" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6008,7 +6494,7 @@ function __c71(j: number): any {
       });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6019,11 +6505,11 @@ function __c72(j: number): any {
       ).annotate({ identifier: "ExitStandbyQuery" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ Activities: S.optional(__S(1793, __c56, 1)) }).pipe(ns),
+        S.Struct({ Activities: S.optional(__S(1825, __c57, 1)) }).pipe(ns),
       ).annotate({ identifier: "ExitStandbyAnswer" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6043,31 +6529,31 @@ function __c73(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          Timestamps: S.optional(__S(2337, __c73, 1)),
-          Values: S.optional(__S(2338, __c73, 2)),
-          MetricSpecification: S.optional(__S(1708, __c53, 12)),
+          Timestamps: S.optional(__S(2369, __c74, 1)),
+          Values: S.optional(__S(2370, __c74, 2)),
+          MetricSpecification: S.optional(__S(1740, __c54, 12)),
         }),
       ).annotate({ identifier: "LoadForecast" });
     case 4:
-      return S.Array(__S(2339, __c73, 3));
+      return S.Array(__S(2371, __c74, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          Timestamps: S.optional(__S(2337, __c73, 1)),
-          Values: S.optional(__S(2338, __c73, 2)),
+          Timestamps: S.optional(__S(2369, __c74, 1)),
+          Values: S.optional(__S(2370, __c74, 2)),
         }),
       ).annotate({ identifier: "CapacityForecast" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          LoadForecast: S.optional(__S(2340, __c73, 4)),
-          CapacityForecast: S.optional(__S(2341, __c73, 5)),
+          LoadForecast: S.optional(__S(2372, __c74, 4)),
+          CapacityForecast: S.optional(__S(2373, __c74, 5)),
           UpdateTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }).pipe(ns),
       ).annotate({ identifier: "GetPredictiveScalingForecastAnswer" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -6081,9 +6567,9 @@ function __c74(j: number): any {
           AutoScalingGroupName: S.optional(S.String),
           RequestedCapacity: S.optional(S.Number),
           ClientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          AvailabilityZones: S.optional(__S(2368, __c74, 0)),
-          AvailabilityZoneIds: S.optional(__S(2369, __c74, 1)),
-          SubnetIds: S.optional(__S(2370, __c74, 2)),
+          AvailabilityZones: S.optional(__S(2400, __c75, 0)),
+          AvailabilityZoneIds: S.optional(__S(2401, __c75, 1)),
+          SubnetIds: S.optional(__S(2402, __c75, 2)),
           RetryStrategy: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "LaunchInstancesRequest" });
@@ -6099,7 +6585,7 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "InstanceCollection" });
     case 5:
-      return S.Array(__S(2372, __c74, 4));
+      return S.Array(__S(2404, __c75, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -6113,19 +6599,33 @@ function __c74(j: number): any {
         }),
       ).annotate({ identifier: "LaunchInstancesError" });
     case 7:
-      return S.Array(__S(2374, __c74, 6));
+      return S.Array(__S(2406, __c75, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
           ClientToken: S.optional(S.String),
-          Instances: S.optional(__S(2373, __c74, 5)),
-          Errors: S.optional(__S(2375, __c74, 7)),
+          Instances: S.optional(__S(2405, __c75, 5)),
+          Errors: S.optional(__S(2407, __c75, 7)),
         }).pipe(ns),
       ).annotate({ identifier: "LaunchInstancesResult" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ Name: S.optional(S.String), Value: S.optional(S.String) }).pipe(
+          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "PutAccountSettingType" });
+    case 1:
+      return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
+        identifier: "PutAccountSettingAnswer",
+      });
+  }
+}
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6146,14 +6646,14 @@ function __c75(j: number): any {
       });
   }
 }
-function __c76(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
           TopicARN: S.optional(S.String),
-          NotificationTypes: S.optional(__S(1344, __c42, 0)),
+          NotificationTypes: S.optional(__S(1376, __c43, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutNotificationConfigurationType" });
     case 1:
@@ -6162,7 +6662,7 @@ function __c76(j: number): any {
       });
   }
 }
-function __c77(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6176,22 +6676,22 @@ function __c77(j: number): any {
           ScalingAdjustment: S.optional(S.Number),
           Cooldown: S.optional(S.Number),
           MetricAggregationType: S.optional(S.String),
-          StepAdjustments: S.optional(__S(1729, __c54, 1)),
+          StepAdjustments: S.optional(__S(1761, __c55, 1)),
           EstimatedInstanceWarmup: S.optional(S.Number),
-          TargetTrackingConfiguration: S.optional(__S(1737, __c54, 9)),
+          TargetTrackingConfiguration: S.optional(__S(1769, __c55, 9)),
           Enabled: S.optional(S.Boolean),
-          PredictiveScalingConfiguration: S.optional(__S(1739, __c54, 11)),
+          PredictiveScalingConfiguration: S.optional(__S(1771, __c55, 11)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutScalingPolicyType" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ PolicyARN: S.optional(S.String), Alarms: S.optional(__S(1731, __c54, 3)) }).pipe(
+        S.Struct({ PolicyARN: S.optional(S.String), Alarms: S.optional(__S(1763, __c55, 3)) }).pipe(
           ns,
         ),
       ).annotate({ identifier: "PolicyARNType" });
   }
 }
-function __c78(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6214,7 +6714,7 @@ function __c78(j: number): any {
       });
   }
 }
-function __c79(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6223,14 +6723,14 @@ function __c79(j: number): any {
           MaxGroupPreparedCapacity: S.optional(S.Number),
           MinSize: S.optional(S.Number),
           PoolState: S.optional(S.String),
-          InstanceReusePolicy: S.optional(__S(1248, __c39, 0)),
+          InstanceReusePolicy: S.optional(__S(1280, __c40, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutWarmPoolType" });
     case 1:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({ identifier: "PutWarmPoolAnswer" });
   }
 }
-function __c80(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6247,7 +6747,7 @@ function __c80(j: number): any {
       });
   }
 }
-function __c81(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
@@ -6255,7 +6755,7 @@ function __c81(j: number): any {
       });
   }
 }
-function __c82(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -6263,12 +6763,12 @@ function __c82(j: number): any {
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
-          ScalingProcesses: S.optional(__S(2624, __c82, 0)),
+          ScalingProcesses: S.optional(__S(2688, __c84, 0)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ScalingProcessQuery" });
   }
 }
-function __c83(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6282,7 +6782,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "RollbackInstanceRefreshAnswer" });
   }
 }
-function __c84(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6298,7 +6798,7 @@ function __c84(j: number): any {
       });
   }
 }
-function __c85(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6314,7 +6814,7 @@ function __c85(j: number): any {
       });
   }
 }
-function __c86(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6330,15 +6830,15 @@ function __c86(j: number): any {
       });
   }
 }
-function __c87(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           AutoScalingGroupName: S.optional(S.String),
           Strategy: S.optional(S.String),
-          DesiredConfiguration: S.optional(__S(1412, __c44, 4)),
-          Preferences: S.optional(__S(1411, __c44, 3)),
+          DesiredConfiguration: S.optional(__S(1444, __c45, 4)),
+          Preferences: S.optional(__S(1443, __c45, 3)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "StartInstanceRefreshType" });
     case 1:
@@ -6347,7 +6847,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "StartInstanceRefreshAnswer" });
   }
 }
-function __c88(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({}).pipe(ns)).annotate({
@@ -6355,7 +6855,7 @@ function __c88(j: number): any {
       });
   }
 }
-function __c89(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -6363,7 +6863,7 @@ function __c89(j: number): any {
       return S.suspend(() =>
         S.Struct({
           InstanceId: S.optional(S.String),
-          InstanceIds: S.optional(__S(2848, __c89, 0)),
+          InstanceIds: S.optional(__S(2912, __c91, 0)),
           AutoScalingGroupName: S.optional(S.String),
           ShouldDecrementDesiredCapacity: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -6371,13 +6871,13 @@ function __c89(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          Activity: S.optional(__S(1792, __c56, 0)),
-          Activities: S.optional(__S(1793, __c56, 1)),
+          Activity: S.optional(__S(1824, __c57, 0)),
+          Activities: S.optional(__S(1825, __c57, 1)),
         }).pipe(ns),
       ).annotate({ identifier: "ActivityType" });
   }
 }
-function __c90(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

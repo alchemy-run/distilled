@@ -423,8 +423,12 @@ export type HeaderName = string;
 export type RequestHeaderAllowlist = string[];
 export type RequestHeaderConfiguration = { requestHeaderAllowlist: string[] };
 export type ServerProtocol = "MCP" | "HTTP" | "A2A" | "AGUI" | (string & {});
+export type ServerPort = number;
+export type ServerPath = string;
 export interface ProtocolConfiguration {
   serverProtocol: ServerProtocol;
+  port?: number;
+  path?: string;
 }
 export interface LifecycleConfiguration {
   idleRuntimeSessionTimeout?: number;
@@ -483,6 +487,15 @@ export interface CapacityProviderConfiguration {
   capacityProviderArn?: string;
 }
 export type PlatformVersion = string;
+export type Port = number;
+export interface PortRange {
+  from: number;
+  to: number;
+}
+export type AllowedPort =
+  | { port: number; portRange?: never }
+  | { port?: never; portRange: PortRange };
+export type AllowedPorts = AllowedPort[];
 export interface CreateAgentRuntimeRequest {
   agentRuntimeName: string;
   agentRuntimeArtifact: AgentRuntimeArtifact;
@@ -499,6 +512,7 @@ export interface CreateAgentRuntimeRequest {
   capacityProviderConfiguration?: CapacityProviderConfiguration;
   tags?: { [key: string]: string | undefined };
   platformVersion?: string;
+  allowedPorts?: AllowedPort[];
 }
 export type AgentRuntimeArn = string;
 export type WorkloadIdentityArn = string;
@@ -976,9 +990,21 @@ export interface CategoricalScaleDefinition {
   label: string;
 }
 export type CategoricalScaleDefinitions = CategoricalScaleDefinition[];
-export type RatingScale =
+export type EvaluationDimensionName = string;
+export type EvaluationDimensionInstruction = string | redacted.Redacted<string>;
+export type DimensionRatingScale =
   | { numerical: NumericalScaleDefinition[]; categorical?: never }
   | { numerical?: never; categorical: CategoricalScaleDefinition[] };
+export interface EvaluationDimension {
+  dimensionName: string;
+  dimensionInstruction: string | redacted.Redacted<string>;
+  dimensionRatingScale: DimensionRatingScale;
+}
+export type EvaluationDimensions = EvaluationDimension[];
+export type RatingScale =
+  | { numerical: NumericalScaleDefinition[]; categorical?: never; multiDimensional?: never }
+  | { numerical?: never; categorical: CategoricalScaleDefinition[]; multiDimensional?: never }
+  | { numerical?: never; categorical?: never; multiDimensional: EvaluationDimension[] };
 export type ModelId = string;
 export type NonEmptyString = string;
 export type NonEmptyStringList = string[];
@@ -1214,9 +1240,20 @@ export type MatchPathPatterns = string[];
 export interface MatchPaths {
   anyOf: string[];
 }
+export type ModelPattern = string;
+export type MatchOperator = "StringEquals" | "StringLike" | (string & {});
+export interface MatchModelEntry {
+  value: string;
+  operator?: MatchOperator;
+}
+export type MatchModelEntries = MatchModelEntry[];
+export interface MatchModels {
+  anyOf: MatchModelEntry[];
+}
 export type Condition =
-  | { matchPrincipals: MatchPrincipals; matchPaths?: never }
-  | { matchPrincipals?: never; matchPaths: MatchPaths };
+  | { matchPrincipals: MatchPrincipals; matchPaths?: never; matchModels?: never }
+  | { matchPrincipals?: never; matchPaths: MatchPaths; matchModels?: never }
+  | { matchPrincipals?: never; matchPaths?: never; matchModels: MatchModels };
 export type Conditions = Condition[];
 export type GatewayConfigurationBundleArn = string;
 export interface StaticOverride {
@@ -1245,13 +1282,47 @@ export type ConfigurationBundleAction =
   | { staticOverride: StaticOverride; weightedOverride?: never }
   | { staticOverride?: never; weightedOverride: WeightedOverride };
 export type TargetName = string | redacted.Redacted<string>;
+export type ConcreteModelId = string;
+export type ErrorStatusCodePattern = string;
+export type ErrorStatusCodePatterns = string[];
+export type FallbackError =
+  | "CONNECTION_ERROR"
+  | "FIRST_BYTE_TIMEOUT"
+  | "UNROUTABLE"
+  | (string & {});
+export type FallbackErrors = FallbackError[];
+export interface FallbackTriggers {
+  statusCodes?: string[];
+  errors?: FallbackError[];
+}
+export type CircuitBreakerMode = "ENABLED" | "DISABLED" | (string & {});
+export interface CircuitBreakerConfiguration {
+  mode?: CircuitBreakerMode;
+}
+export interface FallbackTarget {
+  targetName: string | redacted.Redacted<string>;
+  model?: string;
+  triggerOn?: FallbackTriggers;
+  firstByteTimeoutMilliseconds?: number;
+}
+export type TargetFallbacks = FallbackTarget[];
+export interface Fallback {
+  triggerOn?: FallbackTriggers;
+  firstByteTimeoutMilliseconds?: number;
+  circuitBreaker?: CircuitBreakerConfiguration;
+  targetFallback: FallbackTarget[];
+}
 export interface StaticRoute {
   targetName: string | redacted.Redacted<string>;
+  model?: string;
+  fallback?: Fallback;
 }
 export interface TargetTrafficSplitEntry {
+  targetName: string | redacted.Redacted<string>;
+  model?: string;
+  fallback?: Fallback;
   name: string;
   weight: number;
-  targetName: string | redacted.Redacted<string>;
   description?: string;
   metadata?: { [key: string]: string | undefined };
 }
@@ -1515,7 +1586,6 @@ export interface ModelMapping {
   providerPrefix?: ProviderPrefix;
 }
 export type InferenceOperationPath = string;
-export type ModelPattern = string;
 export interface ModelEntry {
   model: string;
 }
@@ -2158,12 +2228,18 @@ export type MetadataSchemaList = MetadataSchemaEntry[];
 export interface MemoryRecordSchema {
   metadataSchema?: MetadataSchemaEntry[];
 }
+export type RecordExpiryDurationDays = number;
+export type RecordExpiryAction = "REMOVE" | (string & {});
+export type RecordExpirySpecification =
+  | { recordExpiryDurationDays: number; action?: never }
+  | { recordExpiryDurationDays?: never; action: RecordExpiryAction };
 export interface SemanticMemoryStrategyInput {
   name: string;
   description?: string | redacted.Redacted<string>;
   namespaces?: string[];
   namespaceTemplates?: string[];
   memoryRecordSchema?: MemoryRecordSchema;
+  recordExpirySpecification?: RecordExpirySpecification;
 }
 export interface SummaryMemoryStrategyInput {
   name: string;
@@ -2171,6 +2247,7 @@ export interface SummaryMemoryStrategyInput {
   namespaces?: string[];
   namespaceTemplates?: string[];
   memoryRecordSchema?: MemoryRecordSchema;
+  recordExpirySpecification?: RecordExpirySpecification;
 }
 export interface UserPreferenceMemoryStrategyInput {
   name: string;
@@ -2178,6 +2255,7 @@ export interface UserPreferenceMemoryStrategyInput {
   namespaces?: string[];
   namespaceTemplates?: string[];
   memoryRecordSchema?: MemoryRecordSchema;
+  recordExpirySpecification?: RecordExpirySpecification;
 }
 export type Prompt = string | redacted.Redacted<string>;
 export interface SemanticOverrideExtractionConfigurationInput {
@@ -2309,6 +2387,7 @@ export interface CustomMemoryStrategyInput {
   namespaceTemplates?: string[];
   configuration?: CustomConfigurationInput;
   memoryRecordSchema?: MemoryRecordSchema;
+  recordExpirySpecification?: RecordExpirySpecification;
 }
 export interface EpisodicReflectionConfigurationInput {
   namespaces?: string[];
@@ -2322,6 +2401,7 @@ export interface EpisodicMemoryStrategyInput {
   namespaceTemplates?: string[];
   reflectionConfiguration?: EpisodicReflectionConfigurationInput;
   memoryRecordSchema?: MemoryRecordSchema;
+  recordExpirySpecification?: RecordExpirySpecification;
 }
 export type MemoryStrategyInput =
   | {
@@ -2576,6 +2656,7 @@ export interface MemoryStrategy {
   updatedAt?: Date;
   status?: MemoryStrategyStatus;
   memoryRecordSchema?: MemoryRecordSchema;
+  recordExpiryDurationDays?: number;
 }
 export type MemoryStrategyList = MemoryStrategy[];
 export interface Memory {
@@ -2657,9 +2738,14 @@ export interface TokenExchangeGrantTypeConfigType {
   actorTokenContent: ActorTokenContentType;
   actorTokenScopes?: string[];
 }
+export type OnBehalfOfClientAuthenticationMethod = "NO_CLIENT" | (string & {});
+export interface OnBehalfOfAuthenticationConfig {
+  clientAuthenticationMethod: OnBehalfOfClientAuthenticationMethod;
+}
 export interface OnBehalfOfTokenExchangeConfigType {
   grantType: OnBehalfOfTokenExchangeGrantTypeType;
   tokenExchangeGrantTypeConfig?: TokenExchangeGrantTypeConfigType;
+  onBehalfOfAuthenticationConfig?: OnBehalfOfAuthenticationConfig;
 }
 export type ClientAuthenticationMethodType =
   | "CLIENT_SECRET_BASIC"
@@ -3787,6 +3873,7 @@ export interface GetAgentRuntimeResponse {
     capacityProviderArn: CapacityProviderArn;
   };
   platformVersion?: string;
+  allowedPorts?: AllowedPort[];
 }
 export interface GetAgentRuntimeEndpointRequest {
   agentRuntimeId: string;
@@ -5130,6 +5217,14 @@ export interface PutResourcePolicyRequest {
 export interface PutResourcePolicyResponse {
   policy: string;
 }
+export interface ResetTokenVaultKeyMaterialRequest {
+  tokenVaultId: string;
+}
+export interface ResetTokenVaultKeyMaterialResponse {
+  tokenVaultId: string;
+  kmsConfiguration: KmsConfiguration;
+  lastModifiedDate: Date;
+}
 export type CoinbaseCdpSecret = "API_KEY" | "WALLET_SECRET" | (string & {});
 export type CoinbaseCdpSecrets = CoinbaseCdpSecret[];
 export interface CoinbaseCdpRotationTargets {
@@ -5242,6 +5337,7 @@ export interface UpdateAgentRuntimeRequest {
   filesystemConfigurations?: FilesystemConfiguration[];
   capacityProviderConfiguration?: CapacityProviderConfiguration;
   platformVersion?: string;
+  allowedPorts?: AllowedPort[];
   clientToken?: string;
 }
 export interface UpdateAgentRuntimeResponse {
@@ -5603,6 +5699,7 @@ export interface ModifyMemoryStrategyInput {
   namespaceTemplates?: string[];
   configuration?: ModifyStrategyConfiguration;
   memoryRecordSchema?: MemoryRecordSchema;
+  recordExpirySpecification?: RecordExpirySpecification;
 }
 export type ModifyMemoryStrategiesList = ModifyMemoryStrategyInput[];
 export interface DeleteMemoryStrategyInput {
@@ -5922,6 +6019,14 @@ export const addDatasetExamples: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDatasetExamples",
+  iam: {
+    actions: ["bedrock-agentcore:AddDatasetExamples"],
+    resources: {
+      "bedrock-agentcore:AddDatasetExamples": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddDatasetExamples",
 }));
@@ -5958,6 +6063,14 @@ export const batchPutGatewayRateLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutGatewayRateLimits",
+  iam: {
+    actions: ["bedrock-agentcore:BatchPutGatewayRateLimits"],
+    resources: {
+      "bedrock-agentcore:BatchPutGatewayRateLimits": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchPutGatewayRateLimits",
 }));
@@ -5992,6 +6105,25 @@ export const createAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentRuntime",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateAgentRuntime",
+      "bedrock-agentcore:CreateAgentRuntimeEndpoint",
+      "bedrock-agentcore:PassCapacityProvider",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: {
+      "bedrock-agentcore:CreateAgentRuntimeEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+      ],
+      "bedrock-agentcore:PassCapacityProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgentRuntime",
 }));
@@ -6014,8 +6146,8 @@ export const createAgentRuntimeEndpoint: API.OperationMethod<
   CreateAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<CreateAgentRuntimeEndpointRequest>,
-  output: __S(3777, __c118, 1) as any as S.Schema<CreateAgentRuntimeEndpointResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<CreateAgentRuntimeEndpointRequest>,
+  output: __S(3809, __c119, 1) as any as S.Schema<CreateAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6028,6 +6160,15 @@ export const createAgentRuntimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentRuntimeEndpoint",
+  iam: {
+    actions: ["bedrock-agentcore:CreateAgentRuntimeEndpoint", "bedrock-agentcore:TagResource"],
+    resources: {
+      "bedrock-agentcore:CreateAgentRuntimeEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+      ],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgentRuntimeEndpoint",
 }));
@@ -6054,8 +6195,8 @@ export const createApiKeyCredentialProvider: API.OperationMethod<
   CreateApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<CreateApiKeyCredentialProviderRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<CreateApiKeyCredentialProviderResponse>,
+  input: __S(3840, __c120, 0) as any as S.Schema<CreateApiKeyCredentialProviderRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<CreateApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6072,6 +6213,16 @@ export const createApiKeyCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKeyCredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:CreateApiKeyCredentialProvider", "bedrock-agentcore:TagResource"],
+    resources: {
+      "bedrock-agentcore:CreateApiKeyCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApiKeyCredentialProvider",
 }));
@@ -6093,8 +6244,8 @@ export const createBrowser: API.OperationMethod<
   CreateBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<CreateBrowserRequest>,
-  output: __S(3905, __c122, 1) as any as S.Schema<CreateBrowserResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<CreateBrowserRequest>,
+  output: __S(3937, __c123, 1) as any as S.Schema<CreateBrowserResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6106,6 +6257,11 @@ export const createBrowser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrowser",
+  iam: {
+    actions: ["bedrock-agentcore:CreateBrowser", "iam:PassRole", "bedrock-agentcore:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "executionRoleArn", "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBrowser",
 }));
@@ -6127,8 +6283,8 @@ export const createBrowserProfile: API.OperationMethod<
   CreateBrowserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<CreateBrowserProfileRequest>,
-  output: __S(4001, __c125, 1) as any as S.Schema<CreateBrowserProfileResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<CreateBrowserProfileRequest>,
+  output: __S(4033, __c126, 1) as any as S.Schema<CreateBrowserProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6140,6 +6296,10 @@ export const createBrowserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrowserProfile",
+  iam: {
+    actions: ["bedrock-agentcore:CreateBrowserProfile", "bedrock-agentcore:TagResource"],
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBrowserProfile",
 }));
@@ -6165,8 +6325,8 @@ export const createCapacityProvider: API.OperationMethod<
   CreateCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<CreateCapacityProviderInput>,
-  output: __S(4033, __c126, 1) as any as S.Schema<CreateCapacityProviderOutput>,
+  input: __S(4064, __c127, 0) as any as S.Schema<CreateCapacityProviderInput>,
+  output: __S(4065, __c127, 1) as any as S.Schema<CreateCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6180,6 +6340,15 @@ export const createCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityProvider",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateCapacityProvider",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapacityProvider",
 }));
@@ -6201,8 +6370,8 @@ export const createCodeInterpreter: API.OperationMethod<
   CreateCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<CreateCodeInterpreterRequest>,
-  output: __S(4097, __c128, 1) as any as S.Schema<CreateCodeInterpreterResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<CreateCodeInterpreterRequest>,
+  output: __S(4129, __c129, 1) as any as S.Schema<CreateCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6214,6 +6383,15 @@ export const createCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeInterpreter",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateCodeInterpreter",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "executionRoleArn", "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCodeInterpreter",
 }));
@@ -6235,8 +6413,8 @@ export const createConfigurationBundle: API.OperationMethod<
   CreateConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4128, __c129, 0) as any as S.Schema<CreateConfigurationBundleRequest>,
-  output: __S(4129, __c129, 1) as any as S.Schema<CreateConfigurationBundleResponse>,
+  input: __S(4160, __c130, 0) as any as S.Schema<CreateConfigurationBundleRequest>,
+  output: __S(4161, __c130, 1) as any as S.Schema<CreateConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6248,6 +6426,10 @@ export const createConfigurationBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationBundle",
+  iam: {
+    actions: ["bedrock-agentcore:CreateConfigurationBundle", "bedrock-agentcore:TagResource"],
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfigurationBundle",
 }));
@@ -6271,8 +6453,8 @@ export const createConsentPortal: API.OperationMethod<
   CreateConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<CreateConsentPortalRequest>,
-  output: __S(4289, __c134, 1) as any as S.Schema<CreateConsentPortalResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<CreateConsentPortalRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<CreateConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6286,6 +6468,20 @@ export const createConsentPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConsentPortal",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateConsentPortal",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: {
+      "bedrock-agentcore:CreateConsentPortal": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConsentPortal",
 }));
@@ -6307,8 +6503,8 @@ export const createDataset: API.OperationMethod<
   CreateDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<CreateDatasetRequest>,
-  output: __S(4321, __c135, 1) as any as S.Schema<CreateDatasetResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<CreateDatasetRequest>,
+  output: __S(4353, __c136, 1) as any as S.Schema<CreateDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6320,6 +6516,10 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
+  iam: {
+    actions: ["bedrock-agentcore:CreateDataset", "bedrock-agentcore:TagResource"],
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -6342,8 +6542,8 @@ export const createDatasetVersion: API.OperationMethod<
   CreateDatasetVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<CreateDatasetVersionRequest>,
-  output: __S(4353, __c136, 1) as any as S.Schema<CreateDatasetVersionResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<CreateDatasetVersionRequest>,
+  output: __S(4385, __c137, 1) as any as S.Schema<CreateDatasetVersionResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6356,6 +6556,14 @@ export const createDatasetVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetVersion",
+  iam: {
+    actions: ["bedrock-agentcore:CreateDatasetVersion"],
+    resources: {
+      "bedrock-agentcore:CreateDatasetVersion": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDatasetVersion",
 }));
@@ -6377,8 +6585,8 @@ export const createEvaluator: API.OperationMethod<
   CreateEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4384, __c137, 0) as any as S.Schema<CreateEvaluatorRequest>,
-  output: __S(4385, __c137, 1) as any as S.Schema<CreateEvaluatorResponse>,
+  input: __S(4416, __c138, 0) as any as S.Schema<CreateEvaluatorRequest>,
+  output: __S(4417, __c138, 1) as any as S.Schema<CreateEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6390,6 +6598,10 @@ export const createEvaluator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluator",
+  iam: {
+    actions: ["bedrock-agentcore:CreateEvaluator", "bedrock-agentcore:TagResource"],
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEvaluator",
 }));
@@ -6413,8 +6625,8 @@ export const createGateway: API.OperationMethod<
   CreateGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4448, __c139, 0) as any as S.Schema<CreateGatewayRequest>,
-  output: __S(4527, __c141, 15) as any as S.Schema<CreateGatewayResponse>,
+  input: __S(4480, __c140, 0) as any as S.Schema<CreateGatewayRequest>,
+  output: __S(4559, __c142, 15) as any as S.Schema<CreateGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6426,6 +6638,21 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateGateway",
+      "iam:PassRole",
+      "bedrock-agentcore:SynchronizeGatewayTargets",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:SynchronizeGatewayTargets": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGateway",
 }));
@@ -6448,7 +6675,7 @@ export const createGatewayRateLimit: API.OperationMethod<
   CreateGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<CreateGatewayRateLimitRequest>,
+  input: __S(4576, __c143, 0) as any as S.Schema<CreateGatewayRateLimitRequest>,
   output: __S(2884, __c90, 4) as any as S.Schema<CreateGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
@@ -6462,6 +6689,14 @@ export const createGatewayRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRateLimit",
+  iam: {
+    actions: ["bedrock-agentcore:CreateGatewayRateLimit"],
+    resources: {
+      "bedrock-agentcore:CreateGatewayRateLimit": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGatewayRateLimit",
 }));
@@ -6484,8 +6719,8 @@ export const createGatewayRule: API.OperationMethod<
   CreateGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<CreateGatewayRuleRequest>,
-  output: __S(4577, __c143, 1) as any as S.Schema<CreateGatewayRuleResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<CreateGatewayRuleRequest>,
+  output: __S(4609, __c144, 1) as any as S.Schema<CreateGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6498,6 +6733,14 @@ export const createGatewayRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRule",
+  iam: {
+    actions: ["bedrock-agentcore:CreateGatewayRule"],
+    resources: {
+      "bedrock-agentcore:CreateGatewayRule": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGatewayRule",
 }));
@@ -6520,8 +6763,8 @@ export const createGatewayTarget: API.OperationMethod<
   CreateGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4640, __c145, 0) as any as S.Schema<CreateGatewayTargetRequest>,
-  output: __S(4818, __c150, 18) as any as S.Schema<CreateGatewayTargetResponse>,
+  input: __S(4672, __c146, 0) as any as S.Schema<CreateGatewayTargetRequest>,
+  output: __S(4850, __c151, 18) as any as S.Schema<CreateGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6534,6 +6777,20 @@ export const createGatewayTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayTarget",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateGatewayTarget",
+      "bedrock-agentcore:SynchronizeGatewayTargets",
+    ],
+    resources: {
+      "bedrock-agentcore:CreateGatewayTarget": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+      "bedrock-agentcore:SynchronizeGatewayTargets": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGatewayTarget",
 }));
@@ -6555,8 +6812,8 @@ export const createHarness: API.OperationMethod<
   CreateHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4832, __c151, 0) as any as S.Schema<CreateHarnessRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<CreateHarnessResponse>,
+  input: __S(4864, __c152, 0) as any as S.Schema<CreateHarnessRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<CreateHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6568,6 +6825,23 @@ export const createHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarness",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateAgentRuntime",
+      "bedrock-agentcore:CreateHarness",
+      "bedrock-agentcore:CreateMemory",
+      "bedrock-agentcore:GetMemory",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: {
+      "bedrock-agentcore:GetMemory": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateHarness",
 }));
@@ -6590,8 +6864,8 @@ export const createHarnessEndpoint: API.OperationMethod<
   CreateHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5024, __c157, 0) as any as S.Schema<CreateHarnessEndpointRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<CreateHarnessEndpointResponse>,
+  input: __S(5056, __c158, 0) as any as S.Schema<CreateHarnessEndpointRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<CreateHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6604,6 +6878,15 @@ export const createHarnessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarnessEndpoint",
+  iam: {
+    actions: ["bedrock-agentcore:CreateHarnessEndpoint", "bedrock-agentcore:TagResource"],
+    resources: {
+      "bedrock-agentcore:CreateHarnessEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
+      ],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateHarnessEndpoint",
 }));
@@ -6626,8 +6909,8 @@ export const createMemory: API.OperationMethod<
   CreateMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5120, __c160, 0) as any as S.Schema<CreateMemoryInput>,
-  output: __S(5162, __c161, 10) as any as S.Schema<CreateMemoryOutput>,
+  input: __S(5152, __c161, 0) as any as S.Schema<CreateMemoryInput>,
+  output: __S(5195, __c162, 11) as any as S.Schema<CreateMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6640,6 +6923,24 @@ export const createMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMemory",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateMemory",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+    conditional: {
+      "iam:PassRole": "memoryExecutionRoleArn",
+      "bedrock-agentcore:TagResource": "tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMemory",
 }));
@@ -6666,8 +6967,8 @@ export const createOauth2CredentialProvider: API.OperationMethod<
   CreateOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5248, __c164, 0) as any as S.Schema<CreateOauth2CredentialProviderRequest>,
-  output: __S(5249, __c164, 1) as any as S.Schema<CreateOauth2CredentialProviderResponse>,
+  input: __S(5280, __c165, 0) as any as S.Schema<CreateOauth2CredentialProviderRequest>,
+  output: __S(5281, __c165, 1) as any as S.Schema<CreateOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6684,6 +6985,16 @@ export const createOauth2CredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOauth2CredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:CreateOauth2CredentialProvider", "bedrock-agentcore:TagResource"],
+    resources: {
+      "bedrock-agentcore:CreateOauth2CredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOauth2CredentialProvider",
 }));
@@ -6705,8 +7016,8 @@ export const createOnlineEvaluationConfig: API.OperationMethod<
   CreateOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5344, __c167, 0) as any as S.Schema<CreateOnlineEvaluationConfigRequest>,
-  output: __S(5345, __c167, 1) as any as S.Schema<CreateOnlineEvaluationConfigResponse>,
+  input: __S(5376, __c168, 0) as any as S.Schema<CreateOnlineEvaluationConfigRequest>,
+  output: __S(5377, __c168, 1) as any as S.Schema<CreateOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6718,6 +7029,15 @@ export const createOnlineEvaluationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOnlineEvaluationConfig",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateOnlineEvaluationConfig",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOnlineEvaluationConfig",
 }));
@@ -6741,8 +7061,8 @@ export const createPaymentConnector: API.OperationMethod<
   CreatePaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5440, __c170, 0) as any as S.Schema<CreatePaymentConnectorRequest>,
-  output: __S(5441, __c170, 1) as any as S.Schema<CreatePaymentConnectorResponse>,
+  input: __S(5472, __c171, 0) as any as S.Schema<CreatePaymentConnectorRequest>,
+  output: __S(5473, __c171, 1) as any as S.Schema<CreatePaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6756,6 +7076,21 @@ export const createPaymentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentConnector",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreatePaymentConnector",
+      "bedrock-agentcore:GetPaymentCredentialProvider",
+    ],
+    resources: {
+      "bedrock-agentcore:CreatePaymentConnector": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+      "bedrock-agentcore:GetPaymentCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePaymentConnector",
 }));
@@ -6782,8 +7117,8 @@ export const createPaymentCredentialProvider: API.OperationMethod<
   CreatePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5504, __c172, 0) as any as S.Schema<CreatePaymentCredentialProviderRequest>,
-  output: __S(5505, __c172, 1) as any as S.Schema<CreatePaymentCredentialProviderResponse>,
+  input: __S(5536, __c173, 0) as any as S.Schema<CreatePaymentCredentialProviderRequest>,
+  output: __S(5537, __c173, 1) as any as S.Schema<CreatePaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6800,6 +7135,16 @@ export const createPaymentCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentCredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:CreatePaymentCredentialProvider", "bedrock-agentcore:TagResource"],
+    resources: {
+      "bedrock-agentcore:CreatePaymentCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePaymentCredentialProvider",
 }));
@@ -6823,8 +7168,8 @@ export const createPaymentManager: API.OperationMethod<
   CreatePaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5600, __c175, 0) as any as S.Schema<CreatePaymentManagerRequest>,
-  output: __S(5601, __c175, 1) as any as S.Schema<CreatePaymentManagerResponse>,
+  input: __S(5632, __c176, 0) as any as S.Schema<CreatePaymentManagerRequest>,
+  output: __S(5633, __c176, 1) as any as S.Schema<CreatePaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6836,6 +7181,15 @@ export const createPaymentManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentManager",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreatePaymentManager",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePaymentManager",
 }));
@@ -6860,8 +7214,8 @@ export const createPolicy: API.OperationMethod<
   CreatePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5632, __c176, 0) as any as S.Schema<CreatePolicyRequest>,
-  output: __S(5696, __c178, 0) as any as S.Schema<CreatePolicyResponse>,
+  input: __S(5664, __c177, 0) as any as S.Schema<CreatePolicyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<CreatePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6874,6 +7228,14 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  iam: {
+    actions: ["bedrock-agentcore:CreatePolicy"],
+    resources: {
+      "bedrock-agentcore:CreatePolicy": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicy",
 }));
@@ -6895,8 +7257,8 @@ export const createPolicyEngine: API.OperationMethod<
   CreatePolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5728, __c179, 0) as any as S.Schema<CreatePolicyEngineRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<CreatePolicyEngineResponse>,
+  input: __S(5760, __c180, 0) as any as S.Schema<CreatePolicyEngineRequest>,
+  output: __S(5792, __c181, 0) as any as S.Schema<CreatePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6908,6 +7270,7 @@ export const createPolicyEngine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyEngine",
+  iam: { actions: ["bedrock-agentcore:CreatePolicyEngine"] },
   telemetry: TELEMETRY,
   span: "CreatePolicyEngine",
 }));
@@ -6931,8 +7294,8 @@ export const createRegistry: API.OperationMethod<
   CreateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5792, __c181, 0) as any as S.Schema<CreateRegistryRequest>,
-  output: __S(5793, __c181, 1) as any as S.Schema<CreateRegistryResponse>,
+  input: __S(5824, __c182, 0) as any as S.Schema<CreateRegistryRequest>,
+  output: __S(5825, __c182, 1) as any as S.Schema<CreateRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6944,6 +7307,7 @@ export const createRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistry",
+  iam: { actions: ["bedrock-agentcore:CreateRegistry", "bedrock-agentcore:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreateRegistry",
 }));
@@ -6968,8 +7332,8 @@ export const createRegistryRecord: API.OperationMethod<
   CreateRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5856, __c183, 0) as any as S.Schema<CreateRegistryRecordRequest>,
-  output: __S(5857, __c183, 1) as any as S.Schema<CreateRegistryRecordResponse>,
+  input: __S(5888, __c184, 0) as any as S.Schema<CreateRegistryRecordRequest>,
+  output: __S(5889, __c184, 1) as any as S.Schema<CreateRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6982,12 +7346,27 @@ export const createRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistryRecord",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateRegistryRecord",
+      "iam:PassRole",
+      "bedrock-agentcore:TagResource",
+    ],
+    resources: {
+      "bedrock-agentcore:CreateRegistryRecord": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRegistryRecord",
 }));
 
 export type CreateWorkloadIdentityError =
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -7003,10 +7382,11 @@ export const createWorkloadIdentity: API.OperationMethod<
   CreateWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5920, __c185, 0) as any as S.Schema<CreateWorkloadIdentityRequest>,
-  output: __S(5921, __c185, 1) as any as S.Schema<CreateWorkloadIdentityResponse>,
+  input: __S(5952, __c186, 0) as any as S.Schema<CreateWorkloadIdentityRequest>,
+  output: __S(5953, __c186, 1) as any as S.Schema<CreateWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -7016,6 +7396,16 @@ export const createWorkloadIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadIdentity",
+  iam: {
+    actions: ["bedrock-agentcore:CreateWorkloadIdentity", "bedrock-agentcore:TagResource"],
+    resources: {
+      "bedrock-agentcore:CreateWorkloadIdentity": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+    conditional: { "bedrock-agentcore:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkloadIdentity",
 }));
@@ -7036,8 +7426,8 @@ export const deleteAgentRuntime: API.OperationMethod<
   DeleteAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5952, __c186, 0) as any as S.Schema<DeleteAgentRuntimeRequest>,
-  output: __S(5953, __c186, 1) as any as S.Schema<DeleteAgentRuntimeResponse>,
+  input: __S(5984, __c187, 0) as any as S.Schema<DeleteAgentRuntimeRequest>,
+  output: __S(5985, __c187, 1) as any as S.Schema<DeleteAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7048,6 +7438,26 @@ export const deleteAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentRuntime",
+  iam: {
+    actions: [
+      "bedrock-agentcore:DeleteAgentRuntime",
+      "bedrock-agentcore:DeleteAgentRuntimeEndpoint",
+      "bedrock-agentcore:DeleteWorkloadIdentity",
+    ],
+    resources: {
+      "bedrock-agentcore:DeleteAgentRuntime": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+      ],
+      "bedrock-agentcore:DeleteAgentRuntimeEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+      "bedrock-agentcore:DeleteWorkloadIdentity": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgentRuntime",
 }));
@@ -7068,8 +7478,8 @@ export const deleteAgentRuntimeEndpoint: API.OperationMethod<
   DeleteAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(5984, __c187, 0) as any as S.Schema<DeleteAgentRuntimeEndpointRequest>,
-  output: __S(5985, __c187, 1) as any as S.Schema<DeleteAgentRuntimeEndpointResponse>,
+  input: __S(6016, __c188, 0) as any as S.Schema<DeleteAgentRuntimeEndpointRequest>,
+  output: __S(6017, __c188, 1) as any as S.Schema<DeleteAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7080,6 +7490,15 @@ export const deleteAgentRuntimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentRuntimeEndpoint",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteAgentRuntimeEndpoint"],
+    resources: {
+      "bedrock-agentcore:DeleteAgentRuntimeEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgentRuntimeEndpoint",
 }));
@@ -7101,8 +7520,8 @@ export const deleteApiKeyCredentialProvider: API.OperationMethod<
   DeleteApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6016, __c188, 0) as any as S.Schema<DeleteApiKeyCredentialProviderRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteApiKeyCredentialProviderResponse>,
+  input: __S(6048, __c189, 0) as any as S.Schema<DeleteApiKeyCredentialProviderRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -7114,6 +7533,15 @@ export const deleteApiKeyCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKeyCredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteApiKeyCredentialProvider"],
+    resources: {
+      "bedrock-agentcore:DeleteApiKeyCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApiKeyCredentialProvider",
 }));
@@ -7136,8 +7564,8 @@ export const deleteBrowser: API.OperationMethod<
   DeleteBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6048, __c189, 0) as any as S.Schema<DeleteBrowserRequest>,
-  output: __S(6049, __c189, 1) as any as S.Schema<DeleteBrowserResponse>,
+  input: __S(6080, __c190, 0) as any as S.Schema<DeleteBrowserRequest>,
+  output: __S(6081, __c190, 1) as any as S.Schema<DeleteBrowserResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7150,6 +7578,14 @@ export const deleteBrowser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrowser",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteBrowser"],
+    resources: {
+      "bedrock-agentcore:DeleteBrowser": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBrowser",
 }));
@@ -7171,8 +7607,8 @@ export const deleteBrowserProfile: API.OperationMethod<
   DeleteBrowserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6080, __c190, 0) as any as S.Schema<DeleteBrowserProfileRequest>,
-  output: __S(6081, __c190, 1) as any as S.Schema<DeleteBrowserProfileResponse>,
+  input: __S(6112, __c191, 0) as any as S.Schema<DeleteBrowserProfileRequest>,
+  output: __S(6113, __c191, 1) as any as S.Schema<DeleteBrowserProfileResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7184,6 +7620,14 @@ export const deleteBrowserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrowserProfile",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteBrowserProfile"],
+    resources: {
+      "bedrock-agentcore:DeleteBrowserProfile": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-profile/${BrowserProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBrowserProfile",
 }));
@@ -7206,8 +7650,8 @@ export const deleteCapacityProvider: API.OperationMethod<
   DeleteCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6112, __c191, 0) as any as S.Schema<DeleteCapacityProviderInput>,
-  output: __S(6113, __c191, 1) as any as S.Schema<DeleteCapacityProviderOutput>,
+  input: __S(6144, __c192, 0) as any as S.Schema<DeleteCapacityProviderInput>,
+  output: __S(6145, __c192, 1) as any as S.Schema<DeleteCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7220,6 +7664,14 @@ export const deleteCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProvider",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteCapacityProvider"],
+    resources: {
+      "bedrock-agentcore:DeleteCapacityProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCapacityProvider",
 }));
@@ -7242,8 +7694,8 @@ export const deleteCodeInterpreter: API.OperationMethod<
   DeleteCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6144, __c192, 0) as any as S.Schema<DeleteCodeInterpreterRequest>,
-  output: __S(6145, __c192, 1) as any as S.Schema<DeleteCodeInterpreterResponse>,
+  input: __S(6176, __c193, 0) as any as S.Schema<DeleteCodeInterpreterRequest>,
+  output: __S(6177, __c193, 1) as any as S.Schema<DeleteCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7256,6 +7708,14 @@ export const deleteCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeInterpreter",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteCodeInterpreter"],
+    resources: {
+      "bedrock-agentcore:DeleteCodeInterpreter": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCodeInterpreter",
 }));
@@ -7277,8 +7737,8 @@ export const deleteConfigurationBundle: API.OperationMethod<
   DeleteConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6176, __c193, 0) as any as S.Schema<DeleteConfigurationBundleRequest>,
-  output: __S(6177, __c193, 1) as any as S.Schema<DeleteConfigurationBundleResponse>,
+  input: __S(6208, __c194, 0) as any as S.Schema<DeleteConfigurationBundleRequest>,
+  output: __S(6209, __c194, 1) as any as S.Schema<DeleteConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7290,6 +7750,14 @@ export const deleteConfigurationBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationBundle",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteConfigurationBundle"],
+    resources: {
+      "bedrock-agentcore:DeleteConfigurationBundle": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationBundle",
 }));
@@ -7312,8 +7780,8 @@ export const deleteConsentPortal: API.OperationMethod<
   DeleteConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6208, __c194, 0) as any as S.Schema<DeleteConsentPortalRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteConsentPortalResponse>,
+  input: __S(6240, __c195, 0) as any as S.Schema<DeleteConsentPortalRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7326,6 +7794,14 @@ export const deleteConsentPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsentPortal",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteConsentPortal"],
+    resources: {
+      "bedrock-agentcore:DeleteConsentPortal": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConsentPortal",
 }));
@@ -7347,8 +7823,8 @@ export const deleteDataset: API.OperationMethod<
   DeleteDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6240, __c195, 0) as any as S.Schema<DeleteDatasetRequest>,
-  output: __S(6241, __c195, 1) as any as S.Schema<DeleteDatasetResponse>,
+  input: __S(6272, __c196, 0) as any as S.Schema<DeleteDatasetRequest>,
+  output: __S(6273, __c196, 1) as any as S.Schema<DeleteDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7360,6 +7836,14 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteDataset"],
+    resources: {
+      "bedrock-agentcore:DeleteDataset": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -7381,8 +7865,8 @@ export const deleteDatasetExamples: API.OperationMethod<
   DeleteDatasetExamplesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6272, __c196, 0) as any as S.Schema<DeleteDatasetExamplesRequest>,
-  output: __S(6273, __c196, 1) as any as S.Schema<DeleteDatasetExamplesResponse>,
+  input: __S(6304, __c197, 0) as any as S.Schema<DeleteDatasetExamplesRequest>,
+  output: __S(6305, __c197, 1) as any as S.Schema<DeleteDatasetExamplesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7394,6 +7878,14 @@ export const deleteDatasetExamples: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetExamples",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteDatasetExamples"],
+    resources: {
+      "bedrock-agentcore:DeleteDatasetExamples": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDatasetExamples",
 }));
@@ -7415,8 +7907,8 @@ export const deleteEvaluator: API.OperationMethod<
   DeleteEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6304, __c197, 0) as any as S.Schema<DeleteEvaluatorRequest>,
-  output: __S(6305, __c197, 1) as any as S.Schema<DeleteEvaluatorResponse>,
+  input: __S(6336, __c198, 0) as any as S.Schema<DeleteEvaluatorRequest>,
+  output: __S(6337, __c198, 1) as any as S.Schema<DeleteEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7428,6 +7920,14 @@ export const deleteEvaluator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluator",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteEvaluator"],
+    resources: {
+      "bedrock-agentcore:DeleteEvaluator": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:evaluator/${EvaluatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEvaluator",
 }));
@@ -7449,8 +7949,8 @@ export const deleteGateway: API.OperationMethod<
   DeleteGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6336, __c198, 0) as any as S.Schema<DeleteGatewayRequest>,
-  output: __S(6337, __c198, 1) as any as S.Schema<DeleteGatewayResponse>,
+  input: __S(6368, __c199, 0) as any as S.Schema<DeleteGatewayRequest>,
+  output: __S(6369, __c199, 1) as any as S.Schema<DeleteGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7462,6 +7962,14 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteGateway"],
+    resources: {
+      "bedrock-agentcore:DeleteGateway": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGateway",
 }));
@@ -7483,8 +7991,8 @@ export const deleteGatewayRateLimit: API.OperationMethod<
   DeleteGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6368, __c199, 0) as any as S.Schema<DeleteGatewayRateLimitRequest>,
-  output: __S(6369, __c199, 1) as any as S.Schema<DeleteGatewayRateLimitResponse>,
+  input: __S(6400, __c200, 0) as any as S.Schema<DeleteGatewayRateLimitRequest>,
+  output: __S(6401, __c200, 1) as any as S.Schema<DeleteGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7496,6 +8004,14 @@ export const deleteGatewayRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRateLimit",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteGatewayRateLimit"],
+    resources: {
+      "bedrock-agentcore:DeleteGatewayRateLimit": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGatewayRateLimit",
 }));
@@ -7517,8 +8033,8 @@ export const deleteGatewayRule: API.OperationMethod<
   DeleteGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6400, __c200, 0) as any as S.Schema<DeleteGatewayRuleRequest>,
-  output: __S(6401, __c200, 1) as any as S.Schema<DeleteGatewayRuleResponse>,
+  input: __S(6432, __c201, 0) as any as S.Schema<DeleteGatewayRuleRequest>,
+  output: __S(6433, __c201, 1) as any as S.Schema<DeleteGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7530,6 +8046,14 @@ export const deleteGatewayRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRule",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteGatewayRule"],
+    resources: {
+      "bedrock-agentcore:DeleteGatewayRule": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGatewayRule",
 }));
@@ -7553,8 +8077,8 @@ export const deleteGatewayTarget: API.OperationMethod<
   DeleteGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6432, __c201, 0) as any as S.Schema<DeleteGatewayTargetRequest>,
-  output: __S(6433, __c201, 1) as any as S.Schema<DeleteGatewayTargetResponse>,
+  input: __S(6464, __c202, 0) as any as S.Schema<DeleteGatewayTargetRequest>,
+  output: __S(6465, __c202, 1) as any as S.Schema<DeleteGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7566,6 +8090,14 @@ export const deleteGatewayTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayTarget",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteGatewayTarget"],
+    resources: {
+      "bedrock-agentcore:DeleteGatewayTarget": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGatewayTarget",
 }));
@@ -7587,8 +8119,8 @@ export const deleteHarness: API.OperationMethod<
   DeleteHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6464, __c202, 0) as any as S.Schema<DeleteHarnessRequest>,
-  output: __S(6465, __c202, 1) as any as S.Schema<DeleteHarnessResponse>,
+  input: __S(6496, __c203, 0) as any as S.Schema<DeleteHarnessRequest>,
+  output: __S(6497, __c203, 1) as any as S.Schema<DeleteHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7600,6 +8132,17 @@ export const deleteHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHarness",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteAgentRuntime", "bedrock-agentcore:DeleteHarness"],
+    resources: {
+      "bedrock-agentcore:DeleteAgentRuntime": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+      ],
+      "bedrock-agentcore:DeleteHarness": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHarness",
 }));
@@ -7621,8 +8164,8 @@ export const deleteHarnessEndpoint: API.OperationMethod<
   DeleteHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6496, __c203, 0) as any as S.Schema<DeleteHarnessEndpointRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<DeleteHarnessEndpointResponse>,
+  input: __S(6528, __c204, 0) as any as S.Schema<DeleteHarnessEndpointRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<DeleteHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7634,6 +8177,15 @@ export const deleteHarnessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHarnessEndpoint",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteHarnessEndpoint"],
+    resources: {
+      "bedrock-agentcore:DeleteHarnessEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}/harness-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHarnessEndpoint",
 }));
@@ -7655,8 +8207,8 @@ export const deleteMemory: API.OperationMethod<
   DeleteMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6528, __c204, 0) as any as S.Schema<DeleteMemoryInput>,
-  output: __S(6529, __c204, 1) as any as S.Schema<DeleteMemoryOutput>,
+  input: __S(6560, __c205, 0) as any as S.Schema<DeleteMemoryInput>,
+  output: __S(6561, __c205, 1) as any as S.Schema<DeleteMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7668,6 +8220,14 @@ export const deleteMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMemory",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteMemory"],
+    resources: {
+      "bedrock-agentcore:DeleteMemory": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMemory",
 }));
@@ -7690,8 +8250,8 @@ export const deleteOauth2CredentialProvider: API.OperationMethod<
   DeleteOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6560, __c205, 0) as any as S.Schema<DeleteOauth2CredentialProviderRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteOauth2CredentialProviderResponse>,
+  input: __S(6592, __c206, 0) as any as S.Schema<DeleteOauth2CredentialProviderRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7704,6 +8264,15 @@ export const deleteOauth2CredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOauth2CredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteOauth2CredentialProvider"],
+    resources: {
+      "bedrock-agentcore:DeleteOauth2CredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOauth2CredentialProvider",
 }));
@@ -7725,8 +8294,8 @@ export const deleteOnlineEvaluationConfig: API.OperationMethod<
   DeleteOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6592, __c206, 0) as any as S.Schema<DeleteOnlineEvaluationConfigRequest>,
-  output: __S(6593, __c206, 1) as any as S.Schema<DeleteOnlineEvaluationConfigResponse>,
+  input: __S(6624, __c207, 0) as any as S.Schema<DeleteOnlineEvaluationConfigRequest>,
+  output: __S(6625, __c207, 1) as any as S.Schema<DeleteOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7738,6 +8307,14 @@ export const deleteOnlineEvaluationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOnlineEvaluationConfig",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteOnlineEvaluationConfig"],
+    resources: {
+      "bedrock-agentcore:DeleteOnlineEvaluationConfig": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:online-evaluation-config/${OnlineEvaluationConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOnlineEvaluationConfig",
 }));
@@ -7758,8 +8335,8 @@ export const deletePaymentConnector: API.OperationMethod<
   DeletePaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6624, __c207, 0) as any as S.Schema<DeletePaymentConnectorRequest>,
-  output: __S(6625, __c207, 1) as any as S.Schema<DeletePaymentConnectorResponse>,
+  input: __S(6656, __c208, 0) as any as S.Schema<DeletePaymentConnectorRequest>,
+  output: __S(6657, __c208, 1) as any as S.Schema<DeletePaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7770,6 +8347,14 @@ export const deletePaymentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentConnector",
+  iam: {
+    actions: ["bedrock-agentcore:DeletePaymentConnector"],
+    resources: {
+      "bedrock-agentcore:DeletePaymentConnector": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePaymentConnector",
 }));
@@ -7791,8 +8376,8 @@ export const deletePaymentCredentialProvider: API.OperationMethod<
   DeletePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6656, __c208, 0) as any as S.Schema<DeletePaymentCredentialProviderRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeletePaymentCredentialProviderResponse>,
+  input: __S(6688, __c209, 0) as any as S.Schema<DeletePaymentCredentialProviderRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeletePaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -7804,6 +8389,15 @@ export const deletePaymentCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentCredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:DeletePaymentCredentialProvider"],
+    resources: {
+      "bedrock-agentcore:DeletePaymentCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePaymentCredentialProvider",
 }));
@@ -7824,8 +8418,8 @@ export const deletePaymentManager: API.OperationMethod<
   DeletePaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6688, __c209, 0) as any as S.Schema<DeletePaymentManagerRequest>,
-  output: __S(6689, __c209, 1) as any as S.Schema<DeletePaymentManagerResponse>,
+  input: __S(6720, __c210, 0) as any as S.Schema<DeletePaymentManagerRequest>,
+  output: __S(6721, __c210, 1) as any as S.Schema<DeletePaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7836,6 +8430,14 @@ export const deletePaymentManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentManager",
+  iam: {
+    actions: ["bedrock-agentcore:DeletePaymentManager"],
+    resources: {
+      "bedrock-agentcore:DeletePaymentManager": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePaymentManager",
 }));
@@ -7857,8 +8459,8 @@ export const deletePolicy: API.OperationMethod<
   DeletePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6720, __c210, 0) as any as S.Schema<DeletePolicyRequest>,
-  output: __S(5696, __c178, 0) as any as S.Schema<DeletePolicyResponse>,
+  input: __S(6752, __c211, 0) as any as S.Schema<DeletePolicyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<DeletePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7870,6 +8472,15 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: {
+    actions: ["bedrock-agentcore:DeletePolicy"],
+    resources: {
+      "bedrock-agentcore:DeletePolicy": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -7891,8 +8502,8 @@ export const deletePolicyEngine: API.OperationMethod<
   DeletePolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6752, __c211, 0) as any as S.Schema<DeletePolicyEngineRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<DeletePolicyEngineResponse>,
+  input: __S(6784, __c212, 0) as any as S.Schema<DeletePolicyEngineRequest>,
+  output: __S(5792, __c181, 0) as any as S.Schema<DeletePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7904,6 +8515,14 @@ export const deletePolicyEngine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyEngine",
+  iam: {
+    actions: ["bedrock-agentcore:DeletePolicyEngine"],
+    resources: {
+      "bedrock-agentcore:DeletePolicyEngine": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicyEngine",
 }));
@@ -7925,8 +8544,8 @@ export const deleteRegistry: API.OperationMethod<
   DeleteRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6784, __c212, 0) as any as S.Schema<DeleteRegistryRequest>,
-  output: __S(6785, __c212, 1) as any as S.Schema<DeleteRegistryResponse>,
+  input: __S(6816, __c213, 0) as any as S.Schema<DeleteRegistryRequest>,
+  output: __S(6817, __c213, 1) as any as S.Schema<DeleteRegistryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7938,6 +8557,14 @@ export const deleteRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistry",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteRegistry"],
+    resources: {
+      "bedrock-agentcore:DeleteRegistry": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegistry",
 }));
@@ -7959,8 +8586,8 @@ export const deleteRegistryRecord: API.OperationMethod<
   DeleteRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6816, __c213, 0) as any as S.Schema<DeleteRegistryRecordRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteRegistryRecordResponse>,
+  input: __S(6848, __c214, 0) as any as S.Schema<DeleteRegistryRecordRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7972,6 +8599,14 @@ export const deleteRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistryRecord",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteRegistryRecord"],
+    resources: {
+      "bedrock-agentcore:DeleteRegistryRecord": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegistryRecord",
 }));
@@ -7994,8 +8629,8 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6848, __c214, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
+  input: __S(6880, __c215, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8006,6 +8641,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["bedrock-agentcore:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -8027,8 +8663,8 @@ export const deleteWorkloadIdentity: API.OperationMethod<
   DeleteWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6880, __c215, 0) as any as S.Schema<DeleteWorkloadIdentityRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<DeleteWorkloadIdentityResponse>,
+  input: __S(6912, __c216, 0) as any as S.Schema<DeleteWorkloadIdentityRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<DeleteWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8040,6 +8676,15 @@ export const deleteWorkloadIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadIdentity",
+  iam: {
+    actions: ["bedrock-agentcore:DeleteWorkloadIdentity"],
+    resources: {
+      "bedrock-agentcore:DeleteWorkloadIdentity": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkloadIdentity",
 }));
@@ -8060,8 +8705,8 @@ export const getAgentRuntime: API.OperationMethod<
   GetAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6912, __c216, 0) as any as S.Schema<GetAgentRuntimeRequest>,
-  output: __S(6913, __c216, 1) as any as S.Schema<GetAgentRuntimeResponse>,
+  input: __S(6944, __c217, 0) as any as S.Schema<GetAgentRuntimeRequest>,
+  output: __S(6945, __c217, 1) as any as S.Schema<GetAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8072,6 +8717,14 @@ export const getAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRuntime",
+  iam: {
+    actions: ["bedrock-agentcore:GetAgentRuntime"],
+    resources: {
+      "bedrock-agentcore:GetAgentRuntime": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentRuntime",
 }));
@@ -8092,8 +8745,8 @@ export const getAgentRuntimeEndpoint: API.OperationMethod<
   GetAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(6976, __c218, 0) as any as S.Schema<GetAgentRuntimeEndpointRequest>,
-  output: __S(6977, __c218, 1) as any as S.Schema<GetAgentRuntimeEndpointResponse>,
+  input: __S(7008, __c219, 0) as any as S.Schema<GetAgentRuntimeEndpointRequest>,
+  output: __S(7009, __c219, 1) as any as S.Schema<GetAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8104,6 +8757,15 @@ export const getAgentRuntimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRuntimeEndpoint",
+  iam: {
+    actions: ["bedrock-agentcore:GetAgentRuntimeEndpoint"],
+    resources: {
+      "bedrock-agentcore:GetAgentRuntimeEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentRuntimeEndpoint",
 }));
@@ -8126,8 +8788,8 @@ export const getApiKeyCredentialProvider: API.OperationMethod<
   GetApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7008, __c219, 0) as any as S.Schema<GetApiKeyCredentialProviderRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<GetApiKeyCredentialProviderResponse>,
+  input: __S(7040, __c220, 0) as any as S.Schema<GetApiKeyCredentialProviderRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<GetApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -8140,6 +8802,15 @@ export const getApiKeyCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiKeyCredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:GetApiKeyCredentialProvider"],
+    resources: {
+      "bedrock-agentcore:GetApiKeyCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApiKeyCredentialProvider",
 }));
@@ -8160,8 +8831,8 @@ export const getBrowser: API.OperationMethod<
   GetBrowserError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7072, __c221, 0) as any as S.Schema<GetBrowserRequest>,
-  output: __S(7073, __c221, 1) as any as S.Schema<GetBrowserResponse>,
+  input: __S(7104, __c222, 0) as any as S.Schema<GetBrowserRequest>,
+  output: __S(7105, __c222, 1) as any as S.Schema<GetBrowserResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8172,6 +8843,14 @@ export const getBrowser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowser",
+  iam: {
+    actions: ["bedrock-agentcore:GetBrowser"],
+    resources: {
+      "bedrock-agentcore:GetBrowser": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBrowser",
 }));
@@ -8192,8 +8871,8 @@ export const getBrowserProfile: API.OperationMethod<
   GetBrowserProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7104, __c222, 0) as any as S.Schema<GetBrowserProfileRequest>,
-  output: __S(7136, __c223, 0) as any as S.Schema<GetBrowserProfileResponse>,
+  input: __S(7136, __c223, 0) as any as S.Schema<GetBrowserProfileRequest>,
+  output: __S(7168, __c224, 0) as any as S.Schema<GetBrowserProfileResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8204,6 +8883,14 @@ export const getBrowserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserProfile",
+  iam: {
+    actions: ["bedrock-agentcore:GetBrowserProfile"],
+    resources: {
+      "bedrock-agentcore:GetBrowserProfile": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-profile/${BrowserProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBrowserProfile",
 }));
@@ -8224,8 +8911,8 @@ export const getCapacityProvider: API.OperationMethod<
   GetCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7168, __c224, 0) as any as S.Schema<GetCapacityProviderInput>,
-  output: __S(7169, __c224, 1) as any as S.Schema<GetCapacityProviderOutput>,
+  input: __S(7200, __c225, 0) as any as S.Schema<GetCapacityProviderInput>,
+  output: __S(7201, __c225, 1) as any as S.Schema<GetCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8236,6 +8923,14 @@ export const getCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityProvider",
+  iam: {
+    actions: ["bedrock-agentcore:GetCapacityProvider"],
+    resources: {
+      "bedrock-agentcore:GetCapacityProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCapacityProvider",
 }));
@@ -8256,8 +8951,8 @@ export const getCodeInterpreter: API.OperationMethod<
   GetCodeInterpreterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7200, __c225, 0) as any as S.Schema<GetCodeInterpreterRequest>,
-  output: __S(7201, __c225, 1) as any as S.Schema<GetCodeInterpreterResponse>,
+  input: __S(7232, __c226, 0) as any as S.Schema<GetCodeInterpreterRequest>,
+  output: __S(7233, __c226, 1) as any as S.Schema<GetCodeInterpreterResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8268,6 +8963,14 @@ export const getCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeInterpreter",
+  iam: {
+    actions: ["bedrock-agentcore:GetCodeInterpreter"],
+    resources: {
+      "bedrock-agentcore:GetCodeInterpreter": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCodeInterpreter",
 }));
@@ -8288,8 +8991,8 @@ export const getConfigurationBundle: API.OperationMethod<
   GetConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7232, __c226, 0) as any as S.Schema<GetConfigurationBundleRequest>,
-  output: __S(7233, __c226, 1) as any as S.Schema<GetConfigurationBundleResponse>,
+  input: __S(7264, __c227, 0) as any as S.Schema<GetConfigurationBundleRequest>,
+  output: __S(7265, __c227, 1) as any as S.Schema<GetConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8300,6 +9003,14 @@ export const getConfigurationBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationBundle",
+  iam: {
+    actions: ["bedrock-agentcore:GetConfigurationBundle"],
+    resources: {
+      "bedrock-agentcore:GetConfigurationBundle": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfigurationBundle",
 }));
@@ -8320,8 +9031,8 @@ export const getConfigurationBundleVersion: API.OperationMethod<
   GetConfigurationBundleVersionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7296, __c228, 0) as any as S.Schema<GetConfigurationBundleVersionRequest>,
-  output: __S(7297, __c228, 1) as any as S.Schema<GetConfigurationBundleVersionResponse>,
+  input: __S(7328, __c229, 0) as any as S.Schema<GetConfigurationBundleVersionRequest>,
+  output: __S(7329, __c229, 1) as any as S.Schema<GetConfigurationBundleVersionResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8332,6 +9043,14 @@ export const getConfigurationBundleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationBundleVersion",
+  iam: {
+    actions: ["bedrock-agentcore:GetConfigurationBundleVersion"],
+    resources: {
+      "bedrock-agentcore:GetConfigurationBundleVersion": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfigurationBundleVersion",
 }));
@@ -8353,8 +9072,8 @@ export const getConsentPortal: API.OperationMethod<
   GetConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7328, __c229, 0) as any as S.Schema<GetConsentPortalRequest>,
-  output: __S(4289, __c134, 1) as any as S.Schema<GetConsentPortalResponse>,
+  input: __S(7360, __c230, 0) as any as S.Schema<GetConsentPortalRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<GetConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8366,6 +9085,14 @@ export const getConsentPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsentPortal",
+  iam: {
+    actions: ["bedrock-agentcore:GetConsentPortal"],
+    resources: {
+      "bedrock-agentcore:GetConsentPortal": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConsentPortal",
 }));
@@ -8387,8 +9114,8 @@ export const getDataset: API.OperationMethod<
   GetDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7360, __c230, 0) as any as S.Schema<GetDatasetRequest>,
-  output: __S(7361, __c230, 1) as any as S.Schema<GetDatasetResponse>,
+  input: __S(7392, __c231, 0) as any as S.Schema<GetDatasetRequest>,
+  output: __S(7393, __c231, 1) as any as S.Schema<GetDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -8400,6 +9127,14 @@ export const getDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataset",
+  iam: {
+    actions: ["bedrock-agentcore:GetDataset"],
+    resources: {
+      "bedrock-agentcore:GetDataset": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataset",
 }));
@@ -8420,8 +9155,8 @@ export const getEvaluator: API.OperationMethod<
   GetEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7392, __c231, 0) as any as S.Schema<GetEvaluatorRequest>,
-  output: __S(7393, __c231, 1) as any as S.Schema<GetEvaluatorResponse>,
+  input: __S(7424, __c232, 0) as any as S.Schema<GetEvaluatorRequest>,
+  output: __S(7425, __c232, 1) as any as S.Schema<GetEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8432,6 +9167,14 @@ export const getEvaluator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluator",
+  iam: {
+    actions: ["bedrock-agentcore:GetEvaluator"],
+    resources: {
+      "bedrock-agentcore:GetEvaluator": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:evaluator/${EvaluatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEvaluator",
 }));
@@ -8452,8 +9195,8 @@ export const getGateway: API.OperationMethod<
   GetGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7424, __c232, 0) as any as S.Schema<GetGatewayRequest>,
-  output: __S(4527, __c141, 15) as any as S.Schema<GetGatewayResponse>,
+  input: __S(7456, __c233, 0) as any as S.Schema<GetGatewayRequest>,
+  output: __S(4559, __c142, 15) as any as S.Schema<GetGatewayResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8464,6 +9207,14 @@ export const getGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGateway",
+  iam: {
+    actions: ["bedrock-agentcore:GetGateway"],
+    resources: {
+      "bedrock-agentcore:GetGateway": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGateway",
 }));
@@ -8484,7 +9235,7 @@ export const getGatewayRateLimit: API.OperationMethod<
   GetGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7456, __c233, 0) as any as S.Schema<GetGatewayRateLimitRequest>,
+  input: __S(7488, __c234, 0) as any as S.Schema<GetGatewayRateLimitRequest>,
   output: __S(2884, __c90, 4) as any as S.Schema<GetGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
@@ -8496,6 +9247,14 @@ export const getGatewayRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayRateLimit",
+  iam: {
+    actions: ["bedrock-agentcore:GetGatewayRateLimit"],
+    resources: {
+      "bedrock-agentcore:GetGatewayRateLimit": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGatewayRateLimit",
 }));
@@ -8516,8 +9275,8 @@ export const getGatewayRule: API.OperationMethod<
   GetGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7488, __c234, 0) as any as S.Schema<GetGatewayRuleRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<GetGatewayRuleResponse>,
+  input: __S(7520, __c235, 0) as any as S.Schema<GetGatewayRuleRequest>,
+  output: __S(7552, __c236, 0) as any as S.Schema<GetGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8528,6 +9287,14 @@ export const getGatewayRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayRule",
+  iam: {
+    actions: ["bedrock-agentcore:GetGatewayRule"],
+    resources: {
+      "bedrock-agentcore:GetGatewayRule": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGatewayRule",
 }));
@@ -8548,8 +9315,8 @@ export const getGatewayTarget: API.OperationMethod<
   GetGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7552, __c236, 0) as any as S.Schema<GetGatewayTargetRequest>,
-  output: __S(4818, __c150, 18) as any as S.Schema<GetGatewayTargetResponse>,
+  input: __S(7584, __c237, 0) as any as S.Schema<GetGatewayTargetRequest>,
+  output: __S(4850, __c151, 18) as any as S.Schema<GetGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8560,6 +9327,14 @@ export const getGatewayTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayTarget",
+  iam: {
+    actions: ["bedrock-agentcore:GetGatewayTarget"],
+    resources: {
+      "bedrock-agentcore:GetGatewayTarget": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGatewayTarget",
 }));
@@ -8580,8 +9355,8 @@ export const getHarness: API.OperationMethod<
   GetHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7584, __c237, 0) as any as S.Schema<GetHarnessRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<GetHarnessResponse>,
+  input: __S(7616, __c238, 0) as any as S.Schema<GetHarnessRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<GetHarnessResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8592,6 +9367,14 @@ export const getHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarness",
+  iam: {
+    actions: ["bedrock-agentcore:GetHarness"],
+    resources: {
+      "bedrock-agentcore:GetHarness": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetHarness",
 }));
@@ -8612,8 +9395,8 @@ export const getHarnessEndpoint: API.OperationMethod<
   GetHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7616, __c238, 0) as any as S.Schema<GetHarnessEndpointRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<GetHarnessEndpointResponse>,
+  input: __S(7648, __c239, 0) as any as S.Schema<GetHarnessEndpointRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<GetHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8624,6 +9407,15 @@ export const getHarnessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarnessEndpoint",
+  iam: {
+    actions: ["bedrock-agentcore:GetHarnessEndpoint"],
+    resources: {
+      "bedrock-agentcore:GetHarnessEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}/harness-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetHarnessEndpoint",
 }));
@@ -8644,8 +9436,8 @@ export const getMemory: API.OperationMethod<
   GetMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7648, __c239, 0) as any as S.Schema<GetMemoryInput>,
-  output: __S(7649, __c239, 1) as any as S.Schema<GetMemoryOutput>,
+  input: __S(7680, __c240, 0) as any as S.Schema<GetMemoryInput>,
+  output: __S(7681, __c240, 1) as any as S.Schema<GetMemoryOutput>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
@@ -8656,6 +9448,14 @@ export const getMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemory",
+  iam: {
+    actions: ["bedrock-agentcore:GetMemory"],
+    resources: {
+      "bedrock-agentcore:GetMemory": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMemory",
 }));
@@ -8678,8 +9478,8 @@ export const getOauth2CredentialProvider: API.OperationMethod<
   GetOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7680, __c240, 0) as any as S.Schema<GetOauth2CredentialProviderRequest>,
-  output: __S(7681, __c240, 1) as any as S.Schema<GetOauth2CredentialProviderResponse>,
+  input: __S(7712, __c241, 0) as any as S.Schema<GetOauth2CredentialProviderRequest>,
+  output: __S(7713, __c241, 1) as any as S.Schema<GetOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -8692,6 +9492,15 @@ export const getOauth2CredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOauth2CredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:GetOauth2CredentialProvider"],
+    resources: {
+      "bedrock-agentcore:GetOauth2CredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOauth2CredentialProvider",
 }));
@@ -8712,8 +9521,8 @@ export const getOnlineEvaluationConfig: API.OperationMethod<
   GetOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7712, __c241, 0) as any as S.Schema<GetOnlineEvaluationConfigRequest>,
-  output: __S(7713, __c241, 1) as any as S.Schema<GetOnlineEvaluationConfigResponse>,
+  input: __S(7744, __c242, 0) as any as S.Schema<GetOnlineEvaluationConfigRequest>,
+  output: __S(7745, __c242, 1) as any as S.Schema<GetOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8724,6 +9533,14 @@ export const getOnlineEvaluationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnlineEvaluationConfig",
+  iam: {
+    actions: ["bedrock-agentcore:GetOnlineEvaluationConfig"],
+    resources: {
+      "bedrock-agentcore:GetOnlineEvaluationConfig": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:online-evaluation-config/${OnlineEvaluationConfigId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOnlineEvaluationConfig",
 }));
@@ -8744,8 +9561,8 @@ export const getPaymentConnector: API.OperationMethod<
   GetPaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7744, __c242, 0) as any as S.Schema<GetPaymentConnectorRequest>,
-  output: __S(7745, __c242, 1) as any as S.Schema<GetPaymentConnectorResponse>,
+  input: __S(7776, __c243, 0) as any as S.Schema<GetPaymentConnectorRequest>,
+  output: __S(7777, __c243, 1) as any as S.Schema<GetPaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8756,6 +9573,14 @@ export const getPaymentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentConnector",
+  iam: {
+    actions: ["bedrock-agentcore:GetPaymentConnector"],
+    resources: {
+      "bedrock-agentcore:GetPaymentConnector": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPaymentConnector",
 }));
@@ -8778,8 +9603,8 @@ export const getPaymentCredentialProvider: API.OperationMethod<
   GetPaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(7776, __c243, 0) as any as S.Schema<GetPaymentCredentialProviderRequest>,
-  output: __S(7777, __c243, 1) as any as S.Schema<GetPaymentCredentialProviderResponse>,
+  input: __S(7808, __c244, 0) as any as S.Schema<GetPaymentCredentialProviderRequest>,
+  output: __S(7809, __c244, 1) as any as S.Schema<GetPaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     DecryptionFailure,
@@ -8792,6 +9617,15 @@ export const getPaymentCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentCredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:GetPaymentCredentialProvider"],
+    resources: {
+      "bedrock-agentcore:GetPaymentCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPaymentCredentialProvider",
 }));
@@ -8824,6 +9658,14 @@ export const getPaymentManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentManager",
+  iam: {
+    actions: ["bedrock-agentcore:GetPaymentManager"],
+    resources: {
+      "bedrock-agentcore:GetPaymentManager": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPaymentManager",
 }));
@@ -8845,7 +9687,7 @@ export const getPolicy: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c1, 0) as any as S.Schema<GetPolicyRequest>,
-  output: __S(5696, __c178, 0) as any as S.Schema<GetPolicyResponse>,
+  output: __S(5728, __c179, 0) as any as S.Schema<GetPolicyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8856,6 +9698,15 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: {
+    actions: ["bedrock-agentcore:GetPolicy"],
+    resources: {
+      "bedrock-agentcore:GetPolicy": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -8877,7 +9728,7 @@ export const getPolicyEngine: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(64, __c2, 0) as any as S.Schema<GetPolicyEngineRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<GetPolicyEngineResponse>,
+  output: __S(5792, __c181, 0) as any as S.Schema<GetPolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -8888,6 +9739,14 @@ export const getPolicyEngine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyEngine",
+  iam: {
+    actions: ["bedrock-agentcore:GetPolicyEngine"],
+    resources: {
+      "bedrock-agentcore:GetPolicyEngine": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyEngine",
 }));
@@ -8920,6 +9779,14 @@ export const getPolicyEngineSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyEngineSummary",
+  iam: {
+    actions: ["bedrock-agentcore:GetPolicyEngineSummary"],
+    resources: {
+      "bedrock-agentcore:GetPolicyEngineSummary": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyEngineSummary",
 }));
@@ -8952,6 +9819,15 @@ export const getPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyGeneration",
+  iam: {
+    actions: ["bedrock-agentcore:GetPolicyGeneration"],
+    resources: {
+      "bedrock-agentcore:GetPolicyGeneration": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy-generation/${PolicyGenerationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyGeneration",
 }));
@@ -8984,6 +9860,15 @@ export const getPolicyGenerationSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyGenerationSummary",
+  iam: {
+    actions: ["bedrock-agentcore:GetPolicyGenerationSummary"],
+    resources: {
+      "bedrock-agentcore:GetPolicyGenerationSummary": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy-generation/${PolicyGenerationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicyGenerationSummary",
 }));
@@ -9016,6 +9901,15 @@ export const getPolicySummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicySummary",
+  iam: {
+    actions: ["bedrock-agentcore:GetPolicySummary"],
+    resources: {
+      "bedrock-agentcore:GetPolicySummary": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicySummary",
 }));
@@ -9048,6 +9942,14 @@ export const getRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistry",
+  iam: {
+    actions: ["bedrock-agentcore:GetRegistry"],
+    resources: {
+      "bedrock-agentcore:GetRegistry": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRegistry",
 }));
@@ -9082,6 +9984,14 @@ export const getRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryRecord",
+  iam: {
+    actions: ["bedrock-agentcore:GetRegistryRecord"],
+    resources: {
+      "bedrock-agentcore:GetRegistryRecord": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRegistryRecord",
 }));
@@ -9116,6 +10026,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["bedrock-agentcore:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -9150,6 +10061,14 @@ export const getTokenVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokenVault",
+  iam: {
+    actions: ["bedrock-agentcore:GetTokenVault"],
+    resources: {
+      "bedrock-agentcore:GetTokenVault": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTokenVault",
 }));
@@ -9184,6 +10103,15 @@ export const getWorkloadIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadIdentity",
+  iam: {
+    actions: ["bedrock-agentcore:GetWorkloadIdentity"],
+    resources: {
+      "bedrock-agentcore:GetWorkloadIdentity": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkloadIdentity",
 }));
@@ -9221,6 +10149,7 @@ export const listAgentRuntimeEndpoints: API.PaginatedOperationMethod<
     items: "runtimeEndpoints",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListAgentRuntimeEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListAgentRuntimeEndpoints",
 })) as any;
@@ -9258,6 +10187,7 @@ export const listAgentRuntimes: API.PaginatedOperationMethod<
     items: "agentRuntimes",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListAgentRuntimes"] },
   telemetry: TELEMETRY,
   span: "ListAgentRuntimes",
 })) as any;
@@ -9297,6 +10227,7 @@ export const listAgentRuntimeVersions: API.PaginatedOperationMethod<
     items: "agentRuntimes",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListAgentRuntimeVersions"] },
   telemetry: TELEMETRY,
   span: "ListAgentRuntimeVersions",
 })) as any;
@@ -9334,6 +10265,7 @@ export const listAgentRuntimeVersionsByCapacityProvider: API.PaginatedOperationM
     items: "agentRuntimes",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListAgentRuntimeVersionsByCapacityProvider"] },
   telemetry: TELEMETRY,
   span: "ListAgentRuntimeVersionsByCapacityProvider",
 })) as any;
@@ -9375,6 +10307,15 @@ export const listApiKeyCredentialProviders: API.PaginatedOperationMethod<
     items: "credentialProviders",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListApiKeyCredentialProviders"],
+    resources: {
+      "bedrock-agentcore:ListApiKeyCredentialProviders": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApiKeyCredentialProviders",
 })) as any;
@@ -9412,6 +10353,7 @@ export const listBrowserProfiles: API.PaginatedOperationMethod<
     items: "profileSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListBrowserProfiles"] },
   telemetry: TELEMETRY,
   span: "ListBrowserProfiles",
 })) as any;
@@ -9449,6 +10391,7 @@ export const listBrowsers: API.PaginatedOperationMethod<
     items: "browserSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListBrowsers"] },
   telemetry: TELEMETRY,
   span: "ListBrowsers",
 })) as any;
@@ -9486,6 +10429,7 @@ export const listCapacityProviders: API.PaginatedOperationMethod<
     items: "capacityProviders",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListCapacityProviders"] },
   telemetry: TELEMETRY,
   span: "ListCapacityProviders",
 })) as any;
@@ -9523,6 +10467,7 @@ export const listCodeInterpreters: API.PaginatedOperationMethod<
     items: "codeInterpreterSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListCodeInterpreters"] },
   telemetry: TELEMETRY,
   span: "ListCodeInterpreters",
 })) as any;
@@ -9560,6 +10505,7 @@ export const listConfigurationBundles: API.PaginatedOperationMethod<
     items: "bundles",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListConfigurationBundles"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationBundles",
 })) as any;
@@ -9599,6 +10545,14 @@ export const listConfigurationBundleVersions: API.PaginatedOperationMethod<
     items: "versions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListConfigurationBundleVersions"],
+    resources: {
+      "bedrock-agentcore:ListConfigurationBundleVersions": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConfigurationBundleVersions",
 })) as any;
@@ -9638,6 +10592,7 @@ export const listConsentPortals: API.PaginatedOperationMethod<
     items: "consentPortals",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListConsentPortals"] },
   telemetry: TELEMETRY,
   span: "ListConsentPortals",
 })) as any;
@@ -9679,6 +10634,14 @@ export const listDatasetExamples: API.PaginatedOperationMethod<
     items: "examples",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListDatasetExamples"],
+    resources: {
+      "bedrock-agentcore:ListDatasetExamples": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDatasetExamples",
 })) as any;
@@ -9716,6 +10679,7 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListDatasets"] },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 })) as any;
@@ -9755,6 +10719,14 @@ export const listDatasetVersions: API.PaginatedOperationMethod<
     items: "versions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListDatasetVersions"],
+    resources: {
+      "bedrock-agentcore:ListDatasetVersions": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDatasetVersions",
 })) as any;
@@ -9792,6 +10764,7 @@ export const listEvaluators: API.PaginatedOperationMethod<
     items: "evaluators",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListEvaluators"] },
   telemetry: TELEMETRY,
   span: "ListEvaluators",
 })) as any;
@@ -9831,6 +10804,14 @@ export const listGatewayRateLimits: API.PaginatedOperationMethod<
     items: "rateLimits",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListGatewayRateLimits"],
+    resources: {
+      "bedrock-agentcore:ListGatewayRateLimits": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGatewayRateLimits",
 })) as any;
@@ -9870,6 +10851,14 @@ export const listGatewayRules: API.PaginatedOperationMethod<
     items: "gatewayRules",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListGatewayRules"],
+    resources: {
+      "bedrock-agentcore:ListGatewayRules": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGatewayRules",
 })) as any;
@@ -9907,6 +10896,7 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListGateways"] },
   telemetry: TELEMETRY,
   span: "ListGateways",
 })) as any;
@@ -9946,6 +10936,14 @@ export const listGatewayTargets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListGatewayTargets"],
+    resources: {
+      "bedrock-agentcore:ListGatewayTargets": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGatewayTargets",
 })) as any;
@@ -9985,6 +10983,7 @@ export const listHarnessEndpoints: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListHarnessEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListHarnessEndpoints",
 })) as any;
@@ -10022,6 +11021,7 @@ export const listHarnesses: API.PaginatedOperationMethod<
     items: "harnesses",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListHarnesses"] },
   telemetry: TELEMETRY,
   span: "ListHarnesses",
 })) as any;
@@ -10061,6 +11061,7 @@ export const listHarnessVersions: API.PaginatedOperationMethod<
     items: "harnessVersions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListHarnessVersions"] },
   telemetry: TELEMETRY,
   span: "ListHarnessVersions",
 })) as any;
@@ -10100,6 +11101,7 @@ export const listMemories: API.PaginatedOperationMethod<
     items: "memories",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListMemories"] },
   telemetry: TELEMETRY,
   span: "ListMemories",
 })) as any;
@@ -10141,6 +11143,15 @@ export const listOauth2CredentialProviders: API.PaginatedOperationMethod<
     items: "credentialProviders",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListOauth2CredentialProviders"],
+    resources: {
+      "bedrock-agentcore:ListOauth2CredentialProviders": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListOauth2CredentialProviders",
 })) as any;
@@ -10178,6 +11189,7 @@ export const listOnlineEvaluationConfigs: API.PaginatedOperationMethod<
     items: "onlineEvaluationConfigs",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListOnlineEvaluationConfigs"] },
   telemetry: TELEMETRY,
   span: "ListOnlineEvaluationConfigs",
 })) as any;
@@ -10215,6 +11227,14 @@ export const listPaymentConnectors: API.PaginatedOperationMethod<
     items: "paymentConnectors",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPaymentConnectors"],
+    resources: {
+      "bedrock-agentcore:ListPaymentConnectors": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPaymentConnectors",
 })) as any;
@@ -10256,6 +11276,15 @@ export const listPaymentCredentialProviders: API.PaginatedOperationMethod<
     items: "credentialProviders",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPaymentCredentialProviders"],
+    resources: {
+      "bedrock-agentcore:ListPaymentCredentialProviders": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPaymentCredentialProviders",
 })) as any;
@@ -10293,6 +11322,7 @@ export const listPaymentManagers: API.PaginatedOperationMethod<
     items: "paymentManagers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListPaymentManagers"] },
   telemetry: TELEMETRY,
   span: "ListPaymentManagers",
 })) as any;
@@ -10332,6 +11362,14 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPolicies"],
+    resources: {
+      "bedrock-agentcore:ListPolicies": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -10369,6 +11407,7 @@ export const listPolicyEngines: API.PaginatedOperationMethod<
     items: "policyEngines",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListPolicyEngines"] },
   telemetry: TELEMETRY,
   span: "ListPolicyEngines",
 })) as any;
@@ -10406,6 +11445,7 @@ export const listPolicyEngineSummaries: API.PaginatedOperationMethod<
     items: "policyEngines",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListPolicyEngineSummaries"] },
   telemetry: TELEMETRY,
   span: "ListPolicyEngineSummaries",
 })) as any;
@@ -10445,6 +11485,15 @@ export const listPolicyGenerationAssets: API.PaginatedOperationMethod<
     items: "policyGenerationAssets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPolicyGenerationAssets"],
+    resources: {
+      "bedrock-agentcore:ListPolicyGenerationAssets": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy-generation/${PolicyGenerationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicyGenerationAssets",
 })) as any;
@@ -10484,6 +11533,14 @@ export const listPolicyGenerations: API.PaginatedOperationMethod<
     items: "policyGenerations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPolicyGenerations"],
+    resources: {
+      "bedrock-agentcore:ListPolicyGenerations": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicyGenerations",
 })) as any;
@@ -10523,6 +11580,14 @@ export const listPolicyGenerationSummaries: API.PaginatedOperationMethod<
     items: "policyGenerations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPolicyGenerationSummaries"],
+    resources: {
+      "bedrock-agentcore:ListPolicyGenerationSummaries": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicyGenerationSummaries",
 })) as any;
@@ -10562,6 +11627,14 @@ export const listPolicySummaries: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListPolicySummaries"],
+    resources: {
+      "bedrock-agentcore:ListPolicySummaries": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPolicySummaries",
 })) as any;
@@ -10599,6 +11672,7 @@ export const listRegistries: API.PaginatedOperationMethod<
     items: "registries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock-agentcore:ListRegistries"] },
   telemetry: TELEMETRY,
   span: "ListRegistries",
 })) as any;
@@ -10640,6 +11714,14 @@ export const listRegistryRecords: API.PaginatedOperationMethod<
     items: "registryRecords",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListRegistryRecords"],
+    resources: {
+      "bedrock-agentcore:ListRegistryRecords": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRegistryRecords",
 })) as any;
@@ -10674,6 +11756,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["bedrock-agentcore:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -10715,6 +11798,15 @@ export const listWorkloadIdentities: API.PaginatedOperationMethod<
     items: "workloadIdentities",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock-agentcore:ListWorkloadIdentities"],
+    resources: {
+      "bedrock-agentcore:ListWorkloadIdentities": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkloadIdentities",
 })) as any;
@@ -10749,8 +11841,57 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["bedrock-agentcore:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
+}));
+
+export type ResetTokenVaultKeyMaterialError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Resets the key material for a token vault whose customer managed KMS key has been deleted, and re-encrypts the token vault with an Amazon Web Services managed key so that you can use the token vault again.
+ *
+ * This operation can't be undone. The reset permanently deletes the OAuth2 access tokens and refresh tokens stored in the token vault, including tokens obtained through all supported flows. After the reset, your agents must complete these flows again to get new tokens, and for user-delegated flows your users must authorize access again. The reset doesn't delete your credential providers or their configuration.
+ *
+ * You can reset a token vault only if its customer managed key has been deleted. If the key still exists, including when it's disabled or scheduled for deletion, this operation returns a `ValidationException`. To use the token vault again, enable the key or cancel its scheduled deletion in KMS. To switch to a different key, use `SetTokenVaultCMK`.
+ */
+export const resetTokenVaultKeyMaterial: API.OperationMethod<
+  ResetTokenVaultKeyMaterialRequest & RegionInput,
+  ResetTokenVaultKeyMaterialResponse,
+  ResetTokenVaultKeyMaterialError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2080, __c65, 0) as any as S.Schema<ResetTokenVaultKeyMaterialRequest>,
+  output: __S(577, __c18, 1) as any as S.Schema<ResetTokenVaultKeyMaterialResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    UnauthorizedException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ResetTokenVaultKeyMaterial",
+  iam: {
+    actions: ["bedrock-agentcore:ResetTokenVaultKeyMaterial"],
+    resources: {
+      "bedrock-agentcore:ResetTokenVaultKeyMaterial": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
+  telemetry: TELEMETRY,
+  span: "ResetTokenVaultKeyMaterial",
 }));
 
 export type RotatePaymentConnectorCredentialsError =
@@ -10776,8 +11917,8 @@ export const rotatePaymentConnectorCredentials: API.OperationMethod<
   RotatePaymentConnectorCredentialsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2082, __c65, 2) as any as S.Schema<RotatePaymentConnectorCredentialsRequest>,
-  output: __S(2083, __c65, 3) as any as S.Schema<RotatePaymentConnectorCredentialsResponse>,
+  input: __S(2114, __c66, 2) as any as S.Schema<RotatePaymentConnectorCredentialsRequest>,
+  output: __S(2115, __c66, 3) as any as S.Schema<RotatePaymentConnectorCredentialsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10796,6 +11937,7 @@ export const rotatePaymentConnectorCredentials: API.OperationMethod<
 export type SetTokenVaultCMKError =
   | AccessDeniedException
   | ConcurrentModificationException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -10811,11 +11953,12 @@ export const setTokenVaultCMK: API.OperationMethod<
   SetTokenVaultCMKError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<SetTokenVaultCMKRequest>,
+  input: __S(2144, __c67, 0) as any as S.Schema<SetTokenVaultCMKRequest>,
   output: __S(577, __c18, 1) as any as S.Schema<SetTokenVaultCMKResponse>,
   errors: [
     AccessDeniedException,
     ConcurrentModificationException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -10825,6 +11968,14 @@ export const setTokenVaultCMK: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTokenVaultCMK",
+  iam: {
+    actions: ["bedrock-agentcore:SetTokenVaultCMK"],
+    resources: {
+      "bedrock-agentcore:SetTokenVaultCMK": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetTokenVaultCMK",
 }));
@@ -10847,7 +11998,7 @@ export const startPolicyGeneration: API.OperationMethod<
   StartPolicyGenerationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2145, __c67, 1) as any as S.Schema<StartPolicyGenerationRequest>,
+  input: __S(2177, __c68, 1) as any as S.Schema<StartPolicyGenerationRequest>,
   output: __S(224, __c7, 0) as any as S.Schema<StartPolicyGenerationResponse>,
   errors: [
     AccessDeniedException,
@@ -10861,6 +12012,14 @@ export const startPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPolicyGeneration",
+  iam: {
+    actions: ["bedrock-agentcore:StartPolicyGeneration"],
+    resources: {
+      "bedrock-agentcore:StartPolicyGeneration": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartPolicyGeneration",
 }));
@@ -10882,8 +12041,8 @@ export const submitRegistryRecordForApproval: API.OperationMethod<
   SubmitRegistryRecordForApprovalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<SubmitRegistryRecordForApprovalRequest>,
-  output: __S(2177, __c68, 1) as any as S.Schema<SubmitRegistryRecordForApprovalResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<SubmitRegistryRecordForApprovalRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<SubmitRegistryRecordForApprovalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10895,6 +12054,14 @@ export const submitRegistryRecordForApproval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitRegistryRecordForApproval",
+  iam: {
+    actions: ["bedrock-agentcore:SubmitRegistryRecordForApproval"],
+    resources: {
+      "bedrock-agentcore:SubmitRegistryRecordForApproval": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SubmitRegistryRecordForApproval",
 }));
@@ -10921,8 +12088,8 @@ export const synchronizeGatewayTargets: API.OperationMethod<
   SynchronizeGatewayTargetsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<SynchronizeGatewayTargetsRequest>,
-  output: __S(2210, __c69, 2) as any as S.Schema<SynchronizeGatewayTargetsResponse>,
+  input: __S(2240, __c70, 0) as any as S.Schema<SynchronizeGatewayTargetsRequest>,
+  output: __S(2242, __c70, 2) as any as S.Schema<SynchronizeGatewayTargetsResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -10935,6 +12102,14 @@ export const synchronizeGatewayTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SynchronizeGatewayTargets",
+  iam: {
+    actions: ["bedrock-agentcore:SynchronizeGatewayTargets"],
+    resources: {
+      "bedrock-agentcore:SynchronizeGatewayTargets": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SynchronizeGatewayTargets",
 }));
@@ -10958,8 +12133,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(2272, __c71, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -10971,6 +12146,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["bedrock-agentcore:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -10993,8 +12169,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(4896, __c153, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(2432, __c76, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(4928, __c154, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -11005,6 +12181,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["bedrock-agentcore:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -11027,8 +12204,8 @@ export const updateAgentRuntime: API.OperationMethod<
   UpdateAgentRuntimeError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<UpdateAgentRuntimeRequest>,
-  output: __S(2433, __c76, 1) as any as S.Schema<UpdateAgentRuntimeResponse>,
+  input: __S(2464, __c77, 0) as any as S.Schema<UpdateAgentRuntimeRequest>,
+  output: __S(2465, __c77, 1) as any as S.Schema<UpdateAgentRuntimeResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11041,6 +12218,22 @@ export const updateAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRuntime",
+  iam: {
+    actions: [
+      "bedrock-agentcore:PassCapacityProvider",
+      "iam:PassRole",
+      "bedrock-agentcore:UpdateAgentRuntime",
+    ],
+    resources: {
+      "bedrock-agentcore:PassCapacityProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdateAgentRuntime": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentRuntime",
 }));
@@ -11063,8 +12256,8 @@ export const updateAgentRuntimeEndpoint: API.OperationMethod<
   UpdateAgentRuntimeEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<UpdateAgentRuntimeEndpointRequest>,
-  output: __S(2465, __c77, 1) as any as S.Schema<UpdateAgentRuntimeEndpointResponse>,
+  input: __S(2496, __c78, 0) as any as S.Schema<UpdateAgentRuntimeEndpointRequest>,
+  output: __S(2497, __c78, 1) as any as S.Schema<UpdateAgentRuntimeEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11077,6 +12270,15 @@ export const updateAgentRuntimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRuntimeEndpoint",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateAgentRuntimeEndpoint"],
+    resources: {
+      "bedrock-agentcore:UpdateAgentRuntimeEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentRuntimeEndpoint",
 }));
@@ -11102,8 +12304,8 @@ export const updateApiKeyCredentialProvider: API.OperationMethod<
   UpdateApiKeyCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<UpdateApiKeyCredentialProviderRequest>,
-  output: __S(7040, __c220, 0) as any as S.Schema<UpdateApiKeyCredentialProviderResponse>,
+  input: __S(2528, __c79, 0) as any as S.Schema<UpdateApiKeyCredentialProviderRequest>,
+  output: __S(7072, __c221, 0) as any as S.Schema<UpdateApiKeyCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11119,6 +12321,15 @@ export const updateApiKeyCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKeyCredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateApiKeyCredentialProvider"],
+    resources: {
+      "bedrock-agentcore:UpdateApiKeyCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApiKeyCredentialProvider",
 }));
@@ -11141,8 +12352,8 @@ export const updateCapacityProvider: API.OperationMethod<
   UpdateCapacityProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<UpdateCapacityProviderInput>,
-  output: __S(2529, __c79, 1) as any as S.Schema<UpdateCapacityProviderOutput>,
+  input: __S(2560, __c80, 0) as any as S.Schema<UpdateCapacityProviderInput>,
+  output: __S(2561, __c80, 1) as any as S.Schema<UpdateCapacityProviderOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11155,6 +12366,14 @@ export const updateCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityProvider",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateCapacityProvider"],
+    resources: {
+      "bedrock-agentcore:UpdateCapacityProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCapacityProvider",
 }));
@@ -11176,8 +12395,8 @@ export const updateConfigurationBundle: API.OperationMethod<
   UpdateConfigurationBundleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<UpdateConfigurationBundleRequest>,
-  output: __S(2593, __c81, 1) as any as S.Schema<UpdateConfigurationBundleResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<UpdateConfigurationBundleRequest>,
+  output: __S(2625, __c82, 1) as any as S.Schema<UpdateConfigurationBundleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11189,6 +12408,14 @@ export const updateConfigurationBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationBundle",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateConfigurationBundle"],
+    resources: {
+      "bedrock-agentcore:UpdateConfigurationBundle": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationBundle",
 }));
@@ -11211,8 +12438,8 @@ export const updateConsentPortal: API.OperationMethod<
   UpdateConsentPortalError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<UpdateConsentPortalRequest>,
-  output: __S(4289, __c134, 1) as any as S.Schema<UpdateConsentPortalResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<UpdateConsentPortalRequest>,
+  output: __S(4321, __c135, 1) as any as S.Schema<UpdateConsentPortalResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11225,6 +12452,14 @@ export const updateConsentPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConsentPortal",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateConsentPortal"],
+    resources: {
+      "bedrock-agentcore:UpdateConsentPortal": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConsentPortal",
 }));
@@ -11246,8 +12481,8 @@ export const updateDataset: API.OperationMethod<
   UpdateDatasetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<UpdateDatasetRequest>,
-  output: __S(2657, __c83, 1) as any as S.Schema<UpdateDatasetResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<UpdateDatasetRequest>,
+  output: __S(2689, __c84, 1) as any as S.Schema<UpdateDatasetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11259,6 +12494,14 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateDataset"],
+    resources: {
+      "bedrock-agentcore:UpdateDataset": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataset",
 }));
@@ -11281,8 +12524,8 @@ export const updateDatasetExamples: API.OperationMethod<
   UpdateDatasetExamplesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<UpdateDatasetExamplesRequest>,
-  output: __S(2689, __c84, 1) as any as S.Schema<UpdateDatasetExamplesResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<UpdateDatasetExamplesRequest>,
+  output: __S(2721, __c85, 1) as any as S.Schema<UpdateDatasetExamplesResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11295,6 +12538,14 @@ export const updateDatasetExamples: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetExamples",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateDatasetExamples"],
+    resources: {
+      "bedrock-agentcore:UpdateDatasetExamples": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDatasetExamples",
 }));
@@ -11317,8 +12568,8 @@ export const updateEvaluator: API.OperationMethod<
   UpdateEvaluatorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<UpdateEvaluatorRequest>,
-  output: __S(2721, __c85, 1) as any as S.Schema<UpdateEvaluatorResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<UpdateEvaluatorRequest>,
+  output: __S(2753, __c86, 1) as any as S.Schema<UpdateEvaluatorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11331,6 +12582,14 @@ export const updateEvaluator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEvaluator",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateEvaluator"],
+    resources: {
+      "bedrock-agentcore:UpdateEvaluator": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:evaluator/${EvaluatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEvaluator",
 }));
@@ -11346,6 +12605,8 @@ export type UpdateGatewayError =
   | CommonErrors;
 /**
  * Updates an existing gateway.
+ *
+ * Replaces the entire gateway configuration. Any optional field that you omit, including fields in `protocolConfiguration`, is reset. For information about retrieving the current configuration, see GetGateway.
  */
 export const updateGateway: API.OperationMethod<
   UpdateGatewayRequest & RegionInput,
@@ -11353,8 +12614,8 @@ export const updateGateway: API.OperationMethod<
   UpdateGatewayError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<UpdateGatewayRequest>,
-  output: __S(4527, __c141, 15) as any as S.Schema<UpdateGatewayResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<UpdateGatewayRequest>,
+  output: __S(4559, __c142, 15) as any as S.Schema<UpdateGatewayResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11367,6 +12628,15 @@ export const updateGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGateway",
+  iam: {
+    actions: ["iam:PassRole", "bedrock-agentcore:UpdateGateway"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdateGateway": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGateway",
 }));
@@ -11388,7 +12658,7 @@ export const updateGatewayRateLimit: API.OperationMethod<
   UpdateGatewayRateLimitError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<UpdateGatewayRateLimitRequest>,
+  input: __S(2944, __c92, 0) as any as S.Schema<UpdateGatewayRateLimitRequest>,
   output: __S(2884, __c90, 4) as any as S.Schema<UpdateGatewayRateLimitResponse>,
   errors: [
     AccessDeniedException,
@@ -11401,6 +12671,14 @@ export const updateGatewayRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRateLimit",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateGatewayRateLimit"],
+    resources: {
+      "bedrock-agentcore:UpdateGatewayRateLimit": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayRateLimit",
 }));
@@ -11422,8 +12700,8 @@ export const updateGatewayRule: API.OperationMethod<
   UpdateGatewayRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2944, __c92, 0) as any as S.Schema<UpdateGatewayRuleRequest>,
-  output: __S(7520, __c235, 0) as any as S.Schema<UpdateGatewayRuleResponse>,
+  input: __S(2976, __c93, 0) as any as S.Schema<UpdateGatewayRuleRequest>,
+  output: __S(7552, __c236, 0) as any as S.Schema<UpdateGatewayRuleResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11435,6 +12713,14 @@ export const updateGatewayRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRule",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateGatewayRule"],
+    resources: {
+      "bedrock-agentcore:UpdateGatewayRule": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayRule",
 }));
@@ -11459,8 +12745,8 @@ export const updateGatewayTarget: API.OperationMethod<
   UpdateGatewayTargetError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<UpdateGatewayTargetRequest>,
-  output: __S(4818, __c150, 18) as any as S.Schema<UpdateGatewayTargetResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<UpdateGatewayTargetRequest>,
+  output: __S(4850, __c151, 18) as any as S.Schema<UpdateGatewayTargetResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11473,6 +12759,20 @@ export const updateGatewayTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayTarget",
+  iam: {
+    actions: [
+      "bedrock-agentcore:SynchronizeGatewayTargets",
+      "bedrock-agentcore:UpdateGatewayTarget",
+    ],
+    resources: {
+      "bedrock-agentcore:SynchronizeGatewayTargets": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+      "bedrock-agentcore:UpdateGatewayTarget": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayTarget",
 }));
@@ -11495,8 +12795,8 @@ export const updateHarness: API.OperationMethod<
   UpdateHarnessError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3010, __c94, 2) as any as S.Schema<UpdateHarnessRequest>,
-  output: __S(4992, __c156, 0) as any as S.Schema<UpdateHarnessResponse>,
+  input: __S(3042, __c95, 2) as any as S.Schema<UpdateHarnessRequest>,
+  output: __S(5024, __c157, 0) as any as S.Schema<UpdateHarnessResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11509,6 +12809,32 @@ export const updateHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHarness",
+  iam: {
+    actions: [
+      "bedrock-agentcore:CreateAgentRuntime",
+      "bedrock-agentcore:GetMemory",
+      "iam:PassRole",
+      "bedrock-agentcore:UpdateAgentRuntime",
+      "bedrock-agentcore:UpdateHarness",
+      "bedrock-agentcore:UpdateMemory",
+    ],
+    resources: {
+      "bedrock-agentcore:GetMemory": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdateAgentRuntime": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
+      ],
+      "bedrock-agentcore:UpdateHarness": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
+      ],
+      "bedrock-agentcore:UpdateMemory": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "executionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateHarness",
 }));
@@ -11531,8 +12857,8 @@ export const updateHarnessEndpoint: API.OperationMethod<
   UpdateHarnessEndpointError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<UpdateHarnessEndpointRequest>,
-  output: __S(5088, __c159, 0) as any as S.Schema<UpdateHarnessEndpointResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<UpdateHarnessEndpointRequest>,
+  output: __S(5120, __c160, 0) as any as S.Schema<UpdateHarnessEndpointResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11545,6 +12871,15 @@ export const updateHarnessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHarnessEndpoint",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateHarnessEndpoint"],
+    resources: {
+      "bedrock-agentcore:UpdateHarnessEndpoint": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}/harness-endpoint/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateHarnessEndpoint",
 }));
@@ -11567,8 +12902,8 @@ export const updateMemory: API.OperationMethod<
   UpdateMemoryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3113, __c97, 9) as any as S.Schema<UpdateMemoryInput>,
-  output: __S(5162, __c161, 10) as any as S.Schema<UpdateMemoryOutput>,
+  input: __S(3145, __c98, 9) as any as S.Schema<UpdateMemoryInput>,
+  output: __S(5195, __c162, 11) as any as S.Schema<UpdateMemoryOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11581,6 +12916,23 @@ export const updateMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMemory",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "bedrock-agentcore:UpdateMemory",
+      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdateMemory": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "memoryExecutionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMemory",
 }));
@@ -11606,8 +12958,8 @@ export const updateOauth2CredentialProvider: API.OperationMethod<
   UpdateOauth2CredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<UpdateOauth2CredentialProviderRequest>,
-  output: __S(3137, __c98, 1) as any as S.Schema<UpdateOauth2CredentialProviderResponse>,
+  input: __S(3168, __c99, 0) as any as S.Schema<UpdateOauth2CredentialProviderRequest>,
+  output: __S(3169, __c99, 1) as any as S.Schema<UpdateOauth2CredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11623,6 +12975,15 @@ export const updateOauth2CredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOauth2CredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateOauth2CredentialProvider"],
+    resources: {
+      "bedrock-agentcore:UpdateOauth2CredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOauth2CredentialProvider",
 }));
@@ -11645,8 +13006,8 @@ export const updateOnlineEvaluationConfig: API.OperationMethod<
   UpdateOnlineEvaluationConfigError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<UpdateOnlineEvaluationConfigRequest>,
-  output: __S(3169, __c99, 1) as any as S.Schema<UpdateOnlineEvaluationConfigResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<UpdateOnlineEvaluationConfigRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<UpdateOnlineEvaluationConfigResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11659,6 +13020,16 @@ export const updateOnlineEvaluationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOnlineEvaluationConfig",
+  iam: {
+    actions: ["iam:PassRole", "bedrock-agentcore:UpdateOnlineEvaluationConfig"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdateOnlineEvaluationConfig": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:online-evaluation-config/${OnlineEvaluationConfigId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "evaluationExecutionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOnlineEvaluationConfig",
 }));
@@ -11682,8 +13053,8 @@ export const updatePaymentConnector: API.OperationMethod<
   UpdatePaymentConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<UpdatePaymentConnectorRequest>,
-  output: __S(3201, __c100, 1) as any as S.Schema<UpdatePaymentConnectorResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<UpdatePaymentConnectorRequest>,
+  output: __S(3233, __c101, 1) as any as S.Schema<UpdatePaymentConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11697,6 +13068,21 @@ export const updatePaymentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentConnector",
+  iam: {
+    actions: [
+      "bedrock-agentcore:GetPaymentCredentialProvider",
+      "bedrock-agentcore:UpdatePaymentConnector",
+    ],
+    resources: {
+      "bedrock-agentcore:GetPaymentCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+      "bedrock-agentcore:UpdatePaymentConnector": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePaymentConnector",
 }));
@@ -11722,8 +13108,8 @@ export const updatePaymentCredentialProvider: API.OperationMethod<
   UpdatePaymentCredentialProviderError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<UpdatePaymentCredentialProviderRequest>,
-  output: __S(3233, __c101, 1) as any as S.Schema<UpdatePaymentCredentialProviderResponse>,
+  input: __S(3552, __c111, 0) as any as S.Schema<UpdatePaymentCredentialProviderRequest>,
+  output: __S(3553, __c111, 1) as any as S.Schema<UpdatePaymentCredentialProviderResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11739,6 +13125,15 @@ export const updatePaymentCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentCredentialProvider",
+  iam: {
+    actions: ["bedrock-agentcore:UpdatePaymentCredentialProvider"],
+    resources: {
+      "bedrock-agentcore:UpdatePaymentCredentialProvider": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePaymentCredentialProvider",
 }));
@@ -11761,8 +13156,8 @@ export const updatePaymentManager: API.OperationMethod<
   UpdatePaymentManagerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<UpdatePaymentManagerRequest>,
-  output: __S(3553, __c111, 1) as any as S.Schema<UpdatePaymentManagerResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<UpdatePaymentManagerRequest>,
+  output: __S(3585, __c112, 1) as any as S.Schema<UpdatePaymentManagerResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11775,6 +13170,16 @@ export const updatePaymentManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentManager",
+  iam: {
+    actions: ["iam:PassRole", "bedrock-agentcore:UpdatePaymentManager"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdatePaymentManager": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePaymentManager",
 }));
@@ -11799,8 +13204,8 @@ export const updatePolicy: API.OperationMethod<
   UpdatePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdatePolicyRequest>,
-  output: __S(5696, __c178, 0) as any as S.Schema<UpdatePolicyResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<UpdatePolicyRequest>,
+  output: __S(5728, __c179, 0) as any as S.Schema<UpdatePolicyResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11813,6 +13218,15 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  iam: {
+    actions: ["bedrock-agentcore:UpdatePolicy"],
+    resources: {
+      "bedrock-agentcore:UpdatePolicy": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePolicy",
 }));
@@ -11834,8 +13248,8 @@ export const updatePolicyEngine: API.OperationMethod<
   UpdatePolicyEngineError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<UpdatePolicyEngineRequest>,
-  output: __S(5760, __c180, 0) as any as S.Schema<UpdatePolicyEngineResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UpdatePolicyEngineRequest>,
+  output: __S(5792, __c181, 0) as any as S.Schema<UpdatePolicyEngineResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11847,6 +13261,14 @@ export const updatePolicyEngine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyEngine",
+  iam: {
+    actions: ["bedrock-agentcore:UpdatePolicyEngine"],
+    resources: {
+      "bedrock-agentcore:UpdatePolicyEngine": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePolicyEngine",
 }));
@@ -11869,7 +13291,7 @@ export const updateRegistry: API.OperationMethod<
   UpdateRegistryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3649, __c114, 1) as any as S.Schema<UpdateRegistryRequest>,
+  input: __S(3681, __c115, 1) as any as S.Schema<UpdateRegistryRequest>,
   output: __S(416, __c13, 0) as any as S.Schema<UpdateRegistryResponse>,
   errors: [
     AccessDeniedException,
@@ -11883,6 +13305,14 @@ export const updateRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistry",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateRegistry"],
+    resources: {
+      "bedrock-agentcore:UpdateRegistry": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRegistry",
 }));
@@ -11904,7 +13334,7 @@ export const updateRegistryRecord: API.OperationMethod<
   UpdateRegistryRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3692, __c115, 12) as any as S.Schema<UpdateRegistryRecordRequest>,
+  input: __S(3724, __c116, 12) as any as S.Schema<UpdateRegistryRecordRequest>,
   output: __S(480, __c15, 0) as any as S.Schema<UpdateRegistryRecordResponse>,
   errors: [
     AccessDeniedException,
@@ -11917,6 +13347,16 @@ export const updateRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecord",
+  iam: {
+    actions: ["iam:PassRole", "bedrock-agentcore:UpdateRegistryRecord"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock-agentcore:UpdateRegistryRecord": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRegistryRecord",
 }));
@@ -11938,8 +13378,8 @@ export const updateRegistryRecordStatus: API.OperationMethod<
   UpdateRegistryRecordStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<UpdateRegistryRecordStatusRequest>,
-  output: __S(3713, __c116, 1) as any as S.Schema<UpdateRegistryRecordStatusResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<UpdateRegistryRecordStatusRequest>,
+  output: __S(3745, __c117, 1) as any as S.Schema<UpdateRegistryRecordStatusResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -11951,12 +13391,21 @@ export const updateRegistryRecordStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecordStatus",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateRegistryRecordStatus"],
+    resources: {
+      "bedrock-agentcore:UpdateRegistryRecordStatus": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRegistryRecordStatus",
 }));
 
 export type UpdateWorkloadIdentityError =
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ResourceNotFoundException
   | ThrottlingException
@@ -11972,10 +13421,11 @@ export const updateWorkloadIdentity: API.OperationMethod<
   UpdateWorkloadIdentityError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<UpdateWorkloadIdentityRequest>,
+  input: __S(3776, __c118, 0) as any as S.Schema<UpdateWorkloadIdentityRequest>,
   output: __S(640, __c20, 0) as any as S.Schema<UpdateWorkloadIdentityResponse>,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ResourceNotFoundException,
     ThrottlingException,
@@ -11985,6 +13435,15 @@ export const updateWorkloadIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadIdentity",
+  iam: {
+    actions: ["bedrock-agentcore:UpdateWorkloadIdentity"],
+    resources: {
+      "bedrock-agentcore:UpdateWorkloadIdentity": [
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
+        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkloadIdentity",
 }));
@@ -12252,7 +13711,7 @@ function __c13(j: number): any {
           registryArn: S.String,
           authorizerType: S.optional(S.String),
           authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
-          approvalConfiguration: S.optional(__S(5824, __c182, 0)),
+          approvalConfiguration: S.optional(__S(5856, __c183, 0)),
           status: S.String,
           statusReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -12292,14 +13751,14 @@ function __c15(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           descriptorType: S.String,
-          descriptors: __S(5894, __c184, 6),
+          descriptors: __S(5926, __c185, 6),
           recordVersion: S.optional(S.String),
           status: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           statusReason: S.optional(S.String),
           synchronizationType: S.optional(S.String),
-          synchronizationConfiguration: S.optional(__S(5901, __c184, 13)),
+          synchronizationConfiguration: S.optional(__S(5933, __c185, 13)),
         }),
       ).annotate({ identifier: "GetRegistryRecordResponse" });
   }
@@ -12564,7 +14023,7 @@ function __c27(j: number): any {
         ),
       ).annotate({ identifier: "ListBrowserProfilesRequest" });
     case 1:
-      return S.Array(__S(7136, __c223, 0));
+      return S.Array(__S(7168, __c224, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ profileSummaries: __S(865, __c27, 1), nextToken: S.optional(S.String) }),
@@ -12746,7 +14205,7 @@ function __c32(j: number): any {
           bundleArn: S.String,
           bundleId: S.String,
           versionId: S.String,
-          lineageMetadata: S.optional(__S(7264, __c227, 0)),
+          lineageMetadata: S.optional(__S(7296, __c228, 0)),
           versionCreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
         }),
       ).annotate({ identifier: "ConfigurationBundleVersionSummary" });
@@ -12776,7 +14235,7 @@ function __c33(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sources: __S(4257, __c133, 1),
+          sources: __S(4289, __c134, 1),
           consentPortalArn: S.String,
           consentPortalId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
@@ -12975,7 +14434,7 @@ function __c39(j: number): any {
         ),
       ).annotate({ identifier: "ListGatewayRulesRequest" });
     case 1:
-      return S.Array(__S(7520, __c235, 0));
+      return S.Array(__S(7552, __c236, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ gatewayRules: __S(1249, __c39, 1), nextToken: S.optional(S.String) }),
@@ -13042,7 +14501,7 @@ function __c41(j: number): any {
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           resourcePriority: S.optional(S.Number),
           lastSynchronizedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          authorizationData: S.optional(__S(4737, __c148, 1)),
+          authorizationData: S.optional(__S(4769, __c149, 1)),
           targetType: S.optional(S.String),
           listingMode: S.optional(S.String),
         }),
@@ -13075,7 +14534,7 @@ function __c42(j: number): any {
         ),
       ).annotate({ identifier: "ListHarnessEndpointsRequest" });
     case 1:
-      return S.Array(__S(5056, __c158, 0));
+      return S.Array(__S(5088, __c159, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ endpoints: __S(1345, __c42, 1), nextToken: S.optional(S.String) }),
@@ -13245,8 +14704,8 @@ function __c48(j: number): any {
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           failureReason: S.optional(S.String),
-          insights: S.optional(__S(5377, __c168, 1)),
-          clusteringConfig: S.optional(__S(5378, __c168, 2)),
+          insights: S.optional(__S(5409, __c169, 1)),
+          clusteringConfig: S.optional(__S(5410, __c169, 2)),
         }),
       ).annotate({ identifier: "OnlineEvaluationConfigSummary" });
     case 2:
@@ -13377,7 +14836,7 @@ function __c52(j: number): any {
         ),
       ).annotate({ identifier: "ListPoliciesRequest" });
     case 1:
-      return S.Array(__S(5696, __c178, 0));
+      return S.Array(__S(5728, __c179, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ policies: __S(1665, __c52, 1), nextToken: S.optional(S.String) }),
@@ -13396,7 +14855,7 @@ function __c53(j: number): any {
         ),
       ).annotate({ identifier: "ListPolicyEnginesRequest" });
     case 1:
-      return S.Array(__S(5760, __c180, 0));
+      return S.Array(__S(5792, __c181, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({ policyEngines: __S(1697, __c53, 1), nextToken: S.optional(S.String) }),
@@ -13462,7 +14921,7 @@ function __c55(j: number): any {
       return S.suspend(() =>
         S.Struct({
           policyGenerationAssetId: S.String,
-          definition: S.optional(__S(5666, __c177, 2)),
+          definition: S.optional(__S(5698, __c178, 2)),
           rawTextFragment: S.String,
           findings: __S(1762, __c55, 2),
         }),
@@ -13723,17 +15182,34 @@ function __c64(j: number): any {
 function __c65(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ secrets: __S(4480, __c140, 0) })).annotate({
+      return S.suspend(() =>
+        S.Struct({ tokenVaultId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/identities/reset-token-vault-key-material" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ResetTokenVaultKeyMaterialRequest" });
+  }
+}
+function __c66(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ secrets: __S(4512, __c141, 0) })).annotate({
         identifier: "CoinbaseCdpRotationTargets",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ coinbaseCDP: __S(2080, __c65, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ coinbaseCDP: __S(2112, __c66, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           paymentManagerId: S.String.pipe(T.HttpLabel("paymentManagerId")),
           paymentConnectorId: S.String.pipe(T.HttpLabel("paymentConnectorId")),
-          credentialsToRotate: __S(2081, __c65, 1),
+          credentialsToRotate: __S(2113, __c66, 1),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -13760,7 +15236,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "RotatePaymentConnectorCredentialsResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13777,7 +15253,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "SetTokenVaultCMKRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ rawText: S.String })]);
@@ -13786,7 +15262,7 @@ function __c67(j: number): any {
         S.Struct({
           policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
           resource: __S(192, __c6, 0),
-          content: __S(2144, __c67, 0),
+          content: __S(2176, __c68, 0),
           name: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -13802,7 +15278,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "StartPolicyGenerationRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13835,7 +15311,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "SubmitRegistryRecordForApprovalResponse" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13854,14 +15330,14 @@ function __c69(j: number): any {
         ),
       ).annotate({ identifier: "SynchronizeGatewayTargetsRequest" });
     case 1:
-      return S.Array(__S(4818, __c150, 18));
+      return S.Array(__S(4850, __c151, 18));
     case 2:
-      return S.suspend(() => S.Struct({ targets: S.optional(__S(2209, __c69, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ targets: S.optional(__S(2241, __c70, 1)) })).annotate({
         identifier: "SynchronizeGatewayTargetsResponse",
       });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -13879,26 +15355,6 @@ function __c70(j: number): any {
           ),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
-  }
-}
-function __c71(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tagKeys: __S(2336, __c73, 0).pipe(T.HttpQuery("tagKeys")),
-        }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
 function __c72(j: number): any {
@@ -13965,6 +15421,26 @@ function __c76(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
+          tagKeys: __S(2336, __c73, 0).pipe(T.HttpQuery("tagKeys")),
+        }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/tags/{resourceArn}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceRequest" });
+  }
+}
+function __c77(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           agentRuntimeId: S.String.pipe(T.HttpLabel("agentRuntimeId")),
           agentRuntimeArtifact: __S(3521, __c110, 1),
           roleArn: S.String,
@@ -13974,11 +15450,12 @@ function __c76(j: number): any {
           requestHeaderConfiguration: S.optional(__S(3522, __c110, 2)),
           protocolConfiguration: S.optional(__S(3523, __c110, 3)),
           lifecycleConfiguration: S.optional(__S(3490, __c109, 2)),
-          metadataConfiguration: S.optional(__S(6944, __c217, 0)),
+          metadataConfiguration: S.optional(__S(6976, __c218, 0)),
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           filesystemConfigurations: S.optional(__S(3495, __c109, 7)),
           capacityProviderConfiguration: S.optional(__S(3524, __c110, 4)),
           platformVersion: S.optional(S.String),
+          allowedPorts: S.optional(__S(3527, __c110, 7)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -14005,7 +15482,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "UpdateAgentRuntimeResponse" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14043,14 +15520,14 @@ function __c77(j: number): any {
       ).annotate({ identifier: "UpdateAgentRuntimeEndpointResponse" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           apiKey: S.optional(SensitiveString),
-          apiKeySecretConfig: S.optional(__S(3872, __c121, 0)),
+          apiKeySecretConfig: S.optional(__S(3904, __c122, 0)),
           apiKeySecretSource: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14065,13 +15542,13 @@ function __c78(j: number): any {
       ).annotate({ identifier: "UpdateApiKeyCredentialProviderRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           capacityProviderId: S.String.pipe(T.HttpLabel("capacityProviderId")),
-          description: S.optional(__S(2560, __c80, 0)),
+          description: S.optional(__S(2592, __c81, 0)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -14097,7 +15574,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "UpdateCapacityProviderOutput" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ optionalValue: S.optional(SensitiveString) })).annotate({
@@ -14105,7 +15582,7 @@ function __c80(j: number): any {
       });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14114,11 +15591,11 @@ function __c81(j: number): any {
           bundleId: S.String.pipe(T.HttpLabel("bundleId")),
           bundleName: S.optional(S.String),
           description: S.optional(SensitiveString),
-          components: S.optional(__S(4193, __c131, 1)),
+          components: S.optional(__S(4225, __c132, 1)),
           parentVersionIds: __S(2336, __c73, 0),
           branchName: S.optional(S.String),
           commitMessage: S.String,
-          createdBy: S.optional(__S(4160, __c130, 0)),
+          createdBy: S.optional(__S(4192, __c131, 0)),
           kmsKeyArn: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14142,14 +15619,14 @@ function __c81(j: number): any {
       ).annotate({ identifier: "UpdateConfigurationBundleResponse" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           consentPortalIdentifier: S.String,
           executionRoleArn: S.optional(S.String),
-          idpConfig: S.optional(__S(4288, __c134, 0)),
+          idpConfig: S.optional(__S(4320, __c135, 0)),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14164,7 +15641,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "UpdateConsentPortalRequest" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14193,7 +15670,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "UpdateDatasetResponse" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14224,7 +15701,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "UpdateDatasetExamplesResponse" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14232,7 +15709,7 @@ function __c85(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           evaluatorId: S.String.pipe(T.HttpLabel("evaluatorId")),
           description: S.optional(SensitiveString),
-          evaluatorConfig: S.optional(__S(4430, __c138, 14)),
+          evaluatorConfig: S.optional(__S(4465, __c139, 17)),
           level: S.optional(S.String),
           kmsKeyArn: S.optional(S.String),
         }).pipe(
@@ -14255,38 +15732,6 @@ function __c85(j: number): any {
           status: S.String,
         }),
       ).annotate({ identifier: "UpdateEvaluatorResponse" });
-  }
-}
-function __c86(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
-          name: S.String,
-          description: S.optional(SensitiveString),
-          roleArn: S.String,
-          protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4515, __c141, 3)),
-          authorizerType: S.String,
-          authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
-          kmsKeyArn: S.optional(S.String),
-          customTransformConfiguration: S.optional(__S(4525, __c141, 13)),
-          interceptorConfigurations: S.optional(__S(4522, __c141, 10)),
-          policyEngineConfiguration: S.optional(__S(4523, __c141, 11)),
-          exceptionLevel: S.optional(S.String),
-          wafConfiguration: S.optional(__S(4526, __c141, 14)),
-        }).pipe(
-          T.all(
-            T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdateGatewayRequest" });
   }
 }
 function __c87(j: number): any {
@@ -14377,6 +15822,38 @@ function __c91(j: number): any {
       return S.suspend(() =>
         S.Struct({
           gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
+          name: S.String,
+          description: S.optional(SensitiveString),
+          roleArn: S.String,
+          protocolType: S.optional(S.String),
+          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
+          authorizerType: S.String,
+          authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
+          kmsKeyArn: S.optional(S.String),
+          customTransformConfiguration: S.optional(__S(4557, __c142, 13)),
+          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
+          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
+          exceptionLevel: S.optional(S.String),
+          wafConfiguration: S.optional(__S(4558, __c142, 14)),
+        }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdateGatewayRequest" });
+  }
+}
+function __c92(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
           rateLimitId: S.String.pipe(T.HttpLabel("rateLimitId")),
           description: S.optional(S.String),
           entries: __S(2883, __c90, 3),
@@ -14396,7 +15873,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "UpdateGatewayRateLimitRequest" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14404,8 +15881,8 @@ function __c92(j: number): any {
           gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
           ruleId: S.String.pipe(T.HttpLabel("ruleId")),
           priority: S.optional(S.Number),
-          conditions: S.optional(__S(4614, __c144, 6)),
-          actions: S.optional(__S(4626, __c144, 18)),
+          conditions: S.optional(__S(4649, __c145, 9)),
+          actions: S.optional(__S(4666, __c145, 26)),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -14420,7 +15897,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "UpdateGatewayRuleRequest" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14429,11 +15906,11 @@ function __c93(j: number): any {
           targetId: S.String.pipe(T.HttpLabel("targetId")),
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
-          targetConfiguration: __S(4806, __c150, 6),
-          credentialProviderConfigurations: S.optional(__S(4811, __c150, 11)),
-          metadataConfiguration: S.optional(__S(4812, __c150, 12)),
+          targetConfiguration: __S(4838, __c151, 6),
+          credentialProviderConfigurations: S.optional(__S(4843, __c151, 11)),
+          metadataConfiguration: S.optional(__S(4844, __c151, 12)),
           privateEndpoint: S.optional(__S(3362, __c105, 2)),
-          certificateConfigurations: S.optional(__S(4815, __c150, 15)),
+          certificateConfigurations: S.optional(__S(4847, __c151, 15)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/gateways/{gatewayIdentifier}/targets/{targetId}/" }),
@@ -14447,15 +15924,15 @@ function __c93(j: number): any {
       ).annotate({ identifier: "UpdateGatewayTargetRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(4928, __c154, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(4960, __c155, 0)) }),
       ).annotate({ identifier: "UpdatedHarnessEnvironmentArtifact" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(4955, __c154, 27)) }),
+        S.Struct({ optionalValue: S.optional(__S(4987, __c155, 27)) }),
       ).annotate({ identifier: "UpdatedHarnessMemoryConfiguration" });
     case 2:
       return S.suspend(() =>
@@ -14463,18 +15940,18 @@ function __c94(j: number): any {
           harnessId: S.String.pipe(T.HttpLabel("harnessId")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.optional(S.String),
-          environment: S.optional(__S(4865, __c152, 1)),
-          environmentArtifact: S.optional(__S(3008, __c94, 0)),
+          environment: S.optional(__S(4897, __c153, 1)),
+          environmentArtifact: S.optional(__S(3040, __c95, 0)),
           environmentVariables: S.optional(__S(2848, __c89, 0)),
-          authorizerConfiguration: S.optional(__S(3040, __c95, 0)),
-          model: S.optional(__S(4933, __c154, 5)),
-          systemPrompt: S.optional(__S(4935, __c154, 7)),
-          tools: S.optional(__S(4944, __c154, 16)),
-          skills: S.optional(__S(4950, __c154, 22)),
+          authorizerConfiguration: S.optional(__S(3072, __c96, 0)),
+          model: S.optional(__S(4965, __c155, 5)),
+          systemPrompt: S.optional(__S(4967, __c155, 7)),
+          tools: S.optional(__S(4976, __c155, 16)),
+          skills: S.optional(__S(4982, __c155, 22)),
           allowedTools: S.optional(__S(2336, __c73, 0)),
-          memory: S.optional(__S(3009, __c94, 1)),
-          truncation: S.optional(__S(4959, __c154, 31)),
-          hooks: S.optional(__S(4964, __c155, 4)),
+          memory: S.optional(__S(3041, __c95, 1)),
+          truncation: S.optional(__S(4991, __c155, 31)),
+          hooks: S.optional(__S(4996, __c156, 4)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
@@ -14491,7 +15968,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "UpdateHarnessRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14499,7 +15976,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "UpdatedAuthorizerConfiguration" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14522,12 +15999,12 @@ function __c96(j: number): any {
       ).annotate({ identifier: "UpdateHarnessEndpointRequest" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5201, __c162, 17) }),
-        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5217, __c163, 1) }),
+        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5233, __c163, 17) }),
+        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5249, __c164, 1) }),
       ]);
     case 1:
       return S.suspend(() =>
@@ -14539,18 +16016,18 @@ function __c97(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          triggerConditions: S.optional(__S(5199, __c162, 15)),
-          invocationConfiguration: S.optional(__S(3105, __c97, 1)),
+          triggerConditions: S.optional(__S(5231, __c163, 15)),
+          invocationConfiguration: S.optional(__S(3137, __c98, 1)),
           historicalContextWindowSize: S.optional(S.Number),
         }),
       ).annotate({ identifier: "ModifySelfManagedConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(5214, __c162, 30)),
-          consolidation: S.optional(__S(5216, __c163, 0)),
-          reflection: S.optional(__S(3104, __c97, 0)),
-          selfManagedConfiguration: S.optional(__S(3106, __c97, 2)),
+          extraction: S.optional(__S(5246, __c163, 30)),
+          consolidation: S.optional(__S(5248, __c164, 0)),
+          reflection: S.optional(__S(3136, __c98, 0)),
+          selfManagedConfiguration: S.optional(__S(3138, __c98, 2)),
         }),
       ).annotate({ identifier: "ModifyStrategyConfiguration" });
     case 4:
@@ -14560,24 +16037,25 @@ function __c97(j: number): any {
           description: S.optional(SensitiveString),
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          configuration: S.optional(__S(3107, __c97, 3)),
-          memoryRecordSchema: S.optional(__S(5192, __c162, 8)),
+          configuration: S.optional(__S(3139, __c98, 3)),
+          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
         }),
       ).annotate({ identifier: "ModifyMemoryStrategyInput" });
     case 5:
-      return S.Array(__S(3108, __c97, 4));
+      return S.Array(__S(3140, __c98, 4));
     case 6:
       return S.suspend(() => S.Struct({ memoryStrategyId: S.String })).annotate({
         identifier: "DeleteMemoryStrategyInput",
       });
     case 7:
-      return S.Array(__S(3110, __c97, 6));
+      return S.Array(__S(3142, __c98, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          addMemoryStrategies: S.optional(__S(5161, __c161, 9)),
-          modifyMemoryStrategies: S.optional(__S(3109, __c97, 5)),
-          deleteMemoryStrategies: S.optional(__S(3111, __c97, 7)),
+          addMemoryStrategies: S.optional(__S(5194, __c162, 10)),
+          modifyMemoryStrategies: S.optional(__S(3141, __c98, 5)),
+          deleteMemoryStrategies: S.optional(__S(3143, __c98, 7)),
         }),
       ).annotate({ identifier: "ModifyMemoryStrategies" });
     case 9:
@@ -14588,10 +16066,10 @@ function __c97(j: number): any {
           description: S.optional(SensitiveString),
           eventExpiryDuration: S.optional(S.Number),
           memoryExecutionRoleArn: S.optional(S.String),
-          memoryStrategies: S.optional(__S(3112, __c97, 8)),
-          addIndexedKeys: S.optional(__S(5203, __c162, 19)),
-          namespaceKeys: S.optional(__S(5206, __c162, 22)),
-          streamDeliveryResources: S.optional(__S(5212, __c162, 28)),
+          memoryStrategies: S.optional(__S(3144, __c98, 8)),
+          addIndexedKeys: S.optional(__S(5235, __c163, 19)),
+          namespaceKeys: S.optional(__S(5238, __c163, 22)),
+          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/memories/{memoryId}/update" }),
@@ -14605,14 +16083,14 @@ function __c97(j: number): any {
       ).annotate({ identifier: "UpdateMemoryInput" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          oauth2ProviderConfigInput: __S(5284, __c165, 4),
+          oauth2ProviderConfigInput: __S(5316, __c166, 4),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/identities/UpdateOauth2CredentialProvider" }),
@@ -14627,14 +16105,14 @@ function __c98(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientSecretArn: __S(3840, __c120, 0),
+          clientSecretArn: __S(3872, __c121, 0),
           clientSecretJsonKey: S.optional(S.String),
           clientSecretSource: S.optional(S.String),
           name: S.String,
           credentialProviderVendor: S.String,
           credentialProviderArn: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: __S(5321, __c166, 9),
+          oauth2ProviderConfigOutput: __S(5354, __c167, 10),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           status: S.optional(S.String),
@@ -14642,7 +16120,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "UpdateOauth2CredentialProviderResponse" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14650,12 +16128,12 @@ function __c99(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           onlineEvaluationConfigId: S.String.pipe(T.HttpLabel("onlineEvaluationConfigId")),
           description: S.optional(SensitiveString),
-          rule: S.optional(__S(5413, __c169, 5)),
-          dataSourceConfig: S.optional(__S(5415, __c169, 7)),
-          evaluators: S.optional(__S(5417, __c169, 9)),
-          insights: S.optional(__S(5377, __c168, 1)),
-          clusteringConfig: S.optional(__S(5378, __c168, 2)),
-          outputConfig: S.optional(__S(5419, __c169, 11)),
+          rule: S.optional(__S(5445, __c170, 5)),
+          dataSourceConfig: S.optional(__S(5447, __c170, 7)),
+          evaluators: S.optional(__S(5449, __c170, 9)),
+          insights: S.optional(__S(5409, __c169, 1)),
+          clusteringConfig: S.optional(__S(5410, __c169, 2)),
+          outputConfig: S.optional(__S(5451, __c170, 11)),
           evaluationExecutionRoleArn: S.optional(S.String),
           executionStatus: S.optional(S.String),
         }).pipe(
@@ -14682,7 +16160,7 @@ function __c99(j: number): any {
       ).annotate({ identifier: "UpdateOnlineEvaluationConfigResponse" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -14691,7 +16169,7 @@ function __c100(j: number): any {
           paymentConnectorId: S.String.pipe(T.HttpLabel("paymentConnectorId")),
           description: S.optional(S.String),
           type: S.optional(S.String),
-          credentialProviderConfigurations: S.optional(__S(5474, __c171, 2)),
+          credentialProviderConfigurations: S.optional(__S(5506, __c172, 2)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -14714,44 +16192,12 @@ function __c100(j: number): any {
           paymentManagerId: S.String,
           name: S.String,
           type: S.String,
-          credentialProviderConfigurations: __S(5474, __c171, 2),
+          credentialProviderConfigurations: __S(5506, __c172, 2),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
           authorizationUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "UpdatePaymentConnectorResponse" });
-  }
-}
-function __c101(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          credentialProviderVendor: S.String,
-          providerConfigurationInput: __S(5538, __c173, 2),
-        }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/identities/UpdatePaymentCredentialProvider" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "UpdatePaymentCredentialProviderRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          credentialProviderVendor: S.String,
-          credentialProviderArn: S.String,
-          providerConfigurationOutput: __S(5570, __c174, 2),
-          createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-        }),
-      ).annotate({ identifier: "UpdatePaymentCredentialProviderResponse" });
   }
 }
 function __c102(j: number): any {
@@ -14774,6 +16220,7 @@ function __c102(j: number): any {
           capacityProviderConfiguration: S.optional(__S(3524, __c110, 4)),
           tags: S.optional(__S(2848, __c89, 0)),
           platformVersion: S.optional(S.String),
+          allowedPorts: S.optional(__S(3527, __c110, 7)),
         }).pipe(T.all(T.Http({ method: "PUT", uri: "/runtimes/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateAgentRuntimeRequest" });
     case 1:
@@ -14961,16 +16408,63 @@ function __c110(j: number): any {
     case 2:
       return S.Union([/*@__PURE__*/ S.Struct({ requestHeaderAllowlist: __S(2336, __c73, 0) })]);
     case 3:
-      return S.suspend(() => S.Struct({ serverProtocol: S.String })).annotate({
-        identifier: "ProtocolConfiguration",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          serverProtocol: S.String,
+          port: S.optional(S.Number),
+          path: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProtocolConfiguration" });
     case 4:
       return S.suspend(() => S.Struct({ capacityProviderArn: S.optional(S.String) })).annotate({
         identifier: "CapacityProviderConfiguration",
       });
+    case 5:
+      return S.suspend(() => S.Struct({ from: S.Number, to: S.Number })).annotate({
+        identifier: "PortRange",
+      });
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ port: S.Number }),
+        /*@__PURE__*/ S.Struct({ portRange: __S(3525, __c110, 5) }),
+      ]);
+    case 7:
+      return S.Array(__S(3526, __c110, 6));
   }
 }
 function __c111(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          credentialProviderVendor: S.String,
+          providerConfigurationInput: __S(5570, __c174, 2),
+        }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/identities/UpdatePaymentCredentialProvider" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UpdatePaymentCredentialProviderRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          credentialProviderVendor: S.String,
+          credentialProviderArn: S.String,
+          providerConfigurationOutput: __S(5602, __c175, 2),
+          createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+        }),
+      ).annotate({ identifier: "UpdatePaymentCredentialProviderResponse" });
+  }
+}
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15009,15 +16503,15 @@ function __c111(j: number): any {
       ).annotate({ identifier: "UpdatePaymentManagerResponse" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
           policyId: S.String.pipe(T.HttpLabel("policyId")),
-          description: S.optional(__S(2560, __c80, 0)),
-          definition: S.optional(__S(5666, __c177, 2)),
+          description: S.optional(__S(2592, __c81, 0)),
+          definition: S.optional(__S(5698, __c178, 2)),
           validationMode: S.optional(S.String),
           enforcementMode: S.optional(S.String),
         }).pipe(
@@ -15036,13 +16530,13 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdatePolicyRequest" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           policyEngineId: S.String.pipe(T.HttpLabel("policyEngineId")),
-          description: S.optional(__S(2560, __c80, 0)),
+          description: S.optional(__S(2592, __c81, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/policy-engines/{policyEngineId}" }),
@@ -15056,20 +16550,20 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdatePolicyEngineRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5824, __c182, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(5856, __c183, 0)) }),
       ).annotate({ identifier: "UpdatedApprovalConfiguration" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           registryId: S.String.pipe(T.HttpLabel("registryId")),
           name: S.optional(S.String),
-          description: S.optional(__S(2560, __c80, 0)),
-          authorizerConfiguration: S.optional(__S(3040, __c95, 0)),
-          approvalConfiguration: S.optional(__S(3648, __c114, 0)),
+          description: S.optional(__S(2592, __c81, 0)),
+          authorizerConfiguration: S.optional(__S(3072, __c96, 0)),
+          approvalConfiguration: S.optional(__S(3680, __c115, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/registries/{registryId}" }),
@@ -15083,58 +16577,58 @@ function __c114(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRequest" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5888, __c184, 0)) }),
+        S.Struct({ optionalValue: S.optional(__S(5920, __c185, 0)) }),
       ).annotate({ identifier: "UpdatedServerDefinition" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5889, __c184, 1)) }),
+        S.Struct({ optionalValue: S.optional(__S(5921, __c185, 1)) }),
       ).annotate({ identifier: "UpdatedToolsDefinition" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          server: S.optional(__S(3680, __c115, 0)),
-          tools: S.optional(__S(3681, __c115, 1)),
+          server: S.optional(__S(3712, __c116, 0)),
+          tools: S.optional(__S(3713, __c116, 1)),
         }),
       ).annotate({ identifier: "UpdatedMcpDescriptorFields" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(3682, __c115, 2)) }),
+        S.Struct({ optionalValue: S.optional(__S(3714, __c116, 2)) }),
       ).annotate({ identifier: "UpdatedMcpDescriptor" });
     case 4:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5891, __c184, 3)) }),
+        S.Struct({ optionalValue: S.optional(__S(5923, __c185, 3)) }),
       ).annotate({ identifier: "UpdatedA2aDescriptor" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5892, __c184, 4)) }),
+        S.Struct({ optionalValue: S.optional(__S(5924, __c185, 4)) }),
       ).annotate({ identifier: "UpdatedCustomDescriptor" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          skillMd: S.optional(__S(3685, __c115, 5)),
-          skillDefinition: S.optional(__S(3680, __c115, 0)),
+          skillMd: S.optional(__S(3717, __c116, 5)),
+          skillDefinition: S.optional(__S(3712, __c116, 0)),
         }),
       ).annotate({ identifier: "UpdatedAgentSkillsDescriptorFields" });
     case 7:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(3686, __c115, 6)) }),
+        S.Struct({ optionalValue: S.optional(__S(3718, __c116, 6)) }),
       ).annotate({ identifier: "UpdatedAgentSkillsDescriptor" });
     case 8:
       return S.suspend(() =>
         S.Struct({
-          mcp: S.optional(__S(3683, __c115, 3)),
-          a2a: S.optional(__S(3684, __c115, 4)),
-          custom: S.optional(__S(3685, __c115, 5)),
-          agentSkills: S.optional(__S(3687, __c115, 7)),
+          mcp: S.optional(__S(3715, __c116, 3)),
+          a2a: S.optional(__S(3716, __c116, 4)),
+          custom: S.optional(__S(3717, __c116, 5)),
+          agentSkills: S.optional(__S(3719, __c116, 7)),
         }),
       ).annotate({ identifier: "UpdatedDescriptorsUnion" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(3688, __c115, 8)) }),
+        S.Struct({ optionalValue: S.optional(__S(3720, __c116, 8)) }),
       ).annotate({ identifier: "UpdatedDescriptors" });
     case 10:
       return S.suspend(() => S.Struct({ optionalValue: S.optional(S.String) })).annotate({
@@ -15142,7 +16636,7 @@ function __c115(j: number): any {
       });
     case 11:
       return S.suspend(() =>
-        S.Struct({ optionalValue: S.optional(__S(5901, __c184, 13)) }),
+        S.Struct({ optionalValue: S.optional(__S(5933, __c185, 13)) }),
       ).annotate({ identifier: "UpdatedSynchronizationConfiguration" });
     case 12:
       return S.suspend(() =>
@@ -15150,12 +16644,12 @@ function __c115(j: number): any {
           registryId: S.String.pipe(T.HttpLabel("registryId")),
           recordId: S.String.pipe(T.HttpLabel("recordId")),
           name: S.optional(S.String),
-          description: S.optional(__S(2560, __c80, 0)),
+          description: S.optional(__S(2592, __c81, 0)),
           descriptorType: S.optional(S.String),
-          descriptors: S.optional(__S(3689, __c115, 9)),
+          descriptors: S.optional(__S(3721, __c116, 9)),
           recordVersion: S.optional(S.String),
-          synchronizationType: S.optional(__S(3690, __c115, 10)),
-          synchronizationConfiguration: S.optional(__S(3691, __c115, 11)),
+          synchronizationType: S.optional(__S(3722, __c116, 10)),
+          synchronizationConfiguration: S.optional(__S(3723, __c116, 11)),
           triggerSynchronization: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -15170,7 +16664,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRecordRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15203,7 +16697,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateRegistryRecordStatusResponse" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15223,7 +16717,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateWorkloadIdentityRequest" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15259,14 +16753,14 @@ function __c118(j: number): any {
       ).annotate({ identifier: "CreateAgentRuntimeEndpointResponse" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           apiKey: S.optional(SensitiveString),
-          apiKeySecretConfig: S.optional(__S(3872, __c121, 0)),
+          apiKeySecretConfig: S.optional(__S(3904, __c122, 0)),
           apiKeySecretSource: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
@@ -15283,7 +16777,7 @@ function __c119(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          apiKeySecretArn: __S(3840, __c120, 0),
+          apiKeySecretArn: __S(3872, __c121, 0),
           apiKeySecretJsonKey: S.optional(S.String),
           apiKeySecretSource: S.optional(S.String),
           name: S.String,
@@ -15292,13 +16786,13 @@ function __c119(j: number): any {
       ).annotate({ identifier: "CreateApiKeyCredentialProviderResponse" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ secretArn: S.String })).annotate({ identifier: "Secret" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ secretId: S.String, jsonKey: S.String })).annotate({
@@ -15306,7 +16800,7 @@ function __c121(j: number): any {
       });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15314,12 +16808,12 @@ function __c122(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3936, __c123, 0),
-          recording: S.optional(__S(3968, __c124, 0)),
-          browserSigning: S.optional(__S(3969, __c124, 1)),
-          enterprisePolicies: S.optional(__S(3971, __c124, 3)),
-          certificates: S.optional(__S(3939, __c123, 3)),
-          filesystemConfigurations: S.optional(__S(3942, __c123, 6)),
+          networkConfiguration: __S(3968, __c124, 0),
+          recording: S.optional(__S(4000, __c125, 0)),
+          browserSigning: S.optional(__S(4001, __c125, 1)),
+          enterprisePolicies: S.optional(__S(4003, __c125, 3)),
+          certificates: S.optional(__S(3971, __c124, 3)),
+          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(T.all(T.Http({ method: "PUT", uri: "/browsers" }), svc, auth, proto, ver, rules)),
@@ -15335,34 +16829,34 @@ function __c122(j: number): any {
       ).annotate({ identifier: "CreateBrowserResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ networkMode: S.String, vpcConfig: S.optional(__S(3296, __c103, 0)) }),
       ).annotate({ identifier: "BrowserNetworkConfiguration" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ secretsManager: __S(3840, __c120, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ secretsManager: __S(3872, __c121, 0) })]);
     case 2:
-      return S.suspend(() => S.Struct({ location: __S(3937, __c123, 1) })).annotate({
+      return S.suspend(() => S.Struct({ location: __S(3969, __c124, 1) })).annotate({
         identifier: "Certificate",
       });
     case 3:
-      return S.Array(__S(3938, __c123, 2));
+      return S.Array(__S(3970, __c124, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({ accessPointArn: S.String, mountPath: S.String, fileSystemArn: S.String }),
       ).annotate({ identifier: "S3FilesConfiguration" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3FilesConfiguration: __S(3940, __c123, 4) }),
-        /*@__PURE__*/ S.Struct({ efsConfiguration: __S(3940, __c123, 4) }),
+        /*@__PURE__*/ S.Struct({ s3FilesConfiguration: __S(3972, __c124, 4) }),
+        /*@__PURE__*/ S.Struct({ efsConfiguration: __S(3972, __c124, 4) }),
       ]);
     case 6:
-      return S.Array(__S(3941, __c123, 5));
+      return S.Array(__S(3973, __c124, 5));
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15377,10 +16871,10 @@ function __c124(j: number): any {
         S.Struct({ location: __S(3329, __c104, 1), type: S.optional(S.String) }),
       ).annotate({ identifier: "BrowserEnterprisePolicy" });
     case 3:
-      return S.Array(__S(3970, __c124, 2));
+      return S.Array(__S(4002, __c125, 2));
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15404,17 +16898,17 @@ function __c125(j: number): any {
       ).annotate({ identifier: "CreateBrowserProfileResponse" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(SensitiveString),
-          permissionsConfiguration: __S(4064, __c127, 0),
+          permissionsConfiguration: __S(4096, __c128, 0),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(2848, __c89, 0)),
-          computeConfiguration: __S(4082, __c127, 18),
+          computeConfiguration: __S(4114, __c128, 18),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/capacity-providers" }),
@@ -15437,7 +16931,7 @@ function __c126(j: number): any {
       ).annotate({ identifier: "CreateCapacityProviderOutput" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ capacityProviderOperatorRoleArn: S.String })).annotate({
@@ -15466,17 +16960,17 @@ function __c127(j: number): any {
         S.Struct({
           deviceName: S.optional(S.String),
           virtualName: S.optional(S.String),
-          ebs: S.optional(__S(4066, __c127, 2)),
+          ebs: S.optional(__S(4098, __c128, 2)),
         }),
       ).annotate({ identifier: "EphemeralBlockDeviceMapping" });
     case 4:
-      return S.Array(__S(4067, __c127, 3));
+      return S.Array(__S(4099, __c128, 3));
     case 5:
       return S.suspend(() => S.Struct({ licenseConfigurationArn: S.String })).annotate({
         identifier: "LicenseSpecification",
       });
     case 6:
-      return S.Array(__S(4069, __c127, 5));
+      return S.Array(__S(4101, __c128, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -15488,25 +16982,25 @@ function __c127(j: number): any {
       return S.suspend(() =>
         S.Struct({
           capacityReservationPreference: S.optional(S.String),
-          capacityReservationTarget: S.optional(__S(4071, __c127, 7)),
+          capacityReservationTarget: S.optional(__S(4103, __c128, 7)),
         }),
       ).annotate({ identifier: "CapacityReservationSpecification" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           operatingSystem: S.String,
-          instanceRequirements: __S(4065, __c127, 1),
-          ephemeralVolumes: S.optional(__S(4068, __c127, 4)),
+          instanceRequirements: __S(4097, __c128, 1),
+          ephemeralVolumes: S.optional(__S(4100, __c128, 4)),
           monitoring: S.optional(S.String),
-          licenseSpecifications: S.optional(__S(4070, __c127, 6)),
-          capacityReservationSpecification: S.optional(__S(4072, __c127, 8)),
+          licenseSpecifications: S.optional(__S(4102, __c128, 6)),
+          capacityReservationSpecification: S.optional(__S(4104, __c128, 8)),
           sshKeyName: S.optional(S.String),
           instanceProfileArn: S.optional(S.String),
           propagatedTags: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "LaunchParameters" });
     case 10:
-      return S.Union([/*@__PURE__*/ S.Struct({ launchParameters: __S(4073, __c127, 9) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ launchParameters: __S(4105, __c128, 9) })]);
     case 11:
       return S.suspend(() =>
         S.Struct({ subnets: __S(2336, __c73, 0), securityGroups: __S(2336, __c73, 0) }),
@@ -15525,9 +17019,9 @@ function __c127(j: number): any {
         }),
       ).annotate({ identifier: "EbsVolumeConfiguration" });
     case 13:
-      return S.Union([/*@__PURE__*/ S.Struct({ ebsConfiguration: __S(4076, __c127, 12) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ ebsConfiguration: __S(4108, __c128, 12) })]);
     case 14:
-      return S.Array(__S(4077, __c127, 13));
+      return S.Array(__S(4109, __c128, 13));
     case 15:
       return S.suspend(() =>
         S.Struct({ idleInstanceTimeout: S.optional(S.Number), maxLifetime: S.optional(S.Number) }),
@@ -15546,18 +17040,18 @@ function __c127(j: number): any {
     case 17:
       return S.suspend(() =>
         S.Struct({
-          launchTemplateSource: __S(4074, __c127, 10),
-          vpcConfiguration: __S(4075, __c127, 11),
-          volumes: S.optional(__S(4078, __c127, 14)),
-          lifecycleConfiguration: S.optional(__S(4079, __c127, 15)),
-          rootVolume: S.optional(__S(4080, __c127, 16)),
+          launchTemplateSource: __S(4106, __c128, 10),
+          vpcConfiguration: __S(4107, __c128, 11),
+          volumes: S.optional(__S(4110, __c128, 14)),
+          lifecycleConfiguration: S.optional(__S(4111, __c128, 15)),
+          rootVolume: S.optional(__S(4112, __c128, 16)),
         }),
       ).annotate({ identifier: "Ec2Configuration" });
     case 18:
-      return S.Union([/*@__PURE__*/ S.Struct({ ec2Configuration: __S(4081, __c127, 17) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ ec2Configuration: __S(4113, __c128, 17) })]);
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15565,9 +17059,9 @@ function __c128(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3936, __c123, 0),
-          certificates: S.optional(__S(3939, __c123, 3)),
-          filesystemConfigurations: S.optional(__S(3942, __c123, 6)),
+          networkConfiguration: __S(3968, __c124, 0),
+          certificates: S.optional(__S(3971, __c124, 3)),
+          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
@@ -15585,7 +17079,7 @@ function __c128(j: number): any {
       ).annotate({ identifier: "CreateCodeInterpreterResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15593,10 +17087,10 @@ function __c129(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           bundleName: S.String,
           description: S.optional(SensitiveString),
-          components: __S(4193, __c131, 1),
+          components: __S(4225, __c132, 1),
           branchName: S.optional(S.String),
           commitMessage: S.optional(S.String),
-          createdBy: S.optional(__S(4160, __c130, 0)),
+          createdBy: S.optional(__S(4192, __c131, 0)),
           kmsKeyArn: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
@@ -15621,7 +17115,7 @@ function __c129(j: number): any {
       ).annotate({ identifier: "CreateConfigurationBundleResponse" });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ name: S.String, arn: S.optional(S.String) })).annotate({
@@ -15629,25 +17123,25 @@ function __c130(j: number): any {
       });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ configuration: S.Any })).annotate({
         identifier: "ComponentConfiguration",
       });
     case 1:
-      return S.Record(S.String, /*@__PURE__*/ __S(4192, __c131, 0).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4224, __c132, 0).pipe(S.optional));
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           executionRoleArn: S.String,
-          idpConfig: __S(4288, __c134, 0),
+          idpConfig: __S(4320, __c135, 0),
           name: S.String,
-          sources: __S(4257, __c133, 1),
+          sources: __S(4289, __c134, 1),
           description: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
@@ -15663,17 +17157,17 @@ function __c132(j: number): any {
       ).annotate({ identifier: "CreateConsentPortalRequest" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ identifier: S.String, type: S.String })).annotate({
         identifier: "ConsentPortalSource",
       });
     case 1:
-      return S.Array(__S(4256, __c133, 0));
+      return S.Array(__S(4288, __c134, 0));
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15686,13 +17180,13 @@ function __c134(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          sources: __S(4257, __c133, 1),
+          sources: __S(4289, __c134, 1),
           consentPortalArn: S.String,
           consentPortalId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           description: S.optional(S.String),
           executionRoleArn: S.String,
-          idpConfig: __S(4288, __c134, 0),
+          idpConfig: __S(4320, __c135, 0),
           name: S.String,
           portalUrl: S.optional(S.String),
           status: S.String,
@@ -15702,7 +17196,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "CreateConsentPortalResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15727,7 +17221,7 @@ function __c135(j: number): any {
       ).annotate({ identifier: "CreateDatasetResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15757,7 +17251,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "CreateDatasetVersionResponse" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15765,7 +17259,7 @@ function __c137(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           evaluatorName: S.String,
           description: S.optional(SensitiveString),
-          evaluatorConfig: __S(4430, __c138, 14),
+          evaluatorConfig: __S(4465, __c139, 17),
           level: S.String,
           kmsKeyArn: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
@@ -15791,26 +17285,42 @@ function __c137(j: number): any {
       ).annotate({ identifier: "CreateEvaluatorResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ definition: S.String, value: S.Number, label: S.String }),
       ).annotate({ identifier: "NumericalScaleDefinition" });
     case 1:
-      return S.Array(__S(4416, __c138, 0));
+      return S.Array(__S(4448, __c139, 0));
     case 2:
       return S.suspend(() => S.Struct({ definition: S.String, label: S.String })).annotate({
         identifier: "CategoricalScaleDefinition",
       });
     case 3:
-      return S.Array(__S(4418, __c138, 2));
+      return S.Array(__S(4450, __c139, 2));
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ numerical: __S(4417, __c138, 1) }),
-        /*@__PURE__*/ S.Struct({ categorical: __S(4419, __c138, 3) }),
+        /*@__PURE__*/ S.Struct({ numerical: __S(4449, __c139, 1) }),
+        /*@__PURE__*/ S.Struct({ categorical: __S(4451, __c139, 3) }),
       ]);
     case 5:
+      return S.suspend(() =>
+        S.Struct({
+          dimensionName: S.String,
+          dimensionInstruction: SensitiveString,
+          dimensionRatingScale: __S(4452, __c139, 4),
+        }),
+      ).annotate({ identifier: "EvaluationDimension" });
+    case 6:
+      return S.Array(__S(4453, __c139, 5));
+    case 7:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ numerical: __S(4449, __c139, 1) }),
+        /*@__PURE__*/ S.Struct({ categorical: __S(4451, __c139, 3) }),
+        /*@__PURE__*/ S.Struct({ multiDimensional: __S(4454, __c139, 6) }),
+      ]);
+    case 8:
       return S.suspend(() =>
         S.Struct({
           maxTokens: S.optional(S.Number),
@@ -15819,60 +17329,60 @@ function __c138(j: number): any {
           stopSequences: S.optional(__S(2336, __c73, 0)),
         }),
       ).annotate({ identifier: "InferenceConfiguration" });
-    case 6:
+    case 9:
       return S.suspend(() =>
         S.Struct({
           modelId: S.String,
-          inferenceConfig: S.optional(__S(4421, __c138, 5)),
+          inferenceConfig: S.optional(__S(4456, __c139, 8)),
           additionalModelRequestFields: S.optional(S.Any),
         }),
       ).annotate({ identifier: "BedrockEvaluatorModelConfig" });
-    case 7:
+    case 10:
       return S.suspend(() => S.Struct({ effort: S.optional(S.String) })).annotate({
         identifier: "ReasoningConfiguration",
       });
-    case 8:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           modelId: S.String,
           maxOutputTokens: S.optional(S.Number),
           temperature: S.optional(S.Number),
           topP: S.optional(S.Number),
-          reasoning: S.optional(__S(4423, __c138, 7)),
+          reasoning: S.optional(__S(4458, __c139, 10)),
         }),
       ).annotate({ identifier: "OpenResponsesEvaluatorModelConfig" });
-    case 9:
+    case 12:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ bedrockEvaluatorModelConfig: __S(4422, __c138, 6) }),
-        /*@__PURE__*/ S.Struct({ responsesEvaluatorModelConfig: __S(4424, __c138, 8) }),
+        /*@__PURE__*/ S.Struct({ bedrockEvaluatorModelConfig: __S(4457, __c139, 9) }),
+        /*@__PURE__*/ S.Struct({ responsesEvaluatorModelConfig: __S(4459, __c139, 11) }),
       ]);
-    case 10:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           instructions: SensitiveString,
-          ratingScale: __S(4420, __c138, 4),
-          modelConfig: __S(4425, __c138, 9),
+          ratingScale: __S(4455, __c139, 7),
+          modelConfig: __S(4460, __c139, 12),
         }),
       ).annotate({ identifier: "LlmAsAJudgeEvaluatorConfig" });
-    case 11:
+    case 14:
       return S.suspend(() =>
         S.Struct({ lambdaArn: S.String, lambdaTimeoutInSeconds: S.optional(S.Number) }),
       ).annotate({ identifier: "LambdaEvaluatorConfig" });
-    case 12:
-      return S.Union([/*@__PURE__*/ S.Struct({ lambdaConfig: __S(4427, __c138, 11) })]);
-    case 13:
+    case 15:
+      return S.Union([/*@__PURE__*/ S.Struct({ lambdaConfig: __S(4462, __c139, 14) })]);
+    case 16:
       return S.suspend(() =>
-        S.Struct({ baseEvaluatorId: S.String, modelConfig: __S(4425, __c138, 9) }),
+        S.Struct({ baseEvaluatorId: S.String, modelConfig: __S(4460, __c139, 12) }),
       ).annotate({ identifier: "DerivedEvaluatorConfig" });
-    case 14:
+    case 17:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ llmAsAJudge: __S(4426, __c138, 10) }),
-        /*@__PURE__*/ S.Struct({ codeBased: __S(4428, __c138, 12) }),
-        /*@__PURE__*/ S.Struct({ derived: __S(4429, __c138, 13) }),
+        /*@__PURE__*/ S.Struct({ llmAsAJudge: __S(4461, __c139, 13) }),
+        /*@__PURE__*/ S.Struct({ codeBased: __S(4463, __c139, 15) }),
+        /*@__PURE__*/ S.Struct({ derived: __S(4464, __c139, 16) }),
       ]);
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -15882,25 +17392,25 @@ function __c139(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           roleArn: S.String,
           protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4515, __c141, 3)),
+          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
           authorizerType: S.String,
           authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
           kmsKeyArn: S.optional(S.String),
-          interceptorConfigurations: S.optional(__S(4522, __c141, 10)),
-          policyEngineConfiguration: S.optional(__S(4523, __c141, 11)),
+          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
+          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
           exceptionLevel: S.optional(S.String),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/gateways/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateGatewayRequest" });
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ sessionTimeoutInSeconds: S.optional(S.Number) })).annotate({
@@ -15916,40 +17426,40 @@ function __c141(j: number): any {
           supportedVersions: S.optional(__S(2336, __c73, 0)),
           instructions: S.optional(SensitiveString),
           searchType: S.optional(S.String),
-          sessionConfiguration: S.optional(__S(4512, __c141, 0)),
-          streamingConfiguration: S.optional(__S(4513, __c141, 1)),
+          sessionConfiguration: S.optional(__S(4544, __c142, 0)),
+          streamingConfiguration: S.optional(__S(4545, __c142, 1)),
           disableMcpListToolsPagination: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "MCPGatewayConfiguration" });
     case 3:
-      return S.Union([/*@__PURE__*/ S.Struct({ mcp: __S(4514, __c141, 2) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ mcp: __S(4546, __c142, 2) })]);
     case 4:
       return S.Union([/*@__PURE__*/ S.Struct({ lambda: __S(3428, __c107, 4) })]);
     case 5:
       return S.Union([/*@__PURE__*/ S.Struct({ field: S.String })]);
     case 6:
-      return S.Array(__S(4517, __c141, 5));
+      return S.Array(__S(4549, __c142, 5));
     case 7:
-      return S.suspend(() => S.Struct({ exclude: __S(4518, __c141, 6) })).annotate({
+      return S.suspend(() => S.Struct({ exclude: __S(4550, __c142, 6) })).annotate({
         identifier: "InterceptorPayloadFilter",
       });
     case 8:
       return S.suspend(() =>
         S.Struct({
           passRequestHeaders: S.Boolean,
-          payloadFilter: S.optional(__S(4519, __c141, 7)),
+          payloadFilter: S.optional(__S(4551, __c142, 7)),
         }),
       ).annotate({ identifier: "InterceptorInputConfiguration" });
     case 9:
       return S.suspend(() =>
         S.Struct({
-          interceptor: __S(4516, __c141, 4),
-          interceptionPoints: __S(4480, __c140, 0),
-          inputConfiguration: S.optional(__S(4520, __c141, 8)),
+          interceptor: __S(4548, __c142, 4),
+          interceptionPoints: __S(4512, __c141, 0),
+          inputConfiguration: S.optional(__S(4552, __c142, 8)),
         }),
       ).annotate({ identifier: "GatewayInterceptorConfiguration" });
     case 10:
-      return S.Array(__S(4521, __c141, 9));
+      return S.Array(__S(4553, __c142, 9));
     case 11:
       return S.suspend(() => S.Struct({ arn: S.String, mode: S.String })).annotate({
         identifier: "GatewayPolicyEngineConfiguration",
@@ -15959,7 +17469,7 @@ function __c141(j: number): any {
         identifier: "LambdaTransformConfiguration",
       });
     case 13:
-      return S.suspend(() => S.Struct({ lambda: S.optional(__S(4524, __c141, 12)) })).annotate({
+      return S.suspend(() => S.Struct({ lambda: S.optional(__S(4556, __c142, 12)) })).annotate({
         identifier: "CustomTransformConfiguration",
       });
     case 14:
@@ -15980,22 +17490,22 @@ function __c141(j: number): any {
           description: S.optional(SensitiveString),
           roleArn: S.optional(S.String),
           protocolType: S.optional(S.String),
-          protocolConfiguration: S.optional(__S(4515, __c141, 3)),
+          protocolConfiguration: S.optional(__S(4547, __c142, 3)),
           authorizerType: S.String,
           authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
           kmsKeyArn: S.optional(S.String),
-          customTransformConfiguration: S.optional(__S(4525, __c141, 13)),
-          interceptorConfigurations: S.optional(__S(4522, __c141, 10)),
-          policyEngineConfiguration: S.optional(__S(4523, __c141, 11)),
+          customTransformConfiguration: S.optional(__S(4557, __c142, 13)),
+          interceptorConfigurations: S.optional(__S(4554, __c142, 10)),
+          policyEngineConfiguration: S.optional(__S(4555, __c142, 11)),
           workloadIdentityDetails: S.optional(__S(3456, __c108, 0)),
           exceptionLevel: S.optional(S.String),
           webAclArn: S.optional(S.String),
-          wafConfiguration: S.optional(__S(4526, __c141, 14)),
+          wafConfiguration: S.optional(__S(4558, __c142, 14)),
         }),
       ).annotate({ identifier: "CreateGatewayResponse" });
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16019,7 +17529,7 @@ function __c142(j: number): any {
       ).annotate({ identifier: "CreateGatewayRateLimitRequest" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16027,8 +17537,8 @@ function __c143(j: number): any {
           gatewayIdentifier: S.String.pipe(T.HttpLabel("gatewayIdentifier")),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           priority: S.Number,
-          conditions: S.optional(__S(4614, __c144, 6)),
-          actions: __S(4626, __c144, 18),
+          conditions: S.optional(__S(4649, __c145, 9)),
+          actions: __S(4666, __c145, 26),
           description: S.optional(S.String),
         }).pipe(
           T.all(
@@ -16047,28 +17557,28 @@ function __c143(j: number): any {
           ruleId: S.String,
           gatewayArn: S.String,
           priority: S.Number,
-          conditions: S.optional(__S(4614, __c144, 6)),
-          actions: __S(4626, __c144, 18),
+          conditions: S.optional(__S(4649, __c145, 9)),
+          actions: __S(4666, __c145, 26),
           description: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          system: S.optional(__S(4627, __c144, 19)),
+          system: S.optional(__S(4667, __c145, 27)),
         }),
       ).annotate({ identifier: "CreateGatewayRuleResponse" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ arn: S.String, operator: S.optional(S.String) })).annotate({
         identifier: "IamPrincipal",
       });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ iamPrincipal: __S(4608, __c144, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ iamPrincipal: __S(4640, __c145, 0) })]);
     case 2:
-      return S.Array(__S(4609, __c144, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
-      return S.suspend(() => S.Struct({ anyOf: __S(4610, __c144, 2) })).annotate({
+      return S.suspend(() => S.Struct({ anyOf: __S(4642, __c145, 2) })).annotate({
         identifier: "MatchPrincipals",
       });
     case 4:
@@ -16076,76 +17586,124 @@ function __c144(j: number): any {
         identifier: "MatchPaths",
       });
     case 5:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ matchPrincipals: __S(4611, __c144, 3) }),
-        /*@__PURE__*/ S.Struct({ matchPaths: __S(4612, __c144, 4) }),
-      ]);
+      return S.suspend(() =>
+        S.Struct({ value: S.String, operator: S.optional(S.String) }),
+      ).annotate({ identifier: "MatchModelEntry" });
     case 6:
-      return S.Array(__S(4613, __c144, 5));
+      return S.Array(__S(4645, __c145, 5));
     case 7:
+      return S.suspend(() => S.Struct({ anyOf: __S(4646, __c145, 6) })).annotate({
+        identifier: "MatchModels",
+      });
+    case 8:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ matchPrincipals: __S(4643, __c145, 3) }),
+        /*@__PURE__*/ S.Struct({ matchPaths: __S(4644, __c145, 4) }),
+        /*@__PURE__*/ S.Struct({ matchModels: __S(4647, __c145, 7) }),
+      ]);
+    case 9:
+      return S.Array(__S(4648, __c145, 8));
+    case 10:
       return S.suspend(() => S.Struct({ bundleArn: S.String, bundleVersion: S.String })).annotate({
         identifier: "StaticOverride",
       });
-    case 8:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           weight: S.Number,
-          configurationBundle: __S(4615, __c144, 7),
+          configurationBundle: __S(4650, __c145, 10),
           description: S.optional(S.String),
           metadata: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "TrafficSplitEntry" });
-    case 9:
-      return S.Array(__S(4616, __c144, 8));
-    case 10:
-      return S.suspend(() => S.Struct({ trafficSplit: __S(4617, __c144, 9) })).annotate({
+    case 12:
+      return S.Array(__S(4651, __c145, 11));
+    case 13:
+      return S.suspend(() => S.Struct({ trafficSplit: __S(4652, __c145, 12) })).annotate({
         identifier: "WeightedOverride",
       });
-    case 11:
+    case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ staticOverride: __S(4615, __c144, 7) }),
-        /*@__PURE__*/ S.Struct({ weightedOverride: __S(4618, __c144, 10) }),
+        /*@__PURE__*/ S.Struct({ staticOverride: __S(4650, __c145, 10) }),
+        /*@__PURE__*/ S.Struct({ weightedOverride: __S(4653, __c145, 13) }),
       ]);
-    case 12:
-      return S.suspend(() => S.Struct({ targetName: SensitiveString })).annotate({
-        identifier: "StaticRoute",
-      });
-    case 13:
+    case 15:
       return S.suspend(() =>
         S.Struct({
+          statusCodes: S.optional(__S(2336, __c73, 0)),
+          errors: S.optional(__S(4512, __c141, 0)),
+        }),
+      ).annotate({ identifier: "FallbackTriggers" });
+    case 16:
+      return S.suspend(() => S.Struct({ mode: S.optional(S.String) })).annotate({
+        identifier: "CircuitBreakerConfiguration",
+      });
+    case 17:
+      return S.suspend(() =>
+        S.Struct({
+          targetName: SensitiveString,
+          model: S.optional(S.String),
+          triggerOn: S.optional(__S(4655, __c145, 15)),
+          firstByteTimeoutMilliseconds: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "FallbackTarget" });
+    case 18:
+      return S.Array(__S(4657, __c145, 17));
+    case 19:
+      return S.suspend(() =>
+        S.Struct({
+          triggerOn: S.optional(__S(4655, __c145, 15)),
+          firstByteTimeoutMilliseconds: S.optional(S.Number),
+          circuitBreaker: S.optional(__S(4656, __c145, 16)),
+          targetFallback: __S(4658, __c145, 18),
+        }),
+      ).annotate({ identifier: "Fallback" });
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          targetName: SensitiveString,
+          model: S.optional(S.String),
+          fallback: S.optional(__S(4659, __c145, 19)),
+        }),
+      ).annotate({ identifier: "StaticRoute" });
+    case 21:
+      return S.suspend(() =>
+        S.Struct({
+          targetName: SensitiveString,
+          model: S.optional(S.String),
+          fallback: S.optional(__S(4659, __c145, 19)),
           name: S.String,
           weight: S.Number,
-          targetName: SensitiveString,
           description: S.optional(S.String),
           metadata: S.optional(__S(2848, __c89, 0)),
         }),
       ).annotate({ identifier: "TargetTrafficSplitEntry" });
-    case 14:
-      return S.Array(__S(4621, __c144, 13));
-    case 15:
-      return S.suspend(() => S.Struct({ trafficSplit: __S(4622, __c144, 14) })).annotate({
+    case 22:
+      return S.Array(__S(4661, __c145, 21));
+    case 23:
+      return S.suspend(() => S.Struct({ trafficSplit: __S(4662, __c145, 22) })).annotate({
         identifier: "WeightedRoute",
       });
-    case 16:
+    case 24:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ staticRoute: __S(4620, __c144, 12) }),
-        /*@__PURE__*/ S.Struct({ weightedRoute: __S(4623, __c144, 15) }),
+        /*@__PURE__*/ S.Struct({ staticRoute: __S(4660, __c145, 20) }),
+        /*@__PURE__*/ S.Struct({ weightedRoute: __S(4663, __c145, 23) }),
       ]);
-    case 17:
+    case 25:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ configurationBundle: __S(4619, __c144, 11) }),
-        /*@__PURE__*/ S.Struct({ routeToTarget: __S(4624, __c144, 16) }),
+        /*@__PURE__*/ S.Struct({ configurationBundle: __S(4654, __c145, 14) }),
+        /*@__PURE__*/ S.Struct({ routeToTarget: __S(4664, __c145, 24) }),
       ]);
-    case 18:
-      return S.Array(__S(4625, __c144, 17));
-    case 19:
+    case 26:
+      return S.Array(__S(4665, __c145, 25));
+    case 27:
       return S.suspend(() => S.Struct({ managedBy: S.String })).annotate({
         identifier: "SystemManagedBlock",
       });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16154,11 +17712,11 @@ function __c145(j: number): any {
           name: S.optional(SensitiveString),
           description: S.optional(SensitiveString),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          targetConfiguration: __S(4806, __c150, 6),
-          credentialProviderConfigurations: S.optional(__S(4811, __c150, 11)),
-          metadataConfiguration: S.optional(__S(4812, __c150, 12)),
+          targetConfiguration: __S(4838, __c151, 6),
+          credentialProviderConfigurations: S.optional(__S(4843, __c151, 11)),
+          metadataConfiguration: S.optional(__S(4844, __c151, 12)),
           privateEndpoint: S.optional(__S(3362, __c105, 2)),
-          certificateConfigurations: S.optional(__S(4815, __c150, 15)),
+          certificateConfigurations: S.optional(__S(4847, __c151, 15)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/gateways/{gatewayIdentifier}/targets/" }),
@@ -16172,37 +17730,37 @@ function __c145(j: number): any {
       ).annotate({ identifier: "CreateGatewayTargetRequest" });
   }
 }
-function __c146(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
-  }
-}
 function __c147(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          providerArn: S.String,
-          scopes: __S(2336, __c73, 0),
-          customParameters: S.optional(__S(4672, __c146, 0)),
-          grantType: S.optional(S.String),
-          defaultReturnUrl: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "OAuthCredentialProvider" });
+      return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
   }
 }
 function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ authorizationUrl: S.String, userId: S.optional(S.String) }),
-      ).annotate({ identifier: "OAuth2AuthorizationData" });
-    case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ oauth2: __S(4736, __c148, 0) })]);
+        S.Struct({
+          providerArn: S.String,
+          scopes: __S(2336, __c73, 0),
+          customParameters: S.optional(__S(4704, __c147, 0)),
+          grantType: S.optional(S.String),
+          defaultReturnUrl: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "OAuthCredentialProvider" });
   }
 }
 function __c149(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ authorizationUrl: S.String, userId: S.optional(S.String) }),
+      ).annotate({ identifier: "OAuth2AuthorizationData" });
+    case 1:
+      return S.Union([/*@__PURE__*/ S.Struct({ oauth2: __S(4768, __c149, 0) })]);
+  }
+}
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16210,13 +17768,13 @@ function __c149(j: number): any {
       ).annotate({ identifier: "S3Configuration" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(4768, __c149, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(4800, __c150, 0) }),
         /*@__PURE__*/ S.Struct({ inlinePayload: SensitiveString }),
       ]);
     case 2:
       return S.Record(
         S.String,
-        /*@__PURE__*/ S.suspend((): S.Schema<SchemaDefinition> => __S(4771, __c149, 3))
+        /*@__PURE__*/ S.suspend((): S.Schema<SchemaDefinition> => __S(4803, __c150, 3))
           .annotate({ identifier: "SchemaDefinition" })
           .pipe(S.optional),
       );
@@ -16225,11 +17783,11 @@ function __c149(j: number): any {
         S.Struct({
           type: S.String,
           properties: S.optional(
-            S.suspend(() => __S(4770, __c149, 2)).annotate({ identifier: "SchemaProperties" }),
+            S.suspend(() => __S(4802, __c150, 2)).annotate({ identifier: "SchemaProperties" }),
           ),
           required: S.optional(__S(2336, __c73, 0)),
           items: S.optional(
-            S.suspend((): S.Schema<SchemaDefinition> => __S(4771, __c149, 3)).annotate({
+            S.suspend((): S.Schema<SchemaDefinition> => __S(4803, __c150, 3)).annotate({
               identifier: "SchemaDefinition",
             }),
           ),
@@ -16241,26 +17799,26 @@ function __c149(j: number): any {
         S.Struct({
           name: S.String,
           description: S.String,
-          inputSchema: __S(4771, __c149, 3),
-          outputSchema: S.optional(__S(4771, __c149, 3)),
+          inputSchema: __S(4803, __c150, 3),
+          outputSchema: S.optional(__S(4803, __c150, 3)),
         }),
       ).annotate({ identifier: "ToolDefinition" });
     case 5:
-      return S.Array(__S(4772, __c149, 4));
+      return S.Array(__S(4804, __c150, 4));
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(4768, __c149, 0) }),
-        /*@__PURE__*/ S.Struct({ inlinePayload: __S(4773, __c149, 5) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(4800, __c150, 0) }),
+        /*@__PURE__*/ S.Struct({ inlinePayload: __S(4805, __c150, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
-        S.Struct({ lambdaArn: S.String, toolSchema: __S(4774, __c149, 6) }),
+        S.Struct({ lambdaArn: S.String, toolSchema: __S(4806, __c150, 6) }),
       ).annotate({ identifier: "McpLambdaTargetConfiguration" });
     case 8:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          mcpToolSchema: S.optional(__S(4769, __c149, 1)),
+          mcpToolSchema: S.optional(__S(4801, __c150, 1)),
           listingMode: S.optional(S.String),
           resourcePriority: S.optional(S.Number),
         }),
@@ -16275,18 +17833,18 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "ApiGatewayToolOverride" });
     case 10:
-      return S.Array(__S(4777, __c149, 9));
+      return S.Array(__S(4809, __c150, 9));
     case 11:
       return S.suspend(() =>
-        S.Struct({ filterPath: S.String, methods: __S(4480, __c140, 0) }),
+        S.Struct({ filterPath: S.String, methods: __S(4512, __c141, 0) }),
       ).annotate({ identifier: "ApiGatewayToolFilter" });
     case 12:
-      return S.Array(__S(4779, __c149, 11));
+      return S.Array(__S(4811, __c150, 11));
     case 13:
       return S.suspend(() =>
         S.Struct({
-          toolOverrides: S.optional(__S(4778, __c149, 10)),
-          toolFilters: __S(4780, __c149, 12),
+          toolOverrides: S.optional(__S(4810, __c150, 10)),
+          toolFilters: __S(4812, __c150, 12),
         }),
       ).annotate({ identifier: "ApiGatewayToolConfiguration" });
     case 14:
@@ -16294,7 +17852,7 @@ function __c149(j: number): any {
         S.Struct({
           restApiId: S.String,
           stage: S.String,
-          apiGatewayToolConfiguration: __S(4781, __c149, 13),
+          apiGatewayToolConfiguration: __S(4813, __c150, 13),
         }),
       ).annotate({ identifier: "ApiGatewayTargetConfiguration" });
     case 15:
@@ -16310,37 +17868,37 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "ConnectorParameterOverride" });
     case 17:
-      return S.Array(__S(4784, __c149, 16));
+      return S.Array(__S(4816, __c150, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
           parameterValues: S.optional(S.Any),
-          parameterOverrides: S.optional(__S(4785, __c149, 17)),
+          parameterOverrides: S.optional(__S(4817, __c150, 17)),
         }),
       ).annotate({ identifier: "ConnectorConfiguration" });
     case 19:
-      return S.Array(__S(4786, __c149, 18));
+      return S.Array(__S(4818, __c150, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
-          source: __S(4783, __c149, 15),
+          source: __S(4815, __c150, 15),
           enabled: S.optional(__S(2336, __c73, 0)),
-          configurations: S.optional(__S(4787, __c149, 19)),
+          configurations: S.optional(__S(4819, __c150, 19)),
         }),
       ).annotate({ identifier: "ConnectorTargetConfiguration" });
     case 21:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ openApiSchema: __S(4769, __c149, 1) }),
-        /*@__PURE__*/ S.Struct({ smithyModel: __S(4769, __c149, 1) }),
-        /*@__PURE__*/ S.Struct({ lambda: __S(4775, __c149, 7) }),
-        /*@__PURE__*/ S.Struct({ mcpServer: __S(4776, __c149, 8) }),
-        /*@__PURE__*/ S.Struct({ apiGateway: __S(4782, __c149, 14) }),
-        /*@__PURE__*/ S.Struct({ connector: __S(4788, __c149, 20) }),
+        /*@__PURE__*/ S.Struct({ openApiSchema: __S(4801, __c150, 1) }),
+        /*@__PURE__*/ S.Struct({ smithyModel: __S(4801, __c150, 1) }),
+        /*@__PURE__*/ S.Struct({ lambda: __S(4807, __c150, 7) }),
+        /*@__PURE__*/ S.Struct({ mcpServer: __S(4808, __c150, 8) }),
+        /*@__PURE__*/ S.Struct({ apiGateway: __S(4814, __c150, 14) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4820, __c150, 20) }),
       ]);
     case 22:
-      return S.suspend(() => S.Struct({ source: __S(4769, __c149, 1) })).annotate({
+      return S.suspend(() => S.Struct({ source: __S(4801, __c150, 1) })).annotate({
         identifier: "HttpApiSchemaConfiguration",
       });
     case 23:
@@ -16348,7 +17906,7 @@ function __c149(j: number): any {
         S.Struct({
           arn: S.String,
           qualifier: S.optional(S.String),
-          schema: S.optional(__S(4790, __c149, 22)),
+          schema: S.optional(__S(4822, __c150, 22)),
         }),
       ).annotate({ identifier: "RuntimeTargetConfiguration" });
     case 24:
@@ -16364,9 +17922,9 @@ function __c149(j: number): any {
         S.Struct({
           endpoint: S.String,
           protocolType: S.String,
-          schema: S.optional(__S(4790, __c149, 22)),
-          stickinessConfiguration: S.optional(__S(4792, __c149, 24)),
-          staticQueryParameters: S.optional(__S(4672, __c146, 0)),
+          schema: S.optional(__S(4822, __c150, 22)),
+          stickinessConfiguration: S.optional(__S(4824, __c150, 24)),
+          staticQueryParameters: S.optional(__S(4704, __c147, 0)),
           staticQueryParameterConflictResolution: S.optional(S.String),
         }),
       ).annotate({ identifier: "PassthroughTargetConfiguration" });
@@ -16376,16 +17934,16 @@ function __c149(j: number): any {
       });
     case 27:
       return S.suspend(() =>
-        S.Struct({ source: __S(4794, __c149, 26), parameters: S.optional(__S(2848, __c89, 0)) }),
+        S.Struct({ source: __S(4826, __c150, 26), parameters: S.optional(__S(2848, __c89, 0)) }),
       ).annotate({ identifier: "HttpConnectorTargetConfiguration" });
     case 28:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentcoreRuntime: __S(4791, __c149, 23) }),
-        /*@__PURE__*/ S.Struct({ passthrough: __S(4793, __c149, 25) }),
-        /*@__PURE__*/ S.Struct({ connector: __S(4795, __c149, 27) }),
+        /*@__PURE__*/ S.Struct({ agentcoreRuntime: __S(4823, __c150, 23) }),
+        /*@__PURE__*/ S.Struct({ passthrough: __S(4825, __c150, 25) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4827, __c150, 27) }),
       ]);
     case 29:
-      return S.suspend(() => S.Struct({ source: __S(4794, __c149, 26) })).annotate({
+      return S.suspend(() => S.Struct({ source: __S(4826, __c150, 26) })).annotate({
         identifier: "InferenceConnectorTargetConfiguration",
       });
     case 30:
@@ -16394,44 +17952,44 @@ function __c149(j: number): any {
       ).annotate({ identifier: "ProviderPrefix" });
     case 31:
       return S.suspend(() =>
-        S.Struct({ providerPrefix: S.optional(__S(4798, __c149, 30)) }),
+        S.Struct({ providerPrefix: S.optional(__S(4830, __c150, 30)) }),
       ).annotate({ identifier: "ModelMapping" });
   }
 }
-function __c150(j: number): any {
+function __c151(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ model: S.String })).annotate({ identifier: "ModelEntry" });
     case 1:
-      return S.Array(__S(4800, __c150, 0));
+      return S.Array(__S(4832, __c151, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           path: S.String,
           providerPath: S.optional(S.String),
-          models: S.optional(__S(4801, __c150, 1)),
+          models: S.optional(__S(4833, __c151, 1)),
         }),
       ).annotate({ identifier: "InferenceOperationConfiguration" });
     case 3:
-      return S.Array(__S(4802, __c150, 2));
+      return S.Array(__S(4834, __c151, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           endpoint: S.String,
-          modelMapping: S.optional(__S(4799, __c149, 31)),
-          operations: S.optional(__S(4803, __c150, 3)),
+          modelMapping: S.optional(__S(4831, __c150, 31)),
+          operations: S.optional(__S(4835, __c151, 3)),
         }),
       ).annotate({ identifier: "InferenceProviderTargetConfiguration" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ connector: __S(4797, __c149, 29) }),
-        /*@__PURE__*/ S.Struct({ provider: __S(4804, __c150, 4) }),
+        /*@__PURE__*/ S.Struct({ connector: __S(4829, __c150, 29) }),
+        /*@__PURE__*/ S.Struct({ provider: __S(4836, __c151, 4) }),
       ]);
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ mcp: __S(4789, __c149, 21) }),
-        /*@__PURE__*/ S.Struct({ http: __S(4796, __c149, 28) }),
-        /*@__PURE__*/ S.Struct({ inference: __S(4805, __c150, 5) }),
+        /*@__PURE__*/ S.Struct({ mcp: __S(4821, __c150, 21) }),
+        /*@__PURE__*/ S.Struct({ http: __S(4828, __c150, 28) }),
+        /*@__PURE__*/ S.Struct({ inference: __S(4837, __c151, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
@@ -16448,19 +18006,19 @@ function __c150(j: number): any {
       ).annotate({ identifier: "IamCredentialProvider" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(4704, __c147, 0) }),
-        /*@__PURE__*/ S.Struct({ apiKeyCredentialProvider: __S(4807, __c150, 7) }),
-        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(4808, __c150, 8) }),
+        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(4736, __c148, 0) }),
+        /*@__PURE__*/ S.Struct({ apiKeyCredentialProvider: __S(4839, __c151, 7) }),
+        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(4840, __c151, 8) }),
       ]);
     case 10:
       return S.suspend(() =>
         S.Struct({
           credentialProviderType: S.String,
-          credentialProvider: S.optional(__S(4809, __c150, 9)),
+          credentialProvider: S.optional(__S(4841, __c151, 9)),
         }),
       ).annotate({ identifier: "CredentialProviderConfiguration" });
     case 11:
-      return S.Array(__S(4810, __c150, 10));
+      return S.Array(__S(4842, __c151, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -16475,11 +18033,11 @@ function __c150(j: number): any {
       ).annotate({ identifier: "S3CertificateConfiguration" });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(4813, __c150, 13) }),
-        /*@__PURE__*/ S.Struct({ secretsManager: __S(3840, __c120, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(4845, __c151, 13) }),
+        /*@__PURE__*/ S.Struct({ secretsManager: __S(3872, __c121, 0) }),
       ]);
     case 15:
-      return S.Array(__S(4814, __c150, 14));
+      return S.Array(__S(4846, __c151, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({
@@ -16489,7 +18047,7 @@ function __c150(j: number): any {
         }),
       ).annotate({ identifier: "ManagedResourceDetails" });
     case 17:
-      return S.Array(__S(4816, __c150, 16));
+      return S.Array(__S(4848, __c151, 16));
     case 18:
       return S.suspend(() =>
         S.Struct({
@@ -16501,20 +18059,20 @@ function __c150(j: number): any {
           statusReasons: S.optional(__S(2336, __c73, 0)),
           name: SensitiveString,
           description: S.optional(SensitiveString),
-          targetConfiguration: __S(4806, __c150, 6),
-          credentialProviderConfigurations: __S(4811, __c150, 11),
+          targetConfiguration: __S(4838, __c151, 6),
+          credentialProviderConfigurations: __S(4843, __c151, 11),
           lastSynchronizedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          metadataConfiguration: S.optional(__S(4812, __c150, 12)),
+          metadataConfiguration: S.optional(__S(4844, __c151, 12)),
           privateEndpoint: S.optional(__S(3362, __c105, 2)),
-          privateEndpointManagedResources: S.optional(__S(4817, __c150, 17)),
-          authorizationData: S.optional(__S(4737, __c148, 1)),
+          privateEndpointManagedResources: S.optional(__S(4849, __c151, 17)),
+          authorizationData: S.optional(__S(4769, __c149, 1)),
           protocolType: S.optional(S.String),
-          certificateConfigurations: S.optional(__S(4815, __c150, 15)),
+          certificateConfigurations: S.optional(__S(4847, __c151, 15)),
         }),
       ).annotate({ identifier: "CreateGatewayTargetResponse" });
   }
 }
-function __c151(j: number): any {
+function __c152(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16522,18 +18080,18 @@ function __c151(j: number): any {
           harnessName: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           executionRoleArn: S.String,
-          environment: S.optional(__S(4865, __c152, 1)),
-          environmentArtifact: S.optional(__S(4928, __c154, 0)),
+          environment: S.optional(__S(4897, __c153, 1)),
+          environmentArtifact: S.optional(__S(4960, __c155, 0)),
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
-          model: S.optional(__S(4933, __c154, 5)),
-          systemPrompt: S.optional(__S(4935, __c154, 7)),
-          tools: S.optional(__S(4944, __c154, 16)),
-          skills: S.optional(__S(4950, __c154, 22)),
+          model: S.optional(__S(4965, __c155, 5)),
+          systemPrompt: S.optional(__S(4967, __c155, 7)),
+          tools: S.optional(__S(4976, __c155, 16)),
+          skills: S.optional(__S(4982, __c155, 22)),
           allowedTools: S.optional(__S(2336, __c73, 0)),
-          memory: S.optional(__S(4955, __c154, 27)),
-          truncation: S.optional(__S(4959, __c154, 31)),
-          hooks: S.optional(__S(4964, __c155, 4)),
+          memory: S.optional(__S(4987, __c155, 27)),
+          truncation: S.optional(__S(4991, __c155, 31)),
+          hooks: S.optional(__S(4996, __c156, 4)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
@@ -16542,7 +18100,7 @@ function __c151(j: number): any {
       ).annotate({ identifier: "CreateHarnessRequest" });
   }
 }
-function __c152(j: number): any {
+function __c153(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16554,11 +18112,11 @@ function __c152(j: number): any {
       ).annotate({ identifier: "HarnessAgentCoreRuntimeEnvironmentRequest" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4864, __c152, 0) }),
+        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4896, __c153, 0) }),
       ]);
   }
 }
-function __c153(j: number): any {
+function __c154(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({
@@ -16566,7 +18124,7 @@ function __c153(j: number): any {
       });
   }
 }
-function __c154(j: number): any {
+function __c155(j: number): any {
   switch (j) {
     case 0:
       return S.Union([/*@__PURE__*/ S.Struct({ containerConfiguration: __S(3488, __c109, 0) })]);
@@ -16620,15 +18178,15 @@ function __c154(j: number): any {
       ).annotate({ identifier: "HarnessLiteLlmModelConfig" });
     case 5:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ bedrockModelConfig: __S(4929, __c154, 1) }),
-        /*@__PURE__*/ S.Struct({ openAiModelConfig: __S(4930, __c154, 2) }),
-        /*@__PURE__*/ S.Struct({ geminiModelConfig: __S(4931, __c154, 3) }),
-        /*@__PURE__*/ S.Struct({ liteLlmModelConfig: __S(4932, __c154, 4) }),
+        /*@__PURE__*/ S.Struct({ bedrockModelConfig: __S(4961, __c155, 1) }),
+        /*@__PURE__*/ S.Struct({ openAiModelConfig: __S(4962, __c155, 2) }),
+        /*@__PURE__*/ S.Struct({ geminiModelConfig: __S(4963, __c155, 3) }),
+        /*@__PURE__*/ S.Struct({ liteLlmModelConfig: __S(4964, __c155, 4) }),
       ]);
     case 6:
       return S.Union([/*@__PURE__*/ S.Struct({ text: SensitiveString })]);
     case 7:
-      return S.Array(__S(4934, __c154, 6));
+      return S.Array(__S(4966, __c155, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({ url: SensitiveString, headers: S.optional(__S(2848, __c89, 0)) }),
@@ -16641,11 +18199,11 @@ function __c154(j: number): any {
       return S.Union([
         /*@__PURE__*/ S.Struct({ awsIam: /*@__PURE__*/ S.Struct({}) }),
         /*@__PURE__*/ S.Struct({ none: /*@__PURE__*/ S.Struct({}) }),
-        /*@__PURE__*/ S.Struct({ oauth: __S(4704, __c147, 0) }),
+        /*@__PURE__*/ S.Struct({ oauth: __S(4736, __c148, 0) }),
       ]);
     case 11:
       return S.suspend(() =>
-        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(4938, __c154, 10)) }),
+        S.Struct({ gatewayArn: S.String, outboundAuth: S.optional(__S(4970, __c155, 10)) }),
       ).annotate({ identifier: "HarnessAgentCoreGatewayConfig" });
     case 12:
       return S.suspend(() =>
@@ -16657,22 +18215,22 @@ function __c154(j: number): any {
       });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ remoteMcp: __S(4936, __c154, 8) }),
-        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(4937, __c154, 9) }),
-        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(4939, __c154, 11) }),
-        /*@__PURE__*/ S.Struct({ inlineFunction: __S(4940, __c154, 12) }),
-        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(4941, __c154, 13) }),
+        /*@__PURE__*/ S.Struct({ remoteMcp: __S(4968, __c155, 8) }),
+        /*@__PURE__*/ S.Struct({ agentCoreBrowser: __S(4969, __c155, 9) }),
+        /*@__PURE__*/ S.Struct({ agentCoreGateway: __S(4971, __c155, 11) }),
+        /*@__PURE__*/ S.Struct({ inlineFunction: __S(4972, __c155, 12) }),
+        /*@__PURE__*/ S.Struct({ agentCoreCodeInterpreter: __S(4973, __c155, 13) }),
       ]);
     case 15:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
           name: S.optional(S.String),
-          config: S.optional(__S(4942, __c154, 14)),
+          config: S.optional(__S(4974, __c155, 14)),
         }),
       ).annotate({ identifier: "HarnessTool" });
     case 16:
-      return S.Array(__S(4943, __c154, 15));
+      return S.Array(__S(4975, __c155, 15));
     case 17:
       return S.suspend(() => S.Struct({ uri: S.String })).annotate({
         identifier: "HarnessSkillS3Source",
@@ -16686,7 +18244,7 @@ function __c154(j: number): any {
         S.Struct({
           url: S.String,
           path: S.optional(S.String),
-          auth: S.optional(__S(4946, __c154, 18)),
+          auth: S.optional(__S(4978, __c155, 18)),
         }),
       ).annotate({ identifier: "HarnessSkillGitSource" });
     case 20:
@@ -16696,12 +18254,12 @@ function __c154(j: number): any {
     case 21:
       return S.Union([
         /*@__PURE__*/ S.Struct({ path: S.String }),
-        /*@__PURE__*/ S.Struct({ s3: __S(4945, __c154, 17) }),
-        /*@__PURE__*/ S.Struct({ git: __S(4947, __c154, 19) }),
-        /*@__PURE__*/ S.Struct({ awsSkills: __S(4948, __c154, 20) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(4977, __c155, 17) }),
+        /*@__PURE__*/ S.Struct({ git: __S(4979, __c155, 19) }),
+        /*@__PURE__*/ S.Struct({ awsSkills: __S(4980, __c155, 20) }),
       ]);
     case 22:
-      return S.Array(__S(4949, __c154, 21));
+      return S.Array(__S(4981, __c155, 21));
     case 23:
       return S.suspend(() =>
         S.Struct({
@@ -16711,30 +18269,30 @@ function __c154(j: number): any {
         }),
       ).annotate({ identifier: "HarnessAgentCoreMemoryRetrievalConfig" });
     case 24:
-      return S.Record(S.String, /*@__PURE__*/ __S(4951, __c154, 23).pipe(S.optional));
+      return S.Record(S.String, /*@__PURE__*/ __S(4983, __c155, 23).pipe(S.optional));
     case 25:
       return S.suspend(() =>
         S.Struct({
           arn: S.String,
           actorId: S.optional(S.String),
           messagesCount: S.optional(S.Number),
-          retrievalConfig: S.optional(__S(4952, __c154, 24)),
+          retrievalConfig: S.optional(__S(4984, __c155, 24)),
         }),
       ).annotate({ identifier: "HarnessAgentCoreMemoryConfiguration" });
     case 26:
       return S.suspend(() =>
         S.Struct({
           arn: S.optional(S.String),
-          strategies: S.optional(__S(4480, __c140, 0)),
+          strategies: S.optional(__S(4512, __c141, 0)),
           eventExpiryDuration: S.optional(S.Number),
           encryptionKeyArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "HarnessManagedMemoryConfiguration" });
     case 27:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreMemoryConfiguration: __S(4953, __c154, 25) }),
-        /*@__PURE__*/ S.Struct({ managedMemoryConfiguration: __S(4954, __c154, 26) }),
-        /*@__PURE__*/ S.Struct({ disabled: __S(4896, __c153, 0) }),
+        /*@__PURE__*/ S.Struct({ agentCoreMemoryConfiguration: __S(4985, __c155, 25) }),
+        /*@__PURE__*/ S.Struct({ managedMemoryConfiguration: __S(4986, __c155, 26) }),
+        /*@__PURE__*/ S.Struct({ disabled: __S(4928, __c154, 0) }),
       ]);
     case 28:
       return S.suspend(() => S.Struct({ messagesCount: S.optional(S.Number) })).annotate({
@@ -16750,16 +18308,16 @@ function __c154(j: number): any {
       ).annotate({ identifier: "HarnessSummarizationConfiguration" });
     case 30:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ slidingWindow: __S(4956, __c154, 28) }),
-        /*@__PURE__*/ S.Struct({ summarization: __S(4957, __c154, 29) }),
+        /*@__PURE__*/ S.Struct({ slidingWindow: __S(4988, __c155, 28) }),
+        /*@__PURE__*/ S.Struct({ summarization: __S(4989, __c155, 29) }),
       ]);
     case 31:
       return S.suspend(() =>
-        S.Struct({ strategy: S.String, config: S.optional(__S(4958, __c154, 30)) }),
+        S.Struct({ strategy: S.String, config: S.optional(__S(4990, __c155, 30)) }),
       ).annotate({ identifier: "HarnessTruncationConfiguration" });
   }
 }
-function __c155(j: number): any {
+function __c156(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16771,23 +18329,23 @@ function __c155(j: number): any {
       ).annotate({ identifier: "HarnessHookLambdaTarget" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ lambda: __S(4960, __c155, 0) }),
+        /*@__PURE__*/ S.Struct({ lambda: __S(4992, __c156, 0) }),
         /*@__PURE__*/ S.Struct({ sns: __S(3428, __c107, 4) }),
         /*@__PURE__*/ S.Struct({ eventBridge: __S(3428, __c107, 4) }),
       ]);
     case 2:
-      return S.suspend(() => S.Struct({ name: S.String, target: __S(4961, __c155, 1) })).annotate({
+      return S.suspend(() => S.Struct({ name: S.String, target: __S(4993, __c156, 1) })).annotate({
         identifier: "HarnessBeforeInvocationHook",
       });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ beforeInvocation: __S(4962, __c155, 2) }),
-        /*@__PURE__*/ S.Struct({ afterInvocation: __S(4962, __c155, 2) }),
-        /*@__PURE__*/ S.Struct({ beforeToolCall: __S(4962, __c155, 2) }),
-        /*@__PURE__*/ S.Struct({ afterToolCall: __S(4962, __c155, 2) }),
+        /*@__PURE__*/ S.Struct({ beforeInvocation: __S(4994, __c156, 2) }),
+        /*@__PURE__*/ S.Struct({ afterInvocation: __S(4994, __c156, 2) }),
+        /*@__PURE__*/ S.Struct({ beforeToolCall: __S(4994, __c156, 2) }),
+        /*@__PURE__*/ S.Struct({ afterToolCall: __S(4994, __c156, 2) }),
       ]);
     case 4:
-      return S.Array(__S(4963, __c155, 3));
+      return S.Array(__S(4995, __c156, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -16801,7 +18359,7 @@ function __c155(j: number): any {
       ).annotate({ identifier: "HarnessAgentCoreRuntimeEnvironment" });
     case 6:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4965, __c155, 5) }),
+        /*@__PURE__*/ S.Struct({ agentCoreRuntimeEnvironment: __S(4997, __c156, 5) }),
       ]);
     case 7:
       return S.suspend(() =>
@@ -16814,18 +18372,18 @@ function __c155(j: number): any {
           executionRoleArn: S.String,
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
-          model: __S(4933, __c154, 5),
-          systemPrompt: __S(4935, __c154, 7),
-          tools: __S(4944, __c154, 16),
-          skills: __S(4950, __c154, 22),
+          model: __S(4965, __c155, 5),
+          systemPrompt: __S(4967, __c155, 7),
+          tools: __S(4976, __c155, 16),
+          skills: __S(4982, __c155, 22),
           allowedTools: __S(2336, __c73, 0),
-          truncation: __S(4959, __c154, 31),
-          environment: __S(4966, __c155, 6),
-          environmentArtifact: S.optional(__S(4928, __c154, 0)),
+          truncation: __S(4991, __c155, 31),
+          environment: __S(4998, __c156, 6),
+          environmentArtifact: S.optional(__S(4960, __c155, 0)),
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
-          memory: S.optional(__S(4955, __c154, 27)),
-          hooks: S.optional(__S(4964, __c155, 4)),
+          memory: S.optional(__S(4987, __c155, 27)),
+          hooks: S.optional(__S(4996, __c156, 4)),
           maxIterations: S.optional(S.Number),
           maxTokens: S.optional(S.Number),
           timeoutSeconds: S.optional(S.Number),
@@ -16834,15 +18392,15 @@ function __c155(j: number): any {
       ).annotate({ identifier: "Harness" });
   }
 }
-function __c156(j: number): any {
+function __c157(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ harness: __S(4967, __c155, 7) })).annotate({
+      return S.suspend(() => S.Struct({ harness: __S(4999, __c156, 7) })).annotate({
         identifier: "CreateHarnessResponse",
       });
   }
 }
-function __c157(j: number): any {
+function __c158(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16866,7 +18424,7 @@ function __c157(j: number): any {
       ).annotate({ identifier: "CreateHarnessEndpointRequest" });
   }
 }
-function __c158(j: number): any {
+function __c159(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16886,15 +18444,15 @@ function __c158(j: number): any {
       ).annotate({ identifier: "HarnessEndpoint" });
   }
 }
-function __c159(j: number): any {
+function __c160(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ endpoint: __S(5056, __c158, 0) })).annotate({
+      return S.suspend(() => S.Struct({ endpoint: __S(5088, __c159, 0) })).annotate({
         identifier: "CreateHarnessEndpointResponse",
       });
   }
 }
-function __c160(j: number): any {
+function __c161(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -16905,10 +18463,10 @@ function __c160(j: number): any {
           encryptionKeyArn: S.optional(S.String),
           memoryExecutionRoleArn: S.optional(S.String),
           eventExpiryDuration: S.Number,
-          memoryStrategies: S.optional(__S(5161, __c161, 9)),
-          indexedKeys: S.optional(__S(5203, __c162, 19)),
-          namespaceKeys: S.optional(__S(5206, __c162, 22)),
-          streamDeliveryResources: S.optional(__S(5212, __c162, 28)),
+          memoryStrategies: S.optional(__S(5194, __c162, 10)),
+          indexedKeys: S.optional(__S(5235, __c163, 19)),
+          namespaceKeys: S.optional(__S(5238, __c163, 22)),
+          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/memories/create" }), svc, auth, proto, ver, rules),
@@ -16916,64 +18474,59 @@ function __c160(j: number): any {
       ).annotate({ identifier: "CreateMemoryInput" });
   }
 }
-function __c161(j: number): any {
+function __c162(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          description: S.optional(SensitiveString),
-          namespaces: S.optional(__S(2336, __c73, 0)),
-          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5192, __c162, 8)),
-        }),
-      ).annotate({ identifier: "SemanticMemoryStrategyInput" });
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ recordExpiryDurationDays: S.Number }),
+        /*@__PURE__*/ S.Struct({ action: S.String }),
+      ]);
     case 1:
       return S.suspend(() =>
         S.Struct({
-          extraction: S.optional(__S(5193, __c162, 9)),
-          consolidation: S.optional(__S(5193, __c162, 9)),
-        }),
-      ).annotate({ identifier: "SemanticOverrideConfigurationInput" });
-    case 2:
-      return S.suspend(() =>
-        S.Struct({ consolidation: S.optional(__S(5193, __c162, 9)) }),
-      ).annotate({ identifier: "SummaryOverrideConfigurationInput" });
-    case 3:
-      return S.suspend(() =>
-        S.Struct({
-          extraction: S.optional(__S(5193, __c162, 9)),
-          consolidation: S.optional(__S(5193, __c162, 9)),
-          reflection: S.optional(__S(5194, __c162, 10)),
-        }),
-      ).annotate({ identifier: "EpisodicOverrideConfigurationInput" });
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          triggerConditions: S.optional(__S(5199, __c162, 15)),
-          invocationConfiguration: __S(5200, __c162, 16),
-          historicalContextWindowSize: S.optional(S.Number),
-        }),
-      ).annotate({ identifier: "SelfManagedConfigurationInput" });
-    case 5:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticOverride: __S(5153, __c161, 1) }),
-        /*@__PURE__*/ S.Struct({ summaryOverride: __S(5154, __c161, 2) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceOverride: __S(5153, __c161, 1) }),
-        /*@__PURE__*/ S.Struct({ episodicOverride: __S(5155, __c161, 3) }),
-        /*@__PURE__*/ S.Struct({ selfManagedConfiguration: __S(5156, __c161, 4) }),
-      ]);
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
           name: S.String,
           description: S.optional(SensitiveString),
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          configuration: S.optional(__S(5157, __c161, 5)),
-          memoryRecordSchema: S.optional(__S(5192, __c162, 8)),
+          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
         }),
-      ).annotate({ identifier: "CustomMemoryStrategyInput" });
+      ).annotate({ identifier: "SemanticMemoryStrategyInput" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          extraction: S.optional(__S(5225, __c163, 9)),
+          consolidation: S.optional(__S(5225, __c163, 9)),
+        }),
+      ).annotate({ identifier: "SemanticOverrideConfigurationInput" });
+    case 3:
+      return S.suspend(() =>
+        S.Struct({ consolidation: S.optional(__S(5225, __c163, 9)) }),
+      ).annotate({ identifier: "SummaryOverrideConfigurationInput" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          extraction: S.optional(__S(5225, __c163, 9)),
+          consolidation: S.optional(__S(5225, __c163, 9)),
+          reflection: S.optional(__S(5226, __c163, 10)),
+        }),
+      ).annotate({ identifier: "EpisodicOverrideConfigurationInput" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({
+          triggerConditions: S.optional(__S(5231, __c163, 15)),
+          invocationConfiguration: __S(5232, __c163, 16),
+          historicalContextWindowSize: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "SelfManagedConfigurationInput" });
+    case 6:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ semanticOverride: __S(5186, __c162, 2) }),
+        /*@__PURE__*/ S.Struct({ summaryOverride: __S(5187, __c162, 3) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceOverride: __S(5186, __c162, 2) }),
+        /*@__PURE__*/ S.Struct({ episodicOverride: __S(5188, __c162, 4) }),
+        /*@__PURE__*/ S.Struct({ selfManagedConfiguration: __S(5189, __c162, 5) }),
+      ]);
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -16981,27 +18534,40 @@ function __c161(j: number): any {
           description: S.optional(SensitiveString),
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          reflectionConfiguration: S.optional(__S(5201, __c162, 17)),
-          memoryRecordSchema: S.optional(__S(5192, __c162, 8)),
+          configuration: S.optional(__S(5190, __c162, 6)),
+          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
+        }),
+      ).annotate({ identifier: "CustomMemoryStrategyInput" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          name: S.String,
+          description: S.optional(SensitiveString),
+          namespaces: S.optional(__S(2336, __c73, 0)),
+          namespaceTemplates: S.optional(__S(2336, __c73, 0)),
+          reflectionConfiguration: S.optional(__S(5233, __c163, 17)),
+          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          recordExpirySpecification: S.optional(__S(5184, __c162, 0)),
         }),
       ).annotate({ identifier: "EpisodicMemoryStrategyInput" });
-    case 8:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticMemoryStrategy: __S(5152, __c161, 0) }),
-        /*@__PURE__*/ S.Struct({ summaryMemoryStrategy: __S(5152, __c161, 0) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceMemoryStrategy: __S(5152, __c161, 0) }),
-        /*@__PURE__*/ S.Struct({ customMemoryStrategy: __S(5158, __c161, 6) }),
-        /*@__PURE__*/ S.Struct({ episodicMemoryStrategy: __S(5159, __c161, 7) }),
-      ]);
     case 9:
-      return S.Array(__S(5160, __c161, 8));
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ semanticMemoryStrategy: __S(5185, __c162, 1) }),
+        /*@__PURE__*/ S.Struct({ summaryMemoryStrategy: __S(5185, __c162, 1) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceMemoryStrategy: __S(5185, __c162, 1) }),
+        /*@__PURE__*/ S.Struct({ customMemoryStrategy: __S(5191, __c162, 7) }),
+        /*@__PURE__*/ S.Struct({ episodicMemoryStrategy: __S(5192, __c162, 8) }),
+      ]);
     case 10:
-      return S.suspend(() => S.Struct({ memory: S.optional(__S(5223, __c163, 7)) })).annotate({
+      return S.Array(__S(5193, __c162, 9));
+    case 11:
+      return S.suspend(() => S.Struct({ memory: S.optional(__S(5255, __c164, 7)) })).annotate({
         identifier: "CreateMemoryOutput",
       });
   }
 }
-function __c162(j: number): any {
+function __c163(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ allowedValues: __S(2336, __c73, 0) })).annotate({
@@ -17020,34 +18586,34 @@ function __c162(j: number): any {
       ).annotate({ identifier: "NumberValidation" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ stringValidation: __S(5184, __c162, 0) }),
-        /*@__PURE__*/ S.Struct({ stringListValidation: __S(5185, __c162, 1) }),
-        /*@__PURE__*/ S.Struct({ numberValidation: __S(5186, __c162, 2) }),
+        /*@__PURE__*/ S.Struct({ stringValidation: __S(5216, __c163, 0) }),
+        /*@__PURE__*/ S.Struct({ stringListValidation: __S(5217, __c163, 1) }),
+        /*@__PURE__*/ S.Struct({ numberValidation: __S(5218, __c163, 2) }),
       ]);
     case 4:
       return S.suspend(() =>
         S.Struct({
           llmExtractionInstruction: S.optional(SensitiveString),
           definition: SensitiveString,
-          validation: S.optional(__S(5187, __c162, 3)),
+          validation: S.optional(__S(5219, __c163, 3)),
         }),
       ).annotate({ identifier: "LlmExtractionConfig" });
     case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ llmExtractionConfig: __S(5188, __c162, 4) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ llmExtractionConfig: __S(5220, __c163, 4) })]);
     case 6:
       return S.suspend(() =>
         S.Struct({
           key: S.String,
           type: S.optional(S.String),
           extractionType: S.optional(S.String),
-          extractionConfig: S.optional(__S(5189, __c162, 5)),
+          extractionConfig: S.optional(__S(5221, __c163, 5)),
         }),
       ).annotate({ identifier: "MetadataSchemaEntry" });
     case 7:
-      return S.Array(__S(5190, __c162, 6));
+      return S.Array(__S(5222, __c163, 6));
     case 8:
       return S.suspend(() =>
-        S.Struct({ metadataSchema: S.optional(__S(5191, __c162, 7)) }),
+        S.Struct({ metadataSchema: S.optional(__S(5223, __c163, 7)) }),
       ).annotate({ identifier: "MemoryRecordSchema" });
     case 9:
       return S.suspend(() =>
@@ -17060,7 +18626,7 @@ function __c162(j: number): any {
           modelId: S.String,
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5192, __c162, 8)),
+          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
         }),
       ).annotate({ identifier: "EpisodicOverrideReflectionConfigurationInput" });
     case 11:
@@ -17077,12 +18643,12 @@ function __c162(j: number): any {
       });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ messageBasedTrigger: __S(5195, __c162, 11) }),
-        /*@__PURE__*/ S.Struct({ tokenBasedTrigger: __S(5196, __c162, 12) }),
-        /*@__PURE__*/ S.Struct({ timeBasedTrigger: __S(5197, __c162, 13) }),
+        /*@__PURE__*/ S.Struct({ messageBasedTrigger: __S(5227, __c163, 11) }),
+        /*@__PURE__*/ S.Struct({ tokenBasedTrigger: __S(5228, __c163, 12) }),
+        /*@__PURE__*/ S.Struct({ timeBasedTrigger: __S(5229, __c163, 13) }),
       ]);
     case 15:
-      return S.Array(__S(5198, __c162, 14));
+      return S.Array(__S(5230, __c163, 14));
     case 16:
       return S.suspend(() =>
         S.Struct({ topicArn: S.String, payloadDeliveryBucketName: S.String }),
@@ -17092,7 +18658,7 @@ function __c162(j: number): any {
         S.Struct({
           namespaces: S.optional(__S(2336, __c73, 0)),
           namespaceTemplates: S.optional(__S(2336, __c73, 0)),
-          memoryRecordSchema: S.optional(__S(5192, __c162, 8)),
+          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
         }),
       ).annotate({ identifier: "EpisodicReflectionConfigurationInput" });
     case 18:
@@ -17100,7 +18666,7 @@ function __c162(j: number): any {
         identifier: "IndexedKey",
       });
     case 19:
-      return S.Array(__S(5202, __c162, 18));
+      return S.Array(__S(5234, __c163, 18));
     case 20:
       return S.suspend(() =>
         S.Struct({
@@ -17110,67 +18676,67 @@ function __c162(j: number): any {
       ).annotate({ identifier: "NamespaceKeyValidation" });
     case 21:
       return S.suspend(() =>
-        S.Struct({ key: S.String, validation: S.optional(__S(5204, __c162, 20)) }),
+        S.Struct({ key: S.String, validation: S.optional(__S(5236, __c163, 20)) }),
       ).annotate({ identifier: "NamespaceKeyEntry" });
     case 22:
-      return S.Array(__S(5205, __c162, 21));
+      return S.Array(__S(5237, __c163, 21));
     case 23:
       return S.suspend(() => S.Struct({ type: S.String, level: S.optional(S.String) })).annotate({
         identifier: "ContentConfiguration",
       });
     case 24:
-      return S.Array(__S(5207, __c162, 23));
+      return S.Array(__S(5239, __c163, 23));
     case 25:
       return S.suspend(() =>
-        S.Struct({ dataStreamArn: S.String, contentConfigurations: __S(5208, __c162, 24) }),
+        S.Struct({ dataStreamArn: S.String, contentConfigurations: __S(5240, __c163, 24) }),
       ).annotate({ identifier: "KinesisResource" });
     case 26:
-      return S.Union([/*@__PURE__*/ S.Struct({ kinesis: __S(5209, __c162, 25) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ kinesis: __S(5241, __c163, 25) })]);
     case 27:
-      return S.Array(__S(5210, __c162, 26));
+      return S.Array(__S(5242, __c163, 26));
     case 28:
-      return S.suspend(() => S.Struct({ resources: __S(5211, __c162, 27) })).annotate({
+      return S.suspend(() => S.Struct({ resources: __S(5243, __c163, 27) })).annotate({
         identifier: "StreamDeliveryResources",
       });
     case 29:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticExtractionOverride: __S(5193, __c162, 9) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceExtractionOverride: __S(5193, __c162, 9) }),
-        /*@__PURE__*/ S.Struct({ episodicExtractionOverride: __S(5193, __c162, 9) }),
+        /*@__PURE__*/ S.Struct({ semanticExtractionOverride: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceExtractionOverride: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ episodicExtractionOverride: __S(5225, __c163, 9) }),
       ]);
     case 30:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customExtractionConfiguration: __S(5213, __c162, 29) }),
+        /*@__PURE__*/ S.Struct({ customExtractionConfiguration: __S(5245, __c163, 29) }),
       ]);
     case 31:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ semanticConsolidationOverride: __S(5193, __c162, 9) }),
-        /*@__PURE__*/ S.Struct({ summaryConsolidationOverride: __S(5193, __c162, 9) }),
-        /*@__PURE__*/ S.Struct({ userPreferenceConsolidationOverride: __S(5193, __c162, 9) }),
-        /*@__PURE__*/ S.Struct({ episodicConsolidationOverride: __S(5193, __c162, 9) }),
+        /*@__PURE__*/ S.Struct({ semanticConsolidationOverride: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ summaryConsolidationOverride: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ userPreferenceConsolidationOverride: __S(5225, __c163, 9) }),
+        /*@__PURE__*/ S.Struct({ episodicConsolidationOverride: __S(5225, __c163, 9) }),
       ]);
   }
 }
-function __c163(j: number): any {
+function __c164(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customConsolidationConfiguration: __S(5215, __c162, 31) }),
+        /*@__PURE__*/ S.Struct({ customConsolidationConfiguration: __S(5247, __c163, 31) }),
       ]);
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ episodicReflectionOverride: __S(5194, __c162, 10) }),
+        /*@__PURE__*/ S.Struct({ episodicReflectionOverride: __S(5226, __c163, 10) }),
       ]);
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5217, __c163, 1) }),
-        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5201, __c162, 17) }),
+        /*@__PURE__*/ S.Struct({ customReflectionConfiguration: __S(5249, __c164, 1) }),
+        /*@__PURE__*/ S.Struct({ episodicReflectionConfiguration: __S(5233, __c163, 17) }),
       ]);
     case 3:
       return S.suspend(() =>
         S.Struct({
-          triggerConditions: __S(5199, __c162, 15),
-          invocationConfiguration: __S(5200, __c162, 16),
+          triggerConditions: __S(5231, __c163, 15),
+          invocationConfiguration: __S(5232, __c163, 16),
           historicalContextWindowSize: S.Number,
         }),
       ).annotate({ identifier: "SelfManagedConfiguration" });
@@ -17178,10 +18744,10 @@ function __c163(j: number): any {
       return S.suspend(() =>
         S.Struct({
           type: S.optional(S.String),
-          extraction: S.optional(__S(5214, __c162, 30)),
-          consolidation: S.optional(__S(5216, __c163, 0)),
-          reflection: S.optional(__S(5218, __c163, 2)),
-          selfManagedConfiguration: S.optional(__S(5219, __c163, 3)),
+          extraction: S.optional(__S(5246, __c163, 30)),
+          consolidation: S.optional(__S(5248, __c164, 0)),
+          reflection: S.optional(__S(5250, __c164, 2)),
+          selfManagedConfiguration: S.optional(__S(5251, __c164, 3)),
         }),
       ).annotate({ identifier: "StrategyConfiguration" });
     case 5:
@@ -17190,18 +18756,19 @@ function __c163(j: number): any {
           strategyId: S.String,
           name: S.String,
           description: S.optional(SensitiveString),
-          configuration: S.optional(__S(5220, __c163, 4)),
+          configuration: S.optional(__S(5252, __c164, 4)),
           type: S.String,
           namespaces: __S(2336, __c73, 0),
           namespaceTemplates: __S(2336, __c73, 0),
           createdAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           status: S.optional(S.String),
-          memoryRecordSchema: S.optional(__S(5192, __c162, 8)),
+          memoryRecordSchema: S.optional(__S(5224, __c163, 8)),
+          recordExpiryDurationDays: S.optional(S.Number),
         }),
       ).annotate({ identifier: "MemoryStrategy" });
     case 6:
-      return S.Array(__S(5221, __c163, 5));
+      return S.Array(__S(5253, __c164, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -17216,23 +18783,23 @@ function __c163(j: number): any {
           failureReason: S.optional(S.String),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          strategies: S.optional(__S(5222, __c163, 6)),
-          indexedKeys: S.optional(__S(5203, __c162, 19)),
-          namespaceKeys: S.optional(__S(5206, __c162, 22)),
-          streamDeliveryResources: S.optional(__S(5212, __c162, 28)),
+          strategies: S.optional(__S(5254, __c164, 6)),
+          indexedKeys: S.optional(__S(5235, __c163, 19)),
+          namespaceKeys: S.optional(__S(5238, __c163, 22)),
+          streamDeliveryResources: S.optional(__S(5244, __c163, 28)),
           managedByResourceArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Memory" });
   }
 }
-function __c164(j: number): any {
+function __c165(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          oauth2ProviderConfigInput: __S(5284, __c165, 4),
+          oauth2ProviderConfigInput: __S(5316, __c166, 4),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.all(
@@ -17248,31 +18815,31 @@ function __c164(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientSecretArn: __S(3840, __c120, 0),
+          clientSecretArn: __S(3872, __c121, 0),
           clientSecretJsonKey: S.optional(S.String),
           clientSecretSource: S.optional(S.String),
           name: S.String,
           credentialProviderArn: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: S.optional(__S(5321, __c166, 9)),
+          oauth2ProviderConfigOutput: S.optional(__S(5354, __c167, 10)),
           status: S.optional(S.String),
         }),
       ).annotate({ identifier: "CreateOauth2CredentialProviderResponse" });
   }
 }
-function __c165(j: number): any {
+function __c166(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          oauthDiscovery: __S(5313, __c166, 1),
+          oauthDiscovery: __S(5345, __c167, 1),
           clientId: S.optional(S.String),
           clientSecret: S.optional(SensitiveString),
-          clientSecretConfig: S.optional(__S(3872, __c121, 0)),
+          clientSecretConfig: S.optional(__S(3904, __c122, 0)),
           clientSecretSource: S.optional(S.String),
-          onBehalfOfTokenExchangeConfig: S.optional(__S(5315, __c166, 3)),
+          onBehalfOfTokenExchangeConfig: S.optional(__S(5348, __c167, 4)),
           clientAuthenticationMethod: S.optional(S.String),
-          privateKeyJwtConfig: S.optional(__S(5318, __c166, 6)),
+          privateKeyJwtConfig: S.optional(__S(5351, __c167, 7)),
           privateEndpoint: S.optional(__S(3362, __c105, 2)),
           privateEndpointOverrides: S.optional(__S(3393, __c106, 1)),
         }),
@@ -17282,7 +18849,7 @@ function __c165(j: number): any {
         S.Struct({
           clientId: S.String,
           clientSecret: S.optional(SensitiveString),
-          clientSecretConfig: S.optional(__S(3872, __c121, 0)),
+          clientSecretConfig: S.optional(__S(3904, __c122, 0)),
           clientSecretSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "GoogleOauth2ProviderConfigInput" });
@@ -17291,7 +18858,7 @@ function __c165(j: number): any {
         S.Struct({
           clientId: S.String,
           clientSecret: S.optional(SensitiveString),
-          clientSecretConfig: S.optional(__S(3872, __c121, 0)),
+          clientSecretConfig: S.optional(__S(3904, __c122, 0)),
           clientSecretSource: S.optional(S.String),
           tenantId: S.optional(S.String),
         }),
@@ -17301,7 +18868,7 @@ function __c165(j: number): any {
         S.Struct({
           clientId: S.String,
           clientSecret: S.optional(SensitiveString),
-          clientSecretConfig: S.optional(__S(3872, __c121, 0)),
+          clientSecretConfig: S.optional(__S(3904, __c122, 0)),
           clientSecretSource: S.optional(S.String),
           issuer: S.optional(S.String),
           authorizationEndpoint: S.optional(S.String),
@@ -17310,19 +18877,19 @@ function __c165(j: number): any {
       ).annotate({ identifier: "IncludedOauth2ProviderConfigInput" });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5280, __c165, 0) }),
-        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5281, __c165, 1) }),
-        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5281, __c165, 1) }),
-        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5281, __c165, 1) }),
-        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5281, __c165, 1) }),
-        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5282, __c165, 2) }),
-        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5281, __c165, 1) }),
-        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5281, __c165, 1) }),
-        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5283, __c165, 3) }),
+        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5312, __c166, 0) }),
+        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5314, __c166, 2) }),
+        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5313, __c166, 1) }),
+        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5315, __c166, 3) }),
       ]);
   }
 }
-function __c166(j: number): any {
+function __c167(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17337,7 +18904,7 @@ function __c166(j: number): any {
     case 1:
       return S.Union([
         /*@__PURE__*/ S.Struct({ discoveryUrl: S.String }),
-        /*@__PURE__*/ S.Struct({ authorizationServerMetadata: __S(5312, __c166, 0) }),
+        /*@__PURE__*/ S.Struct({ authorizationServerMetadata: __S(5344, __c167, 0) }),
       ]);
     case 2:
       return S.suspend(() =>
@@ -17347,58 +18914,63 @@ function __c166(j: number): any {
         }),
       ).annotate({ identifier: "TokenExchangeGrantTypeConfigType" });
     case 3:
+      return S.suspend(() => S.Struct({ clientAuthenticationMethod: S.String })).annotate({
+        identifier: "OnBehalfOfAuthenticationConfig",
+      });
+    case 4:
       return S.suspend(() =>
         S.Struct({
           grantType: S.String,
-          tokenExchangeGrantTypeConfig: S.optional(__S(5314, __c166, 2)),
+          tokenExchangeGrantTypeConfig: S.optional(__S(5346, __c167, 2)),
+          onBehalfOfAuthenticationConfig: S.optional(__S(5347, __c167, 3)),
         }),
       ).annotate({ identifier: "OnBehalfOfTokenExchangeConfigType" });
-    case 4:
+    case 5:
       return S.suspend(() => S.Struct({ kmsKeyArn: S.String })).annotate({
         identifier: "KmsKeySourceType",
       });
-    case 5:
-      return S.Union([/*@__PURE__*/ S.Struct({ kmsKeySource: __S(5316, __c166, 4) })]);
     case 6:
-      return S.suspend(() =>
-        S.Struct({
-          privateKeySource: S.optional(__S(5317, __c166, 5)),
-          signingAlgorithm: S.optional(S.String),
-          additionalHeaderClaims: S.optional(__S(4672, __c146, 0)),
-          additionalPayloadClaims: S.optional(__S(4672, __c146, 0)),
-        }),
-      ).annotate({ identifier: "PrivateKeyJwtConfig" });
+      return S.Union([/*@__PURE__*/ S.Struct({ kmsKeySource: __S(5349, __c167, 5) })]);
     case 7:
       return S.suspend(() =>
         S.Struct({
-          oauthDiscovery: __S(5313, __c166, 1),
+          privateKeySource: S.optional(__S(5350, __c167, 6)),
+          signingAlgorithm: S.optional(S.String),
+          additionalHeaderClaims: S.optional(__S(4704, __c147, 0)),
+          additionalPayloadClaims: S.optional(__S(4704, __c147, 0)),
+        }),
+      ).annotate({ identifier: "PrivateKeyJwtConfig" });
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          oauthDiscovery: __S(5345, __c167, 1),
           clientId: S.optional(S.String),
-          onBehalfOfTokenExchangeConfig: S.optional(__S(5315, __c166, 3)),
+          onBehalfOfTokenExchangeConfig: S.optional(__S(5348, __c167, 4)),
           clientAuthenticationMethod: S.optional(S.String),
           privateEndpoint: S.optional(__S(3362, __c105, 2)),
           privateEndpointOverrides: S.optional(__S(3393, __c106, 1)),
-          privateKeyJwtConfig: S.optional(__S(5318, __c166, 6)),
+          privateKeyJwtConfig: S.optional(__S(5351, __c167, 7)),
         }),
       ).annotate({ identifier: "CustomOauth2ProviderConfigOutput" });
-    case 8:
-      return S.suspend(() =>
-        S.Struct({ oauthDiscovery: __S(5313, __c166, 1), clientId: S.optional(S.String) }),
-      ).annotate({ identifier: "GoogleOauth2ProviderConfigOutput" });
     case 9:
+      return S.suspend(() =>
+        S.Struct({ oauthDiscovery: __S(5345, __c167, 1), clientId: S.optional(S.String) }),
+      ).annotate({ identifier: "GoogleOauth2ProviderConfigOutput" });
+    case 10:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5319, __c166, 7) }),
-        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5320, __c166, 8) }),
-        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5320, __c166, 8) }),
-        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5320, __c166, 8) }),
-        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5320, __c166, 8) }),
-        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5320, __c166, 8) }),
-        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5320, __c166, 8) }),
-        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5320, __c166, 8) }),
-        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5320, __c166, 8) }),
+        /*@__PURE__*/ S.Struct({ customOauth2ProviderConfig: __S(5352, __c167, 8) }),
+        /*@__PURE__*/ S.Struct({ googleOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ githubOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ slackOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ salesforceOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ microsoftOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ atlassianOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ linkedinOauth2ProviderConfig: __S(5353, __c167, 9) }),
+        /*@__PURE__*/ S.Struct({ includedOauth2ProviderConfig: __S(5353, __c167, 9) }),
       ]);
   }
 }
-function __c167(j: number): any {
+function __c168(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17406,12 +18978,12 @@ function __c167(j: number): any {
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
           onlineEvaluationConfigName: S.String,
           description: S.optional(SensitiveString),
-          rule: __S(5413, __c169, 5),
-          dataSourceConfig: __S(5415, __c169, 7),
-          evaluators: S.optional(__S(5417, __c169, 9)),
-          insights: S.optional(__S(5377, __c168, 1)),
-          clusteringConfig: S.optional(__S(5378, __c168, 2)),
-          outputConfig: S.optional(__S(5419, __c169, 11)),
+          rule: __S(5445, __c170, 5),
+          dataSourceConfig: __S(5447, __c170, 7),
+          evaluators: S.optional(__S(5449, __c170, 9)),
+          insights: S.optional(__S(5409, __c169, 1)),
+          clusteringConfig: S.optional(__S(5410, __c169, 2)),
+          outputConfig: S.optional(__S(5451, __c170, 11)),
           evaluationExecutionRoleArn: S.String,
           enableOnCreate: S.Boolean,
           tags: S.optional(__S(2848, __c89, 0)),
@@ -17432,7 +19004,7 @@ function __c167(j: number): any {
           onlineEvaluationConfigArn: S.String,
           onlineEvaluationConfigId: S.String,
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
-          outputConfig: S.optional(__S(5419, __c169, 11)),
+          outputConfig: S.optional(__S(5451, __c170, 11)),
           status: S.String,
           executionStatus: S.String,
           failureReason: S.optional(S.String),
@@ -17440,19 +19012,19 @@ function __c167(j: number): any {
       ).annotate({ identifier: "CreateOnlineEvaluationConfigResponse" });
   }
 }
-function __c168(j: number): any {
+function __c169(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ insightId: S.String })).annotate({ identifier: "Insight" });
     case 1:
-      return S.Array(__S(5376, __c168, 0));
+      return S.Array(__S(5408, __c169, 0));
     case 2:
-      return S.suspend(() => S.Struct({ frequencies: __S(4480, __c140, 0) })).annotate({
+      return S.suspend(() => S.Struct({ frequencies: __S(4512, __c141, 0) })).annotate({
         identifier: "ClusteringConfig",
       });
   }
 }
-function __c169(j: number): any {
+function __c170(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ samplingPercentage: S.Number })).annotate({
@@ -17466,10 +19038,10 @@ function __c169(j: number): any {
       ]);
     case 2:
       return S.suspend(() =>
-        S.Struct({ key: S.String, operator: S.String, value: __S(5409, __c169, 1) }),
+        S.Struct({ key: S.String, operator: S.String, value: __S(5441, __c170, 1) }),
       ).annotate({ identifier: "Filter" });
     case 3:
-      return S.Array(__S(5410, __c169, 2));
+      return S.Array(__S(5442, __c170, 2));
     case 4:
       return S.suspend(() => S.Struct({ sessionTimeoutMinutes: S.Number })).annotate({
         identifier: "SessionConfig",
@@ -17477,9 +19049,9 @@ function __c169(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          samplingConfig: __S(5408, __c169, 0),
-          filters: S.optional(__S(5411, __c169, 3)),
-          sessionConfig: S.optional(__S(5412, __c169, 4)),
+          samplingConfig: __S(5440, __c170, 0),
+          filters: S.optional(__S(5443, __c170, 3)),
+          sessionConfig: S.optional(__S(5444, __c170, 4)),
         }),
       ).annotate({ identifier: "Rule" });
     case 6:
@@ -17491,11 +19063,11 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "CloudWatchLogsInputConfig" });
     case 7:
-      return S.Union([/*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(5414, __c169, 6) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ cloudWatchLogs: __S(5446, __c170, 6) })]);
     case 8:
       return S.Union([/*@__PURE__*/ S.Struct({ evaluatorId: S.String })]);
     case 9:
-      return S.Array(__S(5416, __c169, 8));
+      return S.Array(__S(5448, __c170, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
@@ -17505,12 +19077,12 @@ function __c169(j: number): any {
         }),
       ).annotate({ identifier: "CloudWatchOutputConfig" });
     case 11:
-      return S.suspend(() => S.Struct({ cloudWatchConfig: __S(5418, __c169, 10) })).annotate({
+      return S.suspend(() => S.Struct({ cloudWatchConfig: __S(5450, __c170, 10) })).annotate({
         identifier: "OutputConfig",
       });
   }
 }
-function __c170(j: number): any {
+function __c171(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17519,7 +19091,7 @@ function __c170(j: number): any {
           name: S.String,
           description: S.optional(S.String),
           type: S.String,
-          credentialProviderConfigurations: __S(5474, __c171, 2),
+          credentialProviderConfigurations: __S(5506, __c172, 2),
           provisionMode: S.optional(S.String),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
@@ -17540,7 +19112,7 @@ function __c170(j: number): any {
           paymentManagerId: S.String,
           name: S.String,
           type: S.String,
-          credentialProviderConfigurations: __S(5474, __c171, 2),
+          credentialProviderConfigurations: __S(5506, __c172, 2),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
           authorizationUrl: S.optional(S.String),
@@ -17548,7 +19120,7 @@ function __c170(j: number): any {
       ).annotate({ identifier: "CreatePaymentConnectorResponse" });
   }
 }
-function __c171(j: number): any {
+function __c172(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ credentialProviderArn: S.String })).annotate({
@@ -17556,21 +19128,21 @@ function __c171(j: number): any {
       });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCDP: __S(5472, __c171, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivy: __S(5472, __c171, 0) }),
+        /*@__PURE__*/ S.Struct({ coinbaseCDP: __S(5504, __c172, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivy: __S(5504, __c172, 0) }),
       ]);
     case 2:
-      return S.Array(__S(5473, __c171, 1));
+      return S.Array(__S(5505, __c172, 1));
   }
 }
-function __c172(j: number): any {
+function __c173(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           credentialProviderVendor: S.String,
-          providerConfigurationInput: __S(5538, __c173, 2),
+          providerConfigurationInput: __S(5570, __c174, 2),
           tags: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.all(
@@ -17589,43 +19161,9 @@ function __c172(j: number): any {
           name: S.String,
           credentialProviderVendor: S.String,
           credentialProviderArn: S.String,
-          providerConfigurationOutput: __S(5570, __c174, 2),
+          providerConfigurationOutput: __S(5602, __c175, 2),
         }),
       ).annotate({ identifier: "CreatePaymentCredentialProviderResponse" });
-  }
-}
-function __c173(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          apiKeyId: S.String,
-          apiKeySecret: S.optional(SensitiveString),
-          apiKeySecretSource: S.optional(S.String),
-          apiKeySecretConfig: S.optional(__S(3872, __c121, 0)),
-          walletSecret: S.optional(SensitiveString),
-          walletSecretSource: S.optional(S.String),
-          walletSecretConfig: S.optional(__S(3872, __c121, 0)),
-        }),
-      ).annotate({ identifier: "CoinbaseCdpConfigurationInput" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          appId: S.String,
-          appSecret: S.optional(SensitiveString),
-          appSecretSource: S.optional(S.String),
-          appSecretConfig: S.optional(__S(3872, __c121, 0)),
-          authorizationPrivateKey: S.optional(SensitiveString),
-          authorizationPrivateKeySource: S.optional(S.String),
-          authorizationPrivateKeyConfig: S.optional(__S(3872, __c121, 0)),
-          authorizationId: S.String,
-        }),
-      ).annotate({ identifier: "StripePrivyConfigurationInput" });
-    case 2:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5536, __c173, 0) }),
-        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5537, __c173, 1) }),
-      ]);
   }
 }
 function __c174(j: number): any {
@@ -17634,27 +19172,27 @@ function __c174(j: number): any {
       return S.suspend(() =>
         S.Struct({
           apiKeyId: S.String,
-          apiKeySecretArn: __S(3840, __c120, 0),
-          apiKeySecretJsonKey: S.optional(S.String),
+          apiKeySecret: S.optional(SensitiveString),
           apiKeySecretSource: S.optional(S.String),
-          walletSecretArn: __S(3840, __c120, 0),
-          walletSecretJsonKey: S.optional(S.String),
+          apiKeySecretConfig: S.optional(__S(3904, __c122, 0)),
+          walletSecret: S.optional(SensitiveString),
           walletSecretSource: S.optional(S.String),
+          walletSecretConfig: S.optional(__S(3904, __c122, 0)),
         }),
-      ).annotate({ identifier: "CoinbaseCdpConfigurationOutput" });
+      ).annotate({ identifier: "CoinbaseCdpConfigurationInput" });
     case 1:
       return S.suspend(() =>
         S.Struct({
           appId: S.String,
-          appSecretArn: __S(3840, __c120, 0),
-          appSecretJsonKey: S.optional(S.String),
+          appSecret: S.optional(SensitiveString),
           appSecretSource: S.optional(S.String),
-          authorizationPrivateKeyArn: __S(3840, __c120, 0),
-          authorizationPrivateKeyJsonKey: S.optional(S.String),
+          appSecretConfig: S.optional(__S(3904, __c122, 0)),
+          authorizationPrivateKey: S.optional(SensitiveString),
           authorizationPrivateKeySource: S.optional(S.String),
+          authorizationPrivateKeyConfig: S.optional(__S(3904, __c122, 0)),
           authorizationId: S.String,
         }),
-      ).annotate({ identifier: "StripePrivyConfigurationOutput" });
+      ).annotate({ identifier: "StripePrivyConfigurationInput" });
     case 2:
       return S.Union([
         /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5568, __c174, 0) }),
@@ -17663,6 +19201,40 @@ function __c174(j: number): any {
   }
 }
 function __c175(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          apiKeyId: S.String,
+          apiKeySecretArn: __S(3872, __c121, 0),
+          apiKeySecretJsonKey: S.optional(S.String),
+          apiKeySecretSource: S.optional(S.String),
+          walletSecretArn: __S(3872, __c121, 0),
+          walletSecretJsonKey: S.optional(S.String),
+          walletSecretSource: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CoinbaseCdpConfigurationOutput" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          appId: S.String,
+          appSecretArn: __S(3872, __c121, 0),
+          appSecretJsonKey: S.optional(S.String),
+          appSecretSource: S.optional(S.String),
+          authorizationPrivateKeyArn: __S(3872, __c121, 0),
+          authorizationPrivateKeyJsonKey: S.optional(S.String),
+          authorizationPrivateKeySource: S.optional(S.String),
+          authorizationId: S.String,
+        }),
+      ).annotate({ identifier: "StripePrivyConfigurationOutput" });
+    case 2:
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ coinbaseCdpConfiguration: __S(5600, __c175, 0) }),
+        /*@__PURE__*/ S.Struct({ stripePrivyConfiguration: __S(5601, __c175, 1) }),
+      ]);
+  }
+}
+function __c176(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17704,13 +19276,13 @@ function __c175(j: number): any {
       ).annotate({ identifier: "CreatePaymentManagerResponse" });
   }
 }
-function __c176(j: number): any {
+function __c177(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
-          definition: __S(5666, __c177, 2),
+          definition: __S(5698, __c178, 2),
           description: S.optional(SensitiveString),
           validationMode: S.optional(S.String),
           enforcementMode: S.optional(S.String),
@@ -17729,7 +19301,7 @@ function __c176(j: number): any {
       ).annotate({ identifier: "CreatePolicyRequest" });
   }
 }
-function __c177(j: number): any {
+function __c178(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ statement: S.String })).annotate({
@@ -17741,13 +19313,13 @@ function __c177(j: number): any {
       ).annotate({ identifier: "PolicyGenerationDetails" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ cedar: __S(5664, __c177, 0) }),
-        /*@__PURE__*/ S.Struct({ policyGeneration: __S(5665, __c177, 1) }),
-        /*@__PURE__*/ S.Struct({ policy: __S(5664, __c177, 0) }),
+        /*@__PURE__*/ S.Struct({ cedar: __S(5696, __c178, 0) }),
+        /*@__PURE__*/ S.Struct({ policyGeneration: __S(5697, __c178, 1) }),
+        /*@__PURE__*/ S.Struct({ policy: __S(5696, __c178, 0) }),
       ]);
   }
 }
-function __c178(j: number): any {
+function __c179(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17760,14 +19332,14 @@ function __c178(j: number): any {
           policyArn: S.String,
           status: S.String,
           enforcementMode: S.optional(S.String),
-          definition: __S(5666, __c177, 2),
+          definition: __S(5698, __c178, 2),
           description: S.optional(SensitiveString),
           statusReasons: __S(2336, __c73, 0),
         }),
       ).annotate({ identifier: "CreatePolicyResponse" });
   }
 }
-function __c179(j: number): any {
+function __c180(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17783,7 +19355,7 @@ function __c179(j: number): any {
       ).annotate({ identifier: "CreatePolicyEngineRequest" });
   }
 }
-function __c180(j: number): any {
+function __c181(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17801,7 +19373,7 @@ function __c180(j: number): any {
       ).annotate({ identifier: "CreatePolicyEngineResponse" });
   }
 }
-function __c181(j: number): any {
+function __c182(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17811,7 +19383,7 @@ function __c181(j: number): any {
           authorizerType: S.optional(S.String),
           authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          approvalConfiguration: S.optional(__S(5824, __c182, 0)),
+          approvalConfiguration: S.optional(__S(5856, __c183, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/registries" }), svc, auth, proto, ver, rules),
         ),
@@ -17822,7 +19394,7 @@ function __c181(j: number): any {
       });
   }
 }
-function __c182(j: number): any {
+function __c183(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ autoApproval: S.optional(S.Boolean) })).annotate({
@@ -17830,7 +19402,7 @@ function __c182(j: number): any {
       });
   }
 }
-function __c183(j: number): any {
+function __c184(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17839,10 +19411,10 @@ function __c183(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           descriptorType: S.String,
-          descriptors: S.optional(__S(5894, __c184, 6)),
+          descriptors: S.optional(__S(5926, __c185, 6)),
           recordVersion: S.optional(S.String),
           synchronizationType: S.optional(S.String),
-          synchronizationConfiguration: S.optional(__S(5901, __c184, 13)),
+          synchronizationConfiguration: S.optional(__S(5933, __c185, 13)),
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
         }).pipe(
           T.all(
@@ -17861,7 +19433,7 @@ function __c183(j: number): any {
       });
   }
 }
-function __c184(j: number): any {
+function __c185(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17874,12 +19446,12 @@ function __c184(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          server: S.optional(__S(5888, __c184, 0)),
-          tools: S.optional(__S(5889, __c184, 1)),
+          server: S.optional(__S(5920, __c185, 0)),
+          tools: S.optional(__S(5921, __c185, 1)),
         }),
       ).annotate({ identifier: "McpDescriptor" });
     case 3:
-      return S.suspend(() => S.Struct({ agentCard: S.optional(__S(5888, __c184, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ agentCard: S.optional(__S(5920, __c185, 0)) })).annotate({
         identifier: "A2aDescriptor",
       });
     case 4:
@@ -17889,17 +19461,17 @@ function __c184(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          skillMd: S.optional(__S(5892, __c184, 4)),
-          skillDefinition: S.optional(__S(5888, __c184, 0)),
+          skillMd: S.optional(__S(5924, __c185, 4)),
+          skillDefinition: S.optional(__S(5920, __c185, 0)),
         }),
       ).annotate({ identifier: "AgentSkillsDescriptor" });
     case 6:
       return S.suspend(() =>
         S.Struct({
-          mcp: S.optional(__S(5890, __c184, 2)),
-          a2a: S.optional(__S(5891, __c184, 3)),
-          custom: S.optional(__S(5892, __c184, 4)),
-          agentSkills: S.optional(__S(5893, __c184, 5)),
+          mcp: S.optional(__S(5922, __c185, 2)),
+          a2a: S.optional(__S(5923, __c185, 3)),
+          custom: S.optional(__S(5924, __c185, 4)),
+          agentSkills: S.optional(__S(5925, __c185, 5)),
         }),
       ).annotate({ identifier: "Descriptors" });
     case 7:
@@ -17921,29 +19493,29 @@ function __c184(j: number): any {
       ).annotate({ identifier: "RegistryRecordIamCredentialProvider" });
     case 9:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(5895, __c184, 7) }),
-        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(5896, __c184, 8) }),
+        /*@__PURE__*/ S.Struct({ oauthCredentialProvider: __S(5927, __c185, 7) }),
+        /*@__PURE__*/ S.Struct({ iamCredentialProvider: __S(5928, __c185, 8) }),
       ]);
     case 10:
       return S.suspend(() =>
-        S.Struct({ credentialProviderType: S.String, credentialProvider: __S(5897, __c184, 9) }),
+        S.Struct({ credentialProviderType: S.String, credentialProvider: __S(5929, __c185, 9) }),
       ).annotate({ identifier: "RegistryRecordCredentialProviderConfiguration" });
     case 11:
-      return S.Array(__S(5898, __c184, 10));
+      return S.Array(__S(5930, __c185, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
           url: S.String,
-          credentialProviderConfigurations: S.optional(__S(5899, __c184, 11)),
+          credentialProviderConfigurations: S.optional(__S(5931, __c185, 11)),
         }),
       ).annotate({ identifier: "FromUrlSynchronizationConfiguration" });
     case 13:
-      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(5900, __c184, 12)) })).annotate({
+      return S.suspend(() => S.Struct({ fromUrl: S.optional(__S(5932, __c185, 12)) })).annotate({
         identifier: "SynchronizationConfiguration",
       });
   }
 }
-function __c185(j: number): any {
+function __c186(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -17972,7 +19544,7 @@ function __c185(j: number): any {
       ).annotate({ identifier: "CreateWorkloadIdentityResponse" });
   }
 }
-function __c186(j: number): any {
+function __c187(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18001,7 +19573,7 @@ function __c186(j: number): any {
       ).annotate({ identifier: "DeleteAgentRuntimeResponse" });
   }
 }
-function __c187(j: number): any {
+function __c188(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18033,7 +19605,7 @@ function __c187(j: number): any {
       ).annotate({ identifier: "DeleteAgentRuntimeEndpointResponse" });
   }
 }
-function __c188(j: number): any {
+function __c189(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18050,7 +19622,7 @@ function __c188(j: number): any {
       ).annotate({ identifier: "DeleteApiKeyCredentialProviderRequest" });
   }
 }
-function __c189(j: number): any {
+function __c190(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18078,7 +19650,7 @@ function __c189(j: number): any {
       ).annotate({ identifier: "DeleteBrowserResponse" });
   }
 }
-function __c190(j: number): any {
+function __c191(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18108,7 +19680,7 @@ function __c190(j: number): any {
       ).annotate({ identifier: "DeleteBrowserProfileResponse" });
   }
 }
-function __c191(j: number): any {
+function __c192(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18132,7 +19704,7 @@ function __c191(j: number): any {
       );
   }
 }
-function __c192(j: number): any {
+function __c193(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18160,7 +19732,7 @@ function __c192(j: number): any {
       ).annotate({ identifier: "DeleteCodeInterpreterResponse" });
   }
 }
-function __c193(j: number): any {
+function __c194(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18181,7 +19753,7 @@ function __c193(j: number): any {
       ).annotate({ identifier: "DeleteConfigurationBundleResponse" });
   }
 }
-function __c194(j: number): any {
+function __c195(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18198,7 +19770,7 @@ function __c194(j: number): any {
       ).annotate({ identifier: "DeleteConsentPortalRequest" });
   }
 }
-function __c195(j: number): any {
+function __c196(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18228,7 +19800,7 @@ function __c195(j: number): any {
       ).annotate({ identifier: "DeleteDatasetResponse" });
   }
 }
-function __c196(j: number): any {
+function __c197(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18259,7 +19831,7 @@ function __c196(j: number): any {
       ).annotate({ identifier: "DeleteDatasetExamplesResponse" });
   }
 }
-function __c197(j: number): any {
+function __c198(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18280,7 +19852,7 @@ function __c197(j: number): any {
       ).annotate({ identifier: "DeleteEvaluatorResponse" });
   }
 }
-function __c198(j: number): any {
+function __c199(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18305,7 +19877,7 @@ function __c198(j: number): any {
       ).annotate({ identifier: "DeleteGatewayResponse" });
   }
 }
-function __c199(j: number): any {
+function __c200(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18332,7 +19904,7 @@ function __c199(j: number): any {
       });
   }
 }
-function __c200(j: number): any {
+function __c201(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18356,7 +19928,7 @@ function __c200(j: number): any {
       });
   }
 }
-function __c201(j: number): any {
+function __c202(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18385,7 +19957,7 @@ function __c201(j: number): any {
       ).annotate({ identifier: "DeleteGatewayTargetResponse" });
   }
 }
-function __c202(j: number): any {
+function __c203(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18405,12 +19977,12 @@ function __c202(j: number): any {
         ),
       ).annotate({ identifier: "DeleteHarnessRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ harness: S.optional(__S(4967, __c155, 7)) })).annotate({
+      return S.suspend(() => S.Struct({ harness: S.optional(__S(4999, __c156, 7)) })).annotate({
         identifier: "DeleteHarnessResponse",
       });
   }
 }
-function __c203(j: number): any {
+function __c204(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18431,7 +20003,7 @@ function __c203(j: number): any {
       ).annotate({ identifier: "DeleteHarnessEndpointRequest" });
   }
 }
-function __c204(j: number): any {
+function __c205(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18455,7 +20027,7 @@ function __c204(j: number): any {
       ).annotate({ identifier: "DeleteMemoryOutput" });
   }
 }
-function __c205(j: number): any {
+function __c206(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18472,7 +20044,7 @@ function __c205(j: number): any {
       ).annotate({ identifier: "DeleteOauth2CredentialProviderRequest" });
   }
 }
-function __c206(j: number): any {
+function __c207(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18502,7 +20074,7 @@ function __c206(j: number): any {
       ).annotate({ identifier: "DeleteOnlineEvaluationConfigResponse" });
   }
 }
-function __c207(j: number): any {
+function __c208(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18530,7 +20102,7 @@ function __c207(j: number): any {
       ).annotate({ identifier: "DeletePaymentConnectorResponse" });
   }
 }
-function __c208(j: number): any {
+function __c209(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18547,7 +20119,7 @@ function __c208(j: number): any {
       ).annotate({ identifier: "DeletePaymentCredentialProviderRequest" });
   }
 }
-function __c209(j: number): any {
+function __c210(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18571,7 +20143,7 @@ function __c209(j: number): any {
       ).annotate({ identifier: "DeletePaymentManagerResponse" });
   }
 }
-function __c210(j: number): any {
+function __c211(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18594,7 +20166,7 @@ function __c210(j: number): any {
       ).annotate({ identifier: "DeletePolicyRequest" });
   }
 }
-function __c211(j: number): any {
+function __c212(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18611,7 +20183,7 @@ function __c211(j: number): any {
       ).annotate({ identifier: "DeletePolicyEngineRequest" });
   }
 }
-function __c212(j: number): any {
+function __c213(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18632,7 +20204,7 @@ function __c212(j: number): any {
       });
   }
 }
-function __c213(j: number): any {
+function __c214(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18652,7 +20224,7 @@ function __c213(j: number): any {
       ).annotate({ identifier: "DeleteRegistryRecordRequest" });
   }
 }
-function __c214(j: number): any {
+function __c215(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18669,7 +20241,7 @@ function __c214(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyRequest" });
   }
 }
-function __c215(j: number): any {
+function __c216(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18686,7 +20258,7 @@ function __c215(j: number): any {
       ).annotate({ identifier: "DeleteWorkloadIdentityRequest" });
   }
 }
-function __c216(j: number): any {
+function __c217(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18725,15 +20297,16 @@ function __c216(j: number): any {
           environmentVariables: S.optional(__S(2848, __c89, 0)),
           authorizerConfiguration: S.optional(__S(3432, __c107, 8)),
           requestHeaderConfiguration: S.optional(__S(3522, __c110, 2)),
-          metadataConfiguration: S.optional(__S(6944, __c217, 0)),
+          metadataConfiguration: S.optional(__S(6976, __c218, 0)),
           filesystemConfigurations: S.optional(__S(3495, __c109, 7)),
           capacityProviderConfiguration: S.optional(__S(3524, __c110, 4)),
           platformVersion: S.optional(S.String),
+          allowedPorts: S.optional(__S(3527, __c110, 7)),
         }),
       ).annotate({ identifier: "GetAgentRuntimeResponse" });
   }
 }
-function __c217(j: number): any {
+function __c218(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ requireMMDSV2: S.Boolean })).annotate({
@@ -18741,7 +20314,7 @@ function __c217(j: number): any {
       });
   }
 }
-function __c218(j: number): any {
+function __c219(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18780,7 +20353,7 @@ function __c218(j: number): any {
       ).annotate({ identifier: "GetAgentRuntimeEndpointResponse" });
   }
 }
-function __c219(j: number): any {
+function __c220(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18797,12 +20370,12 @@ function __c219(j: number): any {
       ).annotate({ identifier: "GetApiKeyCredentialProviderRequest" });
   }
 }
-function __c220(j: number): any {
+function __c221(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          apiKeySecretArn: __S(3840, __c120, 0),
+          apiKeySecretArn: __S(3872, __c121, 0),
           apiKeySecretJsonKey: S.optional(S.String),
           apiKeySecretSource: S.optional(S.String),
           name: S.String,
@@ -18813,7 +20386,7 @@ function __c220(j: number): any {
       ).annotate({ identifier: "GetApiKeyCredentialProviderResponse" });
   }
 }
-function __c221(j: number): any {
+function __c222(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18836,12 +20409,12 @@ function __c221(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3936, __c123, 0),
-          recording: S.optional(__S(3968, __c124, 0)),
-          browserSigning: S.optional(__S(3969, __c124, 1)),
-          enterprisePolicies: S.optional(__S(3971, __c124, 3)),
-          certificates: S.optional(__S(3939, __c123, 3)),
-          filesystemConfigurations: S.optional(__S(3942, __c123, 6)),
+          networkConfiguration: __S(3968, __c124, 0),
+          recording: S.optional(__S(4000, __c125, 0)),
+          browserSigning: S.optional(__S(4001, __c125, 1)),
+          enterprisePolicies: S.optional(__S(4003, __c125, 3)),
+          certificates: S.optional(__S(3971, __c124, 3)),
+          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
           status: S.String,
           failureReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -18850,7 +20423,7 @@ function __c221(j: number): any {
       ).annotate({ identifier: "GetBrowserResponse" });
   }
 }
-function __c222(j: number): any {
+function __c223(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18867,7 +20440,7 @@ function __c222(j: number): any {
       ).annotate({ identifier: "GetBrowserProfileRequest" });
   }
 }
-function __c223(j: number): any {
+function __c224(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18886,7 +20459,7 @@ function __c223(j: number): any {
       ).annotate({ identifier: "GetBrowserProfileResponse" });
   }
 }
-function __c224(j: number): any {
+function __c225(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18911,15 +20484,15 @@ function __c224(j: number): any {
           description: S.optional(SensitiveString),
           statusCode: S.optional(S.String),
           statusReason: S.optional(S.String),
-          permissionsConfiguration: __S(4064, __c127, 0),
-          computeConfiguration: __S(4082, __c127, 18),
+          permissionsConfiguration: __S(4096, __c128, 0),
+          computeConfiguration: __S(4114, __c128, 18),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
         }),
       ).annotate({ identifier: "GetCapacityProviderOutput" });
   }
 }
-function __c225(j: number): any {
+function __c226(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18942,10 +20515,10 @@ function __c225(j: number): any {
           name: S.String,
           description: S.optional(SensitiveString),
           executionRoleArn: S.optional(S.String),
-          networkConfiguration: __S(3936, __c123, 0),
+          networkConfiguration: __S(3968, __c124, 0),
           status: S.String,
-          certificates: S.optional(__S(3939, __c123, 3)),
-          filesystemConfigurations: S.optional(__S(3942, __c123, 6)),
+          certificates: S.optional(__S(3971, __c124, 3)),
+          filesystemConfigurations: S.optional(__S(3974, __c124, 6)),
           failureReason: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
@@ -18953,7 +20526,7 @@ function __c225(j: number): any {
       ).annotate({ identifier: "GetCodeInterpreterResponse" });
   }
 }
-function __c226(j: number): any {
+function __c227(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -18979,8 +20552,8 @@ function __c226(j: number): any {
           bundleName: S.String,
           description: S.optional(SensitiveString),
           versionId: S.String,
-          components: __S(4193, __c131, 1),
-          lineageMetadata: S.optional(__S(7264, __c227, 0)),
+          components: __S(4225, __c132, 1),
+          lineageMetadata: S.optional(__S(7296, __c228, 0)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           kmsKeyArn: S.optional(S.String),
@@ -18988,20 +20561,20 @@ function __c226(j: number): any {
       ).annotate({ identifier: "GetConfigurationBundleResponse" });
   }
 }
-function __c227(j: number): any {
+function __c228(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           parentVersionIds: S.optional(__S(2336, __c73, 0)),
           branchName: S.optional(S.String),
-          createdBy: S.optional(__S(4160, __c130, 0)),
+          createdBy: S.optional(__S(4192, __c131, 0)),
           commitMessage: S.optional(S.String),
         }),
       ).annotate({ identifier: "VersionLineageMetadata" });
   }
 }
-function __c228(j: number): any {
+function __c229(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19030,8 +20603,8 @@ function __c228(j: number): any {
           bundleName: S.String,
           description: S.optional(SensitiveString),
           versionId: S.String,
-          components: __S(4193, __c131, 1),
-          lineageMetadata: S.optional(__S(7264, __c227, 0)),
+          components: __S(4225, __c132, 1),
+          lineageMetadata: S.optional(__S(7296, __c228, 0)),
           createdAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           versionCreatedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           kmsKeyArn: S.optional(S.String),
@@ -19039,7 +20612,7 @@ function __c228(j: number): any {
       ).annotate({ identifier: "GetConfigurationBundleVersionResponse" });
   }
 }
-function __c229(j: number): any {
+function __c230(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19056,7 +20629,7 @@ function __c229(j: number): any {
       ).annotate({ identifier: "GetConsentPortalRequest" });
   }
 }
-function __c230(j: number): any {
+function __c231(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19097,7 +20670,7 @@ function __c230(j: number): any {
       ).annotate({ identifier: "GetDatasetResponse" });
   }
 }
-function __c231(j: number): any {
+function __c232(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19122,7 +20695,7 @@ function __c231(j: number): any {
           evaluatorId: S.String,
           evaluatorName: S.String,
           description: S.optional(SensitiveString),
-          evaluatorConfig: __S(4430, __c138, 14),
+          evaluatorConfig: __S(4465, __c139, 17),
           evaluatorType: S.optional(S.String),
           provider: S.optional(S.String),
           level: S.String,
@@ -19135,7 +20708,7 @@ function __c231(j: number): any {
       ).annotate({ identifier: "GetEvaluatorResponse" });
   }
 }
-function __c232(j: number): any {
+function __c233(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19152,7 +20725,7 @@ function __c232(j: number): any {
       ).annotate({ identifier: "GetGatewayRequest" });
   }
 }
-function __c233(j: number): any {
+function __c234(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19175,7 +20748,7 @@ function __c233(j: number): any {
       ).annotate({ identifier: "GetGatewayRateLimitRequest" });
   }
 }
-function __c234(j: number): any {
+function __c235(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19195,7 +20768,7 @@ function __c234(j: number): any {
       ).annotate({ identifier: "GetGatewayRuleRequest" });
   }
 }
-function __c235(j: number): any {
+function __c236(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19203,18 +20776,18 @@ function __c235(j: number): any {
           ruleId: S.String,
           gatewayArn: S.String,
           priority: S.Number,
-          conditions: S.optional(__S(4614, __c144, 6)),
-          actions: __S(4626, __c144, 18),
+          conditions: S.optional(__S(4649, __c145, 9)),
+          actions: __S(4666, __c145, 26),
           description: S.optional(S.String),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
-          system: S.optional(__S(4627, __c144, 19)),
+          system: S.optional(__S(4667, __c145, 27)),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
       ).annotate({ identifier: "GetGatewayRuleResponse" });
   }
 }
-function __c236(j: number): any {
+function __c237(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19234,7 +20807,7 @@ function __c236(j: number): any {
       ).annotate({ identifier: "GetGatewayTargetRequest" });
   }
 }
-function __c237(j: number): any {
+function __c238(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19254,7 +20827,7 @@ function __c237(j: number): any {
       ).annotate({ identifier: "GetHarnessRequest" });
   }
 }
-function __c238(j: number): any {
+function __c239(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19274,7 +20847,7 @@ function __c238(j: number): any {
       ).annotate({ identifier: "GetHarnessEndpointRequest" });
   }
 }
-function __c239(j: number): any {
+function __c240(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19293,12 +20866,12 @@ function __c239(j: number): any {
         ),
       ).annotate({ identifier: "GetMemoryInput" });
     case 1:
-      return S.suspend(() => S.Struct({ memory: __S(5223, __c163, 7) })).annotate({
+      return S.suspend(() => S.Struct({ memory: __S(5255, __c164, 7) })).annotate({
         identifier: "GetMemoryOutput",
       });
   }
 }
-function __c240(j: number): any {
+function __c241(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19316,14 +20889,14 @@ function __c240(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          clientSecretArn: __S(3840, __c120, 0),
+          clientSecretArn: __S(3872, __c121, 0),
           clientSecretJsonKey: S.optional(S.String),
           clientSecretSource: S.optional(S.String),
           name: S.String,
           credentialProviderArn: S.String,
           credentialProviderVendor: S.String,
           callbackUrl: S.optional(S.String),
-          oauth2ProviderConfigOutput: __S(5321, __c166, 9),
+          oauth2ProviderConfigOutput: __S(5354, __c167, 10),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           status: S.optional(S.String),
@@ -19332,7 +20905,7 @@ function __c240(j: number): any {
       ).annotate({ identifier: "GetOauth2CredentialProviderResponse" });
   }
 }
-function __c241(j: number): any {
+function __c242(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19356,12 +20929,12 @@ function __c241(j: number): any {
           onlineEvaluationConfigId: S.String,
           onlineEvaluationConfigName: S.String,
           description: S.optional(SensitiveString),
-          rule: __S(5413, __c169, 5),
-          dataSourceConfig: __S(5415, __c169, 7),
-          evaluators: S.optional(__S(5417, __c169, 9)),
-          insights: S.optional(__S(5377, __c168, 1)),
-          clusteringConfig: S.optional(__S(5378, __c168, 2)),
-          outputConfig: S.optional(__S(5419, __c169, 11)),
+          rule: __S(5445, __c170, 5),
+          dataSourceConfig: __S(5447, __c170, 7),
+          evaluators: S.optional(__S(5449, __c170, 9)),
+          insights: S.optional(__S(5409, __c169, 1)),
+          clusteringConfig: S.optional(__S(5410, __c169, 2)),
+          outputConfig: S.optional(__S(5451, __c170, 11)),
           evaluationExecutionRoleArn: S.optional(S.String),
           status: S.String,
           executionStatus: S.String,
@@ -19372,7 +20945,7 @@ function __c241(j: number): any {
       ).annotate({ identifier: "GetOnlineEvaluationConfigResponse" });
   }
 }
-function __c242(j: number): any {
+function __c243(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19401,7 +20974,7 @@ function __c242(j: number): any {
           description: S.optional(S.String),
           type: S.String,
           provisionMode: S.optional(S.String),
-          credentialProviderConfigurations: __S(5474, __c171, 2),
+          credentialProviderConfigurations: __S(5506, __c172, 2),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           lastUpdatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           status: S.String,
@@ -19411,7 +20984,7 @@ function __c242(j: number): any {
       ).annotate({ identifier: "GetPaymentConnectorResponse" });
   }
 }
-function __c243(j: number): any {
+function __c244(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -19432,7 +21005,7 @@ function __c243(j: number): any {
           name: S.String,
           credentialProviderArn: S.String,
           credentialProviderVendor: S.String,
-          providerConfigurationOutput: __S(5570, __c174, 2),
+          providerConfigurationOutput: __S(5602, __c175, 2),
           createdTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastUpdatedTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           tags: S.optional(__S(2848, __c89, 0)),

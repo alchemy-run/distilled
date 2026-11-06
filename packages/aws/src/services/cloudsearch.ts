@@ -685,6 +685,14 @@ export const buildSuggesters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BuildSuggesters",
+  iam: {
+    actions: ["cloudsearch:BuildSuggesters"],
+    resources: {
+      "cloudsearch:BuildSuggesters": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BuildSuggesters",
 }));
@@ -718,6 +726,14 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  iam: {
+    actions: ["cloudsearch:CreateDomain"],
+    resources: {
+      "cloudsearch:CreateDomain": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -752,6 +768,14 @@ export const defineAnalysisScheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineAnalysisScheme",
+  iam: {
+    actions: ["cloudsearch:DefineAnalysisScheme"],
+    resources: {
+      "cloudsearch:DefineAnalysisScheme": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DefineAnalysisScheme",
 }));
@@ -786,6 +810,14 @@ export const defineExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineExpression",
+  iam: {
+    actions: ["cloudsearch:DefineExpression"],
+    resources: {
+      "cloudsearch:DefineExpression": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DefineExpression",
 }));
@@ -820,6 +852,14 @@ export const defineIndexField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineIndexField",
+  iam: {
+    actions: ["cloudsearch:DefineIndexField"],
+    resources: {
+      "cloudsearch:DefineIndexField": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DefineIndexField",
 }));
@@ -854,6 +894,14 @@ export const defineSuggester: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DefineSuggester",
+  iam: {
+    actions: ["cloudsearch:DefineSuggester"],
+    resources: {
+      "cloudsearch:DefineSuggester": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DefineSuggester",
 }));
@@ -886,6 +934,14 @@ export const deleteAnalysisScheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalysisScheme",
+  iam: {
+    actions: ["cloudsearch:DeleteAnalysisScheme"],
+    resources: {
+      "cloudsearch:DeleteAnalysisScheme": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAnalysisScheme",
 }));
@@ -907,6 +963,14 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  iam: {
+    actions: ["cloudsearch:DeleteDomain"],
+    resources: {
+      "cloudsearch:DeleteDomain": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -939,6 +1003,14 @@ export const deleteExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExpression",
+  iam: {
+    actions: ["cloudsearch:DeleteExpression"],
+    resources: {
+      "cloudsearch:DeleteExpression": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteExpression",
 }));
@@ -971,6 +1043,14 @@ export const deleteIndexField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndexField",
+  iam: {
+    actions: ["cloudsearch:DeleteIndexField"],
+    resources: {
+      "cloudsearch:DeleteIndexField": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIndexField",
 }));
@@ -1003,6 +1083,14 @@ export const deleteSuggester: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSuggester",
+  iam: {
+    actions: ["cloudsearch:DeleteSuggester"],
+    resources: {
+      "cloudsearch:DeleteSuggester": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSuggester",
 }));
@@ -1027,6 +1115,14 @@ export const describeAnalysisSchemes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysisSchemes",
+  iam: {
+    actions: ["cloudsearch:DescribeAnalysisSchemes"],
+    resources: {
+      "cloudsearch:DescribeAnalysisSchemes": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAnalysisSchemes",
 }));
@@ -1061,6 +1157,14 @@ export const describeAvailabilityOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAvailabilityOptions",
+  iam: {
+    actions: ["cloudsearch:DescribeAvailabilityOptions"],
+    resources: {
+      "cloudsearch:DescribeAvailabilityOptions": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAvailabilityOptions",
 }));
@@ -1093,6 +1197,14 @@ export const describeDomainEndpointOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainEndpointOptions",
+  iam: {
+    actions: ["cloudsearch:DescribeDomainEndpointOptions"],
+    resources: {
+      "cloudsearch:DescribeDomainEndpointOptions": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDomainEndpointOptions",
 }));
@@ -1115,6 +1227,14 @@ export const describeDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomains",
+  iam: {
+    actions: ["cloudsearch:DescribeDomains"],
+    resources: {
+      "cloudsearch:DescribeDomains": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDomains",
 }));
@@ -1139,6 +1259,14 @@ export const describeExpressions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExpressions",
+  iam: {
+    actions: ["cloudsearch:DescribeExpressions"],
+    resources: {
+      "cloudsearch:DescribeExpressions": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeExpressions",
 }));
@@ -1165,6 +1293,14 @@ export const describeIndexFields: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIndexFields",
+  iam: {
+    actions: ["cloudsearch:DescribeIndexFields"],
+    resources: {
+      "cloudsearch:DescribeIndexFields": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIndexFields",
 }));
@@ -1189,6 +1325,14 @@ export const describeScalingParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingParameters",
+  iam: {
+    actions: ["cloudsearch:DescribeScalingParameters"],
+    resources: {
+      "cloudsearch:DescribeScalingParameters": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeScalingParameters",
 }));
@@ -1214,6 +1358,14 @@ export const describeServiceAccessPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceAccessPolicies",
+  iam: {
+    actions: ["cloudsearch:DescribeServiceAccessPolicies"],
+    resources: {
+      "cloudsearch:DescribeServiceAccessPolicies": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeServiceAccessPolicies",
 }));
@@ -1238,6 +1390,14 @@ export const describeSuggesters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSuggesters",
+  iam: {
+    actions: ["cloudsearch:DescribeSuggesters"],
+    resources: {
+      "cloudsearch:DescribeSuggesters": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSuggesters",
 }));
@@ -1263,6 +1423,14 @@ export const indexDocuments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IndexDocuments",
+  iam: {
+    actions: ["cloudsearch:IndexDocuments"],
+    resources: {
+      "cloudsearch:IndexDocuments": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "IndexDocuments",
 }));
@@ -1283,6 +1451,14 @@ export const listDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
+  iam: {
+    actions: ["cloudsearch:ListDomainNames"],
+    resources: {
+      "cloudsearch:ListDomainNames": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDomainNames",
 }));
@@ -1319,6 +1495,14 @@ export const updateAvailabilityOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAvailabilityOptions",
+  iam: {
+    actions: ["cloudsearch:UpdateAvailabilityOptions"],
+    resources: {
+      "cloudsearch:UpdateAvailabilityOptions": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAvailabilityOptions",
 }));
@@ -1355,6 +1539,14 @@ export const updateDomainEndpointOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainEndpointOptions",
+  iam: {
+    actions: ["cloudsearch:UpdateDomainEndpointOptions"],
+    resources: {
+      "cloudsearch:UpdateDomainEndpointOptions": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDomainEndpointOptions",
 }));
@@ -1389,6 +1581,14 @@ export const updateScalingParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScalingParameters",
+  iam: {
+    actions: ["cloudsearch:UpdateScalingParameters"],
+    resources: {
+      "cloudsearch:UpdateScalingParameters": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScalingParameters",
 }));
@@ -1425,6 +1625,14 @@ export const updateServiceAccessPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAccessPolicies",
+  iam: {
+    actions: ["cloudsearch:UpdateServiceAccessPolicies"],
+    resources: {
+      "cloudsearch:UpdateServiceAccessPolicies": [
+        "arn:${Partition}:cloudsearch:${Region}:${Account}:domain/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateServiceAccessPolicies",
 }));

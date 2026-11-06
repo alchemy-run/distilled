@@ -178,7 +178,7 @@ export type QueryTables = string[];
 export interface AnalysisSchema {
   referencedTables?: string[];
 }
-export type AnalysisFormat = "SQL" | "PYSPARK_1_0" | (string & {});
+export type AnalysisFormat = "SQL" | "PYSPARK_1_0" | "PYSPARK_2_0" | (string & {});
 export type AnalysisTemplateText = string | redacted.Redacted<string>;
 export interface S3Location {
   bucket: string;
@@ -980,10 +980,25 @@ export interface AthenaTableReference {
   tableName: string;
   catalogName?: string;
 }
+export type DatabricksObject = string;
+export type DatabricksWorkspaceUrl = string;
+export type DatabricksEndpointUrl = string;
+export interface DatabricksDeltaSharingConnection {
+  deltaShareEndpoint: string;
+  shareName: string;
+}
+export type DatabricksConnectionType = { deltaSharing: DatabricksDeltaSharingConnection };
+export interface DatabricksTableReference {
+  schemaName: string;
+  tableName: string;
+  workspaceUrl: string;
+  connectionType: DatabricksConnectionType;
+}
 export type TableReference =
-  | { glue: GlueTableReference; snowflake?: never; athena?: never }
-  | { glue?: never; snowflake: SnowflakeTableReference; athena?: never }
-  | { glue?: never; snowflake?: never; athena: AthenaTableReference };
+  | { glue: GlueTableReference; snowflake?: never; athena?: never; databricks?: never }
+  | { glue?: never; snowflake: SnowflakeTableReference; athena?: never; databricks?: never }
+  | { glue?: never; snowflake?: never; athena: AthenaTableReference; databricks?: never }
+  | { glue?: never; snowflake?: never; athena?: never; databricks: DatabricksTableReference };
 export type AllowedColumnList = string[];
 export interface CreateConfiguredTableInput {
   name: string;
@@ -995,6 +1010,7 @@ export interface CreateConfiguredTableInput {
   tags?: { [key: string]: string | undefined };
 }
 export type ConfiguredTableArn = string;
+export type TableReferenceType = "GLUE" | "SNOWFLAKE" | "ATHENA" | "DATABRICKS" | (string & {});
 export type ConfiguredTableAnalysisRuleType = "AGGREGATION" | "LIST" | "CUSTOM" | (string & {});
 export type ConfiguredTableAnalysisRuleTypeList = ConfiguredTableAnalysisRuleType[];
 export interface ConfiguredTable {
@@ -1003,6 +1019,7 @@ export interface ConfiguredTable {
   name: string;
   description?: string;
   tableReference: TableReference;
+  tableType?: TableReferenceType;
   createTime: Date;
   updateTime: Date;
   analysisRuleTypes: ConfiguredTableAnalysisRuleType[];
@@ -1371,6 +1388,7 @@ export interface MembershipProtectedQueryResultConfiguration {
   roleArn?: string;
 }
 export interface ProtectedJobS3OutputConfigurationInput {
+  resultFormat?: ResultFormat;
   bucket: string;
   keyPrefix?: string;
 }
@@ -2296,6 +2314,7 @@ export interface ConfiguredTableSummary {
   id: string;
   arn: string;
   name: string;
+  tableType?: TableReferenceType;
   createTime: Date;
   updateTime: Date;
   analysisRuleTypes: ConfiguredTableAnalysisRuleType[];
@@ -2903,6 +2922,15 @@ export const batchGetCollaborationAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollaborationAnalysisTemplate",
+  iam: {
+    actions: ["cleanrooms:BatchGetCollaborationAnalysisTemplate"],
+    resources: {
+      "cleanrooms:BatchGetCollaborationAnalysisTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetCollaborationAnalysisTemplate",
 }));
@@ -2935,6 +2963,7 @@ export const batchGetSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSchema",
+  iam: { actions: ["cleanrooms:BatchGetSchema"] },
   telemetry: TELEMETRY,
   span: "BatchGetSchema",
 }));
@@ -2967,6 +2996,7 @@ export const batchGetSchemaAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSchemaAnalysisRule",
+  iam: { actions: ["cleanrooms:BatchGetSchemaAnalysisRule"] },
   telemetry: TELEMETRY,
   span: "BatchGetSchemaAnalysisRule",
 }));
@@ -3003,6 +3033,17 @@ export const createAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnalysisTemplate",
+  iam: {
+    actions: ["cleanrooms:CreateAnalysisTemplate", "iam:PassRole", "cleanrooms:TagResource"],
+    resources: {
+      "cleanrooms:CreateAnalysisTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAnalysisTemplate",
 }));
@@ -3035,6 +3076,15 @@ export const createCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollaboration",
+  iam: {
+    actions: ["cleanrooms:CreateCollaboration", "cleanrooms:TagResource"],
+    resources: {
+      "cleanrooms:CreateCollaboration": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+    conditional: { "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCollaboration",
 }));
@@ -3071,6 +3121,14 @@ export const createCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollaborationChangeRequest",
+  iam: {
+    actions: ["cleanrooms:CreateCollaborationChangeRequest"],
+    resources: {
+      "cleanrooms:CreateCollaborationChangeRequest": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCollaborationChangeRequest",
 }));
@@ -3107,6 +3165,16 @@ export const createConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredAudienceModelAssociation",
+  iam: {
+    actions: ["cleanrooms:CreateConfiguredAudienceModelAssociation", "cleanrooms:TagResource"],
+    resources: {
+      "cleanrooms:CreateConfiguredAudienceModelAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+    conditional: { "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredAudienceModelAssociation",
 }));
@@ -3130,7 +3198,7 @@ export const createConfiguredTable: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c21, 0) as any as S.Schema<CreateConfiguredTableInput>,
-  output: __S(712, __c22, 8) as any as S.Schema<CreateConfiguredTableOutput>,
+  output: __S(715, __c22, 11) as any as S.Schema<CreateConfiguredTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3143,6 +3211,15 @@ export const createConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTable",
+  iam: {
+    actions: ["cleanrooms:CreateConfiguredTable", "cleanrooms:TagResource"],
+    resources: {
+      "cleanrooms:CreateConfiguredTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+    },
+    conditional: { "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredTable",
 }));
@@ -3179,6 +3256,14 @@ export const createConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:CreateConfiguredTableAnalysisRule"],
+    resources: {
+      "cleanrooms:CreateConfiguredTableAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredTableAnalysisRule",
 }));
@@ -3215,6 +3300,22 @@ export const createConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAssociation",
+  iam: {
+    actions: [
+      "cleanrooms:CreateConfiguredTableAssociation",
+      "iam:PassRole",
+      "cleanrooms:TagResource",
+    ],
+    resources: {
+      "cleanrooms:CreateConfiguredTableAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredTableAssociation",
 }));
@@ -3249,6 +3350,14 @@ export const createConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAssociationAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:CreateConfiguredTableAssociationAnalysisRule"],
+    resources: {
+      "cleanrooms:CreateConfiguredTableAssociationAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredTableAssociationAnalysisRule",
 }));
@@ -3285,6 +3394,16 @@ export const createIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdMappingTable",
+  iam: {
+    actions: ["cleanrooms:CreateIdMappingTable", "cleanrooms:TagResource"],
+    resources: {
+      "cleanrooms:CreateIdMappingTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+    conditional: { "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIdMappingTable",
 }));
@@ -3321,6 +3440,16 @@ export const createIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdNamespaceAssociation",
+  iam: {
+    actions: ["cleanrooms:CreateIdNamespaceAssociation", "cleanrooms:TagResource"],
+    resources: {
+      "cleanrooms:CreateIdNamespaceAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+    conditional: { "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIdNamespaceAssociation",
 }));
@@ -3357,6 +3486,10 @@ export const createIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntermediateTable",
+  iam: {
+    actions: ["cleanrooms:CreateIntermediateTable", "cleanrooms:TagResource"],
+    conditional: { "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIntermediateTable",
 }));
@@ -3393,6 +3526,14 @@ export const createIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntermediateTableAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:CreateIntermediateTableAnalysisRule"],
+    resources: {
+      "cleanrooms:CreateIntermediateTableAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIntermediateTableAnalysisRule",
 }));
@@ -3416,7 +3557,7 @@ export const createMembership: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1280, __c40, 0) as any as S.Schema<CreateMembershipInput>,
-  output: __S(1349, __c42, 5) as any as S.Schema<CreateMembershipOutput>,
+  output: __S(1318, __c41, 6) as any as S.Schema<CreateMembershipOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3429,6 +3570,20 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
+  iam: {
+    actions: ["cleanrooms:CreateMembership", "iam:PassRole", "cleanrooms:TagResource"],
+    resources: {
+      "cleanrooms:CreateMembership": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: {
+      "iam:PassRole": "defaultResultConfiguration.roleArn",
+      "cleanrooms:TagResource": "tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMembership",
 }));
@@ -3451,8 +3606,8 @@ export const createPrivacyBudgetTemplate: API.OperationMethod<
   CreatePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1408, __c44, 0) as any as S.Schema<CreatePrivacyBudgetTemplateInput>,
-  output: __S(1505, __c47, 1) as any as S.Schema<CreatePrivacyBudgetTemplateOutput>,
+  input: __S(1376, __c43, 0) as any as S.Schema<CreatePrivacyBudgetTemplateInput>,
+  output: __S(1473, __c46, 1) as any as S.Schema<CreatePrivacyBudgetTemplateOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3465,6 +3620,16 @@ export const createPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivacyBudgetTemplate",
+  iam: {
+    actions: ["cleanrooms:CreatePrivacyBudgetTemplate", "cleanrooms:TagResource"],
+    resources: {
+      "cleanrooms:CreatePrivacyBudgetTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
+      ],
+    },
+    conditional: { "cleanrooms:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePrivacyBudgetTemplate",
 }));
@@ -3485,8 +3650,8 @@ export const deleteAnalysisTemplate: API.OperationMethod<
   DeleteAnalysisTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c48, 0) as any as S.Schema<DeleteAnalysisTemplateInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteAnalysisTemplateOutput>,
+  input: __S(1504, __c47, 0) as any as S.Schema<DeleteAnalysisTemplateInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteAnalysisTemplateOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3497,6 +3662,14 @@ export const deleteAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalysisTemplate",
+  iam: {
+    actions: ["cleanrooms:DeleteAnalysisTemplate"],
+    resources: {
+      "cleanrooms:DeleteAnalysisTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAnalysisTemplate",
 }));
@@ -3516,8 +3689,8 @@ export const deleteCollaboration: API.OperationMethod<
   DeleteCollaborationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1600, __c50, 0) as any as S.Schema<DeleteCollaborationInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteCollaborationOutput>,
+  input: __S(1568, __c49, 0) as any as S.Schema<DeleteCollaborationInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteCollaborationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3527,6 +3700,14 @@ export const deleteCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollaboration",
+  iam: {
+    actions: ["cleanrooms:DeleteCollaboration"],
+    resources: {
+      "cleanrooms:DeleteCollaboration": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCollaboration",
 }));
@@ -3547,8 +3728,8 @@ export const deleteConfiguredAudienceModelAssociation: API.OperationMethod<
   DeleteConfiguredAudienceModelAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1632, __c51, 0) as any as S.Schema<DeleteConfiguredAudienceModelAssociationInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteConfiguredAudienceModelAssociationOutput>,
+  input: __S(1600, __c50, 0) as any as S.Schema<DeleteConfiguredAudienceModelAssociationInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteConfiguredAudienceModelAssociationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3559,6 +3740,14 @@ export const deleteConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredAudienceModelAssociation",
+  iam: {
+    actions: ["cleanrooms:DeleteConfiguredAudienceModelAssociation"],
+    resources: {
+      "cleanrooms:DeleteConfiguredAudienceModelAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredAudienceModelAssociation",
 }));
@@ -3580,8 +3769,8 @@ export const deleteConfiguredTable: API.OperationMethod<
   DeleteConfiguredTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1664, __c52, 0) as any as S.Schema<DeleteConfiguredTableInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteConfiguredTableOutput>,
+  input: __S(1632, __c51, 0) as any as S.Schema<DeleteConfiguredTableInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteConfiguredTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3593,6 +3782,14 @@ export const deleteConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTable",
+  iam: {
+    actions: ["cleanrooms:DeleteConfiguredTable"],
+    resources: {
+      "cleanrooms:DeleteConfiguredTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredTable",
 }));
@@ -3614,8 +3811,8 @@ export const deleteConfiguredTableAnalysisRule: API.OperationMethod<
   DeleteConfiguredTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1696, __c53, 0) as any as S.Schema<DeleteConfiguredTableAnalysisRuleInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteConfiguredTableAnalysisRuleOutput>,
+  input: __S(1664, __c52, 0) as any as S.Schema<DeleteConfiguredTableAnalysisRuleInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteConfiguredTableAnalysisRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3627,6 +3824,14 @@ export const deleteConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:DeleteConfiguredTableAnalysisRule"],
+    resources: {
+      "cleanrooms:DeleteConfiguredTableAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredTableAnalysisRule",
 }));
@@ -3648,8 +3853,8 @@ export const deleteConfiguredTableAssociation: API.OperationMethod<
   DeleteConfiguredTableAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1728, __c54, 0) as any as S.Schema<DeleteConfiguredTableAssociationInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteConfiguredTableAssociationOutput>,
+  input: __S(1696, __c53, 0) as any as S.Schema<DeleteConfiguredTableAssociationInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteConfiguredTableAssociationOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3661,6 +3866,14 @@ export const deleteConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAssociation",
+  iam: {
+    actions: ["cleanrooms:DeleteConfiguredTableAssociation"],
+    resources: {
+      "cleanrooms:DeleteConfiguredTableAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredTableAssociation",
 }));
@@ -3682,10 +3895,10 @@ export const deleteConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   DeleteConfiguredTableAssociationAnalysisRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1760, __c55, 0) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleInput>,
+  input: __S(1728, __c54, 0) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleInput>,
   output: __S(
-    1568,
-    __c49,
+    1536,
+    __c48,
     0,
   ) as any as S.Schema<DeleteConfiguredTableAssociationAnalysisRuleOutput>,
   errors: [
@@ -3699,6 +3912,14 @@ export const deleteConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAssociationAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:DeleteConfiguredTableAssociationAnalysisRule"],
+    resources: {
+      "cleanrooms:DeleteConfiguredTableAssociationAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredTableAssociationAnalysisRule",
 }));
@@ -3719,8 +3940,8 @@ export const deleteIdMappingTable: API.OperationMethod<
   DeleteIdMappingTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1792, __c56, 0) as any as S.Schema<DeleteIdMappingTableInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteIdMappingTableOutput>,
+  input: __S(1760, __c55, 0) as any as S.Schema<DeleteIdMappingTableInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteIdMappingTableOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3731,6 +3952,15 @@ export const deleteIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdMappingTable",
+  iam: {
+    actions: ["cleanrooms:DeleteIdMappingTable"],
+    resources: {
+      "cleanrooms:DeleteIdMappingTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIdMappingTable",
 }));
@@ -3751,8 +3981,8 @@ export const deleteIdNamespaceAssociation: API.OperationMethod<
   DeleteIdNamespaceAssociationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1824, __c57, 0) as any as S.Schema<DeleteIdNamespaceAssociationInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteIdNamespaceAssociationOutput>,
+  input: __S(1792, __c56, 0) as any as S.Schema<DeleteIdNamespaceAssociationInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteIdNamespaceAssociationOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3763,6 +3993,15 @@ export const deleteIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdNamespaceAssociation",
+  iam: {
+    actions: ["cleanrooms:DeleteIdNamespaceAssociation"],
+    resources: {
+      "cleanrooms:DeleteIdNamespaceAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIdNamespaceAssociation",
 }));
@@ -3784,8 +4023,8 @@ export const deleteIntermediateTable: API.OperationMethod<
   DeleteIntermediateTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1856, __c58, 0) as any as S.Schema<DeleteIntermediateTableInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteIntermediateTableOutput>,
+  input: __S(1824, __c57, 0) as any as S.Schema<DeleteIntermediateTableInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteIntermediateTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3797,6 +4036,15 @@ export const deleteIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntermediateTable",
+  iam: {
+    actions: ["cleanrooms:DeleteIntermediateTable"],
+    resources: {
+      "cleanrooms:DeleteIntermediateTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntermediateTable",
 }));
@@ -3818,8 +4066,8 @@ export const deleteIntermediateTableAnalysisRule: API.OperationMethod<
   DeleteIntermediateTableAnalysisRuleError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1888, __c59, 0) as any as S.Schema<DeleteIntermediateTableAnalysisRuleInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteIntermediateTableAnalysisRuleOutput>,
+  input: __S(1856, __c58, 0) as any as S.Schema<DeleteIntermediateTableAnalysisRuleInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteIntermediateTableAnalysisRuleOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3831,6 +4079,14 @@ export const deleteIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntermediateTableAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:DeleteIntermediateTableAnalysisRule"],
+    resources: {
+      "cleanrooms:DeleteIntermediateTableAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntermediateTableAnalysisRule",
 }));
@@ -3852,8 +4108,8 @@ export const deleteMember: API.OperationMethod<
   DeleteMemberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1920, __c60, 0) as any as S.Schema<DeleteMemberInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteMemberOutput>,
+  input: __S(1888, __c59, 0) as any as S.Schema<DeleteMemberInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteMemberOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3865,6 +4121,14 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
+  iam: {
+    actions: ["cleanrooms:DeleteMember"],
+    resources: {
+      "cleanrooms:DeleteMember": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMember",
 }));
@@ -3886,8 +4150,8 @@ export const deleteMembership: API.OperationMethod<
   DeleteMembershipError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DeleteMembershipInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeleteMembershipOutput>,
+  input: __S(1920, __c60, 0) as any as S.Schema<DeleteMembershipInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeleteMembershipOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3899,6 +4163,14 @@ export const deleteMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembership",
+  iam: {
+    actions: ["cleanrooms:DeleteMembership"],
+    resources: {
+      "cleanrooms:DeleteMembership": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMembership",
 }));
@@ -3919,8 +4191,8 @@ export const deletePrivacyBudgetTemplate: API.OperationMethod<
   DeletePrivacyBudgetTemplateError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DeletePrivacyBudgetTemplateInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DeletePrivacyBudgetTemplateOutput>,
+  input: __S(1952, __c61, 0) as any as S.Schema<DeletePrivacyBudgetTemplateInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DeletePrivacyBudgetTemplateOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3931,6 +4203,14 @@ export const deletePrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivacyBudgetTemplate",
+  iam: {
+    actions: ["cleanrooms:DeletePrivacyBudgetTemplate"],
+    resources: {
+      "cleanrooms:DeletePrivacyBudgetTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePrivacyBudgetTemplate",
 }));
@@ -3952,8 +4232,8 @@ export const disallowIntermediateTable: API.OperationMethod<
   DisallowIntermediateTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DisallowIntermediateTableInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<DisallowIntermediateTableOutput>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DisallowIntermediateTableInput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<DisallowIntermediateTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -3965,6 +4245,14 @@ export const disallowIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisallowIntermediateTable",
+  iam: {
+    actions: ["cleanrooms:DisallowIntermediateTable"],
+    resources: {
+      "cleanrooms:DisallowIntermediateTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisallowIntermediateTable",
 }));
@@ -3987,7 +4275,7 @@ export const getAnalysisLogExport: API.OperationMethod<
   GetAnalysisLogExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetAnalysisLogExportInput>,
+  input: __S(2016, __c63, 0) as any as S.Schema<GetAnalysisLogExportInput>,
   output: __S(2084, __c65, 4) as any as S.Schema<GetAnalysisLogExportOutput>,
   errors: [
     AccessDeniedException,
@@ -3999,6 +4287,14 @@ export const getAnalysisLogExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalysisLogExport",
+  iam: {
+    actions: ["cleanrooms:GetAnalysisLogExport"],
+    resources: {
+      "cleanrooms:GetAnalysisLogExport": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnalysisLogExport",
 }));
@@ -4031,6 +4327,14 @@ export const getAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalysisTemplate",
+  iam: {
+    actions: ["cleanrooms:GetAnalysisTemplate"],
+    resources: {
+      "cleanrooms:GetAnalysisTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnalysisTemplate",
 }));
@@ -4061,6 +4365,14 @@ export const getCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaboration",
+  iam: {
+    actions: ["cleanrooms:GetCollaboration"],
+    resources: {
+      "cleanrooms:GetCollaboration": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaboration",
 }));
@@ -4093,6 +4405,15 @@ export const getCollaborationAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationAnalysisTemplate",
+  iam: {
+    actions: ["cleanrooms:GetCollaborationAnalysisTemplate"],
+    resources: {
+      "cleanrooms:GetCollaborationAnalysisTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaborationAnalysisTemplate",
 }));
@@ -4125,6 +4446,14 @@ export const getCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationChangeRequest",
+  iam: {
+    actions: ["cleanrooms:GetCollaborationChangeRequest"],
+    resources: {
+      "cleanrooms:GetCollaborationChangeRequest": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaborationChangeRequest",
 }));
@@ -4165,6 +4494,15 @@ export const getCollaborationConfiguredAudienceModelAssociation: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationConfiguredAudienceModelAssociation",
+  iam: {
+    actions: ["cleanrooms:GetCollaborationConfiguredAudienceModelAssociation"],
+    resources: {
+      "cleanrooms:GetCollaborationConfiguredAudienceModelAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaborationConfiguredAudienceModelAssociation",
 }));
@@ -4197,6 +4535,15 @@ export const getCollaborationIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationIdNamespaceAssociation",
+  iam: {
+    actions: ["cleanrooms:GetCollaborationIdNamespaceAssociation"],
+    resources: {
+      "cleanrooms:GetCollaborationIdNamespaceAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaborationIdNamespaceAssociation",
 }));
@@ -4229,6 +4576,15 @@ export const getCollaborationPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationPrivacyBudgetTemplate",
+  iam: {
+    actions: ["cleanrooms:GetCollaborationPrivacyBudgetTemplate"],
+    resources: {
+      "cleanrooms:GetCollaborationPrivacyBudgetTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCollaborationPrivacyBudgetTemplate",
 }));
@@ -4261,6 +4617,14 @@ export const getConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredAudienceModelAssociation",
+  iam: {
+    actions: ["cleanrooms:GetConfiguredAudienceModelAssociation"],
+    resources: {
+      "cleanrooms:GetConfiguredAudienceModelAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredAudienceModelAssociation",
 }));
@@ -4282,7 +4646,7 @@ export const getConfiguredTable: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2368, __c74, 0) as any as S.Schema<GetConfiguredTableInput>,
-  output: __S(712, __c22, 8) as any as S.Schema<GetConfiguredTableOutput>,
+  output: __S(715, __c22, 11) as any as S.Schema<GetConfiguredTableOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4293,6 +4657,14 @@ export const getConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTable",
+  iam: {
+    actions: ["cleanrooms:GetConfiguredTable"],
+    resources: {
+      "cleanrooms:GetConfiguredTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredTable",
 }));
@@ -4325,6 +4697,14 @@ export const getConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:GetConfiguredTableAnalysisRule"],
+    resources: {
+      "cleanrooms:GetConfiguredTableAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredTableAnalysisRule",
 }));
@@ -4357,6 +4737,14 @@ export const getConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAssociation",
+  iam: {
+    actions: ["cleanrooms:GetConfiguredTableAssociation"],
+    resources: {
+      "cleanrooms:GetConfiguredTableAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredTableAssociation",
 }));
@@ -4389,6 +4777,14 @@ export const getConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAssociationAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:GetConfiguredTableAssociationAnalysisRule"],
+    resources: {
+      "cleanrooms:GetConfiguredTableAssociationAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConfiguredTableAssociationAnalysisRule",
 }));
@@ -4421,6 +4817,15 @@ export const getIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingTable",
+  iam: {
+    actions: ["cleanrooms:GetIdMappingTable"],
+    resources: {
+      "cleanrooms:GetIdMappingTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdMappingTable",
 }));
@@ -4453,6 +4858,15 @@ export const getIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdNamespaceAssociation",
+  iam: {
+    actions: ["cleanrooms:GetIdNamespaceAssociation"],
+    resources: {
+      "cleanrooms:GetIdNamespaceAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdNamespaceAssociation",
 }));
@@ -4485,6 +4899,15 @@ export const getIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntermediateTable",
+  iam: {
+    actions: ["cleanrooms:GetIntermediateTable"],
+    resources: {
+      "cleanrooms:GetIntermediateTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIntermediateTable",
 }));
@@ -4517,6 +4940,14 @@ export const getIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntermediateTableAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:GetIntermediateTableAnalysisRule"],
+    resources: {
+      "cleanrooms:GetIntermediateTableAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIntermediateTableAnalysisRule",
 }));
@@ -4538,7 +4969,7 @@ export const getMembership: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2624, __c82, 0) as any as S.Schema<GetMembershipInput>,
-  output: __S(1349, __c42, 5) as any as S.Schema<GetMembershipOutput>,
+  output: __S(1318, __c41, 6) as any as S.Schema<GetMembershipOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4549,6 +4980,14 @@ export const getMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembership",
+  iam: {
+    actions: ["cleanrooms:GetMembership"],
+    resources: {
+      "cleanrooms:GetMembership": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMembership",
 }));
@@ -4570,7 +5009,7 @@ export const getPrivacyBudgetTemplate: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2656, __c83, 0) as any as S.Schema<GetPrivacyBudgetTemplateInput>,
-  output: __S(1505, __c47, 1) as any as S.Schema<GetPrivacyBudgetTemplateOutput>,
+  output: __S(1473, __c46, 1) as any as S.Schema<GetPrivacyBudgetTemplateOutput>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4581,6 +5020,14 @@ export const getPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivacyBudgetTemplate",
+  iam: {
+    actions: ["cleanrooms:GetPrivacyBudgetTemplate"],
+    resources: {
+      "cleanrooms:GetPrivacyBudgetTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPrivacyBudgetTemplate",
 }));
@@ -4613,6 +5060,14 @@ export const getProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectedJob",
+  iam: {
+    actions: ["cleanrooms:GetProtectedJob"],
+    resources: {
+      "cleanrooms:GetProtectedJob": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProtectedJob",
 }));
@@ -4645,6 +5100,14 @@ export const getProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectedQuery",
+  iam: {
+    actions: ["cleanrooms:GetProtectedQuery"],
+    resources: {
+      "cleanrooms:GetProtectedQuery": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProtectedQuery",
 }));
@@ -4677,6 +5140,15 @@ export const getSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
+  iam: {
+    actions: ["cleanrooms:GetSchema"],
+    resources: {
+      "cleanrooms:GetSchema": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSchema",
 }));
@@ -4709,6 +5181,15 @@ export const getSchemaAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:GetSchemaAnalysisRule"],
+    resources: {
+      "cleanrooms:GetSchemaAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSchemaAnalysisRule",
 }));
@@ -4748,6 +5229,14 @@ export const listAnalysisLogExports: API.PaginatedOperationMethod<
     items: "analysisLogExports",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListAnalysisLogExports"],
+    resources: {
+      "cleanrooms:ListAnalysisLogExports": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAnalysisLogExports",
 })) as any;
@@ -4787,6 +5276,15 @@ export const listAnalysisTemplates: API.PaginatedOperationMethod<
     items: "analysisTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListAnalysisTemplates"],
+    resources: {
+      "cleanrooms:ListAnalysisTemplates": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAnalysisTemplates",
 })) as any;
@@ -4826,6 +5324,14 @@ export const listCollaborationAnalysisTemplates: API.PaginatedOperationMethod<
     items: "collaborationAnalysisTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListCollaborationAnalysisTemplates"],
+    resources: {
+      "cleanrooms:ListCollaborationAnalysisTemplates": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCollaborationAnalysisTemplates",
 })) as any;
@@ -4865,6 +5371,14 @@ export const listCollaborationChangeRequests: API.PaginatedOperationMethod<
     items: "collaborationChangeRequestSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListCollaborationChangeRequests"],
+    resources: {
+      "cleanrooms:ListCollaborationChangeRequests": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCollaborationChangeRequests",
 })) as any;
@@ -4912,6 +5426,14 @@ export const listCollaborationConfiguredAudienceModelAssociations: API.Paginated
     items: "collaborationConfiguredAudienceModelAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListCollaborationConfiguredAudienceModelAssociations"],
+    resources: {
+      "cleanrooms:ListCollaborationConfiguredAudienceModelAssociations": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCollaborationConfiguredAudienceModelAssociations",
 })) as any;
@@ -4951,6 +5473,14 @@ export const listCollaborationIdNamespaceAssociations: API.PaginatedOperationMet
     items: "collaborationIdNamespaceAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListCollaborationIdNamespaceAssociations"],
+    resources: {
+      "cleanrooms:ListCollaborationIdNamespaceAssociations": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCollaborationIdNamespaceAssociations",
 })) as any;
@@ -4990,6 +5520,14 @@ export const listCollaborationPrivacyBudgets: API.PaginatedOperationMethod<
     items: "collaborationPrivacyBudgetSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListCollaborationPrivacyBudgets"],
+    resources: {
+      "cleanrooms:ListCollaborationPrivacyBudgets": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCollaborationPrivacyBudgets",
 })) as any;
@@ -5029,6 +5567,14 @@ export const listCollaborationPrivacyBudgetTemplates: API.PaginatedOperationMeth
     items: "collaborationPrivacyBudgetTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListCollaborationPrivacyBudgetTemplates"],
+    resources: {
+      "cleanrooms:ListCollaborationPrivacyBudgetTemplates": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCollaborationPrivacyBudgetTemplates",
 })) as any;
@@ -5066,6 +5612,7 @@ export const listCollaborations: API.PaginatedOperationMethod<
     items: "collaborationList",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms:ListCollaborations"] },
   telemetry: TELEMETRY,
   span: "ListCollaborations",
 })) as any;
@@ -5105,6 +5652,15 @@ export const listConfiguredAudienceModelAssociations: API.PaginatedOperationMeth
     items: "configuredAudienceModelAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListConfiguredAudienceModelAssociations"],
+    resources: {
+      "cleanrooms:ListConfiguredAudienceModelAssociations": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConfiguredAudienceModelAssociations",
 })) as any;
@@ -5144,6 +5700,15 @@ export const listConfiguredTableAssociations: API.PaginatedOperationMethod<
     items: "configuredTableAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListConfiguredTableAssociations"],
+    resources: {
+      "cleanrooms:ListConfiguredTableAssociations": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConfiguredTableAssociations",
 })) as any;
@@ -5181,6 +5746,7 @@ export const listConfiguredTables: API.PaginatedOperationMethod<
     items: "configuredTableSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms:ListConfiguredTables"] },
   telemetry: TELEMETRY,
   span: "ListConfiguredTables",
 })) as any;
@@ -5220,6 +5786,15 @@ export const listIdMappingTables: API.PaginatedOperationMethod<
     items: "idMappingTableSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListIdMappingTables"],
+    resources: {
+      "cleanrooms:ListIdMappingTables": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIdMappingTables",
 })) as any;
@@ -5259,6 +5834,15 @@ export const listIdNamespaceAssociations: API.PaginatedOperationMethod<
     items: "idNamespaceAssociationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListIdNamespaceAssociations"],
+    resources: {
+      "cleanrooms:ListIdNamespaceAssociations": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIdNamespaceAssociations",
 })) as any;
@@ -5298,6 +5882,15 @@ export const listIntermediateTables: API.PaginatedOperationMethod<
     items: "intermediateTableSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListIntermediateTables"],
+    resources: {
+      "cleanrooms:ListIntermediateTables": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIntermediateTables",
 })) as any;
@@ -5337,6 +5930,15 @@ export const listIntermediateTableVersions: API.PaginatedOperationMethod<
     items: "intermediateTableVersionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListIntermediateTableVersions"],
+    resources: {
+      "cleanrooms:ListIntermediateTableVersions": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIntermediateTableVersions",
 })) as any;
@@ -5376,6 +5978,14 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "memberSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListMembers"],
+    resources: {
+      "cleanrooms:ListMembers": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMembers",
 })) as any;
@@ -5413,6 +6023,7 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "membershipSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cleanrooms:ListMemberships"] },
   telemetry: TELEMETRY,
   span: "ListMemberships",
 })) as any;
@@ -5452,6 +6063,14 @@ export const listPrivacyBudgets: API.PaginatedOperationMethod<
     items: "privacyBudgetSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListPrivacyBudgets"],
+    resources: {
+      "cleanrooms:ListPrivacyBudgets": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPrivacyBudgets",
 })) as any;
@@ -5491,6 +6110,15 @@ export const listPrivacyBudgetTemplates: API.PaginatedOperationMethod<
     items: "privacyBudgetTemplateSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListPrivacyBudgetTemplates"],
+    resources: {
+      "cleanrooms:ListPrivacyBudgetTemplates": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPrivacyBudgetTemplates",
 })) as any;
@@ -5530,6 +6158,14 @@ export const listProtectedJobs: API.PaginatedOperationMethod<
     items: "protectedJobs",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListProtectedJobs"],
+    resources: {
+      "cleanrooms:ListProtectedJobs": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProtectedJobs",
 })) as any;
@@ -5569,6 +6205,14 @@ export const listProtectedQueries: API.PaginatedOperationMethod<
     items: "protectedQueries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListProtectedQueries"],
+    resources: {
+      "cleanrooms:ListProtectedQueries": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProtectedQueries",
 })) as any;
@@ -5608,6 +6252,14 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "schemaSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cleanrooms:ListSchemas"],
+    resources: {
+      "cleanrooms:ListSchemas": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSchemas",
 })) as any;
@@ -5631,6 +6283,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["cleanrooms:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5667,6 +6320,15 @@ export const populateIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PopulateIdMappingTable",
+  iam: {
+    actions: ["cleanrooms:PopulateIdMappingTable"],
+    resources: {
+      "cleanrooms:PopulateIdMappingTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PopulateIdMappingTable",
 }));
@@ -5703,6 +6365,7 @@ export const populateIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PopulateIntermediateTable",
+  iam: { actions: ["cleanrooms:PopulateIntermediateTable"] },
   telemetry: TELEMETRY,
   span: "PopulateIntermediateTable",
 }));
@@ -5735,6 +6398,14 @@ export const previewPrivacyImpact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PreviewPrivacyImpact",
+  iam: {
+    actions: ["cleanrooms:PreviewPrivacyImpact"],
+    resources: {
+      "cleanrooms:PreviewPrivacyImpact": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PreviewPrivacyImpact",
 }));
@@ -5783,6 +6454,14 @@ export const startAnalysisLogExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAnalysisLogExport",
+  iam: {
+    actions: ["cleanrooms:StartAnalysisLogExport"],
+    resources: {
+      "cleanrooms:StartAnalysisLogExport": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAnalysisLogExport",
 }));
@@ -5817,6 +6496,7 @@ export const startProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProtectedJob",
+  iam: { actions: ["cleanrooms:StartProtectedJob"] },
   telemetry: TELEMETRY,
   span: "StartProtectedJob",
 }));
@@ -5851,6 +6531,7 @@ export const startProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProtectedQuery",
+  iam: { actions: ["cleanrooms:StartProtectedQuery"] },
   telemetry: TELEMETRY,
   span: "StartProtectedQuery",
 }));
@@ -5866,11 +6547,12 @@ export const tagResource: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4544, __c142, 0) as any as S.Schema<TagResourceInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<TagResourceOutput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<TagResourceOutput>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["cleanrooms:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5886,11 +6568,12 @@ export const untagResource: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4576, __c143, 0) as any as S.Schema<UntagResourceInput>,
-  output: __S(1568, __c49, 0) as any as S.Schema<UntagResourceOutput>,
+  output: __S(1536, __c48, 0) as any as S.Schema<UntagResourceOutput>,
   errors: [ResourceNotFoundException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["cleanrooms:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5923,6 +6606,14 @@ export const updateAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalysisTemplate",
+  iam: {
+    actions: ["cleanrooms:UpdateAnalysisTemplate"],
+    resources: {
+      "cleanrooms:UpdateAnalysisTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnalysisTemplate",
 }));
@@ -5953,6 +6644,14 @@ export const updateCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollaboration",
+  iam: {
+    actions: ["cleanrooms:UpdateCollaboration"],
+    resources: {
+      "cleanrooms:UpdateCollaboration": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCollaboration",
 }));
@@ -5989,6 +6688,14 @@ export const updateCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollaborationChangeRequest",
+  iam: {
+    actions: ["cleanrooms:UpdateCollaborationChangeRequest"],
+    resources: {
+      "cleanrooms:UpdateCollaborationChangeRequest": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCollaborationChangeRequest",
 }));
@@ -6021,6 +6728,14 @@ export const updateConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredAudienceModelAssociation",
+  iam: {
+    actions: ["cleanrooms:UpdateConfiguredAudienceModelAssociation"],
+    resources: {
+      "cleanrooms:UpdateConfiguredAudienceModelAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredAudienceModelAssociation",
 }));
@@ -6044,7 +6759,7 @@ export const updateConfiguredTable: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4736, __c148, 0) as any as S.Schema<UpdateConfiguredTableInput>,
-  output: __S(712, __c22, 8) as any as S.Schema<UpdateConfiguredTableOutput>,
+  output: __S(715, __c22, 11) as any as S.Schema<UpdateConfiguredTableOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6057,6 +6772,24 @@ export const updateConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTable",
+  iam: {
+    actions: [
+      "cleanrooms:UpdateConfiguredTable",
+      "cleanrooms:UpdateConfiguredTableAllowedColumns",
+      "cleanrooms:UpdateConfiguredTableReference",
+    ],
+    resources: {
+      "cleanrooms:UpdateConfiguredTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+      "cleanrooms:UpdateConfiguredTableAllowedColumns": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+      "cleanrooms:UpdateConfiguredTableReference": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredTable",
 }));
@@ -6093,6 +6826,14 @@ export const updateConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:UpdateConfiguredTableAnalysisRule"],
+    resources: {
+      "cleanrooms:UpdateConfiguredTableAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredTableAnalysisRule",
 }));
@@ -6127,6 +6868,16 @@ export const updateConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAssociation",
+  iam: {
+    actions: ["iam:PassRole", "cleanrooms:UpdateConfiguredTableAssociation"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cleanrooms:UpdateConfiguredTableAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredTableAssociation",
 }));
@@ -6161,6 +6912,14 @@ export const updateConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAssociationAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:UpdateConfiguredTableAssociationAnalysisRule"],
+    resources: {
+      "cleanrooms:UpdateConfiguredTableAssociationAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredTableAssociationAnalysisRule",
 }));
@@ -6193,6 +6952,15 @@ export const updateIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdMappingTable",
+  iam: {
+    actions: ["cleanrooms:UpdateIdMappingTable"],
+    resources: {
+      "cleanrooms:UpdateIdMappingTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIdMappingTable",
 }));
@@ -6225,6 +6993,15 @@ export const updateIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdNamespaceAssociation",
+  iam: {
+    actions: ["cleanrooms:UpdateIdNamespaceAssociation"],
+    resources: {
+      "cleanrooms:UpdateIdNamespaceAssociation": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIdNamespaceAssociation",
 }));
@@ -6257,6 +7034,15 @@ export const updateIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntermediateTable",
+  iam: {
+    actions: ["cleanrooms:UpdateIntermediateTable"],
+    resources: {
+      "cleanrooms:UpdateIntermediateTable": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIntermediateTable",
 }));
@@ -6291,6 +7077,14 @@ export const updateIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntermediateTableAnalysisRule",
+  iam: {
+    actions: ["cleanrooms:UpdateIntermediateTableAnalysisRule"],
+    resources: {
+      "cleanrooms:UpdateIntermediateTableAnalysisRule": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIntermediateTableAnalysisRule",
 }));
@@ -6313,7 +7107,7 @@ export const updateMembership: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(289, __c9, 1) as any as S.Schema<UpdateMembershipInput>,
-  output: __S(1349, __c42, 5) as any as S.Schema<UpdateMembershipOutput>,
+  output: __S(1318, __c41, 6) as any as S.Schema<UpdateMembershipOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6325,6 +7119,16 @@ export const updateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMembership",
+  iam: {
+    actions: ["iam:PassRole", "cleanrooms:UpdateMembership"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cleanrooms:UpdateMembership": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "defaultResultConfiguration.roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMembership",
 }));
@@ -6347,7 +7151,7 @@ export const updatePrivacyBudgetTemplate: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(323, __c10, 3) as any as S.Schema<UpdatePrivacyBudgetTemplateInput>,
-  output: __S(1505, __c47, 1) as any as S.Schema<UpdatePrivacyBudgetTemplateOutput>,
+  output: __S(1473, __c46, 1) as any as S.Schema<UpdatePrivacyBudgetTemplateOutput>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -6359,6 +7163,14 @@ export const updatePrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivacyBudgetTemplate",
+  iam: {
+    actions: ["cleanrooms:UpdatePrivacyBudgetTemplate"],
+    resources: {
+      "cleanrooms:UpdatePrivacyBudgetTemplate": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePrivacyBudgetTemplate",
 }));
@@ -6393,6 +7205,14 @@ export const updateProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectedJob",
+  iam: {
+    actions: ["cleanrooms:UpdateProtectedJob"],
+    resources: {
+      "cleanrooms:UpdateProtectedJob": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProtectedJob",
 }));
@@ -6427,6 +7247,14 @@ export const updateProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectedQuery",
+  iam: {
+    actions: ["cleanrooms:UpdateProtectedQuery"],
+    resources: {
+      "cleanrooms:UpdateProtectedQuery": [
+        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProtectedQuery",
 }));
@@ -6674,8 +7502,8 @@ function __c9(j: number): any {
           membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
           queryLogStatus: S.optional(S.String),
           jobLogStatus: S.optional(S.String),
-          defaultResultConfiguration: S.optional(__S(1345, __c42, 1)),
-          defaultJobResultConfiguration: S.optional(__S(1347, __c42, 3)),
+          defaultResultConfiguration: S.optional(__S(1313, __c41, 1)),
+          defaultJobResultConfiguration: S.optional(__S(1316, __c41, 4)),
           membershipPaymentConfiguration: S.optional(__S(288, __c9, 0)),
         }).pipe(
           T.all(
@@ -6697,7 +7525,7 @@ function __c10(j: number): any {
         S.Struct({ epsilon: S.optional(S.Number), usersNoisePerQuery: S.optional(S.Number) }),
       ).annotate({ identifier: "DifferentialPrivacyTemplateUpdateParameters" });
     case 1:
-      return S.suspend(() => S.Struct({ budgetParameters: __S(1441, __c45, 1) })).annotate({
+      return S.suspend(() => S.Struct({ budgetParameters: __S(1409, __c44, 1) })).annotate({
         identifier: "AccessBudgetsPrivacyTemplateUpdateParameters",
       });
     case 2:
@@ -7032,7 +7860,7 @@ function __c21(j: number): any {
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          tableReference: __S(710, __c22, 6),
+          tableReference: __S(713, __c22, 9),
           allowedColumns: __S(3456, __c108, 0),
           analysisMethod: S.String,
           selectedAnalysisMethods: S.optional(__S(3840, __c120, 0)),
@@ -7080,19 +7908,36 @@ function __c22(j: number): any {
         }),
       ).annotate({ identifier: "AthenaTableReference" });
     case 6:
+      return S.suspend(() =>
+        S.Struct({ deltaShareEndpoint: S.String, shareName: S.String }),
+      ).annotate({ identifier: "DatabricksDeltaSharingConnection" });
+    case 7:
+      return S.Union([/*@__PURE__*/ S.Struct({ deltaSharing: __S(710, __c22, 6) })]);
+    case 8:
+      return S.suspend(() =>
+        S.Struct({
+          schemaName: S.String,
+          tableName: S.String,
+          workspaceUrl: S.String,
+          connectionType: __S(711, __c22, 7),
+        }),
+      ).annotate({ identifier: "DatabricksTableReference" });
+    case 9:
       return S.Union([
         /*@__PURE__*/ S.Struct({ glue: __S(704, __c22, 0) }),
         /*@__PURE__*/ S.Struct({ snowflake: __S(708, __c22, 4) }),
         /*@__PURE__*/ S.Struct({ athena: __S(709, __c22, 5) }),
+        /*@__PURE__*/ S.Struct({ databricks: __S(712, __c22, 8) }),
       ]);
-    case 7:
+    case 10:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
           arn: S.String,
           name: S.String,
           description: S.optional(S.String),
-          tableReference: __S(710, __c22, 6),
+          tableReference: __S(713, __c22, 9),
+          tableType: S.optional(S.String),
           createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           analysisRuleTypes: __S(3840, __c120, 0),
@@ -7101,8 +7946,8 @@ function __c22(j: number): any {
           selectedAnalysisMethods: S.optional(__S(3840, __c120, 0)),
         }),
       ).annotate({ identifier: "ConfiguredTable" });
-    case 8:
-      return S.suspend(() => S.Struct({ configuredTable: __S(711, __c22, 7) })).annotate({
+    case 11:
+      return S.suspend(() => S.Struct({ configuredTable: __S(714, __c22, 10) })).annotate({
         identifier: "CreateConfiguredTableOutput",
       });
   }
@@ -7628,8 +8473,8 @@ function __c40(j: number): any {
           queryLogStatus: S.String,
           jobLogStatus: S.optional(S.String),
           tags: S.optional(__S(32, __c1, 0)),
-          defaultResultConfiguration: S.optional(__S(1345, __c42, 1)),
-          defaultJobResultConfiguration: S.optional(__S(1347, __c42, 3)),
+          defaultResultConfiguration: S.optional(__S(1313, __c41, 1)),
+          defaultJobResultConfiguration: S.optional(__S(1316, __c41, 4)),
           paymentConfiguration: S.optional(__S(451, __c14, 3)),
           isMetricsEnabled: S.optional(S.Boolean),
         }).pipe(
@@ -7641,26 +8486,26 @@ function __c40(j: number): any {
 function __c41(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
-      ).annotate({ identifier: "ProtectedJobS3OutputConfigurationInput" });
-  }
-}
-function __c42(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1376, __c43, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1344, __c42, 0) })]);
     case 1:
       return S.suspend(() =>
-        S.Struct({ outputConfiguration: __S(1344, __c42, 0), roleArn: S.optional(S.String) }),
+        S.Struct({ outputConfiguration: __S(1312, __c41, 0), roleArn: S.optional(S.String) }),
       ).annotate({ identifier: "MembershipProtectedQueryResultConfiguration" });
     case 2:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1312, __c41, 0) })]);
-    case 3:
       return S.suspend(() =>
-        S.Struct({ outputConfiguration: __S(1346, __c42, 2), roleArn: S.String }),
-      ).annotate({ identifier: "MembershipProtectedJobResultConfiguration" });
+        S.Struct({
+          resultFormat: S.optional(S.String),
+          bucket: S.String,
+          keyPrefix: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ProtectedJobS3OutputConfigurationInput" });
+    case 3:
+      return S.Union([/*@__PURE__*/ S.Struct({ s3: __S(1314, __c41, 2) })]);
     case 4:
+      return S.suspend(() =>
+        S.Struct({ outputConfiguration: __S(1315, __c41, 3), roleArn: S.String }),
+      ).annotate({ identifier: "MembershipProtectedJobResultConfiguration" });
+    case 5:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -7677,19 +8522,19 @@ function __c42(j: number): any {
           mlMemberAbilities: S.optional(__S(448, __c14, 0)),
           queryLogStatus: S.String,
           jobLogStatus: S.optional(S.String),
-          defaultResultConfiguration: S.optional(__S(1345, __c42, 1)),
-          defaultJobResultConfiguration: S.optional(__S(1347, __c42, 3)),
+          defaultResultConfiguration: S.optional(__S(1313, __c41, 1)),
+          defaultJobResultConfiguration: S.optional(__S(1316, __c41, 4)),
           paymentConfiguration: __S(451, __c14, 3),
           isMetricsEnabled: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Membership" });
-    case 5:
-      return S.suspend(() => S.Struct({ membership: __S(1348, __c42, 4) })).annotate({
+    case 6:
+      return S.suspend(() => S.Struct({ membership: __S(1317, __c41, 5) })).annotate({
         identifier: "CreateMembershipOutput",
       });
   }
 }
-function __c43(j: number): any {
+function __c42(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7702,7 +8547,7 @@ function __c43(j: number): any {
       ).annotate({ identifier: "ProtectedQueryS3OutputConfiguration" });
   }
 }
-function __c44(j: number): any {
+function __c43(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7710,7 +8555,7 @@ function __c44(j: number): any {
           membershipIdentifier: S.String.pipe(T.HttpLabel("membershipIdentifier")),
           autoRefresh: S.optional(S.String),
           privacyBudgetType: S.String,
-          parameters: __S(1443, __c45, 3),
+          parameters: __S(1411, __c44, 3),
           tags: S.optional(__S(32, __c1, 0)),
         }).pipe(
           T.all(
@@ -7728,26 +8573,26 @@ function __c44(j: number): any {
       ).annotate({ identifier: "CreatePrivacyBudgetTemplateInput" });
   }
 }
-function __c45(j: number): any {
+function __c44(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ type: S.String, budget: S.Number, autoRefresh: S.optional(S.String) }),
       ).annotate({ identifier: "BudgetParameter" });
     case 1:
-      return S.Array(__S(1440, __c45, 0));
+      return S.Array(__S(1408, __c44, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ budgetParameters: __S(1441, __c45, 1), resourceArn: S.String }),
+        S.Struct({ budgetParameters: __S(1409, __c44, 1), resourceArn: S.String }),
       ).annotate({ identifier: "AccessBudgetsPrivacyTemplateParametersInput" });
     case 3:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ differentialPrivacy: __S(1472, __c46, 0) }),
-        /*@__PURE__*/ S.Struct({ accessBudget: __S(1442, __c45, 2) }),
+        /*@__PURE__*/ S.Struct({ differentialPrivacy: __S(1440, __c45, 0) }),
+        /*@__PURE__*/ S.Struct({ accessBudget: __S(1410, __c44, 2) }),
       ]);
   }
 }
-function __c46(j: number): any {
+function __c45(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7755,7 +8600,7 @@ function __c46(j: number): any {
       ).annotate({ identifier: "DifferentialPrivacyTemplateParametersInput" });
   }
 }
-function __c47(j: number): any {
+function __c46(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7770,16 +8615,16 @@ function __c47(j: number): any {
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           privacyBudgetType: S.String,
           autoRefresh: S.String,
-          parameters: __S(1443, __c45, 3),
+          parameters: __S(1411, __c44, 3),
         }),
       ).annotate({ identifier: "PrivacyBudgetTemplate" });
     case 1:
-      return S.suspend(() => S.Struct({ privacyBudgetTemplate: __S(1504, __c47, 0) })).annotate({
+      return S.suspend(() => S.Struct({ privacyBudgetTemplate: __S(1472, __c46, 0) })).annotate({
         identifier: "CreatePrivacyBudgetTemplateOutput",
       });
   }
 }
-function __c48(j: number): any {
+function __c47(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7802,13 +8647,13 @@ function __c48(j: number): any {
       ).annotate({ identifier: "DeleteAnalysisTemplateInput" });
   }
 }
-function __c49(j: number): any {
+function __c48(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAnalysisTemplateOutput" });
   }
 }
-function __c50(j: number): any {
+function __c49(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7827,7 +8672,7 @@ function __c50(j: number): any {
       ).annotate({ identifier: "DeleteCollaborationInput" });
   }
 }
-function __c51(j: number): any {
+function __c50(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7852,7 +8697,7 @@ function __c51(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredAudienceModelAssociationInput" });
   }
 }
-function __c52(j: number): any {
+function __c51(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7871,7 +8716,7 @@ function __c52(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredTableInput" });
   }
 }
-function __c53(j: number): any {
+function __c52(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7894,7 +8739,7 @@ function __c53(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredTableAnalysisRuleInput" });
   }
 }
-function __c54(j: number): any {
+function __c53(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7919,7 +8764,7 @@ function __c54(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredTableAssociationInput" });
   }
 }
-function __c55(j: number): any {
+function __c54(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7945,7 +8790,7 @@ function __c55(j: number): any {
       ).annotate({ identifier: "DeleteConfiguredTableAssociationAnalysisRuleInput" });
   }
 }
-function __c56(j: number): any {
+function __c55(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7968,7 +8813,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "DeleteIdMappingTableInput" });
   }
 }
-function __c57(j: number): any {
+function __c56(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7993,7 +8838,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "DeleteIdNamespaceAssociationInput" });
   }
 }
-function __c58(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8016,7 +8861,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "DeleteIntermediateTableInput" });
   }
 }
-function __c59(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8040,7 +8885,7 @@ function __c59(j: number): any {
       ).annotate({ identifier: "DeleteIntermediateTableAnalysisRuleInput" });
   }
 }
-function __c60(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8063,7 +8908,7 @@ function __c60(j: number): any {
       ).annotate({ identifier: "DeleteMemberInput" });
   }
 }
-function __c61(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8080,7 +8925,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteMembershipInput" });
   }
 }
-function __c62(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8105,7 +8950,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeletePrivacyBudgetTemplateInput" });
   }
 }
-function __c63(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8129,7 +8974,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DisallowIntermediateTableInput" });
   }
 }
-function __c64(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8152,10 +8997,18 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetAnalysisLogExportInput" });
   }
 }
+function __c64(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ bucket: S.String, keyPrefix: S.optional(S.String) }),
+      ).annotate({ identifier: "AnalysisLogExportS3OutputConfiguration" });
+  }
+}
 function __c65(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ s3: __S(1312, __c41, 0) })).annotate({
+      return S.suspend(() => S.Struct({ s3: __S(2048, __c64, 0) })).annotate({
         identifier: "AnalysisLogExportOutputConfiguration",
       });
     case 1:
@@ -8403,7 +9256,7 @@ function __c72(j: number): any {
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           privacyBudgetType: S.String,
           autoRefresh: S.String,
-          parameters: __S(1443, __c45, 3),
+          parameters: __S(1411, __c44, 3),
         }),
       ).annotate({ identifier: "CollaborationPrivacyBudgetTemplate" });
     case 2:
@@ -8733,7 +9586,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "ProtectedJobParameters" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(1312, __c41, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(2048, __c64, 0) }),
         /*@__PURE__*/ S.Struct({ member: __S(2752, __c86, 0) }),
       ]);
     case 2:
@@ -8833,7 +9686,7 @@ function __c91(j: number): any {
       ).annotate({ identifier: "ProtectedQuerySQLParameters" });
     case 1:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(1376, __c43, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(1344, __c42, 0) }),
         /*@__PURE__*/ S.Struct({ member: __S(2752, __c86, 0) }),
       ]);
     case 2:
@@ -8844,7 +9697,7 @@ function __c91(j: number): any {
       });
     case 4:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ s3: __S(1376, __c43, 0) }),
+        /*@__PURE__*/ S.Struct({ s3: __S(1344, __c42, 0) }),
         /*@__PURE__*/ S.Struct({ member: __S(2752, __c86, 0) }),
         /*@__PURE__*/ S.Struct({ distribute: __S(2915, __c91, 3) }),
         /*@__PURE__*/ S.Struct({ intermediateTable: __S(2848, __c89, 0) }),
@@ -9698,6 +10551,7 @@ function __c112(j: number): any {
           id: S.String,
           arn: S.String,
           name: S.String,
+          tableType: S.optional(S.String),
           createTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updateTime: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           analysisRuleTypes: __S(3840, __c120, 0),
@@ -10439,7 +11293,7 @@ function __c132(j: number): any {
 function __c133(j: number): any {
   switch (j) {
     case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ differentialPrivacy: __S(1472, __c46, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ differentialPrivacy: __S(1440, __c45, 0) })]);
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -10928,7 +11782,7 @@ function __c148(j: number): any {
           configuredTableIdentifier: S.String.pipe(T.HttpLabel("configuredTableIdentifier")),
           name: S.optional(S.String),
           description: S.optional(S.String),
-          tableReference: S.optional(__S(710, __c22, 6)),
+          tableReference: S.optional(__S(713, __c22, 9)),
           allowedColumns: S.optional(__S(3456, __c108, 0)),
           analysisMethod: S.optional(S.String),
           selectedAnalysisMethods: S.optional(__S(3840, __c120, 0)),

@@ -733,6 +733,14 @@ export const cancelJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobRun",
+  iam: {
+    actions: ["emr-containers:CancelJobRun"],
+    resources: {
+      "emr-containers:CancelJobRun": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}/jobruns/${JobRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelJobRun",
 }));
@@ -766,6 +774,10 @@ export const createJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobTemplate",
+  iam: {
+    actions: ["emr-containers:CreateJobTemplate", "emr-containers:TagResource"],
+    conditional: { "emr-containers:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJobTemplate",
 }));
@@ -797,6 +809,35 @@ export const createManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedEndpoint",
+  iam: {
+    actions: [
+      "ec2:AuthorizeSecurityGroupEgress",
+      "ec2:AuthorizeSecurityGroupIngress",
+      "emr-containers:CreateManagedEndpoint",
+      "ec2:CreateSecurityGroup",
+      "ec2:DeleteSecurityGroup",
+      "iam:PassRole",
+      "ec2:RevokeSecurityGroupEgress",
+      "ec2:RevokeSecurityGroupIngress",
+      "emr-containers:TagResource",
+    ],
+    resources: {
+      "emr-containers:CreateManagedEndpoint": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}",
+      ],
+      "ec2:DeleteSecurityGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ec2:RevokeSecurityGroupEgress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+      "ec2:RevokeSecurityGroupIngress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+    conditional: { "emr-containers:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateManagedEndpoint",
 }));
@@ -824,6 +865,10 @@ export const createSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityConfiguration",
+  iam: {
+    actions: ["emr-containers:CreateSecurityConfiguration", "emr-containers:TagResource"],
+    conditional: { "emr-containers:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSecurityConfiguration",
 }));
@@ -861,6 +906,10 @@ export const createVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualCluster",
+  iam: {
+    actions: ["emr-containers:CreateVirtualCluster", "emr-containers:TagResource"],
+    conditional: { "emr-containers:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVirtualCluster",
 }));
@@ -888,6 +937,14 @@ export const deleteJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
+  iam: {
+    actions: ["emr-containers:DeleteJobTemplate"],
+    resources: {
+      "emr-containers:DeleteJobTemplate": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/jobtemplates/${JobTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJobTemplate",
 }));
@@ -913,6 +970,28 @@ export const deleteManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedEndpoint",
+  iam: {
+    actions: [
+      "emr-containers:DeleteManagedEndpoint",
+      "ec2:DeleteSecurityGroup",
+      "ec2:RevokeSecurityGroupEgress",
+      "ec2:RevokeSecurityGroupIngress",
+    ],
+    resources: {
+      "emr-containers:DeleteManagedEndpoint": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}/endpoints/${EndpointId}",
+      ],
+      "ec2:DeleteSecurityGroup": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+      "ec2:RevokeSecurityGroupEgress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+      "ec2:RevokeSecurityGroupIngress": [
+        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteManagedEndpoint",
 }));
@@ -936,6 +1015,14 @@ export const deleteSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityConfiguration",
+  iam: {
+    actions: ["emr-containers:DeleteSecurityConfiguration"],
+    resources: {
+      "emr-containers:DeleteSecurityConfiguration": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/securityconfigurations/${SecurityConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSecurityConfiguration",
 }));
@@ -963,6 +1050,36 @@ export const deleteVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualCluster",
+  iam: {
+    actions: [
+      "eks:AssociateAccessPolicy",
+      "eks:DeleteAccessEntry",
+      "emr-containers:DeleteVirtualCluster",
+      "eks:DescribeAccessEntry",
+      "eks:DisassociateAccessPolicy",
+      "eks:ListAssociatedAccessPolicies",
+    ],
+    resources: {
+      "eks:AssociateAccessPolicy": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+      "eks:DeleteAccessEntry": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+      "emr-containers:DeleteVirtualCluster": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}",
+      ],
+      "eks:DescribeAccessEntry": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+      "eks:DisassociateAccessPolicy": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+      "eks:ListAssociatedAccessPolicies": [
+        "arn:${Partition}:eks:${Region}:${Account}:access-entry/${ClusterName}/${IamIdentityType}/${IamIdentityAccountID}/${IamIdentityName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVirtualCluster",
 }));
@@ -994,6 +1111,14 @@ export const describeJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobRun",
+  iam: {
+    actions: ["emr-containers:DescribeJobRun"],
+    resources: {
+      "emr-containers:DescribeJobRun": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}/jobruns/${JobRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJobRun",
 }));
@@ -1027,6 +1152,14 @@ export const describeJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobTemplate",
+  iam: {
+    actions: ["emr-containers:DescribeJobTemplate"],
+    resources: {
+      "emr-containers:DescribeJobTemplate": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/jobtemplates/${JobTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeJobTemplate",
 }));
@@ -1058,6 +1191,14 @@ export const describeManagedEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedEndpoint",
+  iam: {
+    actions: ["emr-containers:DescribeManagedEndpoint"],
+    resources: {
+      "emr-containers:DescribeManagedEndpoint": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}/endpoints/${EndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeManagedEndpoint",
 }));
@@ -1092,6 +1233,14 @@ export const describeSecurityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityConfiguration",
+  iam: {
+    actions: ["emr-containers:DescribeSecurityConfiguration"],
+    resources: {
+      "emr-containers:DescribeSecurityConfiguration": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/securityconfigurations/${SecurityConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSecurityConfiguration",
 }));
@@ -1127,6 +1276,14 @@ export const describeVirtualCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualCluster",
+  iam: {
+    actions: ["emr-containers:DescribeVirtualCluster"],
+    resources: {
+      "emr-containers:DescribeVirtualCluster": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVirtualCluster",
 }));
@@ -1159,6 +1316,14 @@ export const getManagedEndpointSessionCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedEndpointSessionCredentials",
+  iam: {
+    actions: ["emr-containers:GetManagedEndpointSessionCredentials"],
+    resources: {
+      "emr-containers:GetManagedEndpointSessionCredentials": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}/endpoints/${EndpointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetManagedEndpointSessionCredentials",
 }));
@@ -1191,6 +1356,14 @@ export const listJobRuns: API.PaginatedOperationMethod<
     items: "jobRuns",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["emr-containers:ListJobRuns"],
+    resources: {
+      "emr-containers:ListJobRuns": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobRuns",
 })) as any;
@@ -1225,6 +1398,7 @@ export const listJobTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["emr-containers:ListJobTemplates"] },
   telemetry: TELEMETRY,
   span: "ListJobTemplates",
 })) as any;
@@ -1257,6 +1431,14 @@ export const listManagedEndpoints: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["emr-containers:ListManagedEndpoints"],
+    resources: {
+      "emr-containers:ListManagedEndpoints": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListManagedEndpoints",
 })) as any;
@@ -1292,6 +1474,7 @@ export const listSecurityConfigurations: API.PaginatedOperationMethod<
     items: "securityConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["emr-containers:ListSecurityConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSecurityConfigurations",
 })) as any;
@@ -1322,6 +1505,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["emr-containers:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1358,6 +1542,7 @@ export const listVirtualClusters: API.PaginatedOperationMethod<
     items: "virtualClusters",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["emr-containers:ListVirtualClusters"] },
   telemetry: TELEMETRY,
   span: "ListVirtualClusters",
 })) as any;
@@ -1389,6 +1574,24 @@ export const startJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
+  iam: {
+    actions: [
+      "emr-containers:DescribeJobTemplate",
+      "iam:PassRole",
+      "emr-containers:StartJobRun",
+      "emr-containers:TagResource",
+    ],
+    resources: {
+      "emr-containers:DescribeJobTemplate": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/jobtemplates/${JobTemplateId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "emr-containers:StartJobRun": [
+        "arn:${Partition}:emr-containers:${Region}:${Account}:/virtualclusters/${VirtualClusterId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "executionRoleArn", "emr-containers:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartJobRun",
 }));
@@ -1429,6 +1632,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["emr-containers:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1461,6 +1665,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["emr-containers:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

@@ -696,6 +696,15 @@ export const copyImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "CopyImageSet",
   endpointHostPrefix: "runtime-",
+  iam: {
+    actions: ["medical-imaging:CopyImageSet"],
+    resources: {
+      "medical-imaging:CopyImageSet": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}/imageset/${ImageSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CopyImageSet",
 }));
@@ -732,6 +741,10 @@ export const createDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatastore",
+  iam: {
+    actions: ["medical-imaging:CreateDatastore", "medical-imaging:TagResource"],
+    conditional: { "medical-imaging:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDatastore",
 }));
@@ -768,6 +781,14 @@ export const deleteDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatastore",
+  iam: {
+    actions: ["medical-imaging:DeleteDatastore"],
+    resources: {
+      "medical-imaging:DeleteDatastore": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDatastore",
 }));
@@ -803,6 +824,15 @@ export const deleteImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteImageSet",
   endpointHostPrefix: "runtime-",
+  iam: {
+    actions: ["medical-imaging:DeleteImageSet"],
+    resources: {
+      "medical-imaging:DeleteImageSet": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}/imageset/${ImageSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImageSet",
 }));
@@ -835,6 +865,14 @@ export const getDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatastore",
+  iam: {
+    actions: ["medical-imaging:GetDatastore"],
+    resources: {
+      "medical-imaging:GetDatastore": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDatastore",
 }));
@@ -871,6 +909,14 @@ export const getDICOMImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDICOMImportJob",
+  iam: {
+    actions: ["medical-imaging:GetDICOMImportJob"],
+    resources: {
+      "medical-imaging:GetDICOMImportJob": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDICOMImportJob",
 }));
@@ -910,6 +956,15 @@ export const getImageFrame: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageFrame",
   endpointHostPrefix: "runtime-",
+  iam: {
+    actions: ["medical-imaging:GetImageFrame"],
+    resources: {
+      "medical-imaging:GetImageFrame": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}/imageset/${ImageSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImageFrame",
 }));
@@ -945,6 +1000,15 @@ export const getImageSet: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageSet",
   endpointHostPrefix: "runtime-",
+  iam: {
+    actions: ["medical-imaging:GetImageSet"],
+    resources: {
+      "medical-imaging:GetImageSet": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}/imageset/${ImageSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImageSet",
 }));
@@ -980,6 +1044,15 @@ export const getImageSetMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "GetImageSetMetadata",
   endpointHostPrefix: "runtime-",
+  iam: {
+    actions: ["medical-imaging:GetImageSetMetadata"],
+    resources: {
+      "medical-imaging:GetImageSetMetadata": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}/imageset/${ImageSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImageSetMetadata",
 }));
@@ -1017,6 +1090,7 @@ export const listDatastores: API.PaginatedOperationMethod<
     items: "datastoreSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["medical-imaging:ListDatastores"] },
   telemetry: TELEMETRY,
   span: "ListDatastores",
 })) as any;
@@ -1058,6 +1132,14 @@ export const listDICOMImportJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["medical-imaging:ListDICOMImportJobs"],
+    resources: {
+      "medical-imaging:ListDICOMImportJobs": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDICOMImportJobs",
 })) as any;
@@ -1100,6 +1182,15 @@ export const listImageSetVersions: API.PaginatedOperationMethod<
     items: "imageSetPropertiesList",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["medical-imaging:ListImageSetVersions"],
+    resources: {
+      "medical-imaging:ListImageSetVersions": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}/imageset/${ImageSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListImageSetVersions",
 })) as any;
@@ -1132,6 +1223,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["medical-imaging:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1178,6 +1270,14 @@ export const searchImageSets: API.PaginatedOperationMethod<
     items: "imageSetsMetadataSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["medical-imaging:SearchImageSets"],
+    resources: {
+      "medical-imaging:SearchImageSets": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchImageSets",
 })) as any;
@@ -1214,6 +1314,15 @@ export const startDICOMImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDICOMImportJob",
+  iam: {
+    actions: ["iam:PassRole", "medical-imaging:StartDICOMImportJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "medical-imaging:StartDICOMImportJob": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDICOMImportJob",
 }));
@@ -1246,6 +1355,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["medical-imaging:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1278,6 +1388,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["medical-imaging:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1315,6 +1426,15 @@ export const updateImageSetMetadata: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateImageSetMetadata",
   endpointHostPrefix: "runtime-",
+  iam: {
+    actions: ["medical-imaging:UpdateImageSetMetadata"],
+    resources: {
+      "medical-imaging:UpdateImageSetMetadata": [
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}",
+        "arn:${Partition}:medical-imaging:${Region}:${Account}:datastore/${DatastoreId}/imageset/${ImageSetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateImageSetMetadata",
 }));

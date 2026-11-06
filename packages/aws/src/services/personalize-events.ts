@@ -221,6 +221,7 @@ export const putActionInteractions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActionInteractions",
+  iam: { actions: ["personalize:PutActionInteractions"] },
   telemetry: TELEMETRY,
   span: "PutActionInteractions",
 }));
@@ -246,6 +247,14 @@ export const putActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActions",
+  iam: {
+    actions: ["personalize:PutActions"],
+    resources: {
+      "personalize:PutActions": [
+        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutActions",
 }));
@@ -267,6 +276,7 @@ export const putEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
+  iam: { actions: ["personalize:PutEvents"] },
   telemetry: TELEMETRY,
   span: "PutEvents",
 }));
@@ -292,6 +302,14 @@ export const putItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutItems",
+  iam: {
+    actions: ["personalize:PutItems"],
+    resources: {
+      "personalize:PutItems": [
+        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutItems",
 }));
@@ -317,6 +335,14 @@ export const putUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUsers",
+  iam: {
+    actions: ["personalize:PutUsers"],
+    resources: {
+      "personalize:PutUsers": [
+        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutUsers",
 }));

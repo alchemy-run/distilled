@@ -5364,6 +5364,10 @@ export interface Capabilities {
   CreateAndUpdateBeeAction?: CapabilityState;
   ShareBeeAction?: CapabilityState;
   UseBeeAction?: CapabilityState;
+  GongAction?: CapabilityState;
+  CreateAndUpdateGongAction?: CapabilityState;
+  ShareGongAction?: CapabilityState;
+  UseGongAction?: CapabilityState;
   Topic?: CapabilityState;
   EditVisualWithQ?: CapabilityState;
   BuildCalculatedFieldWithQ?: CapabilityState;
@@ -5390,6 +5394,186 @@ export interface Capabilities {
   ScheduleTrigger?: CapabilityState;
   InboundEmailTrigger?: CapabilityState;
   QuickEventTrigger?: CapabilityState;
+  FileDataSource?: CapabilityState;
+  CreateFileDataSource?: CapabilityState;
+  UpdateFileDataSource?: CapabilityState;
+  ShareFileDataSource?: CapabilityState;
+  S3DataSource?: CapabilityState;
+  CreateS3DataSource?: CapabilityState;
+  UpdateS3DataSource?: CapabilityState;
+  ShareS3DataSource?: CapabilityState;
+  S3AnalyticsDataSource?: CapabilityState;
+  CreateS3AnalyticsDataSource?: CapabilityState;
+  UpdateS3AnalyticsDataSource?: CapabilityState;
+  ShareS3AnalyticsDataSource?: CapabilityState;
+  S3TablesDataSource?: CapabilityState;
+  CreateS3TablesDataSource?: CapabilityState;
+  UpdateS3TablesDataSource?: CapabilityState;
+  ShareS3TablesDataSource?: CapabilityState;
+  AthenaDataSource?: CapabilityState;
+  CreateAthenaDataSource?: CapabilityState;
+  UpdateAthenaDataSource?: CapabilityState;
+  ShareAthenaDataSource?: CapabilityState;
+  RdsDataSource?: CapabilityState;
+  CreateRdsDataSource?: CapabilityState;
+  UpdateRdsDataSource?: CapabilityState;
+  ShareRdsDataSource?: CapabilityState;
+  RedshiftAutoDiscoveredDataSource?: CapabilityState;
+  CreateRedshiftAutoDiscoveredDataSource?: CapabilityState;
+  UpdateRedshiftAutoDiscoveredDataSource?: CapabilityState;
+  ShareRedshiftAutoDiscoveredDataSource?: CapabilityState;
+  RedshiftManualDataSource?: CapabilityState;
+  CreateRedshiftManualDataSource?: CapabilityState;
+  UpdateRedshiftManualDataSource?: CapabilityState;
+  ShareRedshiftManualDataSource?: CapabilityState;
+  OpenSearchDataSource?: CapabilityState;
+  CreateOpenSearchDataSource?: CapabilityState;
+  UpdateOpenSearchDataSource?: CapabilityState;
+  ShareOpenSearchDataSource?: CapabilityState;
+  TimestreamDataSource?: CapabilityState;
+  CreateTimestreamDataSource?: CapabilityState;
+  UpdateTimestreamDataSource?: CapabilityState;
+  ShareTimestreamDataSource?: CapabilityState;
+  AuroraDataSource?: CapabilityState;
+  CreateAuroraDataSource?: CapabilityState;
+  UpdateAuroraDataSource?: CapabilityState;
+  ShareAuroraDataSource?: CapabilityState;
+  MySqlDataSource?: CapabilityState;
+  CreateMySqlDataSource?: CapabilityState;
+  UpdateMySqlDataSource?: CapabilityState;
+  ShareMySqlDataSource?: CapabilityState;
+  PostgreSqlDataSource?: CapabilityState;
+  CreatePostgreSqlDataSource?: CapabilityState;
+  UpdatePostgreSqlDataSource?: CapabilityState;
+  SharePostgreSqlDataSource?: CapabilityState;
+  OracleDataSource?: CapabilityState;
+  CreateOracleDataSource?: CapabilityState;
+  UpdateOracleDataSource?: CapabilityState;
+  ShareOracleDataSource?: CapabilityState;
+  SqlServerDataSource?: CapabilityState;
+  CreateSqlServerDataSource?: CapabilityState;
+  UpdateSqlServerDataSource?: CapabilityState;
+  ShareSqlServerDataSource?: CapabilityState;
+  MariaDbDataSource?: CapabilityState;
+  CreateMariaDbDataSource?: CapabilityState;
+  UpdateMariaDbDataSource?: CapabilityState;
+  ShareMariaDbDataSource?: CapabilityState;
+  SnowflakeDataSource?: CapabilityState;
+  CreateSnowflakeDataSource?: CapabilityState;
+  UpdateSnowflakeDataSource?: CapabilityState;
+  ShareSnowflakeDataSource?: CapabilityState;
+  GoogleBigQueryDataSource?: CapabilityState;
+  CreateGoogleBigQueryDataSource?: CapabilityState;
+  UpdateGoogleBigQueryDataSource?: CapabilityState;
+  ShareGoogleBigQueryDataSource?: CapabilityState;
+  DatabricksDataSource?: CapabilityState;
+  CreateDatabricksDataSource?: CapabilityState;
+  UpdateDatabricksDataSource?: CapabilityState;
+  ShareDatabricksDataSource?: CapabilityState;
+  StarburstDataSource?: CapabilityState;
+  CreateStarburstDataSource?: CapabilityState;
+  UpdateStarburstDataSource?: CapabilityState;
+  ShareStarburstDataSource?: CapabilityState;
+  TrinoDataSource?: CapabilityState;
+  CreateTrinoDataSource?: CapabilityState;
+  UpdateTrinoDataSource?: CapabilityState;
+  ShareTrinoDataSource?: CapabilityState;
+  ImpalaDataSource?: CapabilityState;
+  CreateImpalaDataSource?: CapabilityState;
+  UpdateImpalaDataSource?: CapabilityState;
+  ShareImpalaDataSource?: CapabilityState;
+  TeradataDataSource?: CapabilityState;
+  CreateTeradataDataSource?: CapabilityState;
+  UpdateTeradataDataSource?: CapabilityState;
+  ShareTeradataDataSource?: CapabilityState;
+  PrestoDataSource?: CapabilityState;
+  CreatePrestoDataSource?: CapabilityState;
+  UpdatePrestoDataSource?: CapabilityState;
+  SharePrestoDataSource?: CapabilityState;
+  SparkDataSource?: CapabilityState;
+  CreateSparkDataSource?: CapabilityState;
+  UpdateSparkDataSource?: CapabilityState;
+  ShareSparkDataSource?: CapabilityState;
+  ExasolDataSource?: CapabilityState;
+  CreateExasolDataSource?: CapabilityState;
+  UpdateExasolDataSource?: CapabilityState;
+  ShareExasolDataSource?: CapabilityState;
+  Db2DataSource?: CapabilityState;
+  CreateDb2DataSource?: CapabilityState;
+  UpdateDb2DataSource?: CapabilityState;
+  ShareDb2DataSource?: CapabilityState;
+  SapHanaDataSource?: CapabilityState;
+  CreateSapHanaDataSource?: CapabilityState;
+  UpdateSapHanaDataSource?: CapabilityState;
+  ShareSapHanaDataSource?: CapabilityState;
+  DenodoDataSource?: CapabilityState;
+  CreateDenodoDataSource?: CapabilityState;
+  UpdateDenodoDataSource?: CapabilityState;
+  ShareDenodoDataSource?: CapabilityState;
+  DremioDataSource?: CapabilityState;
+  CreateDremioDataSource?: CapabilityState;
+  UpdateDremioDataSource?: CapabilityState;
+  ShareDremioDataSource?: CapabilityState;
+  SalesforceDataSource?: CapabilityState;
+  CreateSalesforceDataSource?: CapabilityState;
+  UpdateSalesforceDataSource?: CapabilityState;
+  ShareSalesforceDataSource?: CapabilityState;
+  RadiantDataSource?: CapabilityState;
+  CreateRadiantDataSource?: CapabilityState;
+  UpdateRadiantDataSource?: CapabilityState;
+  ShareRadiantDataSource?: CapabilityState;
+  PayPalDataSource?: CapabilityState;
+  CreatePayPalDataSource?: CapabilityState;
+  UpdatePayPalDataSource?: CapabilityState;
+  SharePayPalDataSource?: CapabilityState;
+  SquareDataSource?: CapabilityState;
+  CreateSquareDataSource?: CapabilityState;
+  UpdateSquareDataSource?: CapabilityState;
+  ShareSquareDataSource?: CapabilityState;
+  GitHubDataSource?: CapabilityState;
+  CreateGitHubDataSource?: CapabilityState;
+  UpdateGitHubDataSource?: CapabilityState;
+  ShareGitHubDataSource?: CapabilityState;
+  TwitterDataSource?: CapabilityState;
+  CreateTwitterDataSource?: CapabilityState;
+  UpdateTwitterDataSource?: CapabilityState;
+  ShareTwitterDataSource?: CapabilityState;
+  JiraDataSource?: CapabilityState;
+  CreateJiraDataSource?: CapabilityState;
+  UpdateJiraDataSource?: CapabilityState;
+  ShareJiraDataSource?: CapabilityState;
+  ServiceNowDataSource?: CapabilityState;
+  CreateServiceNowDataSource?: CapabilityState;
+  UpdateServiceNowDataSource?: CapabilityState;
+  ShareServiceNowDataSource?: CapabilityState;
+  AdobeAnalyticsDataSource?: CapabilityState;
+  CreateAdobeAnalyticsDataSource?: CapabilityState;
+  UpdateAdobeAnalyticsDataSource?: CapabilityState;
+  ShareAdobeAnalyticsDataSource?: CapabilityState;
+  GoogleAnalyticsDataSource?: CapabilityState;
+  CreateGoogleAnalyticsDataSource?: CapabilityState;
+  UpdateGoogleAnalyticsDataSource?: CapabilityState;
+  ShareGoogleAnalyticsDataSource?: CapabilityState;
+  GoogleSheetsDataSource?: CapabilityState;
+  CreateGoogleSheetsDataSource?: CapabilityState;
+  UpdateGoogleSheetsDataSource?: CapabilityState;
+  ShareGoogleSheetsDataSource?: CapabilityState;
+  DocumentDbDataSource?: CapabilityState;
+  CreateDocumentDbDataSource?: CapabilityState;
+  UpdateDocumentDbDataSource?: CapabilityState;
+  ShareDocumentDbDataSource?: CapabilityState;
+  MongoDbDataSource?: CapabilityState;
+  CreateMongoDbDataSource?: CapabilityState;
+  UpdateMongoDbDataSource?: CapabilityState;
+  ShareMongoDbDataSource?: CapabilityState;
+  MongoAtlasDataSource?: CapabilityState;
+  CreateMongoAtlasDataSource?: CapabilityState;
+  UpdateMongoAtlasDataSource?: CapabilityState;
+  ShareMongoAtlasDataSource?: CapabilityState;
+  DynamoDbDataSource?: CapabilityState;
+  CreateDynamoDbDataSource?: CapabilityState;
+  UpdateDynamoDbDataSource?: CapabilityState;
+  ShareDynamoDbDataSource?: CapabilityState;
 }
 export type GovernanceCategoryName = string;
 export type DefaultCategoryEffect = "DENY_BY_DEFAULT" | (string & {});
@@ -8049,6 +8233,23 @@ export interface OAuthClientCredentials {
   ClientSecret?: string | redacted.Redacted<string>;
   Username?: string | redacted.Redacted<string>;
 }
+export type AdminAccountEmail = string;
+export type ClientEmail = string;
+export interface ServiceAccountCredentials {
+  AdminAccountEmail: string;
+  ServiceAccountPrivateKey: string | redacted.Redacted<string>;
+  ClientEmail: string;
+}
+export type DataSourceKmsKeyArn = string | redacted.Redacted<string>;
+export type DataSourceCertThumbprint = string | redacted.Redacted<string>;
+export interface SharePointClientCredentials {
+  KmsKeyArn: string | redacted.Redacted<string>;
+  CertThumbprint: string | redacted.Redacted<string>;
+}
+export interface OneDriveClientCredentials {
+  KmsKeyArn: string | redacted.Redacted<string>;
+  CertThumbprint: string | redacted.Redacted<string>;
+}
 export interface DataSourceCredentials {
   CredentialPair?: CredentialPair;
   CopySourceArn?: string;
@@ -8056,6 +8257,9 @@ export interface DataSourceCredentials {
   KeyPairCredentials?: KeyPairCredentials;
   WebProxyCredentials?: WebProxyCredentials;
   OAuthClientCredentials?: OAuthClientCredentials;
+  ServiceAccountCredentials?: ServiceAccountCredentials;
+  SharePointClientCredentials?: SharePointClientCredentials;
+  OneDriveClientCredentials?: OneDriveClientCredentials;
 }
 export interface SslProperties {
   DisableSsl?: boolean;
@@ -14113,6 +14317,14 @@ export const batchCreateTopicReviewedAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateTopicReviewedAnswer",
+  iam: {
+    actions: ["quicksight:BatchCreateTopicReviewedAnswer"],
+    resources: {
+      "quicksight:BatchCreateTopicReviewedAnswer": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateTopicReviewedAnswer",
 }));
@@ -14149,6 +14361,17 @@ export const batchDeleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteKnowledgeBase",
+  iam: {
+    actions: ["quicksight:BatchDeleteKnowledgeBase", "quicksight:DeleteKnowledgeBase"],
+    resources: {
+      "quicksight:BatchDeleteKnowledgeBase": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+      "quicksight:DeleteKnowledgeBase": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteKnowledgeBase",
 }));
@@ -14183,6 +14406,14 @@ export const batchDeleteTopicReviewedAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteTopicReviewedAnswer",
+  iam: {
+    actions: ["quicksight:BatchDeleteTopicReviewedAnswer"],
+    resources: {
+      "quicksight:BatchDeleteTopicReviewedAnswer": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteTopicReviewedAnswer",
 }));
@@ -14213,6 +14444,14 @@ export const batchDescribeUserLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeUserLimits",
+  iam: {
+    actions: ["quicksight:BatchDescribeUserLimits"],
+    resources: {
+      "quicksight:BatchDescribeUserLimits": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:limits-profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDescribeUserLimits",
 }));
@@ -14247,6 +14486,14 @@ export const cancelIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelIngestion",
+  iam: {
+    actions: ["quicksight:CancelIngestion"],
+    resources: {
+      "quicksight:CancelIngestion": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${DatasetId}/ingestion/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelIngestion",
 }));
@@ -14308,6 +14555,10 @@ export const createAccountCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountCustomization",
+  iam: {
+    actions: ["quicksight:CreateAccountCustomization", "quicksight:TagResource"],
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccountCustomization",
 }));
@@ -14374,6 +14625,13 @@ export const createAccountSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountSubscription",
+  iam: {
+    actions: [
+      "quicksight:CreateAccountSubscription",
+      "quicksight:Subscribe",
+      "quicksight:TagResource",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "CreateAccountSubscription",
 }));
@@ -14410,6 +14668,16 @@ export const createActionConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActionConnector",
+  iam: {
+    actions: ["quicksight:CreateActionConnector", "iam:PassRole", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateActionConnector": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:action-connector/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateActionConnector",
 }));
@@ -14448,6 +14716,14 @@ export const createAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgent",
+  iam: {
+    actions: ["quicksight:CreateAgent", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateAgent": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:agent/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgent",
 }));
@@ -14488,6 +14764,35 @@ export const createAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnalysis",
+  iam: {
+    actions: [
+      "quicksight:CreateAnalysis",
+      "quicksight:CreateFolderMembership",
+      "quicksight:DescribeTemplate",
+      "quicksight:DescribeTheme",
+      "quicksight:PassDataSet",
+      "quicksight:PassTopic",
+      "quicksight:TagResource",
+    ],
+    resources: {
+      "quicksight:CreateAnalysis": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+      "quicksight:DescribeTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+      "quicksight:DescribeTheme": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:PassTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAnalysis",
 }));
@@ -14524,6 +14829,14 @@ export const createApprovalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApprovalPolicy",
+  iam: {
+    actions: ["quicksight:CreateApprovalPolicy"],
+    resources: {
+      "quicksight:CreateApprovalPolicy": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:approval-policy/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateApprovalPolicy",
 }));
@@ -14558,6 +14871,15 @@ export const createBrand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrand",
+  iam: {
+    actions: ["quicksight:CreateBrand", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateBrand": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:brand/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBrand",
 }));
@@ -14600,6 +14922,15 @@ export const createCustomPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomPermissions",
+  iam: {
+    actions: ["quicksight:CreateCustomPermissions", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateCustomPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:custompermissions/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomPermissions",
 }));
@@ -14649,6 +14980,35 @@ export const createDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDashboard",
+  iam: {
+    actions: [
+      "quicksight:CreateDashboard",
+      "quicksight:CreateFolderMembership",
+      "quicksight:DescribeTemplate",
+      "quicksight:DescribeTheme",
+      "quicksight:PassDataSet",
+      "quicksight:PassTopic",
+      "quicksight:TagResource",
+    ],
+    resources: {
+      "quicksight:CreateDashboard": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+      "quicksight:DescribeTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+      "quicksight:DescribeTheme": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:PassTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDashboard",
 }));
@@ -14693,6 +15053,27 @@ export const createDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSet",
+  iam: {
+    actions: [
+      "quicksight:CreateDataSet",
+      "quicksight:CreateFolderMembership",
+      "quicksight:PassDataSet",
+      "quicksight:PassDataSource",
+      "quicksight:TagResource",
+    ],
+    resources: {
+      "quicksight:CreateDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:PassDataSource": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataSet",
 }));
@@ -14735,6 +15116,16 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
+  iam: {
+    actions: [
+      "quicksight:CreateDataSource",
+      "quicksight:CreateFolderMembership",
+      "iam:PassRole",
+      "quicksight:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataSource",
 }));
@@ -14771,6 +15162,15 @@ export const createDlpSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDlpSetting",
+  iam: {
+    actions: ["quicksight:CreateDlpSetting", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateDlpSetting": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dlpsetting/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDlpSetting",
 }));
@@ -14811,6 +15211,14 @@ export const createFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlow",
+  iam: {
+    actions: ["quicksight:CreateFlow", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateFlow": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:flow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateFlow",
 }));
@@ -14851,6 +15259,15 @@ export const createFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFolder",
+  iam: {
+    actions: ["quicksight:CreateFolder", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateFolder": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFolder",
 }));
@@ -14889,6 +15306,33 @@ export const createFolderMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFolderMembership",
+  iam: {
+    actions: [
+      "quicksight:CreateFolderMembership",
+      "quicksight:UpdateAnalysisPermissions",
+      "quicksight:UpdateDashboardPermissions",
+      "quicksight:UpdateDataSetPermissions",
+      "quicksight:UpdateDataSourcePermissions",
+      "quicksight:UpdateTopicPermissions",
+    ],
+    resources: {
+      "quicksight:UpdateAnalysisPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+      "quicksight:UpdateDashboardPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+      "quicksight:UpdateDataSetPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:UpdateDataSourcePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+      "quicksight:UpdateTopicPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateFolderMembership",
 }));
@@ -14935,6 +15379,14 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  iam: {
+    actions: ["quicksight:CreateGroup"],
+    resources: {
+      "quicksight:CreateGroup": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -14971,6 +15423,14 @@ export const createGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupMembership",
+  iam: {
+    actions: ["quicksight:CreateGroupMembership"],
+    resources: {
+      "quicksight:CreateGroupMembership": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGroupMembership",
 }));
@@ -15011,6 +15471,14 @@ export const createIAMPolicyAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIAMPolicyAssignment",
+  iam: {
+    actions: ["quicksight:CreateIAMPolicyAssignment"],
+    resources: {
+      "quicksight:CreateIAMPolicyAssignment": [
+        "arn:${Partition}:quicksight::${Account}:assignment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIAMPolicyAssignment",
 }));
@@ -15054,6 +15522,14 @@ export const createIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestion",
+  iam: {
+    actions: ["quicksight:CreateIngestion"],
+    resources: {
+      "quicksight:CreateIngestion": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${DatasetId}/ingestion/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIngestion",
 }));
@@ -15104,6 +15580,23 @@ export const createKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKnowledgeBase",
+  iam: {
+    actions: [
+      "quicksight:CreateKnowledgeBase",
+      "quicksight:PassDataSource",
+      "quicksight:TagResource",
+    ],
+    resources: {
+      "quicksight:CreateKnowledgeBase": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+      "quicksight:PassDataSource": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateKnowledgeBase",
 }));
@@ -15138,6 +15631,14 @@ export const createLimitsProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLimitsProfile",
+  iam: {
+    actions: ["quicksight:CreateLimitsProfile"],
+    resources: {
+      "quicksight:CreateLimitsProfile": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:limits-profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLimitsProfile",
 }));
@@ -15188,6 +15689,15 @@ export const createNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamespace",
+  iam: {
+    actions: ["quicksight:CreateNamespace", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateNamespace": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:namespace/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNamespace",
 }));
@@ -15226,6 +15736,10 @@ export const createOAuthClientApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOAuthClientApplication",
+  iam: {
+    actions: ["quicksight:CreateOAuthClientApplication", "quicksight:TagResource"],
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOAuthClientApplication",
 }));
@@ -15264,6 +15778,14 @@ export const createRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRefreshSchedule",
+  iam: {
+    actions: ["quicksight:CreateRefreshSchedule"],
+    resources: {
+      "quicksight:CreateRefreshSchedule": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${DatasetId}/refresh-schedule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRefreshSchedule",
 }));
@@ -15300,6 +15822,7 @@ export const createRoleMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoleMembership",
+  iam: { actions: ["quicksight:CreateRoleMembership", "quicksight:SetGroupMapping"] },
   telemetry: TELEMETRY,
   span: "CreateRoleMembership",
 }));
@@ -15336,6 +15859,14 @@ export const createSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpace",
+  iam: {
+    actions: ["quicksight:CreateSpace", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateSpace": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSpace",
 }));
@@ -15384,6 +15915,26 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  iam: {
+    actions: [
+      "quicksight:CreateTemplate",
+      "quicksight:DescribeAnalysis",
+      "quicksight:DescribeTemplate",
+      "quicksight:TagResource",
+    ],
+    resources: {
+      "quicksight:CreateTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+      "quicksight:DescribeAnalysis": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+      "quicksight:DescribeTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTemplate",
 }));
@@ -15420,6 +15971,14 @@ export const createTemplateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateAlias",
+  iam: {
+    actions: ["quicksight:CreateTemplateAlias"],
+    resources: {
+      "quicksight:CreateTemplateAlias": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTemplateAlias",
 }));
@@ -15462,6 +16021,15 @@ export const createTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTheme",
+  iam: {
+    actions: ["quicksight:CreateTheme", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateTheme": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTheme",
 }));
@@ -15500,6 +16068,14 @@ export const createThemeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThemeAlias",
+  iam: {
+    actions: ["quicksight:CreateThemeAlias"],
+    resources: {
+      "quicksight:CreateThemeAlias": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateThemeAlias",
 }));
@@ -15538,6 +16114,18 @@ export const createTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopic",
+  iam: {
+    actions: ["quicksight:CreateTopic", "quicksight:PassDataSet", "quicksight:TagResource"],
+    resources: {
+      "quicksight:CreateTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTopic",
 }));
@@ -15576,6 +16164,14 @@ export const createTopicRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopicRefreshSchedule",
+  iam: {
+    actions: ["quicksight:CreateTopicRefreshSchedule"],
+    resources: {
+      "quicksight:CreateTopicRefreshSchedule": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTopicRefreshSchedule",
 }));
@@ -15614,6 +16210,23 @@ export const createTopicV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTopicV2",
+  iam: {
+    actions: [
+      "quicksight:CreateFolderMembership",
+      "quicksight:CreateTopic",
+      "quicksight:PassDataSet",
+      "quicksight:TagResource",
+    ],
+    resources: {
+      "quicksight:CreateTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTopicV2",
 }));
@@ -15652,6 +16265,11 @@ export const createVPCConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVPCConnection",
+  iam: {
+    actions: ["quicksight:CreateVPCConnection", "iam:PassRole", "quicksight:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVPCConnection",
 }));
@@ -15702,6 +16320,14 @@ export const deleteAccountCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountCustomization",
+  iam: {
+    actions: ["quicksight:DeleteAccountCustomization"],
+    resources: {
+      "quicksight:DeleteAccountCustomization": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:customization/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccountCustomization",
 }));
@@ -15734,6 +16360,7 @@ export const deleteAccountCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountCustomPermission",
+  iam: { actions: ["quicksight:DeleteAccountCustomPermission"] },
   telemetry: TELEMETRY,
   span: "DeleteAccountCustomPermission",
 }));
@@ -15786,6 +16413,14 @@ export const deleteAccountSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountSubscription",
+  iam: {
+    actions: ["quicksight:DeleteAccountSubscription", "quicksight:Unsubscribe"],
+    resources: {
+      "quicksight:DeleteAccountSubscription": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:account/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccountSubscription",
 }));
@@ -15818,6 +16453,14 @@ export const deleteActionConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActionConnector",
+  iam: {
+    actions: ["quicksight:DeleteActionConnector"],
+    resources: {
+      "quicksight:DeleteActionConnector": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:action-connector/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteActionConnector",
 }));
@@ -15852,6 +16495,14 @@ export const deleteAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgent",
+  iam: {
+    actions: ["quicksight:DeleteAgent"],
+    resources: {
+      "quicksight:DeleteAgent": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:agent/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgent",
 }));
@@ -15899,6 +16550,14 @@ export const deleteAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalysis",
+  iam: {
+    actions: ["quicksight:DeleteAnalysis"],
+    resources: {
+      "quicksight:DeleteAnalysis": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAnalysis",
 }));
@@ -15931,6 +16590,14 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
+  iam: {
+    actions: ["quicksight:DeleteApp"],
+    resources: {
+      "quicksight:DeleteApp": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:app/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApp",
 }));
@@ -15963,6 +16630,14 @@ export const deleteApprovalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApprovalPolicy",
+  iam: {
+    actions: ["quicksight:DeleteApprovalPolicy"],
+    resources: {
+      "quicksight:DeleteApprovalPolicy": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:approval-policy/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApprovalPolicy",
 }));
@@ -16007,6 +16682,14 @@ export const deleteBrand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrand",
+  iam: {
+    actions: ["quicksight:DeleteBrand"],
+    resources: {
+      "quicksight:DeleteBrand": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:brand/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBrand",
 }));
@@ -16041,6 +16724,7 @@ export const deleteBrandAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrandAssignment",
+  iam: { actions: ["quicksight:DeleteBrandAssignment"] },
   telemetry: TELEMETRY,
   span: "DeleteBrandAssignment",
 }));
@@ -16081,6 +16765,7 @@ export const deleteCustomPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomPermissions",
+  iam: { actions: ["quicksight:DeleteCustomPermissions"] },
   telemetry: TELEMETRY,
   span: "DeleteCustomPermissions",
 }));
@@ -16115,6 +16800,14 @@ export const deleteDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboard",
+  iam: {
+    actions: ["quicksight:DeleteDashboard"],
+    resources: {
+      "quicksight:DeleteDashboard": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDashboard",
 }));
@@ -16147,6 +16840,14 @@ export const deleteDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSet",
+  iam: {
+    actions: ["quicksight:DeleteDataSet"],
+    resources: {
+      "quicksight:DeleteDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataSet",
 }));
@@ -16183,6 +16884,14 @@ export const deleteDataSetRefreshProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSetRefreshProperties",
+  iam: {
+    actions: ["quicksight:DeleteDataSetRefreshProperties"],
+    resources: {
+      "quicksight:DeleteDataSetRefreshProperties": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataSetRefreshProperties",
 }));
@@ -16216,6 +16925,14 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
+  iam: {
+    actions: ["quicksight:DeleteDataSource"],
+    resources: {
+      "quicksight:DeleteDataSource": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataSource",
 }));
@@ -16248,6 +16965,7 @@ export const deleteDefaultQBusinessApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDefaultQBusinessApplication",
+  iam: { actions: ["quicksight:DeleteDefaultQBusinessApplication"] },
   telemetry: TELEMETRY,
   span: "DeleteDefaultQBusinessApplication",
 }));
@@ -16280,6 +16998,14 @@ export const deleteDlpSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDlpSetting",
+  iam: {
+    actions: ["quicksight:DeleteDlpSetting"],
+    resources: {
+      "quicksight:DeleteDlpSetting": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dlpsetting/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDlpSetting",
 }));
@@ -16314,6 +17040,14 @@ export const deleteFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlow",
+  iam: {
+    actions: ["quicksight:DeleteFlow"],
+    resources: {
+      "quicksight:DeleteFlow": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:flow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFlow",
 }));
@@ -16352,6 +17086,14 @@ export const deleteFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolder",
+  iam: {
+    actions: ["quicksight:DeleteFolder"],
+    resources: {
+      "quicksight:DeleteFolder": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFolder",
 }));
@@ -16386,6 +17128,33 @@ export const deleteFolderMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolderMembership",
+  iam: {
+    actions: [
+      "quicksight:DeleteFolderMembership",
+      "quicksight:UpdateAnalysisPermissions",
+      "quicksight:UpdateDashboardPermissions",
+      "quicksight:UpdateDataSetPermissions",
+      "quicksight:UpdateDataSourcePermissions",
+      "quicksight:UpdateTopicPermissions",
+    ],
+    resources: {
+      "quicksight:UpdateAnalysisPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+      "quicksight:UpdateDashboardPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+      "quicksight:UpdateDataSetPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:UpdateDataSourcePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+      "quicksight:UpdateTopicPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFolderMembership",
 }));
@@ -16422,6 +17191,14 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  iam: {
+    actions: ["quicksight:DeleteGroup"],
+    resources: {
+      "quicksight:DeleteGroup": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -16458,6 +17235,14 @@ export const deleteGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupMembership",
+  iam: {
+    actions: ["quicksight:DeleteGroupMembership"],
+    resources: {
+      "quicksight:DeleteGroupMembership": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGroupMembership",
 }));
@@ -16494,6 +17279,14 @@ export const deleteIAMPolicyAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIAMPolicyAssignment",
+  iam: {
+    actions: ["quicksight:DeleteIAMPolicyAssignment"],
+    resources: {
+      "quicksight:DeleteIAMPolicyAssignment": [
+        "arn:${Partition}:quicksight::${Account}:assignment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIAMPolicyAssignment",
 }));
@@ -16528,6 +17321,7 @@ export const deleteIdentityPropagationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPropagationConfig",
+  iam: { actions: ["quicksight:DeleteIdentityPropagationConfig"] },
   telemetry: TELEMETRY,
   span: "DeleteIdentityPropagationConfig",
 }));
@@ -16568,6 +17362,14 @@ export const deleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBase",
+  iam: {
+    actions: ["quicksight:DeleteKnowledgeBase"],
+    resources: {
+      "quicksight:DeleteKnowledgeBase": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteKnowledgeBase",
 }));
@@ -16602,6 +17404,14 @@ export const deleteLimitsProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLimitsProfile",
+  iam: {
+    actions: ["quicksight:DeleteLimitsProfile"],
+    resources: {
+      "quicksight:DeleteLimitsProfile": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:limits-profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLimitsProfile",
 }));
@@ -16640,6 +17450,14 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
+  iam: {
+    actions: ["quicksight:DeleteNamespace"],
+    resources: {
+      "quicksight:DeleteNamespace": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:namespace/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNamespace",
 }));
@@ -16674,6 +17492,14 @@ export const deleteOAuthClientApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOAuthClientApplication",
+  iam: {
+    actions: ["quicksight:DeleteOAuthClientApplication"],
+    resources: {
+      "quicksight:DeleteOAuthClientApplication": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:oauthClientApplication/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOAuthClientApplication",
 }));
@@ -16708,6 +17534,14 @@ export const deleteRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRefreshSchedule",
+  iam: {
+    actions: ["quicksight:DeleteRefreshSchedule"],
+    resources: {
+      "quicksight:DeleteRefreshSchedule": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${DatasetId}/refresh-schedule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRefreshSchedule",
 }));
@@ -16744,6 +17578,7 @@ export const deleteRoleCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoleCustomPermission",
+  iam: { actions: ["quicksight:DeleteRoleCustomPermission"] },
   telemetry: TELEMETRY,
   span: "DeleteRoleCustomPermission",
 }));
@@ -16780,6 +17615,7 @@ export const deleteRoleMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoleMembership",
+  iam: { actions: ["quicksight:DeleteRoleMembership", "quicksight:SetGroupMapping"] },
   telemetry: TELEMETRY,
   span: "DeleteRoleMembership",
 }));
@@ -16812,6 +17648,14 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
+  iam: {
+    actions: ["quicksight:DeleteSpace"],
+    resources: {
+      "quicksight:DeleteSpace": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSpace",
 }));
@@ -16848,6 +17692,14 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  iam: {
+    actions: ["quicksight:DeleteTemplate"],
+    resources: {
+      "quicksight:DeleteTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTemplate",
 }));
@@ -16881,6 +17733,14 @@ export const deleteTemplateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateAlias",
+  iam: {
+    actions: ["quicksight:DeleteTemplateAlias"],
+    resources: {
+      "quicksight:DeleteTemplateAlias": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTemplateAlias",
 }));
@@ -16917,6 +17777,14 @@ export const deleteTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTheme",
+  iam: {
+    actions: ["quicksight:DeleteTheme"],
+    resources: {
+      "quicksight:DeleteTheme": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTheme",
 }));
@@ -16953,6 +17821,14 @@ export const deleteThemeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThemeAlias",
+  iam: {
+    actions: ["quicksight:DeleteThemeAlias"],
+    resources: {
+      "quicksight:DeleteThemeAlias": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteThemeAlias",
 }));
@@ -16987,6 +17863,14 @@ export const deleteTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopic",
+  iam: {
+    actions: ["quicksight:DeleteTopic"],
+    resources: {
+      "quicksight:DeleteTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTopic",
 }));
@@ -17025,6 +17909,14 @@ export const deleteTopicRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopicRefreshSchedule",
+  iam: {
+    actions: ["quicksight:DeleteTopicRefreshSchedule"],
+    resources: {
+      "quicksight:DeleteTopicRefreshSchedule": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTopicRefreshSchedule",
 }));
@@ -17059,6 +17951,14 @@ export const deleteTopicV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTopicV2",
+  iam: {
+    actions: ["quicksight:DeleteTopic"],
+    resources: {
+      "quicksight:DeleteTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTopicV2",
 }));
@@ -17097,6 +17997,14 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  iam: {
+    actions: ["quicksight:DeleteUser"],
+    resources: {
+      "quicksight:DeleteUser": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -17133,6 +18041,14 @@ export const deleteUserByPrincipalId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserByPrincipalId",
+  iam: {
+    actions: ["quicksight:DeleteUserByPrincipalId"],
+    resources: {
+      "quicksight:DeleteUserByPrincipalId": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUserByPrincipalId",
 }));
@@ -17171,6 +18087,17 @@ export const deleteUserCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserCustomPermission",
+  iam: {
+    actions: ["quicksight:DeleteUserCustomPermission", "quicksight:UpdateUser"],
+    resources: {
+      "quicksight:DeleteUserCustomPermission": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+      "quicksight:UpdateUser": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUserCustomPermission",
 }));
@@ -17207,6 +18134,16 @@ export const deleteVPCConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVPCConnection",
+  iam: {
+    actions: ["quicksight:DeleteVPCConnection", "iam:PassRole"],
+    resources: {
+      "quicksight:DeleteVPCConnection": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:vpcConnection/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVPCConnection",
 }));
@@ -17280,6 +18217,14 @@ export const describeAccountCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountCustomization",
+  iam: {
+    actions: ["quicksight:DescribeAccountCustomization"],
+    resources: {
+      "quicksight:DescribeAccountCustomization": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:customization/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAccountCustomization",
 }));
@@ -17312,6 +18257,7 @@ export const describeAccountCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountCustomPermission",
+  iam: { actions: ["quicksight:DescribeAccountCustomPermission"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountCustomPermission",
 }));
@@ -17347,6 +18293,7 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
+  iam: { actions: ["quicksight:DescribeAccountSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountSettings",
 }));
@@ -17381,6 +18328,14 @@ export const describeAccountSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSubscription",
+  iam: {
+    actions: ["quicksight:DescribeAccountSubscription"],
+    resources: {
+      "quicksight:DescribeAccountSubscription": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:account/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAccountSubscription",
 }));
@@ -17413,6 +18368,14 @@ export const describeActionConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActionConnector",
+  iam: {
+    actions: ["quicksight:DescribeActionConnector"],
+    resources: {
+      "quicksight:DescribeActionConnector": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:action-connector/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeActionConnector",
 }));
@@ -17445,6 +18408,14 @@ export const describeActionConnectorPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActionConnectorPermissions",
+  iam: {
+    actions: ["quicksight:DescribeActionConnectorPermissions"],
+    resources: {
+      "quicksight:DescribeActionConnectorPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:action-connector/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeActionConnectorPermissions",
 }));
@@ -17479,6 +18450,14 @@ export const describeAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgent",
+  iam: {
+    actions: ["quicksight:DescribeAgent"],
+    resources: {
+      "quicksight:DescribeAgent": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:agent/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAgent",
 }));
@@ -17513,6 +18492,14 @@ export const describeAgentPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgentPermissions",
+  iam: {
+    actions: ["quicksight:DescribeAgentPermissions"],
+    resources: {
+      "quicksight:DescribeAgentPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:agent/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAgentPermissions",
 }));
@@ -17547,6 +18534,14 @@ export const describeAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysis",
+  iam: {
+    actions: ["quicksight:DescribeAnalysis"],
+    resources: {
+      "quicksight:DescribeAnalysis": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAnalysis",
 }));
@@ -17591,6 +18586,14 @@ export const describeAnalysisDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysisDefinition",
+  iam: {
+    actions: ["quicksight:DescribeAnalysis"],
+    resources: {
+      "quicksight:DescribeAnalysis": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAnalysisDefinition",
 }));
@@ -17623,6 +18626,14 @@ export const describeAnalysisPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnalysisPermissions",
+  iam: {
+    actions: ["quicksight:DescribeAnalysisPermissions"],
+    resources: {
+      "quicksight:DescribeAnalysisPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAnalysisPermissions",
 }));
@@ -17655,6 +18666,14 @@ export const describeApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApp",
+  iam: {
+    actions: ["quicksight:DescribeApp"],
+    resources: {
+      "quicksight:DescribeApp": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:app/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeApp",
 }));
@@ -17687,6 +18706,14 @@ export const describeAppPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppPermissions",
+  iam: {
+    actions: ["quicksight:DescribeAppPermissions"],
+    resources: {
+      "quicksight:DescribeAppPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:app/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAppPermissions",
 }));
@@ -17719,6 +18746,14 @@ export const describeApprovalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApprovalPolicy",
+  iam: {
+    actions: ["quicksight:DescribeApprovalPolicy"],
+    resources: {
+      "quicksight:DescribeApprovalPolicy": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:approval-policy/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeApprovalPolicy",
 }));
@@ -17750,6 +18785,14 @@ export const describeAssetBundleExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssetBundleExportJob",
+  iam: {
+    actions: ["quicksight:DescribeAssetBundleExportJob"],
+    resources: {
+      "quicksight:DescribeAssetBundleExportJob": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:asset-bundle-export-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAssetBundleExportJob",
 }));
@@ -17777,6 +18820,14 @@ export const describeAssetBundleImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssetBundleImportJob",
+  iam: {
+    actions: ["quicksight:DescribeAssetBundleImportJob"],
+    resources: {
+      "quicksight:DescribeAssetBundleImportJob": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:asset-bundle-import-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAssetBundleImportJob",
 }));
@@ -17809,6 +18860,14 @@ export const describeAutomationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutomationJob",
+  iam: {
+    actions: ["quicksight:DescribeAutomationJob"],
+    resources: {
+      "quicksight:DescribeAutomationJob": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:automation-group/${AutomationGroupId}/automation/${AutomationId}/job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAutomationJob",
 }));
@@ -17843,6 +18902,14 @@ export const describeBrand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrand",
+  iam: {
+    actions: ["quicksight:DescribeBrand"],
+    resources: {
+      "quicksight:DescribeBrand": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:brand/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBrand",
 }));
@@ -17877,6 +18944,7 @@ export const describeBrandAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrandAssignment",
+  iam: { actions: ["quicksight:DescribeBrandAssignment"] },
   telemetry: TELEMETRY,
   span: "DescribeBrandAssignment",
 }));
@@ -17911,6 +18979,14 @@ export const describeBrandPublishedVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrandPublishedVersion",
+  iam: {
+    actions: ["quicksight:DescribeBrandPublishedVersion"],
+    resources: {
+      "quicksight:DescribeBrandPublishedVersion": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:brand/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBrandPublishedVersion",
 }));
@@ -17947,6 +19023,14 @@ export const describeCustomPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomPermissions",
+  iam: {
+    actions: ["quicksight:DescribeCustomPermissions"],
+    resources: {
+      "quicksight:DescribeCustomPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:custompermissions/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCustomPermissions",
 }));
@@ -17981,6 +19065,14 @@ export const describeDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboard",
+  iam: {
+    actions: ["quicksight:DescribeDashboard"],
+    resources: {
+      "quicksight:DescribeDashboard": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDashboard",
 }));
@@ -18025,6 +19117,14 @@ export const describeDashboardDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardDefinition",
+  iam: {
+    actions: ["quicksight:DescribeDashboard"],
+    resources: {
+      "quicksight:DescribeDashboard": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDashboardDefinition",
 }));
@@ -18057,6 +19157,14 @@ export const describeDashboardPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardPermissions",
+  iam: {
+    actions: ["quicksight:DescribeDashboardPermissions"],
+    resources: {
+      "quicksight:DescribeDashboardPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDashboardPermissions",
 }));
@@ -18105,6 +19213,14 @@ export const describeDashboardSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardSnapshotJob",
+  iam: {
+    actions: ["quicksight:DescribeDashboardSnapshotJob"],
+    resources: {
+      "quicksight:DescribeDashboardSnapshotJob": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${DashboardId}/snapshot-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDashboardSnapshotJob",
 }));
@@ -18175,6 +19291,14 @@ export const describeDashboardSnapshotJobResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardSnapshotJobResult",
+  iam: {
+    actions: ["quicksight:DescribeDashboardSnapshotJobResult"],
+    resources: {
+      "quicksight:DescribeDashboardSnapshotJobResult": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${DashboardId}/snapshot-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDashboardSnapshotJobResult",
 }));
@@ -18209,6 +19333,7 @@ export const describeDashboardsQAConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDashboardsQAConfiguration",
+  iam: { actions: ["quicksight:DescribeDashboardsQAConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeDashboardsQAConfiguration",
 }));
@@ -18241,6 +19366,14 @@ export const describeDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSet",
+  iam: {
+    actions: ["quicksight:DescribeDataSet"],
+    resources: {
+      "quicksight:DescribeDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataSet",
 }));
@@ -18276,6 +19409,14 @@ export const describeDataSetPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSetPermissions",
+  iam: {
+    actions: ["quicksight:DescribeDataSetPermissions"],
+    resources: {
+      "quicksight:DescribeDataSetPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataSetPermissions",
 }));
@@ -18312,6 +19453,14 @@ export const describeDataSetRefreshProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSetRefreshProperties",
+  iam: {
+    actions: ["quicksight:DescribeDataSetRefreshProperties"],
+    resources: {
+      "quicksight:DescribeDataSetRefreshProperties": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataSetRefreshProperties",
 }));
@@ -18344,6 +19493,14 @@ export const describeDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSource",
+  iam: {
+    actions: ["quicksight:DescribeDataSource"],
+    resources: {
+      "quicksight:DescribeDataSource": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataSource",
 }));
@@ -18376,6 +19533,14 @@ export const describeDataSourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSourcePermissions",
+  iam: {
+    actions: ["quicksight:DescribeDataSourcePermissions"],
+    resources: {
+      "quicksight:DescribeDataSourcePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataSourcePermissions",
 }));
@@ -18408,6 +19573,7 @@ export const describeDefaultQBusinessApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDefaultQBusinessApplication",
+  iam: { actions: ["quicksight:DescribeDefaultQBusinessApplication"] },
   telemetry: TELEMETRY,
   span: "DescribeDefaultQBusinessApplication",
 }));
@@ -18440,6 +19606,14 @@ export const describeDlpSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDlpSetting",
+  iam: {
+    actions: ["quicksight:DescribeDlpSetting"],
+    resources: {
+      "quicksight:DescribeDlpSetting": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dlpsetting/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDlpSetting",
 }));
@@ -18472,6 +19646,14 @@ export const describeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlow",
+  iam: {
+    actions: ["quicksight:DescribeFlow"],
+    resources: {
+      "quicksight:DescribeFlow": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:flow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFlow",
 }));
@@ -18506,6 +19688,14 @@ export const describeFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFolder",
+  iam: {
+    actions: ["quicksight:DescribeFolder"],
+    resources: {
+      "quicksight:DescribeFolder": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFolder",
 }));
@@ -18549,6 +19739,14 @@ export const describeFolderPermissions: API.PaginatedOperationMethod<
     items: "Permissions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:DescribeFolderPermissions"],
+    resources: {
+      "quicksight:DescribeFolderPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFolderPermissions",
 })) as any;
@@ -18592,6 +19790,14 @@ export const describeFolderResolvedPermissions: API.PaginatedOperationMethod<
     items: "Permissions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:DescribeFolderResolvedPermissions"],
+    resources: {
+      "quicksight:DescribeFolderResolvedPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFolderResolvedPermissions",
 })) as any;
@@ -18628,6 +19834,14 @@ export const describeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroup",
+  iam: {
+    actions: ["quicksight:DescribeGroup"],
+    resources: {
+      "quicksight:DescribeGroup": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGroup",
 }));
@@ -18666,6 +19880,14 @@ export const describeGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroupMembership",
+  iam: {
+    actions: ["quicksight:DescribeGroupMembership"],
+    resources: {
+      "quicksight:DescribeGroupMembership": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGroupMembership",
 }));
@@ -18701,6 +19923,14 @@ export const describeIAMPolicyAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIAMPolicyAssignment",
+  iam: {
+    actions: ["quicksight:DescribeIAMPolicyAssignment"],
+    resources: {
+      "quicksight:DescribeIAMPolicyAssignment": [
+        "arn:${Partition}:quicksight::${Account}:assignment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIAMPolicyAssignment",
 }));
@@ -18735,6 +19965,14 @@ export const describeIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIngestion",
+  iam: {
+    actions: ["quicksight:DescribeIngestion"],
+    resources: {
+      "quicksight:DescribeIngestion": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${DatasetId}/ingestion/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIngestion",
 }));
@@ -18767,6 +20005,7 @@ export const describeIpRestriction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIpRestriction",
+  iam: { actions: ["quicksight:DescribeIpRestriction"] },
   telemetry: TELEMETRY,
   span: "DescribeIpRestriction",
 }));
@@ -18797,6 +20036,7 @@ export const describeKeyRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKeyRegistration",
+  iam: { actions: ["quicksight:DescribeKeyRegistration", "quicksight:ListCustomerManagedKeys"] },
   telemetry: TELEMETRY,
   span: "DescribeKeyRegistration",
 }));
@@ -18835,6 +20075,14 @@ export const describeKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKnowledgeBase",
+  iam: {
+    actions: ["quicksight:DescribeKnowledgeBase"],
+    resources: {
+      "quicksight:DescribeKnowledgeBase": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeKnowledgeBase",
 }));
@@ -18873,6 +20121,14 @@ export const describeKnowledgeBasePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKnowledgeBasePermissions",
+  iam: {
+    actions: ["quicksight:DescribeKnowledgeBasePermissions"],
+    resources: {
+      "quicksight:DescribeKnowledgeBasePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeKnowledgeBasePermissions",
 }));
@@ -18905,6 +20161,14 @@ export const describeLimitsProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLimitsProfile",
+  iam: {
+    actions: ["quicksight:DescribeLimitsProfile"],
+    resources: {
+      "quicksight:DescribeLimitsProfile": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:limits-profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeLimitsProfile",
 }));
@@ -18939,6 +20203,14 @@ export const describeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNamespace",
+  iam: {
+    actions: ["quicksight:DescribeNamespace"],
+    resources: {
+      "quicksight:DescribeNamespace": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:namespace/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNamespace",
 }));
@@ -18971,6 +20243,14 @@ export const describeOAuthClientApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOAuthClientApplication",
+  iam: {
+    actions: ["quicksight:DescribeOAuthClientApplication"],
+    resources: {
+      "quicksight:DescribeOAuthClientApplication": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:oauthClientApplication/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeOAuthClientApplication",
 }));
@@ -19005,6 +20285,7 @@ export const describeQPersonalizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQPersonalizationConfiguration",
+  iam: { actions: ["quicksight:DescribeQPersonalizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeQPersonalizationConfiguration",
 }));
@@ -19039,6 +20320,7 @@ export const describeQuickSightQSearchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuickSightQSearchConfiguration",
+  iam: { actions: ["quicksight:DescribeQuickSightQSearchConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeQuickSightQSearchConfiguration",
 }));
@@ -19073,6 +20355,14 @@ export const describeRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRefreshSchedule",
+  iam: {
+    actions: ["quicksight:DescribeRefreshSchedule"],
+    resources: {
+      "quicksight:DescribeRefreshSchedule": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${DatasetId}/refresh-schedule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRefreshSchedule",
 }));
@@ -19109,6 +20399,7 @@ export const describeRoleCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoleCustomPermission",
+  iam: { actions: ["quicksight:DescribeRoleCustomPermission"] },
   telemetry: TELEMETRY,
   span: "DescribeRoleCustomPermission",
 }));
@@ -19147,6 +20438,7 @@ export const describeSelfUpgradeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSelfUpgradeConfiguration",
+  iam: { actions: ["quicksight:DescribeSelfUpgradeConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeSelfUpgradeConfiguration",
 }));
@@ -19179,6 +20471,14 @@ export const describeSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpace",
+  iam: {
+    actions: ["quicksight:DescribeSpace"],
+    resources: {
+      "quicksight:DescribeSpace": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSpace",
 }));
@@ -19211,6 +20511,14 @@ export const describeSpacePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpacePermissions",
+  iam: {
+    actions: ["quicksight:DescribeSpacePermissions"],
+    resources: {
+      "quicksight:DescribeSpacePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSpacePermissions",
 }));
@@ -19249,6 +20557,14 @@ export const describeTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTemplate",
+  iam: {
+    actions: ["quicksight:DescribeTemplate"],
+    resources: {
+      "quicksight:DescribeTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTemplate",
 }));
@@ -19279,6 +20595,14 @@ export const describeTemplateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTemplateAlias",
+  iam: {
+    actions: ["quicksight:DescribeTemplateAlias"],
+    resources: {
+      "quicksight:DescribeTemplateAlias": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTemplateAlias",
 }));
@@ -19323,6 +20647,14 @@ export const describeTemplateDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTemplateDefinition",
+  iam: {
+    actions: ["quicksight:DescribeTemplate"],
+    resources: {
+      "quicksight:DescribeTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTemplateDefinition",
 }));
@@ -19357,6 +20689,14 @@ export const describeTemplatePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTemplatePermissions",
+  iam: {
+    actions: ["quicksight:DescribeTemplatePermissions"],
+    resources: {
+      "quicksight:DescribeTemplatePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTemplatePermissions",
 }));
@@ -19393,6 +20733,14 @@ export const describeTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTheme",
+  iam: {
+    actions: ["quicksight:DescribeTheme"],
+    resources: {
+      "quicksight:DescribeTheme": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTheme",
 }));
@@ -19427,6 +20775,14 @@ export const describeThemeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThemeAlias",
+  iam: {
+    actions: ["quicksight:DescribeThemeAlias"],
+    resources: {
+      "quicksight:DescribeThemeAlias": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeThemeAlias",
 }));
@@ -19461,6 +20817,14 @@ export const describeThemePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThemePermissions",
+  iam: {
+    actions: ["quicksight:DescribeThemePermissions"],
+    resources: {
+      "quicksight:DescribeThemePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeThemePermissions",
 }));
@@ -19493,6 +20857,14 @@ export const describeTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopic",
+  iam: {
+    actions: ["quicksight:DescribeTopic"],
+    resources: {
+      "quicksight:DescribeTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopic",
 }));
@@ -19525,6 +20897,14 @@ export const describeTopicPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicPermissions",
+  iam: {
+    actions: ["quicksight:DescribeTopicPermissions"],
+    resources: {
+      "quicksight:DescribeTopicPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopicPermissions",
 }));
@@ -19557,6 +20937,14 @@ export const describeTopicPermissionsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicPermissionsV2",
+  iam: {
+    actions: ["quicksight:DescribeTopicPermissions"],
+    resources: {
+      "quicksight:DescribeTopicPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopicPermissionsV2",
 }));
@@ -19589,6 +20977,14 @@ export const describeTopicRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicRefresh",
+  iam: {
+    actions: ["quicksight:DescribeTopicRefresh"],
+    resources: {
+      "quicksight:DescribeTopicRefresh": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopicRefresh",
 }));
@@ -19627,6 +21023,14 @@ export const describeTopicRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicRefreshSchedule",
+  iam: {
+    actions: ["quicksight:DescribeTopicRefreshSchedule"],
+    resources: {
+      "quicksight:DescribeTopicRefreshSchedule": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopicRefreshSchedule",
 }));
@@ -19659,6 +21063,14 @@ export const describeTopicV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTopicV2",
+  iam: {
+    actions: ["quicksight:DescribeTopic"],
+    resources: {
+      "quicksight:DescribeTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTopicV2",
 }));
@@ -19695,6 +21107,14 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  iam: {
+    actions: ["quicksight:DescribeUser"],
+    resources: {
+      "quicksight:DescribeUser": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeUser",
 }));
@@ -19729,6 +21149,14 @@ export const describeVPCConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVPCConnection",
+  iam: {
+    actions: ["quicksight:DescribeVPCConnection"],
+    resources: {
+      "quicksight:DescribeVPCConnection": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:vpcConnection/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVPCConnection",
 }));
@@ -19790,6 +21218,7 @@ export const generateEmbedUrlForAnonymousUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateEmbedUrlForAnonymousUser",
+  iam: { actions: ["quicksight:GenerateEmbedUrlForAnonymousUser"] },
   telemetry: TELEMETRY,
   span: "GenerateEmbedUrlForAnonymousUser",
 }));
@@ -19854,6 +21283,14 @@ export const generateEmbedUrlForRegisteredUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateEmbedUrlForRegisteredUser",
+  iam: {
+    actions: ["quicksight:GenerateEmbedUrlForRegisteredUser"],
+    resources: {
+      "quicksight:GenerateEmbedUrlForRegisteredUser": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GenerateEmbedUrlForRegisteredUser",
 }));
@@ -19913,6 +21350,7 @@ export const generateEmbedUrlForRegisteredUserWithIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateEmbedUrlForRegisteredUserWithIdentity",
+  iam: { actions: ["quicksight:GenerateEmbedUrlForRegisteredUserWithIdentity"] },
   telemetry: TELEMETRY,
   span: "GenerateEmbedUrlForRegisteredUserWithIdentity",
 }));
@@ -19985,6 +21423,21 @@ export const getDashboardEmbedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboardEmbedUrl",
+  iam: {
+    actions: [
+      "quicksight:GetAnonymousUserEmbedUrl",
+      "quicksight:GetAuthCode",
+      "quicksight:GetDashboardEmbedUrl",
+    ],
+    resources: {
+      "quicksight:GetAuthCode": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+      "quicksight:GetDashboardEmbedUrl": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDashboardEmbedUrl",
 }));
@@ -20015,6 +21468,14 @@ export const getFlowMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowMetadata",
+  iam: {
+    actions: ["quicksight:GetFlowMetadata"],
+    resources: {
+      "quicksight:GetFlowMetadata": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:flow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFlowMetadata",
 }));
@@ -20045,6 +21506,14 @@ export const getFlowPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowPermissions",
+  iam: {
+    actions: ["quicksight:GetFlowPermissions"],
+    resources: {
+      "quicksight:GetFlowPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:flow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFlowPermissions",
 }));
@@ -20117,6 +21586,14 @@ export const getIdentityContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityContext",
+  iam: {
+    actions: ["quicksight:GetIdentityContext"],
+    resources: {
+      "quicksight:GetIdentityContext": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdentityContext",
 }));
@@ -20174,6 +21651,14 @@ export const getSessionEmbedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEmbedUrl",
+  iam: {
+    actions: ["quicksight:GetAuthCode", "quicksight:GetSessionEmbedUrl"],
+    resources: {
+      "quicksight:GetAuthCode": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSessionEmbedUrl",
 }));
@@ -20213,6 +21698,7 @@ export const listActionConnectors: API.PaginatedOperationMethod<
     items: "ActionConnectorSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListActionConnectors"] },
   telemetry: TELEMETRY,
   span: "ListActionConnectors",
 })) as any;
@@ -20249,6 +21735,14 @@ export const listAgents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAgents",
+  iam: {
+    actions: ["quicksight:ListAgents"],
+    resources: {
+      "quicksight:ListAgents": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:agent/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAgents",
 }));
@@ -20286,6 +21780,14 @@ export const listAnalyses: API.PaginatedOperationMethod<
     items: "AnalysisSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListAnalyses"],
+    resources: {
+      "quicksight:ListAnalyses": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAnalyses",
 })) as any;
@@ -20327,6 +21829,14 @@ export const listApprovalPolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListApprovalPolicies"],
+    resources: {
+      "quicksight:ListApprovalPolicies": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:approval-policy/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApprovalPolicies",
 })) as any;
@@ -20364,6 +21874,12 @@ export const listApps: API.PaginatedOperationMethod<
     items: "AppSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListApps"],
+    resources: {
+      "quicksight:ListApps": ["arn:${Partition}:quicksight:${Region}:${Account}:app/${ResourceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListApps",
 })) as any;
@@ -20406,6 +21922,14 @@ export const listAssetBundleExportJobs: API.PaginatedOperationMethod<
     items: "AssetBundleExportJobSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListAssetBundleExportJobs"],
+    resources: {
+      "quicksight:ListAssetBundleExportJobs": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:asset-bundle-export-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetBundleExportJobs",
 })) as any;
@@ -20448,6 +21972,14 @@ export const listAssetBundleImportJobs: API.PaginatedOperationMethod<
     items: "AssetBundleImportJobSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListAssetBundleImportJobs"],
+    resources: {
+      "quicksight:ListAssetBundleImportJobs": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:asset-bundle-import-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAssetBundleImportJobs",
 })) as any;
@@ -20485,6 +22017,7 @@ export const listBrands: API.PaginatedOperationMethod<
     items: "Brands",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListBrands"] },
   telemetry: TELEMETRY,
   span: "ListBrands",
 })) as any;
@@ -20528,6 +22061,7 @@ export const listCustomPermissions: API.PaginatedOperationMethod<
     items: "CustomPermissionsList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListCustomPermissions"] },
   telemetry: TELEMETRY,
   span: "ListCustomPermissions",
 })) as any;
@@ -20565,6 +22099,14 @@ export const listDashboards: API.PaginatedOperationMethod<
     items: "DashboardSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListDashboards"],
+    resources: {
+      "quicksight:ListDashboards": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDashboards",
 })) as any;
@@ -20606,6 +22148,14 @@ export const listDashboardVersions: API.PaginatedOperationMethod<
     items: "DashboardVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListDashboardVersions"],
+    resources: {
+      "quicksight:ListDashboardVersions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDashboardVersions",
 })) as any;
@@ -20649,6 +22199,7 @@ export const listDataSets: API.PaginatedOperationMethod<
     items: "DataSetSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListDataSets"] },
   telemetry: TELEMETRY,
   span: "ListDataSets",
 })) as any;
@@ -20688,6 +22239,7 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "DataSources",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListDataSources"] },
   telemetry: TELEMETRY,
   span: "ListDataSources",
 })) as any;
@@ -20725,6 +22277,14 @@ export const listDlpSettings: API.PaginatedOperationMethod<
     items: "DlpSettingSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListDlpSettings"],
+    resources: {
+      "quicksight:ListDlpSettings": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dlpsetting/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDlpSettings",
 })) as any;
@@ -20762,6 +22322,7 @@ export const listFlows: API.PaginatedOperationMethod<
     items: "FlowSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListFlows"] },
   telemetry: TELEMETRY,
   span: "ListFlows",
 })) as any;
@@ -20805,6 +22366,14 @@ export const listFolderMembers: API.PaginatedOperationMethod<
     items: "FolderMemberList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListFolderMembers"],
+    resources: {
+      "quicksight:ListFolderMembers": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFolderMembers",
 })) as any;
@@ -20848,6 +22417,14 @@ export const listFolders: API.PaginatedOperationMethod<
     items: "FolderSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListFolders"],
+    resources: {
+      "quicksight:ListFolders": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFolders",
 })) as any;
@@ -20891,6 +22468,7 @@ export const listFoldersForResource: API.PaginatedOperationMethod<
     items: "Folders",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListFoldersForResource"] },
   telemetry: TELEMETRY,
   span: "ListFoldersForResource",
 })) as any;
@@ -20936,6 +22514,14 @@ export const listGroupMemberships: API.PaginatedOperationMethod<
     items: "GroupMemberList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListGroupMemberships"],
+    resources: {
+      "quicksight:ListGroupMemberships": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGroupMemberships",
 })) as any;
@@ -20981,6 +22567,14 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "GroupList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListGroups"],
+    resources: {
+      "quicksight:ListGroups": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -21024,6 +22618,14 @@ export const listIAMPolicyAssignments: API.PaginatedOperationMethod<
     items: "IAMPolicyAssignments",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListIAMPolicyAssignments"],
+    resources: {
+      "quicksight:ListIAMPolicyAssignments": [
+        "arn:${Partition}:quicksight::${Account}:assignment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIAMPolicyAssignments",
 })) as any;
@@ -21073,6 +22675,14 @@ export const listIAMPolicyAssignmentsForUser: API.PaginatedOperationMethod<
     items: "ActiveAssignments",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListIAMPolicyAssignmentsForUser"],
+    resources: {
+      "quicksight:ListIAMPolicyAssignmentsForUser": [
+        "arn:${Partition}:quicksight::${Account}:assignment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIAMPolicyAssignmentsForUser",
 })) as any;
@@ -21107,6 +22717,7 @@ export const listIdentityPropagationConfigs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPropagationConfigs",
+  iam: { actions: ["quicksight:ListIdentityPropagationConfigs"] },
   telemetry: TELEMETRY,
   span: "ListIdentityPropagationConfigs",
 }));
@@ -21150,6 +22761,7 @@ export const listIngestions: API.PaginatedOperationMethod<
     items: "Ingestions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListIngestions"] },
   telemetry: TELEMETRY,
   span: "ListIngestions",
 })) as any;
@@ -21191,6 +22803,7 @@ export const listKnowledgeBases: API.PaginatedOperationMethod<
     items: "KnowledgeBaseSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListKnowledgeBases"] },
   telemetry: TELEMETRY,
   span: "ListKnowledgeBases",
 })) as any;
@@ -21228,6 +22841,14 @@ export const listLimitsProfiles: API.PaginatedOperationMethod<
     items: "profiles",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListLimitsProfiles"],
+    resources: {
+      "quicksight:ListLimitsProfiles": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:limits-profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLimitsProfiles",
 })) as any;
@@ -21273,6 +22894,7 @@ export const listNamespaces: API.PaginatedOperationMethod<
     items: "Namespaces",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListNamespaces"] },
   telemetry: TELEMETRY,
   span: "ListNamespaces",
 })) as any;
@@ -21314,6 +22936,7 @@ export const listOAuthClientApplications: API.PaginatedOperationMethod<
     items: "OAuthClientApplications",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListOAuthClientApplications"] },
   telemetry: TELEMETRY,
   span: "ListOAuthClientApplications",
 })) as any;
@@ -21348,6 +22971,7 @@ export const listRefreshSchedules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRefreshSchedules",
+  iam: { actions: ["quicksight:ListRefreshSchedules"] },
   telemetry: TELEMETRY,
   span: "ListRefreshSchedules",
 }));
@@ -21395,6 +23019,7 @@ export const listRoleMemberships: API.PaginatedOperationMethod<
     items: "MembersList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:GetGroupMapping", "quicksight:ListRoleMemberships"] },
   telemetry: TELEMETRY,
   span: "ListRoleMemberships",
 })) as any;
@@ -21435,6 +23060,14 @@ export const listSelfUpgrades: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSelfUpgrades",
+  iam: {
+    actions: ["quicksight:ListSelfUpgrades"],
+    resources: {
+      "quicksight:ListSelfUpgrades": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSelfUpgrades",
 }));
@@ -21467,6 +23100,14 @@ export const listSpaceResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSpaceResources",
+  iam: {
+    actions: ["quicksight:ListSpaceResources"],
+    resources: {
+      "quicksight:ListSpaceResources": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSpaceResources",
 }));
@@ -21499,6 +23140,7 @@ export const listSpaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSpaces",
+  iam: { actions: ["quicksight:ListSpaces"] },
   telemetry: TELEMETRY,
   span: "ListSpaces",
 }));
@@ -21531,6 +23173,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["quicksight:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -21570,6 +23213,14 @@ export const listTemplateAliases: API.PaginatedOperationMethod<
     items: "TemplateAliasList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListTemplateAliases"],
+    resources: {
+      "quicksight:ListTemplateAliases": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTemplateAliases",
 })) as any;
@@ -21611,6 +23262,14 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "TemplateSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListTemplates"],
+    resources: {
+      "quicksight:ListTemplates": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTemplates",
 })) as any;
@@ -21652,6 +23311,14 @@ export const listTemplateVersions: API.PaginatedOperationMethod<
     items: "TemplateVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListTemplateVersions"],
+    resources: {
+      "quicksight:ListTemplateVersions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTemplateVersions",
 })) as any;
@@ -21688,6 +23355,14 @@ export const listThemeAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListThemeAliases",
+  iam: {
+    actions: ["quicksight:ListThemeAliases"],
+    resources: {
+      "quicksight:ListThemeAliases": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListThemeAliases",
 }));
@@ -21731,6 +23406,14 @@ export const listThemes: API.PaginatedOperationMethod<
     items: "ThemeSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListThemes"],
+    resources: {
+      "quicksight:ListThemes": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListThemes",
 })) as any;
@@ -21774,6 +23457,14 @@ export const listThemeVersions: API.PaginatedOperationMethod<
     items: "ThemeVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListThemeVersions"],
+    resources: {
+      "quicksight:ListThemeVersions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListThemeVersions",
 })) as any;
@@ -21812,6 +23503,7 @@ export const listTopicRefreshSchedules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTopicRefreshSchedules",
+  iam: { actions: ["quicksight:ListTopicRefreshSchedules"] },
   telemetry: TELEMETRY,
   span: "ListTopicRefreshSchedules",
 }));
@@ -21844,6 +23536,7 @@ export const listTopicReviewedAnswers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTopicReviewedAnswers",
+  iam: { actions: ["quicksight:ListTopicReviewedAnswers"] },
   telemetry: TELEMETRY,
   span: "ListTopicReviewedAnswers",
 }));
@@ -21882,6 +23575,7 @@ export const listTopics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListTopics"] },
   telemetry: TELEMETRY,
   span: "ListTopics",
 })) as any;
@@ -21921,6 +23615,7 @@ export const listTopicsV2: API.PaginatedOperationMethod<
     items: "TopicSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListTopics"] },
   telemetry: TELEMETRY,
   span: "ListTopicsV2",
 })) as any;
@@ -21964,6 +23659,14 @@ export const listUserGroups: API.PaginatedOperationMethod<
     items: "GroupList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListUserGroups"],
+    resources: {
+      "quicksight:ListUserGroups": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUserGroups",
 })) as any;
@@ -22009,6 +23712,14 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "UserList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:ListUsers"],
+    resources: {
+      "quicksight:ListUsers": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -22043,6 +23754,7 @@ export const listUsersIndexCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsersIndexCapacity",
+  iam: { actions: ["quicksight:ListUsersIndexCapacity"] },
   telemetry: TELEMETRY,
   span: "ListUsersIndexCapacity",
 }));
@@ -22084,6 +23796,7 @@ export const listVPCConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:ListVPCConnections"] },
   telemetry: TELEMETRY,
   span: "ListVPCConnections",
 })) as any;
@@ -22118,6 +23831,7 @@ export const predictQAResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PredictQAResults",
+  iam: { actions: ["quicksight:PredictQAResults"] },
   telemetry: TELEMETRY,
   span: "PredictQAResults",
 }));
@@ -22156,6 +23870,14 @@ export const putDataSetRefreshProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataSetRefreshProperties",
+  iam: {
+    actions: ["quicksight:PutDataSetRefreshProperties"],
+    resources: {
+      "quicksight:PutDataSetRefreshProperties": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDataSetRefreshProperties",
 }));
@@ -22196,6 +23918,15 @@ export const registerUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterUser",
+  iam: {
+    actions: ["quicksight:RegisterUser", "quicksight:TagResource"],
+    resources: {
+      "quicksight:RegisterUser": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+    conditional: { "quicksight:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterUser",
 }));
@@ -22234,6 +23965,18 @@ export const restoreAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreAnalysis",
+  iam: {
+    actions: [
+      "quicksight:CreateFolderMembership",
+      "quicksight:ListFoldersForResource",
+      "quicksight:RestoreAnalysis",
+    ],
+    resources: {
+      "quicksight:RestoreAnalysis": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreAnalysis",
 }));
@@ -22271,6 +24014,14 @@ export const searchActionConnectors: API.PaginatedOperationMethod<
     items: "ActionConnectorSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchActionConnectors"],
+    resources: {
+      "quicksight:SearchActionConnectors": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:action-connector/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchActionConnectors",
 })) as any;
@@ -22305,6 +24056,14 @@ export const searchAgents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchAgents",
+  iam: {
+    actions: ["quicksight:SearchAgents"],
+    resources: {
+      "quicksight:SearchAgents": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:agent/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchAgents",
 }));
@@ -22348,6 +24107,14 @@ export const searchAnalyses: API.PaginatedOperationMethod<
     items: "AnalysisSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchAnalyses"],
+    resources: {
+      "quicksight:SearchAnalyses": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchAnalyses",
 })) as any;
@@ -22385,6 +24152,14 @@ export const searchApps: API.PaginatedOperationMethod<
     items: "AppSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchApps"],
+    resources: {
+      "quicksight:SearchApps": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:app/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchApps",
 })) as any;
@@ -22429,6 +24204,14 @@ export const searchDashboards: API.PaginatedOperationMethod<
     items: "DashboardSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchDashboards"],
+    resources: {
+      "quicksight:SearchDashboards": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchDashboards",
 })) as any;
@@ -22471,6 +24254,14 @@ export const searchDataSets: API.PaginatedOperationMethod<
     items: "DataSetSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchDataSets"],
+    resources: {
+      "quicksight:SearchDataSets": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchDataSets",
 })) as any;
@@ -22513,6 +24304,14 @@ export const searchDataSources: API.PaginatedOperationMethod<
     items: "DataSourceSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchDataSources"],
+    resources: {
+      "quicksight:SearchDataSources": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchDataSources",
 })) as any;
@@ -22550,6 +24349,7 @@ export const searchFlows: API.PaginatedOperationMethod<
     items: "FlowSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["quicksight:SearchFlows"] },
   telemetry: TELEMETRY,
   span: "SearchFlows",
 })) as any;
@@ -22595,6 +24395,14 @@ export const searchFolders: API.PaginatedOperationMethod<
     items: "FolderSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchFolders"],
+    resources: {
+      "quicksight:SearchFolders": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchFolders",
 })) as any;
@@ -22640,6 +24448,14 @@ export const searchGroups: API.PaginatedOperationMethod<
     items: "GroupList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchGroups"],
+    resources: {
+      "quicksight:SearchGroups": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchGroups",
 })) as any;
@@ -22683,6 +24499,14 @@ export const searchKnowledgeBases: API.PaginatedOperationMethod<
     items: "KnowledgeBaseSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchKnowledgeBases"],
+    resources: {
+      "quicksight:SearchKnowledgeBases": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchKnowledgeBases",
 })) as any;
@@ -22715,6 +24539,7 @@ export const searchSpaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchSpaces",
+  iam: { actions: ["quicksight:SearchSpaces"] },
   telemetry: TELEMETRY,
   span: "SearchSpaces",
 }));
@@ -22758,6 +24583,14 @@ export const searchTopics: API.PaginatedOperationMethod<
     items: "TopicSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchTopics"],
+    resources: {
+      "quicksight:SearchTopics": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchTopics",
 })) as any;
@@ -22799,6 +24632,14 @@ export const searchTopicsV2: API.PaginatedOperationMethod<
     items: "TopicSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["quicksight:SearchTopics"],
+    resources: {
+      "quicksight:SearchTopics": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchTopicsV2",
 })) as any;
@@ -22846,6 +24687,14 @@ export const startAssetBundleExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssetBundleExportJob",
+  iam: {
+    actions: ["quicksight:StartAssetBundleExportJob"],
+    resources: {
+      "quicksight:StartAssetBundleExportJob": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:asset-bundle-export-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAssetBundleExportJob",
 }));
@@ -22893,6 +24742,14 @@ export const startAssetBundleImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssetBundleImportJob",
+  iam: {
+    actions: ["quicksight:StartAssetBundleImportJob"],
+    resources: {
+      "quicksight:StartAssetBundleImportJob": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:asset-bundle-import-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAssetBundleImportJob",
 }));
@@ -22927,6 +24784,14 @@ export const startAutomationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationJob",
+  iam: {
+    actions: ["quicksight:StartAutomationJob"],
+    resources: {
+      "quicksight:StartAutomationJob": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:automation-group/${AutomationGroupId}/automation/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAutomationJob",
 }));
@@ -23053,6 +24918,14 @@ export const startDashboardSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDashboardSnapshotJob",
+  iam: {
+    actions: ["quicksight:StartDashboardSnapshotJob"],
+    resources: {
+      "quicksight:StartDashboardSnapshotJob": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${DashboardId}/snapshot-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDashboardSnapshotJob",
 }));
@@ -23093,6 +24966,7 @@ export const startDashboardSnapshotJobSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDashboardSnapshotJobSchedule",
+  iam: { actions: ["quicksight:StartDashboardSnapshotJobSchedule"] },
   telemetry: TELEMETRY,
   span: "StartDashboardSnapshotJobSchedule",
 }));
@@ -23147,6 +25021,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["quicksight:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -23179,6 +25054,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["quicksight:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -23220,6 +25096,14 @@ export const updateAccountCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountCustomization",
+  iam: {
+    actions: ["quicksight:UpdateAccountCustomization"],
+    resources: {
+      "quicksight:UpdateAccountCustomization": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:customization/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccountCustomization",
 }));
@@ -23252,6 +25136,7 @@ export const updateAccountCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountCustomPermission",
+  iam: { actions: ["quicksight:UpdateAccountCustomPermission"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountCustomPermission",
 }));
@@ -23286,6 +25171,7 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
+  iam: { actions: ["quicksight:UpdateAccountSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountSettings",
 }));
@@ -23322,6 +25208,16 @@ export const updateActionConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionConnector",
+  iam: {
+    actions: ["iam:PassRole", "quicksight:UpdateActionConnector"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "quicksight:UpdateActionConnector": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:action-connector/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateActionConnector",
 }));
@@ -23360,6 +25256,14 @@ export const updateActionConnectorPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionConnectorPermissions",
+  iam: {
+    actions: ["quicksight:UpdateActionConnectorPermissions"],
+    resources: {
+      "quicksight:UpdateActionConnectorPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:action-connector/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateActionConnectorPermissions",
 }));
@@ -23398,6 +25302,14 @@ export const updateAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgent",
+  iam: {
+    actions: ["quicksight:UpdateAgent"],
+    resources: {
+      "quicksight:UpdateAgent": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:agent/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgent",
 }));
@@ -23438,6 +25350,14 @@ export const updateAgentPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentPermissions",
+  iam: {
+    actions: ["quicksight:UpdateAgentPermissions"],
+    resources: {
+      "quicksight:UpdateAgentPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:agent/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentPermissions",
 }));
@@ -23474,6 +25394,32 @@ export const updateAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalysis",
+  iam: {
+    actions: [
+      "quicksight:DescribeTemplate",
+      "quicksight:DescribeTheme",
+      "quicksight:PassDataSet",
+      "quicksight:PassTopic",
+      "quicksight:UpdateAnalysis",
+    ],
+    resources: {
+      "quicksight:DescribeTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+      "quicksight:DescribeTheme": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:PassTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+      "quicksight:UpdateAnalysis": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnalysis",
 }));
@@ -23510,6 +25456,14 @@ export const updateAnalysisPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalysisPermissions",
+  iam: {
+    actions: ["quicksight:UpdateAnalysisPermissions"],
+    resources: {
+      "quicksight:UpdateAnalysisPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnalysisPermissions",
 }));
@@ -23546,6 +25500,7 @@ export const updateApplicationWithTokenExchangeGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationWithTokenExchangeGrant",
+  iam: { actions: ["quicksight:UpdateApplicationWithTokenExchangeGrant"] },
   telemetry: TELEMETRY,
   span: "UpdateApplicationWithTokenExchangeGrant",
 }));
@@ -23580,6 +25535,14 @@ export const updateAppPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppPermissions",
+  iam: {
+    actions: ["quicksight:UpdateAppPermissions"],
+    resources: {
+      "quicksight:UpdateAppPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:app/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAppPermissions",
 }));
@@ -23614,6 +25577,14 @@ export const updateApprovalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalPolicy",
+  iam: {
+    actions: ["quicksight:UpdateApprovalPolicy"],
+    resources: {
+      "quicksight:UpdateApprovalPolicy": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:approval-policy/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApprovalPolicy",
 }));
@@ -23648,6 +25619,14 @@ export const updateBrand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrand",
+  iam: {
+    actions: ["quicksight:UpdateBrand"],
+    resources: {
+      "quicksight:UpdateBrand": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:brand/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBrand",
 }));
@@ -23682,6 +25661,7 @@ export const updateBrandAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandAssignment",
+  iam: { actions: ["quicksight:UpdateBrandAssignment"] },
   telemetry: TELEMETRY,
   span: "UpdateBrandAssignment",
 }));
@@ -23716,6 +25696,14 @@ export const updateBrandPublishedVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandPublishedVersion",
+  iam: {
+    actions: ["quicksight:UpdateBrandPublishedVersion"],
+    resources: {
+      "quicksight:UpdateBrandPublishedVersion": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:brand/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBrandPublishedVersion",
 }));
@@ -23754,6 +25742,14 @@ export const updateCustomPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomPermissions",
+  iam: {
+    actions: ["quicksight:UpdateCustomPermissions"],
+    resources: {
+      "quicksight:UpdateCustomPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:custompermissions/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCustomPermissions",
 }));
@@ -23796,6 +25792,32 @@ export const updateDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboard",
+  iam: {
+    actions: [
+      "quicksight:DescribeTemplate",
+      "quicksight:DescribeTheme",
+      "quicksight:PassDataSet",
+      "quicksight:PassTopic",
+      "quicksight:UpdateDashboard",
+    ],
+    resources: {
+      "quicksight:DescribeTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+      "quicksight:DescribeTheme": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:PassTopic": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+      "quicksight:UpdateDashboard": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDashboard",
 }));
@@ -23832,6 +25854,14 @@ export const updateDashboardLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboardLinks",
+  iam: {
+    actions: ["quicksight:UpdateDashboardLinks"],
+    resources: {
+      "quicksight:UpdateDashboardLinks": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDashboardLinks",
 }));
@@ -23868,6 +25898,14 @@ export const updateDashboardPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboardPermissions",
+  iam: {
+    actions: ["quicksight:UpdateDashboardPermissions"],
+    resources: {
+      "quicksight:UpdateDashboardPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDashboardPermissions",
 }));
@@ -23902,6 +25940,14 @@ export const updateDashboardPublishedVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboardPublishedVersion",
+  iam: {
+    actions: ["quicksight:UpdateDashboardPublishedVersion"],
+    resources: {
+      "quicksight:UpdateDashboardPublishedVersion": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dashboard/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDashboardPublishedVersion",
 }));
@@ -23936,6 +25982,7 @@ export const updateDashboardsQAConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboardsQAConfiguration",
+  iam: { actions: ["quicksight:UpdateDashboardsQAConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateDashboardsQAConfiguration",
 }));
@@ -23976,6 +26023,17 @@ export const updateDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSet",
+  iam: {
+    actions: ["quicksight:PassDataSet", "quicksight:PassDataSource", "quicksight:UpdateDataSet"],
+    resources: {
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+      "quicksight:PassDataSource": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataSet",
 }));
@@ -24013,6 +26071,14 @@ export const updateDataSetPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSetPermissions",
+  iam: {
+    actions: ["quicksight:UpdateDataSetPermissions"],
+    resources: {
+      "quicksight:UpdateDataSetPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataSetPermissions",
 }));
@@ -24049,6 +26115,16 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
+  iam: {
+    actions: ["iam:PassRole", "quicksight:UpdateDataSource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "quicksight:UpdateDataSource": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataSource",
 }));
@@ -24083,6 +26159,14 @@ export const updateDataSourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSourcePermissions",
+  iam: {
+    actions: ["quicksight:UpdateDataSourcePermissions"],
+    resources: {
+      "quicksight:UpdateDataSourcePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:datasource/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataSourcePermissions",
 }));
@@ -24117,6 +26201,7 @@ export const updateDefaultQBusinessApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultQBusinessApplication",
+  iam: { actions: ["quicksight:UpdateDefaultQBusinessApplication"] },
   telemetry: TELEMETRY,
   span: "UpdateDefaultQBusinessApplication",
 }));
@@ -24151,6 +26236,14 @@ export const updateDlpSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDlpSetting",
+  iam: {
+    actions: ["quicksight:UpdateDlpSetting"],
+    resources: {
+      "quicksight:UpdateDlpSetting": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dlpsetting/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDlpSetting",
 }));
@@ -24187,6 +26280,14 @@ export const updateFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlow",
+  iam: {
+    actions: ["quicksight:UpdateFlow"],
+    resources: {
+      "quicksight:UpdateFlow": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:flow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlow",
 }));
@@ -24217,6 +26318,14 @@ export const updateFlowPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFlowPermissions",
+  iam: {
+    actions: ["quicksight:UpdateFlowPermissions"],
+    resources: {
+      "quicksight:UpdateFlowPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:flow/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFlowPermissions",
 }));
@@ -24255,6 +26364,14 @@ export const updateFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFolder",
+  iam: {
+    actions: ["quicksight:UpdateFolder"],
+    resources: {
+      "quicksight:UpdateFolder": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFolder",
 }));
@@ -24291,6 +26408,14 @@ export const updateFolderPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFolderPermissions",
+  iam: {
+    actions: ["quicksight:UpdateFolderPermissions"],
+    resources: {
+      "quicksight:UpdateFolderPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:folder/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFolderPermissions",
 }));
@@ -24327,6 +26452,14 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  iam: {
+    actions: ["quicksight:UpdateGroup"],
+    resources: {
+      "quicksight:UpdateGroup": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -24365,6 +26498,14 @@ export const updateIAMPolicyAssignment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIAMPolicyAssignment",
+  iam: {
+    actions: ["quicksight:UpdateIAMPolicyAssignment"],
+    resources: {
+      "quicksight:UpdateIAMPolicyAssignment": [
+        "arn:${Partition}:quicksight::${Account}:assignment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIAMPolicyAssignment",
 }));
@@ -24399,6 +26540,7 @@ export const updateIdentityPropagationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityPropagationConfig",
+  iam: { actions: ["quicksight:UpdateIdentityPropagationConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateIdentityPropagationConfig",
 }));
@@ -24433,6 +26575,7 @@ export const updateIpRestriction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIpRestriction",
+  iam: { actions: ["quicksight:UpdateIpRestriction"] },
   telemetry: TELEMETRY,
   span: "UpdateIpRestriction",
 }));
@@ -24463,6 +26606,13 @@ export const updateKeyRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyRegistration",
+  iam: {
+    actions: [
+      "quicksight:RegisterCustomerManagedKey",
+      "quicksight:RemoveCustomerManagedKey",
+      "quicksight:UpdateKeyRegistration",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "UpdateKeyRegistration",
 }));
@@ -24503,6 +26653,14 @@ export const updateKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBase",
+  iam: {
+    actions: ["quicksight:UpdateKnowledgeBase"],
+    resources: {
+      "quicksight:UpdateKnowledgeBase": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateKnowledgeBase",
 }));
@@ -24543,6 +26701,14 @@ export const updateKnowledgeBasePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBasePermissions",
+  iam: {
+    actions: ["quicksight:UpdateKnowledgeBasePermissions"],
+    resources: {
+      "quicksight:UpdateKnowledgeBasePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:knowledge-base/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateKnowledgeBasePermissions",
 }));
@@ -24577,6 +26743,14 @@ export const updateLimitsProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLimitsProfile",
+  iam: {
+    actions: ["quicksight:UpdateLimitsProfile"],
+    resources: {
+      "quicksight:UpdateLimitsProfile": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:limits-profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLimitsProfile",
 }));
@@ -24613,6 +26787,14 @@ export const updateOAuthClientApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOAuthClientApplication",
+  iam: {
+    actions: ["quicksight:UpdateOAuthClientApplication"],
+    resources: {
+      "quicksight:UpdateOAuthClientApplication": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:oauthClientApplication/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOAuthClientApplication",
 }));
@@ -24668,6 +26850,7 @@ export const updatePublicSharingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicSharingSettings",
+  iam: { actions: ["quicksight:UpdatePublicSharingSettings"] },
   telemetry: TELEMETRY,
   span: "UpdatePublicSharingSettings",
 }));
@@ -24704,6 +26887,7 @@ export const updateQPersonalizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQPersonalizationConfiguration",
+  iam: { actions: ["quicksight:UpdateQPersonalizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateQPersonalizationConfiguration",
 }));
@@ -24738,6 +26922,7 @@ export const updateQuickSightQSearchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickSightQSearchConfiguration",
+  iam: { actions: ["quicksight:UpdateQuickSightQSearchConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateQuickSightQSearchConfiguration",
 }));
@@ -24774,6 +26959,14 @@ export const updateRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRefreshSchedule",
+  iam: {
+    actions: ["quicksight:UpdateRefreshSchedule"],
+    resources: {
+      "quicksight:UpdateRefreshSchedule": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${DatasetId}/refresh-schedule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRefreshSchedule",
 }));
@@ -24810,6 +27003,7 @@ export const updateRoleCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoleCustomPermission",
+  iam: { actions: ["quicksight:UpdateRoleCustomPermission"] },
   telemetry: TELEMETRY,
   span: "UpdateRoleCustomPermission",
 }));
@@ -24850,6 +27044,14 @@ export const updateSelfUpgrade: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSelfUpgrade",
+  iam: {
+    actions: ["quicksight:UpdateSelfUpgrade"],
+    resources: {
+      "quicksight:UpdateSelfUpgrade": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSelfUpgrade",
 }));
@@ -24888,6 +27090,7 @@ export const updateSelfUpgradeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSelfUpgradeConfiguration",
+  iam: { actions: ["quicksight:UpdateSelfUpgradeConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateSelfUpgradeConfiguration",
 }));
@@ -24922,6 +27125,14 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
+  iam: {
+    actions: ["quicksight:UpdateSpace"],
+    resources: {
+      "quicksight:UpdateSpace": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSpace",
 }));
@@ -24960,6 +27171,14 @@ export const updateSpacePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpacePermissions",
+  iam: {
+    actions: ["quicksight:UpdateSpacePermissions"],
+    resources: {
+      "quicksight:UpdateSpacePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSpacePermissions",
 }));
@@ -24998,6 +27217,14 @@ export const updateSpaceResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpaceResources",
+  iam: {
+    actions: ["quicksight:UpdateSpaceResources"],
+    resources: {
+      "quicksight:UpdateSpaceResources": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:space/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSpaceResources",
 }));
@@ -25030,6 +27257,7 @@ export const updateSPICECapacityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSPICECapacityConfiguration",
+  iam: { actions: ["quicksight:UpdateSPICECapacityConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateSPICECapacityConfiguration",
 }));
@@ -25068,6 +27296,24 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  iam: {
+    actions: [
+      "quicksight:DescribeAnalysis",
+      "quicksight:DescribeTemplate",
+      "quicksight:UpdateTemplate",
+    ],
+    resources: {
+      "quicksight:DescribeAnalysis": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:analysis/${ResourceId}",
+      ],
+      "quicksight:DescribeTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+      "quicksight:UpdateTemplate": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTemplate",
 }));
@@ -25100,6 +27346,14 @@ export const updateTemplateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateAlias",
+  iam: {
+    actions: ["quicksight:UpdateTemplateAlias"],
+    resources: {
+      "quicksight:UpdateTemplateAlias": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTemplateAlias",
 }));
@@ -25136,6 +27390,14 @@ export const updateTemplatePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplatePermissions",
+  iam: {
+    actions: ["quicksight:UpdateTemplatePermissions"],
+    resources: {
+      "quicksight:UpdateTemplatePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTemplatePermissions",
 }));
@@ -25174,6 +27436,14 @@ export const updateTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTheme",
+  iam: {
+    actions: ["quicksight:UpdateTheme"],
+    resources: {
+      "quicksight:UpdateTheme": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTheme",
 }));
@@ -25210,6 +27480,14 @@ export const updateThemeAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThemeAlias",
+  iam: {
+    actions: ["quicksight:UpdateThemeAlias"],
+    resources: {
+      "quicksight:UpdateThemeAlias": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateThemeAlias",
 }));
@@ -25286,6 +27564,14 @@ export const updateThemePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThemePermissions",
+  iam: {
+    actions: ["quicksight:UpdateThemePermissions"],
+    resources: {
+      "quicksight:UpdateThemePermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:theme/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateThemePermissions",
 }));
@@ -25324,6 +27610,14 @@ export const updateTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopic",
+  iam: {
+    actions: ["quicksight:PassDataSet", "quicksight:UpdateTopic"],
+    resources: {
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTopic",
 }));
@@ -25362,6 +27656,14 @@ export const updateTopicPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicPermissions",
+  iam: {
+    actions: ["quicksight:UpdateTopicPermissions"],
+    resources: {
+      "quicksight:UpdateTopicPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTopicPermissions",
 }));
@@ -25400,6 +27702,14 @@ export const updateTopicPermissionsV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicPermissionsV2",
+  iam: {
+    actions: ["quicksight:UpdateTopicPermissions"],
+    resources: {
+      "quicksight:UpdateTopicPermissions": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTopicPermissionsV2",
 }));
@@ -25438,6 +27748,14 @@ export const updateTopicRefreshSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicRefreshSchedule",
+  iam: {
+    actions: ["quicksight:UpdateTopicRefreshSchedule"],
+    resources: {
+      "quicksight:UpdateTopicRefreshSchedule": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:topic/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTopicRefreshSchedule",
 }));
@@ -25476,6 +27794,14 @@ export const updateTopicV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTopicV2",
+  iam: {
+    actions: ["quicksight:PassDataSet", "quicksight:UpdateTopic"],
+    resources: {
+      "quicksight:PassDataSet": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:dataset/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTopicV2",
 }));
@@ -25512,6 +27838,14 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  iam: {
+    actions: ["quicksight:UpdateUser"],
+    resources: {
+      "quicksight:UpdateUser": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));
@@ -25550,6 +27884,17 @@ export const updateUserCustomPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserCustomPermission",
+  iam: {
+    actions: ["quicksight:UpdateUser", "quicksight:UpdateUserCustomPermission"],
+    resources: {
+      "quicksight:UpdateUser": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+      "quicksight:UpdateUserCustomPermission": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:user/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserCustomPermission",
 }));
@@ -25588,6 +27933,15 @@ export const updateVPCConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVPCConnection",
+  iam: {
+    actions: ["iam:PassRole", "quicksight:UpdateVPCConnection"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "quicksight:UpdateVPCConnection": [
+        "arn:${Partition}:quicksight:${Region}:${Account}:vpcConnection/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVPCConnection",
 }));
@@ -33428,7 +35782,7 @@ function __c248(j: number): any {
           DataSourceId: S.String.pipe(T.HttpLabel("DataSourceId")),
           Name: S.String,
           DataSourceParameters: S.optional(__S(11263, __c351, 31)),
-          Credentials: S.optional(__S(11332, __c354, 4)),
+          Credentials: S.optional(__S(11334, __c354, 6)),
           VpcConnectionProperties: S.optional(__S(11360, __c355, 0)),
           SslProperties: S.optional(__S(11264, __c352, 0)),
         }).pipe(
@@ -40096,6 +42450,10 @@ function __c337(j: number): any {
           CreateAndUpdateBeeAction: S.optional(S.String),
           ShareBeeAction: S.optional(S.String),
           UseBeeAction: S.optional(S.String),
+          GongAction: S.optional(S.String),
+          CreateAndUpdateGongAction: S.optional(S.String),
+          ShareGongAction: S.optional(S.String),
+          UseGongAction: S.optional(S.String),
           Topic: S.optional(S.String),
           EditVisualWithQ: S.optional(S.String),
           BuildCalculatedFieldWithQ: S.optional(S.String),
@@ -40122,6 +42480,186 @@ function __c337(j: number): any {
           ScheduleTrigger: S.optional(S.String),
           InboundEmailTrigger: S.optional(S.String),
           QuickEventTrigger: S.optional(S.String),
+          FileDataSource: S.optional(S.String),
+          CreateFileDataSource: S.optional(S.String),
+          UpdateFileDataSource: S.optional(S.String),
+          ShareFileDataSource: S.optional(S.String),
+          S3DataSource: S.optional(S.String),
+          CreateS3DataSource: S.optional(S.String),
+          UpdateS3DataSource: S.optional(S.String),
+          ShareS3DataSource: S.optional(S.String),
+          S3AnalyticsDataSource: S.optional(S.String),
+          CreateS3AnalyticsDataSource: S.optional(S.String),
+          UpdateS3AnalyticsDataSource: S.optional(S.String),
+          ShareS3AnalyticsDataSource: S.optional(S.String),
+          S3TablesDataSource: S.optional(S.String),
+          CreateS3TablesDataSource: S.optional(S.String),
+          UpdateS3TablesDataSource: S.optional(S.String),
+          ShareS3TablesDataSource: S.optional(S.String),
+          AthenaDataSource: S.optional(S.String),
+          CreateAthenaDataSource: S.optional(S.String),
+          UpdateAthenaDataSource: S.optional(S.String),
+          ShareAthenaDataSource: S.optional(S.String),
+          RdsDataSource: S.optional(S.String),
+          CreateRdsDataSource: S.optional(S.String),
+          UpdateRdsDataSource: S.optional(S.String),
+          ShareRdsDataSource: S.optional(S.String),
+          RedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          CreateRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          UpdateRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          ShareRedshiftAutoDiscoveredDataSource: S.optional(S.String),
+          RedshiftManualDataSource: S.optional(S.String),
+          CreateRedshiftManualDataSource: S.optional(S.String),
+          UpdateRedshiftManualDataSource: S.optional(S.String),
+          ShareRedshiftManualDataSource: S.optional(S.String),
+          OpenSearchDataSource: S.optional(S.String),
+          CreateOpenSearchDataSource: S.optional(S.String),
+          UpdateOpenSearchDataSource: S.optional(S.String),
+          ShareOpenSearchDataSource: S.optional(S.String),
+          TimestreamDataSource: S.optional(S.String),
+          CreateTimestreamDataSource: S.optional(S.String),
+          UpdateTimestreamDataSource: S.optional(S.String),
+          ShareTimestreamDataSource: S.optional(S.String),
+          AuroraDataSource: S.optional(S.String),
+          CreateAuroraDataSource: S.optional(S.String),
+          UpdateAuroraDataSource: S.optional(S.String),
+          ShareAuroraDataSource: S.optional(S.String),
+          MySqlDataSource: S.optional(S.String),
+          CreateMySqlDataSource: S.optional(S.String),
+          UpdateMySqlDataSource: S.optional(S.String),
+          ShareMySqlDataSource: S.optional(S.String),
+          PostgreSqlDataSource: S.optional(S.String),
+          CreatePostgreSqlDataSource: S.optional(S.String),
+          UpdatePostgreSqlDataSource: S.optional(S.String),
+          SharePostgreSqlDataSource: S.optional(S.String),
+          OracleDataSource: S.optional(S.String),
+          CreateOracleDataSource: S.optional(S.String),
+          UpdateOracleDataSource: S.optional(S.String),
+          ShareOracleDataSource: S.optional(S.String),
+          SqlServerDataSource: S.optional(S.String),
+          CreateSqlServerDataSource: S.optional(S.String),
+          UpdateSqlServerDataSource: S.optional(S.String),
+          ShareSqlServerDataSource: S.optional(S.String),
+          MariaDbDataSource: S.optional(S.String),
+          CreateMariaDbDataSource: S.optional(S.String),
+          UpdateMariaDbDataSource: S.optional(S.String),
+          ShareMariaDbDataSource: S.optional(S.String),
+          SnowflakeDataSource: S.optional(S.String),
+          CreateSnowflakeDataSource: S.optional(S.String),
+          UpdateSnowflakeDataSource: S.optional(S.String),
+          ShareSnowflakeDataSource: S.optional(S.String),
+          GoogleBigQueryDataSource: S.optional(S.String),
+          CreateGoogleBigQueryDataSource: S.optional(S.String),
+          UpdateGoogleBigQueryDataSource: S.optional(S.String),
+          ShareGoogleBigQueryDataSource: S.optional(S.String),
+          DatabricksDataSource: S.optional(S.String),
+          CreateDatabricksDataSource: S.optional(S.String),
+          UpdateDatabricksDataSource: S.optional(S.String),
+          ShareDatabricksDataSource: S.optional(S.String),
+          StarburstDataSource: S.optional(S.String),
+          CreateStarburstDataSource: S.optional(S.String),
+          UpdateStarburstDataSource: S.optional(S.String),
+          ShareStarburstDataSource: S.optional(S.String),
+          TrinoDataSource: S.optional(S.String),
+          CreateTrinoDataSource: S.optional(S.String),
+          UpdateTrinoDataSource: S.optional(S.String),
+          ShareTrinoDataSource: S.optional(S.String),
+          ImpalaDataSource: S.optional(S.String),
+          CreateImpalaDataSource: S.optional(S.String),
+          UpdateImpalaDataSource: S.optional(S.String),
+          ShareImpalaDataSource: S.optional(S.String),
+          TeradataDataSource: S.optional(S.String),
+          CreateTeradataDataSource: S.optional(S.String),
+          UpdateTeradataDataSource: S.optional(S.String),
+          ShareTeradataDataSource: S.optional(S.String),
+          PrestoDataSource: S.optional(S.String),
+          CreatePrestoDataSource: S.optional(S.String),
+          UpdatePrestoDataSource: S.optional(S.String),
+          SharePrestoDataSource: S.optional(S.String),
+          SparkDataSource: S.optional(S.String),
+          CreateSparkDataSource: S.optional(S.String),
+          UpdateSparkDataSource: S.optional(S.String),
+          ShareSparkDataSource: S.optional(S.String),
+          ExasolDataSource: S.optional(S.String),
+          CreateExasolDataSource: S.optional(S.String),
+          UpdateExasolDataSource: S.optional(S.String),
+          ShareExasolDataSource: S.optional(S.String),
+          Db2DataSource: S.optional(S.String),
+          CreateDb2DataSource: S.optional(S.String),
+          UpdateDb2DataSource: S.optional(S.String),
+          ShareDb2DataSource: S.optional(S.String),
+          SapHanaDataSource: S.optional(S.String),
+          CreateSapHanaDataSource: S.optional(S.String),
+          UpdateSapHanaDataSource: S.optional(S.String),
+          ShareSapHanaDataSource: S.optional(S.String),
+          DenodoDataSource: S.optional(S.String),
+          CreateDenodoDataSource: S.optional(S.String),
+          UpdateDenodoDataSource: S.optional(S.String),
+          ShareDenodoDataSource: S.optional(S.String),
+          DremioDataSource: S.optional(S.String),
+          CreateDremioDataSource: S.optional(S.String),
+          UpdateDremioDataSource: S.optional(S.String),
+          ShareDremioDataSource: S.optional(S.String),
+          SalesforceDataSource: S.optional(S.String),
+          CreateSalesforceDataSource: S.optional(S.String),
+          UpdateSalesforceDataSource: S.optional(S.String),
+          ShareSalesforceDataSource: S.optional(S.String),
+          RadiantDataSource: S.optional(S.String),
+          CreateRadiantDataSource: S.optional(S.String),
+          UpdateRadiantDataSource: S.optional(S.String),
+          ShareRadiantDataSource: S.optional(S.String),
+          PayPalDataSource: S.optional(S.String),
+          CreatePayPalDataSource: S.optional(S.String),
+          UpdatePayPalDataSource: S.optional(S.String),
+          SharePayPalDataSource: S.optional(S.String),
+          SquareDataSource: S.optional(S.String),
+          CreateSquareDataSource: S.optional(S.String),
+          UpdateSquareDataSource: S.optional(S.String),
+          ShareSquareDataSource: S.optional(S.String),
+          GitHubDataSource: S.optional(S.String),
+          CreateGitHubDataSource: S.optional(S.String),
+          UpdateGitHubDataSource: S.optional(S.String),
+          ShareGitHubDataSource: S.optional(S.String),
+          TwitterDataSource: S.optional(S.String),
+          CreateTwitterDataSource: S.optional(S.String),
+          UpdateTwitterDataSource: S.optional(S.String),
+          ShareTwitterDataSource: S.optional(S.String),
+          JiraDataSource: S.optional(S.String),
+          CreateJiraDataSource: S.optional(S.String),
+          UpdateJiraDataSource: S.optional(S.String),
+          ShareJiraDataSource: S.optional(S.String),
+          ServiceNowDataSource: S.optional(S.String),
+          CreateServiceNowDataSource: S.optional(S.String),
+          UpdateServiceNowDataSource: S.optional(S.String),
+          ShareServiceNowDataSource: S.optional(S.String),
+          AdobeAnalyticsDataSource: S.optional(S.String),
+          CreateAdobeAnalyticsDataSource: S.optional(S.String),
+          UpdateAdobeAnalyticsDataSource: S.optional(S.String),
+          ShareAdobeAnalyticsDataSource: S.optional(S.String),
+          GoogleAnalyticsDataSource: S.optional(S.String),
+          CreateGoogleAnalyticsDataSource: S.optional(S.String),
+          UpdateGoogleAnalyticsDataSource: S.optional(S.String),
+          ShareGoogleAnalyticsDataSource: S.optional(S.String),
+          GoogleSheetsDataSource: S.optional(S.String),
+          CreateGoogleSheetsDataSource: S.optional(S.String),
+          UpdateGoogleSheetsDataSource: S.optional(S.String),
+          ShareGoogleSheetsDataSource: S.optional(S.String),
+          DocumentDbDataSource: S.optional(S.String),
+          CreateDocumentDbDataSource: S.optional(S.String),
+          UpdateDocumentDbDataSource: S.optional(S.String),
+          ShareDocumentDbDataSource: S.optional(S.String),
+          MongoDbDataSource: S.optional(S.String),
+          CreateMongoDbDataSource: S.optional(S.String),
+          UpdateMongoDbDataSource: S.optional(S.String),
+          ShareMongoDbDataSource: S.optional(S.String),
+          MongoAtlasDataSource: S.optional(S.String),
+          CreateMongoAtlasDataSource: S.optional(S.String),
+          UpdateMongoAtlasDataSource: S.optional(S.String),
+          ShareMongoAtlasDataSource: S.optional(S.String),
+          DynamoDbDataSource: S.optional(S.String),
+          CreateDynamoDbDataSource: S.optional(S.String),
+          UpdateDynamoDbDataSource: S.optional(S.String),
+          ShareDynamoDbDataSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "Capabilities" });
     case 1:
@@ -41042,7 +43580,7 @@ function __c350(j: number): any {
           Name: S.String,
           Type: S.String,
           DataSourceParameters: S.optional(__S(11263, __c351, 31)),
-          Credentials: S.optional(__S(11332, __c354, 4)),
+          Credentials: S.optional(__S(11334, __c354, 6)),
           Permissions: S.optional(__S(9089, __c284, 1)),
           VpcConnectionProperties: S.optional(__S(11360, __c355, 0)),
           SslProperties: S.optional(__S(11264, __c352, 0)),
@@ -41365,12 +43903,27 @@ function __c354(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
+          AdminAccountEmail: S.String,
+          ServiceAccountPrivateKey: SensitiveString,
+          ClientEmail: S.String,
+        }),
+      ).annotate({ identifier: "ServiceAccountCredentials" });
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ KmsKeyArn: SensitiveString, CertThumbprint: SensitiveString }),
+      ).annotate({ identifier: "SharePointClientCredentials" });
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
           CredentialPair: S.optional(__S(11328, __c354, 0)),
           CopySourceArn: S.optional(S.String),
           SecretArn: S.optional(S.String),
           KeyPairCredentials: S.optional(__S(11329, __c354, 1)),
           WebProxyCredentials: S.optional(__S(11330, __c354, 2)),
           OAuthClientCredentials: S.optional(__S(11331, __c354, 3)),
+          ServiceAccountCredentials: S.optional(__S(11332, __c354, 4)),
+          SharePointClientCredentials: S.optional(__S(11333, __c354, 5)),
+          OneDriveClientCredentials: S.optional(__S(11333, __c354, 5)),
         }),
       ).annotate({ identifier: "DataSourceCredentials" });
   }

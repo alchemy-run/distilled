@@ -364,6 +364,15 @@ export const createSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSupportPermit",
+  iam: {
+    actions: ["supportauthz:CreateSupportPermit", "supportauthz:TagResource"],
+    resources: {
+      "supportauthz:TagResource": [
+        "arn:${Partition}:supportauthz:${Region}:${Account}:supportpermit/${ResourceId}",
+      ],
+    },
+    conditional: { "supportauthz:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSupportPermit",
 }));
@@ -396,6 +405,14 @@ export const deleteSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSupportPermit",
+  iam: {
+    actions: ["supportauthz:DeleteSupportPermit"],
+    resources: {
+      "supportauthz:DeleteSupportPermit": [
+        "arn:${Partition}:supportauthz:${Region}:${Account}:supportpermit/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSupportPermit",
 }));
@@ -428,6 +445,7 @@ export const getAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAction",
+  iam: { actions: ["supportauthz:GetAction"] },
   telemetry: TELEMETRY,
   span: "GetAction",
 }));
@@ -460,6 +478,14 @@ export const getSupportPermit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSupportPermit",
+  iam: {
+    actions: ["supportauthz:GetSupportPermit"],
+    resources: {
+      "supportauthz:GetSupportPermit": [
+        "arn:${Partition}:supportauthz:${Region}:${Account}:supportpermit/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSupportPermit",
 }));
@@ -497,6 +523,7 @@ export const listActions: API.PaginatedOperationMethod<
     items: "actionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["supportauthz:ListActions"] },
   telemetry: TELEMETRY,
   span: "ListActions",
 })) as any;
@@ -534,6 +561,7 @@ export const listSupportPermitRequests: API.PaginatedOperationMethod<
     items: "supportPermitRequests",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["supportauthz:ListSupportPermitRequests"] },
   telemetry: TELEMETRY,
   span: "ListSupportPermitRequests",
 })) as any;
@@ -571,6 +599,7 @@ export const listSupportPermits: API.PaginatedOperationMethod<
     items: "supportPermits",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["supportauthz:ListSupportPermits"] },
   telemetry: TELEMETRY,
   span: "ListSupportPermits",
 })) as any;
@@ -603,6 +632,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["supportauthz:ListTagsForResource"],
+    resources: {
+      "supportauthz:ListTagsForResource": [
+        "arn:${Partition}:supportauthz:${Region}:${Account}:supportpermit/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -637,6 +674,14 @@ export const rejectSupportPermitRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectSupportPermitRequest",
+  iam: {
+    actions: ["supportauthz:RejectSupportPermitRequest"],
+    resources: {
+      "supportauthz:RejectSupportPermitRequest": [
+        "arn:${Partition}:supportauthz:${Region}:${Account}:supportpermitrequest/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectSupportPermitRequest",
 }));
@@ -669,6 +714,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["supportauthz:TagResource"],
+    resources: {
+      "supportauthz:TagResource": [
+        "arn:${Partition}:supportauthz:${Region}:${Account}:supportpermit/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -701,6 +754,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["supportauthz:UntagResource"],
+    resources: {
+      "supportauthz:UntagResource": [
+        "arn:${Partition}:supportauthz:${Region}:${Account}:supportpermit/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

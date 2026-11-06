@@ -895,6 +895,15 @@ export const createAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPoint",
+  iam: {
+    actions: ["elasticfilesystem:CreateAccessPoint", "elasticfilesystem:TagResource"],
+    resources: {
+      "elasticfilesystem:CreateAccessPoint": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+    conditional: { "elasticfilesystem:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccessPoint",
 }));
@@ -991,6 +1000,10 @@ export const createFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystem",
+  iam: {
+    actions: ["elasticfilesystem:CreateFileSystem", "elasticfilesystem:TagResource"],
+    conditional: { "elasticfilesystem:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFileSystem",
 }));
@@ -1150,6 +1163,14 @@ export const createMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMountTarget",
+  iam: {
+    actions: ["elasticfilesystem:CreateMountTarget"],
+    resources: {
+      "elasticfilesystem:CreateMountTarget": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMountTarget",
 }));
@@ -1215,6 +1236,16 @@ export const createReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfiguration",
+  iam: {
+    actions: ["elasticfilesystem:CreateReplicationConfiguration", "iam:PassRole"],
+    resources: {
+      "elasticfilesystem:CreateReplicationConfiguration": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateReplicationConfiguration",
 }));
@@ -1244,6 +1275,14 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  iam: {
+    actions: ["elasticfilesystem:CreateTags"],
+    resources: {
+      "elasticfilesystem:CreateTags": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTags",
 }));
@@ -1272,6 +1311,14 @@ export const deleteAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessPoint",
+  iam: {
+    actions: ["elasticfilesystem:DeleteAccessPoint"],
+    resources: {
+      "elasticfilesystem:DeleteAccessPoint": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:access-point/${AccessPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccessPoint",
 }));
@@ -1317,6 +1364,14 @@ export const deleteFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystem",
+  iam: {
+    actions: ["elasticfilesystem:DeleteFileSystem"],
+    resources: {
+      "elasticfilesystem:DeleteFileSystem": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFileSystem",
 }));
@@ -1346,6 +1401,14 @@ export const deleteFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystemPolicy",
+  iam: {
+    actions: ["elasticfilesystem:DeleteFileSystemPolicy"],
+    resources: {
+      "elasticfilesystem:DeleteFileSystemPolicy": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFileSystemPolicy",
 }));
@@ -1393,6 +1456,14 @@ export const deleteMountTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMountTarget",
+  iam: {
+    actions: ["elasticfilesystem:DeleteMountTarget"],
+    resources: {
+      "elasticfilesystem:DeleteMountTarget": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMountTarget",
 }));
@@ -1424,6 +1495,14 @@ export const deleteReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfiguration",
+  iam: {
+    actions: ["elasticfilesystem:DeleteReplicationConfiguration"],
+    resources: {
+      "elasticfilesystem:DeleteReplicationConfiguration": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationConfiguration",
 }));
@@ -1453,6 +1532,14 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  iam: {
+    actions: ["elasticfilesystem:DeleteTags"],
+    resources: {
+      "elasticfilesystem:DeleteTags": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -1491,6 +1578,7 @@ export const describeAccessPoints: API.PaginatedOperationMethod<
     items: "AccessPoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["elasticfilesystem:DescribeAccessPoints"] },
   telemetry: TELEMETRY,
   span: "DescribeAccessPoints",
 })) as any;
@@ -1511,6 +1599,7 @@ export const describeAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountPreferences",
+  iam: { actions: ["elasticfilesystem:DescribeAccountPreferences"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountPreferences",
 }));
@@ -1543,6 +1632,14 @@ export const describeBackupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupPolicy",
+  iam: {
+    actions: ["elasticfilesystem:DescribeBackupPolicy"],
+    resources: {
+      "elasticfilesystem:DescribeBackupPolicy": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBackupPolicy",
 }));
@@ -1571,6 +1668,7 @@ export const describeFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFileSystemPolicy",
+  iam: { actions: ["elasticfilesystem:DescribeFileSystemPolicy"] },
   telemetry: TELEMETRY,
   span: "DescribeFileSystemPolicy",
 }));
@@ -1625,6 +1723,7 @@ export const describeFileSystems: API.PaginatedOperationMethod<
     items: "FileSystems",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["elasticfilesystem:DescribeFileSystems"] },
   telemetry: TELEMETRY,
   span: "DescribeFileSystems",
 })) as any;
@@ -1656,6 +1755,14 @@ export const describeLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleConfiguration",
+  iam: {
+    actions: ["elasticfilesystem:DescribeLifecycleConfiguration"],
+    resources: {
+      "elasticfilesystem:DescribeLifecycleConfiguration": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeLifecycleConfiguration",
 }));
@@ -1702,6 +1809,7 @@ export const describeMountTargets: API.PaginatedOperationMethod<
     items: "MountTargets",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["elasticfilesystem:DescribeMountTargets"] },
   telemetry: TELEMETRY,
   span: "DescribeMountTargets",
 })) as any;
@@ -1737,6 +1845,14 @@ export const describeMountTargetSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMountTargetSecurityGroups",
+  iam: {
+    actions: ["elasticfilesystem:DescribeMountTargetSecurityGroups"],
+    resources: {
+      "elasticfilesystem:DescribeMountTargetSecurityGroups": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMountTargetSecurityGroups",
 }));
@@ -1778,6 +1894,7 @@ export const describeReplicationConfigurations: API.PaginatedOperationMethod<
     items: "Replications",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["elasticfilesystem:DescribeReplicationConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationConfigurations",
 })) as any;
@@ -1818,6 +1935,14 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxItems",
   } as const,
+  iam: {
+    actions: ["elasticfilesystem:DescribeTags"],
+    resources: {
+      "elasticfilesystem:DescribeTags": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 })) as any;
@@ -1852,6 +1977,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["elasticfilesystem:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -1901,6 +2027,14 @@ export const modifyMountTargetSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyMountTargetSecurityGroups",
+  iam: {
+    actions: ["elasticfilesystem:ModifyMountTargetSecurityGroups"],
+    resources: {
+      "elasticfilesystem:ModifyMountTargetSecurityGroups": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyMountTargetSecurityGroups",
 }));
@@ -1929,6 +2063,7 @@ export const putAccountPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountPreferences",
+  iam: { actions: ["elasticfilesystem:PutAccountPreferences"] },
   telemetry: TELEMETRY,
   span: "PutAccountPreferences",
 }));
@@ -1961,6 +2096,14 @@ export const putBackupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupPolicy",
+  iam: {
+    actions: ["elasticfilesystem:PutBackupPolicy"],
+    resources: {
+      "elasticfilesystem:PutBackupPolicy": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBackupPolicy",
 }));
@@ -2004,6 +2147,14 @@ export const putFileSystemPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFileSystemPolicy",
+  iam: {
+    actions: ["elasticfilesystem:PutFileSystemPolicy"],
+    resources: {
+      "elasticfilesystem:PutFileSystemPolicy": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutFileSystemPolicy",
 }));
@@ -2081,6 +2232,14 @@ export const putLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleConfiguration",
+  iam: {
+    actions: ["elasticfilesystem:PutLifecycleConfiguration"],
+    resources: {
+      "elasticfilesystem:PutLifecycleConfiguration": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutLifecycleConfiguration",
 }));
@@ -2109,6 +2268,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["elasticfilesystem:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2137,6 +2297,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["elasticfilesystem:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2174,6 +2335,14 @@ export const updateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystem",
+  iam: {
+    actions: ["elasticfilesystem:UpdateFileSystem"],
+    resources: {
+      "elasticfilesystem:UpdateFileSystem": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFileSystem",
 }));
@@ -2215,6 +2384,14 @@ export const updateFileSystemProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystemProtection",
+  iam: {
+    actions: ["elasticfilesystem:UpdateFileSystemProtection"],
+    resources: {
+      "elasticfilesystem:UpdateFileSystemProtection": [
+        "arn:${Partition}:elasticfilesystem:${Region}:${Account}:file-system/${FileSystemId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFileSystemProtection",
 }));

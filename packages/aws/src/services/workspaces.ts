@@ -545,6 +545,12 @@ export type OperatingSystemName =
   | "WINDOWS_SERVER_2025"
   | "RHEL_8"
   | "ROCKY_8"
+  | "UBUNTU_24_04"
+  | "RHEL_9"
+  | "ROCKY_9"
+  | "UBUNTU_26_04"
+  | "RHEL_10"
+  | "ROCKY_10"
   | (string & {});
 export type AGAModeForWorkSpaceEnum = "ENABLED_AUTO" | "DISABLED" | "INHERITED" | (string & {});
 export type AGAPreferredProtocolForWorkSpace = "TCP" | "NONE" | "INHERITED" | (string & {});
@@ -1639,6 +1645,7 @@ export type ImageComputeType =
 export type CustomImageProtocol = "PCOIP" | "DCV" | "BYOP" | (string & {});
 export type Platform = "WINDOWS" | (string & {});
 export type OSVersion = "Windows_10" | "Windows_11" | (string & {});
+export type ImageValidationMode = "CUSTOMER_MANAGED" | "SERVICE_MANAGED" | (string & {});
 export interface ImportCustomWorkspaceImageRequest {
   ImageName: string;
   ImageDescription: string;
@@ -1649,6 +1656,7 @@ export interface ImportCustomWorkspaceImageRequest {
   Platform: Platform;
   OsVersion: OSVersion;
   Tags?: Tag[];
+  ImageValidationMode?: ImageValidationMode;
 }
 export interface ImportCustomWorkspaceImageResult {
   ImageId?: string;
@@ -1971,6 +1979,7 @@ export const acceptAccountLinkInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAccountLinkInvitation",
+  iam: { actions: ["workspaces:AcceptAccountLinkInvitation"] },
   telemetry: TELEMETRY,
   span: "AcceptAccountLinkInvitation",
 }));
@@ -2011,6 +2020,15 @@ export const associateConnectionAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConnectionAlias",
+  iam: {
+    actions: ["workspaces:AssociateConnectionAlias"],
+    resources: {
+      "workspaces:AssociateConnectionAlias": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:connectionalias/${ConnectionAliasId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateConnectionAlias",
 }));
@@ -2045,6 +2063,15 @@ export const associateIpGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIpGroups",
+  iam: {
+    actions: ["workspaces:AssociateIpGroups"],
+    resources: {
+      "workspaces:AssociateIpGroups": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateIpGroups",
 }));
@@ -2087,6 +2114,15 @@ export const associateWorkspaceApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWorkspaceApplication",
+  iam: {
+    actions: ["workspaces:AssociateWorkspaceApplication"],
+    resources: {
+      "workspaces:AssociateWorkspaceApplication": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceapplication/${WorkSpaceApplicationId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateWorkspaceApplication",
 }));
@@ -2122,6 +2158,17 @@ export const authorizeIpRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeIpRules",
+  iam: {
+    actions: ["workspaces:AuthorizeIpRules", "workspaces:UpdateRulesOfIpGroup"],
+    resources: {
+      "workspaces:AuthorizeIpRules": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+      "workspaces:UpdateRulesOfIpGroup": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AuthorizeIpRules",
 }));
@@ -2168,6 +2215,19 @@ export const copyWorkspaceImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyWorkspaceImage",
+  iam: {
+    actions: [
+      "workspaces:CopyWorkspaceImage",
+      "workspaces:CreateTags",
+      "workspaces:DescribeWorkspaceImages",
+    ],
+    resources: {
+      "workspaces:CopyWorkspaceImage": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CopyWorkspaceImage",
 }));
@@ -2193,6 +2253,7 @@ export const createAccountLinkInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountLinkInvitation",
+  iam: { actions: ["workspaces:CreateAccountLinkInvitation"] },
   telemetry: TELEMETRY,
   span: "CreateAccountLinkInvitation",
 }));
@@ -2228,6 +2289,14 @@ export const createConnectClientAddIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectClientAddIn",
+  iam: {
+    actions: ["workspaces:CreateConnectClientAddIn"],
+    resources: {
+      "workspaces:CreateConnectClientAddIn": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnectClientAddIn",
 }));
@@ -2264,6 +2333,10 @@ export const createConnectionAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectionAlias",
+  iam: {
+    actions: ["workspaces:CreateConnectionAlias", "workspaces:CreateTags"],
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnectionAlias",
 }));
@@ -2306,6 +2379,10 @@ export const createIpGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpGroup",
+  iam: {
+    actions: ["workspaces:CreateIpGroup", "workspaces:CreateTags"],
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpGroup",
 }));
@@ -2338,6 +2415,19 @@ export const createStandbyWorkspaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStandbyWorkspaces",
+  iam: {
+    actions: [
+      "workspaces:CreateStandbyWorkspaces",
+      "workspaces:CreateTags",
+      "workspaces:DescribeWorkspaces",
+    ],
+    resources: {
+      "workspaces:CreateStandbyWorkspaces": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStandbyWorkspaces",
 }));
@@ -2366,6 +2456,7 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  iam: { actions: ["workspaces:CreateTags"] },
   telemetry: TELEMETRY,
   span: "CreateTags",
 }));
@@ -2417,6 +2508,15 @@ export const createUpdatedWorkspaceImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUpdatedWorkspaceImage",
+  iam: {
+    actions: ["workspaces:CreateTags", "workspaces:CreateUpdatedWorkspaceImage"],
+    resources: {
+      "workspaces:CreateUpdatedWorkspaceImage": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUpdatedWorkspaceImage",
 }));
@@ -2453,6 +2553,16 @@ export const createWorkspaceBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceBundle",
+  iam: {
+    actions: ["workspaces:CreateTags", "workspaces:CreateWorkspaceBundle"],
+    resources: {
+      "workspaces:CreateWorkspaceBundle": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacebundle/${BundleId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspaceBundle",
 }));
@@ -2489,6 +2599,16 @@ export const createWorkspaceImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceImage",
+  iam: {
+    actions: ["workspaces:CreateTags", "workspaces:CreateWorkspaceImage"],
+    resources: {
+      "workspaces:CreateWorkspaceImage": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspaceImage",
 }));
@@ -2508,7 +2628,7 @@ export type CreateWorkspacesError =
  * Core.
  *
  * - You don't need to specify the `PCOIP` protocol for Linux bundles
- * because `DCV` (formerly WSP) is the default protocol for those bundles.
+ * because DCV (formerly WSP) is the default protocol for those bundles.
  *
  * - User-decoupled WorkSpaces are only supported by Amazon WorkSpaces
  * Core.
@@ -2530,6 +2650,16 @@ export const createWorkspaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaces",
+  iam: {
+    actions: ["workspaces:CreateTags", "workspaces:CreateWorkspaces"],
+    resources: {
+      "workspaces:CreateWorkspaces": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacebundle/${BundleId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspaces",
 }));
@@ -2568,6 +2698,17 @@ export const createWorkspacesPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspacesPool",
+  iam: {
+    actions: ["workspaces:CreateTags", "workspaces:CreateWorkspacesPool"],
+    resources: {
+      "workspaces:CreateWorkspacesPool": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacebundle/${BundleId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacespool/${PoolId}",
+      ],
+    },
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkspacesPool",
 }));
@@ -2600,6 +2741,7 @@ export const deleteAccountLinkInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountLinkInvitation",
+  iam: { actions: ["workspaces:DeleteAccountLinkInvitation"] },
   telemetry: TELEMETRY,
   span: "DeleteAccountLinkInvitation",
 }));
@@ -2630,6 +2772,14 @@ export const deleteClientBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClientBranding",
+  iam: {
+    actions: ["workspaces:DeleteClientBranding"],
+    resources: {
+      "workspaces:DeleteClientBranding": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteClientBranding",
 }));
@@ -2655,6 +2805,14 @@ export const deleteConnectClientAddIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectClientAddIn",
+  iam: {
+    actions: ["workspaces:DeleteConnectClientAddIn"],
+    resources: {
+      "workspaces:DeleteConnectClientAddIn": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnectClientAddIn",
 }));
@@ -2701,6 +2859,14 @@ export const deleteConnectionAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionAlias",
+  iam: {
+    actions: ["workspaces:DeleteConnectionAlias"],
+    resources: {
+      "workspaces:DeleteConnectionAlias": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:connectionalias/${ConnectionAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnectionAlias",
 }));
@@ -2733,6 +2899,14 @@ export const deleteIpGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpGroup",
+  iam: {
+    actions: ["workspaces:DeleteIpGroup"],
+    resources: {
+      "workspaces:DeleteIpGroup": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpGroup",
 }));
@@ -2756,6 +2930,7 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  iam: { actions: ["workspaces:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -2788,6 +2963,14 @@ export const deleteWorkspaceBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceBundle",
+  iam: {
+    actions: ["workspaces:DeleteWorkspaceBundle"],
+    resources: {
+      "workspaces:DeleteWorkspaceBundle": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacebundle/${BundleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspaceBundle",
 }));
@@ -2814,6 +2997,14 @@ export const deleteWorkspaceImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceImage",
+  iam: {
+    actions: ["workspaces:DeleteWorkspaceImage"],
+    resources: {
+      "workspaces:DeleteWorkspaceImage": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspaceImage",
 }));
@@ -2848,6 +3039,14 @@ export const deployWorkspaceApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeployWorkspaceApplications",
+  iam: {
+    actions: ["workspaces:DeployWorkspaceApplications"],
+    resources: {
+      "workspaces:DeployWorkspaceApplications": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeployWorkspaceApplications",
 }));
@@ -2893,6 +3092,14 @@ export const deregisterWorkspaceDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterWorkspaceDirectory",
+  iam: {
+    actions: ["workspaces:DeregisterWorkspaceDirectory"],
+    resources: {
+      "workspaces:DeregisterWorkspaceDirectory": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterWorkspaceDirectory",
 }));
@@ -2914,6 +3121,7 @@ export const describeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccount",
+  iam: { actions: ["workspaces:DescribeAccount"] },
   telemetry: TELEMETRY,
   span: "DescribeAccount",
 }));
@@ -2935,6 +3143,7 @@ export const describeAccountModifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountModifications",
+  iam: { actions: ["workspaces:DescribeAccountModifications"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountModifications",
 }));
@@ -2971,6 +3180,14 @@ export const describeApplicationAssociations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["workspaces:DescribeApplicationAssociations"],
+    resources: {
+      "workspaces:DescribeApplicationAssociations": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceapplication/${WorkSpaceApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeApplicationAssociations",
 })) as any;
@@ -3007,6 +3224,7 @@ export const describeApplications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["workspaces:DescribeApplications"] },
   telemetry: TELEMETRY,
   span: "DescribeApplications",
 })) as any;
@@ -3037,6 +3255,14 @@ export const describeBundleAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBundleAssociations",
+  iam: {
+    actions: ["workspaces:DescribeBundleAssociations"],
+    resources: {
+      "workspaces:DescribeBundleAssociations": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacebundle/${BundleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBundleAssociations",
 }));
@@ -3067,6 +3293,14 @@ export const describeClientBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClientBranding",
+  iam: {
+    actions: ["workspaces:DescribeClientBranding"],
+    resources: {
+      "workspaces:DescribeClientBranding": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeClientBranding",
 }));
@@ -3091,6 +3325,14 @@ export const describeClientProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClientProperties",
+  iam: {
+    actions: ["workspaces:DescribeClientProperties"],
+    resources: {
+      "workspaces:DescribeClientProperties": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeClientProperties",
 }));
@@ -3115,6 +3357,14 @@ export const describeConnectClientAddIns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectClientAddIns",
+  iam: {
+    actions: ["workspaces:DescribeConnectClientAddIns"],
+    resources: {
+      "workspaces:DescribeConnectClientAddIns": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnectClientAddIns",
 }));
@@ -3141,6 +3391,7 @@ export const describeConnectionAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionAliases",
+  iam: { actions: ["workspaces:DescribeConnectionAliases"] },
   telemetry: TELEMETRY,
   span: "DescribeConnectionAliases",
 }));
@@ -3174,6 +3425,14 @@ export const describeConnectionAliasPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionAliasPermissions",
+  iam: {
+    actions: ["workspaces:DescribeConnectionAliasPermissions"],
+    resources: {
+      "workspaces:DescribeConnectionAliasPermissions": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:connectionalias/${ConnectionAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnectionAliasPermissions",
 }));
@@ -3197,6 +3456,7 @@ export const describeCustomWorkspaceImageImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomWorkspaceImageImport",
+  iam: { actions: ["workspaces:DescribeCustomWorkspaceImageImport"] },
   telemetry: TELEMETRY,
   span: "DescribeCustomWorkspaceImageImport",
 }));
@@ -3227,6 +3487,14 @@ export const describeImageAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageAssociations",
+  iam: {
+    actions: ["workspaces:DescribeImageAssociations"],
+    resources: {
+      "workspaces:DescribeImageAssociations": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeImageAssociations",
 }));
@@ -3250,6 +3518,14 @@ export const describeIpGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIpGroups",
+  iam: {
+    actions: ["workspaces:DescribeIpGroups"],
+    resources: {
+      "workspaces:DescribeIpGroups": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIpGroups",
 }));
@@ -3270,6 +3546,7 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  iam: { actions: ["workspaces:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 }));
@@ -3300,6 +3577,14 @@ export const describeWorkspaceAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceAssociations",
+  iam: {
+    actions: ["workspaces:DescribeWorkspaceAssociations"],
+    resources: {
+      "workspaces:DescribeWorkspaceAssociations": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceAssociations",
 }));
@@ -3324,6 +3609,7 @@ export const describeWorkspaceBundles: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeWorkspaceBundles",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Bundles" } as const,
+  iam: { actions: ["workspaces:DescribeWorkspaceBundles"] },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceBundles",
 })) as any;
@@ -3346,6 +3632,7 @@ export const describeWorkspaceDirectories: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeWorkspaceDirectories",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Directories" } as const,
+  iam: { actions: ["workspaces:DescribeWorkspaceDirectories"] },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceDirectories",
 })) as any;
@@ -3370,6 +3657,14 @@ export const describeWorkspaceImagePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceImagePermissions",
+  iam: {
+    actions: ["workspaces:DescribeWorkspaceImagePermissions"],
+    resources: {
+      "workspaces:DescribeWorkspaceImagePermissions": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceImagePermissions",
 }));
@@ -3391,6 +3686,7 @@ export const describeWorkspaceImages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceImages",
+  iam: { actions: ["workspaces:DescribeWorkspaceImages"] },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceImages",
 }));
@@ -3424,6 +3720,7 @@ export const describeWorkspaces: API.PaginatedOperationMethod<
     items: "Workspaces",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workspaces:DescribeWorkspaces"] },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaces",
 })) as any;
@@ -3446,6 +3743,7 @@ export const describeWorkspacesConnectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspacesConnectionStatus",
+  iam: { actions: ["workspaces:DescribeWorkspacesConnectionStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeWorkspacesConnectionStatus",
 }));
@@ -3470,6 +3768,14 @@ export const describeWorkspaceSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceSnapshots",
+  iam: {
+    actions: ["workspaces:DescribeWorkspaceSnapshots"],
+    resources: {
+      "workspaces:DescribeWorkspaceSnapshots": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceSnapshots",
 }));
@@ -3498,6 +3804,7 @@ export const describeWorkspacesPools: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspacesPools",
+  iam: { actions: ["workspaces:DescribeWorkspacesPools"] },
   telemetry: TELEMETRY,
   span: "DescribeWorkspacesPools",
 }));
@@ -3526,6 +3833,14 @@ export const describeWorkspacesPoolSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspacesPoolSessions",
+  iam: {
+    actions: ["workspaces:DescribeWorkspacesPoolSessions"],
+    resources: {
+      "workspaces:DescribeWorkspacesPoolSessions": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacespool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspacesPoolSessions",
 }));
@@ -3565,6 +3880,14 @@ export const disassociateConnectionAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConnectionAlias",
+  iam: {
+    actions: ["workspaces:DisassociateConnectionAlias"],
+    resources: {
+      "workspaces:DisassociateConnectionAlias": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:connectionalias/${ConnectionAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateConnectionAlias",
 }));
@@ -3597,6 +3920,15 @@ export const disassociateIpGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIpGroups",
+  iam: {
+    actions: ["workspaces:DisassociateIpGroups"],
+    resources: {
+      "workspaces:DisassociateIpGroups": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateIpGroups",
 }));
@@ -3629,6 +3961,15 @@ export const disassociateWorkspaceApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWorkspaceApplication",
+  iam: {
+    actions: ["workspaces:DisassociateWorkspaceApplication"],
+    resources: {
+      "workspaces:DisassociateWorkspaceApplication": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceapplication/${WorkSpaceApplicationId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWorkspaceApplication",
 }));
@@ -3659,6 +4000,7 @@ export const getAccountLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountLink",
+  iam: { actions: ["workspaces:GetAccountLink"] },
   telemetry: TELEMETRY,
   span: "GetAccountLink",
 }));
@@ -3709,6 +4051,14 @@ export const importClientBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportClientBranding",
+  iam: {
+    actions: ["workspaces:ImportClientBranding"],
+    resources: {
+      "workspaces:ImportClientBranding": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportClientBranding",
 }));
@@ -3747,6 +4097,10 @@ export const importCustomWorkspaceImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCustomWorkspaceImage",
+  iam: {
+    actions: ["workspaces:CreateTags", "workspaces:ImportCustomWorkspaceImage"],
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportCustomWorkspaceImage",
 }));
@@ -3785,6 +4139,10 @@ export const importWorkspaceImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportWorkspaceImage",
+  iam: {
+    actions: ["workspaces:CreateTags", "workspaces:ImportWorkspaceImage"],
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportWorkspaceImage",
 }));
@@ -3816,6 +4174,7 @@ export const listAccountLinks: API.PaginatedOperationMethod<
     items: "AccountLinks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["workspaces:ListAccountLinks"] },
   telemetry: TELEMETRY,
   span: "ListAccountLinks",
 })) as any;
@@ -3848,6 +4207,7 @@ export const listAvailableManagementCidrRanges: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableManagementCidrRanges",
+  iam: { actions: ["workspaces:ListAvailableManagementCidrRanges"] },
   telemetry: TELEMETRY,
   span: "ListAvailableManagementCidrRanges",
 }));
@@ -3897,6 +4257,15 @@ export const migrateWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MigrateWorkspace",
+  iam: {
+    actions: ["workspaces:MigrateWorkspace"],
+    resources: {
+      "workspaces:MigrateWorkspace": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacebundle/${BundleId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MigrateWorkspace",
 }));
@@ -3930,6 +4299,7 @@ export const modifyAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAccount",
+  iam: { actions: ["workspaces:ModifyAccount"] },
   telemetry: TELEMETRY,
   span: "ModifyAccount",
 }));
@@ -3961,6 +4331,14 @@ export const modifyCertificateBasedAuthProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCertificateBasedAuthProperties",
+  iam: {
+    actions: ["workspaces:ModifyCertificateBasedAuthProperties"],
+    resources: {
+      "workspaces:ModifyCertificateBasedAuthProperties": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyCertificateBasedAuthProperties",
 }));
@@ -3991,6 +4369,14 @@ export const modifyClientProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClientProperties",
+  iam: {
+    actions: ["workspaces:ModifyClientProperties"],
+    resources: {
+      "workspaces:ModifyClientProperties": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyClientProperties",
 }));
@@ -4016,6 +4402,14 @@ export const modifyEndpointEncryptionMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEndpointEncryptionMode",
+  iam: {
+    actions: ["workspaces:ModifyEndpointEncryptionMode"],
+    resources: {
+      "workspaces:ModifyEndpointEncryptionMode": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyEndpointEncryptionMode",
 }));
@@ -4048,6 +4442,14 @@ export const modifySamlProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySamlProperties",
+  iam: {
+    actions: ["workspaces:ModifySamlProperties"],
+    resources: {
+      "workspaces:ModifySamlProperties": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifySamlProperties",
 }));
@@ -4079,6 +4481,14 @@ export const modifySelfservicePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySelfservicePermissions",
+  iam: {
+    actions: ["workspaces:ModifySelfservicePermissions"],
+    resources: {
+      "workspaces:ModifySelfservicePermissions": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifySelfservicePermissions",
 }));
@@ -4109,6 +4519,14 @@ export const modifyStreamingProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyStreamingProperties",
+  iam: {
+    actions: ["workspaces:ModifyStreamingProperties"],
+    resources: {
+      "workspaces:ModifyStreamingProperties": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyStreamingProperties",
 }));
@@ -4143,6 +4561,14 @@ export const modifyWorkspaceAccessProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyWorkspaceAccessProperties",
+  iam: {
+    actions: ["workspaces:ModifyWorkspaceAccessProperties"],
+    resources: {
+      "workspaces:ModifyWorkspaceAccessProperties": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyWorkspaceAccessProperties",
 }));
@@ -4173,6 +4599,16 @@ export const modifyWorkspaceCreationProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyWorkspaceCreationProperties",
+  iam: {
+    actions: ["workspaces:ModifyWorkspaceCreationProperties", "iam:PassRole"],
+    resources: {
+      "workspaces:ModifyWorkspaceCreationProperties": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "WorkspaceCreationProperties.InstanceIamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "ModifyWorkspaceCreationProperties",
 }));
@@ -4215,6 +4651,14 @@ export const modifyWorkspaceProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyWorkspaceProperties",
+  iam: {
+    actions: ["workspaces:ModifyWorkspaceProperties"],
+    resources: {
+      "workspaces:ModifyWorkspaceProperties": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyWorkspaceProperties",
 }));
@@ -4251,6 +4695,14 @@ export const modifyWorkspaceState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyWorkspaceState",
+  iam: {
+    actions: ["workspaces:ModifyWorkspaceState"],
+    resources: {
+      "workspaces:ModifyWorkspaceState": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ModifyWorkspaceState",
 }));
@@ -4277,6 +4729,14 @@ export const rebootWorkspaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootWorkspaces",
+  iam: {
+    actions: ["workspaces:RebootWorkspaces"],
+    resources: {
+      "workspaces:RebootWorkspaces": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebootWorkspaces",
 }));
@@ -4308,6 +4768,14 @@ export const rebuildWorkspaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebuildWorkspaces",
+  iam: {
+    actions: ["workspaces:RebuildWorkspaces"],
+    resources: {
+      "workspaces:RebuildWorkspaces": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebuildWorkspaces",
 }));
@@ -4352,6 +4820,15 @@ export const registerWorkspaceDirectory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterWorkspaceDirectory",
+  iam: {
+    actions: ["workspaces:CreateTags", "workspaces:RegisterWorkspaceDirectory"],
+    resources: {
+      "workspaces:RegisterWorkspaceDirectory": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+    conditional: { "workspaces:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterWorkspaceDirectory",
 }));
@@ -4384,6 +4861,7 @@ export const rejectAccountLinkInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAccountLinkInvitation",
+  iam: { actions: ["workspaces:RejectAccountLinkInvitation"] },
   telemetry: TELEMETRY,
   span: "RejectAccountLinkInvitation",
 }));
@@ -4424,6 +4902,14 @@ export const restoreWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreWorkspace",
+  iam: {
+    actions: ["workspaces:RestoreWorkspace"],
+    resources: {
+      "workspaces:RestoreWorkspace": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreWorkspace",
 }));
@@ -4454,6 +4940,17 @@ export const revokeIpRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeIpRules",
+  iam: {
+    actions: ["workspaces:RevokeIpRules", "workspaces:UpdateRulesOfIpGroup"],
+    resources: {
+      "workspaces:RevokeIpRules": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+      "workspaces:UpdateRulesOfIpGroup": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeIpRules",
 }));
@@ -4477,6 +4974,14 @@ export const startWorkspaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkspaces",
+  iam: {
+    actions: ["workspaces:StartWorkspaces"],
+    resources: {
+      "workspaces:StartWorkspaces": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartWorkspaces",
 }));
@@ -4520,6 +5025,14 @@ export const startWorkspacesPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkspacesPool",
+  iam: {
+    actions: ["workspaces:StartWorkspacesPool"],
+    resources: {
+      "workspaces:StartWorkspacesPool": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacespool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartWorkspacesPool",
 }));
@@ -4544,6 +5057,14 @@ export const stopWorkspaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkspaces",
+  iam: {
+    actions: ["workspaces:StopWorkspaces"],
+    resources: {
+      "workspaces:StopWorkspaces": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopWorkspaces",
 }));
@@ -4583,6 +5104,14 @@ export const stopWorkspacesPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkspacesPool",
+  iam: {
+    actions: ["workspaces:StopWorkspacesPool"],
+    resources: {
+      "workspaces:StopWorkspacesPool": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacespool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopWorkspacesPool",
 }));
@@ -4628,6 +5157,14 @@ export const terminateWorkspaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateWorkspaces",
+  iam: {
+    actions: ["workspaces:TerminateWorkspaces"],
+    resources: {
+      "workspaces:TerminateWorkspaces": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspace/${WorkspaceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateWorkspaces",
 }));
@@ -4664,6 +5201,14 @@ export const terminateWorkspacesPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateWorkspacesPool",
+  iam: {
+    actions: ["workspaces:TerminateWorkspacesPool"],
+    resources: {
+      "workspaces:TerminateWorkspacesPool": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacespool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateWorkspacesPool",
 }));
@@ -4700,6 +5245,7 @@ export const terminateWorkspacesPoolSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateWorkspacesPoolSession",
+  iam: { actions: ["workspaces:TerminateWorkspacesPoolSession"] },
   telemetry: TELEMETRY,
   span: "TerminateWorkspacesPoolSession",
 }));
@@ -4725,6 +5271,14 @@ export const updateConnectClientAddIn: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectClientAddIn",
+  iam: {
+    actions: ["workspaces:UpdateConnectClientAddIn"],
+    resources: {
+      "workspaces:UpdateConnectClientAddIn": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnectClientAddIn",
 }));
@@ -4776,6 +5330,14 @@ export const updateConnectionAliasPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionAliasPermission",
+  iam: {
+    actions: ["workspaces:UpdateConnectionAliasPermission"],
+    resources: {
+      "workspaces:UpdateConnectionAliasPermission": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:connectionalias/${ConnectionAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnectionAliasPermission",
 }));
@@ -4809,6 +5371,24 @@ export const updateRulesOfIpGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRulesOfIpGroup",
+  iam: {
+    actions: [
+      "workspaces:AuthorizeIpRules",
+      "workspaces:RevokeIpRules",
+      "workspaces:UpdateRulesOfIpGroup",
+    ],
+    resources: {
+      "workspaces:AuthorizeIpRules": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+      "workspaces:RevokeIpRules": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+      "workspaces:UpdateRulesOfIpGroup": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceipgroup/${GroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRulesOfIpGroup",
 }));
@@ -4847,6 +5427,15 @@ export const updateWorkspaceBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceBundle",
+  iam: {
+    actions: ["workspaces:UpdateWorkspaceBundle"],
+    resources: {
+      "workspaces:UpdateWorkspaceBundle": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacebundle/${BundleId}",
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceBundle",
 }));
@@ -4899,6 +5488,14 @@ export const updateWorkspaceImagePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceImagePermission",
+  iam: {
+    actions: ["workspaces:UpdateWorkspaceImagePermission"],
+    resources: {
+      "workspaces:UpdateWorkspaceImagePermission": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspaceimage/${ImageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceImagePermission",
 }));
@@ -4939,6 +5536,14 @@ export const updateWorkspacesPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspacesPool",
+  iam: {
+    actions: ["workspaces:UpdateWorkspacesPool"],
+    resources: {
+      "workspaces:UpdateWorkspacesPool": [
+        "arn:${Partition}:workspaces:${Region}:${Account}:workspacespool/${PoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspacesPool",
 }));
@@ -6798,6 +7403,7 @@ function __c102(j: number): any {
           Platform: S.String,
           OsVersion: S.String,
           Tags: S.optional(__S(465, __c29, 1)),
+          ImageValidationMode: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportCustomWorkspaceImageRequest" });
     case 1:

@@ -479,11 +479,13 @@ export type StackNameOrId = string;
 export type RoleARN = string;
 export type ResourceToSkip = string;
 export type ResourcesToSkip = string[];
+export type ForceRollback = boolean;
 export interface ContinueUpdateRollbackInput {
   StackName?: string;
   RoleARN?: string;
   ResourcesToSkip?: string[];
   ClientRequestToken?: string;
+  ForceRollback?: boolean;
 }
 export interface ContinueUpdateRollbackOutput {}
 export type TemplateBody = string;
@@ -2777,6 +2779,17 @@ export const activateOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateOrganizationsAccess",
+  iam: {
+    actions: [
+      "cloudformation:ActivateOrganizationsAccess",
+      "iam:CreateServiceLinkedRole",
+      "iam:GetRole",
+    ],
+    resources: {
+      "iam:CreateServiceLinkedRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "iam:GetRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ActivateOrganizationsAccess",
 }));
@@ -2810,6 +2823,11 @@ export const activateType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateType",
+  iam: {
+    actions: ["cloudformation:ActivateType", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "ExecutionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "ActivateType",
 }));
@@ -2838,6 +2856,7 @@ export const batchDescribeTypeConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeTypeConfigurations",
+  iam: { actions: ["cloudformation:BatchDescribeTypeConfigurations"] },
   telemetry: TELEMETRY,
   span: "BatchDescribeTypeConfigurations",
 }));
@@ -2861,6 +2880,14 @@ export const cancelUpdateStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelUpdateStack",
+  iam: {
+    actions: ["cloudformation:CancelUpdateStack"],
+    resources: {
+      "cloudformation:CancelUpdateStack": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelUpdateStack",
 }));
@@ -2881,6 +2908,9 @@ export type ContinueUpdateRollbackError = TokenAlreadyExistsException | CommonEr
  *
  * For more information, see Continue rolling back an update in the *CloudFormation User Guide*. For
  * information for troubleshooting a failed update rollback, see Update rollback failed.
+ *
+ * `ForceRollback` and `ResourcesToSkip` are mutually exclusive.
+ * For details, see ContinueUpdateRollbackInput$ForceRollback.
  */
 export const continueUpdateRollback: API.OperationMethod<
   ContinueUpdateRollbackInput & RegionInput,
@@ -2894,6 +2924,16 @@ export const continueUpdateRollback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContinueUpdateRollback",
+  iam: {
+    actions: ["cloudformation:ContinueUpdateRollback", "iam:PassRole"],
+    resources: {
+      "cloudformation:ContinueUpdateRollback": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "RoleARN" },
+  },
   telemetry: TELEMETRY,
   span: "ContinueUpdateRollback",
 }));
@@ -2939,6 +2979,25 @@ export const createChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChangeSet",
+  iam: {
+    actions: [
+      "cloudformation:CreateChangeSet",
+      "iam:PassRole",
+      "cloudformation:TagResource",
+      "cloudformation:UntagResource",
+    ],
+    resources: {
+      "cloudformation:CreateChangeSet": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: {
+      "iam:PassRole": "RoleARN",
+      "cloudformation:TagResource": "Tags",
+      "cloudformation:UntagResource": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateChangeSet",
 }));
@@ -2969,6 +3028,7 @@ export const createGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGeneratedTemplate",
+  iam: { actions: ["cloudformation:CreateGeneratedTemplate"] },
   telemetry: TELEMETRY,
   span: "CreateGeneratedTemplate",
 }));
@@ -3004,6 +3064,16 @@ export const createStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStack",
+  iam: {
+    actions: ["cloudformation:CreateStack", "iam:PassRole", "cloudformation:TagResource"],
+    resources: {
+      "cloudformation:CreateStack": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "RoleARN", "cloudformation:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStack",
 }));
@@ -3053,6 +3123,7 @@ export const createStackInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStackInstances",
+  iam: { actions: ["cloudformation:CreateStackInstances"] },
   telemetry: TELEMETRY,
   span: "CreateStackInstances",
 }));
@@ -3074,6 +3145,14 @@ export const createStackRefactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStackRefactor",
+  iam: {
+    actions: ["cloudformation:CreateStackRefactor"],
+    resources: {
+      "cloudformation:CreateStackRefactor": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStackRefactor",
 }));
@@ -3098,6 +3177,11 @@ export const createStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStackSet",
+  iam: {
+    actions: ["cloudformation:CreateStackSet", "iam:PassRole", "cloudformation:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "AdministrationRoleARN", "cloudformation:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStackSet",
 }));
@@ -3123,6 +3207,7 @@ export const deactivateOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateOrganizationsAccess",
+  iam: { actions: ["cloudformation:DeactivateOrganizationsAccess"] },
   telemetry: TELEMETRY,
   span: "DeactivateOrganizationsAccess",
 }));
@@ -3154,6 +3239,7 @@ export const deactivateType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateType",
+  iam: { actions: ["cloudformation:DeactivateType"] },
   telemetry: TELEMETRY,
   span: "DeactivateType",
 }));
@@ -3182,6 +3268,14 @@ export const deleteChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChangeSet",
+  iam: {
+    actions: ["cloudformation:DeleteChangeSet"],
+    resources: {
+      "cloudformation:DeleteChangeSet": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteChangeSet",
 }));
@@ -3205,6 +3299,7 @@ export const deleteGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGeneratedTemplate",
+  iam: { actions: ["cloudformation:DeleteGeneratedTemplate"] },
   telemetry: TELEMETRY,
   span: "DeleteGeneratedTemplate",
 }));
@@ -3230,6 +3325,16 @@ export const deleteStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStack",
+  iam: {
+    actions: ["cloudformation:DeleteStack", "iam:PassRole"],
+    resources: {
+      "cloudformation:DeleteStack": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "RoleARN" },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStack",
 }));
@@ -3274,6 +3379,7 @@ export const deleteStackInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStackInstances",
+  iam: { actions: ["cloudformation:DeleteStackInstances"] },
   telemetry: TELEMETRY,
   span: "DeleteStackInstances",
 }));
@@ -3298,6 +3404,14 @@ export const deleteStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStackSet",
+  iam: {
+    actions: ["cloudformation:DeleteStackSet"],
+    resources: {
+      "cloudformation:DeleteStackSet": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStackSet",
 }));
@@ -3335,6 +3449,7 @@ export const deregisterType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterType",
+  iam: { actions: ["cloudformation:DeregisterType"] },
   telemetry: TELEMETRY,
   span: "DeregisterType",
 }));
@@ -3362,6 +3477,7 @@ export const describeAccountLimits: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "AccountLimits",
   } as const,
+  iam: { actions: ["cloudformation:DescribeAccountLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountLimits",
 })) as any;
@@ -3387,6 +3503,14 @@ export const describeChangeSet: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeChangeSet",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Changes" } as const,
+  iam: {
+    actions: ["cloudformation:DescribeChangeSet"],
+    resources: {
+      "cloudformation:DescribeChangeSet": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeChangeSet",
 })) as any;
@@ -3408,6 +3532,14 @@ export const describeChangeSetHooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChangeSetHooks",
+  iam: {
+    actions: ["cloudformation:DescribeChangeSetHooks"],
+    resources: {
+      "cloudformation:DescribeChangeSetHooks": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeChangeSetHooks",
 }));
@@ -3457,6 +3589,7 @@ export const describeEvents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "OperationEvents",
   } as const,
+  iam: { actions: ["cloudformation:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 })) as any;
@@ -3480,6 +3613,7 @@ export const describeGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGeneratedTemplate",
+  iam: { actions: ["cloudformation:DescribeGeneratedTemplate"] },
   telemetry: TELEMETRY,
   span: "DescribeGeneratedTemplate",
 }));
@@ -3506,6 +3640,7 @@ export const describeOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationsAccess",
+  iam: { actions: ["cloudformation:DescribeOrganizationsAccess"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationsAccess",
 }));
@@ -3538,6 +3673,7 @@ export const describePublisher: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePublisher",
+  iam: { actions: ["cloudformation:DescribePublisher"] },
   telemetry: TELEMETRY,
   span: "DescribePublisher",
 }));
@@ -3558,6 +3694,7 @@ export const describeResourceScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceScan",
+  iam: { actions: ["cloudformation:DescribeResourceScan"] },
   telemetry: TELEMETRY,
   span: "DescribeResourceScan",
 }));
@@ -3590,6 +3727,7 @@ export const describeStackDriftDetectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackDriftDetectionStatus",
+  iam: { actions: ["cloudformation:DescribeStackDriftDetectionStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeStackDriftDetectionStatus",
 }));
@@ -3617,6 +3755,14 @@ export const describeStackEvents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeStackEvents",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "StackEvents" } as const,
+  iam: {
+    actions: ["cloudformation:DescribeStackEvents"],
+    resources: {
+      "cloudformation:DescribeStackEvents": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStackEvents",
 })) as any;
@@ -3643,6 +3789,14 @@ export const describeStackInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackInstance",
+  iam: {
+    actions: ["cloudformation:DescribeStackInstance"],
+    resources: {
+      "cloudformation:DescribeStackInstance": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStackInstance",
 }));
@@ -3663,6 +3817,14 @@ export const describeStackRefactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackRefactor",
+  iam: {
+    actions: ["cloudformation:DescribeStackRefactor"],
+    resources: {
+      "cloudformation:DescribeStackRefactor": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStackRefactor",
 }));
@@ -3686,6 +3848,14 @@ export const describeStackResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackResource",
+  iam: {
+    actions: ["cloudformation:DescribeStackResource"],
+    resources: {
+      "cloudformation:DescribeStackResource": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStackResource",
 }));
@@ -3724,6 +3894,14 @@ export const describeStackResourceDrifts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["cloudformation:DescribeStackResourceDrifts"],
+    resources: {
+      "cloudformation:DescribeStackResourceDrifts": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStackResourceDrifts",
 })) as any;
@@ -3761,6 +3939,14 @@ export const describeStackResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackResources",
+  iam: {
+    actions: ["cloudformation:DescribeStackResources"],
+    resources: {
+      "cloudformation:DescribeStackResources": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStackResources",
 }));
@@ -3788,6 +3974,7 @@ export const describeStacks: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeStacks",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Stacks" } as const,
+  iam: { actions: ["cloudformation:DescribeStacks"] },
   telemetry: TELEMETRY,
   span: "DescribeStacks",
 })) as any;
@@ -3811,6 +3998,14 @@ export const describeStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackSet",
+  iam: {
+    actions: ["cloudformation:DescribeStackSet"],
+    resources: {
+      "cloudformation:DescribeStackSet": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStackSet",
 }));
@@ -3837,6 +4032,14 @@ export const describeStackSetOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStackSetOperation",
+  iam: {
+    actions: ["cloudformation:DescribeStackSetOperation"],
+    resources: {
+      "cloudformation:DescribeStackSetOperation": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStackSetOperation",
 }));
@@ -3866,6 +4069,7 @@ export const describeType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeType",
+  iam: { actions: ["cloudformation:DescribeType"] },
   telemetry: TELEMETRY,
   span: "DescribeType",
 }));
@@ -3894,6 +4098,7 @@ export const describeTypeRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTypeRegistration",
+  iam: { actions: ["cloudformation:DescribeTypeRegistration"] },
   telemetry: TELEMETRY,
   span: "DescribeTypeRegistration",
 }));
@@ -3938,6 +4143,17 @@ export const detectStackDrift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectStackDrift",
+  iam: {
+    actions: ["cloudformation:DetectStackDrift", "cloudformation:DetectStackResourceDrift"],
+    resources: {
+      "cloudformation:DetectStackDrift": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+      "cloudformation:DetectStackResourceDrift": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetectStackDrift",
 }));
@@ -3972,6 +4188,14 @@ export const detectStackResourceDrift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectStackResourceDrift",
+  iam: {
+    actions: ["cloudformation:DetectStackResourceDrift"],
+    resources: {
+      "cloudformation:DetectStackResourceDrift": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetectStackResourceDrift",
 }));
@@ -4025,6 +4249,14 @@ export const detectStackSetDrift: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectStackSetDrift",
+  iam: {
+    actions: ["cloudformation:DetectStackSetDrift"],
+    resources: {
+      "cloudformation:DetectStackSetDrift": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetectStackSetDrift",
 }));
@@ -4047,6 +4279,7 @@ export const estimateTemplateCost: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EstimateTemplateCost",
+  iam: { actions: ["cloudformation:EstimateTemplateCost"] },
   telemetry: TELEMETRY,
   span: "EstimateTemplateCost",
 }));
@@ -4088,6 +4321,18 @@ export const executeChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteChangeSet",
+  iam: {
+    actions: [
+      "cloudformation:ExecuteChangeSet",
+      "cloudformation:TagResource",
+      "cloudformation:UntagResource",
+    ],
+    resources: {
+      "cloudformation:ExecuteChangeSet": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExecuteChangeSet",
 }));
@@ -4108,6 +4353,14 @@ export const executeStackRefactor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStackRefactor",
+  iam: {
+    actions: ["cloudformation:ExecuteStackRefactor"],
+    resources: {
+      "cloudformation:ExecuteStackRefactor": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExecuteStackRefactor",
 }));
@@ -4131,6 +4384,7 @@ export const getGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeneratedTemplate",
+  iam: { actions: ["cloudformation:GetGeneratedTemplate"] },
   telemetry: TELEMETRY,
   span: "GetGeneratedTemplate",
 }));
@@ -4158,6 +4412,7 @@ export const getHookResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHookResult",
+  iam: { actions: ["cloudformation:GetHookResult"] },
   telemetry: TELEMETRY,
   span: "GetHookResult",
 }));
@@ -4179,6 +4434,14 @@ export const getStackPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStackPolicy",
+  iam: {
+    actions: ["cloudformation:GetStackPolicy"],
+    resources: {
+      "cloudformation:GetStackPolicy": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStackPolicy",
 }));
@@ -4205,6 +4468,14 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  iam: {
+    actions: ["cloudformation:GetTemplate"],
+    resources: {
+      "cloudformation:GetTemplate": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTemplate",
 }));
@@ -4234,6 +4505,7 @@ export const getTemplateSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateSummary",
+  iam: { actions: ["cloudformation:GetTemplateSummary"] },
   telemetry: TELEMETRY,
   span: "GetTemplateSummary",
 }));
@@ -4273,6 +4545,14 @@ export const importStacksToStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportStacksToStackSet",
+  iam: {
+    actions: ["cloudformation:ImportStacksToStackSet"],
+    resources: {
+      "cloudformation:ImportStacksToStackSet": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportStacksToStackSet",
 }));
@@ -4297,6 +4577,14 @@ export const listChangeSets: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListChangeSets",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Summaries" } as const,
+  iam: {
+    actions: ["cloudformation:ListChangeSets"],
+    resources: {
+      "cloudformation:ListChangeSets": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListChangeSets",
 })) as any;
@@ -4324,6 +4612,7 @@ export const listExports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListExports",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Exports" } as const,
+  iam: { actions: ["cloudformation:ListExports"] },
   telemetry: TELEMETRY,
   span: "ListExports",
 })) as any;
@@ -4351,6 +4640,7 @@ export const listGeneratedTemplates: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListGeneratedTemplates"] },
   telemetry: TELEMETRY,
   span: "ListGeneratedTemplates",
 })) as any;
@@ -4384,6 +4674,7 @@ export const listHookResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHookResults",
+  iam: { actions: ["cloudformation:ListAllHookResults", "cloudformation:ListHookResults"] },
   telemetry: TELEMETRY,
   span: "ListHookResults",
 }));
@@ -4410,6 +4701,7 @@ export const listImports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListImports",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Imports" } as const,
+  iam: { actions: ["cloudformation:ListImports"] },
   telemetry: TELEMETRY,
   span: "ListImports",
 })) as any;
@@ -4441,6 +4733,7 @@ export const listResourceScanRelatedResources: API.PaginatedOperationMethod<
     items: "RelatedResources",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListResourceScanRelatedResources"] },
   telemetry: TELEMETRY,
   span: "ListResourceScanRelatedResources",
 })) as any;
@@ -4474,6 +4767,7 @@ export const listResourceScanResources: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListResourceScanResources"] },
   telemetry: TELEMETRY,
   span: "ListResourceScanResources",
 })) as any;
@@ -4502,6 +4796,7 @@ export const listResourceScans: API.PaginatedOperationMethod<
     items: "ResourceScanSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListResourceScans"] },
   telemetry: TELEMETRY,
   span: "ListResourceScans",
 })) as any;
@@ -4530,6 +4825,14 @@ export const listStackInstanceResourceDrifts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackInstanceResourceDrifts",
+  iam: {
+    actions: ["cloudformation:ListStackInstanceResourceDrifts"],
+    resources: {
+      "cloudformation:ListStackInstanceResourceDrifts": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStackInstanceResourceDrifts",
 }));
@@ -4559,6 +4862,14 @@ export const listStackInstances: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["cloudformation:ListStackInstances"],
+    resources: {
+      "cloudformation:ListStackInstances": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStackInstances",
 })) as any;
@@ -4586,6 +4897,14 @@ export const listStackRefactorActions: API.PaginatedOperationMethod<
     items: "StackRefactorActions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["cloudformation:ListStackRefactorActions"],
+    resources: {
+      "cloudformation:ListStackRefactorActions": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStackRefactorActions",
 })) as any;
@@ -4613,6 +4932,14 @@ export const listStackRefactors: API.PaginatedOperationMethod<
     items: "StackRefactorSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["cloudformation:ListStackRefactors"],
+    resources: {
+      "cloudformation:ListStackRefactors": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStackRefactors",
 })) as any;
@@ -4642,6 +4969,14 @@ export const listStackResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "StackResourceSummaries",
   } as const,
+  iam: {
+    actions: ["cloudformation:ListStackResources"],
+    resources: {
+      "cloudformation:ListStackResources": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStackResources",
 })) as any;
@@ -4672,6 +5007,7 @@ export const listStacks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "StackSummaries",
   } as const,
+  iam: { actions: ["cloudformation:ListStacks"] },
   telemetry: TELEMETRY,
   span: "ListStacks",
 })) as any;
@@ -4692,6 +5028,14 @@ export const listStackSetAutoDeploymentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackSetAutoDeploymentTargets",
+  iam: {
+    actions: ["cloudformation:ListStackSetAutoDeploymentTargets"],
+    resources: {
+      "cloudformation:ListStackSetAutoDeploymentTargets": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStackSetAutoDeploymentTargets",
 }));
@@ -4725,6 +5069,14 @@ export const listStackSetOperationResults: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["cloudformation:ListStackSetOperationResults"],
+    resources: {
+      "cloudformation:ListStackSetOperationResults": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStackSetOperationResults",
 })) as any;
@@ -4755,6 +5107,14 @@ export const listStackSetOperations: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["cloudformation:ListStackSetOperations"],
+    resources: {
+      "cloudformation:ListStackSetOperations": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListStackSetOperations",
 })) as any;
@@ -4798,6 +5158,7 @@ export const listStackSets: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListStackSets"] },
   telemetry: TELEMETRY,
   span: "ListStackSets",
 })) as any;
@@ -4824,6 +5185,7 @@ export const listTypeRegistrations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListTypeRegistrations"] },
   telemetry: TELEMETRY,
   span: "ListTypeRegistrations",
 })) as any;
@@ -4853,6 +5215,7 @@ export const listTypes: API.PaginatedOperationMethod<
     items: "TypeSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListTypes"] },
   telemetry: TELEMETRY,
   span: "ListTypes",
 })) as any;
@@ -4879,6 +5242,7 @@ export const listTypeVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListTypeVersions"] },
   telemetry: TELEMETRY,
   span: "ListTypeVersions",
 })) as any;
@@ -4906,6 +5270,7 @@ export const publishType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishType",
+  iam: { actions: ["cloudformation:PublishType"] },
   telemetry: TELEMETRY,
   span: "PublishType",
 }));
@@ -4932,6 +5297,14 @@ export const recordHandlerProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordHandlerProgress",
+  iam: {
+    actions: ["cloudformation:RecordHandlerProgress"],
+    resources: {
+      "cloudformation:RecordHandlerProgress": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RecordHandlerProgress",
 }));
@@ -4958,6 +5331,7 @@ export const registerPublisher: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPublisher",
+  iam: { actions: ["cloudformation:RegisterPublisher"] },
   telemetry: TELEMETRY,
   span: "RegisterPublisher",
 }));
@@ -5002,6 +5376,11 @@ export const registerType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterType",
+  iam: {
+    actions: ["iam:PassRole", "cloudformation:RegisterType"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "ExecutionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterType",
 }));
@@ -5041,6 +5420,16 @@ export const rollbackStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackStack",
+  iam: {
+    actions: ["iam:PassRole", "cloudformation:RollbackStack"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cloudformation:RollbackStack": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleARN" },
+  },
   telemetry: TELEMETRY,
   span: "RollbackStack",
 }));
@@ -5061,6 +5450,14 @@ export const setStackPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetStackPolicy",
+  iam: {
+    actions: ["cloudformation:SetStackPolicy"],
+    resources: {
+      "cloudformation:SetStackPolicy": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetStackPolicy",
 }));
@@ -5097,6 +5494,7 @@ export const setTypeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTypeConfiguration",
+  iam: { actions: ["cloudformation:SetTypeConfiguration"] },
   telemetry: TELEMETRY,
   span: "SetTypeConfiguration",
 }));
@@ -5121,6 +5519,7 @@ export const setTypeDefaultVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTypeDefaultVersion",
+  iam: { actions: ["cloudformation:SetTypeDefaultVersion"] },
   telemetry: TELEMETRY,
   span: "SetTypeDefaultVersion",
 }));
@@ -5146,6 +5545,14 @@ export const signalResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignalResource",
+  iam: {
+    actions: ["cloudformation:SignalResource"],
+    resources: {
+      "cloudformation:SignalResource": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SignalResource",
 }));
@@ -5170,6 +5577,7 @@ export const startResourceScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceScan",
+  iam: { actions: ["cloudformation:StartResourceScan"] },
   telemetry: TELEMETRY,
   span: "StartResourceScan",
 }));
@@ -5196,6 +5604,14 @@ export const stopStackSetOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStackSetOperation",
+  iam: {
+    actions: ["cloudformation:StopStackSetOperation"],
+    resources: {
+      "cloudformation:StopStackSetOperation": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stackset/${StackSetName}:${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopStackSetOperation",
 }));
@@ -5241,6 +5657,7 @@ export const testType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestType",
+  iam: { actions: ["cloudformation:TestType"] },
   telemetry: TELEMETRY,
   span: "TestType",
 }));
@@ -5268,6 +5685,7 @@ export const updateGeneratedTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGeneratedTemplate",
+  iam: { actions: ["cloudformation:UpdateGeneratedTemplate"] },
   telemetry: TELEMETRY,
   span: "UpdateGeneratedTemplate",
 }));
@@ -5300,6 +5718,29 @@ export const updateStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStack",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "cloudformation:SetStackPolicy",
+      "cloudformation:TagResource",
+      "cloudformation:UntagResource",
+      "cloudformation:UpdateStack",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cloudformation:SetStackPolicy": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+      "cloudformation:UpdateStack": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+    conditional: {
+      "iam:PassRole": "RoleARN",
+      "cloudformation:TagResource": "Tags",
+      "cloudformation:UntagResource": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStack",
 }));
@@ -5362,6 +5803,7 @@ export const updateStackInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStackInstances",
+  iam: { actions: ["cloudformation:UpdateStackInstances"] },
   telemetry: TELEMETRY,
   span: "UpdateStackInstances",
 }));
@@ -5414,6 +5856,20 @@ export const updateStackSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStackSet",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "cloudformation:TagResource",
+      "cloudformation:UntagResource",
+      "cloudformation:UpdateStackSet",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: {
+      "iam:PassRole": "AdministrationRoleARN",
+      "cloudformation:TagResource": "Tags",
+      "cloudformation:UntagResource": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStackSet",
 }));
@@ -5441,6 +5897,14 @@ export const updateTerminationProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTerminationProtection",
+  iam: {
+    actions: ["cloudformation:UpdateTerminationProtection"],
+    resources: {
+      "cloudformation:UpdateTerminationProtection": [
+        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTerminationProtection",
 }));
@@ -5463,6 +5927,7 @@ export const validateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateTemplate",
+  iam: { actions: ["cloudformation:ValidateTemplate"] },
   telemetry: TELEMETRY,
   span: "ValidateTemplate",
 }));
@@ -6067,6 +6532,7 @@ function __c26(j: number): any {
           RoleARN: S.optional(S.String),
           ResourcesToSkip: S.optional(__S(416, __c26, 0)),
           ClientRequestToken: S.optional(S.String),
+          ForceRollback: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ContinueUpdateRollbackInput" });
     case 2:

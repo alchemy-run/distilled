@@ -1,0 +1,10 @@
+{
+  "operations": {
+    "initiateJob": {
+      "iam": {
+        "reason": "Reading the job's output is the separate GetJobOutput binding.",
+        "remove": ["glacier:GetJobOutput"]
+      }
+    }
+  }
+}

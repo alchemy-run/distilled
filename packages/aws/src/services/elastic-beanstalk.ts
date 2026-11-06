@@ -1077,6 +1077,12 @@ export interface CustomAmi {
   ImageId?: string;
 }
 export type CustomAmiList = CustomAmi[];
+export type AmiArchitecture = "x86_64" | "arm64" | (string & {});
+export interface DefaultAmi {
+  Architecture?: AmiArchitecture;
+  ImageId?: string;
+}
+export type DefaultAmiList = DefaultAmi[];
 export interface PlatformDescription {
   PlatformArn?: string;
   PlatformOwner?: string;
@@ -1094,6 +1100,7 @@ export interface PlatformDescription {
   ProgrammingLanguages?: PlatformProgrammingLanguage[];
   Frameworks?: PlatformFramework[];
   CustomAmiList?: CustomAmi[];
+  DefaultAmiList?: DefaultAmi[];
   SupportedTierList?: string[];
   SupportedAddonList?: string[];
   PlatformLifecycleState?: string;
@@ -1309,6 +1316,14 @@ export const abortEnvironmentUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortEnvironmentUpdate",
+  iam: {
+    actions: ["elasticbeanstalk:AbortEnvironmentUpdate"],
+    resources: {
+      "elasticbeanstalk:AbortEnvironmentUpdate": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AbortEnvironmentUpdate",
 }));
@@ -1333,6 +1348,14 @@ export const applyEnvironmentManagedAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyEnvironmentManagedAction",
+  iam: {
+    actions: ["elasticbeanstalk:ApplyEnvironmentManagedAction"],
+    resources: {
+      "elasticbeanstalk:ApplyEnvironmentManagedAction": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ApplyEnvironmentManagedAction",
 }));
@@ -1358,6 +1381,14 @@ export const associateEnvironmentOperationsRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEnvironmentOperationsRole",
+  iam: {
+    actions: ["elasticbeanstalk:AssociateEnvironmentOperationsRole"],
+    resources: {
+      "elasticbeanstalk:AssociateEnvironmentOperationsRole": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateEnvironmentOperationsRole",
 }));
@@ -1378,6 +1409,7 @@ export const checkDNSAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDNSAvailability",
+  iam: { actions: ["elasticbeanstalk:CheckDNSAvailability"] },
   telemetry: TELEMETRY,
   span: "CheckDNSAvailability",
 }));
@@ -1403,6 +1435,15 @@ export const composeEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ComposeEnvironments",
+  iam: {
+    actions: ["elasticbeanstalk:ComposeEnvironments"],
+    resources: {
+      "elasticbeanstalk:ComposeEnvironments": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:application/${ApplicationName}",
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:applicationversion/${ApplicationName}/${VersionLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ComposeEnvironments",
 }));
@@ -1424,6 +1465,14 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: {
+    actions: ["elasticbeanstalk:CreateApplication"],
+    resources: {
+      "elasticbeanstalk:CreateApplication": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:application/${ApplicationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -1468,6 +1517,15 @@ export const createApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationVersion",
+  iam: {
+    actions: ["elasticbeanstalk:CreateApplicationVersion"],
+    resources: {
+      "elasticbeanstalk:CreateApplicationVersion": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:application/${ApplicationName}",
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:applicationversion/${ApplicationName}/${VersionLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplicationVersion",
 }));
@@ -1510,6 +1568,14 @@ export const createConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationTemplate",
+  iam: {
+    actions: ["elasticbeanstalk:CreateConfigurationTemplate"],
+    resources: {
+      "elasticbeanstalk:CreateConfigurationTemplate": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:configurationtemplate/${ApplicationName}/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfigurationTemplate",
 }));
@@ -1533,6 +1599,14 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
+  iam: {
+    actions: ["elasticbeanstalk:CreateEnvironment"],
+    resources: {
+      "elasticbeanstalk:CreateEnvironment": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -1561,6 +1635,14 @@ export const createPlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlatformVersion",
+  iam: {
+    actions: ["elasticbeanstalk:CreatePlatformVersion"],
+    resources: {
+      "elasticbeanstalk:CreatePlatformVersion": [
+        "arn:${Partition}:elasticbeanstalk:${Region}::platform/${PlatformNameWithVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePlatformVersion",
 }));
@@ -1591,6 +1673,7 @@ export const createStorageLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageLocation",
+  iam: { actions: ["elasticbeanstalk:CreateStorageLocation"] },
   telemetry: TELEMETRY,
   span: "CreateStorageLocation",
 }));
@@ -1614,6 +1697,14 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  iam: {
+    actions: ["elasticbeanstalk:DeleteApplication"],
+    resources: {
+      "elasticbeanstalk:DeleteApplication": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:application/${ApplicationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -1646,6 +1737,14 @@ export const deleteApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationVersion",
+  iam: {
+    actions: ["elasticbeanstalk:DeleteApplicationVersion"],
+    resources: {
+      "elasticbeanstalk:DeleteApplicationVersion": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:applicationversion/${ApplicationName}/${VersionLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationVersion",
 }));
@@ -1670,6 +1769,14 @@ export const deleteConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationTemplate",
+  iam: {
+    actions: ["elasticbeanstalk:DeleteConfigurationTemplate"],
+    resources: {
+      "elasticbeanstalk:DeleteConfigurationTemplate": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:configurationtemplate/${ApplicationName}/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationTemplate",
 }));
@@ -1696,6 +1803,14 @@ export const deleteEnvironmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentConfiguration",
+  iam: {
+    actions: ["elasticbeanstalk:DeleteEnvironmentConfiguration"],
+    resources: {
+      "elasticbeanstalk:DeleteEnvironmentConfiguration": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentConfiguration",
 }));
@@ -1726,6 +1841,14 @@ export const deletePlatformVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlatformVersion",
+  iam: {
+    actions: ["elasticbeanstalk:DeletePlatformVersion"],
+    resources: {
+      "elasticbeanstalk:DeletePlatformVersion": [
+        "arn:${Partition}:elasticbeanstalk:${Region}::platform/${PlatformNameWithVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePlatformVersion",
 }));
@@ -1757,6 +1880,7 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
+  iam: { actions: ["elasticbeanstalk:DescribeAccountAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountAttributes",
 }));
@@ -1790,6 +1914,7 @@ export const describeApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplications",
+  iam: { actions: ["elasticbeanstalk:DescribeApplications"] },
   telemetry: TELEMETRY,
   span: "DescribeApplications",
 }));
@@ -1819,6 +1944,7 @@ export const describeApplicationVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationVersions",
+  iam: { actions: ["elasticbeanstalk:DescribeApplicationVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeApplicationVersions",
 }));
@@ -1854,6 +1980,7 @@ export const describeConfigurationOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationOptions",
+  iam: { actions: ["elasticbeanstalk:DescribeConfigurationOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationOptions",
 }));
@@ -1897,6 +2024,7 @@ export const describeConfigurationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationSettings",
+  iam: { actions: ["elasticbeanstalk:DescribeConfigurationSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationSettings",
 }));
@@ -1931,6 +2059,7 @@ export const describeEnvironmentHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentHealth",
+  iam: { actions: ["elasticbeanstalk:DescribeEnvironmentHealth"] },
   telemetry: TELEMETRY,
   span: "DescribeEnvironmentHealth",
 }));
@@ -1960,6 +2089,7 @@ export const describeEnvironmentManagedActionHistory: API.PaginatedOperationMeth
     items: "ManagedActionHistoryItems",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["elasticbeanstalk:DescribeEnvironmentManagedActionHistory"] },
   telemetry: TELEMETRY,
   span: "DescribeEnvironmentManagedActionHistory",
 })) as any;
@@ -1992,6 +2122,7 @@ export const describeEnvironmentManagedActions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentManagedActions",
+  iam: { actions: ["elasticbeanstalk:DescribeEnvironmentManagedActions"] },
   telemetry: TELEMETRY,
   span: "DescribeEnvironmentManagedActions",
 }));
@@ -2012,6 +2143,7 @@ export const describeEnvironmentResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentResources",
+  iam: { actions: ["elasticbeanstalk:DescribeEnvironmentResources"] },
   telemetry: TELEMETRY,
   span: "DescribeEnvironmentResources",
 }));
@@ -2042,6 +2174,7 @@ export const describeEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironments",
+  iam: { actions: ["elasticbeanstalk:DescribeEnvironments"] },
   telemetry: TELEMETRY,
   span: "DescribeEnvironments",
 }));
@@ -2080,6 +2213,7 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["elasticbeanstalk:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 })) as any;
@@ -2113,6 +2247,7 @@ export const describeInstancesHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstancesHealth",
+  iam: { actions: ["elasticbeanstalk:DescribeInstancesHealth"] },
   telemetry: TELEMETRY,
   span: "DescribeInstancesHealth",
 }));
@@ -2143,11 +2278,12 @@ export const describePlatformVersion: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1472, __c46, 0) as any as S.Schema<DescribePlatformVersionRequest>,
-  output: __S(1480, __c46, 8) as any as S.Schema<DescribePlatformVersionResult>,
+  output: __S(1482, __c46, 10) as any as S.Schema<DescribePlatformVersionResult>,
   errors: [ElasticBeanstalkServiceException, InsufficientPrivilegesException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePlatformVersion",
+  iam: { actions: ["elasticbeanstalk:DescribePlatformVersion"] },
   telemetry: TELEMETRY,
   span: "DescribePlatformVersion",
 }));
@@ -2173,6 +2309,14 @@ export const disassociateEnvironmentOperationsRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEnvironmentOperationsRole",
+  iam: {
+    actions: ["elasticbeanstalk:DisassociateEnvironmentOperationsRole"],
+    resources: {
+      "elasticbeanstalk:DisassociateEnvironmentOperationsRole": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateEnvironmentOperationsRole",
 }));
@@ -2202,6 +2346,7 @@ export const listAvailableSolutionStacks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableSolutionStacks",
+  iam: { actions: ["elasticbeanstalk:ListAvailableSolutionStacks"] },
   telemetry: TELEMETRY,
   span: "ListAvailableSolutionStacks",
 }));
@@ -2239,6 +2384,7 @@ export const listPlatformBranches: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["elasticbeanstalk:ListPlatformBranches"] },
   telemetry: TELEMETRY,
   span: "ListPlatformBranches",
 })) as any;
@@ -2282,6 +2428,7 @@ export const listPlatformVersions: API.PaginatedOperationMethod<
     items: "PlatformSummaryList",
     pageSize: "MaxRecords",
   } as const,
+  iam: { actions: ["elasticbeanstalk:ListPlatformVersions"] },
   telemetry: TELEMETRY,
   span: "ListPlatformVersions",
 })) as any;
@@ -2321,6 +2468,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["elasticbeanstalk:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2342,6 +2490,14 @@ export const rebuildEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebuildEnvironment",
+  iam: {
+    actions: ["elasticbeanstalk:RebuildEnvironment"],
+    resources: {
+      "elasticbeanstalk:RebuildEnvironment": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebuildEnvironment",
 }));
@@ -2377,6 +2533,14 @@ export const requestEnvironmentInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RequestEnvironmentInfo",
+  iam: {
+    actions: ["elasticbeanstalk:RequestEnvironmentInfo"],
+    resources: {
+      "elasticbeanstalk:RequestEnvironmentInfo": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RequestEnvironmentInfo",
 }));
@@ -2397,6 +2561,14 @@ export const restartAppServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartAppServer",
+  iam: {
+    actions: ["elasticbeanstalk:RestartAppServer"],
+    resources: {
+      "elasticbeanstalk:RestartAppServer": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestartAppServer",
 }));
@@ -2421,6 +2593,14 @@ export const retrieveEnvironmentInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveEnvironmentInfo",
+  iam: {
+    actions: ["elasticbeanstalk:RetrieveEnvironmentInfo"],
+    resources: {
+      "elasticbeanstalk:RetrieveEnvironmentInfo": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetrieveEnvironmentInfo",
 }));
@@ -2441,6 +2621,14 @@ export const swapEnvironmentCNAMEs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwapEnvironmentCNAMEs",
+  iam: {
+    actions: ["elasticbeanstalk:SwapEnvironmentCNAMEs"],
+    resources: {
+      "elasticbeanstalk:SwapEnvironmentCNAMEs": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SwapEnvironmentCNAMEs",
 }));
@@ -2461,6 +2649,14 @@ export const terminateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateEnvironment",
+  iam: {
+    actions: ["elasticbeanstalk:TerminateEnvironment"],
+    resources: {
+      "elasticbeanstalk:TerminateEnvironment": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateEnvironment",
 }));
@@ -2484,6 +2680,14 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: {
+    actions: ["elasticbeanstalk:UpdateApplication"],
+    resources: {
+      "elasticbeanstalk:UpdateApplication": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:application/${ApplicationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -2506,6 +2710,14 @@ export const updateApplicationResourceLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationResourceLifecycle",
+  iam: {
+    actions: ["elasticbeanstalk:UpdateApplicationResourceLifecycle"],
+    resources: {
+      "elasticbeanstalk:UpdateApplicationResourceLifecycle": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:application/${ApplicationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplicationResourceLifecycle",
 }));
@@ -2529,6 +2741,14 @@ export const updateApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationVersion",
+  iam: {
+    actions: ["elasticbeanstalk:UpdateApplicationVersion"],
+    resources: {
+      "elasticbeanstalk:UpdateApplicationVersion": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:applicationversion/${ApplicationName}/${VersionLabel}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplicationVersion",
 }));
@@ -2560,6 +2780,14 @@ export const updateConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationTemplate",
+  iam: {
+    actions: ["elasticbeanstalk:UpdateConfigurationTemplate"],
+    resources: {
+      "elasticbeanstalk:UpdateConfigurationTemplate": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:configurationtemplate/${ApplicationName}/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationTemplate",
 }));
@@ -2588,6 +2816,14 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
+  iam: {
+    actions: ["elasticbeanstalk:UpdateEnvironment"],
+    resources: {
+      "elasticbeanstalk:UpdateEnvironment": [
+        "arn:${Partition}:elasticbeanstalk:${Region}:${Account}:environment/${ApplicationName}/${EnvironmentName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
@@ -2637,6 +2873,7 @@ export const updateTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagsForResource",
+  iam: { actions: ["elasticbeanstalk:UpdateTagsForResource"] },
   telemetry: TELEMETRY,
   span: "UpdateTagsForResource",
 }));
@@ -2664,6 +2901,7 @@ export const validateConfigurationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateConfigurationSettings",
+  iam: { actions: ["elasticbeanstalk:ValidateConfigurationSettings"] },
   telemetry: TELEMETRY,
   span: "ValidateConfigurationSettings",
 }));
@@ -3759,6 +3997,12 @@ function __c46(j: number): any {
       return S.Array(__S(1477, __c46, 5));
     case 7:
       return S.suspend(() =>
+        S.Struct({ Architecture: S.optional(S.String), ImageId: S.optional(S.String) }),
+      ).annotate({ identifier: "DefaultAmi" });
+    case 8:
+      return S.Array(__S(1479, __c46, 7));
+    case 9:
+      return S.suspend(() =>
         S.Struct({
           PlatformArn: S.optional(S.String),
           PlatformOwner: S.optional(S.String),
@@ -3776,6 +4020,7 @@ function __c46(j: number): any {
           ProgrammingLanguages: S.optional(__S(1474, __c46, 2)),
           Frameworks: S.optional(__S(1476, __c46, 4)),
           CustomAmiList: S.optional(__S(1478, __c46, 6)),
+          DefaultAmiList: S.optional(__S(1480, __c46, 8)),
           SupportedTierList: S.optional(__S(768, __c24, 0)),
           SupportedAddonList: S.optional(__S(800, __c25, 0)),
           PlatformLifecycleState: S.optional(S.String),
@@ -3783,9 +4028,9 @@ function __c46(j: number): any {
           PlatformBranchLifecycleState: S.optional(S.String),
         }),
       ).annotate({ identifier: "PlatformDescription" });
-    case 8:
+    case 10:
       return S.suspend(() =>
-        S.Struct({ PlatformDescription: S.optional(__S(1479, __c46, 7)) }).pipe(ns),
+        S.Struct({ PlatformDescription: S.optional(__S(1481, __c46, 9)) }).pipe(ns),
       ).annotate({ identifier: "DescribePlatformVersionResult" });
   }
 }

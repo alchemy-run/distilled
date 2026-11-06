@@ -216,6 +216,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["aws-marketplace:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -252,6 +253,15 @@ export const putDeploymentParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeploymentParameter",
+  iam: {
+    actions: ["aws-marketplace:PutDeploymentParameter", "aws-marketplace:TagResource"],
+    resources: {
+      "aws-marketplace:PutDeploymentParameter": [
+        "arn:${Partition}:aws-marketplace:${Region}:${Account}:DeploymentParameter:catalogs/${CatalogName}/products/${ProductId}/${ResourceId}",
+      ],
+    },
+    conditional: { "aws-marketplace:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDeploymentParameter",
 }));
@@ -286,6 +296,10 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["aws-marketplace:TagResource"],
+    conditional: { "aws-marketplace:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -320,6 +334,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["aws-marketplace:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

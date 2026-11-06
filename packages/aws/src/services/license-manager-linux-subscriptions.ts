@@ -283,6 +283,14 @@ export const deregisterSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterSubscriptionProvider",
+  iam: {
+    actions: ["license-manager-linux-subscriptions:DeregisterSubscriptionProvider"],
+    resources: {
+      "license-manager-linux-subscriptions:DeregisterSubscriptionProvider": [
+        "arn:${Partition}:license-manager-linux-subscriptions:${Region}:${Account}:subscription-provider/${SubscriptionProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterSubscriptionProvider",
 }));
@@ -313,6 +321,14 @@ export const getRegisteredSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegisteredSubscriptionProvider",
+  iam: {
+    actions: ["license-manager-linux-subscriptions:GetRegisteredSubscriptionProvider"],
+    resources: {
+      "license-manager-linux-subscriptions:GetRegisteredSubscriptionProvider": [
+        "arn:${Partition}:license-manager-linux-subscriptions:${Region}:${Account}:subscription-provider/${SubscriptionProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRegisteredSubscriptionProvider",
 }));
@@ -337,6 +353,7 @@ export const getServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSettings",
+  iam: { actions: ["license-manager-linux-subscriptions:GetServiceSettings"] },
   telemetry: TELEMETRY,
   span: "GetServiceSettings",
 }));
@@ -369,6 +386,7 @@ export const listLinuxSubscriptionInstances: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["license-manager-linux-subscriptions:ListLinuxSubscriptionInstances"] },
   telemetry: TELEMETRY,
   span: "ListLinuxSubscriptionInstances",
 })) as any;
@@ -402,6 +420,7 @@ export const listLinuxSubscriptions: API.PaginatedOperationMethod<
     items: "Subscriptions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["license-manager-linux-subscriptions:ListLinuxSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListLinuxSubscriptions",
 })) as any;
@@ -433,6 +452,7 @@ export const listRegisteredSubscriptionProviders: API.PaginatedOperationMethod<
     items: "RegisteredSubscriptionProviders",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["license-manager-linux-subscriptions:ListRegisteredSubscriptionProviders"] },
   telemetry: TELEMETRY,
   span: "ListRegisteredSubscriptionProviders",
 })) as any;
@@ -458,6 +478,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["license-manager-linux-subscriptions:ListTagsForResource"],
+    resources: {
+      "license-manager-linux-subscriptions:ListTagsForResource": [
+        "arn:${Partition}:license-manager-linux-subscriptions:${Region}:${Account}:subscription-provider/${SubscriptionProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -482,6 +510,18 @@ export const registerSubscriptionProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSubscriptionProvider",
+  iam: {
+    actions: [
+      "license-manager-linux-subscriptions:RegisterSubscriptionProvider",
+      "license-manager-linux-subscriptions:TagResource",
+    ],
+    resources: {
+      "license-manager-linux-subscriptions:TagResource": [
+        "arn:${Partition}:license-manager-linux-subscriptions:${Region}:${Account}:subscription-provider/${SubscriptionProviderId}",
+      ],
+    },
+    conditional: { "license-manager-linux-subscriptions:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "RegisterSubscriptionProvider",
 }));
@@ -506,6 +546,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["license-manager-linux-subscriptions:TagResource"],
+    resources: {
+      "license-manager-linux-subscriptions:TagResource": [
+        "arn:${Partition}:license-manager-linux-subscriptions:${Region}:${Account}:subscription-provider/${SubscriptionProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -526,6 +574,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["license-manager-linux-subscriptions:UntagResource"],
+    resources: {
+      "license-manager-linux-subscriptions:UntagResource": [
+        "arn:${Partition}:license-manager-linux-subscriptions:${Region}:${Account}:subscription-provider/${SubscriptionProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -550,6 +606,7 @@ export const updateServiceSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSettings",
+  iam: { actions: ["license-manager-linux-subscriptions:UpdateServiceSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateServiceSettings",
 }));

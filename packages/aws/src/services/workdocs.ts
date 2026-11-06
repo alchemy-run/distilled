@@ -1120,6 +1120,7 @@ export const abortDocumentVersionUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortDocumentVersionUpload",
+  iam: { actions: ["workdocs:AbortDocumentVersionUpload"] },
   telemetry: TELEMETRY,
   span: "AbortDocumentVersionUpload",
 }));
@@ -1153,6 +1154,7 @@ export const activateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateUser",
+  iam: { actions: ["workdocs:ActivateUser"] },
   telemetry: TELEMETRY,
   span: "ActivateUser",
 }));
@@ -1187,6 +1189,7 @@ export const addResourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddResourcePermissions",
+  iam: { actions: ["workdocs:AddResourcePermissions"] },
   telemetry: TELEMETRY,
   span: "AddResourcePermissions",
 }));
@@ -1225,6 +1228,7 @@ export const createComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComment",
+  iam: { actions: ["workdocs:CreateComment"] },
   telemetry: TELEMETRY,
   span: "CreateComment",
 }));
@@ -1262,6 +1266,7 @@ export const createCustomMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomMetadata",
+  iam: { actions: ["workdocs:CreateCustomMetadata"] },
   telemetry: TELEMETRY,
   span: "CreateCustomMetadata",
 }));
@@ -1304,6 +1309,7 @@ export const createFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFolder",
+  iam: { actions: ["workdocs:CreateFolder"] },
   telemetry: TELEMETRY,
   span: "CreateFolder",
 }));
@@ -1339,6 +1345,7 @@ export const createLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabels",
+  iam: { actions: ["workdocs:CreateLabels"] },
   telemetry: TELEMETRY,
   span: "CreateLabels",
 }));
@@ -1373,6 +1380,7 @@ export const createNotificationSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationSubscription",
+  iam: { actions: ["workdocs:CreateNotificationSubscription"] },
   telemetry: TELEMETRY,
   span: "CreateNotificationSubscription",
 }));
@@ -1406,6 +1414,7 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  iam: { actions: ["workdocs:CreateUser"] },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -1439,6 +1448,7 @@ export const deactivateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateUser",
+  iam: { actions: ["workdocs:DeactivateUser"] },
   telemetry: TELEMETRY,
   span: "DeactivateUser",
 }));
@@ -1475,6 +1485,7 @@ export const deleteComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComment",
+  iam: { actions: ["workdocs:DeleteComment"] },
   telemetry: TELEMETRY,
   span: "DeleteComment",
 }));
@@ -1509,6 +1520,7 @@ export const deleteCustomMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomMetadata",
+  iam: { actions: ["workdocs:DeleteCustomMetadata"] },
   telemetry: TELEMETRY,
   span: "DeleteCustomMetadata",
 }));
@@ -1549,6 +1561,7 @@ export const deleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocument",
+  iam: { actions: ["workdocs:DeleteDocument"] },
   telemetry: TELEMETRY,
   span: "DeleteDocument",
 }));
@@ -1587,6 +1600,7 @@ export const deleteDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentVersion",
+  iam: { actions: ["workdocs:DeleteDocumentVersion"] },
   telemetry: TELEMETRY,
   span: "DeleteDocumentVersion",
 }));
@@ -1627,6 +1641,7 @@ export const deleteFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolder",
+  iam: { actions: ["workdocs:DeleteFolder"] },
   telemetry: TELEMETRY,
   span: "DeleteFolder",
 }));
@@ -1663,6 +1678,7 @@ export const deleteFolderContents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFolderContents",
+  iam: { actions: ["workdocs:DeleteFolderContents"] },
   telemetry: TELEMETRY,
   span: "DeleteFolderContents",
 }));
@@ -1697,6 +1713,7 @@ export const deleteLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabels",
+  iam: { actions: ["workdocs:DeleteLabels"] },
   telemetry: TELEMETRY,
   span: "DeleteLabels",
 }));
@@ -1727,6 +1744,7 @@ export const deleteNotificationSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationSubscription",
+  iam: { actions: ["workdocs:DeleteNotificationSubscription"] },
   telemetry: TELEMETRY,
   span: "DeleteNotificationSubscription",
 }));
@@ -1761,6 +1779,7 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  iam: { actions: ["workdocs:DeleteUser"] },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -1800,6 +1819,7 @@ export const describeActivities: API.PaginatedOperationMethod<
     items: "UserActivities",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:DescribeActivities"] },
   telemetry: TELEMETRY,
   span: "DescribeActivities",
 })) as any;
@@ -1841,6 +1861,7 @@ export const describeComments: API.PaginatedOperationMethod<
     items: "Comments",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:DescribeComments"] },
   telemetry: TELEMETRY,
   span: "DescribeComments",
 })) as any;
@@ -1888,6 +1909,7 @@ export const describeDocumentVersions: API.PaginatedOperationMethod<
     items: "DocumentVersions",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:DescribeDocumentVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeDocumentVersions",
 })) as any;
@@ -1930,6 +1952,7 @@ export const describeFolderContents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeFolderContents",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "Limit" } as const,
+  iam: { actions: ["workdocs:DescribeFolderContents"] },
   telemetry: TELEMETRY,
   span: "DescribeFolderContents",
 })) as any;
@@ -1968,6 +1991,7 @@ export const describeGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:DescribeGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeGroups",
 })) as any;
@@ -2003,6 +2027,7 @@ export const describeNotificationSubscriptions: API.PaginatedOperationMethod<
     items: "Subscriptions",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:DescribeNotificationSubscriptions"] },
   telemetry: TELEMETRY,
   span: "DescribeNotificationSubscriptions",
 })) as any;
@@ -2042,6 +2067,7 @@ export const describeResourcePermissions: API.PaginatedOperationMethod<
     items: "Principals",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:DescribeResourcePermissions"] },
   telemetry: TELEMETRY,
   span: "DescribeResourcePermissions",
 })) as any;
@@ -2090,6 +2116,7 @@ export const describeRootFolders: API.PaginatedOperationMethod<
     items: "Folders",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:DescribeRootFolders"] },
   telemetry: TELEMETRY,
   span: "DescribeRootFolders",
 })) as any;
@@ -2138,6 +2165,7 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:DescribeUsers"] },
   telemetry: TELEMETRY,
   span: "DescribeUsers",
 })) as any;
@@ -2177,6 +2205,7 @@ export const getCurrentUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCurrentUser",
+  iam: { actions: ["workdocs:GetCurrentUser"] },
   telemetry: TELEMETRY,
   span: "GetCurrentUser",
 }));
@@ -2213,6 +2242,7 @@ export const getDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocument",
+  iam: { actions: ["workdocs:GetDocument"] },
   telemetry: TELEMETRY,
   span: "GetDocument",
 }));
@@ -2251,6 +2281,7 @@ export const getDocumentPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentPath",
+  iam: { actions: ["workdocs:GetDocumentPath"] },
   telemetry: TELEMETRY,
   span: "GetDocumentPath",
 }));
@@ -2287,6 +2318,7 @@ export const getDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentVersion",
+  iam: { actions: ["workdocs:DownloadDocumentVersion", "workdocs:GetDocumentVersion"] },
   telemetry: TELEMETRY,
   span: "GetDocumentVersion",
 }));
@@ -2323,6 +2355,7 @@ export const getFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolder",
+  iam: { actions: ["workdocs:GetFolder"] },
   telemetry: TELEMETRY,
   span: "GetFolder",
 }));
@@ -2361,6 +2394,7 @@ export const getFolderPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFolderPath",
+  iam: { actions: ["workdocs:GetFolderPath"] },
   telemetry: TELEMETRY,
   span: "GetFolderPath",
 }));
@@ -2394,6 +2428,7 @@ export const getResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResources",
+  iam: { actions: ["workdocs:GetResources"] },
   telemetry: TELEMETRY,
   span: "GetResources",
 }));
@@ -2451,6 +2486,7 @@ export const initiateDocumentVersionUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateDocumentVersionUpload",
+  iam: { actions: ["workdocs:InitiateDocumentVersionUpload"] },
   telemetry: TELEMETRY,
   span: "InitiateDocumentVersionUpload",
 }));
@@ -2481,6 +2517,7 @@ export const removeAllResourcePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAllResourcePermissions",
+  iam: { actions: ["workdocs:RemoveAllResourcePermissions"] },
   telemetry: TELEMETRY,
   span: "RemoveAllResourcePermissions",
 }));
@@ -2512,6 +2549,7 @@ export const removeResourcePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveResourcePermission",
+  iam: { actions: ["workdocs:RemoveResourcePermission"] },
   telemetry: TELEMETRY,
   span: "RemoveResourcePermission",
 }));
@@ -2550,6 +2588,7 @@ export const restoreDocumentVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreDocumentVersions",
+  iam: { actions: ["workdocs:RestoreDocumentVersions"] },
   telemetry: TELEMETRY,
   span: "RestoreDocumentVersions",
 }));
@@ -2587,6 +2626,7 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["workdocs:SearchResources"] },
   telemetry: TELEMETRY,
   span: "SearchResources",
 })) as any;
@@ -2630,6 +2670,13 @@ export const updateDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocument",
+  iam: {
+    actions: [
+      "workdocs:DeleteDocument",
+      "workdocs:InitiateDocumentVersionUpload",
+      "workdocs:UpdateDocument",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "UpdateDocument",
 }));
@@ -2672,6 +2719,7 @@ export const updateDocumentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentVersion",
+  iam: { actions: ["workdocs:UpdateDocumentVersion"] },
   telemetry: TELEMETRY,
   span: "UpdateDocumentVersion",
 }));
@@ -2715,6 +2763,7 @@ export const updateFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFolder",
+  iam: { actions: ["workdocs:CreateFolder", "workdocs:UpdateFolder"] },
   telemetry: TELEMETRY,
   span: "UpdateFolder",
 }));
@@ -2756,6 +2805,7 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  iam: { actions: ["workdocs:UpdateUser", "workdocs:UpdateUserAdministrativeSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));

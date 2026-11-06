@@ -201,6 +201,7 @@ export const deleteConnectionRecordingPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectionRecordingPreferences",
+  iam: { actions: ["ssm-guiconnect:DeleteConnectionRecordingPreferences"] },
   telemetry: TELEMETRY,
   span: "DeleteConnectionRecordingPreferences",
 }));
@@ -237,6 +238,7 @@ export const getConnectionRecordingPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionRecordingPreferences",
+  iam: { actions: ["ssm-guiconnect:GetConnectionRecordingPreferences"] },
   telemetry: TELEMETRY,
   span: "GetConnectionRecordingPreferences",
 }));
@@ -273,6 +275,7 @@ export const updateConnectionRecordingPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionRecordingPreferences",
+  iam: { actions: ["ssm-guiconnect:UpdateConnectionRecordingPreferences"] },
   telemetry: TELEMETRY,
   span: "UpdateConnectionRecordingPreferences",
 }));

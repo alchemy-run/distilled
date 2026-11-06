@@ -1156,8 +1156,15 @@ export interface RequestBodyAssociatedResourceTypeConfig {
 export type RequestBody = {
   [key in AssociatedResourceType]?: RequestBodyAssociatedResourceTypeConfig;
 };
+export interface ChallengeJavascriptSdkInjectionConfig {}
+export type ChallengeJavascriptSdkInjection = {
+  [key in AssociatedResourceType]?: ChallengeJavascriptSdkInjectionConfig;
+};
 export interface AssociationConfig {
   RequestBody?: { [key: string]: RequestBodyAssociatedResourceTypeConfig | undefined };
+  ChallengeJavascriptSdkInjection?: {
+    [key: string]: ChallengeJavascriptSdkInjectionConfig | undefined;
+  };
 }
 export type LowReputationMode = "ACTIVE_UNDER_DDOS" | "ALWAYS_ON" | (string & {});
 export interface OnSourceDDoSProtectionConfig {
@@ -2187,6 +2194,7 @@ export type ParameterExceptionField =
   | "PRICE_AMOUNT"
   | "PAYMENT_NETWORK"
   | "PRE_PARSE_TEXT_TRANSFORMATION"
+  | "CHALLENGE_JAVASCRIPT_SDK_INJECTION_CONFIG"
   | (string & {});
 export type ParameterExceptionParameter = string;
 export type ErrorReason = string;
@@ -2244,6 +2252,21 @@ export const associateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateWebACL",
+  iam: {
+    actions: [
+      "appsync:AssociateWebACL",
+      "wafv2:AssociateWebACL",
+      "elasticloadbalancing:CreateWebACLAssociation",
+      "apigateway:SetWebACL",
+      "appsync:SetWebACL",
+      "elasticloadbalancing:SetWebAcl",
+    ],
+    resources: {
+      "elasticloadbalancing:CreateWebACLAssociation": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateWebACL",
 }));
@@ -2295,6 +2318,7 @@ export const checkCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckCapacity",
+  iam: { actions: ["wafv2:CheckCapacity"] },
   telemetry: TELEMETRY,
   span: "CheckCapacity",
 }));
@@ -2332,6 +2356,7 @@ export const createAPIKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAPIKey",
+  iam: { actions: ["wafv2:CreateAPIKey"] },
   telemetry: TELEMETRY,
   span: "CreateAPIKey",
 }));
@@ -2373,6 +2398,15 @@ export const createIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIPSet",
+  iam: {
+    actions: ["wafv2:CreateIPSet", "wafv2:TagResource"],
+    resources: {
+      "wafv2:CreateIPSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/ipset/${Name}/${Id}",
+      ],
+    },
+    conditional: { "wafv2:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIPSet",
 }));
@@ -2412,6 +2446,15 @@ export const createRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegexPatternSet",
+  iam: {
+    actions: ["wafv2:CreateRegexPatternSet", "wafv2:TagResource"],
+    resources: {
+      "wafv2:CreateRegexPatternSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/regexpatternset/${Name}/${Id}",
+      ],
+    },
+    conditional: { "wafv2:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRegexPatternSet",
 }));
@@ -2458,6 +2501,10 @@ export const createRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
+  iam: {
+    actions: ["wafv2:CreateRuleGroup", "wafv2:TagResource"],
+    conditional: { "wafv2:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRuleGroup",
 }));
@@ -2510,6 +2557,10 @@ export const createWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebACL",
+  iam: {
+    actions: ["wafv2:CreateWebACL", "wafv2:TagResource"],
+    conditional: { "wafv2:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWebACL",
 }));
@@ -2544,6 +2595,7 @@ export const deleteAPIKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAPIKey",
+  iam: { actions: ["wafv2:DeleteAPIKey"] },
   telemetry: TELEMETRY,
   span: "DeleteAPIKey",
 }));
@@ -2578,6 +2630,14 @@ export const deleteFirewallManagerRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallManagerRuleGroups",
+  iam: {
+    actions: ["wafv2:DeleteFirewallManagerRuleGroups"],
+    resources: {
+      "wafv2:DeleteFirewallManagerRuleGroups": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFirewallManagerRuleGroups",
 }));
@@ -2616,6 +2676,14 @@ export const deleteIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIPSet",
+  iam: {
+    actions: ["wafv2:DeleteIPSet"],
+    resources: {
+      "wafv2:DeleteIPSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/ipset/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIPSet",
 }));
@@ -2648,6 +2716,14 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
+  iam: {
+    actions: ["wafv2:DeleteLoggingConfiguration"],
+    resources: {
+      "wafv2:DeleteLoggingConfiguration": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLoggingConfiguration",
 }));
@@ -2674,6 +2750,14 @@ export const deletePermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionPolicy",
+  iam: {
+    actions: ["wafv2:DeletePermissionPolicy"],
+    resources: {
+      "wafv2:DeletePermissionPolicy": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/rulegroup/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePermissionPolicy",
 }));
@@ -2712,6 +2796,14 @@ export const deleteRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegexPatternSet",
+  iam: {
+    actions: ["wafv2:DeleteRegexPatternSet"],
+    resources: {
+      "wafv2:DeleteRegexPatternSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/regexpatternset/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRegexPatternSet",
 }));
@@ -2750,6 +2842,14 @@ export const deleteRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
+  iam: {
+    actions: ["wafv2:DeleteRuleGroup"],
+    resources: {
+      "wafv2:DeleteRuleGroup": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/rulegroup/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRuleGroup",
 }));
@@ -2809,6 +2909,14 @@ export const deleteWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebACL",
+  iam: {
+    actions: ["wafv2:DeleteWebACL"],
+    resources: {
+      "wafv2:DeleteWebACL": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWebACL",
 }));
@@ -2833,6 +2941,7 @@ export const describeAllManagedProducts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAllManagedProducts",
+  iam: { actions: ["wafv2:DescribeAllManagedProducts"] },
   telemetry: TELEMETRY,
   span: "DescribeAllManagedProducts",
 }));
@@ -2857,6 +2966,7 @@ export const describeManagedProductsByVendor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedProductsByVendor",
+  iam: { actions: ["wafv2:DescribeManagedProductsByVendor"] },
   telemetry: TELEMETRY,
   span: "DescribeManagedProductsByVendor",
 }));
@@ -2891,6 +3001,7 @@ export const describeManagedRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedRuleGroup",
+  iam: { actions: ["wafv2:DescribeManagedRuleGroup"] },
   telemetry: TELEMETRY,
   span: "DescribeManagedRuleGroup",
 }));
@@ -2931,6 +3042,21 @@ export const disassociateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateWebACL",
+  iam: {
+    actions: [
+      "elasticloadbalancing:DeleteWebACLAssociation",
+      "appsync:DisassociateWebACL",
+      "wafv2:DisassociateWebACL",
+      "apigateway:SetWebACL",
+      "appsync:SetWebACL",
+      "elasticloadbalancing:SetWebAcl",
+    ],
+    resources: {
+      "elasticloadbalancing:DeleteWebACLAssociation": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateWebACL",
 }));
@@ -2964,6 +3090,7 @@ export const generateMobileSdkReleaseUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMobileSdkReleaseUrl",
+  iam: { actions: ["wafv2:GenerateMobileSdkReleaseUrl"] },
   telemetry: TELEMETRY,
   span: "GenerateMobileSdkReleaseUrl",
 }));
@@ -3000,6 +3127,7 @@ export const getDecryptedAPIKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDecryptedAPIKey",
+  iam: { actions: ["wafv2:GetDecryptedAPIKey"] },
   telemetry: TELEMETRY,
   span: "GetDecryptedAPIKey",
 }));
@@ -3030,6 +3158,14 @@ export const getIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIPSet",
+  iam: {
+    actions: ["wafv2:GetIPSet"],
+    resources: {
+      "wafv2:GetIPSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/ipset/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIPSet",
 }));
@@ -3060,6 +3196,14 @@ export const getLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingConfiguration",
+  iam: {
+    actions: ["wafv2:GetLoggingConfiguration"],
+    resources: {
+      "wafv2:GetLoggingConfiguration": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLoggingConfiguration",
 }));
@@ -3094,6 +3238,14 @@ export const getManagedRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedRuleSet",
+  iam: {
+    actions: ["wafv2:GetManagedRuleSet"],
+    resources: {
+      "wafv2:GetManagedRuleSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/managedruleset/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetManagedRuleSet",
 }));
@@ -3128,6 +3280,7 @@ export const getMobileSdkRelease: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMobileSdkRelease",
+  iam: { actions: ["wafv2:GetMobileSdkRelease"] },
   telemetry: TELEMETRY,
   span: "GetMobileSdkRelease",
 }));
@@ -3154,6 +3307,14 @@ export const getPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermissionPolicy",
+  iam: {
+    actions: ["wafv2:GetPermissionPolicy"],
+    resources: {
+      "wafv2:GetPermissionPolicy": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/rulegroup/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPermissionPolicy",
 }));
@@ -3205,6 +3366,14 @@ export const getRateBasedStatementManagedKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRateBasedStatementManagedKeys",
+  iam: {
+    actions: ["wafv2:GetRateBasedStatementManagedKeys"],
+    resources: {
+      "wafv2:GetRateBasedStatementManagedKeys": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRateBasedStatementManagedKeys",
 }));
@@ -3235,6 +3404,14 @@ export const getRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegexPatternSet",
+  iam: {
+    actions: ["wafv2:GetRegexPatternSet"],
+    resources: {
+      "wafv2:GetRegexPatternSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/regexpatternset/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRegexPatternSet",
 }));
@@ -3265,6 +3442,7 @@ export const getRevenueStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatistics",
+  iam: { actions: ["wafv2:GetRevenueStatistics"] },
   telemetry: TELEMETRY,
   span: "GetRevenueStatistics",
 }));
@@ -3295,6 +3473,7 @@ export const getRevenueStatisticsSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatisticsSummary",
+  iam: { actions: ["wafv2:GetRevenueStatisticsSummary"] },
   telemetry: TELEMETRY,
   span: "GetRevenueStatisticsSummary",
 }));
@@ -3325,6 +3504,7 @@ export const getRevenueStatisticsTimeSeries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevenueStatisticsTimeSeries",
+  iam: { actions: ["wafv2:GetRevenueStatisticsTimeSeries"] },
   telemetry: TELEMETRY,
   span: "GetRevenueStatisticsTimeSeries",
 }));
@@ -3355,6 +3535,14 @@ export const getRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleGroup",
+  iam: {
+    actions: ["wafv2:GetRuleGroup"],
+    resources: {
+      "wafv2:GetRuleGroup": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/rulegroup/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRuleGroup",
 }));
@@ -3388,6 +3576,14 @@ export const getSampledRequests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSampledRequests",
+  iam: {
+    actions: ["wafv2:GetSampledRequests"],
+    resources: {
+      "wafv2:GetSampledRequests": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSampledRequests",
 }));
@@ -3422,6 +3618,14 @@ export const getTopPathStatisticsByTraffic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTopPathStatisticsByTraffic",
+  iam: {
+    actions: ["wafv2:GetTopPathStatisticsByTraffic"],
+    resources: {
+      "wafv2:GetTopPathStatisticsByTraffic": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTopPathStatisticsByTraffic",
 }));
@@ -3452,6 +3656,14 @@ export const getWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACL",
+  iam: {
+    actions: ["wafv2:GetWebACL"],
+    resources: {
+      "wafv2:GetWebACL": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWebACL",
 }));
@@ -3496,6 +3708,18 @@ export const getWebACLForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebACLForResource",
+  iam: {
+    actions: [
+      "elasticloadbalancing:GetLoadBalancerWebACL",
+      "appsync:GetWebACLForResource",
+      "wafv2:GetWebACLForResource",
+    ],
+    resources: {
+      "elasticloadbalancing:GetLoadBalancerWebACL": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/app/${LoadBalancerName}/${LoadBalancerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWebACLForResource",
 }));
@@ -3530,6 +3754,7 @@ export const listAPIKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAPIKeys",
+  iam: { actions: ["wafv2:ListAPIKeys"] },
   telemetry: TELEMETRY,
   span: "ListAPIKeys",
 }));
@@ -3556,6 +3781,7 @@ export const listAvailableManagedRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableManagedRuleGroups",
+  iam: { actions: ["wafv2:ListAvailableManagedRuleGroups"] },
   telemetry: TELEMETRY,
   span: "ListAvailableManagedRuleGroups",
 }));
@@ -3586,6 +3812,7 @@ export const listAvailableManagedRuleGroupVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableManagedRuleGroupVersions",
+  iam: { actions: ["wafv2:ListAvailableManagedRuleGroupVersions"] },
   telemetry: TELEMETRY,
   span: "ListAvailableManagedRuleGroupVersions",
 }));
@@ -3611,6 +3838,7 @@ export const listIPSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIPSets",
+  iam: { actions: ["wafv2:ListIPSets"] },
   telemetry: TELEMETRY,
   span: "ListIPSets",
 }));
@@ -3635,6 +3863,7 @@ export const listLoggingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggingConfigurations",
+  iam: { actions: ["wafv2:ListLoggingConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListLoggingConfigurations",
 }));
@@ -3663,6 +3892,7 @@ export const listManagedRuleSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListManagedRuleSets",
+  iam: { actions: ["wafv2:ListManagedRuleSets"] },
   telemetry: TELEMETRY,
   span: "ListManagedRuleSets",
 }));
@@ -3691,6 +3921,7 @@ export const listMobileSdkReleases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMobileSdkReleases",
+  iam: { actions: ["wafv2:ListMobileSdkReleases"] },
   telemetry: TELEMETRY,
   span: "ListMobileSdkReleases",
 }));
@@ -3716,6 +3947,7 @@ export const listRegexPatternSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRegexPatternSets",
+  iam: { actions: ["wafv2:ListRegexPatternSets"] },
   telemetry: TELEMETRY,
   span: "ListRegexPatternSets",
 }));
@@ -3756,6 +3988,13 @@ export const listResourcesForWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourcesForWebACL",
+  iam: {
+    actions: [
+      "elasticloadbalancing:DescribeWebACLAssociation",
+      "appsync:ListResourcesForWebACL",
+      "wafv2:ListResourcesForWebACL",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "ListResourcesForWebACL",
 }));
@@ -3781,6 +4020,7 @@ export const listRuleGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleGroups",
+  iam: { actions: ["wafv2:ListRuleGroups"] },
   telemetry: TELEMETRY,
   span: "ListRuleGroups",
 }));
@@ -3811,6 +4051,7 @@ export const listSettlementRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSettlementRecords",
+  iam: { actions: ["wafv2:ListSettlementRecords"] },
   telemetry: TELEMETRY,
   span: "ListSettlementRecords",
 }));
@@ -3853,6 +4094,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["wafv2:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3878,6 +4120,7 @@ export const listWebACLs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWebACLs",
+  iam: { actions: ["wafv2:ListWebACLs"] },
   telemetry: TELEMETRY,
   span: "ListWebACLs",
 }));
@@ -3956,6 +4199,14 @@ export const putLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingConfiguration",
+  iam: {
+    actions: ["wafv2:PutLoggingConfiguration"],
+    resources: {
+      "wafv2:PutLoggingConfiguration": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/webacl/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutLoggingConfiguration",
 }));
@@ -4001,6 +4252,15 @@ export const putManagedRuleSetVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutManagedRuleSetVersions",
+  iam: {
+    actions: ["wafv2:PutManagedRuleSetVersions"],
+    resources: {
+      "wafv2:PutManagedRuleSetVersions": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/managedruleset/${Name}/${Id}",
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/rulegroup/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutManagedRuleSetVersions",
 }));
@@ -4047,6 +4307,14 @@ export const putPermissionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermissionPolicy",
+  iam: {
+    actions: ["wafv2:PutPermissionPolicy"],
+    resources: {
+      "wafv2:PutPermissionPolicy": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/rulegroup/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutPermissionPolicy",
 }));
@@ -4091,6 +4359,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["wafv2:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4128,6 +4397,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["wafv2:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4188,6 +4458,14 @@ export const updateIPSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIPSet",
+  iam: {
+    actions: ["wafv2:UpdateIPSet"],
+    resources: {
+      "wafv2:UpdateIPSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/ipset/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIPSet",
 }));
@@ -4226,6 +4504,14 @@ export const updateManagedRuleSetVersionExpiryDate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedRuleSetVersionExpiryDate",
+  iam: {
+    actions: ["wafv2:UpdateManagedRuleSetVersionExpiryDate"],
+    resources: {
+      "wafv2:UpdateManagedRuleSetVersionExpiryDate": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/managedruleset/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateManagedRuleSetVersionExpiryDate",
 }));
@@ -4286,6 +4572,14 @@ export const updateRegexPatternSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegexPatternSet",
+  iam: {
+    actions: ["wafv2:UpdateRegexPatternSet"],
+    resources: {
+      "wafv2:UpdateRegexPatternSet": [
+        "arn:${Partition}:wafv2:${Region}:${Account}:${Scope}/regexpatternset/${Name}/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRegexPatternSet",
 }));
@@ -4354,6 +4648,7 @@ export const updateRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
+  iam: { actions: ["wafv2:UpdateRuleGroup"] },
   telemetry: TELEMETRY,
   span: "UpdateRuleGroup",
 }));
@@ -4429,6 +4724,7 @@ export const updateWebACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebACL",
+  iam: { actions: ["wafv2:UpdateWebACL"] },
   telemetry: TELEMETRY,
   span: "UpdateWebACL",
 }));
@@ -5159,9 +5455,9 @@ function __c19(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(583, __c18, 7)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateWebACLRequest" });
@@ -5199,21 +5495,26 @@ function __c20(j: number): any {
     case 6:
       return S.Record(S.String, /*@__PURE__*/ __S(645, __c20, 5).pipe(S.optional));
     case 7:
-      return S.suspend(() => S.Struct({ RequestBody: S.optional(__S(646, __c20, 6)) })).annotate({
-        identifier: "AssociationConfig",
-      });
+      return S.Record(S.String, /*@__PURE__*/ __S(224, __c7, 0).pipe(S.optional));
     case 8:
+      return S.suspend(() =>
+        S.Struct({
+          RequestBody: S.optional(__S(646, __c20, 6)),
+          ChallengeJavascriptSdkInjection: S.optional(__S(647, __c20, 7)),
+        }),
+      ).annotate({ identifier: "AssociationConfig" });
+    case 9:
       return S.suspend(() => S.Struct({ ALBLowReputationMode: S.String })).annotate({
         identifier: "OnSourceDDoSProtectionConfig",
       });
-    case 9:
+    case 10:
       return S.suspend(() =>
         S.Struct({ Name: S.optional(S.String), Values: S.optional(__S(96, __c3, 0)) }),
       ).annotate({ identifier: "ApplicationAttribute" });
-    case 10:
-      return S.Array(__S(649, __c20, 9));
     case 11:
-      return S.suspend(() => S.Struct({ Attributes: S.optional(__S(650, __c20, 10)) })).annotate({
+      return S.Array(__S(650, __c20, 10));
+    case 12:
+      return S.suspend(() => S.Struct({ Attributes: S.optional(__S(651, __c20, 11)) })).annotate({
         identifier: "ApplicationConfig",
       });
   }
@@ -6026,10 +6327,10 @@ function __c56(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
           RetrofittedByFirewallManager: S.optional(S.Boolean),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(583, __c18, 7)),
         }),
       ).annotate({ identifier: "WebACL" });
@@ -6551,9 +6852,9 @@ function __c82(j: number): any {
           CaptchaConfig: S.optional(__S(338, __c10, 18)),
           ChallengeConfig: S.optional(__S(338, __c10, 18)),
           TokenDomains: S.optional(__S(96, __c3, 0)),
-          AssociationConfig: S.optional(__S(647, __c20, 7)),
-          OnSourceDDoSProtectionConfig: S.optional(__S(648, __c20, 8)),
-          ApplicationConfig: S.optional(__S(651, __c20, 11)),
+          AssociationConfig: S.optional(__S(648, __c20, 8)),
+          OnSourceDDoSProtectionConfig: S.optional(__S(649, __c20, 9)),
+          ApplicationConfig: S.optional(__S(652, __c20, 12)),
           MonetizationConfig: S.optional(__S(583, __c18, 7)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateWebACLRequest" });

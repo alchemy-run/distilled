@@ -1563,6 +1563,7 @@ export const acknowledgeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcknowledgeJob",
+  iam: { actions: ["codepipeline:AcknowledgeJob"] },
   telemetry: TELEMETRY,
   span: "AcknowledgeJob",
 }));
@@ -1594,6 +1595,7 @@ export const acknowledgeThirdPartyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcknowledgeThirdPartyJob",
+  iam: { actions: ["codepipeline:AcknowledgeThirdPartyJob"] },
   telemetry: TELEMETRY,
   span: "AcknowledgeThirdPartyJob",
 }));
@@ -1627,6 +1629,15 @@ export const createCustomActionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomActionType",
+  iam: {
+    actions: ["codepipeline:CreateCustomActionType", "codepipeline:TagResource"],
+    resources: {
+      "codepipeline:CreateCustomActionType": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:actiontype:${Owner}/${Category}/${Provider}/${Version}",
+      ],
+    },
+    conditional: { "codepipeline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomActionType",
 }));
@@ -1674,6 +1685,24 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
+  iam: {
+    actions: [
+      "codepipeline:CreatePipeline",
+      "codestar-connections:PassConnection",
+      "iam:PassRole",
+      "codepipeline:TagResource",
+    ],
+    resources: {
+      "codepipeline:CreatePipeline": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+      "codestar-connections:PassConnection": [
+        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "codepipeline:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePipeline",
 }));
@@ -1704,6 +1733,14 @@ export const deleteCustomActionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomActionType",
+  iam: {
+    actions: ["codepipeline:DeleteCustomActionType"],
+    resources: {
+      "codepipeline:DeleteCustomActionType": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:actiontype:${Owner}/${Category}/${Provider}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomActionType",
 }));
@@ -1727,6 +1764,14 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
+  iam: {
+    actions: ["codepipeline:DeletePipeline"],
+    resources: {
+      "codepipeline:DeletePipeline": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePipeline",
 }));
@@ -1753,6 +1798,14 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  iam: {
+    actions: ["codepipeline:DeleteWebhook"],
+    resources: {
+      "codepipeline:DeleteWebhook": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:webhook:${WebhookName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWebhook",
 }));
@@ -1778,6 +1831,14 @@ export const deregisterWebhookWithThirdParty: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterWebhookWithThirdParty",
+  iam: {
+    actions: ["codepipeline:DeregisterWebhookWithThirdParty"],
+    resources: {
+      "codepipeline:DeregisterWebhookWithThirdParty": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:webhook:${WebhookName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterWebhookWithThirdParty",
 }));
@@ -1803,6 +1864,14 @@ export const disableStageTransition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableStageTransition",
+  iam: {
+    actions: ["codepipeline:DisableStageTransition"],
+    resources: {
+      "codepipeline:DisableStageTransition": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}/${StageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableStageTransition",
 }));
@@ -1827,6 +1896,14 @@ export const enableStageTransition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableStageTransition",
+  iam: {
+    actions: ["codepipeline:EnableStageTransition"],
+    resources: {
+      "codepipeline:EnableStageTransition": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}/${StageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableStageTransition",
 }));
@@ -1849,6 +1926,7 @@ export const getActionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActionType",
+  iam: { actions: ["codepipeline:GetActionType"] },
   telemetry: TELEMETRY,
   span: "GetActionType",
 }));
@@ -1874,6 +1952,7 @@ export const getJobDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobDetails",
+  iam: { actions: ["codepipeline:GetJobDetails"] },
   telemetry: TELEMETRY,
   span: "GetJobDetails",
 }));
@@ -1900,6 +1979,14 @@ export const getPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipeline",
+  iam: {
+    actions: ["codepipeline:GetPipeline"],
+    resources: {
+      "codepipeline:GetPipeline": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPipeline",
 }));
@@ -1926,6 +2013,14 @@ export const getPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineExecution",
+  iam: {
+    actions: ["codepipeline:GetPipelineExecution"],
+    resources: {
+      "codepipeline:GetPipelineExecution": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPipelineExecution",
 }));
@@ -1951,6 +2046,14 @@ export const getPipelineState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineState",
+  iam: {
+    actions: ["codepipeline:GetPipelineState"],
+    resources: {
+      "codepipeline:GetPipelineState": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPipelineState",
 }));
@@ -1987,6 +2090,7 @@ export const getThirdPartyJobDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThirdPartyJobDetails",
+  iam: { actions: ["codepipeline:GetThirdPartyJobDetails"] },
   telemetry: TELEMETRY,
   span: "GetThirdPartyJobDetails",
 }));
@@ -2024,6 +2128,14 @@ export const listActionExecutions: API.PaginatedOperationMethod<
     items: "actionExecutionDetails",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codepipeline:ListActionExecutions"],
+    resources: {
+      "codepipeline:ListActionExecutions": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListActionExecutions",
 })) as any;
@@ -2047,6 +2159,7 @@ export const listActionTypes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListActionTypes",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "actionTypes" } as const,
+  iam: { actions: ["codepipeline:ListActionTypes"] },
   telemetry: TELEMETRY,
   span: "ListActionTypes",
 })) as any;
@@ -2084,6 +2197,14 @@ export const listDeployActionExecutionTargets: API.PaginatedOperationMethod<
     items: "targets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codepipeline:ListDeployActionExecutionTargets"],
+    resources: {
+      "codepipeline:ListDeployActionExecutionTargets": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDeployActionExecutionTargets",
 })) as any;
@@ -2119,6 +2240,14 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
     items: "pipelineExecutionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codepipeline:ListPipelineExecutions"],
+    resources: {
+      "codepipeline:ListPipelineExecutions": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPipelineExecutions",
 })) as any;
@@ -2146,6 +2275,7 @@ export const listPipelines: API.PaginatedOperationMethod<
     items: "pipelines",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codepipeline:ListPipelines"] },
   telemetry: TELEMETRY,
   span: "ListPipelines",
 })) as any;
@@ -2184,6 +2314,14 @@ export const listRuleExecutions: API.PaginatedOperationMethod<
     items: "ruleExecutionDetails",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codepipeline:ListRuleExecutions"],
+    resources: {
+      "codepipeline:ListRuleExecutions": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRuleExecutions",
 })) as any;
@@ -2192,7 +2330,8 @@ export type ListRuleTypesError = InvalidNextTokenException | ValidationException
 /**
  * Lists the rules for the condition. For more information about conditions, see Stage
  * conditions and How do
- * stage conditions work?.For more information about rules, see the CodePipeline rule reference.
+ * stage conditions work?.For more information about rules, see the
+ * CodePipeline rule reference.
  */
 export const listRuleTypes: API.OperationMethod<
   ListRuleTypesInput & RegionInput,
@@ -2206,6 +2345,7 @@ export const listRuleTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleTypes",
+  iam: { actions: ["codepipeline:ListRuleTypes"] },
   telemetry: TELEMETRY,
   span: "ListRuleTypes",
 }));
@@ -2244,6 +2384,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codepipeline:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -2275,6 +2416,14 @@ export const listWebhooks: API.PaginatedOperationMethod<
     items: "webhooks",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["codepipeline:ListWebhooks"],
+    resources: {
+      "codepipeline:ListWebhooks": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:webhook:${WebhookName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWebhooks",
 })) as any;
@@ -2313,6 +2462,14 @@ export const overrideStageCondition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OverrideStageCondition",
+  iam: {
+    actions: ["codepipeline:OverrideStageCondition"],
+    resources: {
+      "codepipeline:OverrideStageCondition": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}/${StageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "OverrideStageCondition",
 }));
@@ -2341,6 +2498,14 @@ export const pollForJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForJobs",
+  iam: {
+    actions: ["codepipeline:PollForJobs"],
+    resources: {
+      "codepipeline:PollForJobs": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:actiontype:${Owner}/${Category}/${Provider}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PollForJobs",
 }));
@@ -2369,6 +2534,7 @@ export const pollForThirdPartyJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForThirdPartyJobs",
+  iam: { actions: ["codepipeline:PollForThirdPartyJobs"] },
   telemetry: TELEMETRY,
   span: "PollForThirdPartyJobs",
 }));
@@ -2402,6 +2568,14 @@ export const putActionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutActionRevision",
+  iam: {
+    actions: ["codepipeline:PutActionRevision"],
+    resources: {
+      "codepipeline:PutActionRevision": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}/${StageName}/${ActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutActionRevision",
 }));
@@ -2437,6 +2611,14 @@ export const putApprovalResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApprovalResult",
+  iam: {
+    actions: ["codepipeline:PutApprovalResult"],
+    resources: {
+      "codepipeline:PutApprovalResult": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}/${StageName}/${ActionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutApprovalResult",
 }));
@@ -2462,6 +2644,7 @@ export const putJobFailureResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutJobFailureResult",
+  iam: { actions: ["codepipeline:PutJobFailureResult"] },
   telemetry: TELEMETRY,
   span: "PutJobFailureResult",
 }));
@@ -2493,6 +2676,7 @@ export const putJobSuccessResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutJobSuccessResult",
+  iam: { actions: ["codepipeline:PutJobSuccessResult"] },
   telemetry: TELEMETRY,
   span: "PutJobSuccessResult",
 }));
@@ -2524,6 +2708,7 @@ export const putThirdPartyJobFailureResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyJobFailureResult",
+  iam: { actions: ["codepipeline:PutThirdPartyJobFailureResult"] },
   telemetry: TELEMETRY,
   span: "PutThirdPartyJobFailureResult",
 }));
@@ -2555,6 +2740,7 @@ export const putThirdPartyJobSuccessResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyJobSuccessResult",
+  iam: { actions: ["codepipeline:PutThirdPartyJobSuccessResult"] },
   telemetry: TELEMETRY,
   span: "PutThirdPartyJobSuccessResult",
 }));
@@ -2610,6 +2796,16 @@ export const putWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWebhook",
+  iam: {
+    actions: ["codepipeline:PutWebhook", "codepipeline:TagResource", "codepipeline:UntagResource"],
+    resources: {
+      "codepipeline:PutWebhook": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+        "arn:${Partition}:codepipeline:${Region}:${Account}:webhook:${WebhookName}",
+      ],
+    },
+    conditional: { "codepipeline:TagResource": "tags", "codepipeline:UntagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutWebhook",
 }));
@@ -2634,6 +2830,14 @@ export const registerWebhookWithThirdParty: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterWebhookWithThirdParty",
+  iam: {
+    actions: ["codepipeline:RegisterWebhookWithThirdParty"],
+    resources: {
+      "codepipeline:RegisterWebhookWithThirdParty": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:webhook:${WebhookName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterWebhookWithThirdParty",
 }));
@@ -2677,6 +2881,14 @@ export const retryStageExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryStageExecution",
+  iam: {
+    actions: ["codepipeline:RetryStageExecution"],
+    resources: {
+      "codepipeline:RetryStageExecution": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}/${StageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetryStageExecution",
 }));
@@ -2713,6 +2925,14 @@ export const rollbackStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackStage",
+  iam: {
+    actions: ["codepipeline:RollbackStage"],
+    resources: {
+      "codepipeline:RollbackStage": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}/${StageName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RollbackStage",
 }));
@@ -2744,6 +2964,14 @@ export const startPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipelineExecution",
+  iam: {
+    actions: ["codepipeline:StartPipelineExecution"],
+    resources: {
+      "codepipeline:StartPipelineExecution": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartPipelineExecution",
 }));
@@ -2781,6 +3009,14 @@ export const stopPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipelineExecution",
+  iam: {
+    actions: ["codepipeline:StopPipelineExecution"],
+    resources: {
+      "codepipeline:StopPipelineExecution": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopPipelineExecution",
 }));
@@ -2816,6 +3052,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["codepipeline:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2848,6 +3085,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["codepipeline:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2875,6 +3113,14 @@ export const updateActionType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateActionType",
+  iam: {
+    actions: ["codepipeline:UpdateActionType"],
+    resources: {
+      "codepipeline:UpdateActionType": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:actiontype:${Owner}/${Category}/${Provider}/${Version}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateActionType",
 }));
@@ -2912,6 +3158,18 @@ export const updatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipeline",
+  iam: {
+    actions: ["codestar-connections:PassConnection", "iam:PassRole", "codepipeline:UpdatePipeline"],
+    resources: {
+      "codestar-connections:PassConnection": [
+        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "codepipeline:UpdatePipeline": [
+        "arn:${Partition}:codepipeline:${Region}:${Account}:${PipelineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePipeline",
 }));

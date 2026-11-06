@@ -2803,6 +2803,14 @@ export const associateResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceTypes",
+  iam: {
+    actions: ["config:AssociateResourceTypes"],
+    resources: {
+      "config:AssociateResourceTypes": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateResourceTypes",
 }));
@@ -2831,6 +2839,14 @@ export const batchGetAggregateResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAggregateResourceConfig",
+  iam: {
+    actions: ["config:BatchGetAggregateResourceConfig"],
+    resources: {
+      "config:BatchGetAggregateResourceConfig": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetAggregateResourceConfig",
 }));
@@ -2866,6 +2882,7 @@ export const batchGetResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetResourceConfig",
+  iam: { actions: ["config:BatchGetResourceConfig"] },
   telemetry: TELEMETRY,
   span: "BatchGetResourceConfig",
 }));
@@ -2887,6 +2904,14 @@ export const deleteAggregationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAggregationAuthorization",
+  iam: {
+    actions: ["config:DeleteAggregationAuthorization"],
+    resources: {
+      "config:DeleteAggregationAuthorization": [
+        "arn:${Partition}:config:${Region}:${Account}:aggregation-authorization/${AggregatorAccount}/${AggregatorRegion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAggregationAuthorization",
 }));
@@ -2932,6 +2957,14 @@ export const deleteConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigRule",
+  iam: {
+    actions: ["config:DeleteConfigRule"],
+    resources: {
+      "config:DeleteConfigRule": [
+        "arn:${Partition}:config:${Region}:${Account}:config-rule/${ConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigRule",
 }));
@@ -2955,6 +2988,14 @@ export const deleteConfigurationAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationAggregator",
+  iam: {
+    actions: ["config:DeleteConfigurationAggregator"],
+    resources: {
+      "config:DeleteConfigurationAggregator": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationAggregator",
 }));
@@ -2985,6 +3026,14 @@ export const deleteConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationRecorder",
+  iam: {
+    actions: ["config:DeleteConfigurationRecorder"],
+    resources: {
+      "config:DeleteConfigurationRecorder": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationRecorder",
 }));
@@ -3024,6 +3073,14 @@ export const deleteConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConformancePack",
+  iam: {
+    actions: ["config:DeleteConformancePack"],
+    resources: {
+      "config:DeleteConformancePack": [
+        "arn:${Partition}:config:${Region}:${Account}:conformance-pack/${ConformancePackName}/${ConformancePackId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConformancePack",
 }));
@@ -3044,6 +3101,14 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  iam: {
+    actions: ["config:DeleteConnector"],
+    resources: {
+      "config:DeleteConnector": [
+        "arn:${Partition}:config:${Region}:${Account}:connector/${Provider}/${ProviderId}/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -3069,6 +3134,7 @@ export const deleteDeliveryChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryChannel",
+  iam: { actions: ["config:DeleteDeliveryChannel"] },
   telemetry: TELEMETRY,
   span: "DeleteDeliveryChannel",
 }));
@@ -3095,6 +3161,14 @@ export const deleteEvaluationResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluationResults",
+  iam: {
+    actions: ["config:DeleteEvaluationResults"],
+    resources: {
+      "config:DeleteEvaluationResults": [
+        "arn:${Partition}:config:${Region}:${Account}:config-rule/${ConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEvaluationResults",
 }));
@@ -3142,6 +3216,14 @@ export const deleteOrganizationConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationConfigRule",
+  iam: {
+    actions: ["config:DeleteOrganizationConfigRule"],
+    resources: {
+      "config:DeleteOrganizationConfigRule": [
+        "arn:${Partition}:config:${Region}:${Account}:organization-config-rule/${OrganizationConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOrganizationConfigRule",
 }));
@@ -3190,6 +3272,14 @@ export const deleteOrganizationConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationConformancePack",
+  iam: {
+    actions: ["config:DeleteOrganizationConformancePack"],
+    resources: {
+      "config:DeleteOrganizationConformancePack": [
+        "arn:${Partition}:config:${Region}:${Account}:organization-conformance-pack/${OrganizationConformancePackId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOrganizationConformancePack",
 }));
@@ -3211,6 +3301,7 @@ export const deletePendingAggregationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePendingAggregationRequest",
+  iam: { actions: ["config:DeletePendingAggregationRequest"] },
   telemetry: TELEMETRY,
   span: "DeletePendingAggregationRequest",
 }));
@@ -3241,6 +3332,14 @@ export const deleteRemediationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemediationConfiguration",
+  iam: {
+    actions: ["config:DeleteRemediationConfiguration"],
+    resources: {
+      "config:DeleteRemediationConfiguration": [
+        "arn:${Partition}:config:${Region}:${Account}:remediation-configuration/${RemediationConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRemediationConfiguration",
 }));
@@ -3264,6 +3363,7 @@ export const deleteRemediationExceptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRemediationExceptions",
+  iam: { actions: ["config:DeleteRemediationExceptions"] },
   telemetry: TELEMETRY,
   span: "DeleteRemediationExceptions",
 }));
@@ -3287,6 +3387,7 @@ export const deleteResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceConfig",
+  iam: { actions: ["config:DeleteResourceConfig"] },
   telemetry: TELEMETRY,
   span: "DeleteResourceConfig",
 }));
@@ -3310,6 +3411,7 @@ export const deleteRetentionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetentionConfiguration",
+  iam: { actions: ["config:DeleteRetentionConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteRetentionConfiguration",
 }));
@@ -3344,6 +3446,14 @@ export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedConfigurationRecorder",
+  iam: {
+    actions: ["config:DeleteServiceLinkedConfigurationRecorder"],
+    resources: {
+      "config:DeleteServiceLinkedConfigurationRecorder": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServiceLinkedConfigurationRecorder",
 }));
@@ -3364,6 +3474,14 @@ export const deleteStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStoredQuery",
+  iam: {
+    actions: ["config:DeleteStoredQuery"],
+    resources: {
+      "config:DeleteStoredQuery": [
+        "arn:${Partition}:config:${Region}:${Account}:stored-query/${StoredQueryName}/${StoredQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStoredQuery",
 }));
@@ -3403,6 +3521,7 @@ export const deliverConfigSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeliverConfigSnapshot",
+  iam: { actions: ["config:DeliverConfigSnapshot"] },
   telemetry: TELEMETRY,
   span: "DeliverConfigSnapshot",
 }));
@@ -3440,6 +3559,14 @@ export const describeAggregateComplianceByConfigRules: API.PaginatedOperationMet
   retry: Retry,
   operationName: "DescribeAggregateComplianceByConfigRules",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: {
+    actions: ["config:DescribeAggregateComplianceByConfigRules"],
+    resources: {
+      "config:DescribeAggregateComplianceByConfigRules": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAggregateComplianceByConfigRules",
 })) as any;
@@ -3488,6 +3615,14 @@ export const describeAggregateComplianceByConformancePacks: API.PaginatedOperati
     items: "AggregateComplianceByConformancePacks",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:DescribeAggregateComplianceByConformancePacks"],
+    resources: {
+      "config:DescribeAggregateComplianceByConformancePacks": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAggregateComplianceByConformancePacks",
 })) as any;
@@ -3520,6 +3655,7 @@ export const describeAggregationAuthorizations: API.PaginatedOperationMethod<
     items: "AggregationAuthorizations",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeAggregationAuthorizations"] },
   telemetry: TELEMETRY,
   span: "DescribeAggregationAuthorizations",
 })) as any;
@@ -3579,6 +3715,7 @@ export const describeComplianceByConfigRule: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ComplianceByConfigRules",
   } as const,
+  iam: { actions: ["config:DescribeComplianceByConfigRule"] },
   telemetry: TELEMETRY,
   span: "DescribeComplianceByConfigRule",
 })) as any;
@@ -3638,6 +3775,7 @@ export const describeComplianceByResource: API.PaginatedOperationMethod<
     items: "ComplianceByResources",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeComplianceByResource"] },
   telemetry: TELEMETRY,
   span: "DescribeComplianceByResource",
 })) as any;
@@ -3670,6 +3808,7 @@ export const describeConfigRuleEvaluationStatus: API.PaginatedOperationMethod<
     items: "ConfigRulesEvaluationStatus",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeConfigRuleEvaluationStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigRuleEvaluationStatus",
 })) as any;
@@ -3696,6 +3835,7 @@ export const describeConfigRules: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeConfigRules",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "ConfigRules" } as const,
+  iam: { actions: ["config:DescribeConfigRules"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigRules",
 })) as any;
@@ -3736,6 +3876,7 @@ export const describeConfigurationAggregators: API.PaginatedOperationMethod<
     items: "ConfigurationAggregators",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeConfigurationAggregators"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationAggregators",
 })) as any;
@@ -3782,6 +3923,14 @@ export const describeConfigurationAggregatorSourcesStatus: API.PaginatedOperatio
     items: "AggregatedSourceStatusList",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:DescribeConfigurationAggregatorSourcesStatus"],
+    resources: {
+      "config:DescribeConfigurationAggregatorSourcesStatus": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationAggregatorSourcesStatus",
 })) as any;
@@ -3810,6 +3959,14 @@ export const describeConfigurationRecorders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRecorders",
+  iam: {
+    actions: ["config:DescribeConfigurationRecorders"],
+    resources: {
+      "config:DescribeConfigurationRecorders": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationRecorders",
 }));
@@ -3841,6 +3998,14 @@ export const describeConfigurationRecorderStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRecorderStatus",
+  iam: {
+    actions: ["config:DescribeConfigurationRecorderStatus"],
+    resources: {
+      "config:DescribeConfigurationRecorderStatus": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationRecorderStatus",
 }));
@@ -3882,6 +4047,14 @@ export const describeConformancePackCompliance: API.PaginatedOperationMethod<
     items: "ConformancePackRuleComplianceList",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:DescribeConformancePackCompliance"],
+    resources: {
+      "config:DescribeConformancePackCompliance": [
+        "arn:${Partition}:config:${Region}:${Account}:conformance-pack/${ConformancePackName}/${ConformancePackId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConformancePackCompliance",
 })) as any;
@@ -3919,6 +4092,7 @@ export const describeConformancePacks: API.PaginatedOperationMethod<
     items: "ConformancePackDetails",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeConformancePacks"] },
   telemetry: TELEMETRY,
   span: "DescribeConformancePacks",
 })) as any;
@@ -3952,6 +4126,7 @@ export const describeConformancePackStatus: API.PaginatedOperationMethod<
     items: "ConformancePackStatusDetails",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeConformancePackStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeConformancePackStatus",
 })) as any;
@@ -3977,6 +4152,7 @@ export const describeDeliveryChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryChannels",
+  iam: { actions: ["config:DescribeDeliveryChannels"] },
   telemetry: TELEMETRY,
   span: "DescribeDeliveryChannels",
 }));
@@ -4003,6 +4179,7 @@ export const describeDeliveryChannelStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryChannelStatus",
+  iam: { actions: ["config:DescribeDeliveryChannelStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeDeliveryChannelStatus",
 }));
@@ -4058,6 +4235,7 @@ export const describeOrganizationConfigRules: API.PaginatedOperationMethod<
     items: "OrganizationConfigRules",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeOrganizationConfigRules"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConfigRules",
 })) as any;
@@ -4102,6 +4280,7 @@ export const describeOrganizationConfigRuleStatuses: API.PaginatedOperationMetho
     items: "OrganizationConfigRuleStatuses",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeOrganizationConfigRuleStatuses"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConfigRuleStatuses",
 })) as any;
@@ -4157,6 +4336,7 @@ export const describeOrganizationConformancePacks: API.PaginatedOperationMethod<
     items: "OrganizationConformancePacks",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeOrganizationConformancePacks"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConformancePacks",
 })) as any;
@@ -4209,6 +4389,7 @@ export const describeOrganizationConformancePackStatuses: API.PaginatedOperation
     items: "OrganizationConformancePackStatuses",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribeOrganizationConformancePackStatuses"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConformancePackStatuses",
 })) as any;
@@ -4240,6 +4421,7 @@ export const describePendingAggregationRequests: API.PaginatedOperationMethod<
     items: "PendingAggregationRequests",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:DescribePendingAggregationRequests"] },
   telemetry: TELEMETRY,
   span: "DescribePendingAggregationRequests",
 })) as any;
@@ -4260,6 +4442,14 @@ export const describeRemediationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRemediationConfigurations",
+  iam: {
+    actions: ["config:DescribeRemediationConfigurations"],
+    resources: {
+      "config:DescribeRemediationConfigurations": [
+        "arn:${Partition}:config:${Region}:${Account}:remediation-configuration/${RemediationConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRemediationConfigurations",
 }));
@@ -4293,6 +4483,7 @@ export const describeRemediationExceptions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeRemediationExceptions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: { actions: ["config:DescribeRemediationExceptions"] },
   telemetry: TELEMETRY,
   span: "DescribeRemediationExceptions",
 })) as any;
@@ -4329,6 +4520,14 @@ export const describeRemediationExecutionStatus: API.PaginatedOperationMethod<
     items: "RemediationExecutionStatuses",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:DescribeRemediationExecutionStatus"],
+    resources: {
+      "config:DescribeRemediationExecutionStatus": [
+        "arn:${Partition}:config:${Region}:${Account}:remediation-configuration/${RemediationConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRemediationExecutionStatus",
 })) as any;
@@ -4369,6 +4568,7 @@ export const describeRetentionConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "RetentionConfigurations",
   } as const,
+  iam: { actions: ["config:DescribeRetentionConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeRetentionConfigurations",
 })) as any;
@@ -4395,6 +4595,14 @@ export const disassociateResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceTypes",
+  iam: {
+    actions: ["config:DisassociateResourceTypes"],
+    resources: {
+      "config:DisassociateResourceTypes": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateResourceTypes",
 }));
@@ -4439,6 +4647,14 @@ export const getAggregateComplianceDetailsByConfigRule: API.PaginatedOperationMe
     items: "AggregateEvaluationResults",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:GetAggregateComplianceDetailsByConfigRule"],
+    resources: {
+      "config:GetAggregateComplianceDetailsByConfigRule": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAggregateComplianceDetailsByConfigRule",
 })) as any;
@@ -4476,6 +4692,14 @@ export const getAggregateConfigRuleComplianceSummary: API.PaginatedOperationMeth
   retry: Retry,
   operationName: "GetAggregateConfigRuleComplianceSummary",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: {
+    actions: ["config:GetAggregateConfigRuleComplianceSummary"],
+    resources: {
+      "config:GetAggregateConfigRuleComplianceSummary": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAggregateConfigRuleComplianceSummary",
 })) as any;
@@ -4514,6 +4738,14 @@ export const getAggregateConformancePackComplianceSummary: API.PaginatedOperatio
   retry: Retry,
   operationName: "GetAggregateConformancePackComplianceSummary",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: {
+    actions: ["config:GetAggregateConformancePackComplianceSummary"],
+    resources: {
+      "config:GetAggregateConformancePackComplianceSummary": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAggregateConformancePackComplianceSummary",
 })) as any;
@@ -4549,6 +4781,14 @@ export const getAggregateDiscoveredResourceCounts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetAggregateDiscoveredResourceCounts",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: {
+    actions: ["config:GetAggregateDiscoveredResourceCounts"],
+    resources: {
+      "config:GetAggregateDiscoveredResourceCounts": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAggregateDiscoveredResourceCounts",
 })) as any;
@@ -4581,6 +4821,14 @@ export const getAggregateResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAggregateResourceConfig",
+  iam: {
+    actions: ["config:GetAggregateResourceConfig"],
+    resources: {
+      "config:GetAggregateResourceConfig": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAggregateResourceConfig",
 }));
@@ -4615,6 +4863,14 @@ export const getComplianceDetailsByConfigRule: API.PaginatedOperationMethod<
     items: "EvaluationResults",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:GetComplianceDetailsByConfigRule"],
+    resources: {
+      "config:GetComplianceDetailsByConfigRule": [
+        "arn:${Partition}:config:${Region}:${Account}:config-rule/${ConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetComplianceDetailsByConfigRule",
 })) as any;
@@ -4644,6 +4900,7 @@ export const getComplianceDetailsByResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "EvaluationResults",
   } as const,
+  iam: { actions: ["config:GetComplianceDetailsByResource"] },
   telemetry: TELEMETRY,
   span: "GetComplianceDetailsByResource",
 })) as any;
@@ -4665,6 +4922,7 @@ export const getComplianceSummaryByConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummaryByConfigRule",
+  iam: { actions: ["config:GetComplianceSummaryByConfigRule"] },
   telemetry: TELEMETRY,
   span: "GetComplianceSummaryByConfigRule",
 }));
@@ -4688,6 +4946,7 @@ export const getComplianceSummaryByResourceType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceSummaryByResourceType",
+  iam: { actions: ["config:GetComplianceSummaryByResourceType"] },
   telemetry: TELEMETRY,
   span: "GetComplianceSummaryByResourceType",
 }));
@@ -4722,6 +4981,14 @@ export const getConformancePackComplianceDetails: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetConformancePackComplianceDetails",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: {
+    actions: ["config:GetConformancePackComplianceDetails"],
+    resources: {
+      "config:GetConformancePackComplianceDetails": [
+        "arn:${Partition}:config:${Region}:${Account}:conformance-pack/${ConformancePackName}/${ConformancePackId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConformancePackComplianceDetails",
 })) as any;
@@ -4753,6 +5020,14 @@ export const getConformancePackComplianceSummary: API.PaginatedOperationMethod<
     items: "ConformancePackComplianceSummaryList",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:GetConformancePackComplianceSummary"],
+    resources: {
+      "config:GetConformancePackComplianceSummary": [
+        "arn:${Partition}:config:${Region}:${Account}:conformance-pack/${ConformancePackName}/${ConformancePackId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConformancePackComplianceSummary",
 })) as any;
@@ -4773,6 +5048,14 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
+  iam: {
+    actions: ["config:GetConnector"],
+    resources: {
+      "config:GetConnector": [
+        "arn:${Partition}:config:${Region}:${Account}:connector/${Provider}/${ProviderId}/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnector",
 }));
@@ -4793,6 +5076,14 @@ export const getCustomRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomRulePolicy",
+  iam: {
+    actions: ["config:GetCustomRulePolicy"],
+    resources: {
+      "config:GetCustomRulePolicy": [
+        "arn:${Partition}:config:${Region}:${Account}:config-rule/${ConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomRulePolicy",
 }));
@@ -4861,6 +5152,7 @@ export const getDiscoveredResourceCounts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetDiscoveredResourceCounts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "limit" } as const,
+  iam: { actions: ["config:GetDiscoveredResourceCounts"] },
   telemetry: TELEMETRY,
   span: "GetDiscoveredResourceCounts",
 })) as any;
@@ -4898,6 +5190,14 @@ export const getOrganizationConfigRuleDetailedStatus: API.PaginatedOperationMeth
     items: "OrganizationConfigRuleDetailedStatus",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:GetOrganizationConfigRuleDetailedStatus"],
+    resources: {
+      "config:GetOrganizationConfigRuleDetailedStatus": [
+        "arn:${Partition}:config:${Region}:${Account}:organization-config-rule/${OrganizationConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOrganizationConfigRuleDetailedStatus",
 })) as any;
@@ -4939,6 +5239,14 @@ export const getOrganizationConformancePackDetailedStatus: API.PaginatedOperatio
     items: "OrganizationConformancePackDetailedStatuses",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:GetOrganizationConformancePackDetailedStatus"],
+    resources: {
+      "config:GetOrganizationConformancePackDetailedStatus": [
+        "arn:${Partition}:config:${Region}:${Account}:organization-conformance-pack/${OrganizationConformancePackId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOrganizationConformancePackDetailedStatus",
 })) as any;
@@ -4962,6 +5270,14 @@ export const getOrganizationCustomRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationCustomRulePolicy",
+  iam: {
+    actions: ["config:GetOrganizationCustomRulePolicy"],
+    resources: {
+      "config:GetOrganizationCustomRulePolicy": [
+        "arn:${Partition}:config:${Region}:${Account}:organization-config-rule/${OrganizationConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOrganizationCustomRulePolicy",
 }));
@@ -5031,6 +5347,7 @@ export const getResourceConfigHistory: API.PaginatedOperationMethod<
     items: "configurationItems",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["config:GetResourceConfigHistory"] },
   telemetry: TELEMETRY,
   span: "GetResourceConfigHistory",
 })) as any;
@@ -5056,6 +5373,7 @@ export const getResourceEvaluationSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceEvaluationSummary",
+  iam: { actions: ["config:GetResourceEvaluationSummary"] },
   telemetry: TELEMETRY,
   span: "GetResourceEvaluationSummary",
 }));
@@ -5076,6 +5394,14 @@ export const getStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStoredQuery",
+  iam: {
+    actions: ["config:GetStoredQuery"],
+    resources: {
+      "config:GetStoredQuery": [
+        "arn:${Partition}:config:${Region}:${Account}:stored-query/${StoredQueryName}/${StoredQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStoredQuery",
 }));
@@ -5117,6 +5443,14 @@ export const listAggregateDiscoveredResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:ListAggregateDiscoveredResources"],
+    resources: {
+      "config:ListAggregateDiscoveredResources": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAggregateDiscoveredResources",
 })) as any;
@@ -5144,6 +5478,7 @@ export const listConfigurationRecorders: API.PaginatedOperationMethod<
     items: "ConfigurationRecorderSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["config:ListConfigurationRecorders"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationRecorders",
 })) as any;
@@ -5175,6 +5510,7 @@ export const listConformancePackComplianceScores: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListConformancePackComplianceScores",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "Limit" } as const,
+  iam: { actions: ["config:ListConformancePackComplianceScores"] },
   telemetry: TELEMETRY,
   span: "ListConformancePackComplianceScores",
 })) as any;
@@ -5202,6 +5538,7 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "ConnectorSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["config:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -5272,6 +5609,7 @@ export const listDiscoveredResources: API.PaginatedOperationMethod<
     items: "resourceIdentifiers",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["config:ListDiscoveredResources"] },
   telemetry: TELEMETRY,
   span: "ListDiscoveredResources",
 })) as any;
@@ -5303,6 +5641,7 @@ export const listResourceEvaluations: API.PaginatedOperationMethod<
     items: "ResourceEvaluations",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:ListResourceEvaluations"] },
   telemetry: TELEMETRY,
   span: "ListResourceEvaluations",
 })) as any;
@@ -5329,6 +5668,7 @@ export const listStoredQueries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["config:ListStoredQueries"] },
   telemetry: TELEMETRY,
   span: "ListStoredQueries",
 })) as any;
@@ -5366,6 +5706,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -5394,6 +5735,15 @@ export const putAggregationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAggregationAuthorization",
+  iam: {
+    actions: ["config:PutAggregationAuthorization", "config:TagResource"],
+    resources: {
+      "config:PutAggregationAuthorization": [
+        "arn:${Partition}:config:${Region}:${Account}:aggregation-authorization/${AggregatorAccount}/${AggregatorRegion}",
+      ],
+    },
+    conditional: { "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutAggregationAuthorization",
 }));
@@ -5477,6 +5827,15 @@ export const putConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigRule",
+  iam: {
+    actions: ["config:PutConfigRule", "config:TagResource"],
+    resources: {
+      "config:PutConfigRule": [
+        "arn:${Partition}:config:${Region}:${Account}:config-rule/${ConfigRuleId}",
+      ],
+    },
+    conditional: { "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutConfigRule",
 }));
@@ -5532,6 +5891,19 @@ export const putConfigurationAggregator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationAggregator",
+  iam: {
+    actions: ["iam:PassRole", "config:PutConfigurationAggregator", "config:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "config:PutConfigurationAggregator": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+    conditional: {
+      "iam:PassRole": "OrganizationAggregationSource.RoleArn",
+      "config:TagResource": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutConfigurationAggregator",
 }));
@@ -5591,6 +5963,16 @@ export const putConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationRecorder",
+  iam: {
+    actions: ["iam:PassRole", "config:PutConfigurationRecorder", "config:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "config:PutConfigurationRecorder": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ConfigurationRecorder.roleARN", "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutConfigurationRecorder",
 }));
@@ -5650,6 +6032,16 @@ export const putConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConformancePack",
+  iam: {
+    actions: ["iam:PassRole", "config:PutConformancePack", "config:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "config:PutConformancePack": [
+        "arn:${Partition}:config:${Region}:${Account}:conformance-pack/${ConformancePackName}/${ConformancePackId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutConformancePack",
 }));
@@ -5692,6 +6084,15 @@ export const putConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConnector",
+  iam: {
+    actions: ["config:PutConnector", "config:TagResource"],
+    resources: {
+      "config:PutConnector": [
+        "arn:${Partition}:config:${Region}:${Account}:connector/${Provider}/${ProviderId}/${ConnectorId}",
+      ],
+    },
+    conditional: { "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutConnector",
 }));
@@ -5742,6 +6143,7 @@ export const putDeliveryChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliveryChannel",
+  iam: { actions: ["config:PutDeliveryChannel"] },
   telemetry: TELEMETRY,
   span: "PutDeliveryChannel",
 }));
@@ -5768,6 +6170,7 @@ export const putEvaluations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvaluations",
+  iam: { actions: ["config:PutEvaluations"] },
   telemetry: TELEMETRY,
   span: "PutEvaluations",
 }));
@@ -5792,6 +6195,14 @@ export const putExternalEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutExternalEvaluation",
+  iam: {
+    actions: ["config:PutExternalEvaluation"],
+    resources: {
+      "config:PutExternalEvaluation": [
+        "arn:${Partition}:config:${Region}:${Account}:config-rule/${ConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutExternalEvaluation",
 }));
@@ -5871,6 +6282,15 @@ export const putOrganizationConfigRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOrganizationConfigRule",
+  iam: {
+    actions: ["config:PutOrganizationConfigRule", "config:TagResource"],
+    resources: {
+      "config:PutOrganizationConfigRule": [
+        "arn:${Partition}:config:${Region}:${Account}:organization-config-rule/${OrganizationConfigRuleId}",
+      ],
+    },
+    conditional: { "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutOrganizationConfigRule",
 }));
@@ -5943,6 +6363,16 @@ export const putOrganizationConformancePack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOrganizationConformancePack",
+  iam: {
+    actions: ["iam:PassRole", "config:PutOrganizationConformancePack", "config:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "config:PutOrganizationConformancePack": [
+        "arn:${Partition}:config:${Region}:${Account}:organization-conformance-pack/${OrganizationConformancePackId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutOrganizationConformancePack",
 }));
@@ -5993,6 +6423,16 @@ export const putRemediationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRemediationConfigurations",
+  iam: {
+    actions: ["iam:PassRole", "config:PutRemediationConfigurations"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "config:PutRemediationConfigurations": [
+        "arn:${Partition}:config:${Region}:${Account}:remediation-configuration/${RemediationConfigurationId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "PutRemediationConfigurations",
 }));
@@ -6049,6 +6489,7 @@ export const putRemediationExceptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRemediationExceptions",
+  iam: { actions: ["config:PutRemediationExceptions"] },
   telemetry: TELEMETRY,
   span: "PutRemediationExceptions",
 }));
@@ -6088,6 +6529,7 @@ export const putResourceConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceConfig",
+  iam: { actions: ["config:PutResourceConfig"] },
   telemetry: TELEMETRY,
   span: "PutResourceConfig",
 }));
@@ -6120,6 +6562,7 @@ export const putRetentionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionConfiguration",
+  iam: { actions: ["config:PutRetentionConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutRetentionConfiguration",
 }));
@@ -6166,6 +6609,10 @@ export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutServiceLinkedConfigurationRecorder",
+  iam: {
+    actions: ["config:PutServiceLinkedConfigurationRecorder", "config:TagResource"],
+    conditional: { "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutServiceLinkedConfigurationRecorder",
 }));
@@ -6196,6 +6643,15 @@ export const putStoredQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStoredQuery",
+  iam: {
+    actions: ["config:PutStoredQuery", "config:TagResource"],
+    resources: {
+      "config:PutStoredQuery": [
+        "arn:${Partition}:config:${Region}:${Account}:stored-query/${StoredQueryName}/${StoredQueryId}",
+      ],
+    },
+    conditional: { "config:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutStoredQuery",
 }));
@@ -6240,6 +6696,17 @@ export const putThirdPartyServiceLinkedConfigurationRecorder: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutThirdPartyServiceLinkedConfigurationRecorder",
+  iam: {
+    actions: ["config:GetConnector", "config:PutThirdPartyServiceLinkedConfigurationRecorder"],
+    resources: {
+      "config:GetConnector": [
+        "arn:${Partition}:config:${Region}:${Account}:connector/${Provider}/${ProviderId}/${ConnectorId}",
+      ],
+      "config:PutThirdPartyServiceLinkedConfigurationRecorder": [
+        "arn:${Partition}:config:${Region}:${Account}:connector/${Provider}/${ProviderId}/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutThirdPartyServiceLinkedConfigurationRecorder",
 }));
@@ -6289,6 +6756,14 @@ export const selectAggregateResourceConfig: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  iam: {
+    actions: ["config:SelectAggregateResourceConfig"],
+    resources: {
+      "config:SelectAggregateResourceConfig": [
+        "arn:${Partition}:config:${Region}:${Account}:config-aggregator/${AggregatorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SelectAggregateResourceConfig",
 })) as any;
@@ -6325,6 +6800,7 @@ export const selectResourceConfig: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "Limit",
   } as const,
+  iam: { actions: ["config:SelectResourceConfig"] },
   telemetry: TELEMETRY,
   span: "SelectResourceConfig",
 })) as any;
@@ -6394,6 +6870,14 @@ export const startConfigRulesEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigRulesEvaluation",
+  iam: {
+    actions: ["config:StartConfigRulesEvaluation"],
+    resources: {
+      "config:StartConfigRulesEvaluation": [
+        "arn:${Partition}:config:${Region}:${Account}:config-rule/${ConfigRuleId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartConfigRulesEvaluation",
 }));
@@ -6425,6 +6909,14 @@ export const startConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConfigurationRecorder",
+  iam: {
+    actions: ["config:StartConfigurationRecorder"],
+    resources: {
+      "config:StartConfigurationRecorder": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartConfigurationRecorder",
 }));
@@ -6455,6 +6947,7 @@ export const startRemediationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRemediationExecution",
+  iam: { actions: ["config:StartRemediationExecution"] },
   telemetry: TELEMETRY,
   span: "StartRemediationExecution",
 }));
@@ -6489,6 +6982,7 @@ export const startResourceEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceEvaluation",
+  iam: { actions: ["config:StartResourceEvaluation", "cloudformation:DescribeType"] },
   telemetry: TELEMETRY,
   span: "StartResourceEvaluation",
 }));
@@ -6512,6 +7006,14 @@ export const stopConfigurationRecorder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopConfigurationRecorder",
+  iam: {
+    actions: ["config:StopConfigurationRecorder"],
+    resources: {
+      "config:StopConfigurationRecorder": [
+        "arn:${Partition}:config:${Region}:${Account}:configuration-recorder/${RecorderName}/${RecorderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopConfigurationRecorder",
 }));
@@ -6537,6 +7039,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["config:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6557,6 +7060,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["config:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

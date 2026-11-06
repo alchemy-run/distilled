@@ -2252,6 +2252,14 @@ export const associateLenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateLenses",
+  iam: {
+    actions: ["wellarchitected:AssociateLenses"],
+    resources: {
+      "wellarchitected:AssociateLenses": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateLenses",
 }));
@@ -2286,6 +2294,14 @@ export const associateProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProfiles",
+  iam: {
+    actions: ["wellarchitected:AssociateProfiles"],
+    resources: {
+      "wellarchitected:AssociateProfiles": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateProfiles",
 }));
@@ -2322,6 +2338,14 @@ export const createAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentContext",
+  iam: {
+    actions: ["wellarchitected:CreateAgentContext"],
+    resources: {
+      "wellarchitected:CreateAgentContext": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgentContext",
 }));
@@ -2358,6 +2382,14 @@ export const createAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentGoal",
+  iam: {
+    actions: ["wellarchitected:CreateAgentGoal"],
+    resources: {
+      "wellarchitected:CreateAgentGoal": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgentGoal",
 }));
@@ -2392,6 +2424,11 @@ export const createAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentProfile",
+  iam: {
+    actions: ["wellarchitected:CreateAgentProfile", "iam:PassRole", "wellarchitected:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "wellarchitected:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgentProfile",
 }));
@@ -2440,6 +2477,14 @@ export const createLensShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLensShare",
+  iam: {
+    actions: ["wellarchitected:CreateLensShare"],
+    resources: {
+      "wellarchitected:CreateLensShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:lens/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLensShare",
 }));
@@ -2480,6 +2525,14 @@ export const createLensVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLensVersion",
+  iam: {
+    actions: ["wellarchitected:CreateLensVersion"],
+    resources: {
+      "wellarchitected:CreateLensVersion": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:lens/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLensVersion",
 }));
@@ -2516,6 +2569,14 @@ export const createMilestone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMilestone",
+  iam: {
+    actions: ["wellarchitected:CreateMilestone"],
+    resources: {
+      "wellarchitected:CreateMilestone": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMilestone",
 }));
@@ -2550,6 +2611,10 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  iam: {
+    actions: ["wellarchitected:CreateProfile", "wellarchitected:TagResource"],
+    conditional: { "wellarchitected:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfile",
 }));
@@ -2586,6 +2651,14 @@ export const createProfileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfileShare",
+  iam: {
+    actions: ["wellarchitected:CreateProfileShare"],
+    resources: {
+      "wellarchitected:CreateProfileShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfileShare",
 }));
@@ -2626,6 +2699,10 @@ export const createReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReviewTemplate",
+  iam: {
+    actions: ["wellarchitected:CreateReviewTemplate", "wellarchitected:TagResource"],
+    conditional: { "wellarchitected:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateReviewTemplate",
 }));
@@ -2672,6 +2749,14 @@ export const createTemplateShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateShare",
+  iam: {
+    actions: ["wellarchitected:CreateTemplateShare"],
+    resources: {
+      "wellarchitected:CreateTemplateShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTemplateShare",
 }));
@@ -2726,6 +2811,31 @@ export const createWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkload",
+  iam: {
+    actions: [
+      "wellarchitected:CreateWorkload",
+      "wellarchitected:GetReviewTemplate",
+      "wellarchitected:GetReviewTemplateAnswer",
+      "wellarchitected:GetReviewTemplateLensReview",
+      "wellarchitected:ListReviewTemplateAnswers",
+      "wellarchitected:TagResource",
+    ],
+    resources: {
+      "wellarchitected:GetReviewTemplate": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+      "wellarchitected:GetReviewTemplateAnswer": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+      "wellarchitected:GetReviewTemplateLensReview": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+      "wellarchitected:ListReviewTemplateAnswers": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+    conditional: { "wellarchitected:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkload",
 }));
@@ -2768,6 +2878,14 @@ export const createWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadShare",
+  iam: {
+    actions: ["wellarchitected:CreateWorkloadShare"],
+    resources: {
+      "wellarchitected:CreateWorkloadShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkloadShare",
 }));
@@ -2800,6 +2918,14 @@ export const deleteAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentContext",
+  iam: {
+    actions: ["wellarchitected:DeleteAgentContext"],
+    resources: {
+      "wellarchitected:DeleteAgentContext": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgentContext",
 }));
@@ -2832,6 +2958,14 @@ export const deleteAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentGoal",
+  iam: {
+    actions: ["wellarchitected:DeleteAgentGoal"],
+    resources: {
+      "wellarchitected:DeleteAgentGoal": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgentGoal",
 }));
@@ -2866,6 +3000,14 @@ export const deleteAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentProfile",
+  iam: {
+    actions: ["wellarchitected:DeleteAgentProfile"],
+    resources: {
+      "wellarchitected:DeleteAgentProfile": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgentProfile",
 }));
@@ -2906,6 +3048,14 @@ export const deleteLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLens",
+  iam: {
+    actions: ["wellarchitected:DeleteLens"],
+    resources: {
+      "wellarchitected:DeleteLens": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:lens/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLens",
 }));
@@ -2946,6 +3096,14 @@ export const deleteLensShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLensShare",
+  iam: {
+    actions: ["wellarchitected:DeleteLensShare"],
+    resources: {
+      "wellarchitected:DeleteLensShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:lens/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLensShare",
 }));
@@ -2984,6 +3142,14 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  iam: {
+    actions: ["wellarchitected:DeleteProfile"],
+    resources: {
+      "wellarchitected:DeleteProfile": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfile",
 }));
@@ -3018,6 +3184,14 @@ export const deleteProfileShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileShare",
+  iam: {
+    actions: ["wellarchitected:DeleteProfileShare"],
+    resources: {
+      "wellarchitected:DeleteProfileShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfileShare",
 }));
@@ -3056,6 +3230,14 @@ export const deleteReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReviewTemplate",
+  iam: {
+    actions: ["wellarchitected:DeleteReviewTemplate"],
+    resources: {
+      "wellarchitected:DeleteReviewTemplate": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReviewTemplate",
 }));
@@ -3092,6 +3274,14 @@ export const deleteTemplateShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateShare",
+  iam: {
+    actions: ["wellarchitected:DeleteTemplateShare"],
+    resources: {
+      "wellarchitected:DeleteTemplateShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTemplateShare",
 }));
@@ -3126,6 +3316,14 @@ export const deleteWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkload",
+  iam: {
+    actions: ["wellarchitected:DeleteWorkload"],
+    resources: {
+      "wellarchitected:DeleteWorkload": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkload",
 }));
@@ -3160,6 +3358,14 @@ export const deleteWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadShare",
+  iam: {
+    actions: ["wellarchitected:DeleteWorkloadShare"],
+    resources: {
+      "wellarchitected:DeleteWorkloadShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkloadShare",
 }));
@@ -3198,6 +3404,14 @@ export const disassociateLenses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateLenses",
+  iam: {
+    actions: ["wellarchitected:DisassociateLenses"],
+    resources: {
+      "wellarchitected:DisassociateLenses": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateLenses",
 }));
@@ -3232,6 +3446,14 @@ export const disassociateProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProfiles",
+  iam: {
+    actions: ["wellarchitected:DisassociateProfiles"],
+    resources: {
+      "wellarchitected:DisassociateProfiles": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateProfiles",
 }));
@@ -3272,6 +3494,14 @@ export const exportLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportLens",
+  iam: {
+    actions: ["wellarchitected:ExportLens"],
+    resources: {
+      "wellarchitected:ExportLens": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:lens/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportLens",
 }));
@@ -3304,6 +3534,14 @@ export const getAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentContext",
+  iam: {
+    actions: ["wellarchitected:GetAgentContext"],
+    resources: {
+      "wellarchitected:GetAgentContext": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentContext",
 }));
@@ -3336,6 +3574,14 @@ export const getAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentGoal",
+  iam: {
+    actions: ["wellarchitected:GetAgentGoal"],
+    resources: {
+      "wellarchitected:GetAgentGoal": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentGoal",
 }));
@@ -3368,6 +3614,14 @@ export const getAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentProfile",
+  iam: {
+    actions: ["wellarchitected:GetAgentProfile"],
+    resources: {
+      "wellarchitected:GetAgentProfile": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentProfile",
 }));
@@ -3400,6 +3654,14 @@ export const getAgentRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRecommendation",
+  iam: {
+    actions: ["wellarchitected:GetAgentRecommendation"],
+    resources: {
+      "wellarchitected:GetAgentRecommendation": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-recommendation/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentRecommendation",
 }));
@@ -3432,6 +3694,14 @@ export const getAgentRecommendationGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRecommendationGeneration",
+  iam: {
+    actions: ["wellarchitected:GetAgentRecommendationGeneration"],
+    resources: {
+      "wellarchitected:GetAgentRecommendationGeneration": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentRecommendationGeneration",
 }));
@@ -3464,6 +3734,14 @@ export const getAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnswer",
+  iam: {
+    actions: ["wellarchitected:GetAnswer"],
+    resources: {
+      "wellarchitected:GetAnswer": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAnswer",
 }));
@@ -3504,6 +3782,7 @@ export const getConsolidatedReport: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["wellarchitected:GetConsolidatedReport"] },
   telemetry: TELEMETRY,
   span: "GetConsolidatedReport",
 })) as any;
@@ -3534,6 +3813,7 @@ export const getGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalSettings",
+  iam: { actions: ["wellarchitected:GetGlobalSettings"] },
   telemetry: TELEMETRY,
   span: "GetGlobalSettings",
 }));
@@ -3566,6 +3846,14 @@ export const getLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLens",
+  iam: {
+    actions: ["wellarchitected:GetLens"],
+    resources: {
+      "wellarchitected:GetLens": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:lens/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLens",
 }));
@@ -3598,6 +3886,14 @@ export const getLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensReview",
+  iam: {
+    actions: ["wellarchitected:GetLensReview"],
+    resources: {
+      "wellarchitected:GetLensReview": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLensReview",
 }));
@@ -3630,6 +3926,14 @@ export const getLensReviewReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensReviewReport",
+  iam: {
+    actions: ["wellarchitected:GetLensReviewReport"],
+    resources: {
+      "wellarchitected:GetLensReviewReport": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLensReviewReport",
 }));
@@ -3662,6 +3966,14 @@ export const getLensVersionDifference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLensVersionDifference",
+  iam: {
+    actions: ["wellarchitected:GetLensVersionDifference"],
+    resources: {
+      "wellarchitected:GetLensVersionDifference": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:lens/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLensVersionDifference",
 }));
@@ -3694,6 +4006,14 @@ export const getMilestone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMilestone",
+  iam: {
+    actions: ["wellarchitected:GetMilestone"],
+    resources: {
+      "wellarchitected:GetMilestone": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMilestone",
 }));
@@ -3726,6 +4046,14 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  iam: {
+    actions: ["wellarchitected:GetProfile"],
+    resources: {
+      "wellarchitected:GetProfile": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfile",
 }));
@@ -3758,6 +4086,7 @@ export const getProfileTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileTemplate",
+  iam: { actions: ["wellarchitected:GetProfileTemplate"] },
   telemetry: TELEMETRY,
   span: "GetProfileTemplate",
 }));
@@ -3790,6 +4119,14 @@ export const getReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplate",
+  iam: {
+    actions: ["wellarchitected:GetReviewTemplate"],
+    resources: {
+      "wellarchitected:GetReviewTemplate": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReviewTemplate",
 }));
@@ -3822,6 +4159,14 @@ export const getReviewTemplateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplateAnswer",
+  iam: {
+    actions: ["wellarchitected:GetReviewTemplateAnswer"],
+    resources: {
+      "wellarchitected:GetReviewTemplateAnswer": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReviewTemplateAnswer",
 }));
@@ -3854,6 +4199,14 @@ export const getReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReviewTemplateLensReview",
+  iam: {
+    actions: ["wellarchitected:GetReviewTemplateLensReview"],
+    resources: {
+      "wellarchitected:GetReviewTemplateLensReview": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReviewTemplateLensReview",
 }));
@@ -3886,6 +4239,14 @@ export const getWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkload",
+  iam: {
+    actions: ["wellarchitected:GetWorkload"],
+    resources: {
+      "wellarchitected:GetWorkload": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkload",
 }));
@@ -3934,6 +4295,10 @@ export const importLens: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportLens",
+  iam: {
+    actions: ["wellarchitected:ImportLens", "wellarchitected:TagResource"],
+    conditional: { "wellarchitected:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportLens",
 }));
@@ -3971,6 +4336,14 @@ export const listAgentContexts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListAgentContexts"],
+    resources: {
+      "wellarchitected:ListAgentContexts": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAgentContexts",
 })) as any;
@@ -4008,6 +4381,14 @@ export const listAgentGoals: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListAgentGoals"],
+    resources: {
+      "wellarchitected:ListAgentGoals": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAgentGoals",
 })) as any;
@@ -4045,6 +4426,7 @@ export const listAgentProfiles: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wellarchitected:ListAgentProfiles"] },
   telemetry: TELEMETRY,
   span: "ListAgentProfiles",
 })) as any;
@@ -4084,6 +4466,14 @@ export const listAgentRecommendationGenerations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListAgentRecommendationGenerations"],
+    resources: {
+      "wellarchitected:ListAgentRecommendationGenerations": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAgentRecommendationGenerations",
 })) as any;
@@ -4123,6 +4513,14 @@ export const listAgentRecommendationItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListAgentRecommendationItems"],
+    resources: {
+      "wellarchitected:ListAgentRecommendationItems": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-recommendation/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAgentRecommendationItems",
 })) as any;
@@ -4162,6 +4560,14 @@ export const listAgentRecommendations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListAgentRecommendations"],
+    resources: {
+      "wellarchitected:ListAgentRecommendations": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAgentRecommendations",
 })) as any;
@@ -4200,6 +4606,14 @@ export const listAnswers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListAnswers"],
+    resources: {
+      "wellarchitected:ListAnswers": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAnswers",
 })) as any;
@@ -4238,6 +4652,14 @@ export const listCheckDetails: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListCheckDetails"],
+    resources: {
+      "wellarchitected:ListCheckDetails": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCheckDetails",
 })) as any;
@@ -4276,6 +4698,14 @@ export const listCheckSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListCheckSummaries"],
+    resources: {
+      "wellarchitected:ListCheckSummaries": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCheckSummaries",
 })) as any;
@@ -4312,6 +4742,7 @@ export const listLenses: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["wellarchitected:ListLenses"] },
   telemetry: TELEMETRY,
   span: "ListLenses",
 })) as any;
@@ -4350,6 +4781,14 @@ export const listLensReviewImprovements: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListLensReviewImprovements"],
+    resources: {
+      "wellarchitected:ListLensReviewImprovements": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLensReviewImprovements",
 })) as any;
@@ -4388,6 +4827,14 @@ export const listLensReviews: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListLensReviews"],
+    resources: {
+      "wellarchitected:ListLensReviews": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLensReviews",
 })) as any;
@@ -4426,6 +4873,14 @@ export const listLensShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListLensShares"],
+    resources: {
+      "wellarchitected:ListLensShares": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:lens/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListLensShares",
 })) as any;
@@ -4464,6 +4919,14 @@ export const listMilestones: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListMilestones"],
+    resources: {
+      "wellarchitected:ListMilestones": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMilestones",
 })) as any;
@@ -4500,6 +4963,7 @@ export const listNotifications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["wellarchitected:ListNotifications"] },
   telemetry: TELEMETRY,
   span: "ListNotifications",
 })) as any;
@@ -4536,6 +5000,7 @@ export const listProfileNotifications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["wellarchitected:ListProfileNotifications"] },
   telemetry: TELEMETRY,
   span: "ListProfileNotifications",
 })) as any;
@@ -4572,6 +5037,7 @@ export const listProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["wellarchitected:ListProfiles"] },
   telemetry: TELEMETRY,
   span: "ListProfiles",
 })) as any;
@@ -4610,6 +5076,14 @@ export const listProfileShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListProfileShares"],
+    resources: {
+      "wellarchitected:ListProfileShares": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProfileShares",
 })) as any;
@@ -4648,6 +5122,14 @@ export const listReviewTemplateAnswers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListReviewTemplateAnswers"],
+    resources: {
+      "wellarchitected:ListReviewTemplateAnswers": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReviewTemplateAnswers",
 })) as any;
@@ -4684,6 +5166,7 @@ export const listReviewTemplates: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["wellarchitected:ListReviewTemplates"] },
   telemetry: TELEMETRY,
   span: "ListReviewTemplates",
 })) as any;
@@ -4722,6 +5205,7 @@ export const listShareInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["wellarchitected:ListShareInvitations"] },
   telemetry: TELEMETRY,
   span: "ListShareInvitations",
 })) as any;
@@ -4747,6 +5231,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["wellarchitected:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4785,6 +5270,14 @@ export const listTemplateShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListTemplateShares"],
+    resources: {
+      "wellarchitected:ListTemplateShares": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTemplateShares",
 })) as any;
@@ -4821,6 +5314,7 @@ export const listWorkloads: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["wellarchitected:ListWorkloads"] },
   telemetry: TELEMETRY,
   span: "ListWorkloads",
 })) as any;
@@ -4859,6 +5353,14 @@ export const listWorkloadShares: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["wellarchitected:ListWorkloadShares"],
+    resources: {
+      "wellarchitected:ListWorkloadShares": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkloadShares",
 })) as any;
@@ -4891,6 +5393,14 @@ export const putAgentRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAgentRecommendationFeedback",
+  iam: {
+    actions: ["wellarchitected:PutAgentRecommendationFeedback"],
+    resources: {
+      "wellarchitected:PutAgentRecommendationFeedback": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-recommendation/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAgentRecommendationFeedback",
 }));
@@ -4925,6 +5435,14 @@ export const startAgentRecommendationGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAgentRecommendationGeneration",
+  iam: {
+    actions: ["wellarchitected:StartAgentRecommendationGeneration"],
+    resources: {
+      "wellarchitected:StartAgentRecommendationGeneration": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAgentRecommendationGeneration",
 }));
@@ -4947,6 +5465,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["wellarchitected:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4973,6 +5492,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["wellarchitected:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5005,6 +5525,14 @@ export const updateAgentContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentContext",
+  iam: {
+    actions: ["wellarchitected:UpdateAgentContext"],
+    resources: {
+      "wellarchitected:UpdateAgentContext": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentContext",
 }));
@@ -5037,6 +5565,14 @@ export const updateAgentGoal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentGoal",
+  iam: {
+    actions: ["wellarchitected:UpdateAgentGoal"],
+    resources: {
+      "wellarchitected:UpdateAgentGoal": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentGoal",
 }));
@@ -5069,6 +5605,16 @@ export const updateAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentProfile",
+  iam: {
+    actions: ["iam:PassRole", "wellarchitected:UpdateAgentProfile"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "wellarchitected:UpdateAgentProfile": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-profile/${ProfileName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "executionRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentProfile",
 }));
@@ -5101,6 +5647,14 @@ export const updateAgentRecommendationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRecommendationStatus",
+  iam: {
+    actions: ["wellarchitected:UpdateAgentRecommendationStatus"],
+    resources: {
+      "wellarchitected:UpdateAgentRecommendationStatus": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:agent-recommendation/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgentRecommendationStatus",
 }));
@@ -5135,6 +5689,14 @@ export const updateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnswer",
+  iam: {
+    actions: ["wellarchitected:UpdateAnswer"],
+    resources: {
+      "wellarchitected:UpdateAnswer": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnswer",
 }));
@@ -5167,6 +5729,7 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  iam: { actions: ["wellarchitected:UpdateGlobalSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateGlobalSettings",
 }));
@@ -5201,6 +5764,14 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
+  iam: {
+    actions: ["wellarchitected:UpdateIntegration"],
+    resources: {
+      "wellarchitected:UpdateIntegration": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIntegration",
 }));
@@ -5235,6 +5806,14 @@ export const updateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLensReview",
+  iam: {
+    actions: ["wellarchitected:UpdateLensReview"],
+    resources: {
+      "wellarchitected:UpdateLensReview": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLensReview",
 }));
@@ -5269,6 +5848,14 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  iam: {
+    actions: ["wellarchitected:UpdateProfile"],
+    resources: {
+      "wellarchitected:UpdateProfile": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProfile",
 }));
@@ -5303,6 +5890,14 @@ export const updateReviewTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplate",
+  iam: {
+    actions: ["wellarchitected:UpdateReviewTemplate"],
+    resources: {
+      "wellarchitected:UpdateReviewTemplate": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReviewTemplate",
 }));
@@ -5337,6 +5932,14 @@ export const updateReviewTemplateAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplateAnswer",
+  iam: {
+    actions: ["wellarchitected:UpdateReviewTemplateAnswer"],
+    resources: {
+      "wellarchitected:UpdateReviewTemplateAnswer": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReviewTemplateAnswer",
 }));
@@ -5371,6 +5974,14 @@ export const updateReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReviewTemplateLensReview",
+  iam: {
+    actions: ["wellarchitected:UpdateReviewTemplateLensReview"],
+    resources: {
+      "wellarchitected:UpdateReviewTemplateLensReview": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReviewTemplateLensReview",
 }));
@@ -5407,6 +6018,7 @@ export const updateShareInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateShareInvitation",
+  iam: { actions: ["wellarchitected:UpdateShareInvitation"] },
   telemetry: TELEMETRY,
   span: "UpdateShareInvitation",
 }));
@@ -5441,6 +6053,14 @@ export const updateWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkload",
+  iam: {
+    actions: ["wellarchitected:UpdateWorkload"],
+    resources: {
+      "wellarchitected:UpdateWorkload": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkload",
 }));
@@ -5475,6 +6095,14 @@ export const updateWorkloadShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadShare",
+  iam: {
+    actions: ["wellarchitected:UpdateWorkloadShare"],
+    resources: {
+      "wellarchitected:UpdateWorkloadShare": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkloadShare",
 }));
@@ -5511,6 +6139,14 @@ export const upgradeLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeLensReview",
+  iam: {
+    actions: ["wellarchitected:UpgradeLensReview"],
+    resources: {
+      "wellarchitected:UpgradeLensReview": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpgradeLensReview",
 }));
@@ -5547,6 +6183,15 @@ export const upgradeProfileVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeProfileVersion",
+  iam: {
+    actions: ["wellarchitected:UpgradeProfileVersion"],
+    resources: {
+      "wellarchitected:UpgradeProfileVersion": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:profile/${ResourceId}",
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:workload/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpgradeProfileVersion",
 }));
@@ -5581,6 +6226,14 @@ export const upgradeReviewTemplateLensReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeReviewTemplateLensReview",
+  iam: {
+    actions: ["wellarchitected:UpgradeReviewTemplateLensReview"],
+    resources: {
+      "wellarchitected:UpgradeReviewTemplateLensReview": [
+        "arn:${Partition}:wellarchitected:${Region}:${Account}:review-template/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpgradeReviewTemplateLensReview",
 }));

@@ -1366,6 +1366,7 @@ export const cloneReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloneReceiptRuleSet",
+  iam: { actions: ["ses:CloneReceiptRuleSet"] },
   telemetry: TELEMETRY,
   span: "CloneReceiptRuleSet",
 }));
@@ -1400,6 +1401,7 @@ export const createConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSet",
+  iam: { actions: ["ses:CreateConfigurationSet", "ses:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreateConfigurationSet",
 }));
@@ -1444,6 +1446,16 @@ export const createConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetEventDestination",
+  iam: {
+    actions: ["ses:CreateConfigurationSetEventDestination", "iam:PassRole"],
+    resources: {
+      "ses:CreateConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConfigurationSetEventDestination",
 }));
@@ -1477,6 +1489,7 @@ export const createConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationSetTrackingOptions",
+  iam: { actions: ["ses:CreateConfigurationSetTrackingOptions"] },
   telemetry: TELEMETRY,
   span: "CreateConfigurationSetTrackingOptions",
 }));
@@ -1513,6 +1526,14 @@ export const createCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomVerificationEmailTemplate",
+  iam: {
+    actions: ["ses:CreateCustomVerificationEmailTemplate", "ses:TagResource"],
+    resources: {
+      "ses:CreateCustomVerificationEmailTemplate": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomVerificationEmailTemplate",
 }));
@@ -1541,6 +1562,7 @@ export const createReceiptFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptFilter",
+  iam: { actions: ["ses:CreateReceiptFilter"] },
   telemetry: TELEMETRY,
   span: "CreateReceiptFilter",
 }));
@@ -1588,6 +1610,11 @@ export const createReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptRule",
+  iam: {
+    actions: ["ses:CreateReceiptRule", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateReceiptRule",
 }));
@@ -1615,6 +1642,7 @@ export const createReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReceiptRuleSet",
+  iam: { actions: ["ses:CreateReceiptRuleSet"] },
   telemetry: TELEMETRY,
   span: "CreateReceiptRuleSet",
 }));
@@ -1643,6 +1671,7 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
+  iam: { actions: ["ses:CreateTemplate"] },
   telemetry: TELEMETRY,
   span: "CreateTemplate",
 }));
@@ -1667,6 +1696,14 @@ export const deleteConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSet",
+  iam: {
+    actions: ["ses:DeleteConfigurationSet"],
+    resources: {
+      "ses:DeleteConfigurationSet": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSet",
 }));
@@ -1695,6 +1732,14 @@ export const deleteConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetEventDestination",
+  iam: {
+    actions: ["ses:DeleteConfigurationSetEventDestination"],
+    resources: {
+      "ses:DeleteConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSetEventDestination",
 }));
@@ -1727,6 +1772,7 @@ export const deleteConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationSetTrackingOptions",
+  iam: { actions: ["ses:DeleteConfigurationSetTrackingOptions"] },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationSetTrackingOptions",
 }));
@@ -1753,6 +1799,14 @@ export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomVerificationEmailTemplate",
+  iam: {
+    actions: ["ses:DeleteCustomVerificationEmailTemplate"],
+    resources: {
+      "ses:DeleteCustomVerificationEmailTemplate": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomVerificationEmailTemplate",
 }));
@@ -1776,6 +1830,7 @@ export const deleteIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentity",
+  iam: { actions: ["ses:DeleteIdentity"] },
   telemetry: TELEMETRY,
   span: "DeleteIdentity",
 }));
@@ -1808,6 +1863,7 @@ export const deleteIdentityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPolicy",
+  iam: { actions: ["ses:DeleteIdentityPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteIdentityPolicy",
 }));
@@ -1833,6 +1889,7 @@ export const deleteReceiptFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptFilter",
+  iam: { actions: ["ses:DeleteReceiptFilter"] },
   telemetry: TELEMETRY,
   span: "DeleteReceiptFilter",
 }));
@@ -1858,6 +1915,7 @@ export const deleteReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptRule",
+  iam: { actions: ["ses:DeleteReceiptRule"] },
   telemetry: TELEMETRY,
   span: "DeleteReceiptRule",
 }));
@@ -1886,6 +1944,7 @@ export const deleteReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReceiptRuleSet",
+  iam: { actions: ["ses:DeleteReceiptRuleSet"] },
   telemetry: TELEMETRY,
   span: "DeleteReceiptRuleSet",
 }));
@@ -1908,6 +1967,7 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
+  iam: { actions: ["ses:DeleteTemplate"] },
   telemetry: TELEMETRY,
   span: "DeleteTemplate",
 }));
@@ -1929,6 +1989,7 @@ export const deleteVerifiedEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVerifiedEmailAddress",
+  iam: { actions: ["ses:DeleteVerifiedEmailAddress"] },
   telemetry: TELEMETRY,
   span: "DeleteVerifiedEmailAddress",
 }));
@@ -1954,6 +2015,7 @@ export const describeActiveReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActiveReceiptRuleSet",
+  iam: { actions: ["ses:DescribeActiveReceiptRuleSet"] },
   telemetry: TELEMETRY,
   span: "DescribeActiveReceiptRuleSet",
 }));
@@ -1978,6 +2040,7 @@ export const describeConfigurationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationSet",
+  iam: { actions: ["ses:DescribeConfigurationSet"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationSet",
 }));
@@ -2006,6 +2069,7 @@ export const describeReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReceiptRule",
+  iam: { actions: ["ses:DescribeReceiptRule"] },
   telemetry: TELEMETRY,
   span: "DescribeReceiptRule",
 }));
@@ -2031,6 +2095,7 @@ export const describeReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReceiptRuleSet",
+  iam: { actions: ["ses:DescribeReceiptRuleSet"] },
   telemetry: TELEMETRY,
   span: "DescribeReceiptRuleSet",
 }));
@@ -2053,6 +2118,7 @@ export const getAccountSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSendingEnabled",
+  iam: { actions: ["ses:GetAccountSendingEnabled"] },
   telemetry: TELEMETRY,
   span: "GetAccountSendingEnabled",
 }));
@@ -2082,6 +2148,14 @@ export const getCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomVerificationEmailTemplate",
+  iam: {
+    actions: ["ses:GetCustomVerificationEmailTemplate"],
+    resources: {
+      "ses:GetCustomVerificationEmailTemplate": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomVerificationEmailTemplate",
 }));
@@ -2123,6 +2197,7 @@ export const getIdentityDkimAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityDkimAttributes",
+  iam: { actions: ["ses:GetIdentityDkimAttributes"] },
   telemetry: TELEMETRY,
   span: "GetIdentityDkimAttributes",
 }));
@@ -2147,6 +2222,7 @@ export const getIdentityMailFromDomainAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityMailFromDomainAttributes",
+  iam: { actions: ["ses:GetIdentityMailFromDomainAttributes"] },
   telemetry: TELEMETRY,
   span: "GetIdentityMailFromDomainAttributes",
 }));
@@ -2174,6 +2250,7 @@ export const getIdentityNotificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityNotificationAttributes",
+  iam: { actions: ["ses:GetIdentityNotificationAttributes"] },
   telemetry: TELEMETRY,
   span: "GetIdentityNotificationAttributes",
 }));
@@ -2206,6 +2283,7 @@ export const getIdentityPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPolicies",
+  iam: { actions: ["ses:GetIdentityPolicies"] },
   telemetry: TELEMETRY,
   span: "GetIdentityPolicies",
 }));
@@ -2244,6 +2322,7 @@ export const getIdentityVerificationAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityVerificationAttributes",
+  iam: { actions: ["ses:GetIdentityVerificationAttributes"] },
   telemetry: TELEMETRY,
   span: "GetIdentityVerificationAttributes",
 }));
@@ -2266,6 +2345,7 @@ export const getSendQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSendQuota",
+  iam: { actions: ["ses:GetSendQuota"] },
   telemetry: TELEMETRY,
   span: "GetSendQuota",
 }));
@@ -2290,6 +2370,7 @@ export const getSendStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSendStatistics",
+  iam: { actions: ["ses:GetSendStatistics"] },
   telemetry: TELEMETRY,
   span: "GetSendStatistics",
 }));
@@ -2313,6 +2394,7 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
+  iam: { actions: ["ses:GetTemplate"] },
   telemetry: TELEMETRY,
   span: "GetTemplate",
 }));
@@ -2343,6 +2425,7 @@ export const listConfigurationSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationSets",
+  iam: { actions: ["ses:ListConfigurationSets"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationSets",
 }));
@@ -2376,6 +2459,7 @@ export const listCustomVerificationEmailTemplates: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["ses:ListCustomVerificationEmailTemplates"] },
   telemetry: TELEMETRY,
   span: "ListCustomVerificationEmailTemplates",
 })) as any;
@@ -2415,6 +2499,7 @@ export const listIdentities: API.PaginatedOperationMethod<
     items: "Identities",
     pageSize: "MaxItems",
   } as const,
+  iam: { actions: ["ses:ListIdentities"] },
   telemetry: TELEMETRY,
   span: "ListIdentities",
 })) as any;
@@ -2447,6 +2532,7 @@ export const listIdentityPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPolicies",
+  iam: { actions: ["ses:ListIdentityPolicies"] },
   telemetry: TELEMETRY,
   span: "ListIdentityPolicies",
 }));
@@ -2473,6 +2559,7 @@ export const listReceiptFilters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceiptFilters",
+  iam: { actions: ["ses:ListReceiptFilters"] },
   telemetry: TELEMETRY,
   span: "ListReceiptFilters",
 }));
@@ -2501,6 +2588,7 @@ export const listReceiptRuleSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReceiptRuleSets",
+  iam: { actions: ["ses:ListReceiptRuleSets"] },
   telemetry: TELEMETRY,
   span: "ListReceiptRuleSets",
 }));
@@ -2524,6 +2612,7 @@ export const listTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplates",
+  iam: { actions: ["ses:ListTemplates"] },
   telemetry: TELEMETRY,
   span: "ListTemplates",
 }));
@@ -2545,6 +2634,7 @@ export const listVerifiedEmailAddresses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVerifiedEmailAddresses",
+  iam: { actions: ["ses:ListVerifiedEmailAddresses"] },
   telemetry: TELEMETRY,
   span: "ListVerifiedEmailAddresses",
 }));
@@ -2568,6 +2658,7 @@ export const putConfigurationSetDeliveryOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfigurationSetDeliveryOptions",
+  iam: { actions: ["ses:PutConfigurationSetDeliveryOptions"] },
   telemetry: TELEMETRY,
   span: "PutConfigurationSetDeliveryOptions",
 }));
@@ -2599,6 +2690,7 @@ export const putIdentityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIdentityPolicy",
+  iam: { actions: ["ses:PutIdentityPolicy"] },
   telemetry: TELEMETRY,
   span: "PutIdentityPolicy",
 }));
@@ -2630,6 +2722,7 @@ export const reorderReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReorderReceiptRuleSet",
+  iam: { actions: ["ses:ReorderReceiptRuleSet"] },
   telemetry: TELEMETRY,
   span: "ReorderReceiptRuleSet",
 }));
@@ -2660,6 +2753,12 @@ export const sendBounce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBounce",
+  iam: {
+    actions: ["ses:SendBounce"],
+    resources: {
+      "ses:SendBounce": ["arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendBounce",
 }));
@@ -2727,6 +2826,7 @@ export const sendBulkTemplatedEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendBulkTemplatedEmail",
+  iam: { actions: ["ses:SendBulkTemplatedEmail"] },
   telemetry: TELEMETRY,
   span: "SendBulkTemplatedEmail",
 }));
@@ -2769,6 +2869,15 @@ export const sendCustomVerificationEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCustomVerificationEmail",
+  iam: {
+    actions: ["ses:SendCustomVerificationEmail"],
+    resources: {
+      "ses:SendCustomVerificationEmail": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+        "arn:${Partition}:ses:${Region}:${Account}:identity/${IdentityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendCustomVerificationEmail",
 }));
@@ -2833,6 +2942,7 @@ export const sendEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEmail",
+  iam: { actions: ["ses:SendEmail"] },
   telemetry: TELEMETRY,
   span: "SendEmail",
 }));
@@ -2942,6 +3052,7 @@ export const sendRawEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendRawEmail",
+  iam: { actions: ["ses:SendRawEmail"] },
   telemetry: TELEMETRY,
   span: "SendRawEmail",
 }));
@@ -3016,6 +3127,7 @@ export const sendTemplatedEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTemplatedEmail",
+  iam: { actions: ["ses:SendTemplatedEmail"] },
   telemetry: TELEMETRY,
   span: "SendTemplatedEmail",
 }));
@@ -3044,6 +3156,7 @@ export const setActiveReceiptRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetActiveReceiptRuleSet",
+  iam: { actions: ["ses:SetActiveReceiptRuleSet"] },
   telemetry: TELEMETRY,
   span: "SetActiveReceiptRuleSet",
 }));
@@ -3079,6 +3192,7 @@ export const setIdentityDkimEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityDkimEnabled",
+  iam: { actions: ["ses:SetIdentityDkimEnabled"] },
   telemetry: TELEMETRY,
   span: "SetIdentityDkimEnabled",
 }));
@@ -3110,6 +3224,7 @@ export const setIdentityFeedbackForwardingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityFeedbackForwardingEnabled",
+  iam: { actions: ["ses:SetIdentityFeedbackForwardingEnabled"] },
   telemetry: TELEMETRY,
   span: "SetIdentityFeedbackForwardingEnabled",
 }));
@@ -3137,6 +3252,7 @@ export const setIdentityHeadersInNotificationsEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityHeadersInNotificationsEnabled",
+  iam: { actions: ["ses:SetIdentityHeadersInNotificationsEnabled"] },
   telemetry: TELEMETRY,
   span: "SetIdentityHeadersInNotificationsEnabled",
 }));
@@ -3165,6 +3281,7 @@ export const setIdentityMailFromDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityMailFromDomain",
+  iam: { actions: ["ses:SetIdentityMailFromDomain"] },
   telemetry: TELEMETRY,
   span: "SetIdentityMailFromDomain",
 }));
@@ -3195,6 +3312,7 @@ export const setIdentityNotificationTopic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityNotificationTopic",
+  iam: { actions: ["ses:SetIdentityNotificationTopic"] },
   telemetry: TELEMETRY,
   span: "SetIdentityNotificationTopic",
 }));
@@ -3223,6 +3341,7 @@ export const setReceiptRulePosition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetReceiptRulePosition",
+  iam: { actions: ["ses:SetReceiptRulePosition"] },
   telemetry: TELEMETRY,
   span: "SetReceiptRulePosition",
 }));
@@ -3254,6 +3373,7 @@ export const testRenderTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestRenderTemplate",
+  iam: { actions: ["ses:TestRenderTemplate"] },
   telemetry: TELEMETRY,
   span: "TestRenderTemplate",
 }));
@@ -3280,6 +3400,7 @@ export const updateAccountSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSendingEnabled",
+  iam: { actions: ["ses:UpdateAccountSendingEnabled"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountSendingEnabled",
 }));
@@ -3322,6 +3443,16 @@ export const updateConfigurationSetEventDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetEventDestination",
+  iam: {
+    actions: ["iam:PassRole", "ses:UpdateConfigurationSetEventDestination"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ses:UpdateConfigurationSetEventDestination": [
+        "arn:${Partition}:ses:${Region}:${Account}:configuration-set/${ConfigurationSetName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationSetEventDestination",
 }));
@@ -3357,6 +3488,7 @@ export const updateConfigurationSetReputationMetricsEnabled: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetReputationMetricsEnabled",
+  iam: { actions: ["ses:UpdateConfigurationSetReputationMetricsEnabled"] },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationSetReputationMetricsEnabled",
 }));
@@ -3385,6 +3517,7 @@ export const updateConfigurationSetSendingEnabled: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetSendingEnabled",
+  iam: { actions: ["ses:UpdateConfigurationSetSendingEnabled"] },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationSetSendingEnabled",
 }));
@@ -3418,6 +3551,7 @@ export const updateConfigurationSetTrackingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationSetTrackingOptions",
+  iam: { actions: ["ses:UpdateConfigurationSetTrackingOptions"] },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationSetTrackingOptions",
 }));
@@ -3452,6 +3586,14 @@ export const updateCustomVerificationEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomVerificationEmailTemplate",
+  iam: {
+    actions: ["ses:UpdateCustomVerificationEmailTemplate"],
+    resources: {
+      "ses:UpdateCustomVerificationEmailTemplate": [
+        "arn:${Partition}:ses:${Region}:${Account}:custom-verification-email-template/${TemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCustomVerificationEmailTemplate",
 }));
@@ -3497,6 +3639,11 @@ export const updateReceiptRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReceiptRule",
+  iam: {
+    actions: ["iam:PassRole", "ses:UpdateReceiptRule"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReceiptRule",
 }));
@@ -3524,6 +3671,7 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
+  iam: { actions: ["ses:UpdateTemplate"] },
   telemetry: TELEMETRY,
   span: "UpdateTemplate",
 }));
@@ -3576,6 +3724,7 @@ export const verifyDomainDkim: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDomainDkim",
+  iam: { actions: ["ses:VerifyDomainDkim"] },
   telemetry: TELEMETRY,
   span: "VerifyDomainDkim",
 }));
@@ -3601,6 +3750,7 @@ export const verifyDomainIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyDomainIdentity",
+  iam: { actions: ["ses:VerifyDomainIdentity"] },
   telemetry: TELEMETRY,
   span: "VerifyDomainIdentity",
 }));
@@ -3622,6 +3772,7 @@ export const verifyEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyEmailAddress",
+  iam: { actions: ["ses:VerifyEmailAddress"] },
   telemetry: TELEMETRY,
   span: "VerifyEmailAddress",
 }));
@@ -3646,6 +3797,7 @@ export const verifyEmailIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyEmailIdentity",
+  iam: { actions: ["ses:VerifyEmailIdentity"] },
   telemetry: TELEMETRY,
   span: "VerifyEmailIdentity",
 }));

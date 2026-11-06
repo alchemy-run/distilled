@@ -152,6 +152,14 @@ export const getRawMessageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRawMessageContent",
+  iam: {
+    actions: ["workmailmessageflow:GetRawMessageContent"],
+    resources: {
+      "workmailmessageflow:GetRawMessageContent": [
+        "arn:${Partition}:workmailmessageflow:${Region}:${Account}:message/${OrganizationId}/${Context}/${MessageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRawMessageContent",
 }));
@@ -187,6 +195,14 @@ export const putRawMessageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRawMessageContent",
+  iam: {
+    actions: ["workmailmessageflow:PutRawMessageContent"],
+    resources: {
+      "workmailmessageflow:PutRawMessageContent": [
+        "arn:${Partition}:workmailmessageflow:${Region}:${Account}:message/${OrganizationId}/${Context}/${MessageId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRawMessageContent",
 }));

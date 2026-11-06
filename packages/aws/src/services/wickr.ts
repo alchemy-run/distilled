@@ -947,6 +947,12 @@ export const batchCreateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateUser",
+  iam: {
+    actions: ["wickr:BatchCreateUser"],
+    resources: {
+      "wickr:BatchCreateUser": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateUser",
 }));
@@ -983,6 +989,12 @@ export const batchDeleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteUser",
+  iam: {
+    actions: ["wickr:BatchDeleteUser"],
+    resources: {
+      "wickr:BatchDeleteUser": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteUser",
 }));
@@ -1019,6 +1031,14 @@ export const batchLookupUserUname: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchLookupUserUname",
+  iam: {
+    actions: ["wickr:BatchLookupUserUname"],
+    resources: {
+      "wickr:BatchLookupUserUname": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchLookupUserUname",
 }));
@@ -1055,6 +1075,14 @@ export const batchReinviteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchReinviteUser",
+  iam: {
+    actions: ["wickr:BatchReinviteUser"],
+    resources: {
+      "wickr:BatchReinviteUser": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchReinviteUser",
 }));
@@ -1091,6 +1119,14 @@ export const batchResetDevicesForUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchResetDevicesForUser",
+  iam: {
+    actions: ["wickr:BatchResetDevicesForUser"],
+    resources: {
+      "wickr:BatchResetDevicesForUser": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchResetDevicesForUser",
 }));
@@ -1127,6 +1163,14 @@ export const batchToggleUserSuspendStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchToggleUserSuspendStatus",
+  iam: {
+    actions: ["wickr:BatchToggleUserSuspendStatus"],
+    resources: {
+      "wickr:BatchToggleUserSuspendStatus": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchToggleUserSuspendStatus",
 }));
@@ -1163,6 +1207,12 @@ export const createBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBot",
+  iam: {
+    actions: ["wickr:CreateBot"],
+    resources: {
+      "wickr:CreateBot": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBot",
 }));
@@ -1199,6 +1249,14 @@ export const createDataRetentionBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataRetentionBot",
+  iam: {
+    actions: ["wickr:CreateDataRetentionBot"],
+    resources: {
+      "wickr:CreateDataRetentionBot": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataRetentionBot",
 }));
@@ -1235,6 +1293,14 @@ export const createDataRetentionBotChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataRetentionBotChallenge",
+  iam: {
+    actions: ["wickr:CreateDataRetentionBotChallenge"],
+    resources: {
+      "wickr:CreateDataRetentionBotChallenge": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataRetentionBotChallenge",
 }));
@@ -1271,6 +1337,13 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
+  iam: {
+    actions: ["wickr:CreateNetwork", "wickr:TagResource"],
+    resources: {
+      "wickr:CreateNetwork": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+      "wickr:TagResource": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetwork",
 }));
@@ -1307,6 +1380,14 @@ export const createSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityGroup",
+  iam: {
+    actions: ["wickr:CreateSecurityGroup"],
+    resources: {
+      "wickr:CreateSecurityGroup": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSecurityGroup",
 }));
@@ -1343,6 +1424,12 @@ export const deleteBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBot",
+  iam: {
+    actions: ["wickr:DeleteBot"],
+    resources: {
+      "wickr:DeleteBot": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBot",
 }));
@@ -1379,6 +1466,14 @@ export const deleteDataRetentionBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataRetentionBot",
+  iam: {
+    actions: ["wickr:DeleteDataRetentionBot"],
+    resources: {
+      "wickr:DeleteDataRetentionBot": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataRetentionBot",
 }));
@@ -1415,6 +1510,12 @@ export const deleteNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetwork",
+  iam: {
+    actions: ["wickr:DeleteNetwork"],
+    resources: {
+      "wickr:DeleteNetwork": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetwork",
 }));
@@ -1451,6 +1552,14 @@ export const deleteSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityGroup",
+  iam: {
+    actions: ["wickr:DeleteSecurityGroup"],
+    resources: {
+      "wickr:DeleteSecurityGroup": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSecurityGroup",
 }));
@@ -1487,6 +1596,12 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
+  iam: {
+    actions: ["wickr:GetBot"],
+    resources: {
+      "wickr:GetBot": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBot",
 }));
@@ -1523,6 +1638,12 @@ export const getBotsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotsCount",
+  iam: {
+    actions: ["wickr:GetBotsCount"],
+    resources: {
+      "wickr:GetBotsCount": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBotsCount",
 }));
@@ -1559,6 +1680,14 @@ export const getDataRetentionBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataRetentionBot",
+  iam: {
+    actions: ["wickr:GetDataRetentionBot"],
+    resources: {
+      "wickr:GetDataRetentionBot": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataRetentionBot",
 }));
@@ -1595,6 +1724,14 @@ export const getGuestUserHistoryCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGuestUserHistoryCount",
+  iam: {
+    actions: ["wickr:GetGuestUserHistoryCount"],
+    resources: {
+      "wickr:GetGuestUserHistoryCount": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGuestUserHistoryCount",
 }));
@@ -1631,6 +1768,12 @@ export const getNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetwork",
+  iam: {
+    actions: ["wickr:GetNetwork"],
+    resources: {
+      "wickr:GetNetwork": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetwork",
 }));
@@ -1667,6 +1810,14 @@ export const getNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkSettings",
+  iam: {
+    actions: ["wickr:GetNetworkSettings"],
+    resources: {
+      "wickr:GetNetworkSettings": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkSettings",
 }));
@@ -1703,6 +1854,12 @@ export const getOidcInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOidcInfo",
+  iam: {
+    actions: ["wickr:GetOidcInfo"],
+    resources: {
+      "wickr:GetOidcInfo": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOidcInfo",
 }));
@@ -1739,6 +1896,14 @@ export const getOpentdfConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpentdfConfig",
+  iam: {
+    actions: ["wickr:GetOpentdfConfig"],
+    resources: {
+      "wickr:GetOpentdfConfig": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOpentdfConfig",
 }));
@@ -1775,6 +1940,14 @@ export const getSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityGroup",
+  iam: {
+    actions: ["wickr:GetSecurityGroup"],
+    resources: {
+      "wickr:GetSecurityGroup": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSecurityGroup",
 }));
@@ -1811,6 +1984,12 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
+  iam: {
+    actions: ["wickr:GetUser"],
+    resources: {
+      "wickr:GetUser": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUser",
 }));
@@ -1847,6 +2026,12 @@ export const getUsersCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsersCount",
+  iam: {
+    actions: ["wickr:GetUsersCount"],
+    resources: {
+      "wickr:GetUsersCount": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUsersCount",
 }));
@@ -1890,6 +2075,14 @@ export const listBlockedGuestUsers: API.PaginatedOperationMethod<
     items: "blocklist",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wickr:ListBlockedGuestUsers"],
+    resources: {
+      "wickr:ListBlockedGuestUsers": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBlockedGuestUsers",
 })) as any;
@@ -1933,6 +2126,12 @@ export const listBots: API.PaginatedOperationMethod<
     items: "bots",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wickr:ListBots"],
+    resources: {
+      "wickr:ListBots": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBots",
 })) as any;
@@ -1976,6 +2175,14 @@ export const listDevicesForUser: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wickr:ListDevicesForUser"],
+    resources: {
+      "wickr:ListDevicesForUser": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDevicesForUser",
 })) as any;
@@ -2019,6 +2226,12 @@ export const listGuestUsers: API.PaginatedOperationMethod<
     items: "guestlist",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wickr:ListGuestUsers"],
+    resources: {
+      "wickr:ListGuestUsers": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGuestUsers",
 })) as any;
@@ -2060,6 +2273,7 @@ export const listNetworks: API.PaginatedOperationMethod<
     items: "networks",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["wickr:ListNetworks"] },
   telemetry: TELEMETRY,
   span: "ListNetworks",
 })) as any;
@@ -2103,6 +2317,14 @@ export const listSecurityGroups: API.PaginatedOperationMethod<
     items: "securityGroups",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wickr:ListSecurityGroups"],
+    resources: {
+      "wickr:ListSecurityGroups": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSecurityGroups",
 })) as any;
@@ -2146,6 +2368,14 @@ export const listSecurityGroupUsers: API.PaginatedOperationMethod<
     items: "users",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wickr:ListSecurityGroupUsers"],
+    resources: {
+      "wickr:ListSecurityGroupUsers": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSecurityGroupUsers",
 })) as any;
@@ -2189,6 +2419,12 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "users",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["wickr:ListUsers"],
+    resources: {
+      "wickr:ListUsers": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -2225,6 +2461,14 @@ export const registerOidcConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOidcConfig",
+  iam: {
+    actions: ["wickr:RegisterOidcConfig"],
+    resources: {
+      "wickr:RegisterOidcConfig": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterOidcConfig",
 }));
@@ -2261,6 +2505,14 @@ export const registerOidcConfigTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOidcConfigTest",
+  iam: {
+    actions: ["wickr:RegisterOidcConfigTest"],
+    resources: {
+      "wickr:RegisterOidcConfigTest": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterOidcConfigTest",
 }));
@@ -2297,6 +2549,14 @@ export const registerOpentdfConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOpentdfConfig",
+  iam: {
+    actions: ["wickr:RegisterOpentdfConfig"],
+    resources: {
+      "wickr:RegisterOpentdfConfig": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterOpentdfConfig",
 }));
@@ -2333,6 +2593,12 @@ export const updateBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBot",
+  iam: {
+    actions: ["wickr:UpdateBot"],
+    resources: {
+      "wickr:UpdateBot": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBot",
 }));
@@ -2369,6 +2635,14 @@ export const updateDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataRetention",
+  iam: {
+    actions: ["wickr:UpdateDataRetention"],
+    resources: {
+      "wickr:UpdateDataRetention": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataRetention",
 }));
@@ -2405,6 +2679,12 @@ export const updateGuestUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGuestUser",
+  iam: {
+    actions: ["wickr:UpdateGuestUser"],
+    resources: {
+      "wickr:UpdateGuestUser": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGuestUser",
 }));
@@ -2477,6 +2757,14 @@ export const updateNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkSettings",
+  iam: {
+    actions: ["wickr:UpdateNetworkSettings"],
+    resources: {
+      "wickr:UpdateNetworkSettings": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetworkSettings",
 }));
@@ -2513,6 +2801,14 @@ export const updateSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityGroup",
+  iam: {
+    actions: ["wickr:UpdateSecurityGroup"],
+    resources: {
+      "wickr:UpdateSecurityGroup": [
+        "arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSecurityGroup",
 }));
@@ -2551,6 +2847,12 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  iam: {
+    actions: ["wickr:UpdateUser"],
+    resources: {
+      "wickr:UpdateUser": ["arn:${Partition}:wickr:${Region}:${Account}:network/${NetworkId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));

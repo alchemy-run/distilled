@@ -450,6 +450,7 @@ export interface GetResourceDashboardRequest {
   applicationId: string;
   resourceId: string;
   resourceType: string;
+  accessSystemProfileLogs?: boolean;
 }
 export interface GetResourceDashboardResponse {
   url?: string;
@@ -725,6 +726,14 @@ export const cancelJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobRun",
+  iam: {
+    actions: ["emr-serverless:CancelJobRun"],
+    resources: {
+      "emr-serverless:CancelJobRun": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/jobruns/${JobRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelJobRun",
 }));
@@ -755,6 +764,10 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
+  iam: {
+    actions: ["emr-serverless:CreateApplication", "emr-serverless:TagResource"],
+    conditional: { "emr-serverless:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -779,6 +792,14 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
+  iam: {
+    actions: ["emr-serverless:DeleteApplication"],
+    resources: {
+      "emr-serverless:DeleteApplication": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -803,6 +824,14 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
+  iam: {
+    actions: ["emr-serverless:GetApplication"],
+    resources: {
+      "emr-serverless:GetApplication": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -831,6 +860,22 @@ export const getDashboardForJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboardForJobRun",
+  iam: {
+    actions: [
+      "emr-serverless:AccessSystemProfileLogs",
+      "emr-serverless:GetDashboardForJobRun",
+      "glue:GetDatabases",
+      "glue:SearchTables",
+    ],
+    resources: {
+      "emr-serverless:AccessSystemProfileLogs": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/jobruns/${JobRunId}",
+      ],
+      "emr-serverless:GetDashboardForJobRun": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/jobruns/${JobRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDashboardForJobRun",
 }));
@@ -855,6 +900,14 @@ export const getJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobRun",
+  iam: {
+    actions: ["emr-serverless:GetJobRun"],
+    resources: {
+      "emr-serverless:GetJobRun": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/jobruns/${JobRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJobRun",
 }));
@@ -883,6 +936,22 @@ export const getResourceDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDashboard",
+  iam: {
+    actions: [
+      "emr-serverless:AccessSystemProfileLogs",
+      "glue:GetDatabases",
+      "emr-serverless:GetResourceDashboard",
+      "glue:SearchTables",
+    ],
+    resources: {
+      "emr-serverless:AccessSystemProfileLogs": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/jobruns/${JobRunId}",
+      ],
+      "emr-serverless:GetResourceDashboard": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/sessions/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourceDashboard",
 }));
@@ -907,6 +976,14 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  iam: {
+    actions: ["emr-serverless:GetSession"],
+    resources: {
+      "emr-serverless:GetSession": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/sessions/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -931,6 +1008,14 @@ export const getSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
+  iam: {
+    actions: ["emr-serverless:GetSessionEndpoint"],
+    resources: {
+      "emr-serverless:GetSessionEndpoint": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/sessions/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSessionEndpoint",
 }));
@@ -958,6 +1043,7 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["emr-serverless:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -989,6 +1075,14 @@ export const listJobRunAttempts: API.PaginatedOperationMethod<
     items: "jobRunAttempts",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["emr-serverless:ListJobRunAttempts"],
+    resources: {
+      "emr-serverless:ListJobRunAttempts": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/jobruns/${JobRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobRunAttempts",
 })) as any;
@@ -1016,6 +1110,14 @@ export const listJobRuns: API.PaginatedOperationMethod<
     items: "jobRuns",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["emr-serverless:ListJobRuns"],
+    resources: {
+      "emr-serverless:ListJobRuns": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListJobRuns",
 })) as any;
@@ -1047,6 +1149,14 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["emr-serverless:ListSessions"],
+    resources: {
+      "emr-serverless:ListSessions": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -1071,6 +1181,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["emr-serverless:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1101,6 +1212,14 @@ export const startApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
+  iam: {
+    actions: ["emr-serverless:StartApplication"],
+    resources: {
+      "emr-serverless:StartApplication": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartApplication",
 }));
@@ -1131,6 +1250,16 @@ export const startJobRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobRun",
+  iam: {
+    actions: ["iam:PassRole", "emr-serverless:StartJobRun", "emr-serverless:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "emr-serverless:StartJobRun": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+    conditional: { "emr-serverless:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartJobRun",
 }));
@@ -1163,6 +1292,16 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  iam: {
+    actions: ["iam:PassRole", "emr-serverless:StartSession", "emr-serverless:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "emr-serverless:StartSession": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+    conditional: { "emr-serverless:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartSession",
 }));
@@ -1187,6 +1326,14 @@ export const stopApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
+  iam: {
+    actions: ["emr-serverless:StopApplication"],
+    resources: {
+      "emr-serverless:StopApplication": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopApplication",
 }));
@@ -1211,6 +1358,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["emr-serverless:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1235,6 +1383,14 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  iam: {
+    actions: ["emr-serverless:TerminateSession"],
+    resources: {
+      "emr-serverless:TerminateSession": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}/sessions/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateSession",
 }));
@@ -1259,6 +1415,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["emr-serverless:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1283,6 +1440,14 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
+  iam: {
+    actions: ["emr-serverless:UpdateApplication"],
+    resources: {
+      "emr-serverless:UpdateApplication": [
+        "arn:${Partition}:emr-serverless:${Region}:${Account}:/applications/${ApplicationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -1414,6 +1579,9 @@ function __c3(j: number): any {
           applicationId: S.String.pipe(T.HttpLabel("applicationId")),
           resourceId: S.String.pipe(T.HttpQuery("resourceId")),
           resourceType: S.String.pipe(T.HttpQuery("resourceType")),
+          accessSystemProfileLogs: S.optional(S.Boolean).pipe(
+            T.HttpQuery("accessSystemProfileLogs"),
+          ),
         }).pipe(
           T.all(
             T.Http({ method: "GET", uri: "/applications/{applicationId}/dashboard" }),

@@ -643,6 +643,11 @@ export const assumeRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRole",
+  iam: {
+    actions: ["sts:AssumeRole", "sts:SetContext", "sts:SetSourceIdentity", "sts:TagSession"],
+    resources: { "sts:AssumeRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "sts:TagSession": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "AssumeRole",
 }));
@@ -800,6 +805,12 @@ export const assumeRoleWithSAML: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoleWithSAML",
+  iam: {
+    actions: ["sts:AssumeRoleWithSAML"],
+    resources: {
+      "sts:AssumeRoleWithSAML": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssumeRoleWithSAML",
 }));
@@ -953,6 +964,14 @@ export const assumeRoleWithWebIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoleWithWebIdentity",
+  iam: {
+    actions: ["sts:AssumeRoleWithWebIdentity"],
+    resources: {
+      "sts:AssumeRoleWithWebIdentity": [
+        "arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssumeRoleWithWebIdentity",
 }));
@@ -993,6 +1012,10 @@ export const assumeRoot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoot",
+  iam: {
+    actions: ["sts:AssumeRoot"],
+    resources: { "sts:AssumeRoot": ["arn:${Partition}:iam::${Account}:root"] },
+  },
   telemetry: TELEMETRY,
   span: "AssumeRoot",
 }));
@@ -1043,6 +1066,7 @@ export const decodeAuthorizationMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecodeAuthorizationMessage",
+  iam: { actions: ["sts:DecodeAuthorizationMessage"] },
   telemetry: TELEMETRY,
   span: "DecodeAuthorizationMessage",
 }));
@@ -1082,6 +1106,7 @@ export const getAccessKeyInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessKeyInfo",
+  iam: { actions: ["sts:GetAccessKeyInfo"] },
   telemetry: TELEMETRY,
   span: "GetAccessKeyInfo",
 }));
@@ -1110,6 +1135,7 @@ export const getCallerIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCallerIdentity",
+  iam: { actions: ["sts:GetCallerIdentity"] },
   telemetry: TELEMETRY,
   span: "GetCallerIdentity",
 }));
@@ -1137,6 +1163,7 @@ export const getDelegatedAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegatedAccessToken",
+  iam: { actions: ["sts:GetDelegatedAccessToken"] },
   telemetry: TELEMETRY,
   span: "GetDelegatedAccessToken",
 }));
@@ -1255,6 +1282,10 @@ export const getFederationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFederationToken",
+  iam: {
+    actions: ["sts:GetFederationToken", "sts:TagSession"],
+    conditional: { "sts:TagSession": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "GetFederationToken",
 }));
@@ -1329,6 +1360,7 @@ export const getSessionToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionToken",
+  iam: { actions: ["sts:GetSessionToken"] },
   telemetry: TELEMETRY,
   span: "GetSessionToken",
 }));
@@ -1361,6 +1393,10 @@ export const getWebIdentityToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebIdentityToken",
+  iam: {
+    actions: ["sts:GetWebIdentityToken", "sts:TagGetWebIdentityToken"],
+    conditional: { "sts:TagGetWebIdentityToken": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "GetWebIdentityToken",
 }));

@@ -603,6 +603,21 @@ export const createWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunction",
+  iam: {
+    actions: [
+      "lambda:CreateWebFunction",
+      "lambda:PassNetworkConnector",
+      "iam:PassRole",
+      "lambda:TagResource",
+    ],
+    resources: {
+      "lambda:CreateWebFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "lambda:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWebFunction",
 }));
@@ -641,6 +656,14 @@ export const createWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunctionEndpoint",
+  iam: {
+    actions: ["lambda:CreateWebFunctionEndpoint"],
+    resources: {
+      "lambda:CreateWebFunctionEndpoint": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWebFunctionEndpoint",
 }));
@@ -681,6 +704,15 @@ export const createWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebFunctionRevision",
+  iam: {
+    actions: ["lambda:CreateWebFunctionRevision", "lambda:PassNetworkConnector", "iam:PassRole"],
+    resources: {
+      "lambda:CreateWebFunctionRevision": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWebFunctionRevision",
 }));
@@ -715,6 +747,18 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["lambda:DeleteResourcePolicy", "lambda:RemovePermission"],
+    resources: {
+      "lambda:DeleteResourcePolicy": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+      "lambda:RemovePermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -751,6 +795,14 @@ export const deleteWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunction",
+  iam: {
+    actions: ["lambda:DeleteWebFunction"],
+    resources: {
+      "lambda:DeleteWebFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWebFunction",
 }));
@@ -785,6 +837,14 @@ export const deleteWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunctionEndpoint",
+  iam: {
+    actions: ["lambda:DeleteWebFunctionEndpoint"],
+    resources: {
+      "lambda:DeleteWebFunctionEndpoint": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}/endpoint/${EndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWebFunctionEndpoint",
 }));
@@ -819,6 +879,14 @@ export const deleteWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebFunctionRevision",
+  iam: {
+    actions: ["lambda:DeleteWebFunctionRevision"],
+    resources: {
+      "lambda:DeleteWebFunctionRevision": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}/revision/${RevisionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWebFunctionRevision",
 }));
@@ -851,6 +919,16 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["lambda:GetPolicy", "lambda:GetResourcePolicy"],
+    resources: {
+      "lambda:GetPolicy": ["arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}"],
+      "lambda:GetResourcePolicy": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -875,6 +953,7 @@ export const getWebAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebAccountSettings",
+  iam: { actions: ["lambda:GetWebAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetWebAccountSettings",
 }));
@@ -907,6 +986,14 @@ export const getWebFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunction",
+  iam: {
+    actions: ["lambda:GetWebFunction"],
+    resources: {
+      "lambda:GetWebFunction": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWebFunction",
 }));
@@ -939,6 +1026,14 @@ export const getWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunctionEndpoint",
+  iam: {
+    actions: ["lambda:GetWebFunctionEndpoint"],
+    resources: {
+      "lambda:GetWebFunctionEndpoint": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}/endpoint/${EndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWebFunctionEndpoint",
 }));
@@ -971,6 +1066,14 @@ export const getWebFunctionRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebFunctionRevision",
+  iam: {
+    actions: ["lambda:GetWebFunctionRevision"],
+    resources: {
+      "lambda:GetWebFunctionRevision": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}/revision/${RevisionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWebFunctionRevision",
 }));
@@ -1003,6 +1106,7 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
+  iam: { actions: ["lambda:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
@@ -1042,6 +1146,14 @@ export const listWebFunctionEndpoints: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["lambda:ListWebFunctionEndpoints"],
+    resources: {
+      "lambda:ListWebFunctionEndpoints": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWebFunctionEndpoints",
 })) as any;
@@ -1081,6 +1193,14 @@ export const listWebFunctionRevisions: API.PaginatedOperationMethod<
     items: "revisions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["lambda:ListWebFunctionRevisions"],
+    resources: {
+      "lambda:ListWebFunctionRevisions": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWebFunctionRevisions",
 })) as any;
@@ -1118,6 +1238,7 @@ export const listWebFunctions: API.PaginatedOperationMethod<
     items: "functions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["lambda:ListWebFunctions"] },
   telemetry: TELEMETRY,
   span: "ListWebFunctions",
 })) as any;
@@ -1154,6 +1275,21 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["lambda:AddPermission", "lambda:PutResourcePolicy", "lambda:RemovePermission"],
+    resources: {
+      "lambda:AddPermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+      "lambda:PutResourcePolicy": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}",
+      ],
+      "lambda:RemovePermission": [
+        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1190,6 +1326,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["lambda:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1224,6 +1361,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["lambda:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1260,6 +1398,14 @@ export const updateWebFunctionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebFunctionEndpoint",
+  iam: {
+    actions: ["lambda:UpdateWebFunctionEndpoint"],
+    resources: {
+      "lambda:UpdateWebFunctionEndpoint": [
+        "arn:${Partition}:lambda:${Region}:${Account}:web-function/${FunctionName}/endpoint/${EndpointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWebFunctionEndpoint",
 }));

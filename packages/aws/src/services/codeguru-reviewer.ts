@@ -550,6 +550,15 @@ export const associateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRepository",
+  iam: {
+    actions: ["codeguru-reviewer:AssociateRepository", "codeguru-reviewer:TagResource"],
+    resources: {
+      "codeguru-reviewer:TagResource": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+    conditional: { "codeguru-reviewer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateRepository",
 }));
@@ -587,6 +596,14 @@ export const createCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeReview",
+  iam: {
+    actions: ["codeguru-reviewer:CreateCodeReview"],
+    resources: {
+      "codeguru-reviewer:CreateCodeReview": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateCodeReview",
 }));
@@ -619,6 +636,14 @@ export const describeCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCodeReview",
+  iam: {
+    actions: ["codeguru-reviewer:DescribeCodeReview"],
+    resources: {
+      "codeguru-reviewer:DescribeCodeReview": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCodeReview",
 }));
@@ -651,6 +676,14 @@ export const describeRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecommendationFeedback",
+  iam: {
+    actions: ["codeguru-reviewer:DescribeRecommendationFeedback"],
+    resources: {
+      "codeguru-reviewer:DescribeRecommendationFeedback": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRecommendationFeedback",
 }));
@@ -684,6 +717,14 @@ export const describeRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRepositoryAssociation",
+  iam: {
+    actions: ["codeguru-reviewer:DescribeRepositoryAssociation"],
+    resources: {
+      "codeguru-reviewer:DescribeRepositoryAssociation": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRepositoryAssociation",
 }));
@@ -718,6 +759,14 @@ export const disassociateRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRepository",
+  iam: {
+    actions: ["codeguru-reviewer:DisassociateRepository"],
+    resources: {
+      "codeguru-reviewer:DisassociateRepository": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateRepository",
 }));
@@ -754,6 +803,7 @@ export const listCodeReviews: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codeguru-reviewer:ListCodeReviews"] },
   telemetry: TELEMETRY,
   span: "ListCodeReviews",
 })) as any;
@@ -793,6 +843,14 @@ export const listRecommendationFeedback: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["codeguru-reviewer:ListRecommendationFeedback"],
+    resources: {
+      "codeguru-reviewer:ListRecommendationFeedback": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecommendationFeedback",
 })) as any;
@@ -831,6 +889,14 @@ export const listRecommendations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["codeguru-reviewer:ListRecommendations"],
+    resources: {
+      "codeguru-reviewer:ListRecommendations": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecommendations",
 })) as any;
@@ -863,6 +929,7 @@ export const listRepositoryAssociations: API.PaginatedOperationMethod<
     items: "RepositoryAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["codeguru-reviewer:ListRepositoryAssociations"] },
   telemetry: TELEMETRY,
   span: "ListRepositoryAssociations",
 })) as any;
@@ -887,6 +954,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["codeguru-reviewer:ListTagsForResource"],
+    resources: {
+      "codeguru-reviewer:ListTagsForResource": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -920,6 +995,14 @@ export const putRecommendationFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecommendationFeedback",
+  iam: {
+    actions: ["codeguru-reviewer:PutRecommendationFeedback"],
+    resources: {
+      "codeguru-reviewer:PutRecommendationFeedback": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRecommendationFeedback",
 }));
@@ -944,6 +1027,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["codeguru-reviewer:TagResource"],
+    resources: {
+      "codeguru-reviewer:TagResource": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -968,6 +1059,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["codeguru-reviewer:UnTagResource"],
+    resources: {
+      "codeguru-reviewer:UnTagResource": [
+        "arn:${Partition}:codeguru-reviewer:${Region}:${Account}:association:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

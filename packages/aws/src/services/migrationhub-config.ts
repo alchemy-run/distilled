@@ -205,6 +205,7 @@ export const createHomeRegionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHomeRegionControl",
+  iam: { actions: ["mgh:CreateHomeRegionControl"] },
   telemetry: TELEMETRY,
   span: "CreateHomeRegionControl",
 }));
@@ -237,6 +238,7 @@ export const deleteHomeRegionControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHomeRegionControl",
+  iam: { actions: ["mgh:DeleteHomeRegionControl"] },
   telemetry: TELEMETRY,
   span: "DeleteHomeRegionControl",
 }));
@@ -276,6 +278,7 @@ export const describeHomeRegionControls: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mgh:DescribeHomeRegionControls"] },
   telemetry: TELEMETRY,
   span: "DescribeHomeRegionControls",
 })) as any;
@@ -312,6 +315,7 @@ export const getHomeRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHomeRegion",
+  iam: { actions: ["mgh:GetHomeRegion"] },
   telemetry: TELEMETRY,
   span: "GetHomeRegion",
 }));

@@ -3,12 +3,14 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
+import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
 const __s: any[] = [];
@@ -217,10 +219,12 @@ export interface CancelPlanExecutionRequest {
 export interface CancelPlanExecutionResponse {}
 export type IamRoleArn = string;
 export type LambdaArn = string;
+export type LambdaPayload = string | redacted.Redacted<string>;
 export interface Lambdas {
   crossAccountRole?: string;
   externalId?: string;
   arn?: string;
+  payload?: string | redacted.Redacted<string>;
 }
 export type LambdaList = Lambdas[];
 export type RegionToRunIn =
@@ -483,6 +487,39 @@ export interface RdsSwitchoverReadReplicaConfiguration {
   dbInstanceArnMap: { [key: string]: string | undefined };
   ungraceful?: RdsUngraceful;
 }
+export type SsmDocumentArn = string;
+export type SsmTargetKey = string;
+export type SsmTargetValue = string;
+export type SsmTargetValueList = string[];
+export interface SsmTarget {
+  key: string;
+  values: string[];
+}
+export type SsmTargetList = SsmTarget[];
+export type SsmParameterKey = string;
+export type SsmParameterValue = string;
+export type SsmParameterValues = string[];
+export type SsmDocumentParameters = { [key: string]: string[] | undefined };
+export type SsmDocumentVersion = string;
+export interface SsmDocumentConfig {
+  crossAccountRole?: string;
+  externalId?: string;
+  documentArn: string;
+  targets: SsmTarget[];
+  parameters?: { [key: string]: string[] | undefined };
+  documentVersion?: string;
+}
+export type RegionSsmDocumentMap = { [key: string]: SsmDocumentConfig | undefined };
+export type SsmSendCommandUngracefulBehavior = "skip" | (string & {});
+export interface SsmSendCommandUngraceful {
+  behavior?: SsmSendCommandUngracefulBehavior;
+}
+export interface SsmSendCommandConfiguration {
+  timeoutMinutes?: number;
+  regionDocuments: { [key: string]: SsmDocumentConfig | undefined };
+  retryIntervalMinutes: number;
+  ungraceful?: SsmSendCommandUngraceful;
+}
 export type ExecutionBlockConfiguration =
   | {
       customActionLambdaConfig: CustomActionLambdaConfiguration;
@@ -503,6 +540,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -523,6 +561,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -543,6 +582,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -563,6 +603,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -583,6 +624,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -603,6 +645,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -623,6 +666,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -643,6 +687,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -663,6 +708,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -683,6 +729,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -703,6 +750,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -723,6 +771,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -743,6 +792,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -763,6 +813,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -783,6 +834,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -803,6 +855,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig: AuroraProvisionedScalingConfiguration;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -823,6 +876,7 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig: NeptuneGlobalDatabaseConfiguration;
       rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig?: never;
     }
   | {
       customActionLambdaConfig?: never;
@@ -843,6 +897,28 @@ export type ExecutionBlockConfiguration =
       auroraProvisionedScalingConfig?: never;
       neptuneGlobalDatabaseConfig?: never;
       rdsSwitchoverReadReplicaConfig: RdsSwitchoverReadReplicaConfiguration;
+      ssmSendCommandConfig?: never;
+    }
+  | {
+      customActionLambdaConfig?: never;
+      ec2AsgCapacityIncreaseConfig?: never;
+      executionApprovalConfig?: never;
+      arcRoutingControlConfig?: never;
+      globalAuroraConfig?: never;
+      parallelConfig?: never;
+      regionSwitchPlanConfig?: never;
+      ecsCapacityIncreaseConfig?: never;
+      eksResourceScalingConfig?: never;
+      route53HealthCheckConfig?: never;
+      documentDbConfig?: never;
+      rdsPromoteReadReplicaConfig?: never;
+      rdsCreateCrossRegionReadReplicaConfig?: never;
+      lambdaEventSourceMappingConfig?: never;
+      auroraServerlessScalingConfig?: never;
+      auroraProvisionedScalingConfig?: never;
+      neptuneGlobalDatabaseConfig?: never;
+      rdsSwitchoverReadReplicaConfig?: never;
+      ssmSendCommandConfig: SsmSendCommandConfiguration;
     };
 export type ExecutionBlockType =
   | "CustomActionLambda"
@@ -863,6 +939,7 @@ export type ExecutionBlockType =
   | "AuroraProvisionedScaling"
   | "NeptuneGlobalDatabase"
   | "RdsSwitchoverReadReplica"
+  | "SSMSendCommand"
   | (string & {});
 export interface Step {
   name: string;
@@ -1353,6 +1430,14 @@ export const approvePlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApprovePlanExecutionStep",
+  iam: {
+    actions: ["arc-region-switch:ApprovePlanExecutionStep"],
+    resources: {
+      "arc-region-switch:ApprovePlanExecutionStep": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ApprovePlanExecutionStep",
 }));
@@ -1378,6 +1463,14 @@ export const cancelPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPlanExecution",
+  iam: {
+    actions: ["arc-region-switch:CancelPlanExecution"],
+    resources: {
+      "arc-region-switch:CancelPlanExecution": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelPlanExecution",
 }));
@@ -1400,6 +1493,27 @@ export const createPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlan",
+  iam: {
+    actions: [
+      "arc-region-switch:CreatePlan",
+      "arc-region-switch:GetPlan",
+      "iam:PassRole",
+      "arc-region-switch:TagResource",
+    ],
+    resources: {
+      "arc-region-switch:CreatePlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+      "arc-region-switch:GetPlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "arc-region-switch:TagResource": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+    conditional: { "arc-region-switch:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePlan",
 }));
@@ -1422,6 +1536,14 @@ export const deletePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlan",
+  iam: {
+    actions: ["arc-region-switch:DeletePlan"],
+    resources: {
+      "arc-region-switch:DeletePlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePlan",
 }));
@@ -1442,6 +1564,14 @@ export const getPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlan",
+  iam: {
+    actions: ["arc-region-switch:GetPlan"],
+    resources: {
+      "arc-region-switch:GetPlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlan",
 }));
@@ -1472,6 +1602,14 @@ export const getPlanEvaluationStatus: API.PaginatedOperationMethod<
     items: "warnings",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:GetPlanEvaluationStatus"],
+    resources: {
+      "arc-region-switch:GetPlanEvaluationStatus": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlanEvaluationStatus",
 })) as any;
@@ -1502,6 +1640,14 @@ export const getPlanExecution: API.PaginatedOperationMethod<
     items: "stepStates",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:GetPlanExecution"],
+    resources: {
+      "arc-region-switch:GetPlanExecution": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlanExecution",
 })) as any;
@@ -1522,6 +1668,14 @@ export const getPlanInRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlanInRegion",
+  iam: {
+    actions: ["arc-region-switch:GetPlanInRegion"],
+    resources: {
+      "arc-region-switch:GetPlanInRegion": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlanInRegion",
 }));
@@ -1552,6 +1706,14 @@ export const listPlanExecutionEvents: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:ListPlanExecutionEvents"],
+    resources: {
+      "arc-region-switch:ListPlanExecutionEvents": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPlanExecutionEvents",
 })) as any;
@@ -1582,6 +1744,14 @@ export const listPlanExecutions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:ListPlanExecutions"],
+    resources: {
+      "arc-region-switch:ListPlanExecutions": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPlanExecutions",
 })) as any;
@@ -1609,6 +1779,7 @@ export const listPlans: API.PaginatedOperationMethod<
     items: "plans",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-region-switch:ListPlans"] },
   telemetry: TELEMETRY,
   span: "ListPlans",
 })) as any;
@@ -1636,6 +1807,7 @@ export const listPlansInRegion: API.PaginatedOperationMethod<
     items: "plans",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-region-switch:ListPlansInRegion"] },
   telemetry: TELEMETRY,
   span: "ListPlansInRegion",
 })) as any;
@@ -1673,6 +1845,14 @@ export const listRoute53HealthChecks: API.PaginatedOperationMethod<
     items: "healthChecks",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:ListRoute53HealthChecks"],
+    resources: {
+      "arc-region-switch:ListRoute53HealthChecks": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoute53HealthChecks",
 })) as any;
@@ -1710,6 +1890,14 @@ export const listRoute53HealthChecksInRegion: API.PaginatedOperationMethod<
     items: "healthChecks",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["arc-region-switch:ListRoute53HealthChecksInRegion"],
+    resources: {
+      "arc-region-switch:ListRoute53HealthChecksInRegion": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoute53HealthChecksInRegion",
 })) as any;
@@ -1721,7 +1909,7 @@ export type ListServiceQuotaWarningsError =
 /**
  * Lists the service quota warnings for the plans that you can access. Region switch creates a warning when the applied quota value in one Region of a plan is lower than the value required for the matching resource in another Region or account in the plan.
  *
- * Returns the warnings for the plans that you own and for plans that are shared with your account through AWS Resource Access Manager (AWS RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
+ * Returns the warnings for the plans that you own and for plans that are shared with your account through Resource Access Manager (RAM). To return warnings for specific plans, provide a list of plan Amazon Resource Names (ARNs). Region switch ignores any plan ARN that you can't access. If you don't provide any plan ARNs, Region switch returns the warnings for all of your accessible plans.
  */
 export const listServiceQuotaWarnings: API.PaginatedOperationMethod<
   ListServiceQuotaWarningsRequest & RegionInput,
@@ -1742,6 +1930,7 @@ export const listServiceQuotaWarnings: API.PaginatedOperationMethod<
     items: "serviceQuotaWarningSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["arc-region-switch:ListServiceQuotaWarnings"] },
   telemetry: TELEMETRY,
   span: "ListServiceQuotaWarnings",
 })) as any;
@@ -1765,6 +1954,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["arc-region-switch:ListTagsForResource"],
+    resources: {
+      "arc-region-switch:ListTagsForResource": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1799,6 +1996,14 @@ export const startPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPlanExecution",
+  iam: {
+    actions: ["arc-region-switch:StartPlanExecution"],
+    resources: {
+      "arc-region-switch:StartPlanExecution": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartPlanExecution",
 }));
@@ -1819,6 +2024,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["arc-region-switch:TagResource"],
+    resources: {
+      "arc-region-switch:TagResource": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1839,6 +2052,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["arc-region-switch:UntagResource"],
+    resources: {
+      "arc-region-switch:UntagResource": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1859,6 +2080,18 @@ export const updatePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlan",
+  iam: {
+    actions: ["arc-region-switch:GetPlan", "iam:PassRole", "arc-region-switch:UpdatePlan"],
+    resources: {
+      "arc-region-switch:GetPlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "arc-region-switch:UpdatePlan": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePlan",
 }));
@@ -1883,6 +2116,14 @@ export const updatePlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlanExecution",
+  iam: {
+    actions: ["arc-region-switch:UpdatePlanExecution"],
+    resources: {
+      "arc-region-switch:UpdatePlanExecution": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePlanExecution",
 }));
@@ -1906,6 +2147,14 @@ export const updatePlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlanExecutionStep",
+  iam: {
+    actions: ["arc-region-switch:UpdatePlanExecutionStep"],
+    resources: {
+      "arc-region-switch:UpdatePlanExecutionStep": [
+        "arn:${Partition}:arc-region-switch::${Account}:plan/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePlanExecutionStep",
 }));
@@ -2032,7 +2281,7 @@ function __c2(j: number): any {
           executionRegion: S.String,
           recoveryExecutionId: S.optional(S.String),
           stepStates: S.optional(__S(66, __c2, 2)),
-          plan: S.optional(__S(883, __c27, 19)),
+          plan: S.optional(__S(891, __c27, 27)),
           actualRecoveryTime: S.optional(S.String),
           generatedReportDetails: S.optional(__S(71, __c2, 7)),
           nextToken: S.optional(S.String),
@@ -2364,12 +2613,12 @@ function __c17(j: number): any {
         S.Struct({
           arn: S.String,
           description: S.optional(S.String),
-          workflows: __S(872, __c27, 8),
+          workflows: __S(880, __c27, 16),
           executionRole: S.String,
           recoveryTimeObjectiveMinutes: S.optional(S.Number),
-          associatedAlarms: S.optional(__S(874, __c27, 10)),
-          triggers: S.optional(__S(878, __c27, 14)),
-          reportConfiguration: S.optional(__S(882, __c27, 18)),
+          associatedAlarms: S.optional(__S(882, __c27, 18)),
+          triggers: S.optional(__S(886, __c27, 22)),
+          reportConfiguration: S.optional(__S(890, __c27, 26)),
           serviceQuotaChecksEnabled: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -2450,12 +2699,12 @@ function __c23(j: number): any {
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
-          workflows: __S(872, __c27, 8),
+          workflows: __S(880, __c27, 16),
           executionRole: S.String,
           recoveryTimeObjectiveMinutes: S.optional(S.Number),
-          associatedAlarms: S.optional(__S(874, __c27, 10)),
-          triggers: S.optional(__S(878, __c27, 14)),
-          reportConfiguration: S.optional(__S(882, __c27, 18)),
+          associatedAlarms: S.optional(__S(882, __c27, 18)),
+          triggers: S.optional(__S(886, __c27, 22)),
+          reportConfiguration: S.optional(__S(890, __c27, 26)),
           serviceQuotaChecksEnabled: S.optional(S.Boolean),
           name: S.String,
           regions: __S(768, __c24, 0),
@@ -2496,6 +2745,7 @@ function __c26(j: number): any {
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           arn: S.optional(S.String),
+          payload: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "Lambdas" });
     case 1:
@@ -2515,62 +2765,72 @@ function __c26(j: number): any {
         }),
       ).annotate({ identifier: "CustomActionLambdaConfiguration" });
     case 4:
+      return S.suspend(() =>
+        S.Struct({
+          crossAccountRole: S.optional(S.String),
+          externalId: S.optional(S.String),
+          arn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "Asg" });
+    case 5:
+      return S.Array(__S(836, __c26, 4));
+    case 6:
       return S.suspend(() => S.Struct({ minimumSuccessPercentage: S.Number })).annotate({
         identifier: "Ec2Ungraceful",
       });
-    case 5:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
-          asgs: __S(833, __c26, 1),
-          ungraceful: S.optional(__S(836, __c26, 4)),
+          asgs: __S(837, __c26, 5),
+          ungraceful: S.optional(__S(838, __c26, 6)),
           targetPercent: S.optional(S.Number),
           capacityMonitoringApproach: S.optional(S.String),
           waitELBTargetGroupHealthy: S.optional(S.String),
         }),
       ).annotate({ identifier: "Ec2AsgCapacityIncreaseConfiguration" });
-    case 6:
+    case 8:
       return S.suspend(() =>
         S.Struct({ timeoutMinutes: S.optional(S.Number), approvalRole: S.String }),
       ).annotate({ identifier: "ExecutionApprovalConfiguration" });
-    case 7:
+    case 9:
       return S.suspend(() => S.Struct({ routingControlArn: S.String, state: S.String })).annotate({
         identifier: "ArcRoutingControlState",
       });
-    case 8:
-      return S.Array(__S(839, __c26, 7));
-    case 9:
-      return S.Record(S.String, /*@__PURE__*/ __S(840, __c26, 8).pipe(S.optional));
     case 10:
-      return S.suspend(() =>
-        S.Struct({
-          timeoutMinutes: S.optional(S.Number),
-          crossAccountRole: S.optional(S.String),
-          externalId: S.optional(S.String),
-          regionAndRoutingControls: __S(841, __c26, 9),
-        }),
-      ).annotate({ identifier: "ArcRoutingControlConfiguration" });
+      return S.Array(__S(841, __c26, 9));
     case 11:
-      return S.suspend(() => S.Struct({ ungraceful: S.optional(S.String) })).annotate({
-        identifier: "GlobalAuroraUngraceful",
-      });
+      return S.Record(S.String, /*@__PURE__*/ __S(842, __c26, 10).pipe(S.optional));
     case 12:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
+          regionAndRoutingControls: __S(843, __c26, 11),
+        }),
+      ).annotate({ identifier: "ArcRoutingControlConfiguration" });
+    case 13:
+      return S.suspend(() => S.Struct({ ungraceful: S.optional(S.String) })).annotate({
+        identifier: "GlobalAuroraUngraceful",
+      });
+    case 14:
+      return S.suspend(() =>
+        S.Struct({
+          timeoutMinutes: S.optional(S.Number),
+          crossAccountRole: S.optional(S.String),
+          externalId: S.optional(S.String),
           behavior: S.String,
-          ungraceful: S.optional(__S(843, __c26, 11)),
+          ungraceful: S.optional(__S(845, __c26, 13)),
           globalClusterIdentifier: S.String,
           databaseClusterArns: __S(768, __c24, 0),
         }),
       ).annotate({ identifier: "GlobalAuroraConfiguration" });
-    case 13:
+    case 15:
       return S.suspend(() =>
-        S.Struct({ steps: S.suspend(() => __S(870, __c27, 6)).annotate({ identifier: "Steps" }) }),
+        S.Struct({ steps: S.suspend(() => __S(878, __c27, 14)).annotate({ identifier: "Steps" }) }),
       ).annotate({ identifier: "ParallelExecutionBlockConfiguration" });
-    case 14:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           crossAccountRole: S.optional(S.String),
@@ -2578,7 +2838,7 @@ function __c26(j: number): any {
           arn: S.String,
         }),
       ).annotate({ identifier: "RegionSwitchPlanConfiguration" });
-    case 15:
+    case 17:
       return S.suspend(() =>
         S.Struct({
           crossAccountRole: S.optional(S.String),
@@ -2587,34 +2847,34 @@ function __c26(j: number): any {
           serviceArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Service" });
-    case 16:
-      return S.Array(__S(847, __c26, 15));
-    case 17:
+    case 18:
+      return S.Array(__S(849, __c26, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
-          services: __S(848, __c26, 16),
-          ungraceful: S.optional(__S(836, __c26, 4)),
+          services: __S(850, __c26, 18),
+          ungraceful: S.optional(__S(838, __c26, 6)),
           targetPercent: S.optional(S.Number),
           capacityMonitoringApproach: S.optional(S.String),
           waitELBTargetGroupHealthy: S.optional(S.String),
         }),
       ).annotate({ identifier: "EcsCapacityIncreaseConfiguration" });
-    case 18:
+    case 20:
       return S.suspend(() => S.Struct({ apiVersion: S.String, kind: S.String })).annotate({
         identifier: "KubernetesResourceType",
       });
-    case 19:
+    case 21:
       return S.suspend(() =>
         S.Struct({ namespace: S.String, name: S.String, hpaName: S.optional(S.String) }),
       ).annotate({ identifier: "KubernetesScalingResource" });
-    case 20:
-      return S.Record(S.String, /*@__PURE__*/ __S(851, __c26, 19).pipe(S.optional));
-    case 21:
-      return S.Record(S.String, /*@__PURE__*/ __S(852, __c26, 20).pipe(S.optional));
     case 22:
-      return S.Array(__S(853, __c26, 21));
+      return S.Record(S.String, /*@__PURE__*/ __S(853, __c26, 21).pipe(S.optional));
     case 23:
+      return S.Record(S.String, /*@__PURE__*/ __S(854, __c26, 22).pipe(S.optional));
+    case 24:
+      return S.Array(__S(855, __c26, 23));
+    case 25:
       return S.suspend(() =>
         S.Struct({
           crossAccountRole: S.optional(S.String),
@@ -2622,27 +2882,27 @@ function __c26(j: number): any {
           clusterArn: S.String,
         }),
       ).annotate({ identifier: "EksCluster" });
-    case 24:
-      return S.Array(__S(855, __c26, 23));
-    case 25:
+    case 26:
+      return S.Array(__S(857, __c26, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
-          kubernetesResourceType: __S(850, __c26, 18),
-          scalingResources: S.optional(__S(854, __c26, 22)),
-          eksClusters: S.optional(__S(856, __c26, 24)),
-          ungraceful: S.optional(__S(836, __c26, 4)),
+          kubernetesResourceType: __S(852, __c26, 20),
+          scalingResources: S.optional(__S(856, __c26, 24)),
+          eksClusters: S.optional(__S(858, __c26, 26)),
+          ungraceful: S.optional(__S(838, __c26, 6)),
           targetPercent: S.optional(S.Number),
           capacityMonitoringApproach: S.optional(S.String),
         }),
       ).annotate({ identifier: "EksResourceScalingConfiguration" });
-    case 26:
+    case 28:
       return S.suspend(() =>
         S.Struct({ recordSetIdentifier: S.optional(S.String), region: S.optional(S.String) }),
       ).annotate({ identifier: "Route53ResourceRecordSet" });
-    case 27:
-      return S.Array(__S(858, __c26, 26));
-    case 28:
+    case 29:
+      return S.Array(__S(860, __c26, 28));
+    case 30:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
@@ -2650,10 +2910,10 @@ function __c26(j: number): any {
           externalId: S.optional(S.String),
           hostedZoneId: S.String,
           recordName: S.String,
-          recordSets: S.optional(__S(859, __c26, 27)),
+          recordSets: S.optional(__S(861, __c26, 29)),
         }),
       ).annotate({ identifier: "Route53HealthCheckConfiguration" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
@@ -2662,22 +2922,22 @@ function __c26(j: number): any {
           dbInstanceArnMap: __S(800, __c25, 0),
         }),
       ).annotate({ identifier: "RdsPromoteReadReplicaConfiguration" });
-    case 30:
-      return S.Record(S.String, /*@__PURE__*/ __S(846, __c26, 14).pipe(S.optional));
-    case 31:
-      return S.suspend(() =>
-        S.Struct({
-          timeoutMinutes: S.optional(S.Number),
-          action: S.String,
-          regionEventSourceMappings: __S(862, __c26, 30),
-          ungraceful: S.optional(__S(834, __c26, 2)),
-        }),
-      ).annotate({ identifier: "LambdaEventSourceMappingConfiguration" });
   }
 }
 function __c27(j: number): any {
   switch (j) {
     case 0:
+      return S.Record(S.String, /*@__PURE__*/ __S(848, __c26, 16).pipe(S.optional));
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          timeoutMinutes: S.optional(S.Number),
+          action: S.String,
+          regionEventSourceMappings: __S(864, __c27, 0),
+          ungraceful: S.optional(__S(834, __c26, 2)),
+        }),
+      ).annotate({ identifier: "LambdaEventSourceMappingConfiguration" });
+    case 2:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
@@ -2688,7 +2948,7 @@ function __c27(j: number): any {
           targetPercent: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AuroraServerlessScalingConfiguration" });
-    case 1:
+    case 3:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
@@ -2699,82 +2959,113 @@ function __c27(j: number): any {
           instanceArns: __S(800, __c25, 0),
         }),
       ).annotate({ identifier: "AuroraProvisionedScalingConfiguration" });
-    case 2:
+    case 4:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           behavior: S.String,
-          ungraceful: S.optional(__S(843, __c26, 11)),
+          ungraceful: S.optional(__S(845, __c26, 13)),
           globalClusterIdentifier: S.String,
           regionDatabaseClusterArns: __S(800, __c25, 0),
         }),
       ).annotate({ identifier: "NeptuneGlobalDatabaseConfiguration" });
-    case 3:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           timeoutMinutes: S.optional(S.Number),
           crossAccountRole: S.optional(S.String),
           externalId: S.optional(S.String),
           dbInstanceArnMap: __S(800, __c25, 0),
-          ungraceful: S.optional(__S(843, __c26, 11)),
+          ungraceful: S.optional(__S(845, __c26, 13)),
         }),
       ).annotate({ identifier: "RdsSwitchoverReadReplicaConfiguration" });
-    case 4:
+    case 6:
+      return S.suspend(() => S.Struct({ key: S.String, values: __S(768, __c24, 0) })).annotate({
+        identifier: "SsmTarget",
+      });
+    case 7:
+      return S.Array(__S(870, __c27, 6));
+    case 8:
+      return S.Record(S.String, /*@__PURE__*/ __S(768, __c24, 0).pipe(S.optional));
+    case 9:
+      return S.suspend(() =>
+        S.Struct({
+          crossAccountRole: S.optional(S.String),
+          externalId: S.optional(S.String),
+          documentArn: S.String,
+          targets: __S(871, __c27, 7),
+          parameters: S.optional(__S(872, __c27, 8)),
+          documentVersion: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "SsmDocumentConfig" });
+    case 10:
+      return S.Record(S.String, /*@__PURE__*/ __S(873, __c27, 9).pipe(S.optional));
+    case 11:
+      return S.suspend(() =>
+        S.Struct({
+          timeoutMinutes: S.optional(S.Number),
+          regionDocuments: __S(874, __c27, 10),
+          retryIntervalMinutes: S.Number,
+          ungraceful: S.optional(__S(834, __c26, 2)),
+        }),
+      ).annotate({ identifier: "SsmSendCommandConfiguration" });
+    case 12:
       return S.Union([
         /*@__PURE__*/ S.Struct({ customActionLambdaConfig: __S(835, __c26, 3) }),
-        /*@__PURE__*/ S.Struct({ ec2AsgCapacityIncreaseConfig: __S(837, __c26, 5) }),
-        /*@__PURE__*/ S.Struct({ executionApprovalConfig: __S(838, __c26, 6) }),
-        /*@__PURE__*/ S.Struct({ arcRoutingControlConfig: __S(842, __c26, 10) }),
-        /*@__PURE__*/ S.Struct({ globalAuroraConfig: __S(844, __c26, 12) }),
+        /*@__PURE__*/ S.Struct({ ec2AsgCapacityIncreaseConfig: __S(839, __c26, 7) }),
+        /*@__PURE__*/ S.Struct({ executionApprovalConfig: __S(840, __c26, 8) }),
+        /*@__PURE__*/ S.Struct({ arcRoutingControlConfig: __S(844, __c26, 12) }),
+        /*@__PURE__*/ S.Struct({ globalAuroraConfig: __S(846, __c26, 14) }),
         /*@__PURE__*/ S.Struct({
           parallelConfig: /*@__PURE__*/ S.suspend(
-            (): S.Schema<ParallelExecutionBlockConfiguration> => __S(845, __c26, 13),
+            (): S.Schema<ParallelExecutionBlockConfiguration> => __S(847, __c26, 15),
           ).annotate({ identifier: "ParallelExecutionBlockConfiguration" }),
         }),
-        /*@__PURE__*/ S.Struct({ regionSwitchPlanConfig: __S(846, __c26, 14) }),
-        /*@__PURE__*/ S.Struct({ ecsCapacityIncreaseConfig: __S(849, __c26, 17) }),
-        /*@__PURE__*/ S.Struct({ eksResourceScalingConfig: __S(857, __c26, 25) }),
-        /*@__PURE__*/ S.Struct({ route53HealthCheckConfig: __S(860, __c26, 28) }),
-        /*@__PURE__*/ S.Struct({ documentDbConfig: __S(844, __c26, 12) }),
-        /*@__PURE__*/ S.Struct({ rdsPromoteReadReplicaConfig: __S(861, __c26, 29) }),
-        /*@__PURE__*/ S.Struct({ rdsCreateCrossRegionReadReplicaConfig: __S(861, __c26, 29) }),
-        /*@__PURE__*/ S.Struct({ lambdaEventSourceMappingConfig: __S(863, __c26, 31) }),
-        /*@__PURE__*/ S.Struct({ auroraServerlessScalingConfig: __S(864, __c27, 0) }),
-        /*@__PURE__*/ S.Struct({ auroraProvisionedScalingConfig: __S(865, __c27, 1) }),
-        /*@__PURE__*/ S.Struct({ neptuneGlobalDatabaseConfig: __S(866, __c27, 2) }),
-        /*@__PURE__*/ S.Struct({ rdsSwitchoverReadReplicaConfig: __S(867, __c27, 3) }),
+        /*@__PURE__*/ S.Struct({ regionSwitchPlanConfig: __S(848, __c26, 16) }),
+        /*@__PURE__*/ S.Struct({ ecsCapacityIncreaseConfig: __S(851, __c26, 19) }),
+        /*@__PURE__*/ S.Struct({ eksResourceScalingConfig: __S(859, __c26, 27) }),
+        /*@__PURE__*/ S.Struct({ route53HealthCheckConfig: __S(862, __c26, 30) }),
+        /*@__PURE__*/ S.Struct({ documentDbConfig: __S(846, __c26, 14) }),
+        /*@__PURE__*/ S.Struct({ rdsPromoteReadReplicaConfig: __S(863, __c26, 31) }),
+        /*@__PURE__*/ S.Struct({ rdsCreateCrossRegionReadReplicaConfig: __S(863, __c26, 31) }),
+        /*@__PURE__*/ S.Struct({ lambdaEventSourceMappingConfig: __S(865, __c27, 1) }),
+        /*@__PURE__*/ S.Struct({ auroraServerlessScalingConfig: __S(866, __c27, 2) }),
+        /*@__PURE__*/ S.Struct({ auroraProvisionedScalingConfig: __S(867, __c27, 3) }),
+        /*@__PURE__*/ S.Struct({ neptuneGlobalDatabaseConfig: __S(868, __c27, 4) }),
+        /*@__PURE__*/ S.Struct({ rdsSwitchoverReadReplicaConfig: __S(869, __c27, 5) }),
+        /*@__PURE__*/ S.Struct({ ssmSendCommandConfig: __S(875, __c27, 11) }),
       ]);
-    case 5:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           description: S.optional(S.String),
-          executionBlockConfiguration: S.suspend(() => __S(868, __c27, 4)).annotate({
+          executionBlockConfiguration: S.suspend(() => __S(876, __c27, 12)).annotate({
             identifier: "ExecutionBlockConfiguration",
           }),
           executionBlockType: S.String,
         }),
       ).annotate({ identifier: "Step" });
-    case 6:
+    case 14:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<Step> => __S(869, __c27, 5)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<Step> => __S(877, __c27, 13)).annotate({
           identifier: "Step",
         }),
       );
-    case 7:
+    case 15:
       return S.suspend(() =>
         S.Struct({
-          steps: S.optional(__S(870, __c27, 6)),
+          steps: S.optional(__S(878, __c27, 14)),
           workflowTargetAction: S.String,
           workflowTargetRegion: S.optional(S.String),
           workflowDescription: S.optional(S.String),
         }),
       ).annotate({ identifier: "Workflow" });
-    case 8:
-      return S.Array(__S(871, __c27, 7));
-    case 9:
+    case 16:
+      return S.Array(__S(879, __c27, 15));
+    case 17:
       return S.suspend(() =>
         S.Struct({
           crossAccountRole: S.optional(S.String),
@@ -2783,49 +3074,49 @@ function __c27(j: number): any {
           alarmType: S.String,
         }),
       ).annotate({ identifier: "AssociatedAlarm" });
-    case 10:
-      return S.Record(S.String, /*@__PURE__*/ __S(873, __c27, 9).pipe(S.optional));
-    case 11:
+    case 18:
+      return S.Record(S.String, /*@__PURE__*/ __S(881, __c27, 17).pipe(S.optional));
+    case 19:
       return S.suspend(() =>
         S.Struct({ associatedAlarmName: S.String, condition: S.String }),
       ).annotate({ identifier: "TriggerCondition" });
-    case 12:
-      return S.Array(__S(875, __c27, 11));
-    case 13:
+    case 20:
+      return S.Array(__S(883, __c27, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           targetRegion: S.String,
           action: S.String,
-          conditions: __S(876, __c27, 12),
+          conditions: __S(884, __c27, 20),
           minDelayMinutesBetweenExecutions: S.Number,
         }),
       ).annotate({ identifier: "Trigger" });
-    case 14:
-      return S.Array(__S(877, __c27, 13));
-    case 15:
+    case 22:
+      return S.Array(__S(885, __c27, 21));
+    case 23:
       return S.suspend(() =>
         S.Struct({ bucketPath: S.optional(S.String), bucketOwner: S.optional(S.String) }),
       ).annotate({ identifier: "S3ReportOutputConfiguration" });
-    case 16:
-      return S.Union([/*@__PURE__*/ S.Struct({ s3Configuration: __S(879, __c27, 15) })]);
-    case 17:
-      return S.Array(__S(880, __c27, 16));
-    case 18:
-      return S.suspend(() => S.Struct({ reportOutput: S.optional(__S(881, __c27, 17)) })).annotate({
+    case 24:
+      return S.Union([/*@__PURE__*/ S.Struct({ s3Configuration: __S(887, __c27, 23) })]);
+    case 25:
+      return S.Array(__S(888, __c27, 24));
+    case 26:
+      return S.suspend(() => S.Struct({ reportOutput: S.optional(__S(889, __c27, 25)) })).annotate({
         identifier: "ReportConfiguration",
       });
-    case 19:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           arn: S.String,
           description: S.optional(S.String),
-          workflows: __S(872, __c27, 8),
+          workflows: __S(880, __c27, 16),
           executionRole: S.String,
           recoveryTimeObjectiveMinutes: S.optional(S.Number),
-          associatedAlarms: S.optional(__S(874, __c27, 10)),
-          triggers: S.optional(__S(878, __c27, 14)),
-          reportConfiguration: S.optional(__S(882, __c27, 18)),
+          associatedAlarms: S.optional(__S(882, __c27, 18)),
+          triggers: S.optional(__S(886, __c27, 22)),
+          reportConfiguration: S.optional(__S(890, __c27, 26)),
           serviceQuotaChecksEnabled: S.optional(S.Boolean),
           name: S.String,
           regions: __S(768, __c24, 0),
@@ -2841,7 +3132,7 @@ function __c27(j: number): any {
 function __c28(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ plan: S.optional(__S(883, __c27, 19)) })).annotate({
+      return S.suspend(() => S.Struct({ plan: S.optional(__S(891, __c27, 27)) })).annotate({
         identifier: "CreatePlanResponse",
       });
   }

@@ -694,6 +694,7 @@ export const addAttachmentsToSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddAttachmentsToSet",
+  iam: { actions: ["support:AddAttachmentsToSet"] },
   telemetry: TELEMETRY,
   span: "AddAttachmentsToSet",
 }));
@@ -750,6 +751,7 @@ export const addCommunicationToCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCommunicationToCase",
+  iam: { actions: ["support:AddCommunicationToCase"] },
   telemetry: TELEMETRY,
   span: "AddCommunicationToCase",
 }));
@@ -780,6 +782,7 @@ export const completeAttachmentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteAttachmentUpload",
+  iam: { actions: ["support:AddAttachmentsToSet", "support:UploadAttachment"] },
   telemetry: TELEMETRY,
   span: "CompleteAttachmentUpload",
 }));
@@ -847,6 +850,7 @@ export const createCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
+  iam: { actions: ["support:CreateCase"] },
   telemetry: TELEMETRY,
   span: "CreateCase",
 }));
@@ -898,6 +902,7 @@ export const describeAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttachment",
+  iam: { actions: ["support:DescribeAttachment"] },
   telemetry: TELEMETRY,
   span: "DescribeAttachment",
 }));
@@ -938,6 +943,7 @@ export const describeAttachmentUploadStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAttachmentUploadStatus",
+  iam: { actions: ["support:AddAttachmentsToSet", "support:UploadAttachment"] },
   telemetry: TELEMETRY,
   span: "DescribeAttachmentUploadStatus",
 }));
@@ -1004,6 +1010,7 @@ export const describeCases: API.PaginatedOperationMethod<
     items: "cases",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["support:DescribeCases"] },
   telemetry: TELEMETRY,
   span: "DescribeCases",
 })) as any;
@@ -1067,6 +1074,7 @@ export const describeCommunications: API.PaginatedOperationMethod<
     items: "communications",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["support:DescribeCommunications"] },
   telemetry: TELEMETRY,
   span: "DescribeCommunications",
 })) as any;
@@ -1102,6 +1110,7 @@ export const describeCreateCaseOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCreateCaseOptions",
+  iam: { actions: ["support:DescribeCreateCaseOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeCreateCaseOptions",
 }));
@@ -1139,6 +1148,7 @@ export const describeServices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServices",
+  iam: { actions: ["support:DescribeServices"] },
   telemetry: TELEMETRY,
   span: "DescribeServices",
 }));
@@ -1172,6 +1182,7 @@ export const describeSeverityLevels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSeverityLevels",
+  iam: { actions: ["support:DescribeSeverityLevels"] },
   telemetry: TELEMETRY,
   span: "DescribeSeverityLevels",
 }));
@@ -1206,6 +1217,7 @@ export const describeSupportedLanguages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSupportedLanguages",
+  iam: { actions: ["support:DescribeSupportedLanguages"] },
   telemetry: TELEMETRY,
   span: "DescribeSupportedLanguages",
 }));
@@ -1248,6 +1260,7 @@ export const describeTrustedAdvisorCheckRefreshStatuses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedAdvisorCheckRefreshStatuses",
+  iam: { actions: ["support:DescribeTrustedAdvisorCheckRefreshStatuses"] },
   telemetry: TELEMETRY,
   span: "DescribeTrustedAdvisorCheckRefreshStatuses",
 }));
@@ -1307,6 +1320,19 @@ export const describeTrustedAdvisorCheckResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedAdvisorCheckResult",
+  iam: {
+    actions: [
+      "trustedadvisor:DescribeCheckItems",
+      "support:DescribeTrustedAdvisorCheckResult",
+      "trustedadvisor:ListRecommendationResources",
+      "trustedadvisor:ListRecommendationsForResource",
+    ],
+    resources: {
+      "trustedadvisor:DescribeCheckItems": [
+        "arn:${Partition}:trustedadvisor:${Region}:${Account}:checks/${CategoryCode}/${CheckId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTrustedAdvisorCheckResult",
 }));
@@ -1350,6 +1376,13 @@ export const describeTrustedAdvisorChecks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedAdvisorChecks",
+  iam: {
+    actions: [
+      "trustedadvisor:DescribeChecks",
+      "support:DescribeTrustedAdvisorChecks",
+      "trustedadvisor:ListChecks",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "DescribeTrustedAdvisorChecks",
 }));
@@ -1394,6 +1427,19 @@ export const describeTrustedAdvisorCheckSummaries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrustedAdvisorCheckSummaries",
+  iam: {
+    actions: [
+      "trustedadvisor:DescribeCheckSummaries",
+      "support:DescribeTrustedAdvisorCheckSummaries",
+      "trustedadvisor:GetRecommendation",
+      "trustedadvisor:ListRecommendations",
+    ],
+    resources: {
+      "trustedadvisor:DescribeCheckSummaries": [
+        "arn:${Partition}:trustedadvisor:${Region}:${Account}:checks/${CategoryCode}/${CheckId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTrustedAdvisorCheckSummaries",
 }));
@@ -1430,6 +1476,7 @@ export const getAttachmentDownloadLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttachmentDownloadLink",
+  iam: { actions: ["support:DescribeAttachment", "support:DownloadAttachment"] },
   telemetry: TELEMETRY,
   span: "GetAttachmentDownloadLink",
 }));
@@ -1476,6 +1523,7 @@ export const getAttachmentUploadLinks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttachmentUploadLinks",
+  iam: { actions: ["support:AddAttachmentsToSet", "support:UploadAttachment"] },
   telemetry: TELEMETRY,
   span: "GetAttachmentUploadLinks",
 }));
@@ -1518,6 +1566,7 @@ export const refreshTrustedAdvisorCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshTrustedAdvisorCheck",
+  iam: { actions: ["support:RefreshTrustedAdvisorCheck"] },
   telemetry: TELEMETRY,
   span: "RefreshTrustedAdvisorCheck",
 }));
@@ -1551,6 +1600,7 @@ export const resolveCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveCase",
+  iam: { actions: ["support:ResolveCase"] },
   telemetry: TELEMETRY,
   span: "ResolveCase",
 }));

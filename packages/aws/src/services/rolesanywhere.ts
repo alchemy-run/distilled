@@ -106,6 +106,15 @@ export class ResourceNotFoundException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
+export class ServiceUnavailableException
+  extends /*@__PURE__*/ S.TaggedError<ServiceUnavailableException>()(
+    "ServiceUnavailableException",
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      retryAfterSeconds: /*@__PURE__*/ S.optional(S.Number),
+    },
+    /*@__PURE__*/ T.all(/*@__PURE__*/ T.HttpError(503), /*@__PURE__*/ T.Retryable()),
+  ).pipe(C.withServerError, C.withRetryableError) {}
 export class TooManyTagsException
   extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
     "TooManyTagsException",
@@ -192,6 +201,7 @@ export interface CreateTrustAnchorRequest {
   name: string;
   source: Source;
   enabled?: boolean;
+  crlDpRevocationEnabled?: boolean;
   tags?: Tag[];
   notificationSettings?: NotificationSetting[];
 }
@@ -209,6 +219,7 @@ export interface TrustAnchorDetail {
   name?: string;
   source?: Source;
   enabled?: boolean;
+  crlDpRevocationEnabled?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   notificationSettings?: NotificationSettingDetail[];
@@ -384,8 +395,13 @@ export interface UpdateTrustAnchorRequest {
   trustAnchorId: string;
   name?: string;
   source?: Source;
+  crlDpRevocationEnabled?: boolean;
 }
-export type CreateProfileError = AccessDeniedException | ValidationException | CommonErrors;
+export type CreateProfileError =
+  | AccessDeniedException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a *profile*, a list of the roles that Roles Anywhere service is trusted to assume. You use profiles to intersect permissions with IAM managed policies.
  *
@@ -397,17 +413,29 @@ export const createProfile: API.OperationMethod<
   CreateProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CreateProfileRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<ProfileDetailResponse>,
-  errors: [AccessDeniedException, ValidationException],
+  input: __S(144, __c18, 0) as any as S.Schema<CreateProfileRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
+  errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  iam: {
+    actions: ["rolesanywhere:CreateProfile", "iam:PassRole", "rolesanywhere:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "rolesanywhere:TagResource": "tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfile",
 }));
 
-export type CreateTrustAnchorError = AccessDeniedException | ValidationException | CommonErrors;
+export type CreateTrustAnchorError =
+  | AccessDeniedException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Creates a trust anchor to establish trust between IAM Roles Anywhere and your certificate authority (CA). You can define a trust anchor as a reference to an Private Certificate Authority (Private CA) or by uploading a CA certificate. Your Amazon Web Services workloads can authenticate with the trust anchor using certificates issued by the CA in exchange for temporary Amazon Web Services credentials.
  *
@@ -419,12 +447,16 @@ export const createTrustAnchor: API.OperationMethod<
   CreateTrustAnchorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<CreateTrustAnchorRequest>,
+  input: __S(176, __c22, 0) as any as S.Schema<CreateTrustAnchorRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
-  errors: [AccessDeniedException, ValidationException],
+  errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustAnchor",
+  iam: {
+    actions: ["rolesanywhere:CreateTrustAnchor", "rolesanywhere:TagResource"],
+    conditional: { "rolesanywhere:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrustAnchor",
 }));
@@ -432,6 +464,7 @@ export const createTrustAnchor: API.OperationMethod<
 export type DeleteAttributeMappingError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -443,17 +476,34 @@ export const deleteAttributeMapping: API.OperationMethod<
   DeleteAttributeMappingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<DeleteAttributeMappingRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<DeleteAttributeMappingResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  input: __S(208, __c26, 0) as any as S.Schema<DeleteAttributeMappingRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<DeleteAttributeMappingResponse>,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeMapping",
+  iam: {
+    actions: ["rolesanywhere:DeleteAttributeMapping"],
+    resources: {
+      "rolesanywhere:DeleteAttributeMapping": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAttributeMapping",
 }));
 
-export type DeleteCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
+export type DeleteCrlError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a certificate revocation list (CRL).
  *
@@ -465,17 +515,29 @@ export const deleteCrl: API.OperationMethod<
   DeleteCrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(216, __c27, 0) as any as S.Schema<ScalarCrlRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<CrlDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  input: __S(224, __c28, 0) as any as S.Schema<ScalarCrlRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrl",
+  iam: {
+    actions: ["rolesanywhere:DeleteCrl"],
+    resources: {
+      "rolesanywhere:DeleteCrl": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCrl",
 }));
 
-export type DeleteProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
+export type DeleteProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Deletes a profile.
  *
@@ -487,12 +549,20 @@ export const deleteProfile: API.OperationMethod<
   DeleteProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c30, 0) as any as S.Schema<ScalarProfileRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<ProfileDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  input: __S(248, __c31, 0) as any as S.Schema<ScalarProfileRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  iam: {
+    actions: ["rolesanywhere:DeleteProfile"],
+    resources: {
+      "rolesanywhere:DeleteProfile": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfile",
 }));
@@ -500,6 +570,7 @@ export const deleteProfile: API.OperationMethod<
 export type DeleteTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | CommonErrors;
 /**
  * Deletes a trust anchor.
@@ -512,21 +583,33 @@ export const deleteTrustAnchor: API.OperationMethod<
   DeleteTrustAnchorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<ScalarTrustAnchorRequest>,
+  input: __S(0, __c0, 0) as any as S.Schema<ScalarTrustAnchorRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustAnchor",
+  iam: {
+    actions: ["rolesanywhere:DeleteTrustAnchor"],
+    resources: {
+      "rolesanywhere:DeleteTrustAnchor": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrustAnchor",
 }));
 
 export interface DisableCrlRequest extends ScalarCrlRequest {}
-const DisableCrlRequest = /*@__PURE__*/ __S(216, __c27, 0)
+const DisableCrlRequest = /*@__PURE__*/ __S(224, __c28, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "POST", uri: "/crl/{crlId}/disable" }))
   .annotate({ identifier: "DisableCrlRequest" }) as any as S.Schema<DisableCrlRequest>;
-export type DisableCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
+export type DisableCrlError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Disables a certificate revocation list (CRL).
  *
@@ -539,20 +622,32 @@ export const disableCrl: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableCrlRequest,
-  output: __S(232, __c29, 0) as any as S.Schema<CrlDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableCrl",
+  iam: {
+    actions: ["rolesanywhere:DisableCrl"],
+    resources: {
+      "rolesanywhere:DisableCrl": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableCrl",
 }));
 
 export interface DisableProfileRequest extends ScalarProfileRequest {}
-const DisableProfileRequest = /*@__PURE__*/ __S(240, __c30, 0)
+const DisableProfileRequest = /*@__PURE__*/ __S(248, __c31, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "POST", uri: "/profile/{profileId}/disable" }))
   .annotate({ identifier: "DisableProfileRequest" }) as any as S.Schema<DisableProfileRequest>;
-export type DisableProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
+export type DisableProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Disables a profile. When disabled, temporary credential requests with this profile fail.
  *
@@ -565,17 +660,25 @@ export const disableProfile: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableProfileRequest,
-  output: __S(160, __c20, 0) as any as S.Schema<ProfileDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableProfile",
+  iam: {
+    actions: ["rolesanywhere:DisableProfile"],
+    resources: {
+      "rolesanywhere:DisableProfile": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableProfile",
 }));
 
 export interface DisableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
-const DisableTrustAnchorRequest = /*@__PURE__*/ __S(248, __c31, 0)
+const DisableTrustAnchorRequest = /*@__PURE__*/ __S(0, __c0, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "POST", uri: "/trustanchor/{trustAnchorId}/disable" }))
   .annotate({
     identifier: "DisableTrustAnchorRequest",
@@ -583,6 +686,7 @@ const DisableTrustAnchorRequest = /*@__PURE__*/ __S(248, __c31, 0)
 export type DisableTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | CommonErrors;
 /**
  * Disables a trust anchor. When disabled, temporary credential requests specifying this trust anchor are unauthorized.
@@ -597,19 +701,31 @@ export const disableTrustAnchor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: DisableTrustAnchorRequest,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableTrustAnchor",
+  iam: {
+    actions: ["rolesanywhere:DisableTrustAnchor"],
+    resources: {
+      "rolesanywhere:DisableTrustAnchor": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableTrustAnchor",
 }));
 
 export interface EnableCrlRequest extends ScalarCrlRequest {}
-const EnableCrlRequest = /*@__PURE__*/ __S(216, __c27, 0)
+const EnableCrlRequest = /*@__PURE__*/ __S(224, __c28, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "POST", uri: "/crl/{crlId}/enable" }))
   .annotate({ identifier: "EnableCrlRequest" }) as any as S.Schema<EnableCrlRequest>;
-export type EnableCrlError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
+export type EnableCrlError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Enables a certificate revocation list (CRL). When enabled, certificates stored in the CRL are unauthorized to receive session credentials.
  *
@@ -622,20 +738,32 @@ export const enableCrl: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableCrlRequest,
-  output: __S(232, __c29, 0) as any as S.Schema<CrlDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableCrl",
+  iam: {
+    actions: ["rolesanywhere:EnableCrl"],
+    resources: {
+      "rolesanywhere:EnableCrl": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableCrl",
 }));
 
 export interface EnableProfileRequest extends ScalarProfileRequest {}
-const EnableProfileRequest = /*@__PURE__*/ __S(240, __c30, 0)
+const EnableProfileRequest = /*@__PURE__*/ __S(248, __c31, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "POST", uri: "/profile/{profileId}/enable" }))
   .annotate({ identifier: "EnableProfileRequest" }) as any as S.Schema<EnableProfileRequest>;
-export type EnableProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
+export type EnableProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Enables temporary credential requests for a profile.
  *
@@ -648,17 +776,27 @@ export const enableProfile: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableProfileRequest,
-  output: __S(160, __c20, 0) as any as S.Schema<ProfileDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableProfile",
+  iam: {
+    actions: ["rolesanywhere:EnableProfile", "iam:PassRole"],
+    resources: {
+      "rolesanywhere:EnableProfile": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "EnableProfile",
 }));
 
 export interface EnableTrustAnchorRequest extends ScalarTrustAnchorRequest {}
-const EnableTrustAnchorRequest = /*@__PURE__*/ __S(248, __c31, 0)
+const EnableTrustAnchorRequest = /*@__PURE__*/ __S(0, __c0, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "POST", uri: "/trustanchor/{trustAnchorId}/enable" }))
   .annotate({
     identifier: "EnableTrustAnchorRequest",
@@ -666,6 +804,7 @@ const EnableTrustAnchorRequest = /*@__PURE__*/ __S(248, __c31, 0)
 export type EnableTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | CommonErrors;
 /**
  * Enables a trust anchor. When enabled, certificates in the trust anchor chain are authorized for trust validation.
@@ -680,19 +819,27 @@ export const enableTrustAnchor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: EnableTrustAnchorRequest,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableTrustAnchor",
+  iam: {
+    actions: ["rolesanywhere:EnableTrustAnchor"],
+    resources: {
+      "rolesanywhere:EnableTrustAnchor": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableTrustAnchor",
 }));
 
 export interface GetCrlRequest extends ScalarCrlRequest {}
-const GetCrlRequest = /*@__PURE__*/ __S(216, __c27, 0)
+const GetCrlRequest = /*@__PURE__*/ __S(224, __c28, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "GET", uri: "/crl/{crlId}" }))
   .annotate({ identifier: "GetCrlRequest" }) as any as S.Schema<GetCrlRequest>;
-export type GetCrlError = ResourceNotFoundException | CommonErrors;
+export type GetCrlError = ResourceNotFoundException | ServiceUnavailableException | CommonErrors;
 /**
  * Gets a certificate revocation list (CRL).
  *
@@ -705,20 +852,30 @@ export const getCrl: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: GetCrlRequest,
-  output: __S(232, __c29, 0) as any as S.Schema<CrlDetailResponse>,
-  errors: [ResourceNotFoundException],
+  output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
+  errors: [ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCrl",
+  iam: {
+    actions: ["rolesanywhere:GetCrl"],
+    resources: {
+      "rolesanywhere:GetCrl": ["arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCrl",
 }));
 
 export interface GetProfileRequest extends ScalarProfileRequest {}
-const GetProfileRequest = /*@__PURE__*/ __S(240, __c30, 0)
+const GetProfileRequest = /*@__PURE__*/ __S(248, __c31, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "GET", uri: "/profile/{profileId}" }))
   .annotate({ identifier: "GetProfileRequest" }) as any as S.Schema<GetProfileRequest>;
-export type GetProfileError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
+export type GetProfileError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Gets a profile.
  *
@@ -731,16 +888,28 @@ export const getProfile: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: GetProfileRequest,
-  output: __S(160, __c20, 0) as any as S.Schema<ProfileDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  iam: {
+    actions: ["rolesanywhere:GetProfile"],
+    resources: {
+      "rolesanywhere:GetProfile": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfile",
 }));
 
-export type GetSubjectError = AccessDeniedException | ResourceNotFoundException | CommonErrors;
+export type GetSubjectError =
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors;
 /**
  * Gets a *subject*, which associates a certificate identity with authentication attempts. The subject stores auditing information such as the status of the last authentication attempt, the certificate data used in the attempt, and the last time the associated identity attempted authentication.
  *
@@ -752,23 +921,32 @@ export const getSubject: API.OperationMethod<
   GetSubjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ScalarSubjectRequest>,
-  output: __S(7, __c0, 7) as any as S.Schema<SubjectDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException],
+  input: __S(8, __c1, 0) as any as S.Schema<ScalarSubjectRequest>,
+  output: __S(15, __c1, 7) as any as S.Schema<SubjectDetailResponse>,
+  errors: [AccessDeniedException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubject",
+  iam: {
+    actions: ["rolesanywhere:GetSubject"],
+    resources: {
+      "rolesanywhere:GetSubject": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:subject/${SubjectId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSubject",
 }));
 
 export interface GetTrustAnchorRequest extends ScalarTrustAnchorRequest {}
-const GetTrustAnchorRequest = /*@__PURE__*/ __S(248, __c31, 0)
+const GetTrustAnchorRequest = /*@__PURE__*/ __S(0, __c0, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "GET", uri: "/trustanchor/{trustAnchorId}" }))
   .annotate({ identifier: "GetTrustAnchorRequest" }) as any as S.Schema<GetTrustAnchorRequest>;
 export type GetTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -784,15 +962,32 @@ export const getTrustAnchor: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: GetTrustAnchorRequest,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustAnchor",
+  iam: {
+    actions: ["rolesanywhere:GetTrustAnchor"],
+    resources: {
+      "rolesanywhere:GetTrustAnchor": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrustAnchor",
 }));
 
-export type ImportCrlError = AccessDeniedException | ValidationException | CommonErrors;
+export type ImportCrlError =
+  | AccessDeniedException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Imports the certificate revocation list (CRL). A CRL is a list of certificates that have been revoked by the issuing certificate Authority (CA).In order to be properly imported, a CRL must be in PEM format. IAM Roles Anywhere validates against the CRL before issuing credentials.
  *
@@ -804,17 +999,25 @@ export const importCrl: API.OperationMethod<
   ImportCrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<ImportCrlRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<CrlDetailResponse>,
-  errors: [AccessDeniedException, ValidationException],
+  input: __S(16, __c2, 0) as any as S.Schema<ImportCrlRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
+  errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCrl",
+  iam: {
+    actions: ["rolesanywhere:ImportCrl", "rolesanywhere:TagResource"],
+    conditional: { "rolesanywhere:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportCrl",
 }));
 
-export type ListCrlsError = AccessDeniedException | ValidationException | CommonErrors;
+export type ListCrlsError =
+  | AccessDeniedException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all certificate revocation lists (CRL) in the authenticated account and Amazon Web Services Region.
  *
@@ -827,22 +1030,27 @@ export const listCrls: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CrlDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<ListCrlsResponse>,
-  errors: [AccessDeniedException, ValidationException],
+  input: __S(32, __c4, 0) as any as S.Schema<ListRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<ListCrlsResponse>,
+  errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrls",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "crls" } as const,
+  iam: { actions: ["rolesanywhere:ListCrls"] },
   telemetry: TELEMETRY,
   span: "ListCrls",
 })) as any;
 
 export interface ListProfilesRequest extends ListRequest {}
-const ListProfilesRequest = /*@__PURE__*/ __S(24, __c3, 0)
+const ListProfilesRequest = /*@__PURE__*/ __S(32, __c4, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "GET", uri: "/profiles" }))
   .annotate({ identifier: "ListProfilesRequest" }) as any as S.Schema<ListProfilesRequest>;
-export type ListProfilesError = AccessDeniedException | ValidationException | CommonErrors;
+export type ListProfilesError =
+  | AccessDeniedException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists all profiles in the authenticated account and Amazon Web Services Region.
  *
@@ -856,21 +1064,26 @@ export const listProfiles: API.PaginatedOperationMethod<
   ProfileDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListProfilesRequest,
-  output: __S(33, __c4, 1) as any as S.Schema<ListProfilesResponse>,
-  errors: [AccessDeniedException, ValidationException],
+  output: __S(41, __c5, 1) as any as S.Schema<ListProfilesResponse>,
+  errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfiles",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "profiles" } as const,
+  iam: { actions: ["rolesanywhere:ListProfiles"] },
   telemetry: TELEMETRY,
   span: "ListProfiles",
 })) as any;
 
 export interface ListSubjectsRequest extends ListRequest {}
-const ListSubjectsRequest = /*@__PURE__*/ __S(24, __c3, 0)
+const ListSubjectsRequest = /*@__PURE__*/ __S(32, __c4, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "GET", uri: "/subjects" }))
   .annotate({ identifier: "ListSubjectsRequest" }) as any as S.Schema<ListSubjectsRequest>;
-export type ListSubjectsError = AccessDeniedException | ValidationException | CommonErrors;
+export type ListSubjectsError =
+  | AccessDeniedException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the subjects in the authenticated account and Amazon Web Services Region.
  *
@@ -884,12 +1097,13 @@ export const listSubjects: API.PaginatedOperationMethod<
   SubjectSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListSubjectsRequest,
-  output: __S(42, __c5, 2) as any as S.Schema<ListSubjectsResponse>,
-  errors: [AccessDeniedException, ValidationException],
+  output: __S(50, __c6, 2) as any as S.Schema<ListSubjectsResponse>,
+  errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "subjects" } as const,
+  iam: { actions: ["rolesanywhere:ListSubjects"] },
   telemetry: TELEMETRY,
   span: "ListSubjects",
 })) as any;
@@ -897,6 +1111,7 @@ export const listSubjects: API.PaginatedOperationMethod<
 export type ListTagsForResourceError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -910,21 +1125,31 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(49, __c6, 1) as any as S.Schema<ListTagsForResourceResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  input: __S(56, __c7, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(57, __c7, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["rolesanywhere:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
 
 export interface ListTrustAnchorsRequest extends ListRequest {}
-const ListTrustAnchorsRequest = /*@__PURE__*/ __S(24, __c3, 0)
+const ListTrustAnchorsRequest = /*@__PURE__*/ __S(32, __c4, 0)
   .pipe(/*@__PURE__*/ T.Http({ method: "GET", uri: "/trustanchors" }))
   .annotate({ identifier: "ListTrustAnchorsRequest" }) as any as S.Schema<ListTrustAnchorsRequest>;
-export type ListTrustAnchorsError = AccessDeniedException | ValidationException | CommonErrors;
+export type ListTrustAnchorsError =
+  | AccessDeniedException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors;
 /**
  * Lists the trust anchors in the authenticated account and Amazon Web Services Region.
  *
@@ -938,12 +1163,13 @@ export const listTrustAnchors: API.PaginatedOperationMethod<
   TrustAnchorDetail
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: ListTrustAnchorsRequest,
-  output: __S(57, __c7, 1) as any as S.Schema<ListTrustAnchorsResponse>,
-  errors: [AccessDeniedException, ValidationException],
+  output: __S(65, __c8, 1) as any as S.Schema<ListTrustAnchorsResponse>,
+  errors: [AccessDeniedException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrustAnchors",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "trustAnchors" } as const,
+  iam: { actions: ["rolesanywhere:ListTrustAnchors"] },
   telemetry: TELEMETRY,
   span: "ListTrustAnchors",
 })) as any;
@@ -951,6 +1177,7 @@ export const listTrustAnchors: API.PaginatedOperationMethod<
 export type PutAttributeMappingError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -962,12 +1189,25 @@ export const putAttributeMapping: API.OperationMethod<
   PutAttributeMappingError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<PutAttributeMappingRequest>,
-  output: __S(208, __c26, 0) as any as S.Schema<PutAttributeMappingResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  input: __S(72, __c9, 0) as any as S.Schema<PutAttributeMappingRequest>,
+  output: __S(216, __c27, 0) as any as S.Schema<PutAttributeMappingResponse>,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributeMapping",
+  iam: {
+    actions: ["rolesanywhere:PutAttributeMapping"],
+    resources: {
+      "rolesanywhere:PutAttributeMapping": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutAttributeMapping",
 }));
@@ -975,6 +1215,7 @@ export const putAttributeMapping: API.OperationMethod<
 export type PutNotificationSettingsError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -990,12 +1231,25 @@ export const putNotificationSettings: API.OperationMethod<
   PutNotificationSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<PutNotificationSettingsRequest>,
+  input: __S(80, __c10, 0) as any as S.Schema<PutNotificationSettingsRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<PutNotificationSettingsResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationSettings",
+  iam: {
+    actions: ["rolesanywhere:PutNotificationSettings"],
+    resources: {
+      "rolesanywhere:PutNotificationSettings": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutNotificationSettings",
 }));
@@ -1003,6 +1257,7 @@ export const putNotificationSettings: API.OperationMethod<
 export type ResetNotificationSettingsError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -1016,12 +1271,25 @@ export const resetNotificationSettings: API.OperationMethod<
   ResetNotificationSettingsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(82, __c10, 2) as any as S.Schema<ResetNotificationSettingsRequest>,
+  input: __S(90, __c11, 2) as any as S.Schema<ResetNotificationSettingsRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<ResetNotificationSettingsResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetNotificationSettings",
+  iam: {
+    actions: ["rolesanywhere:ResetNotificationSettings"],
+    resources: {
+      "rolesanywhere:ResetNotificationSettings": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ResetNotificationSettings",
 }));
@@ -1029,6 +1297,7 @@ export const resetNotificationSettings: API.OperationMethod<
 export type TagResourceError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | TooManyTagsException
   | ValidationException
   | CommonErrors;
@@ -1043,17 +1312,19 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     AccessDeniedException,
     ResourceNotFoundException,
+    ServiceUnavailableException,
     TooManyTagsException,
     ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["rolesanywhere:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1061,6 +1332,7 @@ export const tagResource: API.OperationMethod<
 export type UntagResourceError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -1074,12 +1346,18 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(105, __c13, 1) as any as S.Schema<UntagResourceRequest>,
-  output: __S(96, __c12, 0) as any as S.Schema<UntagResourceResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  input: __S(113, __c14, 1) as any as S.Schema<UntagResourceRequest>,
+  output: __S(104, __c13, 0) as any as S.Schema<UntagResourceResponse>,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["rolesanywhere:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1087,6 +1365,7 @@ export const untagResource: API.OperationMethod<
 export type UpdateCrlError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -1100,12 +1379,25 @@ export const updateCrl: API.OperationMethod<
   UpdateCrlError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<UpdateCrlRequest>,
-  output: __S(232, __c29, 0) as any as S.Schema<CrlDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  input: __S(120, __c15, 0) as any as S.Schema<UpdateCrlRequest>,
+  output: __S(240, __c30, 0) as any as S.Schema<CrlDetailResponse>,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrl",
+  iam: {
+    actions: ["rolesanywhere:UpdateCrl"],
+    resources: {
+      "rolesanywhere:UpdateCrl": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCrl",
 }));
@@ -1113,6 +1405,7 @@ export const updateCrl: API.OperationMethod<
 export type UpdateProfileError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -1126,12 +1419,27 @@ export const updateProfile: API.OperationMethod<
   UpdateProfileError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<UpdateProfileRequest>,
-  output: __S(160, __c20, 0) as any as S.Schema<ProfileDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  input: __S(128, __c16, 0) as any as S.Schema<UpdateProfileRequest>,
+  output: __S(168, __c21, 0) as any as S.Schema<ProfileDetailResponse>,
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  iam: {
+    actions: ["iam:PassRole", "rolesanywhere:UpdateProfile"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "rolesanywhere:UpdateProfile": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProfile",
 }));
@@ -1139,6 +1447,7 @@ export const updateProfile: API.OperationMethod<
 export type UpdateTrustAnchorError =
   | AccessDeniedException
   | ResourceNotFoundException
+  | ServiceUnavailableException
   | ValidationException
   | CommonErrors;
 /**
@@ -1152,18 +1461,48 @@ export const updateTrustAnchor: API.OperationMethod<
   UpdateTrustAnchorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<UpdateTrustAnchorRequest>,
+  input: __S(136, __c17, 0) as any as S.Schema<UpdateTrustAnchorRequest>,
   output: __S(192, __c24, 0) as any as S.Schema<TrustAnchorDetailResponse>,
-  errors: [AccessDeniedException, ResourceNotFoundException, ValidationException],
+  errors: [
+    AccessDeniedException,
+    ResourceNotFoundException,
+    ServiceUnavailableException,
+    ValidationException,
+  ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustAnchor",
+  iam: {
+    actions: ["rolesanywhere:UpdateTrustAnchor"],
+    resources: {
+      "rolesanywhere:UpdateTrustAnchor": [
+        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrustAnchor",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ trustAnchorId: S.String.pipe(T.HttpLabel("trustAnchorId")) }).pipe(
+          T.all(
+            T.Http({ method: "DELETE", uri: "/trustanchor/{trustAnchorId}" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ScalarTrustAnchorRequest" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1190,19 +1529,19 @@ function __c0(j: number): any {
         }),
       ).annotate({ identifier: "CredentialSummary" });
     case 2:
-      return S.Array(__S(1, __c0, 1));
+      return S.Array(__S(9, __c1, 1));
     case 3:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
     case 4:
       return S.suspend(() =>
         S.Struct({
           seenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          properties: S.optional(__S(3, __c0, 3)),
+          properties: S.optional(__S(11, __c1, 3)),
           failed: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "InstanceProperty" });
     case 5:
-      return S.Array(__S(4, __c0, 4));
+      return S.Array(__S(12, __c1, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -1213,17 +1552,17 @@ function __c0(j: number): any {
           lastSeenAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          credentials: S.optional(__S(2, __c0, 2)),
-          instanceProperties: S.optional(__S(5, __c0, 5)),
+          credentials: S.optional(__S(10, __c1, 2)),
+          instanceProperties: S.optional(__S(13, __c1, 5)),
         }),
       ).annotate({ identifier: "SubjectDetail" });
     case 7:
-      return S.suspend(() => S.Struct({ subject: S.optional(__S(6, __c0, 6)) })).annotate({
+      return S.suspend(() => S.Struct({ subject: S.optional(__S(14, __c1, 6)) })).annotate({
         identifier: "SubjectDetailResponse",
       });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1231,23 +1570,23 @@ function __c1(j: number): any {
           name: S.String,
           crlData: T.Blob,
           enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(145, __c18, 1)),
+          tags: S.optional(__S(153, __c19, 1)),
           trustAnchorArn: S.String,
         }).pipe(T.all(T.Http({ method: "POST", uri: "/crls" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportCrlRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(224, __c28, 0));
+      return S.Array(__S(232, __c29, 0));
     case 1:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), crls: S.optional(__S(16, __c2, 0)) }),
+        S.Struct({ nextToken: S.optional(S.String), crls: S.optional(__S(24, __c3, 0)) }),
       ).annotate({ identifier: "ListCrlsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1258,17 +1597,17 @@ function __c3(j: number): any {
       ).annotate({ identifier: "ListRequest" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(157, __c19, 5));
+      return S.Array(__S(165, __c20, 5));
     case 1:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), profiles: S.optional(__S(32, __c4, 0)) }),
+        S.Struct({ nextToken: S.optional(S.String), profiles: S.optional(__S(40, __c5, 0)) }),
       ).annotate({ identifier: "ListProfilesResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1283,14 +1622,14 @@ function __c5(j: number): any {
         }),
       ).annotate({ identifier: "SubjectSummary" });
     case 1:
-      return S.Array(__S(40, __c5, 0));
+      return S.Array(__S(48, __c6, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ subjects: S.optional(__S(41, __c5, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ subjects: S.optional(__S(49, __c6, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListSubjectsResponse" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1306,29 +1645,29 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(145, __c18, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(153, __c19, 1)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(188, __c23, 4));
     case 1:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), trustAnchors: S.optional(__S(56, __c7, 0)) }),
+        S.Struct({ nextToken: S.optional(S.String), trustAnchors: S.optional(__S(64, __c8, 0)) }),
       ).annotate({ identifier: "ListTrustAnchorsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           profileId: S.String.pipe(T.HttpLabel("profileId")),
           certificateField: S.String,
-          mappingRules: __S(154, __c19, 2),
+          mappingRules: __S(162, __c20, 2),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/profiles/{profileId}/mappings" }),
@@ -1342,11 +1681,11 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PutAttributeMappingRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ trustAnchorId: S.String, notificationSettings: __S(177, __c22, 1) }).pipe(
+        S.Struct({ trustAnchorId: S.String, notificationSettings: __S(201, __c25, 1) }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/put-notifications-settings" }),
             svc,
@@ -1359,17 +1698,17 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PutNotificationSettingsRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ event: S.String, channel: S.optional(S.String) })).annotate(
         { identifier: "NotificationSettingKey" },
       );
     case 1:
-      return S.Array(__S(80, __c10, 0));
+      return S.Array(__S(88, __c11, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ trustAnchorId: S.String, notificationSettingKeys: __S(81, __c10, 1) }).pipe(
+        S.Struct({ trustAnchorId: S.String, notificationSettingKeys: __S(89, __c11, 1) }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/reset-notifications-settings" }),
             svc,
@@ -1382,35 +1721,35 @@ function __c10(j: number): any {
       ).annotate({ identifier: "ResetNotificationSettingsRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tags: __S(145, __c18, 1) }).pipe(
+        S.Struct({ resourceArn: S.String, tags: __S(153, __c19, 1) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/TagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(SensitiveString);
     case 1:
       return S.suspend(() =>
-        S.Struct({ resourceArn: S.String, tagKeys: __S(104, __c13, 0) }).pipe(
+        S.Struct({ resourceArn: S.String, tagKeys: __S(112, __c14, 0) }).pipe(
           T.all(T.Http({ method: "POST", uri: "/UntagResource" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1424,7 +1763,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "UpdateCrlRequest" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1432,8 +1771,8 @@ function __c15(j: number): any {
           profileId: S.String.pipe(T.HttpLabel("profileId")),
           name: S.optional(S.String),
           sessionPolicy: S.optional(S.String),
-          roleArns: S.optional(__S(152, __c19, 0)),
-          managedPolicyArns: S.optional(__S(152, __c19, 0)),
+          roleArns: S.optional(__S(160, __c20, 0)),
+          managedPolicyArns: S.optional(__S(160, __c20, 0)),
           durationSeconds: S.optional(S.Number),
           acceptRoleSessionName: S.optional(S.Boolean),
         }).pipe(
@@ -1449,7 +1788,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "UpdateProfileRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1457,6 +1796,7 @@ function __c16(j: number): any {
           trustAnchorId: S.String.pipe(T.HttpLabel("trustAnchorId")),
           name: S.optional(S.String),
           source: S.optional(__S(185, __c23, 1)),
+          crlDpRevocationEnabled: S.optional(S.Boolean),
         }).pipe(
           T.all(
             T.Http({ method: "PATCH", uri: "/trustanchor/{trustAnchorId}" }),
@@ -1470,7 +1810,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "UpdateTrustAnchorRequest" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1478,27 +1818,27 @@ function __c17(j: number): any {
           name: S.String,
           requireInstanceProperties: S.optional(S.Boolean),
           sessionPolicy: S.optional(S.String),
-          roleArns: __S(152, __c19, 0),
-          managedPolicyArns: S.optional(__S(152, __c19, 0)),
+          roleArns: __S(160, __c20, 0),
+          managedPolicyArns: S.optional(__S(160, __c20, 0)),
           durationSeconds: S.optional(S.Number),
           enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(145, __c18, 1)),
+          tags: S.optional(__S(153, __c19, 1)),
           acceptRoleSessionName: S.optional(S.Boolean),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/profiles" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateProfileRequest" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ key: SensitiveString, value: SensitiveString })).annotate({
         identifier: "Tag",
       });
     case 1:
-      return S.Array(__S(144, __c18, 0));
+      return S.Array(__S(152, __c19, 0));
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1507,16 +1847,16 @@ function __c19(j: number): any {
         identifier: "MappingRule",
       });
     case 2:
-      return S.Array(__S(153, __c19, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           certificateField: S.optional(S.String),
-          mappingRules: S.optional(__S(154, __c19, 2)),
+          mappingRules: S.optional(__S(162, __c20, 2)),
         }),
       ).annotate({ identifier: "AttributeMapping" });
     case 4:
-      return S.Array(__S(155, __c19, 3));
+      return S.Array(__S(163, __c20, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
@@ -1527,39 +1867,23 @@ function __c19(j: number): any {
           enabled: S.optional(S.Boolean),
           createdBy: S.optional(S.String),
           sessionPolicy: S.optional(S.String),
-          roleArns: S.optional(__S(152, __c19, 0)),
-          managedPolicyArns: S.optional(__S(152, __c19, 0)),
+          roleArns: S.optional(__S(160, __c20, 0)),
+          managedPolicyArns: S.optional(__S(160, __c20, 0)),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           durationSeconds: S.optional(S.Number),
           acceptRoleSessionName: S.optional(S.Boolean),
-          attributeMappings: S.optional(__S(156, __c19, 4)),
+          attributeMappings: S.optional(__S(164, __c20, 4)),
         }),
       ).annotate({ identifier: "ProfileDetail" });
-  }
-}
-function __c20(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ profile: S.optional(__S(157, __c19, 5)) })).annotate({
-        identifier: "ProfileDetailResponse",
-      });
   }
 }
 function __c21(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({
-          name: S.String,
-          source: __S(185, __c23, 1),
-          enabled: S.optional(S.Boolean),
-          tags: S.optional(__S(145, __c18, 1)),
-          notificationSettings: S.optional(__S(177, __c22, 1)),
-        }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/trustanchors" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "CreateTrustAnchorRequest" });
+      return S.suspend(() => S.Struct({ profile: S.optional(__S(165, __c20, 5)) })).annotate({
+        identifier: "ProfileDetailResponse",
+      });
   }
 }
 function __c22(j: number): any {
@@ -1567,14 +1891,16 @@ function __c22(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          enabled: S.Boolean,
-          event: S.String,
-          threshold: S.optional(S.Number),
-          channel: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "NotificationSetting" });
-    case 1:
-      return S.Array(__S(176, __c22, 0));
+          name: S.String,
+          source: __S(185, __c23, 1),
+          enabled: S.optional(S.Boolean),
+          crlDpRevocationEnabled: S.optional(S.Boolean),
+          tags: S.optional(__S(153, __c19, 1)),
+          notificationSettings: S.optional(__S(201, __c25, 1)),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/trustanchors" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "CreateTrustAnchorRequest" });
   }
 }
 function __c23(j: number): any {
@@ -1608,6 +1934,7 @@ function __c23(j: number): any {
           name: S.optional(S.String),
           source: S.optional(__S(185, __c23, 1)),
           enabled: S.optional(S.Boolean),
+          crlDpRevocationEnabled: S.optional(S.Boolean),
           createdAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           updatedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           notificationSettings: S.optional(__S(187, __c23, 3)),
@@ -1628,9 +1955,24 @@ function __c25(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          enabled: S.Boolean,
+          event: S.String,
+          threshold: S.optional(S.Number),
+          channel: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "NotificationSetting" });
+    case 1:
+      return S.Array(__S(200, __c25, 0));
+  }
+}
+function __c26(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           profileId: S.String.pipe(T.HttpLabel("profileId")),
           certificateField: S.String.pipe(T.HttpQuery("certificateField")),
-          specifiers: S.optional(__S(152, __c19, 0)).pipe(T.HttpQuery("specifiers")),
+          specifiers: S.optional(__S(160, __c20, 0)).pipe(T.HttpQuery("specifiers")),
         }).pipe(
           T.all(
             T.Http({ method: "DELETE", uri: "/profiles/{profileId}/mappings" }),
@@ -1644,15 +1986,15 @@ function __c25(j: number): any {
       ).annotate({ identifier: "DeleteAttributeMappingRequest" });
   }
 }
-function __c26(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ profile: __S(157, __c19, 5) })).annotate({
+      return S.suspend(() => S.Struct({ profile: __S(165, __c20, 5) })).annotate({
         identifier: "DeleteAttributeMappingResponse",
       });
   }
 }
-function __c27(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1662,7 +2004,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "ScalarCrlRequest" });
   }
 }
-function __c28(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1679,15 +2021,15 @@ function __c28(j: number): any {
       ).annotate({ identifier: "CrlDetail" });
   }
 }
-function __c29(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() => S.Struct({ crl: __S(224, __c28, 0) })).annotate({
+      return S.suspend(() => S.Struct({ crl: __S(232, __c29, 0) })).annotate({
         identifier: "CrlDetailResponse",
       });
   }
 }
-function __c30(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1702,23 +2044,6 @@ function __c30(j: number): any {
           ),
         ),
       ).annotate({ identifier: "ScalarProfileRequest" });
-  }
-}
-function __c31(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ trustAnchorId: S.String.pipe(T.HttpLabel("trustAnchorId")) }).pipe(
-          T.all(
-            T.Http({ method: "DELETE", uri: "/trustanchor/{trustAnchorId}" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "ScalarTrustAnchorRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

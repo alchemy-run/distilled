@@ -1343,6 +1343,15 @@ export const associateFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFirewallRuleGroup",
+  iam: {
+    actions: ["route53resolver:AssociateFirewallRuleGroup", "route53resolver:TagResource"],
+    resources: {
+      "route53resolver:AssociateFirewallRuleGroup": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group-association/${ResourceId}",
+      ],
+    },
+    conditional: { "route53resolver:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "AssociateFirewallRuleGroup",
 }));
@@ -1383,6 +1392,14 @@ export const associateResolverEndpointIpAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverEndpointIpAddress",
+  iam: {
+    actions: ["route53resolver:AssociateResolverEndpointIpAddress"],
+    resources: {
+      "route53resolver:AssociateResolverEndpointIpAddress": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-endpoint/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateResolverEndpointIpAddress",
 }));
@@ -1428,6 +1445,14 @@ export const associateResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverQueryLogConfig",
+  iam: {
+    actions: ["route53resolver:AssociateResolverQueryLogConfig"],
+    resources: {
+      "route53resolver:AssociateResolverQueryLogConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-query-log-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateResolverQueryLogConfig",
 }));
@@ -1469,6 +1494,14 @@ export const associateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResolverRule",
+  iam: {
+    actions: ["route53resolver:AssociateResolverRule"],
+    resources: {
+      "route53resolver:AssociateResolverRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-rule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateResolverRule",
 }));
@@ -1501,6 +1534,15 @@ export const batchCreateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateFirewallRule",
+  iam: {
+    actions: ["route53resolver:CreateFirewallRule"],
+    resources: {
+      "route53resolver:CreateFirewallRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateFirewallRule",
 }));
@@ -1533,6 +1575,15 @@ export const batchDeleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteFirewallRule",
+  iam: {
+    actions: ["route53resolver:DeleteFirewallRule"],
+    resources: {
+      "route53resolver:DeleteFirewallRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteFirewallRule",
 }));
@@ -1565,6 +1616,15 @@ export const batchUpdateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFirewallRule",
+  iam: {
+    actions: ["route53resolver:UpdateFirewallRule"],
+    resources: {
+      "route53resolver:UpdateFirewallRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateFirewallRule",
 }));
@@ -1597,6 +1657,15 @@ export const createFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallDomainList",
+  iam: {
+    actions: ["route53resolver:CreateFirewallDomainList", "route53resolver:TagResource"],
+    resources: {
+      "route53resolver:CreateFirewallDomainList": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+      ],
+    },
+    conditional: { "route53resolver:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFirewallDomainList",
 }));
@@ -1639,6 +1708,15 @@ export const createFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRule",
+  iam: {
+    actions: ["route53resolver:CreateFirewallRule"],
+    resources: {
+      "route53resolver:CreateFirewallRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateFirewallRule",
 }));
@@ -1672,6 +1750,15 @@ export const createFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRuleGroup",
+  iam: {
+    actions: ["route53resolver:CreateFirewallRuleGroup", "route53resolver:TagResource"],
+    resources: {
+      "route53resolver:CreateFirewallRuleGroup": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+    conditional: { "route53resolver:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFirewallRuleGroup",
 }));
@@ -1709,6 +1796,15 @@ export const createOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutpostResolver",
+  iam: {
+    actions: ["route53resolver:CreateOutpostResolver", "route53resolver:TagResource"],
+    resources: {
+      "route53resolver:CreateOutpostResolver": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:outpost-resolver/${ResourceId}",
+      ],
+    },
+    conditional: { "route53resolver:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOutpostResolver",
 }));
@@ -1753,6 +1849,15 @@ export const createResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverEndpoint",
+  iam: {
+    actions: ["route53resolver:CreateResolverEndpoint", "route53resolver:TagResource"],
+    resources: {
+      "route53resolver:CreateResolverEndpoint": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-endpoint/${ResourceId}",
+      ],
+    },
+    conditional: { "route53resolver:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateResolverEndpoint",
 }));
@@ -1799,6 +1904,15 @@ export const createResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverQueryLogConfig",
+  iam: {
+    actions: ["route53resolver:CreateResolverQueryLogConfig", "route53resolver:TagResource"],
+    resources: {
+      "route53resolver:CreateResolverQueryLogConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-query-log-config/${ResourceId}",
+      ],
+    },
+    conditional: { "route53resolver:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateResolverQueryLogConfig",
 }));
@@ -1840,6 +1954,15 @@ export const createResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolverRule",
+  iam: {
+    actions: ["route53resolver:CreateResolverRule", "route53resolver:TagResource"],
+    resources: {
+      "route53resolver:CreateResolverRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-rule/${ResourceId}",
+      ],
+    },
+    conditional: { "route53resolver:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateResolverRule",
 }));
@@ -1872,6 +1995,14 @@ export const deleteFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallDomainList",
+  iam: {
+    actions: ["route53resolver:DeleteFirewallDomainList"],
+    resources: {
+      "route53resolver:DeleteFirewallDomainList": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFirewallDomainList",
 }));
@@ -1906,6 +2037,15 @@ export const deleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRule",
+  iam: {
+    actions: ["route53resolver:DeleteFirewallRule"],
+    resources: {
+      "route53resolver:DeleteFirewallRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFirewallRule",
 }));
@@ -1940,6 +2080,14 @@ export const deleteFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRuleGroup",
+  iam: {
+    actions: ["route53resolver:DeleteFirewallRuleGroup"],
+    resources: {
+      "route53resolver:DeleteFirewallRuleGroup": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFirewallRuleGroup",
 }));
@@ -1978,6 +2126,14 @@ export const deleteOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutpostResolver",
+  iam: {
+    actions: ["route53resolver:DeleteOutpostResolver"],
+    resources: {
+      "route53resolver:DeleteOutpostResolver": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:outpost-resolver/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOutpostResolver",
 }));
@@ -2016,6 +2172,14 @@ export const deleteResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverEndpoint",
+  iam: {
+    actions: ["route53resolver:DeleteResolverEndpoint"],
+    resources: {
+      "route53resolver:DeleteResolverEndpoint": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-endpoint/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResolverEndpoint",
 }));
@@ -2060,6 +2224,14 @@ export const deleteResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverQueryLogConfig",
+  iam: {
+    actions: ["route53resolver:DeleteResolverQueryLogConfig"],
+    resources: {
+      "route53resolver:DeleteResolverQueryLogConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-query-log-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResolverQueryLogConfig",
 }));
@@ -2096,6 +2268,14 @@ export const deleteResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolverRule",
+  iam: {
+    actions: ["route53resolver:DeleteResolverRule"],
+    resources: {
+      "route53resolver:DeleteResolverRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-rule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResolverRule",
 }));
@@ -2130,6 +2310,14 @@ export const disassociateFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFirewallRuleGroup",
+  iam: {
+    actions: ["route53resolver:DisassociateFirewallRuleGroup"],
+    resources: {
+      "route53resolver:DisassociateFirewallRuleGroup": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group-association/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateFirewallRuleGroup",
 }));
@@ -2168,6 +2356,14 @@ export const disassociateResolverEndpointIpAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverEndpointIpAddress",
+  iam: {
+    actions: ["route53resolver:DisassociateResolverEndpointIpAddress"],
+    resources: {
+      "route53resolver:DisassociateResolverEndpointIpAddress": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-endpoint/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateResolverEndpointIpAddress",
 }));
@@ -2211,6 +2407,14 @@ export const disassociateResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverQueryLogConfig",
+  iam: {
+    actions: ["route53resolver:DisassociateResolverQueryLogConfig"],
+    resources: {
+      "route53resolver:DisassociateResolverQueryLogConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-query-log-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateResolverQueryLogConfig",
 }));
@@ -2246,6 +2450,14 @@ export const disassociateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResolverRule",
+  iam: {
+    actions: ["route53resolver:DisassociateResolverRule"],
+    resources: {
+      "route53resolver:DisassociateResolverRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-rule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateResolverRule",
 }));
@@ -2279,6 +2491,14 @@ export const getFirewallConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallConfig",
+  iam: {
+    actions: ["route53resolver:GetFirewallConfig"],
+    resources: {
+      "route53resolver:GetFirewallConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFirewallConfig",
 }));
@@ -2309,6 +2529,14 @@ export const getFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallDomainList",
+  iam: {
+    actions: ["route53resolver:GetFirewallDomainList"],
+    resources: {
+      "route53resolver:GetFirewallDomainList": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFirewallDomainList",
 }));
@@ -2339,6 +2567,20 @@ export const getFirewallRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroup",
+  iam: {
+    actions: [
+      "route53resolver:AssociateFirewallRuleGroupWithService",
+      "route53resolver:GetFirewallRuleGroup",
+    ],
+    resources: {
+      "route53resolver:AssociateFirewallRuleGroupWithService": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+      "route53resolver:GetFirewallRuleGroup": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFirewallRuleGroup",
 }));
@@ -2369,6 +2611,14 @@ export const getFirewallRuleGroupAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroupAssociation",
+  iam: {
+    actions: ["route53resolver:GetFirewallRuleGroupAssociation"],
+    resources: {
+      "route53resolver:GetFirewallRuleGroupAssociation": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group-association/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFirewallRuleGroupAssociation",
 }));
@@ -2402,6 +2652,14 @@ export const getFirewallRuleGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRuleGroupPolicy",
+  iam: {
+    actions: ["route53resolver:GetFirewallRuleGroupPolicy"],
+    resources: {
+      "route53resolver:GetFirewallRuleGroupPolicy": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFirewallRuleGroupPolicy",
 }));
@@ -2435,6 +2693,14 @@ export const getOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOutpostResolver",
+  iam: {
+    actions: ["route53resolver:GetOutpostResolver"],
+    resources: {
+      "route53resolver:GetOutpostResolver": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:outpost-resolver/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetOutpostResolver",
 }));
@@ -2470,6 +2736,14 @@ export const getResolverConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverConfig",
+  iam: {
+    actions: ["route53resolver:GetResolverConfig"],
+    resources: {
+      "route53resolver:GetResolverConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResolverConfig",
 }));
@@ -2504,6 +2778,14 @@ export const getResolverDnssecConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverDnssecConfig",
+  iam: {
+    actions: ["route53resolver:GetResolverDnssecConfig"],
+    resources: {
+      "route53resolver:GetResolverDnssecConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-dnssec-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResolverDnssecConfig",
 }));
@@ -2535,6 +2817,14 @@ export const getResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverEndpoint",
+  iam: {
+    actions: ["route53resolver:GetResolverEndpoint"],
+    resources: {
+      "route53resolver:GetResolverEndpoint": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-endpoint/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResolverEndpoint",
 }));
@@ -2570,6 +2860,14 @@ export const getResolverQueryLogConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfig",
+  iam: {
+    actions: ["route53resolver:GetResolverQueryLogConfig"],
+    resources: {
+      "route53resolver:GetResolverQueryLogConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-query-log-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResolverQueryLogConfig",
 }));
@@ -2605,6 +2903,7 @@ export const getResolverQueryLogConfigAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfigAssociation",
+  iam: { actions: ["route53resolver:GetResolverQueryLogConfigAssociation"] },
   telemetry: TELEMETRY,
   span: "GetResolverQueryLogConfigAssociation",
 }));
@@ -2638,6 +2937,14 @@ export const getResolverQueryLogConfigPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverQueryLogConfigPolicy",
+  iam: {
+    actions: ["route53resolver:GetResolverQueryLogConfigPolicy"],
+    resources: {
+      "route53resolver:GetResolverQueryLogConfigPolicy": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-query-log-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResolverQueryLogConfigPolicy",
 }));
@@ -2669,6 +2976,7 @@ export const getResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRule",
+  iam: { actions: ["route53resolver:GetResolverRule"] },
   telemetry: TELEMETRY,
   span: "GetResolverRule",
 }));
@@ -2700,6 +3008,7 @@ export const getResolverRuleAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRuleAssociation",
+  iam: { actions: ["route53resolver:GetResolverRuleAssociation"] },
   telemetry: TELEMETRY,
   span: "GetResolverRuleAssociation",
 }));
@@ -2731,6 +3040,14 @@ export const getResolverRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolverRulePolicy",
+  iam: {
+    actions: ["route53resolver:GetResolverRulePolicy"],
+    resources: {
+      "route53resolver:GetResolverRulePolicy": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-rule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResolverRulePolicy",
 }));
@@ -2778,6 +3095,14 @@ export const importFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportFirewallDomains",
+  iam: {
+    actions: ["route53resolver:ImportFirewallDomains"],
+    resources: {
+      "route53resolver:ImportFirewallDomains": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportFirewallDomains",
 }));
@@ -2817,6 +3142,7 @@ export const listFirewallConfigs: API.PaginatedOperationMethod<
     items: "FirewallConfigs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListFirewallConfigs"] },
   telemetry: TELEMETRY,
   span: "ListFirewallConfigs",
 })) as any;
@@ -2856,6 +3182,7 @@ export const listFirewallDomainLists: API.PaginatedOperationMethod<
     items: "FirewallDomainLists",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListFirewallDomainLists"] },
   telemetry: TELEMETRY,
   span: "ListFirewallDomainLists",
 })) as any;
@@ -2897,6 +3224,14 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["route53resolver:ListFirewallDomains"],
+    resources: {
+      "route53resolver:ListFirewallDomains": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFirewallDomains",
 })) as any;
@@ -2936,6 +3271,7 @@ export const listFirewallRuleGroupAssociations: API.PaginatedOperationMethod<
     items: "FirewallRuleGroupAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListFirewallRuleGroupAssociations"] },
   telemetry: TELEMETRY,
   span: "ListFirewallRuleGroupAssociations",
 })) as any;
@@ -2975,6 +3311,7 @@ export const listFirewallRuleGroups: API.PaginatedOperationMethod<
     items: "FirewallRuleGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListFirewallRuleGroups"] },
   telemetry: TELEMETRY,
   span: "ListFirewallRuleGroups",
 })) as any;
@@ -3018,6 +3355,14 @@ export const listFirewallRules: API.PaginatedOperationMethod<
     items: "FirewallRules",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["route53resolver:ListFirewallRules"],
+    resources: {
+      "route53resolver:ListFirewallRules": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFirewallRules",
 })) as any;
@@ -3057,6 +3402,7 @@ export const listFirewallRuleTypes: API.PaginatedOperationMethod<
     items: "FirewallRuleTypes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListFirewallRuleTypes"] },
   telemetry: TELEMETRY,
   span: "ListFirewallRuleTypes",
 })) as any;
@@ -3096,6 +3442,7 @@ export const listOutpostResolvers: API.PaginatedOperationMethod<
     items: "OutpostResolvers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListOutpostResolvers"] },
   telemetry: TELEMETRY,
   span: "ListOutpostResolvers",
 })) as any;
@@ -3140,6 +3487,14 @@ export const listResolverConfigs: API.PaginatedOperationMethod<
     items: "ResolverConfigs",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["route53resolver:ListResolverConfigs"],
+    resources: {
+      "route53resolver:ListResolverConfigs": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListResolverConfigs",
 })) as any;
@@ -3181,6 +3536,14 @@ export const listResolverDnssecConfigs: API.PaginatedOperationMethod<
     items: "ResolverDnssecConfigs",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["route53resolver:ListResolverDnssecConfigs"],
+    resources: {
+      "route53resolver:ListResolverDnssecConfigs": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-dnssec-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListResolverDnssecConfigs",
 })) as any;
@@ -3220,6 +3583,14 @@ export const listResolverEndpointIpAddresses: API.PaginatedOperationMethod<
     items: "IpAddresses",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["route53resolver:ListResolverEndpointIpAddresses"],
+    resources: {
+      "route53resolver:ListResolverEndpointIpAddresses": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-endpoint/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListResolverEndpointIpAddresses",
 })) as any;
@@ -3259,6 +3630,7 @@ export const listResolverEndpoints: API.PaginatedOperationMethod<
     items: "ResolverEndpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListResolverEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListResolverEndpoints",
 })) as any;
@@ -3300,6 +3672,7 @@ export const listResolverQueryLogConfigAssociations: API.PaginatedOperationMetho
     items: "ResolverQueryLogConfigAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListResolverQueryLogConfigAssociations"] },
   telemetry: TELEMETRY,
   span: "ListResolverQueryLogConfigAssociations",
 })) as any;
@@ -3342,6 +3715,7 @@ export const listResolverQueryLogConfigs: API.PaginatedOperationMethod<
     items: "ResolverQueryLogConfigs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListResolverQueryLogConfigs"] },
   telemetry: TELEMETRY,
   span: "ListResolverQueryLogConfigs",
 })) as any;
@@ -3381,6 +3755,7 @@ export const listResolverRuleAssociations: API.PaginatedOperationMethod<
     items: "ResolverRuleAssociations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListResolverRuleAssociations"] },
   telemetry: TELEMETRY,
   span: "ListResolverRuleAssociations",
 })) as any;
@@ -3420,6 +3795,7 @@ export const listResolverRules: API.PaginatedOperationMethod<
     items: "ResolverRules",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListResolverRules"] },
   telemetry: TELEMETRY,
   span: "ListResolverRules",
 })) as any;
@@ -3461,6 +3837,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["route53resolver:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -3495,6 +3872,14 @@ export const putFirewallRuleGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFirewallRuleGroupPolicy",
+  iam: {
+    actions: ["route53resolver:PutFirewallRuleGroupPolicy"],
+    resources: {
+      "route53resolver:PutFirewallRuleGroupPolicy": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutFirewallRuleGroupPolicy",
 }));
@@ -3530,6 +3915,14 @@ export const putResolverQueryLogConfigPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResolverQueryLogConfigPolicy",
+  iam: {
+    actions: ["route53resolver:PutResolverQueryLogConfigPolicy"],
+    resources: {
+      "route53resolver:PutResolverQueryLogConfigPolicy": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-query-log-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResolverQueryLogConfigPolicy",
 }));
@@ -3563,6 +3956,14 @@ export const putResolverRulePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResolverRulePolicy",
+  iam: {
+    actions: ["route53resolver:PutResolverRulePolicy"],
+    resources: {
+      "route53resolver:PutResolverRulePolicy": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-rule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResolverRulePolicy",
 }));
@@ -3599,6 +4000,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["route53resolver:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3631,6 +4033,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["route53resolver:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3664,6 +4067,14 @@ export const updateFirewallConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallConfig",
+  iam: {
+    actions: ["route53resolver:UpdateFirewallConfig"],
+    resources: {
+      "route53resolver:UpdateFirewallConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallConfig",
 }));
@@ -3700,6 +4111,14 @@ export const updateFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDomains",
+  iam: {
+    actions: ["route53resolver:UpdateFirewallDomains"],
+    resources: {
+      "route53resolver:UpdateFirewallDomains": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallDomains",
 }));
@@ -3734,6 +4153,15 @@ export const updateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRule",
+  iam: {
+    actions: ["route53resolver:UpdateFirewallRule"],
+    resources: {
+      "route53resolver:UpdateFirewallRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-domain-list/${ResourceId}",
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallRule",
 }));
@@ -3768,6 +4196,14 @@ export const updateFirewallRuleGroupAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRuleGroupAssociation",
+  iam: {
+    actions: ["route53resolver:UpdateFirewallRuleGroupAssociation"],
+    resources: {
+      "route53resolver:UpdateFirewallRuleGroupAssociation": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:firewall-rule-group-association/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallRuleGroupAssociation",
 }));
@@ -3807,6 +4243,14 @@ export const updateOutpostResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOutpostResolver",
+  iam: {
+    actions: ["route53resolver:UpdateOutpostResolver"],
+    resources: {
+      "route53resolver:UpdateOutpostResolver": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:outpost-resolver/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOutpostResolver",
 }));
@@ -3848,6 +4292,14 @@ export const updateResolverConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverConfig",
+  iam: {
+    actions: ["route53resolver:UpdateResolverConfig"],
+    resources: {
+      "route53resolver:UpdateResolverConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResolverConfig",
 }));
@@ -3882,6 +4334,14 @@ export const updateResolverDnssecConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverDnssecConfig",
+  iam: {
+    actions: ["route53resolver:UpdateResolverDnssecConfig"],
+    resources: {
+      "route53resolver:UpdateResolverDnssecConfig": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-dnssec-config/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResolverDnssecConfig",
 }));
@@ -3917,6 +4377,14 @@ export const updateResolverEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverEndpoint",
+  iam: {
+    actions: ["route53resolver:UpdateResolverEndpoint"],
+    resources: {
+      "route53resolver:UpdateResolverEndpoint": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-endpoint/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResolverEndpoint",
 }));
@@ -3956,6 +4424,14 @@ export const updateResolverRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolverRule",
+  iam: {
+    actions: ["route53resolver:UpdateResolverRule"],
+    resources: {
+      "route53resolver:UpdateResolverRule": [
+        "arn:${Partition}:route53resolver:${Region}:${Account}:resolver-rule/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResolverRule",
 }));

@@ -1058,6 +1058,16 @@ export const createBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBotVersion",
+  iam: {
+    actions: ["lex:CreateBotVersion"],
+    resources: {
+      "lex:CreateBotVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBotVersion",
 }));
@@ -1106,6 +1116,14 @@ export const createIntentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntentVersion",
+  iam: {
+    actions: ["lex:CreateIntentVersion"],
+    resources: {
+      "lex:CreateIntentVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIntentVersion",
 }));
@@ -1154,6 +1172,14 @@ export const createSlotTypeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlotTypeVersion",
+  iam: {
+    actions: ["lex:CreateSlotTypeVersion"],
+    resources: {
+      "lex:CreateSlotTypeVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSlotTypeVersion",
 }));
@@ -1206,6 +1232,64 @@ export const deleteBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBot",
+  iam: {
+    actions: [
+      "lex:DeleteBot",
+      "lex:DeleteBotAlias",
+      "lex:DeleteBotChannel",
+      "lex:DeleteBotLocale",
+      "lex:DeleteBotVersion",
+      "lex:DeleteCustomVocabulary",
+      "lex:DeleteIntent",
+      "lex:DeleteResourcePolicy",
+      "lex:DeleteSlot",
+      "lex:DeleteSlotType",
+    ],
+    resources: {
+      "lex:DeleteBot": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+      "lex:DeleteBotAlias": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
+      ],
+      "lex:DeleteBotChannel": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteBotLocale": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteBotVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+      "lex:DeleteCustomVocabulary": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+      "lex:DeleteSlot": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBot",
 }));
@@ -1249,6 +1333,15 @@ export const deleteBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotAlias",
+  iam: {
+    actions: ["lex:DeleteBotAlias", "lex:DeleteResourcePolicy"],
+    resources: {
+      "lex:DeleteBotAlias": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBotAlias",
 }));
@@ -1285,6 +1378,14 @@ export const deleteBotChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotChannelAssociation",
+  iam: {
+    actions: ["lex:DeleteBotChannelAssociation"],
+    resources: {
+      "lex:DeleteBotChannelAssociation": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot-channel:${BotName}:${BotAlias}:${ChannelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBotChannelAssociation",
 }));
@@ -1323,6 +1424,16 @@ export const deleteBotVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBotVersion",
+  iam: {
+    actions: ["lex:DeleteBotVersion"],
+    resources: {
+      "lex:DeleteBotVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBotVersion",
 }));
@@ -1374,6 +1485,16 @@ export const deleteIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntent",
+  iam: {
+    actions: ["lex:DeleteIntent"],
+    resources: {
+      "lex:DeleteIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntent",
 }));
@@ -1412,6 +1533,14 @@ export const deleteIntentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntentVersion",
+  iam: {
+    actions: ["lex:DeleteIntentVersion"],
+    resources: {
+      "lex:DeleteIntentVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntentVersion",
 }));
@@ -1463,6 +1592,16 @@ export const deleteSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotType",
+  iam: {
+    actions: ["lex:DeleteSlotType"],
+    resources: {
+      "lex:DeleteSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSlotType",
 }));
@@ -1501,6 +1640,14 @@ export const deleteSlotTypeVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlotTypeVersion",
+  iam: {
+    actions: ["lex:DeleteSlotTypeVersion"],
+    resources: {
+      "lex:DeleteSlotTypeVersion": [
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSlotTypeVersion",
 }));
@@ -1545,6 +1692,16 @@ export const deleteUtterances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUtterances",
+  iam: {
+    actions: ["lex:DeleteUtterances"],
+    resources: {
+      "lex:DeleteUtterances": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUtterances",
 }));
@@ -1579,6 +1736,7 @@ export const getBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBot",
+  iam: { actions: ["lex:GetBot"] },
   telemetry: TELEMETRY,
   span: "GetBot",
 }));
@@ -1613,6 +1771,15 @@ export const getBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotAlias",
+  iam: {
+    actions: ["lex:GetBotAlias"],
+    resources: {
+      "lex:GetBotAlias": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBotAlias",
 }));
@@ -1646,6 +1813,7 @@ export const getBotAliases: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["lex:GetBotAliases"] },
   telemetry: TELEMETRY,
   span: "GetBotAliases",
 })) as any;
@@ -1680,6 +1848,14 @@ export const getBotChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBotChannelAssociation",
+  iam: {
+    actions: ["lex:GetBotChannelAssociation"],
+    resources: {
+      "lex:GetBotChannelAssociation": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot-channel:${BotName}:${BotAlias}:${ChannelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBotChannelAssociation",
 }));
@@ -1715,6 +1891,14 @@ export const getBotChannelAssociations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["lex:GetBotChannelAssociations"],
+    resources: {
+      "lex:GetBotChannelAssociations": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot-channel:${BotName}:${BotAlias}:${ChannelName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBotChannelAssociations",
 })) as any;
@@ -1762,6 +1946,7 @@ export const getBots: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["lex:GetBots"] },
   telemetry: TELEMETRY,
   span: "GetBots",
 })) as any;
@@ -1811,6 +1996,14 @@ export const getBotVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["lex:GetBotVersions"],
+    resources: {
+      "lex:GetBotVersions": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBotVersions",
 })) as any;
@@ -1844,6 +2037,7 @@ export const getBuiltinIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBuiltinIntent",
+  iam: { actions: ["lex:GetBuiltinIntent"] },
   telemetry: TELEMETRY,
   span: "GetBuiltinIntent",
 }));
@@ -1878,6 +2072,7 @@ export const getBuiltinIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["lex:GetBuiltinIntents"] },
   telemetry: TELEMETRY,
   span: "GetBuiltinIntents",
 })) as any;
@@ -1915,6 +2110,7 @@ export const getBuiltinSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["lex:GetBuiltinSlotTypes"] },
   telemetry: TELEMETRY,
   span: "GetBuiltinSlotTypes",
 })) as any;
@@ -1945,6 +2141,12 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
+  iam: {
+    actions: ["lex:GetExport"],
+    resources: {
+      "lex:GetExport": ["arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExport",
 }));
@@ -1976,6 +2178,7 @@ export const getImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImport",
+  iam: { actions: ["lex:GetImport"] },
   telemetry: TELEMETRY,
   span: "GetImport",
 }));
@@ -2010,6 +2213,14 @@ export const getIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntent",
+  iam: {
+    actions: ["lex:GetIntent"],
+    resources: {
+      "lex:GetIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIntent",
 }));
@@ -2057,6 +2268,7 @@ export const getIntents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["lex:GetIntents"] },
   telemetry: TELEMETRY,
   span: "GetIntents",
 })) as any;
@@ -2106,6 +2318,14 @@ export const getIntentVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["lex:GetIntentVersions"],
+    resources: {
+      "lex:GetIntentVersions": [
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIntentVersions",
 })) as any;
@@ -2138,6 +2358,7 @@ export const getMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMigration",
+  iam: { actions: ["lex:GetMigration"] },
   telemetry: TELEMETRY,
   span: "GetMigration",
 }));
@@ -2168,6 +2389,7 @@ export const getMigrations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["lex:GetMigrations"] },
   telemetry: TELEMETRY,
   span: "GetMigrations",
 })) as any;
@@ -2203,6 +2425,14 @@ export const getSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSlotType",
+  iam: {
+    actions: ["lex:GetSlotType"],
+    resources: {
+      "lex:GetSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSlotType",
 }));
@@ -2250,6 +2480,7 @@ export const getSlotTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["lex:GetSlotTypes"] },
   telemetry: TELEMETRY,
   span: "GetSlotTypes",
 })) as any;
@@ -2299,6 +2530,14 @@ export const getSlotTypeVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["lex:GetSlotTypeVersions"],
+    resources: {
+      "lex:GetSlotTypeVersions": [
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSlotTypeVersions",
 })) as any;
@@ -2351,6 +2590,14 @@ export const getUtterancesView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUtterancesView",
+  iam: {
+    actions: ["lex:GetUtterancesView"],
+    resources: {
+      "lex:GetUtterancesView": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUtterancesView",
 }));
@@ -2382,6 +2629,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["lex:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2432,6 +2680,12 @@ export const putBot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBot",
+  iam: {
+    actions: ["lex:PutBot"],
+    resources: {
+      "lex:PutBot": ["arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBot",
 }));
@@ -2470,6 +2724,16 @@ export const putBotAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBotAlias",
+  iam: {
+    actions: ["lex:PutBotAlias", "lex:TagResource"],
+    resources: {
+      "lex:PutBotAlias": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
+      ],
+    },
+    conditional: { "lex:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutBotAlias",
 }));
@@ -2553,6 +2817,14 @@ export const putIntent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntent",
+  iam: {
+    actions: ["lex:PutIntent"],
+    resources: {
+      "lex:PutIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutIntent",
 }));
@@ -2602,6 +2874,14 @@ export const putSlotType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSlotType",
+  iam: {
+    actions: ["lex:PutSlotType"],
+    resources: {
+      "lex:PutSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSlotType",
 }));
@@ -2626,6 +2906,109 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
+  iam: {
+    actions: [
+      "lex:CreateBot",
+      "lex:CreateBotLocale",
+      "lex:CreateCustomVocabulary",
+      "lex:CreateIntent",
+      "lex:CreateSlot",
+      "lex:CreateSlotType",
+      "lex:CreateTestSet",
+      "lex:DeleteBotLocale",
+      "lex:DeleteCustomVocabulary",
+      "lex:DeleteIntent",
+      "lex:DeleteSlot",
+      "lex:DeleteSlotType",
+      "iam:PassRole",
+      "lex:StartImport",
+      "lex:TagResource",
+      "lex:UpdateBot",
+      "lex:UpdateBotLocale",
+      "lex:UpdateCustomVocabulary",
+      "lex:UpdateIntent",
+      "lex:UpdateSlot",
+      "lex:UpdateSlotType",
+      "lex:UpdateTestSet",
+    ],
+    resources: {
+      "lex:CreateBot": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
+      ],
+      "lex:CreateBotLocale": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:CreateCustomVocabulary": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:CreateIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:CreateSlot": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:CreateSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteBotLocale": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteCustomVocabulary": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:intent:${IntentName}:${IntentVersion}",
+      ],
+      "lex:DeleteSlot": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:DeleteSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+        "arn:${Partition}:lex:${Region}:${Account}:slottype:${SlotName}:${SlotVersion}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "lex:UpdateBot": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:UpdateBotLocale": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:UpdateCustomVocabulary": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:UpdateIntent": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:UpdateSlot": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:UpdateSlotType": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot/${BotId}",
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}",
+      ],
+      "lex:UpdateTestSet": ["arn:${Partition}:lex:${Region}:${Account}:test-set/${TestSetId}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "lex:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartImport",
 }));
@@ -2662,6 +3045,14 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
+  iam: {
+    actions: ["lex:StartMigration"],
+    resources: {
+      "lex:StartMigration": [
+        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMigration",
 }));
@@ -2695,6 +3086,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["lex:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2727,6 +3119,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["lex:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

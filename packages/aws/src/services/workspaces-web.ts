@@ -1271,6 +1271,15 @@ export const associateBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBrowserSettings",
+  iam: {
+    actions: ["workspaces-web:AssociateBrowserSettings"],
+    resources: {
+      "workspaces-web:AssociateBrowserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:browserSettings/${BrowserSettingsId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateBrowserSettings",
 }));
@@ -1305,6 +1314,15 @@ export const associateDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDataProtectionSettings",
+  iam: {
+    actions: ["workspaces-web:AssociateDataProtectionSettings"],
+    resources: {
+      "workspaces-web:AssociateDataProtectionSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:dataProtectionSettings/${DataProtectionSettingsId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateDataProtectionSettings",
 }));
@@ -1339,6 +1357,15 @@ export const associateIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIpAccessSettings",
+  iam: {
+    actions: ["workspaces-web:AssociateIpAccessSettings"],
+    resources: {
+      "workspaces-web:AssociateIpAccessSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:ipAccessSettings/${IpAccessSettingsId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateIpAccessSettings",
 }));
@@ -1373,6 +1400,15 @@ export const associateNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateNetworkSettings",
+  iam: {
+    actions: ["workspaces-web:AssociateNetworkSettings"],
+    resources: {
+      "workspaces-web:AssociateNetworkSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:networkSettings/${NetworkSettingsId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateNetworkSettings",
 }));
@@ -1407,6 +1443,15 @@ export const associateSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSessionLogger",
+  iam: {
+    actions: ["workspaces-web:AssociateSessionLogger"],
+    resources: {
+      "workspaces-web:AssociateSessionLogger": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:sessionLogger/${SessionLoggerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateSessionLogger",
 }));
@@ -1441,6 +1486,15 @@ export const associateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTrustStore",
+  iam: {
+    actions: ["workspaces-web:AssociateTrustStore"],
+    resources: {
+      "workspaces-web:AssociateTrustStore": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:trustStore/${TrustStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateTrustStore",
 }));
@@ -1475,6 +1529,15 @@ export const associateUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUserAccessLoggingSettings",
+  iam: {
+    actions: ["workspaces-web:AssociateUserAccessLoggingSettings"],
+    resources: {
+      "workspaces-web:AssociateUserAccessLoggingSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:userAccessLoggingSettings/${UserAccessLoggingSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateUserAccessLoggingSettings",
 }));
@@ -1509,6 +1572,15 @@ export const associateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUserSettings",
+  iam: {
+    actions: ["workspaces-web:AssociateUserSettings"],
+    resources: {
+      "workspaces-web:AssociateUserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:userSettings/${UserSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateUserSettings",
 }));
@@ -1545,6 +1617,10 @@ export const createBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrowserSettings",
+  iam: {
+    actions: ["workspaces-web:CreateBrowserSettings", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBrowserSettings",
 }));
@@ -1581,6 +1657,10 @@ export const createDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProtectionSettings",
+  iam: {
+    actions: ["workspaces-web:CreateDataProtectionSettings", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataProtectionSettings",
 }));
@@ -1617,6 +1697,16 @@ export const createIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityProvider",
+  iam: {
+    actions: ["workspaces-web:CreateIdentityProvider", "workspaces-web:TagResource"],
+    resources: {
+      "workspaces-web:CreateIdentityProvider": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:identityProvider/${PortalId}/${IdentityProviderId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIdentityProvider",
 }));
@@ -1651,6 +1741,10 @@ export const createIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIpAccessSettings",
+  iam: {
+    actions: ["workspaces-web:CreateIpAccessSettings", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateIpAccessSettings",
 }));
@@ -1685,6 +1779,10 @@ export const createNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetworkSettings",
+  iam: {
+    actions: ["workspaces-web:CreateNetworkSettings", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetworkSettings",
 }));
@@ -1721,6 +1819,10 @@ export const createPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortal",
+  iam: {
+    actions: ["workspaces-web:CreatePortal", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePortal",
 }));
@@ -1755,6 +1857,10 @@ export const createSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSessionLogger",
+  iam: {
+    actions: ["workspaces-web:CreateSessionLogger", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSessionLogger",
 }));
@@ -1789,6 +1895,10 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
+  iam: {
+    actions: ["workspaces-web:CreateTrustStore", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTrustStore",
 }));
@@ -1823,6 +1933,10 @@ export const createUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserAccessLoggingSettings",
+  iam: {
+    actions: ["workspaces-web:CreateUserAccessLoggingSettings", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUserAccessLoggingSettings",
 }));
@@ -1859,6 +1973,10 @@ export const createUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserSettings",
+  iam: {
+    actions: ["workspaces-web:CreateUserSettings", "workspaces-web:TagResource"],
+    conditional: { "workspaces-web:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUserSettings",
 }));
@@ -1891,6 +2009,14 @@ export const deleteBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrowserSettings",
+  iam: {
+    actions: ["workspaces-web:DeleteBrowserSettings"],
+    resources: {
+      "workspaces-web:DeleteBrowserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:browserSettings/${BrowserSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBrowserSettings",
 }));
@@ -1923,6 +2049,14 @@ export const deleteDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProtectionSettings",
+  iam: {
+    actions: ["workspaces-web:DeleteDataProtectionSettings"],
+    resources: {
+      "workspaces-web:DeleteDataProtectionSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:dataProtectionSettings/${DataProtectionSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataProtectionSettings",
 }));
@@ -1955,6 +2089,15 @@ export const deleteIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityProvider",
+  iam: {
+    actions: ["workspaces-web:DeleteIdentityProvider"],
+    resources: {
+      "workspaces-web:DeleteIdentityProvider": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:identityProvider/${PortalId}/${IdentityProviderId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIdentityProvider",
 }));
@@ -1987,6 +2130,14 @@ export const deleteIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIpAccessSettings",
+  iam: {
+    actions: ["workspaces-web:DeleteIpAccessSettings"],
+    resources: {
+      "workspaces-web:DeleteIpAccessSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:ipAccessSettings/${IpAccessSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIpAccessSettings",
 }));
@@ -2019,6 +2170,14 @@ export const deleteNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkSettings",
+  iam: {
+    actions: ["workspaces-web:DeleteNetworkSettings"],
+    resources: {
+      "workspaces-web:DeleteNetworkSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:networkSettings/${NetworkSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkSettings",
 }));
@@ -2051,6 +2210,14 @@ export const deletePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortal",
+  iam: {
+    actions: ["workspaces-web:DeletePortal"],
+    resources: {
+      "workspaces-web:DeletePortal": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePortal",
 }));
@@ -2083,6 +2250,14 @@ export const deleteSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSessionLogger",
+  iam: {
+    actions: ["workspaces-web:DeleteSessionLogger"],
+    resources: {
+      "workspaces-web:DeleteSessionLogger": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:sessionLogger/${SessionLoggerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSessionLogger",
 }));
@@ -2115,6 +2290,14 @@ export const deleteTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
+  iam: {
+    actions: ["workspaces-web:DeleteTrustStore"],
+    resources: {
+      "workspaces-web:DeleteTrustStore": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:trustStore/${TrustStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTrustStore",
 }));
@@ -2147,6 +2330,14 @@ export const deleteUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserAccessLoggingSettings",
+  iam: {
+    actions: ["workspaces-web:DeleteUserAccessLoggingSettings"],
+    resources: {
+      "workspaces-web:DeleteUserAccessLoggingSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:userAccessLoggingSettings/${UserAccessLoggingSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUserAccessLoggingSettings",
 }));
@@ -2179,6 +2370,14 @@ export const deleteUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserSettings",
+  iam: {
+    actions: ["workspaces-web:DeleteUserSettings"],
+    resources: {
+      "workspaces-web:DeleteUserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:userSettings/${UserSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUserSettings",
 }));
@@ -2213,6 +2412,14 @@ export const disassociateBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBrowserSettings",
+  iam: {
+    actions: ["workspaces-web:DisassociateBrowserSettings"],
+    resources: {
+      "workspaces-web:DisassociateBrowserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateBrowserSettings",
 }));
@@ -2247,6 +2454,14 @@ export const disassociateDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDataProtectionSettings",
+  iam: {
+    actions: ["workspaces-web:DisassociateDataProtectionSettings"],
+    resources: {
+      "workspaces-web:DisassociateDataProtectionSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateDataProtectionSettings",
 }));
@@ -2281,6 +2496,14 @@ export const disassociateIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIpAccessSettings",
+  iam: {
+    actions: ["workspaces-web:DisassociateIpAccessSettings"],
+    resources: {
+      "workspaces-web:DisassociateIpAccessSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateIpAccessSettings",
 }));
@@ -2315,6 +2538,14 @@ export const disassociateNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateNetworkSettings",
+  iam: {
+    actions: ["workspaces-web:DisassociateNetworkSettings"],
+    resources: {
+      "workspaces-web:DisassociateNetworkSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateNetworkSettings",
 }));
@@ -2347,6 +2578,14 @@ export const disassociateSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSessionLogger",
+  iam: {
+    actions: ["workspaces-web:DisassociateSessionLogger"],
+    resources: {
+      "workspaces-web:DisassociateSessionLogger": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateSessionLogger",
 }));
@@ -2381,6 +2620,14 @@ export const disassociateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTrustStore",
+  iam: {
+    actions: ["workspaces-web:DisassociateTrustStore"],
+    resources: {
+      "workspaces-web:DisassociateTrustStore": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateTrustStore",
 }));
@@ -2415,6 +2662,14 @@ export const disassociateUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUserAccessLoggingSettings",
+  iam: {
+    actions: ["workspaces-web:DisassociateUserAccessLoggingSettings"],
+    resources: {
+      "workspaces-web:DisassociateUserAccessLoggingSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateUserAccessLoggingSettings",
 }));
@@ -2449,6 +2704,14 @@ export const disassociateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUserSettings",
+  iam: {
+    actions: ["workspaces-web:DisassociateUserSettings"],
+    resources: {
+      "workspaces-web:DisassociateUserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateUserSettings",
 }));
@@ -2481,6 +2744,14 @@ export const expireSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExpireSession",
+  iam: {
+    actions: ["workspaces-web:ExpireSession"],
+    resources: {
+      "workspaces-web:ExpireSession": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExpireSession",
 }));
@@ -2513,6 +2784,14 @@ export const getBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserSettings",
+  iam: {
+    actions: ["workspaces-web:GetBrowserSettings"],
+    resources: {
+      "workspaces-web:GetBrowserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:browserSettings/${BrowserSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBrowserSettings",
 }));
@@ -2545,6 +2824,14 @@ export const getDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProtectionSettings",
+  iam: {
+    actions: ["workspaces-web:GetDataProtectionSettings"],
+    resources: {
+      "workspaces-web:GetDataProtectionSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:dataProtectionSettings/${DataProtectionSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataProtectionSettings",
 }));
@@ -2577,6 +2864,14 @@ export const getIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityProvider",
+  iam: {
+    actions: ["workspaces-web:GetIdentityProvider"],
+    resources: {
+      "workspaces-web:GetIdentityProvider": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:identityProvider/${PortalId}/${IdentityProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdentityProvider",
 }));
@@ -2609,6 +2904,14 @@ export const getIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIpAccessSettings",
+  iam: {
+    actions: ["workspaces-web:GetIpAccessSettings"],
+    resources: {
+      "workspaces-web:GetIpAccessSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:ipAccessSettings/${IpAccessSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIpAccessSettings",
 }));
@@ -2641,6 +2944,14 @@ export const getNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetworkSettings",
+  iam: {
+    actions: ["workspaces-web:GetNetworkSettings"],
+    resources: {
+      "workspaces-web:GetNetworkSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:networkSettings/${NetworkSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNetworkSettings",
 }));
@@ -2673,6 +2984,14 @@ export const getPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortal",
+  iam: {
+    actions: ["workspaces-web:GetPortal"],
+    resources: {
+      "workspaces-web:GetPortal": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPortal",
 }));
@@ -2705,6 +3024,14 @@ export const getPortalServiceProviderMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortalServiceProviderMetadata",
+  iam: {
+    actions: ["workspaces-web:GetPortalServiceProviderMetadata"],
+    resources: {
+      "workspaces-web:GetPortalServiceProviderMetadata": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPortalServiceProviderMetadata",
 }));
@@ -2737,6 +3064,14 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  iam: {
+    actions: ["workspaces-web:GetSession"],
+    resources: {
+      "workspaces-web:GetSession": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -2769,6 +3104,14 @@ export const getSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionLogger",
+  iam: {
+    actions: ["workspaces-web:GetSessionLogger"],
+    resources: {
+      "workspaces-web:GetSessionLogger": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:sessionLogger/${SessionLoggerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSessionLogger",
 }));
@@ -2801,6 +3144,14 @@ export const getTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStore",
+  iam: {
+    actions: ["workspaces-web:GetTrustStore"],
+    resources: {
+      "workspaces-web:GetTrustStore": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:trustStore/${TrustStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrustStore",
 }));
@@ -2833,6 +3184,14 @@ export const getTrustStoreCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreCertificate",
+  iam: {
+    actions: ["workspaces-web:GetTrustStoreCertificate"],
+    resources: {
+      "workspaces-web:GetTrustStoreCertificate": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:trustStore/${TrustStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTrustStoreCertificate",
 }));
@@ -2865,6 +3224,14 @@ export const getUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserAccessLoggingSettings",
+  iam: {
+    actions: ["workspaces-web:GetUserAccessLoggingSettings"],
+    resources: {
+      "workspaces-web:GetUserAccessLoggingSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:userAccessLoggingSettings/${UserAccessLoggingSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUserAccessLoggingSettings",
 }));
@@ -2897,6 +3264,14 @@ export const getUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserSettings",
+  iam: {
+    actions: ["workspaces-web:GetUserSettings"],
+    resources: {
+      "workspaces-web:GetUserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:userSettings/${UserSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUserSettings",
 }));
@@ -2933,6 +3308,7 @@ export const listBrowserSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListBrowserSettings"] },
   telemetry: TELEMETRY,
   span: "ListBrowserSettings",
 })) as any;
@@ -2970,6 +3346,7 @@ export const listDataProtectionSettings: API.PaginatedOperationMethod<
     items: "dataProtectionSettings",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListDataProtectionSettings"] },
   telemetry: TELEMETRY,
   span: "ListDataProtectionSettings",
 })) as any;
@@ -3006,6 +3383,14 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["workspaces-web:ListIdentityProviders"],
+    resources: {
+      "workspaces-web:ListIdentityProviders": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:identityProvider/${PortalId}/${IdentityProviderId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIdentityProviders",
 })) as any;
@@ -3042,6 +3427,7 @@ export const listIpAccessSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListIpAccessSettings"] },
   telemetry: TELEMETRY,
   span: "ListIpAccessSettings",
 })) as any;
@@ -3078,6 +3464,7 @@ export const listNetworkSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListNetworkSettings"] },
   telemetry: TELEMETRY,
   span: "ListNetworkSettings",
 })) as any;
@@ -3114,6 +3501,7 @@ export const listPortals: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListPortals"] },
   telemetry: TELEMETRY,
   span: "ListPortals",
 })) as any;
@@ -3151,6 +3539,7 @@ export const listSessionLoggers: API.PaginatedOperationMethod<
     items: "sessionLoggers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListSessionLoggers"] },
   telemetry: TELEMETRY,
   span: "ListSessionLoggers",
 })) as any;
@@ -3190,6 +3579,14 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["workspaces-web:ListSessions"],
+    resources: {
+      "workspaces-web:ListSessions": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -3222,6 +3619,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["workspaces-web:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3260,6 +3658,7 @@ export const listTrustStoreCertificates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListTrustStoreCertificates"] },
   telemetry: TELEMETRY,
   span: "ListTrustStoreCertificates",
 })) as any;
@@ -3296,6 +3695,7 @@ export const listTrustStores: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListTrustStores"] },
   telemetry: TELEMETRY,
   span: "ListTrustStores",
 })) as any;
@@ -3332,6 +3732,7 @@ export const listUserAccessLoggingSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListUserAccessLoggingSettings"] },
   telemetry: TELEMETRY,
   span: "ListUserAccessLoggingSettings",
 })) as any;
@@ -3368,6 +3769,7 @@ export const listUserSettings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["workspaces-web:ListUserSettings"] },
   telemetry: TELEMETRY,
   span: "ListUserSettings",
 })) as any;
@@ -3402,6 +3804,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["workspaces-web:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3434,6 +3837,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["workspaces-web:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3466,6 +3870,14 @@ export const updateBrowserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrowserSettings",
+  iam: {
+    actions: ["workspaces-web:UpdateBrowserSettings"],
+    resources: {
+      "workspaces-web:UpdateBrowserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:browserSettings/${BrowserSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBrowserSettings",
 }));
@@ -3498,6 +3910,14 @@ export const updateDataProtectionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataProtectionSettings",
+  iam: {
+    actions: ["workspaces-web:UpdateDataProtectionSettings"],
+    resources: {
+      "workspaces-web:UpdateDataProtectionSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:dataProtectionSettings/${DataProtectionSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataProtectionSettings",
 }));
@@ -3530,6 +3950,15 @@ export const updateIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityProvider",
+  iam: {
+    actions: ["workspaces-web:UpdateIdentityProvider"],
+    resources: {
+      "workspaces-web:UpdateIdentityProvider": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:identityProvider/${PortalId}/${IdentityProviderId}",
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIdentityProvider",
 }));
@@ -3562,6 +3991,14 @@ export const updateIpAccessSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIpAccessSettings",
+  iam: {
+    actions: ["workspaces-web:UpdateIpAccessSettings"],
+    resources: {
+      "workspaces-web:UpdateIpAccessSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:ipAccessSettings/${IpAccessSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIpAccessSettings",
 }));
@@ -3594,6 +4031,14 @@ export const updateNetworkSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetworkSettings",
+  iam: {
+    actions: ["workspaces-web:UpdateNetworkSettings"],
+    resources: {
+      "workspaces-web:UpdateNetworkSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:networkSettings/${NetworkSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetworkSettings",
 }));
@@ -3630,6 +4075,14 @@ export const updatePortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortal",
+  iam: {
+    actions: ["workspaces-web:UpdatePortal"],
+    resources: {
+      "workspaces-web:UpdatePortal": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:portal/${PortalId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePortal",
 }));
@@ -3662,6 +4115,14 @@ export const updateSessionLogger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSessionLogger",
+  iam: {
+    actions: ["workspaces-web:UpdateSessionLogger"],
+    resources: {
+      "workspaces-web:UpdateSessionLogger": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:sessionLogger/${SessionLoggerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSessionLogger",
 }));
@@ -3696,6 +4157,14 @@ export const updateTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustStore",
+  iam: {
+    actions: ["workspaces-web:UpdateTrustStore"],
+    resources: {
+      "workspaces-web:UpdateTrustStore": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:trustStore/${TrustStoreId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTrustStore",
 }));
@@ -3728,6 +4197,14 @@ export const updateUserAccessLoggingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserAccessLoggingSettings",
+  iam: {
+    actions: ["workspaces-web:UpdateUserAccessLoggingSettings"],
+    resources: {
+      "workspaces-web:UpdateUserAccessLoggingSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:userAccessLoggingSettings/${UserAccessLoggingSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserAccessLoggingSettings",
 }));
@@ -3760,6 +4237,14 @@ export const updateUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserSettings",
+  iam: {
+    actions: ["workspaces-web:UpdateUserSettings"],
+    resources: {
+      "workspaces-web:UpdateUserSettings": [
+        "arn:${Partition}:workspaces-web:${Region}:${Account}:userSettings/${UserSettingsId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUserSettings",
 }));

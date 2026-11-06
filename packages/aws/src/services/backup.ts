@@ -2303,6 +2303,14 @@ export const associateBackupVaultMpaApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBackupVaultMpaApprovalTeam",
+  iam: {
+    actions: ["backup:AssociateBackupVaultMpaApprovalTeam"],
+    resources: {
+      "backup:AssociateBackupVaultMpaApprovalTeam": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateBackupVaultMpaApprovalTeam",
 }));
@@ -2336,6 +2344,14 @@ export const cancelLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelLegalHold",
+  iam: {
+    actions: ["backup:CancelLegalHold"],
+    resources: {
+      "backup:CancelLegalHold": [
+        "arn:${Partition}:backup:${Region}:${Account}:legal-hold:${LegalHoldId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelLegalHold",
 }));
@@ -2379,6 +2395,15 @@ export const createBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupAccessPoint",
+  iam: {
+    actions: ["backup:CreateBackupAccessPoint", "backup:TagResource"],
+    resources: {
+      "backup:CreateBackupAccessPoint": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+    conditional: { "backup:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBackupAccessPoint",
 }));
@@ -2416,6 +2441,16 @@ export const createBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupPlan",
+  iam: {
+    actions: ["backup:CreateBackupPlan", "iam:PassRole", "backup:TagResource"],
+    resources: {
+      "backup:CreateBackupPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateBackupPlan",
 }));
@@ -2449,6 +2484,15 @@ export const createBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupSelection",
+  iam: {
+    actions: ["backup:CreateBackupSelection", "iam:PassRole"],
+    resources: {
+      "backup:CreateBackupSelection": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBackupSelection",
 }));
@@ -2486,6 +2530,14 @@ export const createBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackupVault",
+  iam: {
+    actions: ["backup:CreateBackupVault", "backup:TagResource"],
+    resources: {
+      "backup:CreateBackupVault": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBackupVault",
 }));
@@ -2521,6 +2573,14 @@ export const createFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFramework",
+  iam: {
+    actions: ["backup:CreateFramework", "backup:TagResource"],
+    resources: {
+      "backup:CreateFramework": [
+        "arn:${Partition}:backup:${Region}:${Account}:framework:${FrameworkName}-${FrameworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateFramework",
 }));
@@ -2554,6 +2614,15 @@ export const createLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLegalHold",
+  iam: {
+    actions: ["backup:CreateLegalHold", "backup:TagResource"],
+    resources: {
+      "backup:CreateLegalHold": [
+        "arn:${Partition}:backup:${Region}:${Account}:legal-hold:${LegalHoldId}",
+      ],
+    },
+    conditional: { "backup:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLegalHold",
 }));
@@ -2595,6 +2664,14 @@ export const createLogicallyAirGappedBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogicallyAirGappedBackupVault",
+  iam: {
+    actions: ["backup:CreateLogicallyAirGappedBackupVault", "backup:TagResource"],
+    resources: {
+      "backup:CreateLogicallyAirGappedBackupVault": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLogicallyAirGappedBackupVault",
 }));
@@ -2631,6 +2708,14 @@ export const createReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReportPlan",
+  iam: {
+    actions: ["backup:CreateReportPlan", "backup:TagResource"],
+    resources: {
+      "backup:CreateReportPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:report-plan:${ReportPlanName}-${ReportPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateReportPlan",
 }));
@@ -2667,6 +2752,14 @@ export const createRestoreAccessBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreAccessBackupVault",
+  iam: {
+    actions: ["backup:CreateRestoreAccessBackupVault", "backup:TagResource"],
+    resources: {
+      "backup:CreateRestoreAccessBackupVault": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRestoreAccessBackupVault",
 }));
@@ -2705,6 +2798,15 @@ export const createRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreTestingPlan",
+  iam: {
+    actions: ["backup:CreateRestoreTestingPlan", "backup:TagResource"],
+    resources: {
+      "backup:CreateRestoreTestingPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+    },
+    conditional: { "backup:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRestoreTestingPlan",
 }));
@@ -2758,6 +2860,15 @@ export const createRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestoreTestingSelection",
+  iam: {
+    actions: ["backup:CreateRestoreTestingSelection", "iam:PassRole"],
+    resources: {
+      "backup:CreateRestoreTestingSelection": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateRestoreTestingSelection",
 }));
@@ -2796,6 +2907,14 @@ export const createTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTieringConfiguration",
+  iam: {
+    actions: ["backup:CreateTieringConfiguration", "backup:TagResource"],
+    resources: {
+      "backup:CreateTieringConfiguration": [
+        "arn:${Partition}:backup:${Region}:${Account}:tiering-configuration:${TieringConfigurationName}-${TieringConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTieringConfiguration",
 }));
@@ -2832,6 +2951,14 @@ export const deleteBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupAccessPoint",
+  iam: {
+    actions: ["backup:DeleteBackupAccessPoint"],
+    resources: {
+      "backup:DeleteBackupAccessPoint": [
+        "arn:${Partition}:backup:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBackupAccessPoint",
 }));
@@ -2866,6 +2993,14 @@ export const deleteBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupPlan",
+  iam: {
+    actions: ["backup:DeleteBackupPlan"],
+    resources: {
+      "backup:DeleteBackupPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBackupPlan",
 }));
@@ -2897,6 +3032,14 @@ export const deleteBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupSelection",
+  iam: {
+    actions: ["backup:DeleteBackupSelection"],
+    resources: {
+      "backup:DeleteBackupSelection": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBackupSelection",
 }));
@@ -2930,6 +3073,14 @@ export const deleteBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVault",
+  iam: {
+    actions: ["backup:DeleteBackupVault"],
+    resources: {
+      "backup:DeleteBackupVault": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBackupVault",
 }));
@@ -2960,6 +3111,14 @@ export const deleteBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultAccessPolicy",
+  iam: {
+    actions: ["backup:DeleteBackupVaultAccessPolicy"],
+    resources: {
+      "backup:DeleteBackupVaultAccessPolicy": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBackupVaultAccessPolicy",
 }));
@@ -2998,6 +3157,14 @@ export const deleteBackupVaultLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultLockConfiguration",
+  iam: {
+    actions: ["backup:DeleteBackupVaultLockConfiguration"],
+    resources: {
+      "backup:DeleteBackupVaultLockConfiguration": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBackupVaultLockConfiguration",
 }));
@@ -3028,6 +3195,14 @@ export const deleteBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackupVaultNotifications",
+  iam: {
+    actions: ["backup:DeleteBackupVaultNotifications"],
+    resources: {
+      "backup:DeleteBackupVaultNotifications": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBackupVaultNotifications",
 }));
@@ -3060,6 +3235,14 @@ export const deleteFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFramework",
+  iam: {
+    actions: ["backup:DeleteFramework"],
+    resources: {
+      "backup:DeleteFramework": [
+        "arn:${Partition}:backup:${Region}:${Account}:framework:${FrameworkName}-${FrameworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFramework",
 }));
@@ -3109,6 +3292,14 @@ export const deleteRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPoint",
+  iam: {
+    actions: ["backup:DeleteRecoveryPoint"],
+    resources: {
+      "backup:DeleteRecoveryPoint": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRecoveryPoint",
 }));
@@ -3141,6 +3332,14 @@ export const deleteReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportPlan",
+  iam: {
+    actions: ["backup:DeleteReportPlan"],
+    resources: {
+      "backup:DeleteReportPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:report-plan:${ReportPlanName}-${ReportPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReportPlan",
 }));
@@ -3167,6 +3366,14 @@ export const deleteRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestoreTestingPlan",
+  iam: {
+    actions: ["backup:DeleteRestoreTestingPlan"],
+    resources: {
+      "backup:DeleteRestoreTestingPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRestoreTestingPlan",
 }));
@@ -3194,6 +3401,14 @@ export const deleteRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestoreTestingSelection",
+  iam: {
+    actions: ["backup:DeleteRestoreTestingSelection"],
+    resources: {
+      "backup:DeleteRestoreTestingSelection": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRestoreTestingSelection",
 }));
@@ -3224,6 +3439,14 @@ export const deleteTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTieringConfiguration",
+  iam: {
+    actions: ["backup:DeleteTieringConfiguration"],
+    resources: {
+      "backup:DeleteTieringConfiguration": [
+        "arn:${Partition}:backup:${Region}:${Account}:tiering-configuration:${TieringConfigurationName}-${TieringConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTieringConfiguration",
 }));
@@ -3260,6 +3483,14 @@ export const describeBackupAccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupAccessPoint",
+  iam: {
+    actions: ["backup:DescribeBackupAccessPoint"],
+    resources: {
+      "backup:DescribeBackupAccessPoint": [
+        "arn:${Partition}:backup:${Region}:${Account}:accesspoint/${AccessPointName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBackupAccessPoint",
 }));
@@ -3292,6 +3523,7 @@ export const describeBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupJob",
+  iam: { actions: ["backup:DescribeBackupJob"] },
   telemetry: TELEMETRY,
   span: "DescribeBackupJob",
 }));
@@ -3322,6 +3554,14 @@ export const describeBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBackupVault",
+  iam: {
+    actions: ["backup:DescribeBackupVault"],
+    resources: {
+      "backup:DescribeBackupVault": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeBackupVault",
 }));
@@ -3352,6 +3592,7 @@ export const describeCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCopyJob",
+  iam: { actions: ["backup:DescribeCopyJob"] },
   telemetry: TELEMETRY,
   span: "DescribeCopyJob",
 }));
@@ -3382,6 +3623,14 @@ export const describeFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFramework",
+  iam: {
+    actions: ["backup:DescribeFramework"],
+    resources: {
+      "backup:DescribeFramework": [
+        "arn:${Partition}:backup:${Region}:${Account}:framework:${FrameworkName}-${FrameworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeFramework",
 }));
@@ -3405,6 +3654,7 @@ export const describeGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGlobalSettings",
+  iam: { actions: ["backup:DescribeGlobalSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeGlobalSettings",
 }));
@@ -3437,6 +3687,7 @@ export const describeProtectedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProtectedResource",
+  iam: { actions: ["backup:DescribeProtectedResource"] },
   telemetry: TELEMETRY,
   span: "DescribeProtectedResource",
 }));
@@ -3468,6 +3719,14 @@ export const describeRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecoveryPoint",
+  iam: {
+    actions: ["backup:DescribeRecoveryPoint"],
+    resources: {
+      "backup:DescribeRecoveryPoint": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRecoveryPoint",
 }));
@@ -3492,6 +3751,7 @@ export const describeRegionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegionSettings",
+  iam: { actions: ["backup:DescribeRegionSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeRegionSettings",
 }));
@@ -3517,6 +3777,7 @@ export const describeReportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportJob",
+  iam: { actions: ["backup:DescribeReportJob"] },
   telemetry: TELEMETRY,
   span: "DescribeReportJob",
 }));
@@ -3547,6 +3808,14 @@ export const describeReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportPlan",
+  iam: {
+    actions: ["backup:DescribeReportPlan"],
+    resources: {
+      "backup:DescribeReportPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:report-plan:${ReportPlanName}-${ReportPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeReportPlan",
 }));
@@ -3579,6 +3848,7 @@ export const describeRestoreJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRestoreJob",
+  iam: { actions: ["backup:DescribeRestoreJob"] },
   telemetry: TELEMETRY,
   span: "DescribeRestoreJob",
 }));
@@ -3609,6 +3879,7 @@ export const describeScanJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScanJob",
+  iam: { actions: ["backup:DescribeScanJob"] },
   telemetry: TELEMETRY,
   span: "DescribeScanJob",
 }));
@@ -3641,6 +3912,14 @@ export const disassociateBackupVaultMpaApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBackupVaultMpaApprovalTeam",
+  iam: {
+    actions: ["backup:DisassociateBackupVaultMpaApprovalTeam"],
+    resources: {
+      "backup:DisassociateBackupVaultMpaApprovalTeam": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateBackupVaultMpaApprovalTeam",
 }));
@@ -3679,6 +3958,14 @@ export const disassociateRecoveryPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRecoveryPoint",
+  iam: {
+    actions: ["backup:DisassociateRecoveryPoint"],
+    resources: {
+      "backup:DisassociateRecoveryPoint": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateRecoveryPoint",
 }));
@@ -3712,6 +3999,14 @@ export const disassociateRecoveryPointFromParent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRecoveryPointFromParent",
+  iam: {
+    actions: ["backup:DisassociateRecoveryPointFromParent"],
+    resources: {
+      "backup:DisassociateRecoveryPointFromParent": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateRecoveryPointFromParent",
 }));
@@ -3742,6 +4037,7 @@ export const exportBackupPlanTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportBackupPlanTemplate",
+  iam: { actions: ["backup:ExportBackupPlanTemplate"] },
   telemetry: TELEMETRY,
   span: "ExportBackupPlanTemplate",
 }));
@@ -3773,6 +4069,14 @@ export const getBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlan",
+  iam: {
+    actions: ["backup:GetBackupPlan"],
+    resources: {
+      "backup:GetBackupPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBackupPlan",
 }));
@@ -3805,6 +4109,7 @@ export const getBackupPlanFromJSON: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlanFromJSON",
+  iam: { actions: ["backup:GetBackupPlanFromJSON"] },
   telemetry: TELEMETRY,
   span: "GetBackupPlanFromJSON",
 }));
@@ -3835,6 +4140,7 @@ export const getBackupPlanFromTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupPlanFromTemplate",
+  iam: { actions: ["backup:GetBackupPlanFromTemplate"] },
   telemetry: TELEMETRY,
   span: "GetBackupPlanFromTemplate",
 }));
@@ -3866,6 +4172,14 @@ export const getBackupSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupSelection",
+  iam: {
+    actions: ["backup:GetBackupSelection"],
+    resources: {
+      "backup:GetBackupSelection": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBackupSelection",
 }));
@@ -3897,6 +4211,14 @@ export const getBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupVaultAccessPolicy",
+  iam: {
+    actions: ["backup:GetBackupVaultAccessPolicy"],
+    resources: {
+      "backup:GetBackupVaultAccessPolicy": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBackupVaultAccessPolicy",
 }));
@@ -3927,6 +4249,14 @@ export const getBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackupVaultNotifications",
+  iam: {
+    actions: ["backup:GetBackupVaultNotifications"],
+    resources: {
+      "backup:GetBackupVaultNotifications": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBackupVaultNotifications",
 }));
@@ -3958,6 +4288,14 @@ export const getLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLegalHold",
+  iam: {
+    actions: ["backup:GetLegalHold"],
+    resources: {
+      "backup:GetLegalHold": [
+        "arn:${Partition}:backup:${Region}:${Account}:legal-hold:${LegalHoldId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLegalHold",
 }));
@@ -3988,6 +4326,14 @@ export const getPITRMalwareScanResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPITRMalwareScanResults",
+  iam: {
+    actions: ["backup:GetPITRMalwareScanResults"],
+    resources: {
+      "backup:GetPITRMalwareScanResults": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPITRMalwareScanResults",
 }));
@@ -4019,6 +4365,14 @@ export const getRecoveryPointIndexDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPointIndexDetails",
+  iam: {
+    actions: ["backup:GetRecoveryPointIndexDetails"],
+    resources: {
+      "backup:GetRecoveryPointIndexDetails": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecoveryPointIndexDetails",
 }));
@@ -4049,6 +4403,14 @@ export const getRecoveryPointRestoreMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPointRestoreMetadata",
+  iam: {
+    actions: ["backup:GetRecoveryPointRestoreMetadata"],
+    resources: {
+      "backup:GetRecoveryPointRestoreMetadata": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecoveryPointRestoreMetadata",
 }));
@@ -4079,6 +4441,7 @@ export const getRestoreJobMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreJobMetadata",
+  iam: { actions: ["backup:GetRestoreJobMetadata"] },
   telemetry: TELEMETRY,
   span: "GetRestoreJobMetadata",
 }));
@@ -4112,6 +4475,7 @@ export const getRestoreTestingInferredMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingInferredMetadata",
+  iam: { actions: ["backup:GetRestoreTestingInferredMetadata"] },
   telemetry: TELEMETRY,
   span: "GetRestoreTestingInferredMetadata",
 }));
@@ -4137,6 +4501,14 @@ export const getRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingPlan",
+  iam: {
+    actions: ["backup:GetRestoreTestingPlan"],
+    resources: {
+      "backup:GetRestoreTestingPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRestoreTestingPlan",
 }));
@@ -4161,6 +4533,14 @@ export const getRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestoreTestingSelection",
+  iam: {
+    actions: ["backup:GetRestoreTestingSelection"],
+    resources: {
+      "backup:GetRestoreTestingSelection": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRestoreTestingSelection",
 }));
@@ -4181,6 +4561,7 @@ export const getSupportedResourceTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSupportedResourceTypes",
+  iam: { actions: ["backup:GetSupportedResourceTypes"] },
   telemetry: TELEMETRY,
   span: "GetSupportedResourceTypes",
 }));
@@ -4213,6 +4594,14 @@ export const getTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTieringConfiguration",
+  iam: {
+    actions: ["backup:GetTieringConfiguration"],
+    resources: {
+      "backup:GetTieringConfiguration": [
+        "arn:${Partition}:backup:${Region}:${Account}:tiering-configuration:${TieringConfigurationName}-${TieringConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTieringConfiguration",
 }));
@@ -4243,6 +4632,7 @@ export const listBackupAccessPoints: API.PaginatedOperationMethod<
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListBackupAccessPoints"] },
   telemetry: TELEMETRY,
   span: "ListBackupAccessPoints",
 })) as any;
@@ -4276,6 +4666,7 @@ export const listBackupAccessPointsByRecoveryPoint: API.PaginatedOperationMethod
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListBackupAccessPointsByRecoveryPoint"] },
   telemetry: TELEMETRY,
   span: "ListBackupAccessPointsByRecoveryPoint",
 })) as any;
@@ -4307,6 +4698,7 @@ export const listBackupAccessPointsByResource: API.PaginatedOperationMethod<
     items: "BackupAccessPoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListBackupAccessPointsByResource"] },
   telemetry: TELEMETRY,
   span: "ListBackupAccessPointsByResource",
 })) as any;
@@ -4338,6 +4730,7 @@ export const listBackupJobs: API.PaginatedOperationMethod<
     items: "BackupJobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListBackupJobs"] },
   telemetry: TELEMETRY,
   span: "ListBackupJobs",
 })) as any;
@@ -4375,6 +4768,7 @@ export const listBackupJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListBackupJobSummaries"] },
   telemetry: TELEMETRY,
   span: "ListBackupJobSummaries",
 })) as any;
@@ -4412,6 +4806,7 @@ export const listBackupPlans: API.PaginatedOperationMethod<
     items: "BackupPlansList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListBackupPlans"] },
   telemetry: TELEMETRY,
   span: "ListBackupPlans",
 })) as any;
@@ -4449,6 +4844,7 @@ export const listBackupPlanTemplates: API.PaginatedOperationMethod<
     items: "BackupPlanTemplatesList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListBackupPlanTemplates"] },
   telemetry: TELEMETRY,
   span: "ListBackupPlanTemplates",
 })) as any;
@@ -4487,6 +4883,14 @@ export const listBackupPlanVersions: API.PaginatedOperationMethod<
     items: "BackupPlanVersionsList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup:ListBackupPlanVersions"],
+    resources: {
+      "backup:ListBackupPlanVersions": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBackupPlanVersions",
 })) as any;
@@ -4525,6 +4929,14 @@ export const listBackupSelections: API.PaginatedOperationMethod<
     items: "BackupSelectionsList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup:ListBackupSelections"],
+    resources: {
+      "backup:ListBackupSelections": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBackupSelections",
 })) as any;
@@ -4563,6 +4975,7 @@ export const listBackupVaults: API.PaginatedOperationMethod<
     items: "BackupVaultList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListBackupVaults"] },
   telemetry: TELEMETRY,
   span: "ListBackupVaults",
 })) as any;
@@ -4593,6 +5006,7 @@ export const listCopyJobs: API.PaginatedOperationMethod<
     items: "CopyJobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListCopyJobs"] },
   telemetry: TELEMETRY,
   span: "ListCopyJobs",
 })) as any;
@@ -4630,6 +5044,7 @@ export const listCopyJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListCopyJobSummaries"] },
   telemetry: TELEMETRY,
   span: "ListCopyJobSummaries",
 })) as any;
@@ -4659,6 +5074,7 @@ export const listFrameworks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListFrameworks"] },
   telemetry: TELEMETRY,
   span: "ListFrameworks",
 })) as any;
@@ -4695,6 +5111,7 @@ export const listIndexedRecoveryPoints: API.PaginatedOperationMethod<
     items: "IndexedRecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListIndexedRecoveryPoints"] },
   telemetry: TELEMETRY,
   span: "ListIndexedRecoveryPoints",
 })) as any;
@@ -4725,6 +5142,7 @@ export const listLegalHolds: API.PaginatedOperationMethod<
     items: "LegalHolds",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListLegalHolds"] },
   telemetry: TELEMETRY,
   span: "ListLegalHolds",
 })) as any;
@@ -4758,6 +5176,7 @@ export const listProtectedResources: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListProtectedResources"] },
   telemetry: TELEMETRY,
   span: "ListProtectedResources",
 })) as any;
@@ -4789,6 +5208,14 @@ export const listProtectedResourcesByBackupVault: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup:ListProtectedResourcesByBackupVault"],
+    resources: {
+      "backup:ListProtectedResourcesByBackupVault": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProtectedResourcesByBackupVault",
 })) as any;
@@ -4826,6 +5253,14 @@ export const listRecoveryPointsByBackupVault: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup:ListRecoveryPointsByBackupVault"],
+    resources: {
+      "backup:ListRecoveryPointsByBackupVault": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecoveryPointsByBackupVault",
 })) as any;
@@ -4862,6 +5297,14 @@ export const listRecoveryPointsByLegalHold: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup:ListRecoveryPointsByLegalHold"],
+    resources: {
+      "backup:ListRecoveryPointsByLegalHold": [
+        "arn:${Partition}:backup:${Region}:${Account}:legal-hold:${LegalHoldId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecoveryPointsByLegalHold",
 })) as any;
@@ -4903,6 +5346,7 @@ export const listRecoveryPointsByResource: API.PaginatedOperationMethod<
     items: "RecoveryPoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListRecoveryPointsByResource"] },
   telemetry: TELEMETRY,
   span: "ListRecoveryPointsByResource",
 })) as any;
@@ -4933,6 +5377,7 @@ export const listReportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListReportJobs"] },
   telemetry: TELEMETRY,
   span: "ListReportJobs",
 })) as any;
@@ -4963,6 +5408,7 @@ export const listReportPlans: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListReportPlans"] },
   telemetry: TELEMETRY,
   span: "ListReportPlans",
 })) as any;
@@ -5000,6 +5446,14 @@ export const listRestoreAccessBackupVaults: API.PaginatedOperationMethod<
     items: "RestoreAccessBackupVaults",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup:ListRestoreAccessBackupVaults"],
+    resources: {
+      "backup:ListRestoreAccessBackupVaults": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRestoreAccessBackupVaults",
 })) as any;
@@ -5038,6 +5492,7 @@ export const listRestoreJobs: API.PaginatedOperationMethod<
     items: "RestoreJobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListRestoreJobs"] },
   telemetry: TELEMETRY,
   span: "ListRestoreJobs",
 })) as any;
@@ -5080,6 +5535,7 @@ export const listRestoreJobsByProtectedResource: API.PaginatedOperationMethod<
     items: "RestoreJobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListRestoreJobsByProtectedResource"] },
   telemetry: TELEMETRY,
   span: "ListRestoreJobsByProtectedResource",
 })) as any;
@@ -5117,6 +5573,7 @@ export const listRestoreJobSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListRestoreJobSummaries"] },
   telemetry: TELEMETRY,
   span: "ListRestoreJobSummaries",
 })) as any;
@@ -5147,6 +5604,7 @@ export const listRestoreTestingPlans: API.PaginatedOperationMethod<
     items: "RestoreTestingPlans",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListRestoreTestingPlans"] },
   telemetry: TELEMETRY,
   span: "ListRestoreTestingPlans",
 })) as any;
@@ -5179,6 +5637,14 @@ export const listRestoreTestingSelections: API.PaginatedOperationMethod<
     items: "RestoreTestingSelections",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["backup:ListRestoreTestingSelections"],
+    resources: {
+      "backup:ListRestoreTestingSelections": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRestoreTestingSelections",
 })) as any;
@@ -5209,6 +5675,7 @@ export const listScanJobs: API.PaginatedOperationMethod<
     items: "ScanJobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListScanJobs"] },
   telemetry: TELEMETRY,
   span: "ListScanJobs",
 })) as any;
@@ -5239,6 +5706,7 @@ export const listScanJobSummaries: API.PaginatedOperationMethod<
     items: "ScanJobSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListScanJobSummaries"] },
   telemetry: TELEMETRY,
   span: "ListScanJobSummaries",
 })) as any;
@@ -5289,6 +5757,7 @@ export const listTags: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 })) as any;
@@ -5319,6 +5788,7 @@ export const listTieringConfigurations: API.PaginatedOperationMethod<
     items: "TieringConfigurations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["backup:ListTieringConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListTieringConfigurations",
 })) as any;
@@ -5351,6 +5821,14 @@ export const putBackupVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultAccessPolicy",
+  iam: {
+    actions: ["backup:PutBackupVaultAccessPolicy"],
+    resources: {
+      "backup:PutBackupVaultAccessPolicy": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBackupVaultAccessPolicy",
 }));
@@ -5395,6 +5873,14 @@ export const putBackupVaultLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultLockConfiguration",
+  iam: {
+    actions: ["backup:PutBackupVaultLockConfiguration"],
+    resources: {
+      "backup:PutBackupVaultLockConfiguration": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBackupVaultLockConfiguration",
 }));
@@ -5425,6 +5911,14 @@ export const putBackupVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBackupVaultNotifications",
+  iam: {
+    actions: ["backup:PutBackupVaultNotifications"],
+    resources: {
+      "backup:PutBackupVaultNotifications": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBackupVaultNotifications",
 }));
@@ -5461,6 +5955,7 @@ export const putRestoreValidationResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRestoreValidationResult",
+  iam: { actions: ["backup:PutRestoreValidationResult"] },
   telemetry: TELEMETRY,
   span: "PutRestoreValidationResult",
 }));
@@ -5493,6 +5988,14 @@ export const revokeRestoreAccessBackupVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeRestoreAccessBackupVault",
+  iam: {
+    actions: ["backup:RevokeRestoreAccessBackupVault"],
+    resources: {
+      "backup:RevokeRestoreAccessBackupVault": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RevokeRestoreAccessBackupVault",
 }));
@@ -5527,6 +6030,15 @@ export const startBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBackupJob",
+  iam: {
+    actions: ["iam:PassRole", "backup:StartBackupJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "backup:StartBackupJob": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-vault:${BackupVaultName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartBackupJob",
 }));
@@ -5567,6 +6079,15 @@ export const startCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCopyJob",
+  iam: {
+    actions: ["iam:PassRole", "backup:StartCopyJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "backup:StartCopyJob": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartCopyJob",
 }));
@@ -5597,6 +6118,14 @@ export const startReportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReportJob",
+  iam: {
+    actions: ["backup:StartReportJob"],
+    resources: {
+      "backup:StartReportJob": [
+        "arn:${Partition}:backup:${Region}:${Account}:report-plan:${ReportPlanName}-${ReportPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartReportJob",
 }));
@@ -5629,6 +6158,16 @@ export const startRestoreJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRestoreJob",
+  iam: {
+    actions: ["iam:PassRole", "backup:StartRestoreJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "backup:StartRestoreJob": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "IamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "StartRestoreJob",
 }));
@@ -5663,6 +6202,15 @@ export const startScanJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartScanJob",
+  iam: {
+    actions: ["iam:PassRole", "backup:StartScanJob"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "backup:StartScanJob": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartScanJob",
 }));
@@ -5715,6 +6263,7 @@ export const stopBackupJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBackupJob",
+  iam: { actions: ["backup:StopBackupJob"] },
   telemetry: TELEMETRY,
   span: "StopBackupJob",
 }));
@@ -5747,6 +6296,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["backup:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5782,6 +6332,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["backup:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5812,6 +6363,16 @@ export const updateBackupPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackupPlan",
+  iam: {
+    actions: ["iam:PassRole", "backup:UpdateBackupPlan"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "backup:UpdateBackupPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:backup-plan:${BackupPlanId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateBackupPlan",
 }));
@@ -5848,6 +6409,14 @@ export const updateFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFramework",
+  iam: {
+    actions: ["backup:UpdateFramework"],
+    resources: {
+      "backup:UpdateFramework": [
+        "arn:${Partition}:backup:${Region}:${Account}:framework:${FrameworkName}-${FrameworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFramework",
 }));
@@ -5878,6 +6447,7 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
+  iam: { actions: ["backup:UpdateGlobalSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateGlobalSettings",
 }));
@@ -5912,6 +6482,16 @@ export const updateRecoveryPointIndexSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPointIndexSettings",
+  iam: {
+    actions: ["iam:PassRole", "backup:UpdateRecoveryPointIndexSettings"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "backup:UpdateRecoveryPointIndexSettings": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "IamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRecoveryPointIndexSettings",
 }));
@@ -5962,6 +6542,14 @@ export const updateRecoveryPointLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPointLifecycle",
+  iam: {
+    actions: ["backup:UpdateRecoveryPointLifecycle"],
+    resources: {
+      "backup:UpdateRecoveryPointLifecycle": [
+        "arn:${Partition}:${Vendor}:${Region}:*:${ResourceType}:${RecoveryPointId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRecoveryPointLifecycle",
 }));
@@ -5994,6 +6582,7 @@ export const updateRegionSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegionSettings",
+  iam: { actions: ["backup:UpdateRegionSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateRegionSettings",
 }));
@@ -6026,6 +6615,14 @@ export const updateReportPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportPlan",
+  iam: {
+    actions: ["backup:UpdateReportPlan"],
+    resources: {
+      "backup:UpdateReportPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:report-plan:${ReportPlanName}-${ReportPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReportPlan",
 }));
@@ -6072,6 +6669,14 @@ export const updateRestoreTestingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestoreTestingPlan",
+  iam: {
+    actions: ["backup:UpdateRestoreTestingPlan"],
+    resources: {
+      "backup:UpdateRestoreTestingPlan": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRestoreTestingPlan",
 }));
@@ -6109,6 +6714,16 @@ export const updateRestoreTestingSelection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestoreTestingSelection",
+  iam: {
+    actions: ["iam:PassRole", "backup:UpdateRestoreTestingSelection"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "backup:UpdateRestoreTestingSelection": [
+        "arn:${Partition}:backup:${Region}:${Account}:restore-testing-plan:${RestoreTestingPlanName}-${RestoreTestingPlanId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RestoreTestingSelection.IamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRestoreTestingSelection",
 }));
@@ -6155,6 +6770,14 @@ export const updateTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTieringConfiguration",
+  iam: {
+    actions: ["backup:UpdateTieringConfiguration"],
+    resources: {
+      "backup:UpdateTieringConfiguration": [
+        "arn:${Partition}:backup:${Region}:${Account}:tiering-configuration:${TieringConfigurationName}-${TieringConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTieringConfiguration",
 }));

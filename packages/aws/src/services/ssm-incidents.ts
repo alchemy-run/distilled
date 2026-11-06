@@ -705,6 +705,15 @@ export const batchGetIncidentFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetIncidentFindings",
+  iam: {
+    actions: ["ssm-incidents:BatchGetIncidentFindings"],
+    resources: {
+      "ssm-incidents:BatchGetIncidentFindings": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetIncidentFindings",
 }));
@@ -742,6 +751,10 @@ export const createReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationSet",
+  iam: {
+    actions: ["ssm-incidents:CreateReplicationSet", "ssm-incidents:TagResource"],
+    conditional: { "ssm-incidents:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateReplicationSet",
 }));
@@ -778,6 +791,14 @@ export const createResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResponsePlan",
+  iam: {
+    actions: ["ssm-incidents:CreateResponsePlan", "iam:PassRole", "ssm-incidents:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: {
+      "iam:PassRole": "a role the request names",
+      "ssm-incidents:TagResource": "tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateResponsePlan",
 }));
@@ -815,6 +836,15 @@ export const createTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTimelineEvent",
+  iam: {
+    actions: ["ssm-incidents:CreateTimelineEvent"],
+    resources: {
+      "ssm-incidents:CreateTimelineEvent": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateTimelineEvent",
 }));
@@ -845,6 +875,14 @@ export const deleteIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIncidentRecord",
+  iam: {
+    actions: ["ssm-incidents:DeleteIncidentRecord"],
+    resources: {
+      "ssm-incidents:DeleteIncidentRecord": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIncidentRecord",
 }));
@@ -878,6 +916,14 @@ export const deleteReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationSet",
+  iam: {
+    actions: ["ssm-incidents:DeleteReplicationSet"],
+    resources: {
+      "ssm-incidents:DeleteReplicationSet": [
+        "arn:${Partition}:ssm-incidents::${Account}:replication-set/${ReplicationSet}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationSet",
 }));
@@ -911,6 +957,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["ssm-incidents:DeleteResourcePolicy"],
+    resources: {
+      "ssm-incidents:DeleteResourcePolicy": [
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -942,6 +996,14 @@ export const deleteResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResponsePlan",
+  iam: {
+    actions: ["ssm-incidents:DeleteResponsePlan"],
+    resources: {
+      "ssm-incidents:DeleteResponsePlan": [
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResponsePlan",
 }));
@@ -972,6 +1034,14 @@ export const deleteTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTimelineEvent",
+  iam: {
+    actions: ["ssm-incidents:DeleteTimelineEvent"],
+    resources: {
+      "ssm-incidents:DeleteTimelineEvent": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTimelineEvent",
 }));
@@ -1004,6 +1074,15 @@ export const getIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIncidentRecord",
+  iam: {
+    actions: ["ssm-incidents:GetIncidentRecord"],
+    resources: {
+      "ssm-incidents:GetIncidentRecord": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIncidentRecord",
 }));
@@ -1036,6 +1115,14 @@ export const getReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReplicationSet",
+  iam: {
+    actions: ["ssm-incidents:GetReplicationSet"],
+    resources: {
+      "ssm-incidents:GetReplicationSet": [
+        "arn:${Partition}:ssm-incidents::${Account}:replication-set/${ReplicationSet}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReplicationSet",
 }));
@@ -1075,6 +1162,14 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     items: "resourcePolicies",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ssm-incidents:GetResourcePolicies"],
+    resources: {
+      "ssm-incidents:GetResourcePolicies": [
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicies",
 })) as any;
@@ -1107,6 +1202,14 @@ export const getResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResponsePlan",
+  iam: {
+    actions: ["ssm-incidents:GetResponsePlan"],
+    resources: {
+      "ssm-incidents:GetResponsePlan": [
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResponsePlan",
 }));
@@ -1139,6 +1242,15 @@ export const getTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTimelineEvent",
+  iam: {
+    actions: ["ssm-incidents:GetTimelineEvent"],
+    resources: {
+      "ssm-incidents:GetTimelineEvent": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTimelineEvent",
 }));
@@ -1181,6 +1293,15 @@ export const listIncidentFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ssm-incidents:ListIncidentFindings"],
+    resources: {
+      "ssm-incidents:ListIncidentFindings": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIncidentFindings",
 })) as any;
@@ -1219,6 +1340,7 @@ export const listIncidentRecords: API.PaginatedOperationMethod<
     items: "incidentRecordSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ssm-incidents:ListIncidentRecords"] },
   telemetry: TELEMETRY,
   span: "ListIncidentRecords",
 })) as any;
@@ -1256,6 +1378,15 @@ export const listRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ssm-incidents:ListRelatedItems"],
+    resources: {
+      "ssm-incidents:ListRelatedItems": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRelatedItems",
 })) as any;
@@ -1293,6 +1424,7 @@ export const listReplicationSets: API.PaginatedOperationMethod<
     items: "replicationSetArns",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ssm-incidents:ListReplicationSets"] },
   telemetry: TELEMETRY,
   span: "ListReplicationSets",
 })) as any;
@@ -1330,6 +1462,7 @@ export const listResponsePlans: API.PaginatedOperationMethod<
     items: "responsePlanSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ssm-incidents:ListResponsePlans"] },
   telemetry: TELEMETRY,
   span: "ListResponsePlans",
 })) as any;
@@ -1362,6 +1495,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["ssm-incidents:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1399,6 +1533,15 @@ export const listTimelineEvents: API.PaginatedOperationMethod<
     items: "eventSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ssm-incidents:ListTimelineEvents"],
+    resources: {
+      "ssm-incidents:ListTimelineEvents": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTimelineEvents",
 })) as any;
@@ -1433,6 +1576,14 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["ssm-incidents:PutResourcePolicy"],
+    resources: {
+      "ssm-incidents:PutResourcePolicy": [
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1468,6 +1619,14 @@ export const startIncident: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIncident",
+  iam: {
+    actions: ["ssm-incidents:StartIncident"],
+    resources: {
+      "ssm-incidents:StartIncident": [
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartIncident",
 }));
@@ -1504,6 +1663,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["ssm-incidents:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1538,6 +1698,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["ssm-incidents:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1571,6 +1732,14 @@ export const updateDeletionProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeletionProtection",
+  iam: {
+    actions: ["ssm-incidents:UpdateDeletionProtection"],
+    resources: {
+      "ssm-incidents:UpdateDeletionProtection": [
+        "arn:${Partition}:ssm-incidents::${Account}:replication-set/${ReplicationSet}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDeletionProtection",
 }));
@@ -1607,6 +1776,15 @@ export const updateIncidentRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIncidentRecord",
+  iam: {
+    actions: ["ssm-incidents:UpdateIncidentRecord"],
+    resources: {
+      "ssm-incidents:UpdateIncidentRecord": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateIncidentRecord",
 }));
@@ -1641,6 +1819,15 @@ export const updateRelatedItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelatedItems",
+  iam: {
+    actions: ["ssm-incidents:UpdateRelatedItems"],
+    resources: {
+      "ssm-incidents:UpdateRelatedItems": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRelatedItems",
 }));
@@ -1675,6 +1862,14 @@ export const updateReplicationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationSet",
+  iam: {
+    actions: ["ssm-incidents:UpdateReplicationSet"],
+    resources: {
+      "ssm-incidents:UpdateReplicationSet": [
+        "arn:${Partition}:ssm-incidents::${Account}:replication-set/${ReplicationSet}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReplicationSet",
 }));
@@ -1709,6 +1904,16 @@ export const updateResponsePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponsePlan",
+  iam: {
+    actions: ["iam:PassRole", "ssm-incidents:TagResource", "ssm-incidents:UpdateResponsePlan"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "ssm-incidents:UpdateResponsePlan": [
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResponsePlan",
 }));
@@ -1743,6 +1948,15 @@ export const updateTimelineEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTimelineEvent",
+  iam: {
+    actions: ["ssm-incidents:UpdateTimelineEvent"],
+    resources: {
+      "ssm-incidents:UpdateTimelineEvent": [
+        "arn:${Partition}:ssm-incidents::${Account}:incident-record/${ResponsePlan}/${IncidentRecord}",
+        "arn:${Partition}:ssm-incidents::${Account}:response-plan/${ResponsePlan}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTimelineEvent",
 }));

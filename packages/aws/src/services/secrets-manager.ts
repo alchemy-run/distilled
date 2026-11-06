@@ -625,6 +625,18 @@ export const batchGetSecretValue: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: [
+      "secretsmanager:BatchGetSecretValue",
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:ListSecrets",
+    ],
+    resources: {
+      "secretsmanager:GetSecretValue": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetSecretValue",
 })) as any;
@@ -674,6 +686,14 @@ export const cancelRotateSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRotateSecret",
+  iam: {
+    actions: ["secretsmanager:CancelRotateSecret"],
+    resources: {
+      "secretsmanager:CancelRotateSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "CancelRotateSecret",
@@ -774,6 +794,25 @@ export const createSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecret",
+  iam: {
+    actions: [
+      "secretsmanager:CreateSecret",
+      "secretsmanager:ReplicateSecretToRegions",
+      "secretsmanager:TagResource",
+    ],
+    resources: {
+      "secretsmanager:CreateSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+      "secretsmanager:ReplicateSecretToRegions": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+      "secretsmanager:TagResource": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+    conditional: { "secretsmanager:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "CreateSecret",
@@ -816,6 +855,14 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["secretsmanager:DeleteResourcePolicy"],
+    resources: {
+      "secretsmanager:DeleteResourcePolicy": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteResourcePolicy",
@@ -887,6 +934,14 @@ export const deleteSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecret",
+  iam: {
+    actions: ["secretsmanager:DeleteSecret"],
+    resources: {
+      "secretsmanager:DeleteSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteSecret",
@@ -924,6 +979,14 @@ export const describeSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecret",
+  iam: {
+    actions: ["secretsmanager:DescribeSecret"],
+    resources: {
+      "secretsmanager:DescribeSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeSecret",
@@ -965,6 +1028,7 @@ export const getRandomPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRandomPassword",
+  iam: { actions: ["secretsmanager:GetRandomPassword"] },
   telemetry: TELEMETRY,
   span: "GetRandomPassword",
 }));
@@ -1004,6 +1068,14 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["secretsmanager:GetResourcePolicy"],
+    resources: {
+      "secretsmanager:GetResourcePolicy": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetResourcePolicy",
@@ -1061,6 +1133,14 @@ export const getSecretValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecretValue",
+  iam: {
+    actions: ["secretsmanager:GetSecretValue"],
+    resources: {
+      "secretsmanager:GetSecretValue": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetSecretValue",
@@ -1123,6 +1203,7 @@ export const listSecrets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["secretsmanager:ListSecrets"] },
   telemetry: TELEMETRY,
   span: "ListSecrets",
 })) as any;
@@ -1171,6 +1252,14 @@ export const listSecretVersionIds: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["secretsmanager:ListSecretVersionIds"],
+    resources: {
+      "secretsmanager:ListSecretVersionIds": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListSecretVersionIds",
@@ -1220,6 +1309,14 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["secretsmanager:PutResourcePolicy"],
+    resources: {
+      "secretsmanager:PutResourcePolicy": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutResourcePolicy",
@@ -1299,6 +1396,14 @@ export const putSecretValue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSecretValue",
+  iam: {
+    actions: ["secretsmanager:PutSecretValue"],
+    resources: {
+      "secretsmanager:PutSecretValue": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PutSecretValue",
@@ -1343,6 +1448,14 @@ export const removeRegionsFromReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveRegionsFromReplication",
+  iam: {
+    actions: ["secretsmanager:RemoveRegionsFromReplication"],
+    resources: {
+      "secretsmanager:RemoveRegionsFromReplication": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RemoveRegionsFromReplication",
@@ -1390,6 +1503,14 @@ export const replicateSecretToRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplicateSecretToRegions",
+  iam: {
+    actions: ["secretsmanager:ReplicateSecretToRegions"],
+    resources: {
+      "secretsmanager:ReplicateSecretToRegions": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ReplicateSecretToRegions",
@@ -1433,6 +1554,14 @@ export const restoreSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreSecret",
+  iam: {
+    actions: ["secretsmanager:RestoreSecret"],
+    resources: {
+      "secretsmanager:RestoreSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RestoreSecret",
@@ -1492,6 +1621,16 @@ export const rotateSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateSecret",
+  iam: {
+    actions: ["iam:PassRole", "secretsmanager:RotateSecret"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "secretsmanager:RotateSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ExternalSecretRotationRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "RotateSecret",
@@ -1538,6 +1677,14 @@ export const stopReplicationToReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplicationToReplica",
+  iam: {
+    actions: ["secretsmanager:StopReplicationToReplica"],
+    resources: {
+      "secretsmanager:StopReplicationToReplica": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "StopReplicationToReplica",
@@ -1590,6 +1737,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["secretsmanager:TagResource"],
+    resources: {
+      "secretsmanager:TagResource": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "TagResource",
@@ -1639,6 +1794,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["secretsmanager:UntagResource"],
+    resources: {
+      "secretsmanager:UntagResource": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UntagResource",
@@ -1728,6 +1891,14 @@ export const updateSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecret",
+  iam: {
+    actions: ["secretsmanager:UpdateSecret"],
+    resources: {
+      "secretsmanager:UpdateSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateSecret",
@@ -1791,6 +1962,14 @@ export const updateSecretVersionStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecretVersionStage",
+  iam: {
+    actions: ["secretsmanager:UpdateSecretVersionStage"],
+    resources: {
+      "secretsmanager:UpdateSecretVersionStage": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateSecretVersionStage",
@@ -1847,6 +2026,17 @@ export const validateResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateResourcePolicy",
+  iam: {
+    actions: ["secretsmanager:PutResourcePolicy", "secretsmanager:ValidateResourcePolicy"],
+    resources: {
+      "secretsmanager:PutResourcePolicy": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+      "secretsmanager:ValidateResourcePolicy": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ValidateResourcePolicy",

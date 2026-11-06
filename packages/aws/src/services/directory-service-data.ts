@@ -494,6 +494,15 @@ export const addGroupMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddGroupMember",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:AddGroupMember"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:AddGroupMember": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddGroupMember",
 }));
@@ -528,6 +537,13 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:CreateGroup"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:CreateGroup": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -562,6 +578,13 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:CreateUser"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:CreateUser": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -598,6 +621,13 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:DeleteGroup"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:DeleteGroup": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -634,6 +664,13 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:DeleteUser"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:DeleteUser": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -668,6 +705,15 @@ export const describeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroup",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:DescribeGroup"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:DescribeGroup": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGroup",
 }));
@@ -702,6 +748,13 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:DescribeUser"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:DescribeUser": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeUser",
 }));
@@ -740,6 +793,13 @@ export const disableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableUser",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:DisableUser"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:DisableUser": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableUser",
 }));
@@ -789,6 +849,15 @@ export const listGroupMembers: API.PaginatedOperationMethod<
     items: "Members",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:ListGroupMembers"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:ListGroupMembers": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGroupMembers",
 })) as any;
@@ -836,6 +905,13 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:ListGroups"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:ListGroups": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -885,6 +961,15 @@ export const listGroupsForMember: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:ListGroupsForMember"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:ListGroupsForMember": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGroupsForMember",
 })) as any;
@@ -932,6 +1017,13 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:ListUsers"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:ListUsers": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -968,6 +1060,15 @@ export const removeGroupMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveGroupMember",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:RemoveGroupMember"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:RemoveGroupMember": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveGroupMember",
 }));
@@ -1017,6 +1118,16 @@ export const searchGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:DescribeGroup", "ds-data:SearchGroups"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:DescribeGroup": [
+        "arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}",
+      ],
+      "ds-data:SearchGroups": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchGroups",
 })) as any;
@@ -1066,6 +1177,14 @@ export const searchUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:DescribeUser", "ds-data:SearchUsers"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:DescribeUser": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:SearchUsers": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchUsers",
 })) as any;
@@ -1102,6 +1221,13 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:UpdateGroup"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:UpdateGroup": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -1138,6 +1264,13 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  iam: {
+    actions: ["ds:AccessDSData", "ds-data:UpdateUser"],
+    resources: {
+      "ds:AccessDSData": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+      "ds-data:UpdateUser": ["arn:${Partition}:ds:${Region}:${Account}:directory/${DirectoryId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));

@@ -1430,7 +1430,6 @@ export type __listOfMediaPackageAdditionalDestinations = MediaPackageAdditionalD
 const __listOfMediaPackageAdditionalDestinations = /*@__PURE__*/ __L.at(__c51, 23);
 export type __listOfOutputLocationRef = OutputLocationRef[];
 const __listOfOutputLocationRef = /*@__PURE__*/ __L.at(__c51, 24);
-export type __doubleMin250Max5000 = number;
 export type __doubleMinNegative1Max5 = number;
 export type __doubleMin32Max46 = number;
 export interface AbWatermarkingCustomProfile {
@@ -2026,9 +2025,18 @@ export interface BandwidthReductionFilterSettings {
   PostFilterSharpening?: BandwidthReductionPostFilterSharpening;
   Strength?: BandwidthReductionFilterStrength;
 }
+export interface AutoFilterSettings {}
+export interface NoneFilterSettings {}
+export type PerceptualFilterStrength = "STRENGTH_1" | "STRENGTH_2" | (string & {});
+export interface PerceptualFilterSettings {
+  Strength?: PerceptualFilterStrength;
+}
 export interface H264FilterSettings {
   TemporalFilterSettings?: TemporalFilterSettings;
   BandwidthReductionFilterSettings?: BandwidthReductionFilterSettings;
+  AutoFilterSettings?: AutoFilterSettings;
+  NoneFilterSettings?: NoneFilterSettings;
+  PerceptualFilterSettings?: PerceptualFilterSettings;
 }
 export type FixedAfd =
   | "AFD_0000"
@@ -2092,6 +2100,7 @@ export type H264Syntax = "DEFAULT" | "RP2027" | (string & {});
 export type H264TemporalAq = "DISABLED" | "ENABLED" | (string & {});
 export type H264TimecodeInsertionBehavior = "DISABLED" | "PIC_TIMING_SEI" | (string & {});
 export type __integerMin1Max51 = number;
+export type H264AllowExplicitWeightedPrediction = "DISABLED" | "ENABLED" | (string & {});
 export interface H264Settings {
   AdaptiveQuantization?: H264AdaptiveQuantization;
   AfdSignaling?: AfdSignaling;
@@ -2137,6 +2146,7 @@ export interface H264Settings {
   TimecodeBurninSettings?: TimecodeBurninSettings;
   MinQp?: number;
   MinBitrate?: number;
+  AllowExplicitWeightedPrediction?: H264AllowExplicitWeightedPrediction;
 }
 export type H265AdaptiveQuantization =
   | "AUTO"
@@ -2169,6 +2179,9 @@ export interface H265ColorSpaceSettings {
 export interface H265FilterSettings {
   TemporalFilterSettings?: TemporalFilterSettings;
   BandwidthReductionFilterSettings?: BandwidthReductionFilterSettings;
+  AutoFilterSettings?: AutoFilterSettings;
+  NoneFilterSettings?: NoneFilterSettings;
+  PerceptualFilterSettings?: PerceptualFilterSettings;
 }
 export type H265FlickerAq = "DISABLED" | "ENABLED" | (string & {});
 export type __integerMin1Max3003 = number;
@@ -2316,6 +2329,11 @@ export type Av1SpatialAq = "DISABLED" | "ENABLED" | (string & {});
 export type Av1TemporalAq = "DISABLED" | "ENABLED" | (string & {});
 export type Av1TimecodeInsertionBehavior = "DISABLED" | "METADATA_OBU" | (string & {});
 export type Av1BitDepth = "DEPTH_10" | "DEPTH_8" | (string & {});
+export interface Av1FilterSettings {
+  AutoFilterSettings?: AutoFilterSettings;
+  NoneFilterSettings?: NoneFilterSettings;
+  PerceptualFilterSettings?: PerceptualFilterSettings;
+}
 export interface Av1Settings {
   AfdSignaling?: AfdSignaling;
   BufSize?: number;
@@ -2341,6 +2359,7 @@ export interface Av1Settings {
   TemporalAq?: Av1TemporalAq;
   TimecodeInsertion?: Av1TimecodeInsertionBehavior;
   BitDepth?: Av1BitDepth;
+  FilterSettings?: Av1FilterSettings;
 }
 export interface VideoCodecSettings {
   FrameCaptureSettings?: FrameCaptureSettings;
@@ -2376,7 +2395,7 @@ export interface VideoDescription {
   Border?: number;
 }
 export type __listOfVideoDescription = VideoDescription[];
-const __listOfVideoDescription = /*@__PURE__*/ __L.at(__c53, 23);
+const __listOfVideoDescription = /*@__PURE__*/ __L.at(__c53, 25);
 export type ThumbnailState = "AUTO" | "DISABLED" | (string & {});
 export interface ThumbnailConfiguration {
   State?: ThumbnailState;
@@ -2388,7 +2407,7 @@ export interface ColorCorrection {
   Uri?: string;
 }
 export type __listOfColorCorrection = ColorCorrection[];
-const __listOfColorCorrection = /*@__PURE__*/ __L.at(__c53, 26);
+const __listOfColorCorrection = /*@__PURE__*/ __L.at(__c53, 28);
 export interface ColorCorrectionSettings {
   GlobalColorCorrections?: ColorCorrection[];
 }
@@ -2759,7 +2778,7 @@ export interface PipelineDetail {
   };
 }
 export type __listOfPipelineDetail = PipelineDetail[];
-const __listOfPipelineDetail = /*@__PURE__*/ __L.at(__c54, 0);
+const __listOfPipelineDetail = /*@__PURE__*/ __L.at(__c54, 2);
 export type ChannelState =
   | "CREATING"
   | "CREATE_FAILED"
@@ -2893,7 +2912,7 @@ export interface CreateChannelResponse {
                   OperatorId: __integerMin1Max511;
                   Profile: AbWatermarkingProfile;
                   CustomProfile: AbWatermarkingCustomProfile & {
-                    EmbeddingFrequency: __doubleMin250Max5000;
+                    EmbeddingFrequency: number;
                     SceneCut: __doubleMinNegative1Max5;
                     TargetPsnr: __doubleMin32Max46;
                   };
@@ -2915,7 +2934,7 @@ export interface CreateChannelResponse {
                 OperatorId: __integerMin1Max511;
                 Profile: AbWatermarkingProfile;
                 CustomProfile: AbWatermarkingCustomProfile & {
-                  EmbeddingFrequency: __doubleMin250Max5000;
+                  EmbeddingFrequency: number;
                   SceneCut: __doubleMinNegative1Max5;
                   TargetPsnr: __doubleMin32Max46;
                 };
@@ -2992,6 +3011,11 @@ export interface CreateChannelResponse {
             };
           };
           H264Settings: H264Settings & {
+            FilterSettings: H264FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
+            };
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
@@ -3000,6 +3024,11 @@ export interface CreateChannelResponse {
           H265Settings: H265Settings & {
             FramerateDenominator: __integerMin1Max3003;
             FramerateNumerator: __integerMin1;
+            FilterSettings: H265FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
+            };
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
@@ -3019,6 +3048,11 @@ export interface CreateChannelResponse {
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
+            };
+            FilterSettings: Av1FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
             };
           };
         };
@@ -3202,6 +3236,7 @@ export type CloudWatchAlarmTemplateTargetResourceType =
   | "MEDIACONNECT_FLOW"
   | "S3_BUCKET"
   | "MEDIATAILOR_PLAYBACK_CONFIGURATION"
+  | "ELEMENTAL_INFERENCE_FEED"
   | (string & {});
 export type CloudWatchAlarmTemplateTreatMissingData =
   | "notBreaching"
@@ -3452,6 +3487,8 @@ export type InputNetworkLocation = "AWS" | "ON_PREMISES" | (string & {});
 export interface MulticastSourceCreateRequest {
   SourceIp?: string;
   Url?: string;
+  SecondarySourceIp?: string;
+  SecondaryUrl?: string;
 }
 export type __listOfMulticastSourceCreateRequest = MulticastSourceCreateRequest[];
 const __listOfMulticastSourceCreateRequest = /*@__PURE__*/ __L.at(__c76, 12);
@@ -3580,6 +3617,8 @@ export interface SrtSettings {
 export interface MulticastSource {
   SourceIp?: string;
   Url?: string;
+  SecondarySourceIp?: string;
+  SecondaryUrl?: string;
 }
 export type __listOfMulticastSource = MulticastSource[];
 export interface MulticastSettings {
@@ -4126,7 +4165,7 @@ export interface DeleteChannelResponse {
                 OperatorId: __integerMin1Max511;
                 Profile: AbWatermarkingProfile;
                 CustomProfile: AbWatermarkingCustomProfile & {
-                  EmbeddingFrequency: __doubleMin250Max5000;
+                  EmbeddingFrequency: number;
                   SceneCut: __doubleMinNegative1Max5;
                   TargetPsnr: __doubleMin32Max46;
                 };
@@ -4148,7 +4187,7 @@ export interface DeleteChannelResponse {
               OperatorId: __integerMin1Max511;
               Profile: AbWatermarkingProfile;
               CustomProfile: AbWatermarkingCustomProfile & {
-                EmbeddingFrequency: __doubleMin250Max5000;
+                EmbeddingFrequency: number;
                 SceneCut: __doubleMinNegative1Max5;
                 TargetPsnr: __doubleMin32Max46;
               };
@@ -4225,6 +4264,11 @@ export interface DeleteChannelResponse {
           };
         };
         H264Settings: H264Settings & {
+          FilterSettings: H264FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -4233,6 +4277,11 @@ export interface DeleteChannelResponse {
         H265Settings: H265Settings & {
           FramerateDenominator: __integerMin1Max3003;
           FramerateNumerator: __integerMin1;
+          FilterSettings: H265FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -4252,6 +4301,11 @@ export interface DeleteChannelResponse {
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
+          };
+          FilterSettings: Av1FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
           };
         };
       };
@@ -4667,7 +4721,7 @@ export interface DescribeChannelResponse {
                 OperatorId: __integerMin1Max511;
                 Profile: AbWatermarkingProfile;
                 CustomProfile: AbWatermarkingCustomProfile & {
-                  EmbeddingFrequency: __doubleMin250Max5000;
+                  EmbeddingFrequency: number;
                   SceneCut: __doubleMinNegative1Max5;
                   TargetPsnr: __doubleMin32Max46;
                 };
@@ -4689,7 +4743,7 @@ export interface DescribeChannelResponse {
               OperatorId: __integerMin1Max511;
               Profile: AbWatermarkingProfile;
               CustomProfile: AbWatermarkingCustomProfile & {
-                EmbeddingFrequency: __doubleMin250Max5000;
+                EmbeddingFrequency: number;
                 SceneCut: __doubleMinNegative1Max5;
                 TargetPsnr: __doubleMin32Max46;
               };
@@ -4766,6 +4820,11 @@ export interface DescribeChannelResponse {
           };
         };
         H264Settings: H264Settings & {
+          FilterSettings: H264FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -4774,6 +4833,11 @@ export interface DescribeChannelResponse {
         H265Settings: H265Settings & {
           FramerateDenominator: __integerMin1Max3003;
           FramerateNumerator: __integerMin1;
+          FilterSettings: H265FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -4793,6 +4857,11 @@ export interface DescribeChannelResponse {
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
+          };
+          FilterSettings: Av1FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
           };
         };
       };
@@ -6146,7 +6215,7 @@ export interface RestartChannelPipelinesResponse {
                 OperatorId: __integerMin1Max511;
                 Profile: AbWatermarkingProfile;
                 CustomProfile: AbWatermarkingCustomProfile & {
-                  EmbeddingFrequency: __doubleMin250Max5000;
+                  EmbeddingFrequency: number;
                   SceneCut: __doubleMinNegative1Max5;
                   TargetPsnr: __doubleMin32Max46;
                 };
@@ -6168,7 +6237,7 @@ export interface RestartChannelPipelinesResponse {
               OperatorId: __integerMin1Max511;
               Profile: AbWatermarkingProfile;
               CustomProfile: AbWatermarkingCustomProfile & {
-                EmbeddingFrequency: __doubleMin250Max5000;
+                EmbeddingFrequency: number;
                 SceneCut: __doubleMinNegative1Max5;
                 TargetPsnr: __doubleMin32Max46;
               };
@@ -6245,6 +6314,11 @@ export interface RestartChannelPipelinesResponse {
           };
         };
         H264Settings: H264Settings & {
+          FilterSettings: H264FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -6253,6 +6327,11 @@ export interface RestartChannelPipelinesResponse {
         H265Settings: H265Settings & {
           FramerateDenominator: __integerMin1Max3003;
           FramerateNumerator: __integerMin1;
+          FilterSettings: H265FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -6272,6 +6351,11 @@ export interface RestartChannelPipelinesResponse {
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
+          };
+          FilterSettings: Av1FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
           };
         };
       };
@@ -6490,7 +6574,7 @@ export interface StartChannelResponse {
                 OperatorId: __integerMin1Max511;
                 Profile: AbWatermarkingProfile;
                 CustomProfile: AbWatermarkingCustomProfile & {
-                  EmbeddingFrequency: __doubleMin250Max5000;
+                  EmbeddingFrequency: number;
                   SceneCut: __doubleMinNegative1Max5;
                   TargetPsnr: __doubleMin32Max46;
                 };
@@ -6512,7 +6596,7 @@ export interface StartChannelResponse {
               OperatorId: __integerMin1Max511;
               Profile: AbWatermarkingProfile;
               CustomProfile: AbWatermarkingCustomProfile & {
-                EmbeddingFrequency: __doubleMin250Max5000;
+                EmbeddingFrequency: number;
                 SceneCut: __doubleMinNegative1Max5;
                 TargetPsnr: __doubleMin32Max46;
               };
@@ -6589,6 +6673,11 @@ export interface StartChannelResponse {
           };
         };
         H264Settings: H264Settings & {
+          FilterSettings: H264FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -6597,6 +6686,11 @@ export interface StartChannelResponse {
         H265Settings: H265Settings & {
           FramerateDenominator: __integerMin1Max3003;
           FramerateNumerator: __integerMin1;
+          FilterSettings: H265FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -6616,6 +6710,11 @@ export interface StartChannelResponse {
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
+          };
+          FilterSettings: Av1FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
           };
         };
       };
@@ -6986,7 +7085,7 @@ export interface StopChannelResponse {
                 OperatorId: __integerMin1Max511;
                 Profile: AbWatermarkingProfile;
                 CustomProfile: AbWatermarkingCustomProfile & {
-                  EmbeddingFrequency: __doubleMin250Max5000;
+                  EmbeddingFrequency: number;
                   SceneCut: __doubleMinNegative1Max5;
                   TargetPsnr: __doubleMin32Max46;
                 };
@@ -7008,7 +7107,7 @@ export interface StopChannelResponse {
               OperatorId: __integerMin1Max511;
               Profile: AbWatermarkingProfile;
               CustomProfile: AbWatermarkingCustomProfile & {
-                EmbeddingFrequency: __doubleMin250Max5000;
+                EmbeddingFrequency: number;
                 SceneCut: __doubleMinNegative1Max5;
                 TargetPsnr: __doubleMin32Max46;
               };
@@ -7085,6 +7184,11 @@ export interface StopChannelResponse {
           };
         };
         H264Settings: H264Settings & {
+          FilterSettings: H264FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -7093,6 +7197,11 @@ export interface StopChannelResponse {
         H265Settings: H265Settings & {
           FramerateDenominator: __integerMin1Max3003;
           FramerateNumerator: __integerMin1;
+          FilterSettings: H265FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
+          };
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
@@ -7112,6 +7221,11 @@ export interface StopChannelResponse {
           TimecodeBurninSettings: TimecodeBurninSettings & {
             FontSize: TimecodeBurninFontSize;
             Position: TimecodeBurninPosition;
+          };
+          FilterSettings: Av1FilterSettings & {
+            PerceptualFilterSettings: PerceptualFilterSettings & {
+              Strength: PerceptualFilterStrength;
+            };
           };
         };
       };
@@ -7384,7 +7498,7 @@ export interface UpdateChannelResponse {
                   OperatorId: __integerMin1Max511;
                   Profile: AbWatermarkingProfile;
                   CustomProfile: AbWatermarkingCustomProfile & {
-                    EmbeddingFrequency: __doubleMin250Max5000;
+                    EmbeddingFrequency: number;
                     SceneCut: __doubleMinNegative1Max5;
                     TargetPsnr: __doubleMin32Max46;
                   };
@@ -7406,7 +7520,7 @@ export interface UpdateChannelResponse {
                 OperatorId: __integerMin1Max511;
                 Profile: AbWatermarkingProfile;
                 CustomProfile: AbWatermarkingCustomProfile & {
-                  EmbeddingFrequency: __doubleMin250Max5000;
+                  EmbeddingFrequency: number;
                   SceneCut: __doubleMinNegative1Max5;
                   TargetPsnr: __doubleMin32Max46;
                 };
@@ -7483,6 +7597,11 @@ export interface UpdateChannelResponse {
             };
           };
           H264Settings: H264Settings & {
+            FilterSettings: H264FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
+            };
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
@@ -7491,6 +7610,11 @@ export interface UpdateChannelResponse {
           H265Settings: H265Settings & {
             FramerateDenominator: __integerMin1Max3003;
             FramerateNumerator: __integerMin1;
+            FilterSettings: H265FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
+            };
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
@@ -7510,6 +7634,11 @@ export interface UpdateChannelResponse {
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
+            };
+            FilterSettings: Av1FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
             };
           };
         };
@@ -7712,7 +7841,7 @@ export interface UpdateChannelClassResponse {
                   OperatorId: __integerMin1Max511;
                   Profile: AbWatermarkingProfile;
                   CustomProfile: AbWatermarkingCustomProfile & {
-                    EmbeddingFrequency: __doubleMin250Max5000;
+                    EmbeddingFrequency: number;
                     SceneCut: __doubleMinNegative1Max5;
                     TargetPsnr: __doubleMin32Max46;
                   };
@@ -7734,7 +7863,7 @@ export interface UpdateChannelClassResponse {
                 OperatorId: __integerMin1Max511;
                 Profile: AbWatermarkingProfile;
                 CustomProfile: AbWatermarkingCustomProfile & {
-                  EmbeddingFrequency: __doubleMin250Max5000;
+                  EmbeddingFrequency: number;
                   SceneCut: __doubleMinNegative1Max5;
                   TargetPsnr: __doubleMin32Max46;
                 };
@@ -7811,6 +7940,11 @@ export interface UpdateChannelClassResponse {
             };
           };
           H264Settings: H264Settings & {
+            FilterSettings: H264FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
+            };
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
@@ -7819,6 +7953,11 @@ export interface UpdateChannelClassResponse {
           H265Settings: H265Settings & {
             FramerateDenominator: __integerMin1Max3003;
             FramerateNumerator: __integerMin1;
+            FilterSettings: H265FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
+            };
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
@@ -7838,6 +7977,11 @@ export interface UpdateChannelClassResponse {
             TimecodeBurninSettings: TimecodeBurninSettings & {
               FontSize: TimecodeBurninFontSize;
               Position: TimecodeBurninPosition;
+            };
+            FilterSettings: Av1FilterSettings & {
+              PerceptualFilterSettings: PerceptualFilterSettings & {
+                Strength: PerceptualFilterStrength;
+              };
             };
           };
         };
@@ -8094,6 +8238,8 @@ const __listOfInputDeviceRequest =
 export interface MulticastSourceUpdateRequest {
   SourceIp?: string;
   Url?: string;
+  SecondarySourceIp?: string;
+  SecondaryUrl?: string;
 }
 export type __listOfMulticastSourceUpdateRequest = MulticastSourceUpdateRequest[];
 export interface MulticastSettingsUpdateRequest {
@@ -8355,6 +8501,14 @@ export const acceptInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInputDeviceTransfer",
+  iam: {
+    actions: ["medialive:AcceptInputDeviceTransfer"],
+    resources: {
+      "medialive:AcceptInputDeviceTransfer": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptInputDeviceTransfer",
 }));
@@ -8393,6 +8547,7 @@ export const batchDelete: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDelete",
+  iam: { actions: ["medialive:BatchDelete"] },
   telemetry: TELEMETRY,
   span: "BatchDelete",
 }));
@@ -8431,6 +8586,7 @@ export const batchStart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStart",
+  iam: { actions: ["medialive:BatchStart"] },
   telemetry: TELEMETRY,
   span: "BatchStart",
 }));
@@ -8469,6 +8625,7 @@ export const batchStop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStop",
+  iam: { actions: ["medialive:BatchStop"] },
   telemetry: TELEMETRY,
   span: "BatchStop",
 }));
@@ -8507,6 +8664,14 @@ export const batchUpdateSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateSchedule",
+  iam: {
+    actions: ["medialive:BatchUpdateSchedule"],
+    resources: {
+      "medialive:BatchUpdateSchedule": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateSchedule",
 }));
@@ -8547,6 +8712,14 @@ export const cancelInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelInputDeviceTransfer",
+  iam: {
+    actions: ["medialive:CancelInputDeviceTransfer"],
+    resources: {
+      "medialive:CancelInputDeviceTransfer": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelInputDeviceTransfer",
 }));
@@ -8585,6 +8758,14 @@ export const claimDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClaimDevice",
+  iam: {
+    actions: ["medialive:ClaimDevice"],
+    resources: {
+      "medialive:ClaimDevice": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ClaimDevice",
 }));
@@ -8625,6 +8806,17 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
+  iam: {
+    actions: ["medialive:CreateChannel", "medialive:CreateTags", "iam:PassRole"],
+    resources: {
+      "medialive:CreateChannel": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "RoleArn", "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -8661,6 +8853,16 @@ export const createChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelPlacementGroup",
+  iam: {
+    actions: ["medialive:CreateChannelPlacementGroup", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateChannelPlacementGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channelPlacementGroup:${ClusterId}/${ChannelPlacementGroupId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateChannelPlacementGroup",
 }));
@@ -8695,6 +8897,16 @@ export const createCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudWatchAlarmTemplate",
+  iam: {
+    actions: ["medialive:CreateCloudWatchAlarmTemplate", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateCloudWatchAlarmTemplate": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template:${CloudWatchAlarmTemplateId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCloudWatchAlarmTemplate",
 }));
@@ -8729,6 +8941,15 @@ export const createCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudWatchAlarmTemplateGroup",
+  iam: {
+    actions: ["medialive:CreateCloudWatchAlarmTemplateGroup", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateCloudWatchAlarmTemplateGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCloudWatchAlarmTemplateGroup",
 }));
@@ -8765,6 +8986,16 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  iam: {
+    actions: ["medialive:CreateCluster", "medialive:CreateTags", "iam:PassRole"],
+    resources: {
+      "medialive:CreateCluster": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "InstanceRoleArn", "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -8799,6 +9030,16 @@ export const createEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBridgeRuleTemplate",
+  iam: {
+    actions: ["medialive:CreateEventBridgeRuleTemplate", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateEventBridgeRuleTemplate": [
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template:${EventBridgeRuleTemplateId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEventBridgeRuleTemplate",
 }));
@@ -8833,6 +9074,15 @@ export const createEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBridgeRuleTemplateGroup",
+  iam: {
+    actions: ["medialive:CreateEventBridgeRuleTemplateGroup", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateEventBridgeRuleTemplateGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEventBridgeRuleTemplateGroup",
 }));
@@ -8867,6 +9117,17 @@ export const createInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInput",
+  iam: {
+    actions: ["medialive:CreateInput", "medialive:CreateTags", "iam:PassRole"],
+    resources: {
+      "medialive:CreateInput": [
+        "arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "RoleArn", "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInput",
 }));
@@ -8901,6 +9162,15 @@ export const createInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInputSecurityGroup",
+  iam: {
+    actions: ["medialive:CreateInputSecurityGroup", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateInputSecurityGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInputSecurityGroup",
 }));
@@ -8939,6 +9209,15 @@ export const createMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiplex",
+  iam: {
+    actions: ["medialive:CreateMultiplex", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateMultiplex": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMultiplex",
 }));
@@ -8977,6 +9256,14 @@ export const createMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiplexProgram",
+  iam: {
+    actions: ["medialive:CreateMultiplexProgram"],
+    resources: {
+      "medialive:CreateMultiplexProgram": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMultiplexProgram",
 }));
@@ -9013,6 +9300,15 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
+  iam: {
+    actions: ["medialive:CreateNetwork", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateNetwork": [
+        "arn:${Partition}:medialive:${Region}:${Account}:network:${NetworkId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNetwork",
 }));
@@ -9049,6 +9345,16 @@ export const createNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNode",
+  iam: {
+    actions: ["medialive:CreateNode", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateNode": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateNode",
 }));
@@ -9085,6 +9391,14 @@ export const createNodeRegistrationScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNodeRegistrationScript",
+  iam: {
+    actions: ["medialive:CreateNodeRegistrationScript"],
+    resources: {
+      "medialive:CreateNodeRegistrationScript": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateNodeRegistrationScript",
 }));
@@ -9119,6 +9433,15 @@ export const createPartnerInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerInput",
+  iam: {
+    actions: ["medialive:CreatePartnerInput", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreatePartnerInput": [
+        "arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePartnerInput",
 }));
@@ -9155,6 +9478,15 @@ export const createSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSdiSource",
+  iam: {
+    actions: ["medialive:CreateSdiSource", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateSdiSource": [
+        "arn:${Partition}:medialive:${Region}:${Account}:sdiSource:${SdiSourceId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSdiSource",
 }));
@@ -9189,6 +9521,15 @@ export const createSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalMap",
+  iam: {
+    actions: ["medialive:CreateSignalMap", "medialive:CreateTags"],
+    resources: {
+      "medialive:CreateSignalMap": [
+        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSignalMap",
 }));
@@ -9219,6 +9560,7 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
+  iam: { actions: ["medialive:CreateTags"], conditional: { "medialive:CreateTags": "Tags" } },
   telemetry: TELEMETRY,
   span: "CreateTags",
 }));
@@ -9257,6 +9599,14 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
+  iam: {
+    actions: ["medialive:DeleteChannel"],
+    resources: {
+      "medialive:DeleteChannel": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -9295,6 +9645,14 @@ export const deleteChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPlacementGroup",
+  iam: {
+    actions: ["medialive:DeleteChannelPlacementGroup"],
+    resources: {
+      "medialive:DeleteChannelPlacementGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channelPlacementGroup:${ClusterId}/${ChannelPlacementGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteChannelPlacementGroup",
 }));
@@ -9329,6 +9687,14 @@ export const deleteCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudWatchAlarmTemplate",
+  iam: {
+    actions: ["medialive:DeleteCloudWatchAlarmTemplate"],
+    resources: {
+      "medialive:DeleteCloudWatchAlarmTemplate": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template:${CloudWatchAlarmTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCloudWatchAlarmTemplate",
 }));
@@ -9363,6 +9729,14 @@ export const deleteCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudWatchAlarmTemplateGroup",
+  iam: {
+    actions: ["medialive:DeleteCloudWatchAlarmTemplateGroup"],
+    resources: {
+      "medialive:DeleteCloudWatchAlarmTemplateGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCloudWatchAlarmTemplateGroup",
 }));
@@ -9401,6 +9775,14 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  iam: {
+    actions: ["medialive:DeleteCluster"],
+    resources: {
+      "medialive:DeleteCluster": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -9435,6 +9817,14 @@ export const deleteEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBridgeRuleTemplate",
+  iam: {
+    actions: ["medialive:DeleteEventBridgeRuleTemplate"],
+    resources: {
+      "medialive:DeleteEventBridgeRuleTemplate": [
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template:${EventBridgeRuleTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEventBridgeRuleTemplate",
 }));
@@ -9469,6 +9859,14 @@ export const deleteEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBridgeRuleTemplateGroup",
+  iam: {
+    actions: ["medialive:DeleteEventBridgeRuleTemplateGroup"],
+    resources: {
+      "medialive:DeleteEventBridgeRuleTemplateGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEventBridgeRuleTemplateGroup",
 }));
@@ -9507,6 +9905,12 @@ export const deleteInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInput",
+  iam: {
+    actions: ["medialive:DeleteInput"],
+    resources: {
+      "medialive:DeleteInput": ["arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInput",
 }));
@@ -9543,6 +9947,14 @@ export const deleteInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInputSecurityGroup",
+  iam: {
+    actions: ["medialive:DeleteInputSecurityGroup"],
+    resources: {
+      "medialive:DeleteInputSecurityGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInputSecurityGroup",
 }));
@@ -9581,6 +9993,14 @@ export const deleteMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiplex",
+  iam: {
+    actions: ["medialive:DeleteMultiplex"],
+    resources: {
+      "medialive:DeleteMultiplex": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMultiplex",
 }));
@@ -9619,6 +10039,14 @@ export const deleteMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiplexProgram",
+  iam: {
+    actions: ["medialive:DeleteMultiplexProgram"],
+    resources: {
+      "medialive:DeleteMultiplexProgram": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMultiplexProgram",
 }));
@@ -9657,6 +10085,14 @@ export const deleteNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetwork",
+  iam: {
+    actions: ["medialive:DeleteNetwork"],
+    resources: {
+      "medialive:DeleteNetwork": [
+        "arn:${Partition}:medialive:${Region}:${Account}:network:${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNetwork",
 }));
@@ -9695,6 +10131,14 @@ export const deleteNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNode",
+  iam: {
+    actions: ["medialive:DeleteNode"],
+    resources: {
+      "medialive:DeleteNode": [
+        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNode",
 }));
@@ -9733,6 +10177,14 @@ export const deleteReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReservation",
+  iam: {
+    actions: ["medialive:DeleteReservation"],
+    resources: {
+      "medialive:DeleteReservation": [
+        "arn:${Partition}:medialive:${Region}:${Account}:reservation:${ReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReservation",
 }));
@@ -9769,6 +10221,14 @@ export const deleteSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
+  iam: {
+    actions: ["medialive:DeleteSchedule"],
+    resources: {
+      "medialive:DeleteSchedule": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSchedule",
 }));
@@ -9807,6 +10267,14 @@ export const deleteSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSdiSource",
+  iam: {
+    actions: ["medialive:DeleteSdiSource"],
+    resources: {
+      "medialive:DeleteSdiSource": [
+        "arn:${Partition}:medialive:${Region}:${Account}:sdiSource:${SdiSourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSdiSource",
 }));
@@ -9841,6 +10309,14 @@ export const deleteSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalMap",
+  iam: {
+    actions: ["medialive:DeleteSignalMap"],
+    resources: {
+      "medialive:DeleteSignalMap": [
+        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSignalMap",
 }));
@@ -9871,6 +10347,7 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
+  iam: { actions: ["medialive:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -9905,6 +10382,7 @@ export const describeAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountConfiguration",
+  iam: { actions: ["medialive:DescribeAccountConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountConfiguration",
 }));
@@ -9941,6 +10419,14 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
+  iam: {
+    actions: ["medialive:DescribeChannel"],
+    resources: {
+      "medialive:DescribeChannel": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeChannel",
 }));
@@ -9977,6 +10463,14 @@ export const describeChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelPlacementGroup",
+  iam: {
+    actions: ["medialive:DescribeChannelPlacementGroup"],
+    resources: {
+      "medialive:DescribeChannelPlacementGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channelPlacementGroup:${ClusterId}/${ChannelPlacementGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeChannelPlacementGroup",
 }));
@@ -10013,6 +10507,14 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
+  iam: {
+    actions: ["medialive:DescribeCluster"],
+    resources: {
+      "medialive:DescribeCluster": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCluster",
 }));
@@ -10049,6 +10551,14 @@ export const describeInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInput",
+  iam: {
+    actions: ["medialive:DescribeInput"],
+    resources: {
+      "medialive:DescribeInput": [
+        "arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInput",
 }));
@@ -10085,6 +10595,14 @@ export const describeInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputDevice",
+  iam: {
+    actions: ["medialive:DescribeInputDevice"],
+    resources: {
+      "medialive:DescribeInputDevice": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInputDevice",
 }));
@@ -10121,6 +10639,14 @@ export const describeInputDeviceThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputDeviceThumbnail",
+  iam: {
+    actions: ["medialive:DescribeInputDeviceThumbnail"],
+    resources: {
+      "medialive:DescribeInputDeviceThumbnail": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInputDeviceThumbnail",
 }));
@@ -10157,6 +10683,14 @@ export const describeInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputSecurityGroup",
+  iam: {
+    actions: ["medialive:DescribeInputSecurityGroup"],
+    resources: {
+      "medialive:DescribeInputSecurityGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeInputSecurityGroup",
 }));
@@ -10193,6 +10727,14 @@ export const describeMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiplex",
+  iam: {
+    actions: ["medialive:DescribeMultiplex"],
+    resources: {
+      "medialive:DescribeMultiplex": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMultiplex",
 }));
@@ -10229,6 +10771,14 @@ export const describeMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiplexProgram",
+  iam: {
+    actions: ["medialive:DescribeMultiplexProgram"],
+    resources: {
+      "medialive:DescribeMultiplexProgram": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMultiplexProgram",
 }));
@@ -10265,6 +10815,14 @@ export const describeNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNetwork",
+  iam: {
+    actions: ["medialive:DescribeNetwork"],
+    resources: {
+      "medialive:DescribeNetwork": [
+        "arn:${Partition}:medialive:${Region}:${Account}:network:${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNetwork",
 }));
@@ -10301,6 +10859,14 @@ export const describeNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNode",
+  iam: {
+    actions: ["medialive:DescribeNode"],
+    resources: {
+      "medialive:DescribeNode": [
+        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNode",
 }));
@@ -10337,6 +10903,14 @@ export const describeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOffering",
+  iam: {
+    actions: ["medialive:DescribeOffering"],
+    resources: {
+      "medialive:DescribeOffering": [
+        "arn:${Partition}:medialive:${Region}:${Account}:offering:${OfferingId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeOffering",
 }));
@@ -10373,6 +10947,14 @@ export const describeReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservation",
+  iam: {
+    actions: ["medialive:DescribeReservation"],
+    resources: {
+      "medialive:DescribeReservation": [
+        "arn:${Partition}:medialive:${Region}:${Account}:reservation:${ReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeReservation",
 }));
@@ -10416,6 +10998,14 @@ export const describeSchedule: API.PaginatedOperationMethod<
     items: "ScheduleActions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["medialive:DescribeSchedule"],
+    resources: {
+      "medialive:DescribeSchedule": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSchedule",
 })) as any;
@@ -10452,6 +11042,14 @@ export const describeSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSdiSource",
+  iam: {
+    actions: ["medialive:DescribeSdiSource"],
+    resources: {
+      "medialive:DescribeSdiSource": [
+        "arn:${Partition}:medialive:${Region}:${Account}:sdiSource:${SdiSourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSdiSource",
 }));
@@ -10490,6 +11088,14 @@ export const describeThumbnails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThumbnails",
+  iam: {
+    actions: ["medialive:DescribeThumbnails"],
+    resources: {
+      "medialive:DescribeThumbnails": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeThumbnails",
 }));
@@ -10522,6 +11128,14 @@ export const getCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudWatchAlarmTemplate",
+  iam: {
+    actions: ["medialive:GetCloudWatchAlarmTemplate"],
+    resources: {
+      "medialive:GetCloudWatchAlarmTemplate": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template:${CloudWatchAlarmTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCloudWatchAlarmTemplate",
 }));
@@ -10554,6 +11168,14 @@ export const getCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudWatchAlarmTemplateGroup",
+  iam: {
+    actions: ["medialive:GetCloudWatchAlarmTemplateGroup"],
+    resources: {
+      "medialive:GetCloudWatchAlarmTemplateGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCloudWatchAlarmTemplateGroup",
 }));
@@ -10586,6 +11208,14 @@ export const getEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventBridgeRuleTemplate",
+  iam: {
+    actions: ["medialive:GetEventBridgeRuleTemplate"],
+    resources: {
+      "medialive:GetEventBridgeRuleTemplate": [
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template:${EventBridgeRuleTemplateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEventBridgeRuleTemplate",
 }));
@@ -10618,6 +11248,14 @@ export const getEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventBridgeRuleTemplateGroup",
+  iam: {
+    actions: ["medialive:GetEventBridgeRuleTemplateGroup"],
+    resources: {
+      "medialive:GetEventBridgeRuleTemplateGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEventBridgeRuleTemplateGroup",
 }));
@@ -10650,6 +11288,14 @@ export const getSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalMap",
+  iam: {
+    actions: ["medialive:GetSignalMap"],
+    resources: {
+      "medialive:GetSignalMap": [
+        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSignalMap",
 }));
@@ -10693,6 +11339,7 @@ export const listAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListAlerts"] },
   telemetry: TELEMETRY,
   span: "ListAlerts",
 })) as any;
@@ -10734,6 +11381,7 @@ export const listChannelPlacementGroups: API.PaginatedOperationMethod<
     items: "ChannelPlacementGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListChannelPlacementGroups"] },
   telemetry: TELEMETRY,
   span: "ListChannelPlacementGroups",
 })) as any;
@@ -10775,6 +11423,7 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Channels",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListChannels"] },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -10814,6 +11463,7 @@ export const listCloudWatchAlarmTemplateGroups: API.PaginatedOperationMethod<
     items: "CloudWatchAlarmTemplateGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListCloudWatchAlarmTemplateGroups"] },
   telemetry: TELEMETRY,
   span: "ListCloudWatchAlarmTemplateGroups",
 })) as any;
@@ -10853,6 +11503,7 @@ export const listCloudWatchAlarmTemplates: API.PaginatedOperationMethod<
     items: "CloudWatchAlarmTemplates",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListCloudWatchAlarmTemplates"] },
   telemetry: TELEMETRY,
   span: "ListCloudWatchAlarmTemplates",
 })) as any;
@@ -10896,6 +11547,7 @@ export const listClusterAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListClusterAlerts"] },
   telemetry: TELEMETRY,
   span: "ListClusterAlerts",
 })) as any;
@@ -10937,6 +11589,7 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -10976,6 +11629,7 @@ export const listEventBridgeRuleTemplateGroups: API.PaginatedOperationMethod<
     items: "EventBridgeRuleTemplateGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListEventBridgeRuleTemplateGroups"] },
   telemetry: TELEMETRY,
   span: "ListEventBridgeRuleTemplateGroups",
 })) as any;
@@ -11015,6 +11669,7 @@ export const listEventBridgeRuleTemplates: API.PaginatedOperationMethod<
     items: "EventBridgeRuleTemplates",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListEventBridgeRuleTemplates"] },
   telemetry: TELEMETRY,
   span: "ListEventBridgeRuleTemplates",
 })) as any;
@@ -11056,6 +11711,7 @@ export const listInputDevices: API.PaginatedOperationMethod<
     items: "InputDevices",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListInputDevices"] },
   telemetry: TELEMETRY,
   span: "ListInputDevices",
 })) as any;
@@ -11099,6 +11755,7 @@ export const listInputDeviceTransfers: API.PaginatedOperationMethod<
     items: "InputDeviceTransfers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListInputDeviceTransfers"] },
   telemetry: TELEMETRY,
   span: "ListInputDeviceTransfers",
 })) as any;
@@ -11140,6 +11797,7 @@ export const listInputs: API.PaginatedOperationMethod<
     items: "Inputs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListInputs"] },
   telemetry: TELEMETRY,
   span: "ListInputs",
 })) as any;
@@ -11181,6 +11839,7 @@ export const listInputSecurityGroups: API.PaginatedOperationMethod<
     items: "InputSecurityGroups",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListInputSecurityGroups"] },
   telemetry: TELEMETRY,
   span: "ListInputSecurityGroups",
 })) as any;
@@ -11224,6 +11883,7 @@ export const listMultiplexAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListMultiplexAlerts"] },
   telemetry: TELEMETRY,
   span: "ListMultiplexAlerts",
 })) as any;
@@ -11265,6 +11925,7 @@ export const listMultiplexes: API.PaginatedOperationMethod<
     items: "Multiplexes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListMultiplexes"] },
   telemetry: TELEMETRY,
   span: "ListMultiplexes",
 })) as any;
@@ -11308,6 +11969,7 @@ export const listMultiplexPrograms: API.PaginatedOperationMethod<
     items: "MultiplexPrograms",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListMultiplexPrograms"] },
   telemetry: TELEMETRY,
   span: "ListMultiplexPrograms",
 })) as any;
@@ -11349,6 +12011,7 @@ export const listNetworks: API.PaginatedOperationMethod<
     items: "Networks",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListNetworks"] },
   telemetry: TELEMETRY,
   span: "ListNetworks",
 })) as any;
@@ -11390,6 +12053,7 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "Nodes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListNodes"] },
   telemetry: TELEMETRY,
   span: "ListNodes",
 })) as any;
@@ -11431,6 +12095,7 @@ export const listOfferings: API.PaginatedOperationMethod<
     items: "Offerings",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListOfferings"] },
   telemetry: TELEMETRY,
   span: "ListOfferings",
 })) as any;
@@ -11472,6 +12137,7 @@ export const listReservations: API.PaginatedOperationMethod<
     items: "Reservations",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListReservations"] },
   telemetry: TELEMETRY,
   span: "ListReservations",
 })) as any;
@@ -11513,6 +12179,7 @@ export const listSdiSources: API.PaginatedOperationMethod<
     items: "SdiSources",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListSdiSources"] },
   telemetry: TELEMETRY,
   span: "ListSdiSources",
 })) as any;
@@ -11552,6 +12219,7 @@ export const listSignalMaps: API.PaginatedOperationMethod<
     items: "SignalMaps",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["medialive:ListSignalMaps"] },
   telemetry: TELEMETRY,
   span: "ListSignalMaps",
 })) as any;
@@ -11582,6 +12250,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["medialive:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -11620,6 +12289,7 @@ export const listVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVersions",
+  iam: { actions: ["medialive:ListVersions"] },
   telemetry: TELEMETRY,
   span: "ListVersions",
 }));
@@ -11658,6 +12328,16 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
+  iam: {
+    actions: ["medialive:CreateTags", "medialive:PurchaseOffering"],
+    resources: {
+      "medialive:PurchaseOffering": [
+        "arn:${Partition}:medialive:${Region}:${Account}:offering:${OfferingId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:reservation:${ReservationId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PurchaseOffering",
 }));
@@ -11696,6 +12376,14 @@ export const rebootInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootInputDevice",
+  iam: {
+    actions: ["medialive:RebootInputDevice"],
+    resources: {
+      "medialive:RebootInputDevice": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RebootInputDevice",
 }));
@@ -11736,6 +12424,14 @@ export const rejectInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInputDeviceTransfer",
+  iam: {
+    actions: ["medialive:RejectInputDeviceTransfer"],
+    resources: {
+      "medialive:RejectInputDeviceTransfer": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectInputDeviceTransfer",
 }));
@@ -11774,6 +12470,14 @@ export const restartChannelPipelines: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartChannelPipelines",
+  iam: {
+    actions: ["medialive:RestartChannelPipelines"],
+    resources: {
+      "medialive:RestartChannelPipelines": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestartChannelPipelines",
 }));
@@ -11812,6 +12516,14 @@ export const startChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChannel",
+  iam: {
+    actions: ["medialive:StartChannel"],
+    resources: {
+      "medialive:StartChannel": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartChannel",
 }));
@@ -11846,6 +12558,14 @@ export const startDeleteMonitorDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeleteMonitorDeployment",
+  iam: {
+    actions: ["medialive:StartDeleteMonitorDeployment"],
+    resources: {
+      "medialive:StartDeleteMonitorDeployment": [
+        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDeleteMonitorDeployment",
 }));
@@ -11884,6 +12604,14 @@ export const startInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInputDevice",
+  iam: {
+    actions: ["medialive:StartInputDevice"],
+    resources: {
+      "medialive:StartInputDevice": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartInputDevice",
 }));
@@ -11922,6 +12650,14 @@ export const startInputDeviceMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInputDeviceMaintenanceWindow",
+  iam: {
+    actions: ["medialive:StartInputDeviceMaintenanceWindow"],
+    resources: {
+      "medialive:StartInputDeviceMaintenanceWindow": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartInputDeviceMaintenanceWindow",
 }));
@@ -11956,6 +12692,14 @@ export const startMonitorDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitorDeployment",
+  iam: {
+    actions: ["medialive:StartMonitorDeployment"],
+    resources: {
+      "medialive:StartMonitorDeployment": [
+        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMonitorDeployment",
 }));
@@ -11994,6 +12738,14 @@ export const startMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMultiplex",
+  iam: {
+    actions: ["medialive:StartMultiplex"],
+    resources: {
+      "medialive:StartMultiplex": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMultiplex",
 }));
@@ -12028,6 +12780,14 @@ export const startUpdateSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUpdateSignalMap",
+  iam: {
+    actions: ["medialive:StartUpdateSignalMap"],
+    resources: {
+      "medialive:StartUpdateSignalMap": [
+        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartUpdateSignalMap",
 }));
@@ -12066,6 +12826,14 @@ export const stopChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopChannel",
+  iam: {
+    actions: ["medialive:StopChannel"],
+    resources: {
+      "medialive:StopChannel": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopChannel",
 }));
@@ -12104,6 +12872,14 @@ export const stopInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInputDevice",
+  iam: {
+    actions: ["medialive:StopInputDevice"],
+    resources: {
+      "medialive:StopInputDevice": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopInputDevice",
 }));
@@ -12142,6 +12918,14 @@ export const stopMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMultiplex",
+  iam: {
+    actions: ["medialive:StopMultiplex"],
+    resources: {
+      "medialive:StopMultiplex": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopMultiplex",
 }));
@@ -12182,6 +12966,14 @@ export const transferInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferInputDevice",
+  iam: {
+    actions: ["medialive:TransferInputDevice"],
+    resources: {
+      "medialive:TransferInputDevice": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TransferInputDevice",
 }));
@@ -12218,6 +13010,7 @@ export const updateAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountConfiguration",
+  iam: { actions: ["medialive:UpdateAccountConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountConfiguration",
 }));
@@ -12254,6 +13047,16 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
+  iam: {
+    actions: ["medialive:CreateTags", "iam:PassRole", "medialive:UpdateChannel"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "medialive:UpdateChannel": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -12294,6 +13097,14 @@ export const updateChannelClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelClass",
+  iam: {
+    actions: ["medialive:UpdateChannelClass"],
+    resources: {
+      "medialive:UpdateChannelClass": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChannelClass",
 }));
@@ -12332,6 +13143,14 @@ export const updateChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelPlacementGroup",
+  iam: {
+    actions: ["medialive:UpdateChannelPlacementGroup"],
+    resources: {
+      "medialive:UpdateChannelPlacementGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:channelPlacementGroup:${ClusterId}/${ChannelPlacementGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateChannelPlacementGroup",
 }));
@@ -12366,6 +13185,15 @@ export const updateCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudWatchAlarmTemplate",
+  iam: {
+    actions: ["medialive:UpdateCloudWatchAlarmTemplate"],
+    resources: {
+      "medialive:UpdateCloudWatchAlarmTemplate": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template:${CloudWatchAlarmTemplateId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCloudWatchAlarmTemplate",
 }));
@@ -12400,6 +13228,14 @@ export const updateCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudWatchAlarmTemplateGroup",
+  iam: {
+    actions: ["medialive:UpdateCloudWatchAlarmTemplateGroup"],
+    resources: {
+      "medialive:UpdateCloudWatchAlarmTemplateGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCloudWatchAlarmTemplateGroup",
 }));
@@ -12436,6 +13272,14 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  iam: {
+    actions: ["medialive:UpdateCluster"],
+    resources: {
+      "medialive:UpdateCluster": [
+        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -12470,6 +13314,15 @@ export const updateEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventBridgeRuleTemplate",
+  iam: {
+    actions: ["medialive:UpdateEventBridgeRuleTemplate"],
+    resources: {
+      "medialive:UpdateEventBridgeRuleTemplate": [
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template:${EventBridgeRuleTemplateId}",
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEventBridgeRuleTemplate",
 }));
@@ -12504,6 +13357,14 @@ export const updateEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventBridgeRuleTemplateGroup",
+  iam: {
+    actions: ["medialive:UpdateEventBridgeRuleTemplateGroup"],
+    resources: {
+      "medialive:UpdateEventBridgeRuleTemplateGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEventBridgeRuleTemplateGroup",
 }));
@@ -12540,6 +13401,14 @@ export const updateInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInput",
+  iam: {
+    actions: ["iam:PassRole", "medialive:UpdateInput"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "medialive:UpdateInput": ["arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}"],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInput",
 }));
@@ -12578,6 +13447,16 @@ export const updateInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInputDevice",
+  iam: {
+    actions: ["iam:PassRole", "medialive:UpdateInputDevice"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "medialive:UpdateInputDevice": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInputDevice",
 }));
@@ -12614,6 +13493,15 @@ export const updateInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInputSecurityGroup",
+  iam: {
+    actions: ["medialive:CreateTags", "medialive:UpdateInputSecurityGroup"],
+    resources: {
+      "medialive:UpdateInputSecurityGroup": [
+        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
+      ],
+    },
+    conditional: { "medialive:CreateTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInputSecurityGroup",
 }));
@@ -12652,6 +13540,14 @@ export const updateMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiplex",
+  iam: {
+    actions: ["medialive:UpdateMultiplex"],
+    resources: {
+      "medialive:UpdateMultiplex": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMultiplex",
 }));
@@ -12690,6 +13586,14 @@ export const updateMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiplexProgram",
+  iam: {
+    actions: ["medialive:UpdateMultiplexProgram"],
+    resources: {
+      "medialive:UpdateMultiplexProgram": [
+        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMultiplexProgram",
 }));
@@ -12726,6 +13630,14 @@ export const updateNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetwork",
+  iam: {
+    actions: ["medialive:UpdateNetwork"],
+    resources: {
+      "medialive:UpdateNetwork": [
+        "arn:${Partition}:medialive:${Region}:${Account}:network:${NetworkId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNetwork",
 }));
@@ -12762,6 +13674,14 @@ export const updateNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNode",
+  iam: {
+    actions: ["medialive:UpdateNode"],
+    resources: {
+      "medialive:UpdateNode": [
+        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNode",
 }));
@@ -12800,6 +13720,14 @@ export const updateNodeState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNodeState",
+  iam: {
+    actions: ["medialive:UpdateNodeState"],
+    resources: {
+      "medialive:UpdateNodeState": [
+        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNodeState",
 }));
@@ -12838,6 +13766,14 @@ export const updateReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReservation",
+  iam: {
+    actions: ["medialive:UpdateReservation"],
+    resources: {
+      "medialive:UpdateReservation": [
+        "arn:${Partition}:medialive:${Region}:${Account}:reservation:${ReservationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReservation",
 }));
@@ -12874,6 +13810,14 @@ export const updateSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSdiSource",
+  iam: {
+    actions: ["medialive:UpdateSdiSource"],
+    resources: {
+      "medialive:UpdateSdiSource": [
+        "arn:${Partition}:medialive:${Region}:${Account}:sdiSource:${SdiSourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSdiSource",
 }));
@@ -12971,7 +13915,7 @@ function __c4(j: number): any {
           ChannelClass: S.optional(S.String),
           Destinations: S.optional(__listOfOutputDestination),
           EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
-          EncoderSettings: S.optional(__S(1724, __c53, 28)),
+          EncoderSettings: S.optional(__S(1726, __c53, 30)),
           Id: S.optional(S.String),
           InputAttachments: S.optional(__listOfInputAttachment),
           InputSpecification: S.optional(__S(1853, __c57, 29)),
@@ -13358,7 +14302,7 @@ function __c20(j: number): any {
           CdiInputSpecification: S.optional(__S(1792, __c56, 0)),
           ChannelId: S.String.pipe(T.HttpLabel("ChannelId")),
           Destinations: S.optional(__listOfOutputDestination),
-          EncoderSettings: S.optional(__S(1724, __c53, 28)),
+          EncoderSettings: S.optional(__S(1726, __c53, 30)),
           InputAttachments: S.optional(__listOfInputAttachment),
           InputSpecification: S.optional(__S(1853, __c57, 29)),
           LogLevel: S.optional(S.String),
@@ -14461,7 +15405,7 @@ function __c46(j: number): any {
           CdiInputSpecification: S.optional(__S(1792, __c56, 0)),
           ChannelClass: S.optional(S.String),
           Destinations: S.optional(__listOfOutputDestination),
-          EncoderSettings: S.optional(__S(1724, __c53, 28)),
+          EncoderSettings: S.optional(__S(1726, __c53, 30)),
           InputAttachments: S.optional(__listOfInputAttachment),
           InputSpecification: S.optional(__S(1853, __c57, 29)),
           LogLevel: S.optional(S.String),
@@ -16304,17 +17248,27 @@ function __c53(j: number): any {
       ).annotate({ identifier: "TemporalFilterSettings" });
     case 12:
       return S.suspend(() =>
+        S.Struct({ Strength: S.optional(S.String) }).pipe(S.encodeKeys({ Strength: "strength" })),
+      ).annotate({ identifier: "PerceptualFilterSettings" });
+    case 13:
+      return S.suspend(() =>
         S.Struct({
           TemporalFilterSettings: S.optional(__S(1707, __c53, 11)),
           BandwidthReductionFilterSettings: S.optional(__S(1707, __c53, 11)),
+          AutoFilterSettings: S.optional(__S(32, __c1, 0)),
+          NoneFilterSettings: S.optional(__S(32, __c1, 0)),
+          PerceptualFilterSettings: S.optional(__S(1708, __c53, 12)),
         }).pipe(
           S.encodeKeys({
             TemporalFilterSettings: "temporalFilterSettings",
             BandwidthReductionFilterSettings: "bandwidthReductionFilterSettings",
+            AutoFilterSettings: "autoFilterSettings",
+            NoneFilterSettings: "noneFilterSettings",
+            PerceptualFilterSettings: "perceptualFilterSettings",
           }),
         ),
       ).annotate({ identifier: "H264FilterSettings" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
@@ -16325,7 +17279,7 @@ function __c53(j: number): any {
           ColorMetadata: S.optional(S.String),
           ColorSpaceSettings: S.optional(__S(1706, __c53, 10)),
           EntropyEncoding: S.optional(S.String),
-          FilterSettings: S.optional(__S(1708, __c53, 12)),
+          FilterSettings: S.optional(__S(1709, __c53, 13)),
           FixedAfd: S.optional(S.String),
           FlickerAq: S.optional(S.String),
           ForceFieldPictures: S.optional(S.String),
@@ -16361,6 +17315,7 @@ function __c53(j: number): any {
           TimecodeBurninSettings: S.optional(__S(1704, __c53, 8)),
           MinQp: S.optional(S.Number),
           MinBitrate: S.optional(S.Number),
+          AllowExplicitWeightedPrediction: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             AdaptiveQuantization: "adaptiveQuantization",
@@ -16407,10 +17362,11 @@ function __c53(j: number): any {
             TimecodeBurninSettings: "timecodeBurninSettings",
             MinQp: "minQp",
             MinBitrate: "minBitrate",
+            AllowExplicitWeightedPrediction: "allowExplicitWeightedPrediction",
           }),
         ),
       ).annotate({ identifier: "H264Settings" });
-    case 14:
+    case 15:
       return S.suspend(() =>
         S.Struct({
           ColorSpacePassthroughSettings: S.optional(__S(32, __c1, 0)),
@@ -16430,7 +17386,7 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "H265ColorSpaceSettings" });
-    case 15:
+    case 16:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
@@ -16439,8 +17395,8 @@ function __c53(j: number): any {
           Bitrate: S.optional(S.Number),
           BufSize: S.optional(S.Number),
           ColorMetadata: S.optional(S.String),
-          ColorSpaceSettings: S.optional(__S(1710, __c53, 14)),
-          FilterSettings: S.optional(__S(1708, __c53, 12)),
+          ColorSpaceSettings: S.optional(__S(1711, __c53, 15)),
+          FilterSettings: S.optional(__S(1709, __c53, 13)),
           FixedAfd: S.optional(S.String),
           FlickerAq: S.optional(S.String),
           FramerateDenominator: S.optional(S.Number),
@@ -16522,13 +17478,13 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "H265Settings" });
-    case 16:
+    case 17:
       return S.suspend(() =>
         S.Struct({ TemporalFilterSettings: S.optional(__S(1707, __c53, 11)) }).pipe(
           S.encodeKeys({ TemporalFilterSettings: "temporalFilterSettings" }),
         ),
       ).annotate({ identifier: "Mpeg2FilterSettings" });
-    case 17:
+    case 18:
       return S.suspend(() =>
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
@@ -16536,7 +17492,7 @@ function __c53(j: number): any {
           ColorMetadata: S.optional(S.String),
           ColorSpace: S.optional(S.String),
           DisplayAspectRatio: S.optional(S.String),
-          FilterSettings: S.optional(__S(1712, __c53, 16)),
+          FilterSettings: S.optional(__S(1713, __c53, 17)),
           FixedAfd: S.optional(S.String),
           FramerateDenominator: S.optional(S.Number),
           FramerateNumerator: S.optional(S.Number),
@@ -16570,7 +17526,7 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Mpeg2Settings" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           ColorSpacePassthroughSettings: S.optional(__S(32, __c1, 0)),
@@ -16588,12 +17544,26 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "Av1ColorSpaceSettings" });
-    case 19:
+    case 20:
+      return S.suspend(() =>
+        S.Struct({
+          AutoFilterSettings: S.optional(__S(32, __c1, 0)),
+          NoneFilterSettings: S.optional(__S(32, __c1, 0)),
+          PerceptualFilterSettings: S.optional(__S(1708, __c53, 12)),
+        }).pipe(
+          S.encodeKeys({
+            AutoFilterSettings: "autoFilterSettings",
+            NoneFilterSettings: "noneFilterSettings",
+            PerceptualFilterSettings: "perceptualFilterSettings",
+          }),
+        ),
+      ).annotate({ identifier: "Av1FilterSettings" });
+    case 21:
       return S.suspend(() =>
         S.Struct({
           AfdSignaling: S.optional(S.String),
           BufSize: S.optional(S.Number),
-          ColorSpaceSettings: S.optional(__S(1714, __c53, 18)),
+          ColorSpaceSettings: S.optional(__S(1715, __c53, 19)),
           FixedAfd: S.optional(S.String),
           FramerateDenominator: S.optional(S.Number),
           FramerateNumerator: S.optional(S.Number),
@@ -16615,6 +17585,7 @@ function __c53(j: number): any {
           TemporalAq: S.optional(S.String),
           TimecodeInsertion: S.optional(S.String),
           BitDepth: S.optional(S.String),
+          FilterSettings: S.optional(__S(1716, __c53, 20)),
         }).pipe(
           S.encodeKeys({
             AfdSignaling: "afdSignaling",
@@ -16641,17 +17612,18 @@ function __c53(j: number): any {
             TemporalAq: "temporalAq",
             TimecodeInsertion: "timecodeInsertion",
             BitDepth: "bitDepth",
+            FilterSettings: "filterSettings",
           }),
         ),
       ).annotate({ identifier: "Av1Settings" });
-    case 20:
+    case 22:
       return S.suspend(() =>
         S.Struct({
           FrameCaptureSettings: S.optional(__S(1705, __c53, 9)),
-          H264Settings: S.optional(__S(1709, __c53, 13)),
-          H265Settings: S.optional(__S(1711, __c53, 15)),
-          Mpeg2Settings: S.optional(__S(1713, __c53, 17)),
-          Av1Settings: S.optional(__S(1715, __c53, 19)),
+          H264Settings: S.optional(__S(1710, __c53, 14)),
+          H265Settings: S.optional(__S(1712, __c53, 16)),
+          Mpeg2Settings: S.optional(__S(1714, __c53, 18)),
+          Av1Settings: S.optional(__S(1717, __c53, 21)),
         }).pipe(
           S.encodeKeys({
             FrameCaptureSettings: "frameCaptureSettings",
@@ -16662,7 +17634,7 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoCodecSettings" });
-    case 21:
+    case 23:
       return S.suspend(() =>
         S.Struct({
           Height: S.optional(S.Number),
@@ -16671,18 +17643,18 @@ function __c53(j: number): any {
           Y: S.optional(S.Number),
         }).pipe(S.encodeKeys({ Height: "height", Width: "width", X: "x", Y: "y" })),
       ).annotate({ identifier: "VideoPositionRectangle" });
-    case 22:
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          CodecSettings: S.optional(__S(1716, __c53, 20)),
+          CodecSettings: S.optional(__S(1718, __c53, 22)),
           Height: S.optional(S.Number),
           Name: S.optional(S.String),
           RespondToAfd: S.optional(S.String),
           ScalingBehavior: S.optional(S.String),
           Sharpness: S.optional(S.Number),
           Width: S.optional(S.Number),
-          CropRectangle: S.optional(__S(1717, __c53, 21)),
-          OutputPositionRectangle: S.optional(__S(1717, __c53, 21)),
+          CropRectangle: S.optional(__S(1719, __c53, 23)),
+          OutputPositionRectangle: S.optional(__S(1719, __c53, 23)),
           Border: S.optional(S.Number),
         }).pipe(
           S.encodeKeys({
@@ -16699,13 +17671,13 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "VideoDescription" });
-    case 23:
-      return S.Array(__S(1718, __c53, 22));
-    case 24:
+    case 25:
+      return S.Array(__S(1720, __c53, 24));
+    case 26:
       return S.suspend(() =>
         S.Struct({ State: S.optional(S.String) }).pipe(S.encodeKeys({ State: "state" })),
       ).annotate({ identifier: "ThumbnailConfiguration" });
-    case 25:
+    case 27:
       return S.suspend(() =>
         S.Struct({
           InputColorSpace: S.optional(S.String),
@@ -16719,15 +17691,15 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "ColorCorrection" });
-    case 26:
-      return S.Array(__S(1721, __c53, 25));
-    case 27:
+    case 28:
+      return S.Array(__S(1723, __c53, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({ GlobalColorCorrections: S.optional(__listOfColorCorrection) }).pipe(
           S.encodeKeys({ GlobalColorCorrections: "globalColorCorrections" }),
         ),
       ).annotate({ identifier: "ColorCorrectionSettings" });
-    case 28:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           AudioDescriptions: S.optional(__listOfAudioDescription),
@@ -16742,8 +17714,8 @@ function __c53(j: number): any {
           OutputGroups: S.optional(__listOfOutputGroup),
           TimecodeConfig: S.optional(__S(1703, __c53, 7)),
           VideoDescriptions: S.optional(__listOfVideoDescription),
-          ThumbnailConfiguration: S.optional(__S(1720, __c53, 24)),
-          ColorCorrectionSettings: S.optional(__S(1723, __c53, 27)),
+          ThumbnailConfiguration: S.optional(__S(1722, __c53, 26)),
+          ColorCorrectionSettings: S.optional(__S(1725, __c53, 29)),
         }).pipe(
           S.encodeKeys({
             AudioDescriptions: "audioDescriptions",
@@ -16763,15 +17735,19 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "EncoderSettings" });
-    case 29:
+    case 31:
       return S.suspend(() =>
         S.Struct({ RouterInputArn: S.optional(S.String) }).pipe(
           S.encodeKeys({ RouterInputArn: "routerInputArn" }),
         ),
       ).annotate({ identifier: "MediaConnectRouterOutputConnection" });
-    case 30:
-      return S.Record(S.String, /*@__PURE__*/ __S(1725, __c53, 29).pipe(S.optional));
-    case 31:
+  }
+}
+function __c54(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ __S(1727, __c53, 31).pipe(S.optional));
+    case 1:
       return S.suspend(() =>
         S.Struct({
           ActiveInputAttachmentName: S.optional(S.String),
@@ -16780,7 +17756,7 @@ function __c53(j: number): any {
           ActiveMotionGraphicsUri: S.optional(S.String),
           PipelineId: S.optional(S.String),
           ChannelEngineVersion: S.optional(__S(1888, __c59, 0)),
-          MediaConnectRouterOutputConnectionMap: S.optional(__S(1726, __c53, 30)),
+          MediaConnectRouterOutputConnectionMap: S.optional(__S(1728, __c54, 0)),
         }).pipe(
           S.encodeKeys({
             ActiveInputAttachmentName: "activeInputAttachmentName",
@@ -16793,12 +17769,8 @@ function __c53(j: number): any {
           }),
         ),
       ).annotate({ identifier: "PipelineDetail" });
-  }
-}
-function __c54(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(__S(1727, __c53, 31));
+    case 2:
+      return S.Array(__S(1729, __c54, 1));
   }
 }
 function __c55(j: number): any {
@@ -16811,7 +17783,7 @@ function __c55(j: number): any {
           ChannelClass: S.optional(S.String),
           Destinations: S.optional(__listOfOutputDestination),
           EgressEndpoints: S.optional(__listOfChannelEgressEndpoint),
-          EncoderSettings: S.optional(__S(1724, __c53, 28)),
+          EncoderSettings: S.optional(__S(1726, __c53, 30)),
           Id: S.optional(S.String),
           InputAttachments: S.optional(__listOfInputAttachment),
           InputSpecification: S.optional(__S(1853, __c57, 29)),
@@ -18187,8 +19159,18 @@ function __c76(j: number): any {
       ).annotate({ identifier: "SrtSettingsRequest" });
     case 11:
       return S.suspend(() =>
-        S.Struct({ SourceIp: S.optional(S.String), Url: S.optional(S.String) }).pipe(
-          S.encodeKeys({ SourceIp: "sourceIp", Url: "url" }),
+        S.Struct({
+          SourceIp: S.optional(S.String),
+          Url: S.optional(S.String),
+          SecondarySourceIp: S.optional(S.String),
+          SecondaryUrl: S.optional(S.String),
+        }).pipe(
+          S.encodeKeys({
+            SourceIp: "sourceIp",
+            Url: "url",
+            SecondarySourceIp: "secondarySourceIp",
+            SecondaryUrl: "secondaryUrl",
+          }),
         ),
       ).annotate({ identifier: "MulticastSourceCreateRequest" });
     case 12:

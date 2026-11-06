@@ -142,7 +142,7 @@ export class LimitExceededException
 export class MalformedQueryException
   extends /*@__PURE__*/ S.TaggedError<MalformedQueryException>()("MalformedQueryException", {
     queryCompileError: /*@__PURE__*/ S.optional(
-      /*@__PURE__*/ S.suspend(() => __S(3969, __c124, 1)).annotate({
+      /*@__PURE__*/ S.suspend(() => __S(4001, __c125, 1)).annotate({
         identifier: "QueryCompileError",
       }),
     ),
@@ -421,12 +421,34 @@ export type PolicyType =
   | "FIELD_INDEX_POLICY"
   | "TRANSFORMER_POLICY"
   | "METRIC_EXTRACTION_POLICY"
+  | "RETENTION_POLICY"
   | (string & {});
+export type DryRun = boolean;
 export interface DeleteAccountPolicyRequest {
   policyName: string;
   policyType: PolicyType;
+  dryRun?: boolean;
 }
-export interface DeleteAccountPolicyResponse {}
+export type DryRunCount = number;
+export type RetentionValue = string;
+export interface LogGroupImpact {
+  logGroupName?: string;
+  currentRetention?: string;
+  proposedRetention?: string;
+  storedBytes?: number;
+}
+export type LogGroupImpacts = LogGroupImpact[];
+export interface DryRunResult {
+  totalMatchedLogGroups?: number;
+  increasedRetentionLogGroupCount?: number;
+  decreasedRetentionLogGroupCount?: number;
+  unchangedRetentionLogGroupCount?: number;
+  failedAnalysisCount?: number;
+  topLogGroupsImpacted?: LogGroupImpact[];
+}
+export interface DeleteAccountPolicyResponse {
+  dryRunResult?: DryRunResult;
+}
 export interface DeleteDataProtectionPolicyRequest {
   logGroupIdentifier: string;
 }
@@ -623,18 +645,22 @@ export interface DescribeConfigurationTemplatesResponse {
   configurationTemplates?: ConfigurationTemplate[];
   nextToken?: string;
 }
+export type DeliverySourceNames = string[];
 export interface DescribeDeliveriesRequest {
   nextToken?: string;
   limit?: number;
+  deliverySourceNames?: string[];
 }
 export type Deliveries = Delivery[];
 export interface DescribeDeliveriesResponse {
   deliveries?: Delivery[];
   nextToken?: string;
 }
+export type DeliveryDestinationNames = string[];
 export interface DescribeDeliveryDestinationsRequest {
   nextToken?: string;
   limit?: number;
+  names?: string[];
 }
 export interface DeliveryDestinationConfiguration {
   destinationResourceArn: string;
@@ -653,9 +679,11 @@ export interface DescribeDeliveryDestinationsResponse {
   deliveryDestinations?: DeliveryDestination[];
   nextToken?: string;
 }
+export type FilterResourceArns = string[];
 export interface DescribeDeliverySourcesRequest {
   nextToken?: string;
   limit?: number;
+  resourceArns?: string[];
 }
 export type ResourceArns = string[];
 export type DeliverySourceConfigurationKey = string;
@@ -863,6 +891,7 @@ export interface LogGroup {
   logGroupArn?: string;
   deletionProtectionEnabled?: boolean;
   bearerTokenAuthenticationEnabled?: boolean;
+  retentionPolicyName?: string;
 }
 export type LogGroups = LogGroup[];
 export interface DescribeLogGroupsResponse {
@@ -1968,9 +1997,11 @@ export interface PutAccountPolicyRequest {
   policyType: PolicyType;
   scope?: Scope;
   selectionCriteria?: string;
+  dryRun?: boolean;
 }
 export interface PutAccountPolicyResponse {
   accountPolicy?: AccountPolicy;
+  dryRunResult?: DryRunResult;
 }
 export interface PutBearerTokenAuthenticationRequest {
   logGroupIdentifier: string;
@@ -2473,6 +2504,14 @@ export const associateKmsKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateKmsKey",
+  iam: {
+    actions: ["logs:AssociateKmsKey"],
+    resources: {
+      "logs:AssociateKmsKey": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateKmsKey",
 }));
@@ -2507,6 +2546,7 @@ export const associateSourceToS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceToS3TableIntegration",
+  iam: { actions: ["logs:AssociateSourceToS3TableIntegration"] },
   telemetry: TELEMETRY,
   span: "AssociateSourceToS3TableIntegration",
 }));
@@ -2539,6 +2579,7 @@ export const cancelExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportTask",
+  iam: { actions: ["logs:CancelExportTask"] },
   telemetry: TELEMETRY,
   span: "CancelExportTask",
 }));
@@ -2571,6 +2612,7 @@ export const cancelImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImportTask",
+  iam: { actions: ["logs:CancelImportTask"] },
   telemetry: TELEMETRY,
   span: "CancelImportTask",
 }));
@@ -2636,6 +2678,17 @@ export const createDelivery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDelivery",
+  iam: {
+    actions: ["logs:CreateDelivery", "logs:TagResource"],
+    resources: {
+      "logs:CreateDelivery": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery:${DeliveryName}",
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-source:${DeliverySourceName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDelivery",
 }));
@@ -2697,6 +2750,14 @@ export const createExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExportTask",
+  iam: {
+    actions: ["logs:CreateExportTask"],
+    resources: {
+      "logs:CreateExportTask": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateExportTask",
 }));
@@ -2767,6 +2828,10 @@ export const createImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImportTask",
+  iam: {
+    actions: ["logs:CreateImportTask", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateImportTask",
 }));
@@ -2826,6 +2891,15 @@ export const createLogAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogAnomalyDetector",
+  iam: {
+    actions: ["logs:CreateLogAnomalyDetector", "logs:TagResource"],
+    resources: {
+      "logs:CreateLogAnomalyDetector": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLogAnomalyDetector",
 }));
@@ -2888,6 +2962,16 @@ export const createLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogGroup",
+  iam: {
+    actions: ["logs:CreateLogGroup", "logs:TagLogGroup", "logs:TagResource"],
+    resources: {
+      "logs:CreateLogGroup": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:TagLogGroup": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+    conditional: { "logs:TagLogGroup": "tags", "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLogGroup",
 }));
@@ -2932,6 +3016,14 @@ export const createLogStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogStream",
+  iam: {
+    actions: ["logs:CreateLogStream"],
+    resources: {
+      "logs:CreateLogStream": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLogStream",
 }));
@@ -2973,6 +3065,18 @@ export const createLookupTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLookupTable",
+  iam: {
+    actions: ["logs:CreateLookupTable", "logs:GetQueryResults", "logs:TagResource"],
+    resources: {
+      "logs:CreateLookupTable": [
+        "arn:${Partition}:logs:${Region}:${Account}:lookup-table:${LookupTableName}",
+      ],
+      "logs:GetQueryResults": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLookupTable",
 }));
@@ -3012,6 +3116,16 @@ export const createScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledQuery",
+  iam: {
+    actions: ["logs:CreateScheduledQuery", "iam:PassRole", "logs:TagResource"],
+    resources: {
+      "logs:CreateScheduledQuery": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateScheduledQuery",
 }));
@@ -3061,7 +3175,7 @@ export const deleteAccountPolicy: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1920, __c60, 0) as any as S.Schema<DeleteAccountPolicyRequest>,
-  output: __S(1216, __c38, 0) as any as S.Schema<DeleteAccountPolicyResponse>,
+  output: __S(1921, __c60, 1) as any as S.Schema<DeleteAccountPolicyResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -3071,6 +3185,30 @@ export const deleteAccountPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountPolicy",
+  iam: {
+    actions: [
+      "logs:DeleteAccountPolicy",
+      "logs:DeleteDataProtectionPolicy",
+      "logs:DeleteIndexPolicy",
+      "logs:DeleteRetentionPolicy",
+      "logs:DeleteSubscriptionFilter",
+      "logs:DeleteTransformer",
+    ],
+    resources: {
+      "logs:DeleteDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:DeleteRetentionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:DeleteSubscriptionFilter": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:DeleteTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccountPolicy",
 }));
@@ -3092,7 +3230,7 @@ export const deleteDataProtectionPolicy: API.OperationMethod<
   DeleteDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1952, __c61, 0) as any as S.Schema<DeleteDataProtectionPolicyRequest>,
+  input: __S(1984, __c62, 0) as any as S.Schema<DeleteDataProtectionPolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDataProtectionPolicyResponse>,
   errors: [
     InvalidParameterException,
@@ -3103,6 +3241,14 @@ export const deleteDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProtectionPolicy",
+  iam: {
+    actions: ["logs:DeleteDataProtectionPolicy"],
+    resources: {
+      "logs:DeleteDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataProtectionPolicy",
 }));
@@ -3128,7 +3274,7 @@ export const deleteDelivery: API.OperationMethod<
   DeleteDeliveryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1984, __c62, 0) as any as S.Schema<DeleteDeliveryRequest>,
+  input: __S(2016, __c63, 0) as any as S.Schema<DeleteDeliveryRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDeliveryResponse>,
   errors: [
     ConflictException,
@@ -3141,6 +3287,14 @@ export const deleteDelivery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDelivery",
+  iam: {
+    actions: ["logs:DeleteDelivery"],
+    resources: {
+      "logs:DeleteDelivery": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery:${DeliveryName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDelivery",
 }));
@@ -3168,7 +3322,7 @@ export const deleteDeliveryDestination: API.OperationMethod<
   DeleteDeliveryDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<DeleteDeliveryDestinationRequest>,
+  input: __S(2048, __c64, 0) as any as S.Schema<DeleteDeliveryDestinationRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDeliveryDestinationResponse>,
   errors: [
     ConflictException,
@@ -3181,6 +3335,14 @@ export const deleteDeliveryDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryDestination",
+  iam: {
+    actions: ["logs:DeleteDeliveryDestination"],
+    resources: {
+      "logs:DeleteDeliveryDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeliveryDestination",
 }));
@@ -3201,7 +3363,7 @@ export const deleteDeliveryDestinationPolicy: API.OperationMethod<
   DeleteDeliveryDestinationPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<DeleteDeliveryDestinationPolicyRequest>,
+  input: __S(2080, __c65, 0) as any as S.Schema<DeleteDeliveryDestinationPolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDeliveryDestinationPolicyResponse>,
   errors: [
     ConflictException,
@@ -3212,6 +3374,14 @@ export const deleteDeliveryDestinationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryDestinationPolicy",
+  iam: {
+    actions: ["logs:DeleteDeliveryDestinationPolicy"],
+    resources: {
+      "logs:DeleteDeliveryDestinationPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeliveryDestinationPolicy",
 }));
@@ -3239,7 +3409,7 @@ export const deleteDeliverySource: API.OperationMethod<
   DeleteDeliverySourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2080, __c65, 0) as any as S.Schema<DeleteDeliverySourceRequest>,
+  input: __S(2112, __c66, 0) as any as S.Schema<DeleteDeliverySourceRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDeliverySourceResponse>,
   errors: [
     ConflictException,
@@ -3252,6 +3422,14 @@ export const deleteDeliverySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliverySource",
+  iam: {
+    actions: ["logs:DeleteDeliverySource"],
+    resources: {
+      "logs:DeleteDeliverySource": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeliverySource",
 }));
@@ -3273,7 +3451,7 @@ export const deleteDestination: API.OperationMethod<
   DeleteDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<DeleteDestinationRequest>,
+  input: __S(2144, __c67, 0) as any as S.Schema<DeleteDestinationRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteDestinationResponse>,
   errors: [
     InvalidParameterException,
@@ -3284,6 +3462,14 @@ export const deleteDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDestination",
+  iam: {
+    actions: ["logs:DeleteDestination"],
+    resources: {
+      "logs:DeleteDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:destination:${DestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDestination",
 }));
@@ -3318,7 +3504,7 @@ export const deleteIndexPolicy: API.OperationMethod<
   DeleteIndexPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<DeleteIndexPolicyRequest>,
+  input: __S(2176, __c68, 0) as any as S.Schema<DeleteIndexPolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteIndexPolicyResponse>,
   errors: [
     InvalidParameterException,
@@ -3330,6 +3516,7 @@ export const deleteIndexPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndexPolicy",
+  iam: { actions: ["logs:DeleteIndexPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteIndexPolicy",
 }));
@@ -3354,7 +3541,7 @@ export const deleteIntegration: API.OperationMethod<
   DeleteIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<DeleteIntegrationRequest>,
+  input: __S(2208, __c69, 0) as any as S.Schema<DeleteIntegrationRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteIntegrationResponse>,
   errors: [
     InvalidParameterException,
@@ -3365,6 +3552,7 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  iam: { actions: ["logs:DeleteIntegration"] },
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
 }));
@@ -3384,7 +3572,7 @@ export const deleteLogAnomalyDetector: API.OperationMethod<
   DeleteLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2208, __c69, 0) as any as S.Schema<DeleteLogAnomalyDetectorRequest>,
+  input: __S(2240, __c70, 0) as any as S.Schema<DeleteLogAnomalyDetectorRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteLogAnomalyDetectorResponse>,
   errors: [
     InvalidParameterException,
@@ -3395,6 +3583,14 @@ export const deleteLogAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogAnomalyDetector",
+  iam: {
+    actions: ["logs:DeleteLogAnomalyDetector"],
+    resources: {
+      "logs:DeleteLogAnomalyDetector": [
+        "arn:${Partition}:logs:${Region}:${Account}:anomaly-detector:${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLogAnomalyDetector",
 }));
@@ -3416,7 +3612,7 @@ export const deleteLogGroup: API.OperationMethod<
   DeleteLogGroupError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<DeleteLogGroupRequest>,
+  input: __S(2272, __c71, 0) as any as S.Schema<DeleteLogGroupRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteLogGroupResponse>,
   errors: [
     InvalidParameterException,
@@ -3428,6 +3624,14 @@ export const deleteLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogGroup",
+  iam: {
+    actions: ["logs:DeleteLogGroup"],
+    resources: {
+      "logs:DeleteLogGroup": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLogGroup",
 }));
@@ -3449,7 +3653,7 @@ export const deleteLogStream: API.OperationMethod<
   DeleteLogStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<DeleteLogStreamRequest>,
+  input: __S(2304, __c72, 0) as any as S.Schema<DeleteLogStreamRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteLogStreamResponse>,
   errors: [
     InvalidParameterException,
@@ -3461,6 +3665,14 @@ export const deleteLogStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogStream",
+  iam: {
+    actions: ["logs:DeleteLogStream"],
+    resources: {
+      "logs:DeleteLogStream": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLogStream",
 }));
@@ -3483,7 +3695,7 @@ export const deleteLookupTable: API.OperationMethod<
   DeleteLookupTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2304, __c72, 0) as any as S.Schema<DeleteLookupTableRequest>,
+  input: __S(2336, __c73, 0) as any as S.Schema<DeleteLookupTableRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteLookupTableResponse>,
   errors: [
     AccessDeniedException,
@@ -3494,6 +3706,14 @@ export const deleteLookupTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLookupTable",
+  iam: {
+    actions: ["logs:DeleteLookupTable"],
+    resources: {
+      "logs:DeleteLookupTable": [
+        "arn:${Partition}:logs:${Region}:${Account}:lookup-table:${LookupTableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLookupTable",
 }));
@@ -3513,7 +3733,7 @@ export const deleteMetricFilter: API.OperationMethod<
   DeleteMetricFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2336, __c73, 0) as any as S.Schema<DeleteMetricFilterRequest>,
+  input: __S(2368, __c74, 0) as any as S.Schema<DeleteMetricFilterRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteMetricFilterResponse>,
   errors: [
     InvalidParameterException,
@@ -3524,6 +3744,14 @@ export const deleteMetricFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricFilter",
+  iam: {
+    actions: ["logs:DeleteMetricFilter"],
+    resources: {
+      "logs:DeleteMetricFilter": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMetricFilter",
 }));
@@ -3548,12 +3776,13 @@ export const deleteQueryDefinition: API.OperationMethod<
   DeleteQueryDefinitionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2368, __c74, 0) as any as S.Schema<DeleteQueryDefinitionRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<DeleteQueryDefinitionResponse>,
+  input: __S(2400, __c75, 0) as any as S.Schema<DeleteQueryDefinitionRequest>,
+  output: __S(2432, __c76, 0) as any as S.Schema<DeleteQueryDefinitionResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueryDefinition",
+  iam: { actions: ["logs:DeleteQueryDefinition"] },
   telemetry: TELEMETRY,
   span: "DeleteQueryDefinition",
 }));
@@ -3574,7 +3803,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   DeleteResourcePolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2432, __c76, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
+  input: __S(2464, __c77, 0) as any as S.Schema<DeleteResourcePolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteResourcePolicyResponse>,
   errors: [
     InvalidParameterException,
@@ -3585,6 +3814,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["logs:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -3607,7 +3837,7 @@ export const deleteRetentionPolicy: API.OperationMethod<
   DeleteRetentionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2464, __c77, 0) as any as S.Schema<DeleteRetentionPolicyRequest>,
+  input: __S(2496, __c78, 0) as any as S.Schema<DeleteRetentionPolicyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteRetentionPolicyResponse>,
   errors: [
     InvalidParameterException,
@@ -3618,6 +3848,14 @@ export const deleteRetentionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetentionPolicy",
+  iam: {
+    actions: ["logs:DeleteRetentionPolicy"],
+    resources: {
+      "logs:DeleteRetentionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRetentionPolicy",
 }));
@@ -3639,7 +3877,7 @@ export const deleteScheduledQuery: API.OperationMethod<
   DeleteScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2496, __c78, 0) as any as S.Schema<DeleteScheduledQueryRequest>,
+  input: __S(2528, __c79, 0) as any as S.Schema<DeleteScheduledQueryRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
@@ -3651,6 +3889,14 @@ export const deleteScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledQuery",
+  iam: {
+    actions: ["logs:DeleteScheduledQuery"],
+    resources: {
+      "logs:DeleteScheduledQuery": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteScheduledQuery",
 }));
@@ -3670,7 +3916,7 @@ export const deleteSubscriptionFilter: API.OperationMethod<
   DeleteSubscriptionFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<DeleteSubscriptionFilterRequest>,
+  input: __S(2560, __c80, 0) as any as S.Schema<DeleteSubscriptionFilterRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteSubscriptionFilterResponse>,
   errors: [
     InvalidParameterException,
@@ -3681,6 +3927,14 @@ export const deleteSubscriptionFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionFilter",
+  iam: {
+    actions: ["logs:DeleteSubscriptionFilter"],
+    resources: {
+      "logs:DeleteSubscriptionFilter": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSubscriptionFilter",
 }));
@@ -3704,7 +3958,7 @@ export const deleteSyslogConfiguration: API.OperationMethod<
   DeleteSyslogConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2560, __c80, 0) as any as S.Schema<DeleteSyslogConfigurationRequest>,
+  input: __S(2592, __c81, 0) as any as S.Schema<DeleteSyslogConfigurationRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteSyslogConfigurationResponse>,
   errors: [
     AccessDeniedException,
@@ -3718,6 +3972,14 @@ export const deleteSyslogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSyslogConfiguration",
+  iam: {
+    actions: ["logs:DeleteSyslogConfiguration"],
+    resources: {
+      "logs:DeleteSyslogConfiguration": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSyslogConfiguration",
 }));
@@ -3744,7 +4006,7 @@ export const deleteTransformer: API.OperationMethod<
   DeleteTransformerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<DeleteTransformerRequest>,
+  input: __S(2624, __c82, 0) as any as S.Schema<DeleteTransformerRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DeleteTransformerResponse>,
   errors: [
     InvalidOperationException,
@@ -3756,6 +4018,14 @@ export const deleteTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTransformer",
+  iam: {
+    actions: ["logs:DeleteTransformer"],
+    resources: {
+      "logs:DeleteTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTransformer",
 }));
@@ -3792,8 +4062,8 @@ export const describeAccountPolicies: API.OperationMethod<
   DescribeAccountPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2624, __c82, 0) as any as S.Schema<DescribeAccountPoliciesRequest>,
-  output: __S(2626, __c82, 2) as any as S.Schema<DescribeAccountPoliciesResponse>,
+  input: __S(2656, __c83, 0) as any as S.Schema<DescribeAccountPoliciesRequest>,
+  output: __S(2658, __c83, 2) as any as S.Schema<DescribeAccountPoliciesResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -3803,6 +4073,7 @@ export const describeAccountPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountPolicies",
+  iam: { actions: ["logs:DescribeAccountPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountPolicies",
 }));
@@ -3825,8 +4096,8 @@ export const describeConfigurationTemplates: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConfigurationTemplate
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2688, __c84, 0) as any as S.Schema<DescribeConfigurationTemplatesRequest>,
-  output: __S(2697, __c84, 9) as any as S.Schema<DescribeConfigurationTemplatesResponse>,
+  input: __S(2720, __c85, 0) as any as S.Schema<DescribeConfigurationTemplatesRequest>,
+  output: __S(2729, __c85, 9) as any as S.Schema<DescribeConfigurationTemplatesResponse>,
   errors: [
     ResourceNotFoundException,
     ServiceUnavailableException,
@@ -3842,6 +4113,7 @@ export const describeConfigurationTemplates: API.PaginatedOperationMethod<
     items: "configurationTemplates",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeConfigurationTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationTemplates",
 })) as any;
@@ -3874,8 +4146,8 @@ export const describeDeliveries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Delivery
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2752, __c86, 0) as any as S.Schema<DescribeDeliveriesRequest>,
-  output: __S(2754, __c86, 2) as any as S.Schema<DescribeDeliveriesResponse>,
+  input: __S(2784, __c87, 0) as any as S.Schema<DescribeDeliveriesRequest>,
+  output: __S(2786, __c87, 2) as any as S.Schema<DescribeDeliveriesResponse>,
   errors: [
     ServiceQuotaExceededException,
     ServiceUnavailableException,
@@ -3891,6 +4163,7 @@ export const describeDeliveries: API.PaginatedOperationMethod<
     items: "deliveries",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeDeliveries"] },
   telemetry: TELEMETRY,
   span: "DescribeDeliveries",
 })) as any;
@@ -3912,8 +4185,8 @@ export const describeDeliveryDestinations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DeliveryDestination
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<DescribeDeliveryDestinationsRequest>,
-  output: __S(2786, __c87, 2) as any as S.Schema<DescribeDeliveryDestinationsResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<DescribeDeliveryDestinationsRequest>,
+  output: __S(2818, __c88, 2) as any as S.Schema<DescribeDeliveryDestinationsResponse>,
   errors: [
     ServiceQuotaExceededException,
     ServiceUnavailableException,
@@ -3929,6 +4202,7 @@ export const describeDeliveryDestinations: API.PaginatedOperationMethod<
     items: "deliveryDestinations",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeDeliveryDestinations"] },
   telemetry: TELEMETRY,
   span: "DescribeDeliveryDestinations",
 })) as any;
@@ -3949,8 +4223,8 @@ export const describeDeliverySources: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DeliverySource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<DescribeDeliverySourcesRequest>,
-  output: __S(2850, __c89, 2) as any as S.Schema<DescribeDeliverySourcesResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<DescribeDeliverySourcesRequest>,
+  output: __S(2882, __c90, 2) as any as S.Schema<DescribeDeliverySourcesResponse>,
   errors: [
     ServiceQuotaExceededException,
     ServiceUnavailableException,
@@ -3966,6 +4240,7 @@ export const describeDeliverySources: API.PaginatedOperationMethod<
     items: "deliverySources",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeDeliverySources"] },
   telemetry: TELEMETRY,
   span: "DescribeDeliverySources",
 })) as any;
@@ -3985,8 +4260,8 @@ export const describeDestinations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Destination
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2912, __c91, 0) as any as S.Schema<DescribeDestinationsRequest>,
-  output: __S(2914, __c91, 2) as any as S.Schema<DescribeDestinationsResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<DescribeDestinationsRequest>,
+  output: __S(2946, __c92, 2) as any as S.Schema<DescribeDestinationsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -3997,6 +4272,7 @@ export const describeDestinations: API.PaginatedOperationMethod<
     items: "destinations",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeDestinations"] },
   telemetry: TELEMETRY,
   span: "DescribeDestinations",
 })) as any;
@@ -4015,12 +4291,13 @@ export const describeExportTasks: API.OperationMethod<
   DescribeExportTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2976, __c93, 0) as any as S.Schema<DescribeExportTasksRequest>,
-  output: __S(2981, __c93, 5) as any as S.Schema<DescribeExportTasksResponse>,
+  input: __S(3008, __c94, 0) as any as S.Schema<DescribeExportTasksRequest>,
+  output: __S(3013, __c94, 5) as any as S.Schema<DescribeExportTasksResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExportTasks",
+  iam: { actions: ["logs:DescribeExportTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeExportTasks",
 }));
@@ -4045,8 +4322,8 @@ export const describeFieldIndexes: API.OperationMethod<
   DescribeFieldIndexesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3008, __c94, 0) as any as S.Schema<DescribeFieldIndexesRequest>,
-  output: __S(3011, __c94, 3) as any as S.Schema<DescribeFieldIndexesResponse>,
+  input: __S(3040, __c95, 0) as any as S.Schema<DescribeFieldIndexesRequest>,
+  output: __S(3043, __c95, 3) as any as S.Schema<DescribeFieldIndexesResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -4057,6 +4334,7 @@ export const describeFieldIndexes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFieldIndexes",
+  iam: { actions: ["logs:DescribeFieldIndexes"] },
   telemetry: TELEMETRY,
   span: "DescribeFieldIndexes",
 }));
@@ -4078,8 +4356,8 @@ export const describeImportTaskBatches: API.OperationMethod<
   DescribeImportTaskBatchesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<DescribeImportTaskBatchesRequest>,
-  output: __S(3043, __c95, 3) as any as S.Schema<DescribeImportTaskBatchesResponse>,
+  input: __S(3072, __c96, 0) as any as S.Schema<DescribeImportTaskBatchesRequest>,
+  output: __S(3075, __c96, 3) as any as S.Schema<DescribeImportTaskBatchesResponse>,
   errors: [
     AccessDeniedException,
     InvalidOperationException,
@@ -4090,6 +4368,7 @@ export const describeImportTaskBatches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImportTaskBatches",
+  iam: { actions: ["logs:DescribeImportTaskBatches"] },
   telemetry: TELEMETRY,
   span: "DescribeImportTaskBatches",
 }));
@@ -4110,8 +4389,8 @@ export const describeImportTasks: API.OperationMethod<
   DescribeImportTasksError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<DescribeImportTasksRequest>,
-  output: __S(3075, __c96, 3) as any as S.Schema<DescribeImportTasksResponse>,
+  input: __S(3104, __c97, 0) as any as S.Schema<DescribeImportTasksRequest>,
+  output: __S(3107, __c97, 3) as any as S.Schema<DescribeImportTasksResponse>,
   errors: [
     AccessDeniedException,
     InvalidOperationException,
@@ -4122,6 +4401,7 @@ export const describeImportTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImportTasks",
+  iam: { actions: ["logs:DescribeImportTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeImportTasks",
 }));
@@ -4151,8 +4431,8 @@ export const describeIndexPolicies: API.OperationMethod<
   DescribeIndexPoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<DescribeIndexPoliciesRequest>,
-  output: __S(3106, __c97, 2) as any as S.Schema<DescribeIndexPoliciesResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<DescribeIndexPoliciesRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<DescribeIndexPoliciesResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -4163,6 +4443,7 @@ export const describeIndexPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIndexPolicies",
+  iam: { actions: ["logs:DescribeIndexPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeIndexPolicies",
 }));
@@ -4197,8 +4478,8 @@ export const describeLogGroups: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LogGroup
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3168, __c99, 0) as any as S.Schema<DescribeLogGroupsRequest>,
-  output: __S(3171, __c99, 3) as any as S.Schema<DescribeLogGroupsResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<DescribeLogGroupsRequest>,
+  output: __S(3203, __c100, 3) as any as S.Schema<DescribeLogGroupsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4209,6 +4490,7 @@ export const describeLogGroups: API.PaginatedOperationMethod<
     items: "logGroups",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:DescribeLogGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeLogGroups",
 })) as any;
@@ -4240,8 +4522,8 @@ export const describeLogStreams: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LogStream
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3200, __c100, 0) as any as S.Schema<DescribeLogStreamsRequest>,
-  output: __S(3203, __c100, 3) as any as S.Schema<DescribeLogStreamsResponse>,
+  input: __S(3232, __c101, 0) as any as S.Schema<DescribeLogStreamsRequest>,
+  output: __S(3235, __c101, 3) as any as S.Schema<DescribeLogStreamsResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4252,6 +4534,14 @@ export const describeLogStreams: API.PaginatedOperationMethod<
     items: "logStreams",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["logs:DescribeLogStreams"],
+    resources: {
+      "logs:DescribeLogStreams": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeLogStreams",
 })) as any;
@@ -4272,8 +4562,8 @@ export const describeLookupTables: API.OperationMethod<
   DescribeLookupTablesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<DescribeLookupTablesRequest>,
-  output: __S(3235, __c101, 3) as any as S.Schema<DescribeLookupTablesResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<DescribeLookupTablesRequest>,
+  output: __S(3267, __c102, 3) as any as S.Schema<DescribeLookupTablesResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -4283,6 +4573,7 @@ export const describeLookupTables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLookupTables",
+  iam: { actions: ["logs:DescribeLookupTables"] },
   telemetry: TELEMETRY,
   span: "DescribeLookupTables",
 }));
@@ -4304,8 +4595,8 @@ export const describeMetricFilters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   MetricFilter
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3264, __c102, 0) as any as S.Schema<DescribeMetricFiltersRequest>,
-  output: __S(3267, __c102, 3) as any as S.Schema<DescribeMetricFiltersResponse>,
+  input: __S(3296, __c103, 0) as any as S.Schema<DescribeMetricFiltersRequest>,
+  output: __S(3299, __c103, 3) as any as S.Schema<DescribeMetricFiltersResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4316,6 +4607,14 @@ export const describeMetricFilters: API.PaginatedOperationMethod<
     items: "metricFilters",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["logs:DescribeMetricFilters"],
+    resources: {
+      "logs:DescribeMetricFilters": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMetricFilters",
 })) as any;
@@ -4341,12 +4640,20 @@ export const describeQueries: API.OperationMethod<
   DescribeQueriesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<DescribeQueriesRequest>,
-  output: __S(3331, __c104, 3) as any as S.Schema<DescribeQueriesResponse>,
+  input: __S(3360, __c105, 0) as any as S.Schema<DescribeQueriesRequest>,
+  output: __S(3363, __c105, 3) as any as S.Schema<DescribeQueriesResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueries",
+  iam: {
+    actions: ["logs:DescribeQueries", "logs:FilterLogEvents"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeQueries",
 }));
@@ -4369,12 +4676,13 @@ export const describeQueryDefinitions: API.OperationMethod<
   DescribeQueryDefinitionsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3360, __c105, 0) as any as S.Schema<DescribeQueryDefinitionsRequest>,
-  output: __S(3363, __c105, 3) as any as S.Schema<DescribeQueryDefinitionsResponse>,
+  input: __S(3392, __c106, 0) as any as S.Schema<DescribeQueryDefinitionsRequest>,
+  output: __S(3395, __c106, 3) as any as S.Schema<DescribeQueryDefinitionsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueryDefinitions",
+  iam: { actions: ["logs:DescribeQueryDefinitions"] },
   telemetry: TELEMETRY,
   span: "DescribeQueryDefinitions",
 }));
@@ -4392,12 +4700,13 @@ export const describeResourcePolicies: API.OperationMethod<
   DescribeResourcePoliciesError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<DescribeResourcePoliciesRequest>,
-  output: __S(3426, __c107, 2) as any as S.Schema<DescribeResourcePoliciesResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<DescribeResourcePoliciesRequest>,
+  output: __S(3458, __c108, 2) as any as S.Schema<DescribeResourcePoliciesResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicies",
+  iam: { actions: ["logs:DescribeResourcePolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeResourcePolicies",
 }));
@@ -4419,8 +4728,8 @@ export const describeSubscriptionFilters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   SubscriptionFilter
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3488, __c109, 0) as any as S.Schema<DescribeSubscriptionFiltersRequest>,
-  output: __S(3491, __c109, 3) as any as S.Schema<DescribeSubscriptionFiltersResponse>,
+  input: __S(3520, __c110, 0) as any as S.Schema<DescribeSubscriptionFiltersRequest>,
+  output: __S(3523, __c110, 3) as any as S.Schema<DescribeSubscriptionFiltersResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4431,6 +4740,14 @@ export const describeSubscriptionFilters: API.PaginatedOperationMethod<
     items: "subscriptionFilters",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["logs:DescribeSubscriptionFilters"],
+    resources: {
+      "logs:DescribeSubscriptionFilters": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSubscriptionFilters",
 })) as any;
@@ -4470,7 +4787,7 @@ export const disassociateKmsKey: API.OperationMethod<
   DisassociateKmsKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<DisassociateKmsKeyRequest>,
+  input: __S(3552, __c111, 0) as any as S.Schema<DisassociateKmsKeyRequest>,
   output: __S(1216, __c38, 0) as any as S.Schema<DisassociateKmsKeyResponse>,
   errors: [
     InvalidParameterException,
@@ -4481,6 +4798,14 @@ export const disassociateKmsKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateKmsKey",
+  iam: {
+    actions: ["logs:DisassociateKmsKey"],
+    resources: {
+      "logs:DisassociateKmsKey": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateKmsKey",
 }));
@@ -4502,7 +4827,7 @@ export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
   DisassociateSourceFromS3TableIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3552, __c111, 0) as any as S.Schema<DisassociateSourceFromS3TableIntegrationRequest>,
+  input: __S(3584, __c112, 0) as any as S.Schema<DisassociateSourceFromS3TableIntegrationRequest>,
   output: __S(1280, __c40, 0) as any as S.Schema<DisassociateSourceFromS3TableIntegrationResponse>,
   errors: [
     AccessDeniedException,
@@ -4514,6 +4839,7 @@ export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceFromS3TableIntegration",
+  iam: { actions: ["logs:DisassociateSourceFromS3TableIntegration"] },
   telemetry: TELEMETRY,
   span: "DisassociateSourceFromS3TableIntegration",
 }));
@@ -4579,13 +4905,22 @@ export const filterLogEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   unknown
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<FilterLogEventsRequest>,
-  output: __S(3589, __c112, 5) as any as S.Schema<FilterLogEventsResponse>,
+  input: __S(3616, __c113, 0) as any as S.Schema<FilterLogEventsRequest>,
+  output: __S(3621, __c113, 5) as any as S.Schema<FilterLogEventsResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FilterLogEvents",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", pageSize: "limit" } as const,
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:Unmask"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "FilterLogEvents",
 })) as any;
@@ -4605,8 +4940,8 @@ export const getDataProtectionPolicy: API.OperationMethod<
   GetDataProtectionPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3616, __c113, 0) as any as S.Schema<GetDataProtectionPolicyRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<GetDataProtectionPolicyResponse>,
+  input: __S(3648, __c114, 0) as any as S.Schema<GetDataProtectionPolicyRequest>,
+  output: __S(3680, __c115, 0) as any as S.Schema<GetDataProtectionPolicyResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -4616,6 +4951,14 @@ export const getDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataProtectionPolicy",
+  iam: {
+    actions: ["logs:GetDataProtectionPolicy"],
+    resources: {
+      "logs:GetDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataProtectionPolicy",
 }));
@@ -4650,7 +4993,7 @@ export const getDelivery: API.OperationMethod<
   GetDeliveryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<GetDeliveryRequest>,
+  input: __S(3712, __c116, 0) as any as S.Schema<GetDeliveryRequest>,
   output: __S(1600, __c50, 0) as any as S.Schema<GetDeliveryResponse>,
   errors: [
     ResourceNotFoundException,
@@ -4662,6 +5005,12 @@ export const getDelivery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelivery",
+  iam: {
+    actions: ["logs:GetDelivery"],
+    resources: {
+      "logs:GetDelivery": ["arn:${Partition}:logs:${Region}:${Account}:delivery:${DeliveryName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDelivery",
 }));
@@ -4682,8 +5031,8 @@ export const getDeliveryDestination: API.OperationMethod<
   GetDeliveryDestinationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<GetDeliveryDestinationRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<GetDeliveryDestinationResponse>,
+  input: __S(3744, __c117, 0) as any as S.Schema<GetDeliveryDestinationRequest>,
+  output: __S(3776, __c118, 0) as any as S.Schema<GetDeliveryDestinationResponse>,
   errors: [
     ResourceNotFoundException,
     ServiceQuotaExceededException,
@@ -4694,6 +5043,14 @@ export const getDeliveryDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliveryDestination",
+  iam: {
+    actions: ["logs:GetDeliveryDestination"],
+    resources: {
+      "logs:GetDeliveryDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeliveryDestination",
 }));
@@ -4713,12 +5070,20 @@ export const getDeliveryDestinationPolicy: API.OperationMethod<
   GetDeliveryDestinationPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<GetDeliveryDestinationPolicyRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<GetDeliveryDestinationPolicyResponse>,
+  input: __S(3808, __c119, 0) as any as S.Schema<GetDeliveryDestinationPolicyRequest>,
+  output: __S(3841, __c120, 1) as any as S.Schema<GetDeliveryDestinationPolicyResponse>,
   errors: [ResourceNotFoundException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliveryDestinationPolicy",
+  iam: {
+    actions: ["logs:GetDeliveryDestinationPolicy"],
+    resources: {
+      "logs:GetDeliveryDestinationPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeliveryDestinationPolicy",
 }));
@@ -4739,8 +5104,8 @@ export const getDeliverySource: API.OperationMethod<
   GetDeliverySourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<GetDeliverySourceRequest>,
-  output: __S(3872, __c121, 0) as any as S.Schema<GetDeliverySourceResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<GetDeliverySourceRequest>,
+  output: __S(3904, __c122, 0) as any as S.Schema<GetDeliverySourceResponse>,
   errors: [
     ResourceNotFoundException,
     ServiceQuotaExceededException,
@@ -4751,6 +5116,14 @@ export const getDeliverySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeliverySource",
+  iam: {
+    actions: ["logs:GetDeliverySource"],
+    resources: {
+      "logs:GetDeliverySource": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-source:${DeliverySourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDeliverySource",
 }));
@@ -4769,12 +5142,13 @@ export const getIntegration: API.OperationMethod<
   GetIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3904, __c122, 0) as any as S.Schema<GetIntegrationRequest>,
-  output: __S(3913, __c122, 9) as any as S.Schema<GetIntegrationResponse>,
+  input: __S(3936, __c123, 0) as any as S.Schema<GetIntegrationRequest>,
+  output: __S(3945, __c123, 9) as any as S.Schema<GetIntegrationResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  iam: { actions: ["logs:GetIntegration"] },
   telemetry: TELEMETRY,
   span: "GetIntegration",
 }));
@@ -4794,8 +5168,8 @@ export const getLogAnomalyDetector: API.OperationMethod<
   GetLogAnomalyDetectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3936, __c123, 0) as any as S.Schema<GetLogAnomalyDetectorRequest>,
-  output: __S(3937, __c123, 1) as any as S.Schema<GetLogAnomalyDetectorResponse>,
+  input: __S(3968, __c124, 0) as any as S.Schema<GetLogAnomalyDetectorRequest>,
+  output: __S(3969, __c124, 1) as any as S.Schema<GetLogAnomalyDetectorResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -4805,6 +5179,14 @@ export const getLogAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogAnomalyDetector",
+  iam: {
+    actions: ["logs:GetLogAnomalyDetector"],
+    resources: {
+      "logs:GetLogAnomalyDetector": [
+        "arn:${Partition}:logs:${Region}:${Account}:anomaly-detector:${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLogAnomalyDetector",
 }));
@@ -4856,8 +5238,8 @@ export const getLogEvents: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   OutputLogEvent
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4000, __c125, 0) as any as S.Schema<GetLogEventsRequest>,
-  output: __S(4003, __c125, 3) as any as S.Schema<GetLogEventsResponse>,
+  input: __S(4032, __c126, 0) as any as S.Schema<GetLogEventsRequest>,
+  output: __S(4035, __c126, 3) as any as S.Schema<GetLogEventsResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -4868,6 +5250,15 @@ export const getLogEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["logs:GetLogEvents", "logs:Unmask"],
+    resources: {
+      "logs:GetLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}",
+      ],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLogEvents",
 })) as any;
@@ -4888,8 +5279,8 @@ export const getLogFields: API.OperationMethod<
   GetLogFieldsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4032, __c126, 0) as any as S.Schema<GetLogFieldsRequest>,
-  output: __S(4036, __c126, 4) as any as S.Schema<GetLogFieldsResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<GetLogFieldsRequest>,
+  output: __S(4068, __c127, 4) as any as S.Schema<GetLogFieldsResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -4899,6 +5290,7 @@ export const getLogFields: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogFields",
+  iam: { actions: ["logs:GetLogFields"] },
   telemetry: TELEMETRY,
   span: "GetLogFields",
 }));
@@ -4939,8 +5331,8 @@ export const getLogGroupFields: API.OperationMethod<
   GetLogGroupFieldsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4064, __c127, 0) as any as S.Schema<GetLogGroupFieldsRequest>,
-  output: __S(4067, __c127, 3) as any as S.Schema<GetLogGroupFieldsResponse>,
+  input: __S(4096, __c128, 0) as any as S.Schema<GetLogGroupFieldsRequest>,
+  output: __S(4099, __c128, 3) as any as S.Schema<GetLogGroupFieldsResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -4950,6 +5342,17 @@ export const getLogGroupFields: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogGroupFields",
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:GetLogGroupFields"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:GetLogGroupFields": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLogGroupFields",
 }));
@@ -4985,8 +5388,8 @@ export const getLogObject: API.OperationMethod<
   GetLogObjectError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4096, __c128, 0) as any as S.Schema<GetLogObjectRequest>,
-  output: __S(4099, __c128, 3) as any as S.Schema<GetLogObjectResponse>,
+  input: __S(4128, __c129, 0) as any as S.Schema<GetLogObjectRequest>,
+  output: __S(4131, __c129, 3) as any as S.Schema<GetLogObjectResponse>,
   errors: [
     AccessDeniedException,
     InvalidOperationException,
@@ -5021,8 +5424,8 @@ export const getLogRecord: API.OperationMethod<
   GetLogRecordError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4160, __c130, 0) as any as S.Schema<GetLogRecordRequest>,
-  output: __S(4161, __c130, 1) as any as S.Schema<GetLogRecordResponse>,
+  input: __S(4192, __c131, 0) as any as S.Schema<GetLogRecordRequest>,
+  output: __S(4193, __c131, 1) as any as S.Schema<GetLogRecordResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -5032,6 +5435,16 @@ export const getLogRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogRecord",
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:GetLogRecord", "logs:Unmask"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:GetLogRecord": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLogRecord",
 }));
@@ -5051,8 +5464,8 @@ export const getLookupTable: API.OperationMethod<
   GetLookupTableError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4192, __c131, 0) as any as S.Schema<GetLookupTableRequest>,
-  output: __S(4193, __c131, 1) as any as S.Schema<GetLookupTableResponse>,
+  input: __S(4224, __c132, 0) as any as S.Schema<GetLookupTableRequest>,
+  output: __S(4225, __c132, 1) as any as S.Schema<GetLookupTableResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -5062,6 +5475,14 @@ export const getLookupTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLookupTable",
+  iam: {
+    actions: ["logs:GetLookupTable"],
+    resources: {
+      "logs:GetLookupTable": [
+        "arn:${Partition}:logs:${Region}:${Account}:lookup-table:${LookupTableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLookupTable",
 }));
@@ -5107,12 +5528,24 @@ export const getQueryResults: API.OperationMethod<
   GetQueryResultsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4224, __c132, 0) as any as S.Schema<GetQueryResultsRequest>,
-  output: __S(4229, __c132, 5) as any as S.Schema<GetQueryResultsResponse>,
+  input: __S(4256, __c133, 0) as any as S.Schema<GetQueryResultsRequest>,
+  output: __S(4261, __c133, 5) as any as S.Schema<GetQueryResultsResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryResults",
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:GetQueryResults", "logs:Unmask"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:GetQueryResults": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueryResults",
 }));
@@ -5134,8 +5567,8 @@ export const getScheduledQuery: API.OperationMethod<
   GetScheduledQueryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4256, __c133, 0) as any as S.Schema<GetScheduledQueryRequest>,
-  output: __S(4288, __c134, 0) as any as S.Schema<GetScheduledQueryResponse>,
+  input: __S(4288, __c134, 0) as any as S.Schema<GetScheduledQueryRequest>,
+  output: __S(4320, __c135, 0) as any as S.Schema<GetScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5146,6 +5579,14 @@ export const getScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduledQuery",
+  iam: {
+    actions: ["logs:GetScheduledQuery"],
+    resources: {
+      "logs:GetScheduledQuery": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetScheduledQuery",
 }));
@@ -5168,8 +5609,8 @@ export const getScheduledQueryHistory: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   TriggerHistoryRecord
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4320, __c135, 0) as any as S.Schema<GetScheduledQueryHistoryRequest>,
-  output: __S(4325, __c135, 5) as any as S.Schema<GetScheduledQueryHistoryResponse>,
+  input: __S(4352, __c136, 0) as any as S.Schema<GetScheduledQueryHistoryRequest>,
+  output: __S(4357, __c136, 5) as any as S.Schema<GetScheduledQueryHistoryResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5186,6 +5627,14 @@ export const getScheduledQueryHistory: API.PaginatedOperationMethod<
     items: "triggerHistory",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["logs:GetScheduledQueryHistory"],
+    resources: {
+      "logs:GetScheduledQueryHistory": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetScheduledQueryHistory",
 })) as any;
@@ -5206,8 +5655,8 @@ export const getStorageTierPolicy: API.OperationMethod<
   GetStorageTierPolicyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4352, __c136, 0) as any as S.Schema<GetStorageTierPolicyRequest>,
-  output: __S(4384, __c137, 0) as any as S.Schema<GetStorageTierPolicyResponse>,
+  input: __S(4384, __c137, 0) as any as S.Schema<GetStorageTierPolicyRequest>,
+  output: __S(4416, __c138, 0) as any as S.Schema<GetStorageTierPolicyResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -5218,6 +5667,7 @@ export const getStorageTierPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageTierPolicy",
+  iam: { actions: ["logs:GetStorageTierPolicy"] },
   telemetry: TELEMETRY,
   span: "GetStorageTierPolicy",
 }));
@@ -5240,8 +5690,8 @@ export const getTransformer: API.OperationMethod<
   GetTransformerError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4416, __c138, 0) as any as S.Schema<GetTransformerRequest>,
-  output: __S(4417, __c138, 1) as any as S.Schema<GetTransformerResponse>,
+  input: __S(4448, __c139, 0) as any as S.Schema<GetTransformerRequest>,
+  output: __S(4449, __c139, 1) as any as S.Schema<GetTransformerResponse>,
   errors: [
     InvalidOperationException,
     InvalidParameterException,
@@ -5251,6 +5701,14 @@ export const getTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransformer",
+  iam: {
+    actions: ["logs:GetTransformer"],
+    resources: {
+      "logs:GetTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTransformer",
 }));
@@ -5281,8 +5739,8 @@ export const listAggregateLogGroupSummaries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AggregateLogGroupSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4480, __c140, 0) as any as S.Schema<ListAggregateLogGroupSummariesRequest>,
-  output: __S(4485, __c140, 5) as any as S.Schema<ListAggregateLogGroupSummariesResponse>,
+  input: __S(4512, __c141, 0) as any as S.Schema<ListAggregateLogGroupSummariesRequest>,
+  output: __S(4517, __c141, 5) as any as S.Schema<ListAggregateLogGroupSummariesResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5293,6 +5751,7 @@ export const listAggregateLogGroupSummaries: API.PaginatedOperationMethod<
     items: "aggregateLogGroupSummaries",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:ListAggregateLogGroupSummaries"] },
   telemetry: TELEMETRY,
   span: "ListAggregateLogGroupSummaries",
 })) as any;
@@ -5315,8 +5774,8 @@ export const listAnomalies: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Anomaly
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4544, __c142, 0) as any as S.Schema<ListAnomaliesRequest>,
-  output: __S(4552, __c142, 8) as any as S.Schema<ListAnomaliesResponse>,
+  input: __S(4576, __c143, 0) as any as S.Schema<ListAnomaliesRequest>,
+  output: __S(4584, __c143, 8) as any as S.Schema<ListAnomaliesResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -5332,6 +5791,7 @@ export const listAnomalies: API.PaginatedOperationMethod<
     items: "anomalies",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:ListAnomalies"] },
   telemetry: TELEMETRY,
   span: "ListAnomalies",
 })) as any;
@@ -5351,12 +5811,13 @@ export const listIntegrations: API.OperationMethod<
   ListIntegrationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4576, __c143, 0) as any as S.Schema<ListIntegrationsRequest>,
-  output: __S(4579, __c143, 3) as any as S.Schema<ListIntegrationsResponse>,
+  input: __S(4608, __c144, 0) as any as S.Schema<ListIntegrationsRequest>,
+  output: __S(4611, __c144, 3) as any as S.Schema<ListIntegrationsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIntegrations",
+  iam: { actions: ["logs:ListIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListIntegrations",
 }));
@@ -5377,8 +5838,8 @@ export const listLogAnomalyDetectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AnomalyDetector
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4608, __c144, 0) as any as S.Schema<ListLogAnomalyDetectorsRequest>,
-  output: __S(4611, __c144, 3) as any as S.Schema<ListLogAnomalyDetectorsResponse>,
+  input: __S(4640, __c145, 0) as any as S.Schema<ListLogAnomalyDetectorsRequest>,
+  output: __S(4643, __c145, 3) as any as S.Schema<ListLogAnomalyDetectorsResponse>,
   errors: [
     InvalidParameterException,
     OperationAbortedException,
@@ -5394,6 +5855,7 @@ export const listLogAnomalyDetectors: API.PaginatedOperationMethod<
     items: "anomalyDetectors",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["logs:ListLogAnomalyDetectors"] },
   telemetry: TELEMETRY,
   span: "ListLogAnomalyDetectors",
 })) as any;
@@ -5422,12 +5884,13 @@ export const listLogGroups: API.OperationMethod<
   ListLogGroupsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4642, __c145, 2) as any as S.Schema<ListLogGroupsRequest>,
-  output: __S(4645, __c145, 5) as any as S.Schema<ListLogGroupsResponse>,
+  input: __S(4674, __c146, 2) as any as S.Schema<ListLogGroupsRequest>,
+  output: __S(4677, __c146, 5) as any as S.Schema<ListLogGroupsResponse>,
   errors: [InvalidParameterException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLogGroups",
+  iam: { actions: ["logs:DescribeLogGroups", "logs:ListLogGroups"] },
   telemetry: TELEMETRY,
   span: "ListLogGroups",
 }));
@@ -5454,8 +5917,8 @@ export const listLogGroupsForQuery: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   LogGroupIdentifier
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4672, __c146, 0) as any as S.Schema<ListLogGroupsForQueryRequest>,
-  output: __S(4673, __c146, 1) as any as S.Schema<ListLogGroupsForQueryResponse>,
+  input: __S(4704, __c147, 0) as any as S.Schema<ListLogGroupsForQueryRequest>,
+  output: __S(4705, __c147, 1) as any as S.Schema<ListLogGroupsForQueryResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -5471,6 +5934,7 @@ export const listLogGroupsForQuery: API.PaginatedOperationMethod<
     items: "logGroupIdentifiers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["logs:ListLogGroupsForQuery"] },
   telemetry: TELEMETRY,
   span: "ListLogGroupsForQuery",
 })) as any;
@@ -5492,8 +5956,8 @@ export const listScheduledQueries: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ScheduledQuerySummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4704, __c147, 0) as any as S.Schema<ListScheduledQueriesRequest>,
-  output: __S(4707, __c147, 3) as any as S.Schema<ListScheduledQueriesResponse>,
+  input: __S(4736, __c148, 0) as any as S.Schema<ListScheduledQueriesRequest>,
+  output: __S(4739, __c148, 3) as any as S.Schema<ListScheduledQueriesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5509,6 +5973,7 @@ export const listScheduledQueries: API.PaginatedOperationMethod<
     items: "scheduledQueries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["logs:ListScheduledQueries"] },
   telemetry: TELEMETRY,
   span: "ListScheduledQueries",
 })) as any;
@@ -5531,8 +5996,8 @@ export const listSourcesForS3TableIntegration: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   S3TableIntegrationSource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(4736, __c148, 0) as any as S.Schema<ListSourcesForS3TableIntegrationRequest>,
-  output: __S(4739, __c148, 3) as any as S.Schema<ListSourcesForS3TableIntegrationResponse>,
+  input: __S(4768, __c149, 0) as any as S.Schema<ListSourcesForS3TableIntegrationRequest>,
+  output: __S(4771, __c149, 3) as any as S.Schema<ListSourcesForS3TableIntegrationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5549,6 +6014,7 @@ export const listSourcesForS3TableIntegration: API.PaginatedOperationMethod<
     items: "sources",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["logs:ListSourcesForS3TableIntegration"] },
   telemetry: TELEMETRY,
   span: "ListSourcesForS3TableIntegration",
 })) as any;
@@ -5571,8 +6037,8 @@ export const listSyslogConfigurations: API.OperationMethod<
   ListSyslogConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4768, __c149, 0) as any as S.Schema<ListSyslogConfigurationsRequest>,
-  output: __S(4771, __c149, 3) as any as S.Schema<ListSyslogConfigurationsResponse>,
+  input: __S(4800, __c150, 0) as any as S.Schema<ListSyslogConfigurationsRequest>,
+  output: __S(4803, __c150, 3) as any as S.Schema<ListSyslogConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     InvalidOperationException,
@@ -5584,6 +6050,7 @@ export const listSyslogConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSyslogConfigurations",
+  iam: { actions: ["logs:ListSyslogConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSyslogConfigurations",
 }));
@@ -5609,6 +6076,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["logs:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5635,6 +6103,14 @@ export const listTagsLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsLogGroup",
+  iam: {
+    actions: ["logs:ListTagsLogGroup"],
+    resources: {
+      "logs:ListTagsLogGroup": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsLogGroup",
 }));
@@ -6019,6 +6495,30 @@ export const putAccountPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountPolicy",
+  iam: {
+    actions: [
+      "iam:PassRole",
+      "logs:PutAccountPolicy",
+      "logs:PutDataProtectionPolicy",
+      "logs:PutIndexPolicy",
+      "logs:PutRetentionPolicy",
+      "logs:PutSubscriptionFilter",
+      "logs:PutTransformer",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "logs:PutDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:PutRetentionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:PutTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "PutAccountPolicy",
 }));
@@ -6057,6 +6557,14 @@ export const putBearerTokenAuthentication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBearerTokenAuthentication",
+  iam: {
+    actions: ["logs:PutBearerTokenAuthentication"],
+    resources: {
+      "logs:PutBearerTokenAuthentication": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutBearerTokenAuthentication",
 }));
@@ -6101,7 +6609,7 @@ export const putDataProtectionPolicy: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c5, 0) as any as S.Schema<PutDataProtectionPolicyRequest>,
-  output: __S(3648, __c114, 0) as any as S.Schema<PutDataProtectionPolicyResponse>,
+  output: __S(3680, __c115, 0) as any as S.Schema<PutDataProtectionPolicyResponse>,
   errors: [
     InvalidParameterException,
     LimitExceededException,
@@ -6112,6 +6620,14 @@ export const putDataProtectionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDataProtectionPolicy",
+  iam: {
+    actions: ["logs:PutDataProtectionPolicy"],
+    resources: {
+      "logs:PutDataProtectionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDataProtectionPolicy",
 }));
@@ -6167,7 +6683,7 @@ export const putDeliveryDestination: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(192, __c6, 0) as any as S.Schema<PutDeliveryDestinationRequest>,
-  output: __S(3744, __c117, 0) as any as S.Schema<PutDeliveryDestinationResponse>,
+  output: __S(3776, __c118, 0) as any as S.Schema<PutDeliveryDestinationResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -6179,6 +6695,15 @@ export const putDeliveryDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliveryDestination",
+  iam: {
+    actions: ["logs:PutDeliveryDestination", "logs:TagResource"],
+    resources: {
+      "logs:PutDeliveryDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDeliveryDestination",
 }));
@@ -6222,7 +6747,7 @@ export const putDeliveryDestinationPolicy: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(224, __c7, 0) as any as S.Schema<PutDeliveryDestinationPolicyRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<PutDeliveryDestinationPolicyResponse>,
+  output: __S(3841, __c120, 1) as any as S.Schema<PutDeliveryDestinationPolicyResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -6232,6 +6757,14 @@ export const putDeliveryDestinationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliveryDestinationPolicy",
+  iam: {
+    actions: ["logs:PutDeliveryDestinationPolicy"],
+    resources: {
+      "logs:PutDeliveryDestinationPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDeliveryDestinationPolicy",
 }));
@@ -6283,7 +6816,7 @@ export const putDeliverySource: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(256, __c8, 0) as any as S.Schema<PutDeliverySourceRequest>,
-  output: __S(3872, __c121, 0) as any as S.Schema<PutDeliverySourceResponse>,
+  output: __S(3904, __c122, 0) as any as S.Schema<PutDeliverySourceResponse>,
   errors: [
     ConflictException,
     ResourceNotFoundException,
@@ -6295,6 +6828,15 @@ export const putDeliverySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDeliverySource",
+  iam: {
+    actions: ["logs:PutDeliverySource", "logs:TagResource"],
+    resources: {
+      "logs:PutDeliverySource": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-source:${DeliverySourceName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDeliverySource",
 }));
@@ -6332,6 +6874,16 @@ export const putDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDestination",
+  iam: {
+    actions: ["iam:PassRole", "logs:PutDestination", "logs:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "logs:PutDestination": [
+        "arn:${Partition}:logs:${Region}:${Account}:destination:${DestinationName}",
+      ],
+    },
+    conditional: { "logs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDestination",
 }));
@@ -6359,6 +6911,14 @@ export const putDestinationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDestinationPolicy",
+  iam: {
+    actions: ["logs:PutDestinationPolicy"],
+    resources: {
+      "logs:PutDestinationPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:destination:${DestinationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutDestinationPolicy",
 }));
@@ -6451,6 +7011,7 @@ export const putIndexPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIndexPolicy",
+  iam: { actions: ["logs:PutIndexPolicy"] },
   telemetry: TELEMETRY,
   span: "PutIndexPolicy",
 }));
@@ -6490,6 +7051,7 @@ export const putIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegration",
+  iam: { actions: ["logs:PutIntegration"] },
   telemetry: TELEMETRY,
   span: "PutIntegration",
 }));
@@ -6564,6 +7126,14 @@ export const putLogEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLogEvents",
+  iam: {
+    actions: ["logs:PutLogEvents"],
+    resources: {
+      "logs:PutLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutLogEvents",
 }));
@@ -6602,6 +7172,14 @@ export const putLogGroupDeletionProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLogGroupDeletionProtection",
+  iam: {
+    actions: ["logs:PutLogGroupDeletionProtection"],
+    resources: {
+      "logs:PutLogGroupDeletionProtection": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutLogGroupDeletionProtection",
 }));
@@ -6662,6 +7240,14 @@ export const putMetricFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetricFilter",
+  iam: {
+    actions: ["logs:PutMetricFilter"],
+    resources: {
+      "logs:PutMetricFilter": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutMetricFilter",
 }));
@@ -6704,6 +7290,7 @@ export const putQueryDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutQueryDefinition",
+  iam: { actions: ["logs:PutQueryDefinition"] },
   telemetry: TELEMETRY,
   span: "PutQueryDefinition",
 }));
@@ -6725,7 +7312,7 @@ export type PutResourcePolicyError =
  *
  * - **Supported principals** - Policy only applies when
  * operations are invoked by Amazon Web Services service principals (not IAM
- * users, roles, or cross-account principals
+ * users, roles, or cross-account principals)
  *
  * - **Policy limits** - An account can have a maximum of 10
  * policies without resourceARN and one per LogGroup resourceARN
@@ -6753,6 +7340,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["logs:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -6803,6 +7391,14 @@ export const putRetentionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionPolicy",
+  iam: {
+    actions: ["logs:PutRetentionPolicy"],
+    resources: {
+      "logs:PutRetentionPolicy": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRetentionPolicy",
 }));
@@ -6826,7 +7422,7 @@ export const putStorageTierPolicy: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c19, 0) as any as S.Schema<PutStorageTierPolicyRequest>,
-  output: __S(4384, __c137, 0) as any as S.Schema<PutStorageTierPolicyResponse>,
+  output: __S(4416, __c138, 0) as any as S.Schema<PutStorageTierPolicyResponse>,
   errors: [
     AccessDeniedException,
     InvalidParameterException,
@@ -6837,6 +7433,7 @@ export const putStorageTierPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutStorageTierPolicy",
+  iam: { actions: ["logs:PutStorageTierPolicy"] },
   telemetry: TELEMETRY,
   span: "PutStorageTierPolicy",
 }));
@@ -6903,6 +7500,11 @@ export const putSubscriptionFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSubscriptionFilter",
+  iam: {
+    actions: ["iam:PassRole", "logs:PutSubscriptionFilter"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "PutSubscriptionFilter",
 }));
@@ -6940,6 +7542,14 @@ export const putSyslogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSyslogConfiguration",
+  iam: {
+    actions: ["logs:PutSyslogConfiguration"],
+    resources: {
+      "logs:PutSyslogConfiguration": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSyslogConfiguration",
 }));
@@ -7004,6 +7614,14 @@ export const putTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTransformer",
+  iam: {
+    actions: ["logs:PutTransformer"],
+    resources: {
+      "logs:PutTransformer": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutTransformer",
 }));
@@ -7079,6 +7697,14 @@ export const startLiveTail: API.OperationMethod<
   retry: Retry,
   operationName: "StartLiveTail",
   endpointHostPrefix: "stream-",
+  iam: {
+    actions: ["logs:StartLiveTail"],
+    resources: {
+      "logs:StartLiveTail": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartLiveTail",
 }));
@@ -7156,6 +7782,22 @@ export const startQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuery",
+  iam: {
+    actions: [
+      "logs:DescribeLogGroups",
+      "logs:DescribeQueryDefinitions",
+      "logs:FilterLogEvents",
+      "logs:StartQuery",
+      "logs:Unmask",
+    ],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:StartQuery": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+      "logs:Unmask": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartQuery",
 }));
@@ -7182,11 +7824,19 @@ export const stopQuery: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(800, __c25, 0) as any as S.Schema<StopQueryRequest>,
-  output: __S(2400, __c75, 0) as any as S.Schema<StopQueryResponse>,
+  output: __S(2432, __c76, 0) as any as S.Schema<StopQueryResponse>,
   errors: [InvalidParameterException, ResourceNotFoundException, ServiceUnavailableException],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQuery",
+  iam: {
+    actions: ["logs:FilterLogEvents", "logs:StopQuery"],
+    resources: {
+      "logs:FilterLogEvents": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopQuery",
 }));
@@ -7222,6 +7872,12 @@ export const tagLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagLogGroup",
+  iam: {
+    actions: ["logs:TagLogGroup"],
+    resources: {
+      "logs:TagLogGroup": ["arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagLogGroup",
 }));
@@ -7268,6 +7924,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["logs:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -7292,6 +7949,7 @@ export const testMetricFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestMetricFilter",
+  iam: { actions: ["logs:TestMetricFilter"] },
   telemetry: TELEMETRY,
   span: "TestMetricFilter",
 }));
@@ -7318,6 +7976,7 @@ export const testTransformer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestTransformer",
+  iam: { actions: ["logs:TestTransformer"] },
   telemetry: TELEMETRY,
   span: "TestTransformer",
 }));
@@ -7347,6 +8006,14 @@ export const untagLogGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagLogGroup",
+  iam: {
+    actions: ["logs:UntagLogGroup"],
+    resources: {
+      "logs:UntagLogGroup": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagLogGroup",
 }));
@@ -7371,6 +8038,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["logs:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -7412,6 +8080,14 @@ export const updateAnomaly: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnomaly",
+  iam: {
+    actions: ["logs:UpdateAnomaly"],
+    resources: {
+      "logs:UpdateAnomaly": [
+        "arn:${Partition}:logs:${Region}:${Account}:anomaly-detector:${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAnomaly",
 }));
@@ -7448,6 +8124,16 @@ export const updateDeliveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeliveryConfiguration",
+  iam: {
+    actions: ["logs:UpdateDeliveryConfiguration"],
+    resources: {
+      "logs:UpdateDeliveryConfiguration": [
+        "arn:${Partition}:logs:${Region}:${Account}:delivery:${DeliveryName}",
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-destination:${DeliveryDestinationName}",
+        "arn:${Partition}:logs:${Region}:${Account}:delivery-source:${DeliverySourceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDeliveryConfiguration",
 }));
@@ -7478,6 +8164,14 @@ export const updateLogAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLogAnomalyDetector",
+  iam: {
+    actions: ["logs:UpdateLogAnomalyDetector"],
+    resources: {
+      "logs:UpdateLogAnomalyDetector": [
+        "arn:${Partition}:logs:${Region}:${Account}:anomaly-detector:${DetectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLogAnomalyDetector",
 }));
@@ -7515,6 +8209,17 @@ export const updateLookupTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLookupTable",
+  iam: {
+    actions: ["logs:GetQueryResults", "logs:UpdateLookupTable"],
+    resources: {
+      "logs:GetQueryResults": [
+        "arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}",
+      ],
+      "logs:UpdateLookupTable": [
+        "arn:${Partition}:logs:${Region}:${Account}:lookup-table:${LookupTableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateLookupTable",
 }));
@@ -7538,7 +8243,7 @@ export const updateScheduledQuery: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1152, __c36, 0) as any as S.Schema<UpdateScheduledQueryRequest>,
-  output: __S(4288, __c134, 0) as any as S.Schema<UpdateScheduledQueryResponse>,
+  output: __S(4320, __c135, 0) as any as S.Schema<UpdateScheduledQueryResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -7550,6 +8255,15 @@ export const updateScheduledQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledQuery",
+  iam: {
+    actions: ["iam:PassRole", "logs:UpdateScheduledQuery"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "logs:UpdateScheduledQuery": [
+        "arn:${Partition}:logs:${Region}:${Account}:scheduled-query:${ScheduledQueryId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateScheduledQuery",
 }));
@@ -7593,11 +8307,15 @@ function __c3(j: number): any {
           policyType: S.String,
           scope: S.optional(S.String),
           selectionCriteria: S.optional(S.String),
+          dryRun: S.optional(S.Boolean),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutAccountPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ accountPolicy: S.optional(__S(2656, __c83, 0)) }).pipe(ns),
+        S.Struct({
+          accountPolicy: S.optional(__S(2688, __c84, 0)),
+          dryRunResult: S.optional(__S(1954, __c61, 2)),
+        }).pipe(ns),
       ).annotate({ identifier: "PutAccountPolicyResponse" });
   }
 }
@@ -7629,7 +8347,7 @@ function __c6(j: number): any {
         S.Struct({
           name: S.String,
           outputFormat: S.optional(S.String),
-          deliveryDestinationConfiguration: S.optional(__S(2816, __c88, 0)),
+          deliveryDestinationConfiguration: S.optional(__S(2848, __c89, 0)),
           deliveryDestinationType: S.optional(S.String),
           roleArn: S.optional(S.String),
           tags: S.optional(__S(1472, __c46, 0)),
@@ -7674,7 +8392,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "PutDestinationRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ destination: S.optional(__S(2944, __c92, 0)) }).pipe(ns),
+        S.Struct({ destination: S.optional(__S(2976, __c93, 0)) }).pipe(ns),
       ).annotate({ identifier: "PutDestinationResponse" });
   }
 }
@@ -7700,7 +8418,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PutIndexPolicyRequest" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ indexPolicy: S.optional(__S(3136, __c98, 0)) }).pipe(ns),
+        S.Struct({ indexPolicy: S.optional(__S(3168, __c99, 0)) }).pipe(ns),
       ).annotate({ identifier: "PutIndexPolicyResponse" });
   }
 }
@@ -7800,7 +8518,7 @@ function __c15(j: number): any {
           logGroupName: S.String,
           filterName: S.String,
           filterPattern: S.String,
-          metricTransformations: __S(3297, __c103, 1),
+          metricTransformations: __S(3329, __c104, 1),
           applyOnTransformedLogs: S.optional(S.Boolean),
           fieldSelectionCriteria: S.optional(S.String),
           emitSystemFieldDimensions: S.optional(__S(1504, __c47, 0)),
@@ -7819,7 +8537,7 @@ function __c16(j: number): any {
           logGroupNames: S.optional(__S(1504, __c47, 0)),
           queryString: S.String,
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          parameters: S.optional(__S(3393, __c106, 1)),
+          parameters: S.optional(__S(3425, __c107, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "PutQueryDefinitionRequest" });
     case 1:
@@ -7842,7 +8560,7 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          resourcePolicy: S.optional(__S(3456, __c108, 0)),
+          resourcePolicy: S.optional(__S(3488, __c109, 0)),
           revisionId: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "PutResourcePolicyResponse" });
@@ -7900,7 +8618,7 @@ function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ logGroupIdentifier: S.String, transformerConfig: __S(4476, __c139, 28) }).pipe(
+        S.Struct({ logGroupIdentifier: S.String, transformerConfig: __S(4508, __c140, 28) }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "PutTransformerRequest" });
@@ -7956,8 +8674,8 @@ function __c23(j: number): any {
         /*@__PURE__*/ S.Union([
           /*@__PURE__*/ S.Struct({ sessionStart: __S(737, __c23, 1) }),
           /*@__PURE__*/ S.Struct({ sessionUpdate: __S(741, __c23, 5) }),
-          /*@__PURE__*/ S.Struct({ SessionTimeoutException: __S(4128, __c129, 0) }),
-          /*@__PURE__*/ S.Struct({ SessionStreamingException: __S(4128, __c129, 0) }),
+          /*@__PURE__*/ S.Struct({ SessionTimeoutException: __S(4160, __c130, 0) }),
+          /*@__PURE__*/ S.Struct({ SessionStreamingException: __S(4160, __c130, 0) }),
         ]),
       );
     case 7:
@@ -8046,7 +8764,7 @@ function __c29(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          transformerConfig: __S(4476, __c139, 28),
+          transformerConfig: __S(4508, __c140, 28),
           logEventMessages: __S(1504, __c47, 0),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "TestTransformerRequest" });
@@ -8499,13 +9217,45 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ policyName: S.String, policyType: S.String }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          policyName: S.String,
+          policyType: S.String,
+          dryRun: S.optional(S.Boolean),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DeleteAccountPolicyRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({ dryRunResult: S.optional(__S(1954, __c61, 2)) }).pipe(ns),
+      ).annotate({ identifier: "DeleteAccountPolicyResponse" });
   }
 }
 function __c61(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          logGroupName: S.optional(S.String),
+          currentRetention: S.optional(S.String),
+          proposedRetention: S.optional(S.String),
+          storedBytes: S.optional(S.Number),
+        }),
+      ).annotate({ identifier: "LogGroupImpact" });
+    case 1:
+      return S.Array(__S(1952, __c61, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          totalMatchedLogGroups: S.optional(S.Number),
+          increasedRetentionLogGroupCount: S.optional(S.Number),
+          decreasedRetentionLogGroupCount: S.optional(S.Number),
+          unchangedRetentionLogGroupCount: S.optional(S.Number),
+          failedAnalysisCount: S.optional(S.Number),
+          topLogGroupsImpacted: S.optional(__S(1953, __c61, 1)),
+        }),
+      ).annotate({ identifier: "DryRunResult" });
+  }
+}
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8515,7 +9265,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "DeleteDataProtectionPolicyRequest" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8525,7 +9275,7 @@ function __c62(j: number): any {
       ).annotate({ identifier: "DeleteDeliveryRequest" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8535,7 +9285,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DeleteDeliveryDestinationRequest" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8545,7 +9295,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "DeleteDeliveryDestinationPolicyRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8555,7 +9305,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "DeleteDeliverySourceRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8565,7 +9315,7 @@ function __c66(j: number): any {
       ).annotate({ identifier: "DeleteDestinationRequest" });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8575,7 +9325,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "DeleteIndexPolicyRequest" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8585,7 +9335,7 @@ function __c68(j: number): any {
       ).annotate({ identifier: "DeleteIntegrationRequest" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8595,7 +9345,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "DeleteLogAnomalyDetectorRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8605,7 +9355,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "DeleteLogGroupRequest" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8615,7 +9365,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "DeleteLogStreamRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8625,7 +9375,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "DeleteLookupTableRequest" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8635,7 +9385,7 @@ function __c73(j: number): any {
       ).annotate({ identifier: "DeleteMetricFilterRequest" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8645,7 +9395,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "DeleteQueryDefinitionRequest" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ success: S.optional(S.Boolean) }).pipe(ns)).annotate({
@@ -8653,7 +9403,7 @@ function __c75(j: number): any {
       });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8665,7 +9415,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "DeleteResourcePolicyRequest" });
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8675,7 +9425,7 @@ function __c77(j: number): any {
       ).annotate({ identifier: "DeleteRetentionPolicyRequest" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8685,7 +9435,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "DeleteScheduledQueryRequest" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8695,7 +9445,7 @@ function __c79(j: number): any {
       ).annotate({ identifier: "DeleteSubscriptionFilterRequest" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8705,7 +9455,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "DeleteSyslogConfigurationRequest" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8715,7 +9465,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "DeleteTransformerRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8727,17 +9477,17 @@ function __c82(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeAccountPoliciesRequest" });
     case 1:
-      return S.Array(__S(2656, __c83, 0));
+      return S.Array(__S(2688, __c84, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          accountPolicies: S.optional(__S(2625, __c82, 1)),
+          accountPolicies: S.optional(__S(2657, __c83, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeAccountPoliciesResponse" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8753,7 +9503,7 @@ function __c83(j: number): any {
       ).annotate({ identifier: "AccountPolicy" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8761,7 +9511,7 @@ function __c84(j: number): any {
           service: S.optional(S.String),
           logTypes: S.optional(__S(1504, __c47, 0)),
           resourceTypes: S.optional(__S(1504, __c47, 0)),
-          deliveryDestinationTypes: S.optional(__S(2720, __c85, 0)),
+          deliveryDestinationTypes: S.optional(__S(2752, __c86, 0)),
           nextToken: S.optional(S.String),
           limit: S.optional(S.Number),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -8779,7 +9529,7 @@ function __c84(j: number): any {
         S.Struct({ name: S.optional(S.String), mandatory: S.optional(S.Boolean) }),
       ).annotate({ identifier: "RecordField" });
     case 3:
-      return S.Array(__S(2690, __c84, 2));
+      return S.Array(__S(2722, __c85, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -8792,7 +9542,7 @@ function __c84(j: number): any {
         }),
       ).annotate({ identifier: "DeliverySourceConfigurationSchema" });
     case 5:
-      return S.Array(__S(2692, __c84, 4));
+      return S.Array(__S(2724, __c85, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({ datasourceName: S.optional(S.String), datasourceType: S.optional(S.String) }),
@@ -8804,72 +9554,76 @@ function __c84(j: number): any {
           logType: S.optional(S.String),
           resourceType: S.optional(S.String),
           deliveryDestinationType: S.optional(S.String),
-          defaultDeliveryConfigValues: S.optional(__S(2689, __c84, 1)),
-          allowedFields: S.optional(__S(2691, __c84, 3)),
-          allowedOutputFormats: S.optional(__S(2720, __c85, 0)),
+          defaultDeliveryConfigValues: S.optional(__S(2721, __c85, 1)),
+          allowedFields: S.optional(__S(2723, __c85, 3)),
+          allowedOutputFormats: S.optional(__S(2752, __c86, 0)),
           allowedActionForAllowVendedLogsDeliveryForResource: S.optional(S.String),
           allowedFieldDelimiters: S.optional(__S(1504, __c47, 0)),
           allowedSuffixPathFields: S.optional(__S(1504, __c47, 0)),
-          deliverySourceConfiguration: S.optional(__S(2693, __c84, 5)),
-          s3TablesIntegration: S.optional(__S(2694, __c84, 6)),
+          deliverySourceConfiguration: S.optional(__S(2725, __c85, 5)),
+          s3TablesIntegration: S.optional(__S(2726, __c85, 6)),
         }),
       ).annotate({ identifier: "ConfigurationTemplate" });
     case 8:
-      return S.Array(__S(2695, __c84, 7));
+      return S.Array(__S(2727, __c85, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
-          configurationTemplates: S.optional(__S(2696, __c84, 8)),
+          configurationTemplates: S.optional(__S(2728, __c85, 8)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeConfigurationTemplatesResponse" });
   }
 }
-function __c85(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
 function __c86(j: number): any {
   switch (j) {
     case 0:
-      return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), limit: S.optional(S.Number) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "DescribeDeliveriesRequest" });
-    case 1:
-      return S.Array(__S(1568, __c49, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          deliveries: S.optional(__S(2753, __c86, 1)),
-          nextToken: S.optional(S.String),
-        }).pipe(ns),
-      ).annotate({ identifier: "DescribeDeliveriesResponse" });
+      return S.Array(S.String);
   }
 }
 function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), limit: S.optional(S.Number) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
-      ).annotate({ identifier: "DescribeDeliveryDestinationsRequest" });
+        S.Struct({
+          nextToken: S.optional(S.String),
+          limit: S.optional(S.Number),
+          deliverySourceNames: S.optional(__S(1504, __c47, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeDeliveriesRequest" });
     case 1:
-      return S.Array(__S(2817, __c88, 1));
+      return S.Array(__S(1568, __c49, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deliveryDestinations: S.optional(__S(2785, __c87, 1)),
+          deliveries: S.optional(__S(2785, __c87, 1)),
+          nextToken: S.optional(S.String),
+        }).pipe(ns),
+      ).annotate({ identifier: "DescribeDeliveriesResponse" });
+  }
+}
+function __c88(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          nextToken: S.optional(S.String),
+          limit: S.optional(S.Number),
+          names: S.optional(__S(1504, __c47, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
+      ).annotate({ identifier: "DescribeDeliveryDestinationsRequest" });
+    case 1:
+      return S.Array(__S(2849, __c89, 1));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          deliveryDestinations: S.optional(__S(2817, __c88, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeDeliveryDestinationsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ destinationResourceArn: S.String })).annotate({
@@ -8882,33 +9636,35 @@ function __c88(j: number): any {
           arn: S.optional(S.String),
           deliveryDestinationType: S.optional(S.String),
           outputFormat: S.optional(S.String),
-          deliveryDestinationConfiguration: S.optional(__S(2816, __c88, 0)),
+          deliveryDestinationConfiguration: S.optional(__S(2848, __c89, 0)),
           roleArn: S.optional(S.String),
           tags: S.optional(__S(1472, __c46, 0)),
         }),
       ).annotate({ identifier: "DeliveryDestination" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), limit: S.optional(S.Number) }).pipe(
-          T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          nextToken: S.optional(S.String),
+          limit: S.optional(S.Number),
+          resourceArns: S.optional(__S(1504, __c47, 0)),
+        }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeDeliverySourcesRequest" });
     case 1:
-      return S.Array(__S(2880, __c90, 0));
+      return S.Array(__S(2912, __c91, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          deliverySources: S.optional(__S(2849, __c89, 1)),
+          deliverySources: S.optional(__S(2881, __c90, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeDeliverySourcesResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8926,7 +9682,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "DeliverySource" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8937,17 +9693,17 @@ function __c91(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeDestinationsRequest" });
     case 1:
-      return S.Array(__S(2944, __c92, 0));
+      return S.Array(__S(2976, __c93, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          destinations: S.optional(__S(2913, __c91, 1)),
+          destinations: S.optional(__S(2945, __c92, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeDestinationsResponse" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8962,7 +9718,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "Destination" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8991,28 +9747,28 @@ function __c93(j: number): any {
           to: S.optional(S.Number),
           destination: S.optional(S.String),
           destinationPrefix: S.optional(S.String),
-          status: S.optional(__S(2977, __c93, 1)),
-          executionInfo: S.optional(__S(2978, __c93, 2)),
+          status: S.optional(__S(3009, __c94, 1)),
+          executionInfo: S.optional(__S(3010, __c94, 2)),
         }),
       ).annotate({ identifier: "ExportTask" });
     case 4:
-      return S.Array(__S(2979, __c93, 3));
+      return S.Array(__S(3011, __c94, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          exportTasks: S.optional(__S(2980, __c93, 4)),
+          exportTasks: S.optional(__S(3012, __c94, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeExportTasksResponse" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           logGroupIdentifiers: __S(1504, __c47, 0),
-          indexCategories: S.optional(__S(2720, __c85, 0)),
+          indexCategories: S.optional(__S(2752, __c86, 0)),
           nextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeFieldIndexesRequest" });
@@ -9029,23 +9785,23 @@ function __c94(j: number): any {
         }),
       ).annotate({ identifier: "FieldIndex" });
     case 2:
-      return S.Array(__S(3009, __c94, 1));
+      return S.Array(__S(3041, __c95, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          fieldIndexes: S.optional(__S(3010, __c94, 2)),
+          fieldIndexes: S.optional(__S(3042, __c95, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeFieldIndexesResponse" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           importId: S.String,
-          batchImportStatus: S.optional(__S(2720, __c85, 0)),
+          batchImportStatus: S.optional(__S(2752, __c86, 0)),
           limit: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -9055,19 +9811,19 @@ function __c95(j: number): any {
         S.Struct({ batchId: S.String, status: S.String, errorMessage: S.optional(S.String) }),
       ).annotate({ identifier: "ImportBatch" });
     case 2:
-      return S.Array(__S(3041, __c95, 1));
+      return S.Array(__S(3073, __c96, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           importSourceArn: S.optional(S.String),
           importId: S.optional(S.String),
-          importBatches: S.optional(__S(3042, __c95, 2)),
+          importBatches: S.optional(__S(3074, __c96, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeImportTaskBatchesResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9094,17 +9850,17 @@ function __c96(j: number): any {
         }),
       ).annotate({ identifier: "Import" });
     case 2:
-      return S.Array(__S(3073, __c96, 1));
+      return S.Array(__S(3105, __c97, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          imports: S.optional(__S(3074, __c96, 2)),
+          imports: S.optional(__S(3106, __c97, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeImportTasksResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9114,17 +9870,17 @@ function __c97(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeIndexPoliciesRequest" });
     case 1:
-      return S.Array(__S(3136, __c98, 0));
+      return S.Array(__S(3168, __c99, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          indexPolicies: S.optional(__S(3105, __c97, 1)),
+          indexPolicies: S.optional(__S(3137, __c98, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeIndexPoliciesResponse" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9138,7 +9894,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "IndexPolicy" });
   }
 }
-function __c99(j: number): any {
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9164,25 +9920,26 @@ function __c99(j: number): any {
           storedBytes: S.optional(S.Number),
           kmsKeyId: S.optional(S.String),
           dataProtectionStatus: S.optional(S.String),
-          inheritedProperties: S.optional(__S(2720, __c85, 0)),
+          inheritedProperties: S.optional(__S(2752, __c86, 0)),
           logGroupClass: S.optional(S.String),
           logGroupArn: S.optional(S.String),
           deletionProtectionEnabled: S.optional(S.Boolean),
           bearerTokenAuthenticationEnabled: S.optional(S.Boolean),
+          retentionPolicyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "LogGroup" });
     case 2:
-      return S.Array(__S(3169, __c99, 1));
+      return S.Array(__S(3201, __c100, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          logGroups: S.optional(__S(3170, __c99, 2)),
+          logGroups: S.optional(__S(3202, __c100, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeLogGroupsResponse" });
   }
 }
-function __c100(j: number): any {
+function __c101(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9210,17 +9967,17 @@ function __c100(j: number): any {
         }),
       ).annotate({ identifier: "LogStream" });
     case 2:
-      return S.Array(__S(3201, __c100, 1));
+      return S.Array(__S(3233, __c101, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          logStreams: S.optional(__S(3202, __c100, 2)),
+          logStreams: S.optional(__S(3234, __c101, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeLogStreamsResponse" });
   }
 }
-function __c101(j: number): any {
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9244,17 +10001,17 @@ function __c101(j: number): any {
         }),
       ).annotate({ identifier: "LookupTable" });
     case 2:
-      return S.Array(__S(3233, __c101, 1));
+      return S.Array(__S(3265, __c102, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          lookupTables: S.optional(__S(3234, __c101, 2)),
+          lookupTables: S.optional(__S(3266, __c102, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeLookupTablesResponse" });
   }
 }
-function __c102(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9272,7 +10029,7 @@ function __c102(j: number): any {
         S.Struct({
           filterName: S.optional(S.String),
           filterPattern: S.optional(S.String),
-          metricTransformations: S.optional(__S(3297, __c103, 1)),
+          metricTransformations: S.optional(__S(3329, __c104, 1)),
           creationTime: S.optional(S.Number),
           logGroupName: S.optional(S.String),
           applyOnTransformedLogs: S.optional(S.Boolean),
@@ -9281,17 +10038,17 @@ function __c102(j: number): any {
         }),
       ).annotate({ identifier: "MetricFilter" });
     case 2:
-      return S.Array(__S(3265, __c102, 1));
+      return S.Array(__S(3297, __c103, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          metricFilters: S.optional(__S(3266, __c102, 2)),
+          metricFilters: S.optional(__S(3298, __c103, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeMetricFiltersResponse" });
   }
 }
-function __c103(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9305,10 +10062,10 @@ function __c103(j: number): any {
         }),
       ).annotate({ identifier: "MetricTransformation" });
     case 1:
-      return S.Array(__S(3296, __c103, 0));
+      return S.Array(__S(3328, __c104, 0));
   }
 }
-function __c104(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9335,17 +10092,17 @@ function __c104(j: number): any {
         }),
       ).annotate({ identifier: "QueryInfo" });
     case 2:
-      return S.Array(__S(3329, __c104, 1));
+      return S.Array(__S(3361, __c105, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          queries: S.optional(__S(3330, __c104, 2)),
+          queries: S.optional(__S(3362, __c105, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeQueriesResponse" });
   }
 }
-function __c105(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9365,21 +10122,21 @@ function __c105(j: number): any {
           queryString: S.optional(S.String),
           lastModified: S.optional(S.Number),
           logGroupNames: S.optional(__S(1504, __c47, 0)),
-          parameters: S.optional(__S(3393, __c106, 1)),
+          parameters: S.optional(__S(3425, __c107, 1)),
         }),
       ).annotate({ identifier: "QueryDefinition" });
     case 2:
-      return S.Array(__S(3361, __c105, 1));
+      return S.Array(__S(3393, __c106, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          queryDefinitions: S.optional(__S(3362, __c105, 2)),
+          queryDefinitions: S.optional(__S(3394, __c106, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeQueryDefinitionsResponse" });
   }
 }
-function __c106(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9390,10 +10147,10 @@ function __c106(j: number): any {
         }),
       ).annotate({ identifier: "QueryParameter" });
     case 1:
-      return S.Array(__S(3392, __c106, 0));
+      return S.Array(__S(3424, __c107, 0));
   }
 }
-function __c107(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9405,17 +10162,17 @@ function __c107(j: number): any {
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "DescribeResourcePoliciesRequest" });
     case 1:
-      return S.Array(__S(3456, __c108, 0));
+      return S.Array(__S(3488, __c109, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          resourcePolicies: S.optional(__S(3425, __c107, 1)),
+          resourcePolicies: S.optional(__S(3457, __c108, 1)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeResourcePoliciesResponse" });
   }
 }
-function __c108(j: number): any {
+function __c109(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9430,7 +10187,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "ResourcePolicy" });
   }
 }
-function __c109(j: number): any {
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9457,17 +10214,17 @@ function __c109(j: number): any {
         }),
       ).annotate({ identifier: "SubscriptionFilter" });
     case 2:
-      return S.Array(__S(3489, __c109, 1));
+      return S.Array(__S(3521, __c110, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          subscriptionFilters: S.optional(__S(3490, __c109, 2)),
+          subscriptionFilters: S.optional(__S(3522, __c110, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "DescribeSubscriptionFiltersResponse" });
   }
 }
-function __c110(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9478,7 +10235,7 @@ function __c110(j: number): any {
       ).annotate({ identifier: "DisassociateKmsKeyRequest" });
   }
 }
-function __c111(j: number): any {
+function __c112(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9488,7 +10245,7 @@ function __c111(j: number): any {
       ).annotate({ identifier: "DisassociateSourceFromS3TableIntegrationRequest" });
   }
 }
-function __c112(j: number): any {
+function __c113(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9518,7 +10275,7 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "FilteredLogEvent" });
     case 2:
-      return S.Array(__S(3585, __c112, 1));
+      return S.Array(__S(3617, __c113, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -9527,18 +10284,18 @@ function __c112(j: number): any {
         }),
       ).annotate({ identifier: "SearchedLogStream" });
     case 4:
-      return S.Array(__S(3587, __c112, 3));
+      return S.Array(__S(3619, __c113, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(3586, __c112, 2)),
-          searchedLogStreams: S.optional(__S(3588, __c112, 4)),
+          events: S.optional(__S(3618, __c113, 2)),
+          searchedLogStreams: S.optional(__S(3620, __c113, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "FilterLogEventsResponse" });
   }
 }
-function __c113(j: number): any {
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9548,7 +10305,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "GetDataProtectionPolicyRequest" });
   }
 }
-function __c114(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9560,7 +10317,7 @@ function __c114(j: number): any {
       ).annotate({ identifier: "GetDataProtectionPolicyResponse" });
   }
 }
-function __c115(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9570,7 +10327,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "GetDeliveryRequest" });
   }
 }
-function __c116(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9580,15 +10337,15 @@ function __c116(j: number): any {
       ).annotate({ identifier: "GetDeliveryDestinationRequest" });
   }
 }
-function __c117(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ deliveryDestination: S.optional(__S(2817, __c88, 1)) }).pipe(ns),
+        S.Struct({ deliveryDestination: S.optional(__S(2849, __c89, 1)) }).pipe(ns),
       ).annotate({ identifier: "GetDeliveryDestinationResponse" });
   }
 }
-function __c118(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9598,7 +10355,7 @@ function __c118(j: number): any {
       ).annotate({ identifier: "GetDeliveryDestinationPolicyRequest" });
   }
 }
-function __c119(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9606,11 +10363,11 @@ function __c119(j: number): any {
       ).annotate({ identifier: "Policy" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ policy: S.optional(__S(3808, __c119, 0)) }).pipe(ns),
+        S.Struct({ policy: S.optional(__S(3840, __c120, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetDeliveryDestinationPolicyResponse" });
   }
 }
-function __c120(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9620,15 +10377,15 @@ function __c120(j: number): any {
       ).annotate({ identifier: "GetDeliverySourceRequest" });
   }
 }
-function __c121(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ deliverySource: S.optional(__S(2880, __c90, 0)) }).pipe(ns),
+        S.Struct({ deliverySource: S.optional(__S(2912, __c91, 0)) }).pipe(ns),
       ).annotate({ identifier: "GetDeliverySourceResponse" });
   }
 }
-function __c122(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9644,7 +10401,7 @@ function __c122(j: number): any {
       return S.suspend(() =>
         S.Struct({
           dataSourceName: S.optional(S.String),
-          status: S.optional(__S(3905, __c122, 1)),
+          status: S.optional(__S(3937, __c123, 1)),
         }),
       ).annotate({ identifier: "OpenSearchDataSource" });
     case 3:
@@ -9653,7 +10410,7 @@ function __c122(j: number): any {
           applicationEndpoint: S.optional(S.String),
           applicationArn: S.optional(S.String),
           applicationId: S.optional(S.String),
-          status: S.optional(__S(3905, __c122, 1)),
+          status: S.optional(__S(3937, __c123, 1)),
         }),
       ).annotate({ identifier: "OpenSearchApplication" });
     case 4:
@@ -9661,33 +10418,33 @@ function __c122(j: number): any {
         S.Struct({
           collectionEndpoint: S.optional(S.String),
           collectionArn: S.optional(S.String),
-          status: S.optional(__S(3905, __c122, 1)),
+          status: S.optional(__S(3937, __c123, 1)),
         }),
       ).annotate({ identifier: "OpenSearchCollection" });
     case 5:
       return S.suspend(() =>
-        S.Struct({ workspaceId: S.optional(S.String), status: S.optional(__S(3905, __c122, 1)) }),
+        S.Struct({ workspaceId: S.optional(S.String), status: S.optional(__S(3937, __c123, 1)) }),
       ).annotate({ identifier: "OpenSearchWorkspace" });
     case 6:
       return S.suspend(() =>
-        S.Struct({ policyName: S.optional(S.String), status: S.optional(__S(3905, __c122, 1)) }),
+        S.Struct({ policyName: S.optional(S.String), status: S.optional(__S(3937, __c123, 1)) }),
       ).annotate({ identifier: "OpenSearchEncryptionPolicy" });
     case 7:
       return S.suspend(() =>
         S.Struct({
-          dataSource: S.optional(__S(3906, __c122, 2)),
-          application: S.optional(__S(3907, __c122, 3)),
-          collection: S.optional(__S(3908, __c122, 4)),
-          workspace: S.optional(__S(3909, __c122, 5)),
-          encryptionPolicy: S.optional(__S(3910, __c122, 6)),
-          networkPolicy: S.optional(__S(3910, __c122, 6)),
-          accessPolicy: S.optional(__S(3910, __c122, 6)),
-          lifecyclePolicy: S.optional(__S(3910, __c122, 6)),
+          dataSource: S.optional(__S(3938, __c123, 2)),
+          application: S.optional(__S(3939, __c123, 3)),
+          collection: S.optional(__S(3940, __c123, 4)),
+          workspace: S.optional(__S(3941, __c123, 5)),
+          encryptionPolicy: S.optional(__S(3942, __c123, 6)),
+          networkPolicy: S.optional(__S(3942, __c123, 6)),
+          accessPolicy: S.optional(__S(3942, __c123, 6)),
+          lifecyclePolicy: S.optional(__S(3942, __c123, 6)),
         }),
       ).annotate({ identifier: "OpenSearchIntegrationDetails" });
     case 8:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ openSearchIntegrationDetails: __S(3911, __c122, 7) }),
+        /*@__PURE__*/ S.Struct({ openSearchIntegrationDetails: __S(3943, __c123, 7) }),
       ]);
     case 9:
       return S.suspend(() =>
@@ -9695,12 +10452,12 @@ function __c122(j: number): any {
           integrationName: S.optional(S.String),
           integrationType: S.optional(S.String),
           integrationStatus: S.optional(S.String),
-          integrationDetails: S.optional(__S(3912, __c122, 8)),
+          integrationDetails: S.optional(__S(3944, __c123, 8)),
         }).pipe(ns),
       ).annotate({ identifier: "GetIntegrationResponse" });
   }
 }
-function __c123(j: number): any {
+function __c124(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9724,7 +10481,7 @@ function __c123(j: number): any {
       ).annotate({ identifier: "GetLogAnomalyDetectorResponse" });
   }
 }
-function __c124(j: number): any {
+function __c125(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9732,11 +10489,11 @@ function __c124(j: number): any {
       ).annotate({ identifier: "QueryCompileErrorLocation" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ location: S.optional(__S(3968, __c124, 0)), message: S.optional(S.String) }),
+        S.Struct({ location: S.optional(__S(4000, __c125, 0)), message: S.optional(S.String) }),
       ).annotate({ identifier: "QueryCompileError" });
   }
 }
-function __c125(j: number): any {
+function __c126(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9761,18 +10518,18 @@ function __c125(j: number): any {
         }),
       ).annotate({ identifier: "OutputLogEvent" });
     case 2:
-      return S.Array(__S(4001, __c125, 1));
+      return S.Array(__S(4033, __c126, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          events: S.optional(__S(4002, __c125, 2)),
+          events: S.optional(__S(4034, __c126, 2)),
           nextForwardToken: S.optional(S.String),
           nextBackwardToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetLogEventsResponse" });
   }
 }
-function __c126(j: number): any {
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9785,12 +10542,12 @@ function __c126(j: number): any {
         S.Struct({
           type: S.optional(S.String),
           element: S.optional(
-            S.suspend((): S.Schema<LogFieldType> => __S(4033, __c126, 1)).annotate({
+            S.suspend((): S.Schema<LogFieldType> => __S(4065, __c127, 1)).annotate({
               identifier: "LogFieldType",
             }),
           ),
           fields: S.optional(
-            S.suspend(() => __S(4035, __c126, 3)).annotate({ identifier: "LogFieldsList" }),
+            S.suspend(() => __S(4067, __c127, 3)).annotate({ identifier: "LogFieldsList" }),
           ),
         }),
       ).annotate({ identifier: "LogFieldType" });
@@ -9799,7 +10556,7 @@ function __c126(j: number): any {
         S.Struct({
           logFieldName: S.optional(S.String),
           logFieldType: S.optional(
-            S.suspend((): S.Schema<LogFieldType> => __S(4033, __c126, 1)).annotate({
+            S.suspend((): S.Schema<LogFieldType> => __S(4065, __c127, 1)).annotate({
               identifier: "LogFieldType",
             }),
           ),
@@ -9807,17 +10564,17 @@ function __c126(j: number): any {
       ).annotate({ identifier: "LogFieldsListItem" });
     case 3:
       return S.Array(
-        /*@__PURE__*/ S.suspend((): S.Schema<LogFieldsListItem> => __S(4034, __c126, 2)).annotate({
+        /*@__PURE__*/ S.suspend((): S.Schema<LogFieldsListItem> => __S(4066, __c127, 2)).annotate({
           identifier: "LogFieldsListItem",
         }),
       );
     case 4:
       return S.suspend(() =>
-        S.Struct({ logFields: S.optional(__S(4035, __c126, 3)) }).pipe(ns),
+        S.Struct({ logFields: S.optional(__S(4067, __c127, 3)) }).pipe(ns),
       ).annotate({ identifier: "GetLogFieldsResponse" });
   }
 }
-function __c127(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9832,14 +10589,14 @@ function __c127(j: number): any {
         S.Struct({ name: S.optional(S.String), percent: S.optional(S.Number) }),
       ).annotate({ identifier: "LogGroupField" });
     case 2:
-      return S.Array(__S(4065, __c127, 1));
+      return S.Array(__S(4097, __c128, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ logGroupFields: S.optional(__S(4066, __c127, 2)) }).pipe(ns),
+        S.Struct({ logGroupFields: S.optional(__S(4098, __c128, 2)) }).pipe(ns),
       ).annotate({ identifier: "GetLogGroupFieldsResponse" });
   }
 }
-function __c128(j: number): any {
+function __c129(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9854,17 +10611,17 @@ function __c128(j: number): any {
     case 2:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ fields: __S(4097, __c128, 1) }),
-          /*@__PURE__*/ S.Struct({ InternalStreamingException: __S(4128, __c129, 0) }),
+          /*@__PURE__*/ S.Struct({ fields: __S(4129, __c129, 1) }),
+          /*@__PURE__*/ S.Struct({ InternalStreamingException: __S(4160, __c130, 0) }),
         ]),
       );
     case 3:
       return S.suspend(() =>
-        S.Struct({ fieldStream: S.optional(__S(4098, __c128, 2)) }).pipe(ns),
+        S.Struct({ fieldStream: S.optional(__S(4130, __c129, 2)) }).pipe(ns),
       ).annotate({ identifier: "GetLogObjectResponse" });
   }
 }
-function __c129(j: number): any {
+function __c130(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ message: S.optional(S.String) })).annotate({
@@ -9872,7 +10629,7 @@ function __c129(j: number): any {
       });
   }
 }
-function __c130(j: number): any {
+function __c131(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9886,7 +10643,7 @@ function __c130(j: number): any {
       ).annotate({ identifier: "GetLogRecordResponse" });
   }
 }
-function __c131(j: number): any {
+function __c132(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9908,7 +10665,7 @@ function __c131(j: number): any {
       ).annotate({ identifier: "GetLookupTableResponse" });
   }
 }
-function __c132(j: number): any {
+function __c133(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9923,9 +10680,9 @@ function __c132(j: number): any {
         S.Struct({ field: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "ResultField" });
     case 2:
-      return S.Array(__S(4225, __c132, 1));
+      return S.Array(__S(4257, __c133, 1));
     case 3:
-      return S.Array(__S(4226, __c132, 2));
+      return S.Array(__S(4258, __c133, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -9942,8 +10699,8 @@ function __c132(j: number): any {
       return S.suspend(() =>
         S.Struct({
           queryLanguage: S.optional(S.String),
-          results: S.optional(__S(4227, __c132, 3)),
-          statistics: S.optional(__S(4228, __c132, 4)),
+          results: S.optional(__S(4259, __c133, 3)),
+          statistics: S.optional(__S(4260, __c133, 4)),
           status: S.optional(S.String),
           encryptionKey: S.optional(S.String),
           nextToken: S.optional(S.String),
@@ -9951,7 +10708,7 @@ function __c132(j: number): any {
       ).annotate({ identifier: "GetQueryResultsResponse" });
   }
 }
-function __c133(j: number): any {
+function __c134(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9961,7 +10718,7 @@ function __c133(j: number): any {
       ).annotate({ identifier: "GetScheduledQueryRequest" });
   }
 }
-function __c134(j: number): any {
+function __c135(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9990,7 +10747,7 @@ function __c134(j: number): any {
       ).annotate({ identifier: "GetScheduledQueryResponse" });
   }
 }
-function __c135(j: number): any {
+function __c136(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9998,7 +10755,7 @@ function __c135(j: number): any {
           identifier: S.String,
           startTime: S.Number,
           endTime: S.Number,
-          executionStatuses: S.optional(__S(2720, __c85, 0)),
+          executionStatuses: S.optional(__S(2752, __c86, 0)),
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -10014,7 +10771,7 @@ function __c135(j: number): any {
         }),
       ).annotate({ identifier: "ScheduledQueryDestination" });
     case 2:
-      return S.Array(__S(4321, __c135, 1));
+      return S.Array(__S(4353, __c136, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -10022,23 +10779,23 @@ function __c135(j: number): any {
           executionStatus: S.optional(S.String),
           triggeredTimestamp: S.optional(S.Number),
           errorMessage: S.optional(S.String),
-          destinations: S.optional(__S(4322, __c135, 2)),
+          destinations: S.optional(__S(4354, __c136, 2)),
         }),
       ).annotate({ identifier: "TriggerHistoryRecord" });
     case 4:
-      return S.Array(__S(4323, __c135, 3));
+      return S.Array(__S(4355, __c136, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
           name: S.optional(S.String),
           scheduledQueryArn: S.optional(S.String),
-          triggerHistory: S.optional(__S(4324, __c135, 4)),
+          triggerHistory: S.optional(__S(4356, __c136, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "GetScheduledQueryHistoryResponse" });
   }
 }
-function __c136(j: number): any {
+function __c137(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10048,7 +10805,7 @@ function __c136(j: number): any {
       ).annotate({ identifier: "GetStorageTierPolicyRequest" });
   }
 }
-function __c137(j: number): any {
+function __c138(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10058,7 +10815,7 @@ function __c137(j: number): any {
       ).annotate({ identifier: "GetStorageTierPolicyResponse" });
   }
 }
-function __c138(j: number): any {
+function __c139(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10072,21 +10829,21 @@ function __c138(j: number): any {
           logGroupIdentifier: S.optional(S.String),
           creationTime: S.optional(S.Number),
           lastModifiedTime: S.optional(S.Number),
-          transformerConfig: S.optional(__S(4476, __c139, 28)),
+          transformerConfig: S.optional(__S(4508, __c140, 28)),
         }).pipe(ns),
       ).annotate({ identifier: "GetTransformerResponse" });
   }
 }
-function __c139(j: number): any {
+function __c140(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ key: S.String, value: S.String, overwriteIfExists: S.optional(S.Boolean) }),
       ).annotate({ identifier: "AddKeyEntry" });
     case 1:
-      return S.Array(__S(4448, __c139, 0));
+      return S.Array(__S(4480, __c140, 0));
     case 2:
-      return S.suspend(() => S.Struct({ entries: __S(4449, __c139, 1) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4481, __c140, 1) })).annotate({
         identifier: "AddKeys",
       });
     case 3:
@@ -10094,9 +10851,9 @@ function __c139(j: number): any {
         S.Struct({ source: S.String, target: S.String, overwriteIfExists: S.optional(S.Boolean) }),
       ).annotate({ identifier: "CopyValueEntry" });
     case 4:
-      return S.Array(__S(4451, __c139, 3));
+      return S.Array(__S(4483, __c140, 3));
     case 5:
-      return S.suspend(() => S.Struct({ entries: __S(4452, __c139, 4) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4484, __c140, 4) })).annotate({
         identifier: "CopyValue",
       });
     case 6:
@@ -10174,9 +10931,9 @@ function __c139(j: number): any {
         S.Struct({ key: S.String, renameTo: S.String, overwriteIfExists: S.optional(S.Boolean) }),
       ).annotate({ identifier: "RenameKeyEntry" });
     case 16:
-      return S.Array(__S(4463, __c139, 15));
+      return S.Array(__S(4495, __c140, 15));
     case 17:
-      return S.suspend(() => S.Struct({ entries: __S(4464, __c139, 16) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4496, __c140, 16) })).annotate({
         identifier: "RenameKeys",
       });
     case 18:
@@ -10184,9 +10941,9 @@ function __c139(j: number): any {
         identifier: "SplitStringEntry",
       });
     case 19:
-      return S.Array(__S(4466, __c139, 18));
+      return S.Array(__S(4498, __c140, 18));
     case 20:
-      return S.suspend(() => S.Struct({ entries: __S(4467, __c139, 19) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4499, __c140, 19) })).annotate({
         identifier: "SplitString",
       });
     case 21:
@@ -10194,9 +10951,9 @@ function __c139(j: number): any {
         { identifier: "SubstituteStringEntry" },
       );
     case 22:
-      return S.Array(__S(4469, __c139, 21));
+      return S.Array(__S(4501, __c140, 21));
     case 23:
-      return S.suspend(() => S.Struct({ entries: __S(4470, __c139, 22) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4502, __c140, 22) })).annotate({
         identifier: "SubstituteString",
       });
     case 24:
@@ -10204,44 +10961,44 @@ function __c139(j: number): any {
         identifier: "TypeConverterEntry",
       });
     case 25:
-      return S.Array(__S(4472, __c139, 24));
+      return S.Array(__S(4504, __c140, 24));
     case 26:
-      return S.suspend(() => S.Struct({ entries: __S(4473, __c139, 25) })).annotate({
+      return S.suspend(() => S.Struct({ entries: __S(4505, __c140, 25) })).annotate({
         identifier: "TypeConverter",
       });
     case 27:
       return S.suspend(() =>
         S.Struct({
-          addKeys: S.optional(__S(4450, __c139, 2)),
-          copyValue: S.optional(__S(4453, __c139, 5)),
-          csv: S.optional(__S(4454, __c139, 6)),
-          dateTimeConverter: S.optional(__S(4455, __c139, 7)),
-          deleteKeys: S.optional(__S(4456, __c139, 8)),
-          grok: S.optional(__S(4457, __c139, 9)),
-          listToMap: S.optional(__S(4458, __c139, 10)),
-          lowerCaseString: S.optional(__S(4456, __c139, 8)),
-          moveKeys: S.optional(__S(4453, __c139, 5)),
-          parseCloudfront: S.optional(__S(4459, __c139, 11)),
-          parseJSON: S.optional(__S(4460, __c139, 12)),
-          parseKeyValue: S.optional(__S(4461, __c139, 13)),
-          parseRoute53: S.optional(__S(4459, __c139, 11)),
-          parseToOCSF: S.optional(__S(4462, __c139, 14)),
-          parsePostgres: S.optional(__S(4459, __c139, 11)),
-          parseVPC: S.optional(__S(4459, __c139, 11)),
-          parseWAF: S.optional(__S(4459, __c139, 11)),
-          renameKeys: S.optional(__S(4465, __c139, 17)),
-          splitString: S.optional(__S(4468, __c139, 20)),
-          substituteString: S.optional(__S(4471, __c139, 23)),
-          trimString: S.optional(__S(4456, __c139, 8)),
-          typeConverter: S.optional(__S(4474, __c139, 26)),
-          upperCaseString: S.optional(__S(4456, __c139, 8)),
+          addKeys: S.optional(__S(4482, __c140, 2)),
+          copyValue: S.optional(__S(4485, __c140, 5)),
+          csv: S.optional(__S(4486, __c140, 6)),
+          dateTimeConverter: S.optional(__S(4487, __c140, 7)),
+          deleteKeys: S.optional(__S(4488, __c140, 8)),
+          grok: S.optional(__S(4489, __c140, 9)),
+          listToMap: S.optional(__S(4490, __c140, 10)),
+          lowerCaseString: S.optional(__S(4488, __c140, 8)),
+          moveKeys: S.optional(__S(4485, __c140, 5)),
+          parseCloudfront: S.optional(__S(4491, __c140, 11)),
+          parseJSON: S.optional(__S(4492, __c140, 12)),
+          parseKeyValue: S.optional(__S(4493, __c140, 13)),
+          parseRoute53: S.optional(__S(4491, __c140, 11)),
+          parseToOCSF: S.optional(__S(4494, __c140, 14)),
+          parsePostgres: S.optional(__S(4491, __c140, 11)),
+          parseVPC: S.optional(__S(4491, __c140, 11)),
+          parseWAF: S.optional(__S(4491, __c140, 11)),
+          renameKeys: S.optional(__S(4497, __c140, 17)),
+          splitString: S.optional(__S(4500, __c140, 20)),
+          substituteString: S.optional(__S(4503, __c140, 23)),
+          trimString: S.optional(__S(4488, __c140, 8)),
+          typeConverter: S.optional(__S(4506, __c140, 26)),
+          upperCaseString: S.optional(__S(4488, __c140, 8)),
         }),
       ).annotate({ identifier: "Processor" });
     case 28:
-      return S.Array(__S(4475, __c139, 27));
+      return S.Array(__S(4507, __c140, 27));
   }
 }
-function __c140(j: number): any {
+function __c141(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10250,7 +11007,7 @@ function __c140(j: number): any {
           includeLinkedAccounts: S.optional(S.Boolean),
           logGroupClass: S.optional(S.String),
           logGroupNamePattern: S.optional(S.String),
-          dataSources: S.optional(__S(4512, __c141, 0)),
+          dataSources: S.optional(__S(4544, __c142, 0)),
           groupBy: S.String,
           nextToken: S.optional(S.String),
           limit: S.optional(S.Number),
@@ -10261,32 +11018,32 @@ function __c140(j: number): any {
         S.Struct({ key: S.optional(S.String), value: S.optional(S.String) }),
       ).annotate({ identifier: "GroupingIdentifier" });
     case 2:
-      return S.Array(__S(4481, __c140, 1));
+      return S.Array(__S(4513, __c141, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           logGroupCount: S.optional(S.Number),
-          groupingIdentifiers: S.optional(__S(4482, __c140, 2)),
+          groupingIdentifiers: S.optional(__S(4514, __c141, 2)),
         }),
       ).annotate({ identifier: "AggregateLogGroupSummary" });
     case 4:
-      return S.Array(__S(4483, __c140, 3));
+      return S.Array(__S(4515, __c141, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          aggregateLogGroupSummaries: S.optional(__S(4484, __c140, 4)),
+          aggregateLogGroupSummaries: S.optional(__S(4516, __c141, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAggregateLogGroupSummariesResponse" });
   }
 }
-function __c141(j: number): any {
+function __c142(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(1312, __c41, 0));
   }
 }
-function __c142(j: number): any {
+function __c143(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10304,19 +11061,19 @@ function __c142(j: number): any {
         S.Struct({ timestamp: S.optional(S.Number), message: S.optional(S.String) }),
       ).annotate({ identifier: "LogEvent" });
     case 3:
-      return S.Array(__S(4546, __c142, 2));
+      return S.Array(__S(4578, __c143, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
           dynamicTokenPosition: S.optional(S.Number),
           isDynamic: S.optional(S.Boolean),
           tokenString: S.optional(S.String),
-          enumerations: S.optional(__S(4545, __c142, 1)),
+          enumerations: S.optional(__S(4577, __c143, 1)),
           inferredTokenName: S.optional(S.String),
         }),
       ).annotate({ identifier: "PatternToken" });
     case 5:
-      return S.Array(__S(4548, __c142, 4));
+      return S.Array(__S(4580, __c143, 4));
     case 6:
       return S.suspend(() =>
         S.Struct({
@@ -10331,9 +11088,9 @@ function __c142(j: number): any {
           description: S.String,
           active: S.Boolean,
           state: S.String,
-          histogram: __S(4545, __c142, 1),
-          logSamples: __S(4547, __c142, 3),
-          patternTokens: __S(4549, __c142, 5),
+          histogram: __S(4577, __c143, 1),
+          logSamples: __S(4579, __c143, 3),
+          patternTokens: __S(4581, __c143, 5),
           logGroupArnList: __S(1504, __c47, 0),
           suppressed: S.optional(S.Boolean),
           suppressedDate: S.optional(S.Number),
@@ -10342,17 +11099,17 @@ function __c142(j: number): any {
         }),
       ).annotate({ identifier: "Anomaly" });
     case 7:
-      return S.Array(__S(4550, __c142, 6));
+      return S.Array(__S(4582, __c143, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
-          anomalies: S.optional(__S(4551, __c142, 7)),
+          anomalies: S.optional(__S(4583, __c143, 7)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListAnomaliesResponse" });
   }
 }
-function __c143(j: number): any {
+function __c144(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10371,14 +11128,14 @@ function __c143(j: number): any {
         }),
       ).annotate({ identifier: "IntegrationSummary" });
     case 2:
-      return S.Array(__S(4577, __c143, 1));
+      return S.Array(__S(4609, __c144, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ integrationSummaries: S.optional(__S(4578, __c143, 2)) }).pipe(ns),
+        S.Struct({ integrationSummaries: S.optional(__S(4610, __c144, 2)) }).pipe(ns),
       ).annotate({ identifier: "ListIntegrationsResponse" });
   }
 }
-function __c144(j: number): any {
+function __c145(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10404,24 +11161,24 @@ function __c144(j: number): any {
         }),
       ).annotate({ identifier: "AnomalyDetector" });
     case 2:
-      return S.Array(__S(4609, __c144, 1));
+      return S.Array(__S(4641, __c145, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          anomalyDetectors: S.optional(__S(4610, __c144, 2)),
+          anomalyDetectors: S.optional(__S(4642, __c145, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListLogAnomalyDetectorsResponse" });
   }
 }
-function __c145(j: number): any {
+function __c146(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ key: S.String, values: S.optional(__S(1504, __c47, 0)) }),
       ).annotate({ identifier: "TagFilter" });
     case 1:
-      return S.Array(__S(4640, __c145, 0));
+      return S.Array(__S(4672, __c146, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -10431,9 +11188,9 @@ function __c145(j: number): any {
           accountIdentifiers: S.optional(__S(1504, __c47, 0)),
           nextToken: S.optional(S.String),
           limit: S.optional(S.Number),
-          dataSources: S.optional(__S(4512, __c141, 0)),
+          dataSources: S.optional(__S(4544, __c142, 0)),
           fieldIndexNames: S.optional(__S(1504, __c47, 0)),
-          logGroupTags: S.optional(__S(4641, __c145, 1)),
+          logGroupTags: S.optional(__S(4673, __c146, 1)),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ListLogGroupsRequest" });
     case 3:
@@ -10445,17 +11202,17 @@ function __c145(j: number): any {
         }),
       ).annotate({ identifier: "LogGroupSummary" });
     case 4:
-      return S.Array(__S(4643, __c145, 3));
+      return S.Array(__S(4675, __c146, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          logGroups: S.optional(__S(4644, __c145, 4)),
+          logGroups: S.optional(__S(4676, __c146, 4)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListLogGroupsResponse" });
   }
 }
-function __c146(j: number): any {
+function __c147(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10474,7 +11231,7 @@ function __c146(j: number): any {
       ).annotate({ identifier: "ListLogGroupsForQueryResponse" });
   }
 }
-function __c147(j: number): any {
+function __c148(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10502,17 +11259,17 @@ function __c147(j: number): any {
         }),
       ).annotate({ identifier: "ScheduledQuerySummary" });
     case 2:
-      return S.Array(__S(4705, __c147, 1));
+      return S.Array(__S(4737, __c148, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          scheduledQueries: S.optional(__S(4706, __c147, 2)),
+          scheduledQueries: S.optional(__S(4738, __c148, 2)),
         }).pipe(ns),
       ).annotate({ identifier: "ListScheduledQueriesResponse" });
   }
 }
-function __c148(j: number): any {
+function __c149(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10534,17 +11291,17 @@ function __c148(j: number): any {
         }),
       ).annotate({ identifier: "S3TableIntegrationSource" });
     case 2:
-      return S.Array(__S(4737, __c148, 1));
+      return S.Array(__S(4769, __c149, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          sources: S.optional(__S(4738, __c148, 2)),
+          sources: S.optional(__S(4770, __c149, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListSourcesForS3TableIntegrationResponse" });
   }
 }
-function __c149(j: number): any {
+function __c150(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -10565,11 +11322,11 @@ function __c149(j: number): any {
         }),
       ).annotate({ identifier: "SyslogConfiguration" });
     case 2:
-      return S.Array(__S(4769, __c149, 1));
+      return S.Array(__S(4801, __c150, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          syslogConfigurations: S.optional(__S(4770, __c149, 2)),
+          syslogConfigurations: S.optional(__S(4802, __c150, 2)),
           nextToken: S.optional(S.String),
         }).pipe(ns),
       ).annotate({ identifier: "ListSyslogConfigurationsResponse" });

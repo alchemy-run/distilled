@@ -209,6 +209,7 @@ export const getEntitlements: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:GetEntitlements"] },
   telemetry: TELEMETRY,
   span: "GetEntitlements",
 })) as any;

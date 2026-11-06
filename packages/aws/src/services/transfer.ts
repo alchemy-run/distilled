@@ -413,6 +413,7 @@ export interface S3StorageOptions {
   DirectoryListingOptimization?: DirectoryListingOptimization;
 }
 export type IpAddressType = "IPV4" | "DUALSTACK" | (string & {});
+export type HostKeyStorageType = "SERVICE_MANAGED" | "SECRETS_MANAGER" | (string & {});
 export interface CreateServerRequest {
   Certificate?: string;
   Domain?: Domain;
@@ -432,6 +433,7 @@ export interface CreateServerRequest {
   StructuredLogDestinations?: string[];
   S3StorageOptions?: S3StorageOptions;
   IpAddressType?: IpAddressType;
+  HostKeyStorageType?: HostKeyStorageType;
 }
 export interface CreateServerResponse {
   ServerId: string;
@@ -814,6 +816,8 @@ export interface DescribedHostKey {
   Type?: string;
   DateImported?: Date;
   Tags?: Tag[];
+  StorageType?: HostKeyStorageType;
+  SecretId?: string;
 }
 export interface DescribeHostKeyResponse {
   HostKey: DescribedHostKey;
@@ -1001,11 +1005,14 @@ export interface ImportCertificateRequest {
 export interface ImportCertificateResponse {
   CertificateId: string;
 }
+export type KmsKey = string;
 export interface ImportHostKeyRequest {
   ServerId: string;
   HostKeyBody: string | redacted.Redacted<string>;
   Description?: string;
   Tags?: Tag[];
+  StorageType?: HostKeyStorageType;
+  KmsKey?: string;
 }
 export interface ImportHostKeyResponse {
   ServerId: string;
@@ -1143,6 +1150,8 @@ export interface ListedHostKey {
   Description?: string;
   Type?: string;
   DateImported?: Date;
+  StorageType?: HostKeyStorageType;
+  SecretId?: string;
 }
 export type ListedHostKeys = ListedHostKey[];
 export interface ListHostKeysResponse {
@@ -1423,7 +1432,9 @@ export interface UpdateConnectorResponse {
 export interface UpdateHostKeyRequest {
   ServerId: string;
   HostKeyId: string;
-  Description: string;
+  Description?: string;
+  StorageType?: HostKeyStorageType;
+  KmsKey?: string;
 }
 export interface UpdateHostKeyResponse {
   ServerId: string;
@@ -1534,6 +1545,15 @@ export const createAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccess",
+  iam: {
+    actions: ["transfer:CreateAccess", "iam:PassRole"],
+    resources: {
+      "transfer:CreateAccess": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccess",
 }));
@@ -1572,6 +1592,16 @@ export const createAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgreement",
+  iam: {
+    actions: ["transfer:CreateAgreement", "iam:PassRole", "transfer:TagResource"],
+    resources: {
+      "transfer:CreateAgreement": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAgreement",
 }));
@@ -1608,6 +1638,11 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  iam: {
+    actions: ["transfer:CreateConnector", "iam:PassRole", "transfer:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -1640,6 +1675,10 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  iam: {
+    actions: ["transfer:CreateProfile", "transfer:TagResource"],
+    conditional: { "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfile",
 }));
@@ -1676,6 +1715,11 @@ export const createServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServer",
+  iam: {
+    actions: ["transfer:CreateServer", "iam:PassRole", "transfer:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "LoggingRole", "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateServer",
 }));
@@ -1708,6 +1752,14 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
+  iam: {
+    actions: ["transfer:CreateUser", "iam:PassRole", "transfer:TagResource"],
+    resources: {
+      "transfer:CreateUser": ["arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}"],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -1742,6 +1794,11 @@ export const createWebApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebApp",
+  iam: {
+    actions: ["transfer:CreateWebApp", "iam:PassRole", "transfer:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: { op: "CreateWebApp", attributes: { "url.template": "/createWebApp" } },
 }));
@@ -1776,6 +1833,10 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  iam: {
+    actions: ["transfer:CreateWorkflow", "transfer:TagResource"],
+    conditional: { "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflow",
 }));
@@ -1806,6 +1867,14 @@ export const deleteAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccess",
+  iam: {
+    actions: ["transfer:DeleteAccess"],
+    resources: {
+      "transfer:DeleteAccess": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAccess",
 }));
@@ -1836,6 +1905,14 @@ export const deleteAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgreement",
+  iam: {
+    actions: ["transfer:DeleteAgreement"],
+    resources: {
+      "transfer:DeleteAgreement": [
+        "arn:${Partition}:transfer:${Region}:${Account}:agreement/${ServerId}/${AgreementId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgreement",
 }));
@@ -1866,6 +1943,14 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
+  iam: {
+    actions: ["transfer:DeleteCertificate"],
+    resources: {
+      "transfer:DeleteCertificate": [
+        "arn:${Partition}:transfer:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCertificate",
 }));
@@ -1896,6 +1981,14 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  iam: {
+    actions: ["transfer:DeleteConnector"],
+    resources: {
+      "transfer:DeleteConnector": [
+        "arn:${Partition}:transfer:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -1928,6 +2021,14 @@ export const deleteHostKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostKey",
+  iam: {
+    actions: ["transfer:DeleteHostKey"],
+    resources: {
+      "transfer:DeleteHostKey": [
+        "arn:${Partition}:transfer:${Region}:${Account}:host-key/${ServerId}/${HostKeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteHostKey",
 }));
@@ -1958,6 +2059,14 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  iam: {
+    actions: ["transfer:DeleteProfile"],
+    resources: {
+      "transfer:DeleteProfile": [
+        "arn:${Partition}:transfer:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfile",
 }));
@@ -1992,6 +2101,14 @@ export const deleteServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServer",
+  iam: {
+    actions: ["transfer:DeleteServer"],
+    resources: {
+      "transfer:DeleteServer": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteServer",
 }));
@@ -2024,6 +2141,14 @@ export const deleteSshPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSshPublicKey",
+  iam: {
+    actions: ["transfer:DeleteSshPublicKey"],
+    resources: {
+      "transfer:DeleteSshPublicKey": [
+        "arn:${Partition}:transfer:${Region}:${Account}:user/${ServerId}/${UserName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSshPublicKey",
 }));
@@ -2058,6 +2183,14 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
+  iam: {
+    actions: ["transfer:DeleteUser"],
+    resources: {
+      "transfer:DeleteUser": [
+        "arn:${Partition}:transfer:${Region}:${Account}:user/${ServerId}/${UserName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -2090,6 +2223,14 @@ export const deleteWebApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebApp",
+  iam: {
+    actions: ["transfer:DeleteWebApp"],
+    resources: {
+      "transfer:DeleteWebApp": [
+        "arn:${Partition}:transfer:${Region}:${Account}:webapp/${WebAppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DeleteWebApp", attributes: { "url.template": "/deleteWebApp" } },
 }));
@@ -2124,6 +2265,14 @@ export const deleteWebAppCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebAppCustomization",
+  iam: {
+    actions: ["transfer:DeleteWebAppCustomization"],
+    resources: {
+      "transfer:DeleteWebAppCustomization": [
+        "arn:${Partition}:transfer:${Region}:${Account}:webapp/${WebAppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteWebAppCustomization",
@@ -2159,6 +2308,14 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  iam: {
+    actions: ["transfer:DeleteWorkflow"],
+    resources: {
+      "transfer:DeleteWorkflow": [
+        "arn:${Partition}:transfer:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflow",
 }));
@@ -2191,6 +2348,14 @@ export const describeAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccess",
+  iam: {
+    actions: ["transfer:DescribeAccess"],
+    resources: {
+      "transfer:DescribeAccess": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAccess",
 }));
@@ -2221,6 +2386,14 @@ export const describeAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgreement",
+  iam: {
+    actions: ["transfer:DescribeAgreement"],
+    resources: {
+      "transfer:DescribeAgreement": [
+        "arn:${Partition}:transfer:${Region}:${Account}:agreement/${ServerId}/${AgreementId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAgreement",
 }));
@@ -2253,6 +2426,14 @@ export const describeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificate",
+  iam: {
+    actions: ["transfer:DescribeCertificate"],
+    resources: {
+      "transfer:DescribeCertificate": [
+        "arn:${Partition}:transfer:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCertificate",
 }));
@@ -2283,6 +2464,14 @@ export const describeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnector",
+  iam: {
+    actions: ["transfer:DescribeConnector"],
+    resources: {
+      "transfer:DescribeConnector": [
+        "arn:${Partition}:transfer:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnector",
 }));
@@ -2317,6 +2506,14 @@ export const describeExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExecution",
+  iam: {
+    actions: ["transfer:DescribeExecution"],
+    resources: {
+      "transfer:DescribeExecution": [
+        "arn:${Partition}:transfer:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeExecution",
 }));
@@ -2347,6 +2544,14 @@ export const describeHostKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHostKey",
+  iam: {
+    actions: ["transfer:DescribeHostKey"],
+    resources: {
+      "transfer:DescribeHostKey": [
+        "arn:${Partition}:transfer:${Region}:${Account}:host-key/${ServerId}/${HostKeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeHostKey",
 }));
@@ -2377,6 +2582,14 @@ export const describeProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProfile",
+  iam: {
+    actions: ["transfer:DescribeProfile"],
+    resources: {
+      "transfer:DescribeProfile": [
+        "arn:${Partition}:transfer:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeProfile",
 }));
@@ -2407,6 +2620,7 @@ export const describeSecurityPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSecurityPolicy",
+  iam: { actions: ["transfer:DescribeSecurityPolicy"] },
   telemetry: TELEMETRY,
   span: "DescribeSecurityPolicy",
 }));
@@ -2439,6 +2653,14 @@ export const describeServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServer",
+  iam: {
+    actions: ["transfer:DescribeServer"],
+    resources: {
+      "transfer:DescribeServer": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeServer",
 }));
@@ -2471,6 +2693,14 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
+  iam: {
+    actions: ["transfer:DescribeUser"],
+    resources: {
+      "transfer:DescribeUser": [
+        "arn:${Partition}:transfer:${Region}:${Account}:user/${ServerId}/${UserName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeUser",
 }));
@@ -2505,6 +2735,14 @@ export const describeWebApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWebApp",
+  iam: {
+    actions: ["transfer:DescribeWebApp"],
+    resources: {
+      "transfer:DescribeWebApp": [
+        "arn:${Partition}:transfer:${Region}:${Account}:webapp/${WebAppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "DescribeWebApp", attributes: { "url.template": "/describeWebApp" } },
 }));
@@ -2537,6 +2775,14 @@ export const describeWebAppCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWebAppCustomization",
+  iam: {
+    actions: ["transfer:DescribeWebAppCustomization"],
+    resources: {
+      "transfer:DescribeWebAppCustomization": [
+        "arn:${Partition}:transfer:${Region}:${Account}:webapp/${WebAppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeWebAppCustomization",
@@ -2570,6 +2816,14 @@ export const describeWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkflow",
+  iam: {
+    actions: ["transfer:DescribeWorkflow"],
+    resources: {
+      "transfer:DescribeWorkflow": [
+        "arn:${Partition}:transfer:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkflow",
 }));
@@ -2620,6 +2874,10 @@ export const importCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificate",
+  iam: {
+    actions: ["transfer:ImportCertificate", "transfer:TagResource"],
+    conditional: { "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportCertificate",
 }));
@@ -2654,6 +2912,15 @@ export const importHostKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportHostKey",
+  iam: {
+    actions: ["transfer:ImportHostKey", "transfer:TagResource"],
+    resources: {
+      "transfer:ImportHostKey": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+    conditional: { "transfer:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "ImportHostKey",
 }));
@@ -2690,6 +2957,14 @@ export const importSshPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSshPublicKey",
+  iam: {
+    actions: ["transfer:ImportSshPublicKey"],
+    resources: {
+      "transfer:ImportSshPublicKey": [
+        "arn:${Partition}:transfer:${Region}:${Account}:user/${ServerId}/${UserName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportSshPublicKey",
 }));
@@ -2729,6 +3004,14 @@ export const listAccesses: API.PaginatedOperationMethod<
     items: "Accesses",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["transfer:ListAccesses"],
+    resources: {
+      "transfer:ListAccesses": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAccesses",
 })) as any;
@@ -2768,6 +3051,14 @@ export const listAgreements: API.PaginatedOperationMethod<
     items: "Agreements",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["transfer:ListAgreements"],
+    resources: {
+      "transfer:ListAgreements": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAgreements",
 })) as any;
@@ -2807,6 +3098,7 @@ export const listCertificates: API.PaginatedOperationMethod<
     items: "Certificates",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["transfer:ListCertificates"] },
   telemetry: TELEMETRY,
   span: "ListCertificates",
 })) as any;
@@ -2846,6 +3138,7 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "Connectors",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["transfer:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -2887,6 +3180,14 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "Executions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["transfer:ListExecutions"],
+    resources: {
+      "transfer:ListExecutions": [
+        "arn:${Partition}:transfer:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListExecutions",
 })) as any;
@@ -2926,6 +3227,14 @@ export const listFileTransferResults: API.PaginatedOperationMethod<
     items: "FileTransferResults",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["transfer:ListFileTransferResults"],
+    resources: {
+      "transfer:ListFileTransferResults": [
+        "arn:${Partition}:transfer:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListFileTransferResults",
@@ -2961,6 +3270,14 @@ export const listHostKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHostKeys",
+  iam: {
+    actions: ["transfer:ListHostKeys"],
+    resources: {
+      "transfer:ListHostKeys": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListHostKeys",
 }));
@@ -3000,6 +3317,7 @@ export const listProfiles: API.PaginatedOperationMethod<
     items: "Profiles",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["transfer:ListProfiles"] },
   telemetry: TELEMETRY,
   span: "ListProfiles",
 })) as any;
@@ -3037,6 +3355,7 @@ export const listSecurityPolicies: API.PaginatedOperationMethod<
     items: "SecurityPolicyNames",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["transfer:ListSecurityPolicies"] },
   telemetry: TELEMETRY,
   span: "ListSecurityPolicies",
 })) as any;
@@ -3074,6 +3393,7 @@ export const listServers: API.PaginatedOperationMethod<
     items: "Servers",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["transfer:ListServers"] },
   telemetry: TELEMETRY,
   span: "ListServers",
 })) as any;
@@ -3111,6 +3431,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["transfer:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -3150,6 +3471,12 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["transfer:ListUsers"],
+    resources: {
+      "transfer:ListUsers": ["arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -3189,6 +3516,7 @@ export const listWebApps: API.PaginatedOperationMethod<
     items: "WebApps",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["transfer:ListWebApps"] },
   telemetry: TELEMETRY,
   span: { op: "ListWebApps", attributes: { "url.template": "/listWebApps" } },
 })) as any;
@@ -3226,6 +3554,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "Workflows",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["transfer:ListWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListWorkflows",
 })) as any;
@@ -3262,6 +3591,14 @@ export const sendWorkflowStepState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendWorkflowStepState",
+  iam: {
+    actions: ["transfer:SendWorkflowStepState"],
+    resources: {
+      "transfer:SendWorkflowStepState": [
+        "arn:${Partition}:transfer:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendWorkflowStepState",
 }));
@@ -3308,6 +3645,14 @@ export const startDirectoryListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDirectoryListing",
+  iam: {
+    actions: ["transfer:StartDirectoryListing"],
+    resources: {
+      "transfer:StartDirectoryListing": [
+        "arn:${Partition}:transfer:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDirectoryListing",
 }));
@@ -3348,6 +3693,14 @@ export const startFileTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFileTransfer",
+  iam: {
+    actions: ["transfer:StartFileTransfer"],
+    resources: {
+      "transfer:StartFileTransfer": [
+        "arn:${Partition}:transfer:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartFileTransfer",
 }));
@@ -3380,6 +3733,14 @@ export const startRemoteDelete: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRemoteDelete",
+  iam: {
+    actions: ["transfer:StartRemoteDelete"],
+    resources: {
+      "transfer:StartRemoteDelete": [
+        "arn:${Partition}:transfer:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "StartRemoteDelete", attributes: { "url.template": "/startRemoteDelete" } },
 }));
@@ -3412,6 +3773,14 @@ export const startRemoteMove: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRemoteMove",
+  iam: {
+    actions: ["transfer:StartRemoteMove"],
+    resources: {
+      "transfer:StartRemoteMove": [
+        "arn:${Partition}:transfer:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: { op: "StartRemoteMove", attributes: { "url.template": "/startRemoteMove" } },
 }));
@@ -3448,6 +3817,12 @@ export const startServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartServer",
+  iam: {
+    actions: ["transfer:StartServer"],
+    resources: {
+      "transfer:StartServer": ["arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartServer",
 }));
@@ -3486,6 +3861,12 @@ export const stopServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopServer",
+  iam: {
+    actions: ["transfer:StopServer"],
+    resources: {
+      "transfer:StopServer": ["arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopServer",
 }));
@@ -3518,6 +3899,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["transfer:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3548,6 +3930,14 @@ export const testConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnection",
+  iam: {
+    actions: ["transfer:TestConnection"],
+    resources: {
+      "transfer:TestConnection": [
+        "arn:${Partition}:transfer:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestConnection",
 }));
@@ -3600,6 +3990,14 @@ export const testIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestIdentityProvider",
+  iam: {
+    actions: ["transfer:TestIdentityProvider"],
+    resources: {
+      "transfer:TestIdentityProvider": [
+        "arn:${Partition}:transfer:${Region}:${Account}:user/${ServerId}/${UserName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TestIdentityProvider",
 }));
@@ -3632,6 +4030,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["transfer:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3666,6 +4065,11 @@ export const updateAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccess",
+  iam: {
+    actions: ["iam:PassRole", "transfer:UpdateAccess"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "Role" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAccess",
 }));
@@ -3704,6 +4108,16 @@ export const updateAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgreement",
+  iam: {
+    actions: ["iam:PassRole", "transfer:UpdateAgreement"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "transfer:UpdateAgreement": [
+        "arn:${Partition}:transfer:${Region}:${Account}:agreement/${ServerId}/${AgreementId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "AccessRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAgreement",
 }));
@@ -3736,6 +4150,14 @@ export const updateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificate",
+  iam: {
+    actions: ["transfer:UpdateCertificate"],
+    resources: {
+      "transfer:UpdateCertificate": [
+        "arn:${Partition}:transfer:${Region}:${Account}:certificate/${CertificateId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCertificate",
 }));
@@ -3770,6 +4192,11 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  iam: {
+    actions: ["iam:PassRole", "transfer:UpdateConnector"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "AccessRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnector",
 }));
@@ -3782,7 +4209,9 @@ export type UpdateHostKeyError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Updates the description for the host key that's specified by the `ServerId` and `HostKeyId` parameters.
+ * Updates the host key that's specified by the `ServerId` and `HostKeyId` parameters. You can update the description of the host key, change where the host key is stored by specifying the `StorageType`, and specify the KMS key used to encrypt the host key when it's stored in Secrets Manager.
+ *
+ * To change a host key's storage type from `SERVICE_MANAGED` to `SECRETS_MANAGER`, you must have the `transfer:ExportHostKey` permission. `transfer:ExportHostKey` is a permission-only action that has no corresponding API operation.
  */
 export const updateHostKey: API.OperationMethod<
   UpdateHostKeyRequest & RegionInput,
@@ -3802,6 +4231,17 @@ export const updateHostKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHostKey",
+  iam: {
+    actions: ["transfer:ExportHostKey", "transfer:UpdateHostKey"],
+    resources: {
+      "transfer:ExportHostKey": [
+        "arn:${Partition}:transfer:${Region}:${Account}:host-key/${ServerId}/${HostKeyId}",
+      ],
+      "transfer:UpdateHostKey": [
+        "arn:${Partition}:transfer:${Region}:${Account}:host-key/${ServerId}/${HostKeyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateHostKey",
 }));
@@ -3834,6 +4274,14 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  iam: {
+    actions: ["transfer:UpdateProfile"],
+    resources: {
+      "transfer:UpdateProfile": [
+        "arn:${Partition}:transfer:${Region}:${Account}:profile/${ProfileId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProfile",
 }));
@@ -3874,6 +4322,16 @@ export const updateServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServer",
+  iam: {
+    actions: ["iam:PassRole", "transfer:UpdateServer"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "transfer:UpdateServer": [
+        "arn:${Partition}:transfer:${Region}:${Account}:server/${ServerId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "LoggingRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateServer",
 }));
@@ -3914,6 +4372,16 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
+  iam: {
+    actions: ["iam:PassRole", "transfer:UpdateUser"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "transfer:UpdateUser": [
+        "arn:${Partition}:transfer:${Region}:${Account}:user/${ServerId}/${UserName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Role" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));
@@ -3950,6 +4418,16 @@ export const updateWebApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebApp",
+  iam: {
+    actions: ["iam:PassRole", "transfer:UpdateWebApp"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "transfer:UpdateWebApp": [
+        "arn:${Partition}:transfer:${Region}:${Account}:webapp/${WebAppId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: { op: "UpdateWebApp", attributes: { "url.template": "/updateWebApp" } },
 }));
@@ -3984,6 +4462,14 @@ export const updateWebAppCustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebAppCustomization",
+  iam: {
+    actions: ["transfer:UpdateWebAppCustomization"],
+    resources: {
+      "transfer:UpdateWebAppCustomization": [
+        "arn:${Partition}:transfer:${Region}:${Account}:webapp/${WebAppId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateWebAppCustomization",
@@ -4163,6 +4649,7 @@ function __c11(j: number): any {
           StructuredLogDestinations: S.optional(__S(80, __c5, 0)),
           S3StorageOptions: S.optional(__S(217, __c13, 9)),
           IpAddressType: S.optional(S.String),
+          HostKeyStorageType: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "CreateServerRequest" });
   }
@@ -4768,6 +5255,8 @@ function __c42(j: number): any {
           Type: S.optional(S.String),
           DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           Tags: S.optional(__S(17, __c1, 1)),
+          StorageType: S.optional(S.String),
+          SecretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "DescribedHostKey" });
     case 2:
@@ -5050,6 +5539,8 @@ function __c52(j: number): any {
           HostKeyBody: SensitiveString,
           Description: S.optional(S.String),
           Tags: S.optional(__S(17, __c1, 1)),
+          StorageType: S.optional(S.String),
+          KmsKey: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "ImportHostKeyRequest" });
   }
@@ -5277,6 +5768,8 @@ function __c61(j: number): any {
           Description: S.optional(S.String),
           Type: S.optional(S.String),
           DateImported: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          StorageType: S.optional(S.String),
+          SecretId: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListedHostKey" });
     case 2:
@@ -5721,9 +6214,13 @@ function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ ServerId: S.String, HostKeyId: S.String, Description: S.String }).pipe(
-          T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
-        ),
+        S.Struct({
+          ServerId: S.String,
+          HostKeyId: S.String,
+          Description: S.optional(S.String),
+          StorageType: S.optional(S.String),
+          KmsKey: S.optional(S.String),
+        }).pipe(T.all(T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "UpdateHostKeyRequest" });
   }
 }

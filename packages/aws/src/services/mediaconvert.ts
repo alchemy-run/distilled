@@ -956,6 +956,9 @@ export type __listOfCmafAdditionalManifest = CmafAdditionalManifest[];
 const __listOfCmafAdditionalManifest = /*@__PURE__*/ __L.at(__c8, 24);
 export type CmafClientCache = "DISABLED" | "ENABLED" | (string & {});
 export type CmafCodecSpecification = "RFC_6381" | "RFC_4281" | (string & {});
+export type DashAdaptationSetGrouping = "CODEC" | (string & {});
+export type __listOfDashAdaptationSetGrouping = DashAdaptationSetGrouping[];
+const __listOfDashAdaptationSetGrouping = /*@__PURE__*/ __L.at(__c3, 9);
 export type __stringMin1Max256 = string;
 export type DashManifestStyle = "BASIC" | "COMPACT" | "DISTINCT" | "FULL" | (string & {});
 export type S3ObjectCannedAcl =
@@ -1111,6 +1114,7 @@ export interface CmafGroupSettings {
   BaseUrl?: string;
   ClientCache?: CmafClientCache;
   CodecSpecification?: CmafCodecSpecification;
+  DashAdaptationSetGrouping?: DashAdaptationSetGrouping[];
   DashIFrameTrickPlayNameModifier?: string;
   DashManifestStyle?: DashManifestStyle;
   Destination?: string;
@@ -1212,6 +1216,7 @@ export interface DashIsoGroupSettings {
   AdditionalManifests?: DashAdditionalManifest[];
   AudioChannelConfigSchemeIdUri?: DashIsoGroupAudioChannelConfigSchemeIdUri;
   BaseUrl?: string;
+  DashAdaptationSetGrouping?: DashAdaptationSetGrouping[];
   DashIFrameTrickPlayNameModifier?: string;
   DashManifestStyle?: DashManifestStyle;
   Destination?: string;
@@ -1239,7 +1244,8 @@ export interface FileGroupSettings {
 }
 export type HlsAdMarkers = "ELEMENTAL" | "ELEMENTAL_SCTE35" | (string & {});
 export type __listOfHlsAdMarkers = HlsAdMarkers[];
-const __listOfHlsAdMarkers = /*@__PURE__*/ __L.at(__c3, 9);
+const __listOfHlsAdMarkers =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfHlsAdMarkers>;
 export interface HlsAdditionalManifest {
   ManifestNameModifier?: string;
   SelectedOutputs?: string[];
@@ -1384,7 +1390,8 @@ export type FrameMetricType =
   | "SHOT_CHANGE"
   | (string & {});
 export type __listOfFrameMetricType = FrameMetricType[];
-const __listOfFrameMetricType = __listOfHlsAdMarkers as any as S.Schema<__listOfFrameMetricType>;
+const __listOfFrameMetricType =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfFrameMetricType>;
 export type OutputGroupType =
   | "HLS_GROUP_SETTINGS"
   | "DASH_ISO_GROUP_SETTINGS"
@@ -1432,7 +1439,8 @@ export type AudioChannelTag =
   | "M"
   | (string & {});
 export type __listOfAudioChannelTag = AudioChannelTag[];
-const __listOfAudioChannelTag = __listOfHlsAdMarkers as any as S.Schema<__listOfAudioChannelTag>;
+const __listOfAudioChannelTag =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfAudioChannelTag>;
 export interface AudioChannelTaggingSettings {
   ChannelTag?: AudioChannelTag;
   ChannelTags?: AudioChannelTag[];
@@ -1999,7 +2007,8 @@ export type TeletextPageType =
   | "PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE"
   | (string & {});
 export type __listOfTeletextPageType = TeletextPageType[];
-const __listOfTeletextPageType = __listOfHlsAdMarkers as any as S.Schema<__listOfTeletextPageType>;
+const __listOfTeletextPageType =
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfTeletextPageType>;
 export interface TeletextDestinationSettings {
   PageNumber?: string;
   PageTypes?: TeletextPageType[];
@@ -2365,6 +2374,7 @@ export type Av1AdaptiveQuantization =
   | "MAX"
   | (string & {});
 export type Av1BitDepth = "BIT_8" | "BIT_10" | (string & {});
+export type __integerMin1000Max1152000000 = number;
 export type Av1FilmGrainSynthesis = "DISABLED" | "ENABLED" | (string & {});
 export type Av1FramerateControl = "INITIALIZE_FROM_SOURCE" | "SPECIFIED" | (string & {});
 export type Av1FramerateConversionAlgorithm =
@@ -2373,7 +2383,6 @@ export type Av1FramerateConversionAlgorithm =
   | "FRAMEFORMER"
   | "MAINTAIN_FRAME_COUNT"
   | (string & {});
-export type __integerMin1000Max1152000000 = number;
 export type __integerMin0Max15 = number;
 export type __integerMin1Max10 = number;
 export type __doubleMin0Max1 = number;
@@ -2381,11 +2390,14 @@ export interface Av1QvbrSettings {
   QvbrQualityLevel?: number;
   QvbrQualityLevelFineTune?: number;
 }
-export type Av1RateControlMode = "QVBR" | (string & {});
+export type Av1RateControlMode = "CBR" | "QVBR" | (string & {});
+export type Av1SceneChangeDetect = "DISABLED" | "ENABLED" | "TRANSITION_DETECTION" | (string & {});
+export type __integerMin1000Max3000 = number;
 export type Av1SpatialAdaptiveQuantization = "DISABLED" | "ENABLED" | (string & {});
 export interface Av1Settings {
   AdaptiveQuantization?: Av1AdaptiveQuantization;
   BitDepth?: Av1BitDepth;
+  Bitrate?: number;
   FilmGrainSynthesis?: Av1FilmGrainSynthesis;
   FramerateControl?: Av1FramerateControl;
   FramerateConversionAlgorithm?: Av1FramerateConversionAlgorithm;
@@ -2397,7 +2409,10 @@ export interface Av1Settings {
   PerFrameMetrics?: FrameMetricType[];
   QvbrSettings?: Av1QvbrSettings;
   RateControlMode?: Av1RateControlMode;
+  SceneChangeDetect?: Av1SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SpatialAdaptiveQuantization?: Av1SpatialAdaptiveQuantization;
 }
 export type AvcIntraClass = "CLASS_50" | "CLASS_100" | "CLASS_200" | "CLASS_4K_2K" | (string & {});
@@ -2605,6 +2620,8 @@ export interface H264Settings {
   ScanTypeConversionMode?: H264ScanTypeConversionMode;
   SceneChangeDetect?: H264SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: H264SlowPal;
   Softness?: number;
   SpatialAdaptiveQuantization?: H264SpatialAdaptiveQuantization;
@@ -2741,6 +2758,8 @@ export interface H265Settings {
   ScanTypeConversionMode?: H265ScanTypeConversionMode;
   SceneChangeDetect?: H265SceneChangeDetect;
   Slices?: number;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: H265SlowPal;
   SpatialAdaptiveQuantization?: H265SpatialAdaptiveQuantization;
   Telecine?: H265Telecine;
@@ -2822,6 +2841,8 @@ export interface Mpeg2Settings {
   RateControlMode?: Mpeg2RateControlMode;
   ScanTypeConversionMode?: Mpeg2ScanTypeConversionMode;
   SceneChangeDetect?: Mpeg2SceneChangeDetect;
+  SlidingWindowMs?: number;
+  SlidingWindowPeakBitrate?: number;
   SlowPal?: Mpeg2SlowPal;
   Softness?: number;
   SpatialAdaptiveQuantization?: Mpeg2SpatialAdaptiveQuantization;
@@ -3211,6 +3232,8 @@ export type NoiseReducerFilter =
   | "CONSERVE"
   | "SPATIAL"
   | "TEMPORAL"
+  | "PERCEPTUAL"
+  | "NONE"
   | (string & {});
 export type __integerMin0Max3 = number;
 export interface NoiseReducerFilterSettings {
@@ -3408,7 +3431,7 @@ export type JobPhase = "PROBING" | "TRANSCODING" | "UPLOADING" | (string & {});
 export type ElementalInferenceFeature = "SMART_CROP" | (string & {});
 export type __listOfElementalInferenceFeature = ElementalInferenceFeature[];
 const __listOfElementalInferenceFeature =
-  __listOfHlsAdMarkers as any as S.Schema<__listOfElementalInferenceFeature>;
+  __listOfDashAdaptationSetGrouping as any as S.Schema<__listOfElementalInferenceFeature>;
 export type ElementalInferenceFeedManagementState =
   | "CREATED"
   | "ASSOCIATED"
@@ -4255,6 +4278,7 @@ export const associateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCertificate",
+  iam: { actions: ["mediaconvert:AssociateCertificate"] },
   telemetry: TELEMETRY,
   span: "AssociateCertificate",
 }));
@@ -4291,6 +4315,14 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
+  iam: {
+    actions: ["mediaconvert:CancelJob"],
+    resources: {
+      "mediaconvert:CancelJob": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:jobs/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelJob",
 }));
@@ -4327,6 +4359,11 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
+  iam: {
+    actions: ["mediaconvert:CreateJob", "iam:PassRole", "mediaconvert:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "mediaconvert:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -4363,6 +4400,10 @@ export const createJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobTemplate",
+  iam: {
+    actions: ["mediaconvert:CreateJobTemplate", "mediaconvert:TagResource"],
+    conditional: { "mediaconvert:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateJobTemplate",
 }));
@@ -4399,6 +4440,10 @@ export const createPreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePreset",
+  iam: {
+    actions: ["mediaconvert:CreatePreset", "mediaconvert:TagResource"],
+    conditional: { "mediaconvert:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePreset",
 }));
@@ -4435,6 +4480,10 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  iam: {
+    actions: ["mediaconvert:CreateQueue", "mediaconvert:TagResource"],
+    conditional: { "mediaconvert:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueue",
 }));
@@ -4471,6 +4520,7 @@ export const createResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceShare",
+  iam: { actions: ["mediaconvert:CreateResourceShare"] },
   telemetry: TELEMETRY,
   span: "CreateResourceShare",
 }));
@@ -4507,6 +4557,14 @@ export const deleteJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobTemplate",
+  iam: {
+    actions: ["mediaconvert:DeleteJobTemplate"],
+    resources: {
+      "mediaconvert:DeleteJobTemplate": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:jobTemplates/${JobTemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteJobTemplate",
 }));
@@ -4543,6 +4601,7 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: { actions: ["mediaconvert:DeletePolicy"] },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -4579,6 +4638,14 @@ export const deletePreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePreset",
+  iam: {
+    actions: ["mediaconvert:DeletePreset"],
+    resources: {
+      "mediaconvert:DeletePreset": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:presets/${PresetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePreset",
 }));
@@ -4615,6 +4682,14 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  iam: {
+    actions: ["mediaconvert:DeleteQueue"],
+    resources: {
+      "mediaconvert:DeleteQueue": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:queues/${QueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueue",
 }));
@@ -4658,6 +4733,7 @@ export const describeEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:DescribeEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpoints",
 })) as any;
@@ -4694,6 +4770,7 @@ export const disassociateCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCertificate",
+  iam: { actions: ["mediaconvert:DisassociateCertificate"] },
   telemetry: TELEMETRY,
   span: "DisassociateCertificate",
 }));
@@ -4730,6 +4807,12 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
+  iam: {
+    actions: ["mediaconvert:GetJob"],
+    resources: {
+      "mediaconvert:GetJob": ["arn:${Partition}:mediaconvert:${Region}:${Account}:jobs/${JobId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -4766,6 +4849,7 @@ export const getJobsQueryResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobsQueryResults",
+  iam: { actions: ["mediaconvert:GetJobsQueryResults"] },
   telemetry: TELEMETRY,
   span: "GetJobsQueryResults",
 }));
@@ -4802,6 +4886,14 @@ export const getJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobTemplate",
+  iam: {
+    actions: ["mediaconvert:GetJobTemplate", "mediaconvert:ListJobTemplates"],
+    resources: {
+      "mediaconvert:GetJobTemplate": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:jobTemplates/${JobTemplateName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetJobTemplate",
 }));
@@ -4838,6 +4930,7 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: { actions: ["mediaconvert:GetPolicy"] },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -4874,6 +4967,14 @@ export const getPreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreset",
+  iam: {
+    actions: ["mediaconvert:GetPreset", "mediaconvert:ListPresets"],
+    resources: {
+      "mediaconvert:GetPreset": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:presets/${PresetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPreset",
 }));
@@ -4910,6 +5011,14 @@ export const getQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueue",
+  iam: {
+    actions: ["mediaconvert:GetQueue"],
+    resources: {
+      "mediaconvert:GetQueue": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:queues/${QueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueue",
 }));
@@ -4953,6 +5062,7 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -4996,6 +5106,7 @@ export const listJobTemplates: API.PaginatedOperationMethod<
     items: "JobTemplates",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListJobTemplates"] },
   telemetry: TELEMETRY,
   span: "ListJobTemplates",
 })) as any;
@@ -5039,6 +5150,7 @@ export const listPresets: API.PaginatedOperationMethod<
     items: "Presets",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListPresets"] },
   telemetry: TELEMETRY,
   span: "ListPresets",
 })) as any;
@@ -5082,6 +5194,7 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "Queues",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListQueues"] },
   telemetry: TELEMETRY,
   span: "ListQueues",
 })) as any;
@@ -5118,6 +5231,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["mediaconvert:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5161,6 +5275,7 @@ export const listVersions: API.PaginatedOperationMethod<
     items: "Versions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:ListVersions"] },
   telemetry: TELEMETRY,
   span: "ListVersions",
 })) as any;
@@ -5199,6 +5314,7 @@ export const probe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Probe",
+  iam: { actions: ["mediaconvert:Probe"] },
   telemetry: TELEMETRY,
   span: "Probe",
 }));
@@ -5235,6 +5351,7 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
+  iam: { actions: ["mediaconvert:PutPolicy"] },
   telemetry: TELEMETRY,
   span: "PutPolicy",
 }));
@@ -5278,6 +5395,7 @@ export const searchJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mediaconvert:SearchJobs"] },
   telemetry: TELEMETRY,
   span: "SearchJobs",
 })) as any;
@@ -5314,6 +5432,7 @@ export const startJobsQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJobsQuery",
+  iam: { actions: ["mediaconvert:CreateJobsQuery", "mediaconvert:StartJobsQuery"] },
   telemetry: TELEMETRY,
   span: "StartJobsQuery",
 }));
@@ -5350,6 +5469,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["mediaconvert:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5386,6 +5506,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["mediaconvert:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5422,6 +5543,7 @@ export const updateJobTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobTemplate",
+  iam: { actions: ["mediaconvert:UpdateJobTemplate"] },
   telemetry: TELEMETRY,
   span: "UpdateJobTemplate",
 }));
@@ -5458,6 +5580,14 @@ export const updatePreset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreset",
+  iam: {
+    actions: ["mediaconvert:UpdatePreset"],
+    resources: {
+      "mediaconvert:UpdatePreset": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:presets/${PresetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePreset",
 }));
@@ -5494,6 +5624,14 @@ export const updateQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueue",
+  iam: {
+    actions: ["mediaconvert:UpdateQueue"],
+    resources: {
+      "mediaconvert:UpdateQueue": [
+        "arn:${Partition}:mediaconvert:${Region}:${Account}:queues/${QueueName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueue",
 }));
@@ -6675,6 +6813,7 @@ function __c4(j: number): any {
         S.Struct({
           AdaptiveQuantization: S.optional(S.String),
           BitDepth: S.optional(S.String),
+          Bitrate: S.optional(S.Number),
           FilmGrainSynthesis: S.optional(S.String),
           FramerateControl: S.optional(S.String),
           FramerateConversionAlgorithm: S.optional(S.String),
@@ -6686,12 +6825,16 @@ function __c4(j: number): any {
           PerFrameMetrics: S.optional(__listOfFrameMetricType),
           QvbrSettings: S.optional(__S(146, __c4, 18)),
           RateControlMode: S.optional(S.String),
+          SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
         }).pipe(
           S.encodeKeys({
             AdaptiveQuantization: "adaptiveQuantization",
             BitDepth: "bitDepth",
+            Bitrate: "bitrate",
             FilmGrainSynthesis: "filmGrainSynthesis",
             FramerateControl: "framerateControl",
             FramerateConversionAlgorithm: "framerateConversionAlgorithm",
@@ -6703,7 +6846,10 @@ function __c4(j: number): any {
             PerFrameMetrics: "perFrameMetrics",
             QvbrSettings: "qvbrSettings",
             RateControlMode: "rateControlMode",
+            SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
           }),
         ),
@@ -6838,6 +6984,8 @@ function __c4(j: number): any {
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           Softness: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
@@ -6887,6 +7035,8 @@ function __c4(j: number): any {
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             Softness: "softness",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
@@ -6940,6 +7090,8 @@ function __c4(j: number): any {
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
           Slices: S.optional(S.Number),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           SpatialAdaptiveQuantization: S.optional(S.String),
           Telecine: S.optional(S.String),
@@ -6993,6 +7145,8 @@ function __c4(j: number): any {
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
             Slices: "slices",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
             Telecine: "telecine",
@@ -7039,6 +7193,8 @@ function __c4(j: number): any {
           RateControlMode: S.optional(S.String),
           ScanTypeConversionMode: S.optional(S.String),
           SceneChangeDetect: S.optional(S.String),
+          SlidingWindowMs: S.optional(S.Number),
+          SlidingWindowPeakBitrate: S.optional(S.Number),
           SlowPal: S.optional(S.String),
           Softness: S.optional(S.Number),
           SpatialAdaptiveQuantization: S.optional(S.String),
@@ -7075,6 +7231,8 @@ function __c4(j: number): any {
             RateControlMode: "rateControlMode",
             ScanTypeConversionMode: "scanTypeConversionMode",
             SceneChangeDetect: "sceneChangeDetect",
+            SlidingWindowMs: "slidingWindowMs",
+            SlidingWindowPeakBitrate: "slidingWindowPeakBitrate",
             SlowPal: "slowPal",
             Softness: "softness",
             SpatialAdaptiveQuantization: "spatialAdaptiveQuantization",
@@ -8383,6 +8541,7 @@ function __c9(j: number): any {
           BaseUrl: S.optional(S.String),
           ClientCache: S.optional(S.String),
           CodecSpecification: S.optional(S.String),
+          DashAdaptationSetGrouping: S.optional(__listOfDashAdaptationSetGrouping),
           DashIFrameTrickPlayNameModifier: S.optional(S.String),
           DashManifestStyle: S.optional(S.String),
           Destination: S.optional(S.String),
@@ -8414,6 +8573,7 @@ function __c9(j: number): any {
             BaseUrl: "baseUrl",
             ClientCache: "clientCache",
             CodecSpecification: "codecSpecification",
+            DashAdaptationSetGrouping: "dashAdaptationSetGrouping",
             DashIFrameTrickPlayNameModifier: "dashIFrameTrickPlayNameModifier",
             DashManifestStyle: "dashManifestStyle",
             Destination: "destination",
@@ -8478,6 +8638,7 @@ function __c9(j: number): any {
           AdditionalManifests: S.optional(__listOfDashAdditionalManifest),
           AudioChannelConfigSchemeIdUri: S.optional(S.String),
           BaseUrl: S.optional(S.String),
+          DashAdaptationSetGrouping: S.optional(__listOfDashAdaptationSetGrouping),
           DashIFrameTrickPlayNameModifier: S.optional(S.String),
           DashManifestStyle: S.optional(S.String),
           Destination: S.optional(S.String),
@@ -8503,6 +8664,7 @@ function __c9(j: number): any {
             AdditionalManifests: "additionalManifests",
             AudioChannelConfigSchemeIdUri: "audioChannelConfigSchemeIdUri",
             BaseUrl: "baseUrl",
+            DashAdaptationSetGrouping: "dashAdaptationSetGrouping",
             DashIFrameTrickPlayNameModifier: "dashIFrameTrickPlayNameModifier",
             DashManifestStyle: "dashManifestStyle",
             Destination: "destination",

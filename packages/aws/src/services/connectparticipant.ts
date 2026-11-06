@@ -254,10 +254,12 @@ export interface DisconnectParticipantRequest {
 }
 export interface DisconnectParticipantResponse {}
 export type URLExpiryInSeconds = number;
+export type ContentDisposition = "INLINE" | "ATTACHMENT" | (string & {});
 export interface GetAttachmentRequest {
   AttachmentId: string;
   ConnectionToken: string;
   UrlExpiryInSeconds?: number;
+  UrlContentDisposition?: ContentDisposition;
 }
 export type PreSignedAttachmentUrl = string;
 export type AttachmentSizeInBytes = number;
@@ -396,10 +398,10 @@ export interface StartAttachmentUploadRequest {
   ClientToken: string;
   ConnectionToken: string;
 }
-export type UploadMetadataUrl = string;
-export type UploadMetadataSignedHeadersKey = string;
-export type UploadMetadataSignedHeadersValue = string;
-export type UploadMetadataSignedHeaders = { [key: string]: string | undefined };
+export type MetadataUrl = string;
+export type UrlMetadataSignedHeadersKey = string;
+export type UrlMetadataSignedHeadersValue = string;
+export type UrlMetadataSignedHeaders = { [key: string]: string | undefined };
 export interface UploadMetadata {
   Url?: string;
   UrlExpiry?: string;
@@ -629,6 +631,17 @@ export const describeView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeView",
+  iam: {
+    actions: ["connect:DescribeView"],
+    resources: {
+      "connect:DescribeView": [
+        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
+        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}:${ViewQualifier}",
+        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}:${ViewQualifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeView",
 }));
@@ -1021,6 +1034,7 @@ function __c2(j: number): any {
           AttachmentId: S.String,
           ConnectionToken: S.String.pipe(T.HttpHeader("X-Amz-Bearer")),
           UrlExpiryInSeconds: S.optional(S.Number),
+          UrlContentDisposition: S.optional(S.String),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/participant/attachment" }),

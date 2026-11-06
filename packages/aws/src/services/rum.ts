@@ -551,6 +551,14 @@ export const batchCreateRumMetricDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateRumMetricDefinitions",
+  iam: {
+    actions: ["rum:BatchCreateRumMetricDefinitions"],
+    resources: {
+      "rum:BatchCreateRumMetricDefinitions": [
+        "arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchCreateRumMetricDefinitions",
 }));
@@ -589,6 +597,14 @@ export const batchDeleteRumMetricDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteRumMetricDefinitions",
+  iam: {
+    actions: ["rum:BatchDeleteRumMetricDefinitions"],
+    resources: {
+      "rum:BatchDeleteRumMetricDefinitions": [
+        "arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteRumMetricDefinitions",
 }));
@@ -626,6 +642,14 @@ export const batchGetRumMetricDefinitions: API.PaginatedOperationMethod<
     items: "MetricDefinitions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["rum:BatchGetRumMetricDefinitions"],
+    resources: {
+      "rum:BatchGetRumMetricDefinitions": [
+        "arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetRumMetricDefinitions",
 })) as any;
@@ -666,6 +690,14 @@ export const createAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppMonitor",
+  iam: {
+    actions: ["rum:CreateAppMonitor", "rum:TagResource"],
+    resources: {
+      "rum:CreateAppMonitor": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+      "rum:TagResource": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+    conditional: { "rum:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppMonitor",
 }));
@@ -700,6 +732,12 @@ export const deleteAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppMonitor",
+  iam: {
+    actions: ["rum:DeleteAppMonitor"],
+    resources: {
+      "rum:DeleteAppMonitor": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAppMonitor",
 }));
@@ -738,6 +776,12 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: {
+    actions: ["rum:DeleteResourcePolicy"],
+    resources: {
+      "rum:DeleteResourcePolicy": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -772,6 +816,14 @@ export const deleteRumMetricsDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRumMetricsDestination",
+  iam: {
+    actions: ["rum:DeleteRumMetricsDestination"],
+    resources: {
+      "rum:DeleteRumMetricsDestination": [
+        "arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRumMetricsDestination",
 }));
@@ -804,6 +856,12 @@ export const getAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppMonitor",
+  iam: {
+    actions: ["rum:GetAppMonitor"],
+    resources: {
+      "rum:GetAppMonitor": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAppMonitor",
 }));
@@ -843,6 +901,12 @@ export const getAppMonitorData: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["rum:GetAppMonitorData"],
+    resources: {
+      "rum:GetAppMonitorData": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAppMonitorData",
 })) as any;
@@ -879,6 +943,12 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: {
+    actions: ["rum:GetResourcePolicy"],
+    resources: {
+      "rum:GetResourcePolicy": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -916,6 +986,7 @@ export const listAppMonitors: API.PaginatedOperationMethod<
     items: "AppMonitorSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["rum:ListAppMonitors"] },
   telemetry: TELEMETRY,
   span: "ListAppMonitors",
 })) as any;
@@ -955,6 +1026,14 @@ export const listRumMetricsDestinations: API.PaginatedOperationMethod<
     items: "Destinations",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["rum:ListRumMetricsDestinations"],
+    resources: {
+      "rum:ListRumMetricsDestinations": [
+        "arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRumMetricsDestinations",
 })) as any;
@@ -979,6 +1058,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["rum:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1019,6 +1099,12 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["rum:PutResourcePolicy"],
+    resources: {
+      "rum:PutResourcePolicy": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1054,6 +1140,12 @@ export const putRumEvents: API.OperationMethod<
   retry: Retry,
   operationName: "PutRumEvents",
   endpointHostPrefix: "dataplane.",
+  iam: {
+    actions: ["rum:PutRumEvents"],
+    resources: {
+      "rum:PutRumEvents": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRumEvents",
 }));
@@ -1090,6 +1182,16 @@ export const putRumMetricsDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRumMetricsDestination",
+  iam: {
+    actions: ["iam:PassRole", "rum:PutRumMetricsDestination"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "rum:PutRumMetricsDestination": [
+        "arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}",
+      ],
+    },
+    conditional: { "iam:PassRole": "IamRoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "PutRumMetricsDestination",
 }));
@@ -1124,6 +1226,12 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["rum:TagResource"],
+    resources: {
+      "rum:TagResource": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1148,6 +1256,12 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["rum:UntagResource"],
+    resources: {
+      "rum:UntagResource": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1188,6 +1302,12 @@ export const updateAppMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppMonitor",
+  iam: {
+    actions: ["rum:UpdateAppMonitor"],
+    resources: {
+      "rum:UpdateAppMonitor": ["arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAppMonitor",
 }));
@@ -1224,6 +1344,14 @@ export const updateRumMetricDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRumMetricDefinition",
+  iam: {
+    actions: ["rum:UpdateRumMetricDefinition"],
+    resources: {
+      "rum:UpdateRumMetricDefinition": [
+        "arn:${Partition}:rum:${Region}:${Account}:appmonitor/${Name}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRumMetricDefinition",
 }));

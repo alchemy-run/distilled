@@ -532,10 +532,10 @@ export interface GetActivityTaskInput {
   activityArn: string;
   workerName?: string;
 }
-export type TaskToken = string;
+export type TaskToken = string | redacted.Redacted<string>;
 export type SensitiveDataJobInput = string | redacted.Redacted<string>;
 export interface GetActivityTaskOutput {
-  taskToken?: string;
+  taskToken?: string | redacted.Redacted<string>;
   input?: string | redacted.Redacted<string>;
 }
 export type PageSize = number;
@@ -970,17 +970,17 @@ export interface RedriveExecutionOutput {
   redriveDate: Date;
 }
 export interface SendTaskFailureInput {
-  taskToken: string;
+  taskToken: string | redacted.Redacted<string>;
   error?: string | redacted.Redacted<string>;
   cause?: string | redacted.Redacted<string>;
 }
 export interface SendTaskFailureOutput {}
 export interface SendTaskHeartbeatInput {
-  taskToken: string;
+  taskToken: string | redacted.Redacted<string>;
 }
 export interface SendTaskHeartbeatOutput {}
 export interface SendTaskSuccessInput {
-  taskToken: string;
+  taskToken: string | redacted.Redacted<string>;
   output: string | redacted.Redacted<string>;
 }
 export interface SendTaskSuccessOutput {}
@@ -1256,6 +1256,15 @@ export const createActivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActivity",
+  iam: {
+    actions: ["states:CreateActivity", "states:TagResource"],
+    resources: {
+      "states:CreateActivity": [
+        "arn:${Partition}:states:${Region}:${Account}:activity:${ActivityName}",
+      ],
+    },
+    conditional: { "states:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateActivity",
 }));
@@ -1329,6 +1338,24 @@ export const createStateMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStateMachine",
+  iam: {
+    actions: [
+      "states:CreateStateMachine",
+      "iam:PassRole",
+      "states:PublishStateMachineVersion",
+      "states:TagResource",
+    ],
+    resources: {
+      "states:CreateStateMachine": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "states:PublishStateMachineVersion": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+    conditional: { "states:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStateMachine",
 }));
@@ -1393,6 +1420,14 @@ export const createStateMachineAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStateMachineAlias",
+  iam: {
+    actions: ["states:CreateStateMachineAlias"],
+    resources: {
+      "states:CreateStateMachineAlias": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateStateMachineAlias",
 }));
@@ -1413,6 +1448,14 @@ export const deleteActivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivity",
+  iam: {
+    actions: ["states:DeleteActivity"],
+    resources: {
+      "states:DeleteActivity": [
+        "arn:${Partition}:states:${Region}:${Account}:activity:${ActivityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteActivity",
@@ -1457,6 +1500,14 @@ export const deleteStateMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateMachine",
+  iam: {
+    actions: ["states:DeleteStateMachine"],
+    resources: {
+      "states:DeleteStateMachine": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteStateMachine",
@@ -1499,6 +1550,14 @@ export const deleteStateMachineAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateMachineAlias",
+  iam: {
+    actions: ["states:DeleteStateMachineAlias"],
+    resources: {
+      "states:DeleteStateMachineAlias": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStateMachineAlias",
 }));
@@ -1535,6 +1594,14 @@ export const deleteStateMachineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateMachineVersion",
+  iam: {
+    actions: ["states:DeleteStateMachineVersion"],
+    resources: {
+      "states:DeleteStateMachineVersion": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStateMachineVersion",
 }));
@@ -1557,6 +1624,14 @@ export const describeActivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeActivity",
+  iam: {
+    actions: ["states:DescribeActivity"],
+    resources: {
+      "states:DescribeActivity": [
+        "arn:${Partition}:states:${Region}:${Account}:activity:${ActivityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeActivity",
@@ -1599,6 +1674,15 @@ export const describeExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExecution",
+  iam: {
+    actions: ["states:DescribeExecution"],
+    resources: {
+      "states:DescribeExecution": [
+        "arn:${Partition}:states:${Region}:${Account}:execution:${StateMachineName}:${ExecutionId}",
+        "arn:${Partition}:states:${Region}:${Account}:express:${StateMachineName}:${ExecutionId}:${ExpressId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeExecution",
 }));
@@ -1619,6 +1703,14 @@ export const describeMapRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMapRun",
+  iam: {
+    actions: ["states:DescribeMapRun"],
+    resources: {
+      "states:DescribeMapRun": [
+        "arn:${Partition}:states:${Region}:${Account}:mapRun:${StateMachineName}/${MapRunLabel}:${MapRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMapRun",
 }));
@@ -1676,6 +1768,14 @@ export const describeStateMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStateMachine",
+  iam: {
+    actions: ["states:DescribeStateMachine"],
+    resources: {
+      "states:DescribeStateMachine": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeStateMachine",
@@ -1713,6 +1813,14 @@ export const describeStateMachineAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStateMachineAlias",
+  iam: {
+    actions: ["states:DescribeStateMachineAlias"],
+    resources: {
+      "states:DescribeStateMachineAlias": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStateMachineAlias",
 }));
@@ -1752,6 +1860,14 @@ export const describeStateMachineForExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStateMachineForExecution",
+  iam: {
+    actions: ["states:DescribeStateMachineForExecution"],
+    resources: {
+      "states:DescribeStateMachineForExecution": [
+        "arn:${Partition}:states:${Region}:${Account}:execution:${StateMachineName}:${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStateMachineForExecution",
 }));
@@ -1798,6 +1914,14 @@ export const getActivityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActivityTask",
+  iam: {
+    actions: ["states:GetActivityTask"],
+    resources: {
+      "states:GetActivityTask": [
+        "arn:${Partition}:states:${Region}:${Account}:activity:${ActivityName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "GetActivityTask",
@@ -1849,6 +1973,14 @@ export const getExecutionHistory: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["states:GetExecutionHistory"],
+    resources: {
+      "states:GetExecutionHistory": [
+        "arn:${Partition}:states:${Region}:${Account}:execution:${StateMachineName}:${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExecutionHistory",
 })) as any;
@@ -1881,6 +2013,7 @@ export const listActivities: API.PaginatedOperationMethod<
     items: "activities",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["states:ListActivities"] },
   telemetry: TELEMETRY,
   span: "ListActivities",
 })) as any;
@@ -1933,6 +2066,15 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["states:ListExecutions"],
+    resources: {
+      "states:ListExecutions": [
+        "arn:${Partition}:states:${Region}:${Account}:mapRun:${StateMachineName}/${MapRunLabel}:${MapRunId}",
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListExecutions",
@@ -1963,6 +2105,14 @@ export const listMapRuns: API.PaginatedOperationMethod<
     items: "mapRuns",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["states:ListMapRuns"],
+    resources: {
+      "states:ListMapRuns": [
+        "arn:${Partition}:states:${Region}:${Account}:execution:${StateMachineName}:${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMapRuns",
 })) as any;
@@ -2010,6 +2160,14 @@ export const listStateMachineAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStateMachineAliases",
+  iam: {
+    actions: ["states:ListStateMachineAliases"],
+    resources: {
+      "states:ListStateMachineAliases": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListStateMachineAliases",
@@ -2045,6 +2203,7 @@ export const listStateMachines: API.PaginatedOperationMethod<
     items: "stateMachines",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["states:ListStateMachines"] },
   telemetry: TELEMETRY,
   span: "ListStateMachines",
 })) as any;
@@ -2080,6 +2239,14 @@ export const listStateMachineVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStateMachineVersions",
+  iam: {
+    actions: ["states:ListStateMachineVersions"],
+    resources: {
+      "states:ListStateMachineVersions": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "ListStateMachineVersions",
@@ -2105,6 +2272,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["states:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2157,6 +2325,14 @@ export const publishStateMachineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishStateMachineVersion",
+  iam: {
+    actions: ["states:PublishStateMachineVersion"],
+    resources: {
+      "states:PublishStateMachineVersion": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "PublishStateMachineVersion",
@@ -2210,6 +2386,14 @@ export const redriveExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedriveExecution",
+  iam: {
+    actions: ["states:RedriveExecution"],
+    resources: {
+      "states:RedriveExecution": [
+        "arn:${Partition}:states:${Region}:${Account}:execution:${StateMachineName}:${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RedriveExecution",
 }));
@@ -2249,6 +2433,7 @@ export const sendTaskFailure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTaskFailure",
+  iam: { actions: ["states:SendTaskFailure"] },
   telemetry: TELEMETRY,
   span: "SendTaskFailure",
 }));
@@ -2282,6 +2467,7 @@ export const sendTaskHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTaskHeartbeat",
+  iam: { actions: ["states:SendTaskHeartbeat"] },
   telemetry: TELEMETRY,
   span: "SendTaskHeartbeat",
 }));
@@ -2320,6 +2506,7 @@ export const sendTaskSuccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendTaskSuccess",
+  iam: { actions: ["states:SendTaskSuccess"] },
   telemetry: TELEMETRY,
   span: "SendTaskSuccess",
 }));
@@ -2397,6 +2584,14 @@ export const startExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExecution",
+  iam: {
+    actions: ["states:StartExecution"],
+    resources: {
+      "states:StartExecution": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "StartExecution",
@@ -2448,6 +2643,14 @@ export const startSyncExecution: API.OperationMethod<
   retry: Retry,
   operationName: "StartSyncExecution",
   endpointHostPrefix: "sync-",
+  iam: {
+    actions: ["states:StartSyncExecution"],
+    resources: {
+      "states:StartSyncExecution": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "StartSyncExecution",
@@ -2491,6 +2694,14 @@ export const stopExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopExecution",
+  iam: {
+    actions: ["states:StopExecution"],
+    resources: {
+      "states:StopExecution": [
+        "arn:${Partition}:states:${Region}:${Account}:execution:${StateMachineName}:${ExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopExecution",
 }));
@@ -2518,6 +2729,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["states:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2571,6 +2783,11 @@ export const testState: API.OperationMethod<
   retry: Retry,
   operationName: "TestState",
   endpointHostPrefix: "sync-",
+  iam: {
+    actions: ["iam:PassRole", "states:TestState"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "TestState",
 }));
@@ -2591,6 +2808,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["states:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2611,6 +2829,14 @@ export const updateMapRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMapRun",
+  iam: {
+    actions: ["states:UpdateMapRun"],
+    resources: {
+      "states:UpdateMapRun": [
+        "arn:${Partition}:states:${Region}:${Account}:mapRun:${StateMachineName}/${MapRunLabel}:${MapRunId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMapRun",
 }));
@@ -2696,6 +2922,19 @@ export const updateStateMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStateMachine",
+  iam: {
+    actions: ["iam:PassRole", "states:PublishStateMachineVersion", "states:UpdateStateMachine"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "states:PublishStateMachineVersion": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+      "states:UpdateStateMachine": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateStateMachine",
@@ -2753,6 +2992,14 @@ export const updateStateMachineAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStateMachineAlias",
+  iam: {
+    actions: ["states:UpdateStateMachineAlias"],
+    resources: {
+      "states:UpdateStateMachineAlias": [
+        "arn:${Partition}:states:${Region}:${Account}:stateMachine:${StateMachineName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStateMachineAlias",
 }));
@@ -2804,6 +3051,7 @@ export const validateStateMachineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateStateMachineDefinition",
+  iam: { actions: ["states:ValidateStateMachineDefinition"] },
   telemetry: TELEMETRY,
   span: "ValidateStateMachineDefinition",
 }));
@@ -3179,7 +3427,10 @@ function __c20(j: number): any {
       ).annotate({ identifier: "GetActivityTaskInput" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.optional(S.String), input: S.optional(SensitiveString) }).pipe(ns),
+        S.Struct({
+          taskToken: S.optional(SensitiveString),
+          input: S.optional(SensitiveString),
+        }).pipe(ns),
       ).annotate({ identifier: "GetActivityTaskOutput" });
   }
 }
@@ -3612,7 +3863,7 @@ function __c32(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          taskToken: S.String,
+          taskToken: SensitiveString,
           error: S.optional(SensitiveString),
           cause: S.optional(SensitiveString),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
@@ -3623,7 +3874,7 @@ function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.String }).pipe(
+        S.Struct({ taskToken: SensitiveString }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "SendTaskHeartbeatInput" });
@@ -3633,7 +3884,7 @@ function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ taskToken: S.String, output: SensitiveString }).pipe(
+        S.Struct({ taskToken: SensitiveString, output: SensitiveString }).pipe(
           T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "SendTaskSuccessInput" });

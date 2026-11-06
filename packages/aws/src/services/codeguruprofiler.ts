@@ -503,6 +503,14 @@ export const addNotificationChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddNotificationChannels",
+  iam: {
+    actions: ["codeguru-profiler:AddNotificationChannels"],
+    resources: {
+      "codeguru-profiler:AddNotificationChannels": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddNotificationChannels",
 }));
@@ -534,6 +542,14 @@ export const batchGetFrameMetricData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFrameMetricData",
+  iam: {
+    actions: ["codeguru-profiler:BatchGetFrameMetricData"],
+    resources: {
+      "codeguru-profiler:BatchGetFrameMetricData": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetFrameMetricData",
 }));
@@ -566,6 +582,14 @@ export const configureAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureAgent",
+  iam: {
+    actions: ["codeguru-profiler:ConfigureAgent"],
+    resources: {
+      "codeguru-profiler:ConfigureAgent": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ConfigureAgent",
 }));
@@ -598,6 +622,15 @@ export const createProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfilingGroup",
+  iam: {
+    actions: ["codeguru-profiler:CreateProfilingGroup", "codeguru-profiler:TagResource"],
+    resources: {
+      "codeguru-profiler:TagResource": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+    conditional: { "codeguru-profiler:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfilingGroup",
 }));
@@ -630,6 +663,14 @@ export const deleteProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfilingGroup",
+  iam: {
+    actions: ["codeguru-profiler:DeleteProfilingGroup"],
+    resources: {
+      "codeguru-profiler:DeleteProfilingGroup": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfilingGroup",
 }));
@@ -663,6 +704,14 @@ export const describeProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProfilingGroup",
+  iam: {
+    actions: ["codeguru-profiler:DescribeProfilingGroup"],
+    resources: {
+      "codeguru-profiler:DescribeProfilingGroup": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeProfilingGroup",
 }));
@@ -697,6 +746,7 @@ export const getFindingsReportAccountSummary: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codeguru-profiler:GetFindingsReportAccountSummary"] },
   telemetry: TELEMETRY,
   span: "GetFindingsReportAccountSummary",
 })) as any;
@@ -727,6 +777,14 @@ export const getNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationConfiguration",
+  iam: {
+    actions: ["codeguru-profiler:GetNotificationConfiguration"],
+    resources: {
+      "codeguru-profiler:GetNotificationConfiguration": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNotificationConfiguration",
 }));
@@ -751,6 +809,14 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
+  iam: {
+    actions: ["codeguru-profiler:GetPolicy"],
+    resources: {
+      "codeguru-profiler:GetPolicy": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -820,6 +886,14 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
+  iam: {
+    actions: ["codeguru-profiler:GetProfile"],
+    resources: {
+      "codeguru-profiler:GetProfile": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfile",
 }));
@@ -859,6 +933,14 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  iam: {
+    actions: ["codeguru-profiler:GetRecommendations"],
+    resources: {
+      "codeguru-profiler:GetRecommendations": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommendations",
 }));
@@ -895,6 +977,14 @@ export const listFindingsReports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeguru-profiler:ListFindingsReports"],
+    resources: {
+      "codeguru-profiler:ListFindingsReports": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFindingsReports",
 })) as any;
@@ -933,6 +1023,14 @@ export const listProfileTimes: API.PaginatedOperationMethod<
     items: "profileTimes",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codeguru-profiler:ListProfileTimes"],
+    resources: {
+      "codeguru-profiler:ListProfileTimes": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProfileTimes",
 })) as any;
@@ -963,6 +1061,7 @@ export const listProfilingGroups: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codeguru-profiler:ListProfilingGroups"] },
   telemetry: TELEMETRY,
   span: "ListProfilingGroups",
 })) as any;
@@ -987,6 +1086,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["codeguru-profiler:ListTagsForResource"],
+    resources: {
+      "codeguru-profiler:ListTagsForResource": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1021,6 +1128,14 @@ export const postAgentProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PostAgentProfile",
+  iam: {
+    actions: ["codeguru-profiler:PostAgentProfile"],
+    resources: {
+      "codeguru-profiler:PostAgentProfile": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PostAgentProfile",
 }));
@@ -1072,6 +1187,14 @@ export const putPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermission",
+  iam: {
+    actions: ["codeguru-profiler:PutPermission"],
+    resources: {
+      "codeguru-profiler:PutPermission": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutPermission",
 }));
@@ -1102,6 +1225,14 @@ export const removeNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveNotificationChannel",
+  iam: {
+    actions: ["codeguru-profiler:RemoveNotificationChannel"],
+    resources: {
+      "codeguru-profiler:RemoveNotificationChannel": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveNotificationChannel",
 }));
@@ -1142,6 +1273,14 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
+  iam: {
+    actions: ["codeguru-profiler:RemovePermission"],
+    resources: {
+      "codeguru-profiler:RemovePermission": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemovePermission",
 }));
@@ -1173,6 +1312,14 @@ export const submitFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitFeedback",
+  iam: {
+    actions: ["codeguru-profiler:SubmitFeedback"],
+    resources: {
+      "codeguru-profiler:SubmitFeedback": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SubmitFeedback",
 }));
@@ -1197,6 +1344,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["codeguru-profiler:TagResource"],
+    resources: {
+      "codeguru-profiler:TagResource": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1221,6 +1376,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["codeguru-profiler:UntagResource"],
+    resources: {
+      "codeguru-profiler:UntagResource": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1253,6 +1416,14 @@ export const updateProfilingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfilingGroup",
+  iam: {
+    actions: ["codeguru-profiler:UpdateProfilingGroup"],
+    resources: {
+      "codeguru-profiler:UpdateProfilingGroup": [
+        "arn:${Partition}:codeguru-profiler:${Region}:${Account}:profilingGroup/${ProfilingGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProfilingGroup",
 }));

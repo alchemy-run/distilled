@@ -33,6 +33,7 @@ import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/gene
 import { cyclicShapeIds } from "@distilled.cloud/dev/codegen/graph";
 import { mergePaginated } from "@distilled.cloud/dev/codegen/pagination";
 import { endpointTemplate, generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
+import { operationIam } from "./iam.ts";
 import type { SmithyModel, ServiceShape } from "./model-schema.ts";
 import type { ServiceSpec, SyntheticError } from "./spec-schema.ts";
 
@@ -2248,6 +2249,17 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         opShape.traits?.["smithy.api#endpoint"] as { hostPrefix?: string } | undefined
       )?.hostPrefix;
 
+      // What the call is authorized as (AWS's Service Authorization
+      // Reference, corrected by patches): see scripts/iam.ts.
+      const iam = operationIam({
+        shapes,
+        service: serviceShape.traits["aws.api#service"],
+        opName,
+        input: opShape.__input,
+        patch: serviceSpec.operations?.[exportedName]?.iam,
+        removeEverywhere: serviceSpec.allOperations?.iam?.remove,
+      });
+
       // Always emit the Smithy operation name: protocols use it as the wire
       // Action / X-Amz-Target instead of guessing it from the input shape
       // identifier (which fails for e.g. AutoScaling's `...NamesType`).
@@ -2262,6 +2274,7 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
           ? [`endpointHostPrefix: ${JSON.stringify(endpointHostPrefix)}`]
           : []),
         ...(paginatedTrait ? [`pagination: ${JSON.stringify(paginatedTrait)} as const`] : []),
+        ...(iam ? [`iam: ${JSON.stringify(iam)}`] : []),
         ...ctx.telemetry,
       ];
       const metaObject = `{ ${metaParts.join(", ")} }`;

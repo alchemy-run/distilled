@@ -1289,6 +1289,10 @@ export const createGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRoute",
+  iam: {
+    actions: ["appmesh:CreateGatewayRoute", "appmesh:TagResource"],
+    conditional: { "appmesh:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGatewayRoute",
 }));
@@ -1334,6 +1338,13 @@ export const createMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMesh",
+  iam: {
+    actions: ["appmesh:CreateMesh", "appmesh:TagResource"],
+    resources: {
+      "appmesh:CreateMesh": ["arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}"],
+    },
+    conditional: { "appmesh:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMesh",
 }));
@@ -1377,6 +1388,10 @@ export const createRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoute",
+  iam: {
+    actions: ["appmesh:CreateRoute", "appmesh:TagResource"],
+    conditional: { "appmesh:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRoute",
 }));
@@ -1422,6 +1437,15 @@ export const createVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualGateway",
+  iam: {
+    actions: ["appmesh:CreateVirtualGateway", "appmesh:TagResource"],
+    resources: {
+      "appmesh:CreateVirtualGateway": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualGateway/${VirtualGatewayName}",
+      ],
+    },
+    conditional: { "appmesh:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVirtualGateway",
 }));
@@ -1486,6 +1510,11 @@ export const createVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualNode",
+  iam: {
+    actions: ["appmesh:CreateVirtualNode", "iam:PassRole", "appmesh:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names", "appmesh:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVirtualNode",
 }));
@@ -1532,6 +1561,15 @@ export const createVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualRouter",
+  iam: {
+    actions: ["appmesh:CreateVirtualRouter", "appmesh:TagResource"],
+    resources: {
+      "appmesh:CreateVirtualRouter": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualRouter/${VirtualRouterName}",
+      ],
+    },
+    conditional: { "appmesh:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVirtualRouter",
 }));
@@ -1578,6 +1616,10 @@ export const createVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVirtualService",
+  iam: {
+    actions: ["appmesh:CreateVirtualService", "appmesh:TagResource"],
+    conditional: { "appmesh:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateVirtualService",
 }));
@@ -1614,6 +1656,14 @@ export const deleteGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRoute",
+  iam: {
+    actions: ["appmesh:DeleteGatewayRoute"],
+    resources: {
+      "appmesh:DeleteGatewayRoute": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualGateway/${VirtualGatewayName}/gatewayRoute/${GatewayRouteName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGatewayRoute",
 }));
@@ -1653,6 +1703,12 @@ export const deleteMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMesh",
+  iam: {
+    actions: ["appmesh:DeleteMesh"],
+    resources: {
+      "appmesh:DeleteMesh": ["arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMesh",
 }));
@@ -1689,6 +1745,14 @@ export const deleteRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoute",
+  iam: {
+    actions: ["appmesh:DeleteRoute"],
+    resources: {
+      "appmesh:DeleteRoute": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualRouter/${VirtualRouterName}/route/${RouteName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRoute",
 }));
@@ -1726,6 +1790,14 @@ export const deleteVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualGateway",
+  iam: {
+    actions: ["appmesh:DeleteVirtualGateway"],
+    resources: {
+      "appmesh:DeleteVirtualGateway": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualGateway/${VirtualGatewayName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVirtualGateway",
 }));
@@ -1765,6 +1837,14 @@ export const deleteVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualNode",
+  iam: {
+    actions: ["appmesh:DeleteVirtualNode"],
+    resources: {
+      "appmesh:DeleteVirtualNode": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualNode/${VirtualNodeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVirtualNode",
 }));
@@ -1804,6 +1884,14 @@ export const deleteVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualRouter",
+  iam: {
+    actions: ["appmesh:DeleteVirtualRouter"],
+    resources: {
+      "appmesh:DeleteVirtualRouter": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualRouter/${VirtualRouterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVirtualRouter",
 }));
@@ -1840,6 +1928,14 @@ export const deleteVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualService",
+  iam: {
+    actions: ["appmesh:DeleteVirtualService"],
+    resources: {
+      "appmesh:DeleteVirtualService": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualService/${VirtualServiceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteVirtualService",
 }));
@@ -1874,6 +1970,14 @@ export const describeGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayRoute",
+  iam: {
+    actions: ["appmesh:DescribeGatewayRoute"],
+    resources: {
+      "appmesh:DescribeGatewayRoute": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualGateway/${VirtualGatewayName}/gatewayRoute/${GatewayRouteName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGatewayRoute",
 }));
@@ -1908,6 +2012,12 @@ export const describeMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMesh",
+  iam: {
+    actions: ["appmesh:DescribeMesh"],
+    resources: {
+      "appmesh:DescribeMesh": ["arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMesh",
 }));
@@ -1942,6 +2052,14 @@ export const describeRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoute",
+  iam: {
+    actions: ["appmesh:DescribeRoute"],
+    resources: {
+      "appmesh:DescribeRoute": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualRouter/${VirtualRouterName}/route/${RouteName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRoute",
 }));
@@ -1976,6 +2094,14 @@ export const describeVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualGateway",
+  iam: {
+    actions: ["appmesh:DescribeVirtualGateway"],
+    resources: {
+      "appmesh:DescribeVirtualGateway": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualGateway/${VirtualGatewayName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVirtualGateway",
 }));
@@ -2010,6 +2136,14 @@ export const describeVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualNode",
+  iam: {
+    actions: ["appmesh:DescribeVirtualNode"],
+    resources: {
+      "appmesh:DescribeVirtualNode": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualNode/${VirtualNodeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVirtualNode",
 }));
@@ -2044,6 +2178,14 @@ export const describeVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualRouter",
+  iam: {
+    actions: ["appmesh:DescribeVirtualRouter"],
+    resources: {
+      "appmesh:DescribeVirtualRouter": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualRouter/${VirtualRouterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVirtualRouter",
 }));
@@ -2078,6 +2220,14 @@ export const describeVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualService",
+  iam: {
+    actions: ["appmesh:DescribeVirtualService"],
+    resources: {
+      "appmesh:DescribeVirtualService": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualService/${VirtualServiceName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeVirtualService",
 }));
@@ -2120,6 +2270,14 @@ export const listGatewayRoutes: API.PaginatedOperationMethod<
     items: "gatewayRoutes",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["appmesh:ListGatewayRoutes"],
+    resources: {
+      "appmesh:ListGatewayRoutes": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualGateway/${VirtualGatewayName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGatewayRoutes",
 })) as any;
@@ -2161,6 +2319,7 @@ export const listMeshes: API.PaginatedOperationMethod<
     items: "meshes",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["appmesh:ListMeshes"] },
   telemetry: TELEMETRY,
   span: "ListMeshes",
 })) as any;
@@ -2202,6 +2361,14 @@ export const listRoutes: API.PaginatedOperationMethod<
     items: "routes",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["appmesh:ListRoutes"],
+    resources: {
+      "appmesh:ListRoutes": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualRouter/${VirtualRouterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRoutes",
 })) as any;
@@ -2243,6 +2410,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "limit",
   } as const,
+  iam: { actions: ["appmesh:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -2284,6 +2452,14 @@ export const listVirtualGateways: API.PaginatedOperationMethod<
     items: "virtualGateways",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["appmesh:ListVirtualGateways"],
+    resources: {
+      "appmesh:ListVirtualGateways": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListVirtualGateways",
 })) as any;
@@ -2325,6 +2501,14 @@ export const listVirtualNodes: API.PaginatedOperationMethod<
     items: "virtualNodes",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["appmesh:ListVirtualNodes"],
+    resources: {
+      "appmesh:ListVirtualNodes": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListVirtualNodes",
 })) as any;
@@ -2366,6 +2550,14 @@ export const listVirtualRouters: API.PaginatedOperationMethod<
     items: "virtualRouters",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["appmesh:ListVirtualRouters"],
+    resources: {
+      "appmesh:ListVirtualRouters": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListVirtualRouters",
 })) as any;
@@ -2407,6 +2599,14 @@ export const listVirtualServices: API.PaginatedOperationMethod<
     items: "virtualServices",
     pageSize: "limit",
   } as const,
+  iam: {
+    actions: ["appmesh:ListVirtualServices"],
+    resources: {
+      "appmesh:ListVirtualServices": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListVirtualServices",
 })) as any;
@@ -2446,6 +2646,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["appmesh:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2480,6 +2681,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["appmesh:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2519,6 +2721,7 @@ export const updateGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRoute",
+  iam: { actions: ["appmesh:UpdateGatewayRoute"] },
   telemetry: TELEMETRY,
   span: "UpdateGatewayRoute",
 }));
@@ -2555,6 +2758,12 @@ export const updateMesh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMesh",
+  iam: {
+    actions: ["appmesh:UpdateMesh"],
+    resources: {
+      "appmesh:UpdateMesh": ["arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMesh",
 }));
@@ -2593,6 +2802,7 @@ export const updateRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoute",
+  iam: { actions: ["appmesh:UpdateRoute"] },
   telemetry: TELEMETRY,
   span: "UpdateRoute",
 }));
@@ -2631,6 +2841,14 @@ export const updateVirtualGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualGateway",
+  iam: {
+    actions: ["appmesh:UpdateVirtualGateway"],
+    resources: {
+      "appmesh:UpdateVirtualGateway": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualGateway/${VirtualGatewayName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVirtualGateway",
 }));
@@ -2669,6 +2887,14 @@ export const updateVirtualNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualNode",
+  iam: {
+    actions: ["appmesh:UpdateVirtualNode"],
+    resources: {
+      "appmesh:UpdateVirtualNode": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualNode/${VirtualNodeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVirtualNode",
 }));
@@ -2707,6 +2933,14 @@ export const updateVirtualRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualRouter",
+  iam: {
+    actions: ["appmesh:UpdateVirtualRouter"],
+    resources: {
+      "appmesh:UpdateVirtualRouter": [
+        "arn:${Partition}:appmesh:${Region}:${Account}:mesh/${MeshName}/virtualRouter/${VirtualRouterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateVirtualRouter",
 }));
@@ -2745,6 +2979,7 @@ export const updateVirtualService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualService",
+  iam: { actions: ["appmesh:UpdateVirtualService"] },
   telemetry: TELEMETRY,
   span: "UpdateVirtualService",
 }));

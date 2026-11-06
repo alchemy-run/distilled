@@ -721,6 +721,14 @@ export const createBillOfMaterialsImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillOfMaterialsImportJob",
+  iam: {
+    actions: ["scn:CreateBillOfMaterialsImportJob"],
+    resources: {
+      "scn:CreateBillOfMaterialsImportJob": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateBillOfMaterialsImportJob",
 }));
@@ -755,6 +763,16 @@ export const createDataIntegrationFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataIntegrationFlow",
+  iam: {
+    actions: ["scn:CreateDataIntegrationFlow", "scn:TagResource"],
+    resources: {
+      "scn:CreateDataIntegrationFlow": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+      "scn:TagResource": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+    conditional: { "scn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataIntegrationFlow",
 }));
@@ -791,6 +809,16 @@ export const createDataLakeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeDataset",
+  iam: {
+    actions: ["scn:CreateDataLakeDataset", "scn:TagResource"],
+    resources: {
+      "scn:CreateDataLakeDataset": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+      "scn:TagResource": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+    conditional: { "scn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataLakeDataset",
 }));
@@ -825,6 +853,16 @@ export const createDataLakeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataLakeNamespace",
+  iam: {
+    actions: ["scn:CreateDataLakeNamespace", "scn:TagResource"],
+    resources: {
+      "scn:CreateDataLakeNamespace": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+      "scn:TagResource": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+    conditional: { "scn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataLakeNamespace",
 }));
@@ -861,6 +899,14 @@ export const createInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstance",
+  iam: {
+    actions: ["scn:CreateInstance", "scn:TagResource"],
+    resources: {
+      "scn:CreateInstance": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+      "scn:TagResource": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+    conditional: { "scn:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInstance",
 }));
@@ -891,6 +937,14 @@ export const deleteDataIntegrationFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataIntegrationFlow",
+  iam: {
+    actions: ["scn:DeleteDataIntegrationFlow"],
+    resources: {
+      "scn:DeleteDataIntegrationFlow": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/data-integration-flows/${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataIntegrationFlow",
 }));
@@ -923,6 +977,14 @@ export const deleteDataLakeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeDataset",
+  iam: {
+    actions: ["scn:DeleteDataLakeDataset"],
+    resources: {
+      "scn:DeleteDataLakeDataset": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/namespaces/${Namespace}/datasets/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataLakeDataset",
 }));
@@ -955,6 +1017,14 @@ export const deleteDataLakeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataLakeNamespace",
+  iam: {
+    actions: ["scn:DeleteDataLakeNamespace"],
+    resources: {
+      "scn:DeleteDataLakeNamespace": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/namespaces/${Namespace}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataLakeNamespace",
 }));
@@ -989,6 +1059,12 @@ export const deleteInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstance",
+  iam: {
+    actions: ["scn:DeleteInstance"],
+    resources: {
+      "scn:DeleteInstance": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInstance",
 }));
@@ -1021,6 +1097,14 @@ export const getBillOfMaterialsImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillOfMaterialsImportJob",
+  iam: {
+    actions: ["scn:GetBillOfMaterialsImportJob"],
+    resources: {
+      "scn:GetBillOfMaterialsImportJob": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/bill-of-materials-import-job/${JobId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBillOfMaterialsImportJob",
 }));
@@ -1053,6 +1137,14 @@ export const getDataIntegrationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationEvent",
+  iam: {
+    actions: ["scn:GetDataIntegrationEvent"],
+    resources: {
+      "scn:GetDataIntegrationEvent": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataIntegrationEvent",
 }));
@@ -1085,6 +1177,14 @@ export const getDataIntegrationFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationFlow",
+  iam: {
+    actions: ["scn:GetDataIntegrationFlow"],
+    resources: {
+      "scn:GetDataIntegrationFlow": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/data-integration-flows/${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataIntegrationFlow",
 }));
@@ -1117,6 +1217,14 @@ export const getDataIntegrationFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataIntegrationFlowExecution",
+  iam: {
+    actions: ["scn:GetDataIntegrationFlowExecution"],
+    resources: {
+      "scn:GetDataIntegrationFlowExecution": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/data-integration-flows/${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataIntegrationFlowExecution",
 }));
@@ -1149,6 +1257,14 @@ export const getDataLakeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeDataset",
+  iam: {
+    actions: ["scn:GetDataLakeDataset"],
+    resources: {
+      "scn:GetDataLakeDataset": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/namespaces/${Namespace}/datasets/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataLakeDataset",
 }));
@@ -1181,6 +1297,14 @@ export const getDataLakeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataLakeNamespace",
+  iam: {
+    actions: ["scn:GetDataLakeNamespace"],
+    resources: {
+      "scn:GetDataLakeNamespace": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/namespaces/${Namespace}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataLakeNamespace",
 }));
@@ -1213,6 +1337,12 @@ export const getInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstance",
+  iam: {
+    actions: ["scn:GetInstance"],
+    resources: {
+      "scn:GetInstance": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInstance",
 }));
@@ -1250,6 +1380,14 @@ export const listDataIntegrationEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["scn:ListDataIntegrationEvents"],
+    resources: {
+      "scn:ListDataIntegrationEvents": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataIntegrationEvents",
 })) as any;
@@ -1289,6 +1427,14 @@ export const listDataIntegrationFlowExecutions: API.PaginatedOperationMethod<
     items: "flowExecutions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["scn:ListDataIntegrationFlowExecutions"],
+    resources: {
+      "scn:ListDataIntegrationFlowExecutions": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/data-integration-flows/${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataIntegrationFlowExecutions",
 })) as any;
@@ -1326,6 +1472,14 @@ export const listDataIntegrationFlows: API.PaginatedOperationMethod<
     items: "flows",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["scn:ListDataIntegrationFlows"],
+    resources: {
+      "scn:ListDataIntegrationFlows": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataIntegrationFlows",
 })) as any;
@@ -1365,6 +1519,14 @@ export const listDataLakeDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["scn:ListDataLakeDatasets"],
+    resources: {
+      "scn:ListDataLakeDatasets": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataLakeDatasets",
 })) as any;
@@ -1402,6 +1564,14 @@ export const listDataLakeNamespaces: API.PaginatedOperationMethod<
     items: "namespaces",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["scn:ListDataLakeNamespaces"],
+    resources: {
+      "scn:ListDataLakeNamespaces": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDataLakeNamespaces",
 })) as any;
@@ -1439,6 +1609,12 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "instances",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["scn:ListInstances"],
+    resources: {
+      "scn:ListInstances": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInstances",
 })) as any;
@@ -1471,6 +1647,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["scn:ListTagsForResource"],
+    resources: {
+      "scn:ListTagsForResource": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1507,6 +1691,14 @@ export const sendDataIntegrationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataIntegrationEvent",
+  iam: {
+    actions: ["scn:SendDataIntegrationEvent"],
+    resources: {
+      "scn:SendDataIntegrationEvent": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendDataIntegrationEvent",
 }));
@@ -1539,6 +1731,12 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["scn:TagResource"],
+    resources: {
+      "scn:TagResource": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1571,6 +1769,12 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["scn:UntagResource"],
+    resources: {
+      "scn:UntagResource": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1603,6 +1807,14 @@ export const updateDataIntegrationFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataIntegrationFlow",
+  iam: {
+    actions: ["scn:UpdateDataIntegrationFlow"],
+    resources: {
+      "scn:UpdateDataIntegrationFlow": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/data-integration-flows/${FlowName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataIntegrationFlow",
 }));
@@ -1635,6 +1847,14 @@ export const updateDataLakeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeDataset",
+  iam: {
+    actions: ["scn:UpdateDataLakeDataset"],
+    resources: {
+      "scn:UpdateDataLakeDataset": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/namespaces/${Namespace}/datasets/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataLakeDataset",
 }));
@@ -1667,6 +1887,14 @@ export const updateDataLakeNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataLakeNamespace",
+  iam: {
+    actions: ["scn:UpdateDataLakeNamespace"],
+    resources: {
+      "scn:UpdateDataLakeNamespace": [
+        "arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}/namespaces/${Namespace}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataLakeNamespace",
 }));
@@ -1699,6 +1927,12 @@ export const updateInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstance",
+  iam: {
+    actions: ["scn:UpdateInstance"],
+    resources: {
+      "scn:UpdateInstance": ["arn:${Partition}:scn:${Region}:${Account}:instance/${InstanceId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInstance",
 }));

@@ -669,6 +669,14 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
+  iam: {
+    actions: ["detective:AcceptInvitation"],
+    resources: {
+      "detective:AcceptInvitation": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptInvitation",
 }));
@@ -699,6 +707,14 @@ export const batchGetGraphMemberDatasources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetGraphMemberDatasources",
+  iam: {
+    actions: ["detective:BatchGetGraphMemberDatasources"],
+    resources: {
+      "detective:BatchGetGraphMemberDatasources": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetGraphMemberDatasources",
 }));
@@ -729,6 +745,7 @@ export const batchGetMembershipDatasources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMembershipDatasources",
+  iam: { actions: ["detective:BatchGetMembershipDatasources"] },
   telemetry: TELEMETRY,
   span: "BatchGetMembershipDatasources",
 }));
@@ -770,6 +787,15 @@ export const createGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraph",
+  iam: {
+    actions: ["detective:CreateGraph", "detective:TagResource"],
+    resources: {
+      "detective:TagResource": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+    conditional: { "detective:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGraph",
 }));
@@ -832,6 +858,14 @@ export const createMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembers",
+  iam: {
+    actions: ["detective:CreateMembers"],
+    resources: {
+      "detective:CreateMembers": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateMembers",
 }));
@@ -866,6 +900,14 @@ export const deleteGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraph",
+  iam: {
+    actions: ["detective:DeleteGraph"],
+    resources: {
+      "detective:DeleteGraph": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGraph",
 }));
@@ -913,6 +955,14 @@ export const deleteMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembers",
+  iam: {
+    actions: ["detective:DeleteMembers"],
+    resources: {
+      "detective:DeleteMembers": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMembers",
 }));
@@ -947,6 +997,14 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  iam: {
+    actions: ["detective:DescribeOrganizationConfiguration"],
+    resources: {
+      "detective:DescribeOrganizationConfiguration": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConfiguration",
 }));
@@ -985,6 +1043,7 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
+  iam: { actions: ["detective:DisableOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DisableOrganizationAdminAccount",
 }));
@@ -1023,6 +1082,14 @@ export const disassociateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMembership",
+  iam: {
+    actions: ["detective:DisassociateMembership"],
+    resources: {
+      "detective:DisassociateMembership": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateMembership",
 }));
@@ -1068,6 +1135,28 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
+  iam: {
+    actions: [
+      "iam:CreateServiceLinkedRole",
+      "organizations:EnableAWSServiceAccess",
+      "detective:EnableOrganizationAdminAccount",
+      "organizations:RegisterDelegatedAdministrator",
+    ],
+    resources: {
+      "iam:CreateServiceLinkedRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "organizations:RegisterDelegatedAdministrator": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+    conditional: {
+      "iam:CreateServiceLinkedRole":
+        "Needed only the first time an organization enables Detective (its service-linked role and trusted access), which the management account sets up; not granted to a runtime.",
+      "organizations:EnableAWSServiceAccess":
+        "Needed only the first time an organization enables Detective (its service-linked role and trusted access), which the management account sets up; not granted to a runtime.",
+      "organizations:RegisterDelegatedAdministrator":
+        "Needed only the first time an organization enables Detective (its service-linked role and trusted access), which the management account sets up; not granted to a runtime.",
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableOrganizationAdminAccount",
 }));
@@ -1100,6 +1189,14 @@ export const getInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvestigation",
+  iam: {
+    actions: ["detective:GetInvestigation"],
+    resources: {
+      "detective:GetInvestigation": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInvestigation",
 }));
@@ -1131,6 +1228,14 @@ export const getMembers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembers",
+  iam: {
+    actions: ["detective:GetMembers"],
+    resources: {
+      "detective:GetMembers": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMembers",
 }));
@@ -1167,6 +1272,14 @@ export const listDatasourcePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["detective:ListDatasourcePackages"],
+    resources: {
+      "detective:ListDatasourcePackages": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDatasourcePackages",
 })) as any;
@@ -1201,6 +1314,7 @@ export const listGraphs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["detective:ListGraphs"] },
   telemetry: TELEMETRY,
   span: "ListGraphs",
 })) as any;
@@ -1233,6 +1347,14 @@ export const listIndicators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIndicators",
+  iam: {
+    actions: ["detective:ListIndicators"],
+    resources: {
+      "detective:ListIndicators": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIndicators",
 }));
@@ -1270,6 +1392,14 @@ export const listInvestigations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInvestigations",
+  iam: {
+    actions: ["detective:ListInvestigations"],
+    resources: {
+      "detective:ListInvestigations": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInvestigations",
 }));
@@ -1307,6 +1437,7 @@ export const listInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["detective:ListInvitations"] },
   telemetry: TELEMETRY,
   span: "ListInvitations",
 })) as any;
@@ -1350,6 +1481,14 @@ export const listMembers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["detective:ListMembers"],
+    resources: {
+      "detective:ListMembers": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMembers",
 })) as any;
@@ -1387,6 +1526,7 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["detective:ListOrganizationAdminAccounts"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationAdminAccounts",
 })) as any;
@@ -1417,6 +1557,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["detective:ListTagsForResource"],
+    resources: {
+      "detective:ListTagsForResource": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1455,6 +1603,14 @@ export const rejectInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInvitation",
+  iam: {
+    actions: ["detective:RejectInvitation"],
+    resources: {
+      "detective:RejectInvitation": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectInvitation",
 }));
@@ -1487,6 +1643,14 @@ export const startInvestigation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInvestigation",
+  iam: {
+    actions: ["detective:StartInvestigation"],
+    resources: {
+      "detective:StartInvestigation": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartInvestigation",
 }));
@@ -1530,6 +1694,14 @@ export const startMonitoringMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitoringMember",
+  iam: {
+    actions: ["detective:StartMonitoringMember"],
+    resources: {
+      "detective:StartMonitoringMember": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartMonitoringMember",
 }));
@@ -1560,6 +1732,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["detective:TagResource"],
+    resources: {
+      "detective:TagResource": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1590,6 +1770,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["detective:UntagResource"],
+    resources: {
+      "detective:UntagResource": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1622,6 +1810,14 @@ export const updateDatasourcePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasourcePackages",
+  iam: {
+    actions: ["detective:UpdateDatasourcePackages"],
+    resources: {
+      "detective:UpdateDatasourcePackages": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDatasourcePackages",
 }));
@@ -1654,6 +1850,14 @@ export const updateInvestigationState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInvestigationState",
+  iam: {
+    actions: ["detective:UpdateInvestigationState"],
+    resources: {
+      "detective:UpdateInvestigationState": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateInvestigationState",
 }));
@@ -1686,6 +1890,14 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  iam: {
+    actions: ["detective:UpdateOrganizationConfiguration"],
+    resources: {
+      "detective:UpdateOrganizationConfiguration": [
+        "arn:${Partition}:detective:${Region}:${Account}:graph:${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOrganizationConfiguration",
 }));

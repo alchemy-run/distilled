@@ -597,6 +597,7 @@ export interface RegisterComputeNodeGroupInstanceResponse {
   computeNodeGroupId?: string;
   computeNodeGroupName?: string;
   nodeLifecycleActions?: NodeLifecycleActions;
+  schedulerVersion?: string;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -718,6 +719,10 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
+  iam: {
+    actions: ["pcs:CreateCluster", "pcs:TagResource"],
+    conditional: { "pcs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -754,6 +759,16 @@ export const createComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputeNodeGroup",
+  iam: {
+    actions: ["pcs:CreateComputeNodeGroup", "iam:PassRole", "pcs:TagResource"],
+    resources: {
+      "pcs:CreateComputeNodeGroup": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "a role the request names", "pcs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateComputeNodeGroup",
 }));
@@ -790,6 +805,13 @@ export const createQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueue",
+  iam: {
+    actions: ["pcs:CreateQueue", "pcs:TagResource"],
+    resources: {
+      "pcs:CreateQueue": ["arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}"],
+    },
+    conditional: { "pcs:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateQueue",
 }));
@@ -824,6 +846,14 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
+  iam: {
+    actions: ["pcs:DeleteCluster"],
+    resources: {
+      "pcs:DeleteCluster": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -858,6 +888,15 @@ export const deleteComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComputeNodeGroup",
+  iam: {
+    actions: ["pcs:DeleteComputeNodeGroup"],
+    resources: {
+      "pcs:DeleteComputeNodeGroup": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}/computenodegroup/${ComputeNodeGroupIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteComputeNodeGroup",
 }));
@@ -892,6 +931,15 @@ export const deleteQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueue",
+  iam: {
+    actions: ["pcs:DeleteQueue"],
+    resources: {
+      "pcs:DeleteQueue": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}/queue/${QueueIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteQueue",
 }));
@@ -926,6 +974,12 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
+  iam: {
+    actions: ["pcs:GetCluster"],
+    resources: {
+      "pcs:GetCluster": ["arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCluster",
 }));
@@ -960,6 +1014,15 @@ export const getComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComputeNodeGroup",
+  iam: {
+    actions: ["pcs:GetComputeNodeGroup"],
+    resources: {
+      "pcs:GetComputeNodeGroup": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}/computenodegroup/${ComputeNodeGroupIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetComputeNodeGroup",
 }));
@@ -994,6 +1057,15 @@ export const getQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueue",
+  iam: {
+    actions: ["pcs:GetQueue"],
+    resources: {
+      "pcs:GetQueue": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}/queue/${QueueIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueue",
 }));
@@ -1035,6 +1107,7 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["pcs:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -1076,6 +1149,14 @@ export const listComputeNodeGroups: API.PaginatedOperationMethod<
     items: "computeNodeGroups",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["pcs:ListComputeNodeGroups"],
+    resources: {
+      "pcs:ListComputeNodeGroups": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListComputeNodeGroups",
 })) as any;
@@ -1117,6 +1198,12 @@ export const listQueues: API.PaginatedOperationMethod<
     items: "queues",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["pcs:ListQueues"],
+    resources: {
+      "pcs:ListQueues": ["arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQueues",
 })) as any;
@@ -1137,6 +1224,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["pcs:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1162,6 +1250,14 @@ export const registerComputeNodeGroupInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterComputeNodeGroupInstance",
+  iam: {
+    actions: ["pcs:RegisterComputeNodeGroupInstance"],
+    resources: {
+      "pcs:RegisterComputeNodeGroupInstance": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterComputeNodeGroupInstance",
 }));
@@ -1185,6 +1281,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["pcs:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1205,6 +1302,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["pcs:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1241,6 +1339,14 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
+  iam: {
+    actions: ["pcs:UpdateCluster"],
+    resources: {
+      "pcs:UpdateCluster": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -1277,6 +1383,17 @@ export const updateComputeNodeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComputeNodeGroup",
+  iam: {
+    actions: ["iam:PassRole", "pcs:UpdateComputeNodeGroup"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "pcs:UpdateComputeNodeGroup": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}/computenodegroup/${ComputeNodeGroupIdentifier}",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateComputeNodeGroup",
 }));
@@ -1313,6 +1430,15 @@ export const updateQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueue",
+  iam: {
+    actions: ["pcs:UpdateQueue"],
+    resources: {
+      "pcs:UpdateQueue": [
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}",
+        "arn:${Partition}:pcs:${Region}:${Account}:cluster/${ClusterIdentifier}/queue/${QueueIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateQueue",
 }));
@@ -1499,6 +1625,7 @@ function __c12(j: number): any {
           computeNodeGroupId: S.optional(S.String),
           computeNodeGroupName: S.optional(S.String),
           nodeLifecycleActions: S.optional(__S(436, __c27, 4)),
+          schedulerVersion: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegisterComputeNodeGroupInstanceResponse" });
   }

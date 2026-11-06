@@ -685,6 +685,15 @@ export const createSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalingChannel",
+  iam: {
+    actions: ["kinesisvideo:CreateSignalingChannel", "kinesisvideo:TagResource"],
+    resources: {
+      "kinesisvideo:CreateSignalingChannel": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+    conditional: { "kinesisvideo:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSignalingChannel",
 }));
@@ -731,6 +740,18 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
+  iam: {
+    actions: ["kinesisvideo:CreateStream", "kinesisvideo:TagStream"],
+    resources: {
+      "kinesisvideo:CreateStream": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+      "kinesisvideo:TagStream": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+    conditional: { "kinesisvideo:TagStream": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateStream",
 }));
@@ -767,6 +788,14 @@ export const deleteEdgeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEdgeConfiguration",
+  iam: {
+    actions: ["kinesisvideo:DeleteEdgeConfiguration"],
+    resources: {
+      "kinesisvideo:DeleteEdgeConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEdgeConfiguration",
 }));
@@ -803,6 +832,14 @@ export const deleteSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalingChannel",
+  iam: {
+    actions: ["kinesisvideo:DeleteSignalingChannel"],
+    resources: {
+      "kinesisvideo:DeleteSignalingChannel": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSignalingChannel",
 }));
@@ -848,6 +885,14 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
+  iam: {
+    actions: ["kinesisvideo:DeleteStream"],
+    resources: {
+      "kinesisvideo:DeleteStream": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteStream",
 }));
@@ -884,6 +929,14 @@ export const describeEdgeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEdgeConfiguration",
+  iam: {
+    actions: ["kinesisvideo:DescribeEdgeConfiguration"],
+    resources: {
+      "kinesisvideo:DescribeEdgeConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEdgeConfiguration",
 }));
@@ -914,6 +967,14 @@ export const describeImageGenerationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageGenerationConfiguration",
+  iam: {
+    actions: ["kinesisvideo:DescribeImageGenerationConfiguration"],
+    resources: {
+      "kinesisvideo:DescribeImageGenerationConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeImageGenerationConfiguration",
 }));
@@ -952,6 +1013,14 @@ export const describeMappedResourceConfiguration: API.PaginatedOperationMethod<
     items: "MappedResourceConfigurationList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["kinesisvideo:DescribeMappedResourceConfiguration"],
+    resources: {
+      "kinesisvideo:DescribeMappedResourceConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMappedResourceConfiguration",
 })) as any;
@@ -983,6 +1052,14 @@ export const describeMediaStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMediaStorageConfiguration",
+  iam: {
+    actions: ["kinesisvideo:DescribeMediaStorageConfiguration"],
+    resources: {
+      "kinesisvideo:DescribeMediaStorageConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMediaStorageConfiguration",
 }));
@@ -1013,6 +1090,14 @@ export const describeNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotificationConfiguration",
+  iam: {
+    actions: ["kinesisvideo:DescribeNotificationConfiguration"],
+    resources: {
+      "kinesisvideo:DescribeNotificationConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeNotificationConfiguration",
 }));
@@ -1045,6 +1130,14 @@ export const describeSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSignalingChannel",
+  iam: {
+    actions: ["kinesisvideo:DescribeSignalingChannel"],
+    resources: {
+      "kinesisvideo:DescribeSignalingChannel": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeSignalingChannel",
 }));
@@ -1076,6 +1169,14 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  iam: {
+    actions: ["kinesisvideo:DescribeStream"],
+    resources: {
+      "kinesisvideo:DescribeStream": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStream",
 }));
@@ -1110,6 +1211,14 @@ export const describeStreamStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamStorageConfiguration",
+  iam: {
+    actions: ["kinesisvideo:DescribeStreamStorageConfiguration"],
+    resources: {
+      "kinesisvideo:DescribeStreamStorageConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStreamStorageConfiguration",
 }));
@@ -1149,6 +1258,14 @@ export const getDataEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataEndpoint",
+  iam: {
+    actions: ["kinesisvideo:GetDataEndpoint"],
+    resources: {
+      "kinesisvideo:GetDataEndpoint": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataEndpoint",
 }));
@@ -1195,6 +1312,14 @@ export const getSignalingChannelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalingChannelEndpoint",
+  iam: {
+    actions: ["kinesisvideo:GetSignalingChannelEndpoint"],
+    resources: {
+      "kinesisvideo:GetSignalingChannelEndpoint": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSignalingChannelEndpoint",
 }));
@@ -1228,6 +1353,7 @@ export const listEdgeAgentConfigurations: API.PaginatedOperationMethod<
     items: "EdgeConfigs",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kinesisvideo:ListEdgeAgentConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListEdgeAgentConfigurations",
 })) as any;
@@ -1261,6 +1387,7 @@ export const listSignalingChannels: API.PaginatedOperationMethod<
     items: "ChannelInfoList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kinesisvideo:ListSignalingChannels"] },
   telemetry: TELEMETRY,
   span: "ListSignalingChannels",
 })) as any;
@@ -1293,6 +1420,7 @@ export const listStreams: API.PaginatedOperationMethod<
     items: "StreamInfoList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["kinesisvideo:ListStreams"] },
   telemetry: TELEMETRY,
   span: "ListStreams",
 })) as any;
@@ -1323,6 +1451,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["kinesisvideo:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1358,6 +1487,14 @@ export const listTagsForStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForStream",
+  iam: {
+    actions: ["kinesisvideo:ListTagsForStream"],
+    resources: {
+      "kinesisvideo:ListTagsForStream": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForStream",
 }));
@@ -1407,6 +1544,14 @@ export const startEdgeConfigurationUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEdgeConfigurationUpdate",
+  iam: {
+    actions: ["kinesisvideo:StartEdgeConfigurationUpdate"],
+    resources: {
+      "kinesisvideo:StartEdgeConfigurationUpdate": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartEdgeConfigurationUpdate",
 }));
@@ -1446,6 +1591,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["kinesisvideo:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1494,6 +1640,14 @@ export const tagStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagStream",
+  iam: {
+    actions: ["kinesisvideo:TagStream"],
+    resources: {
+      "kinesisvideo:TagStream": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagStream",
 }));
@@ -1528,6 +1682,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["kinesisvideo:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1567,6 +1722,14 @@ export const untagStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagStream",
+  iam: {
+    actions: ["kinesisvideo:UntagStream"],
+    resources: {
+      "kinesisvideo:UntagStream": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagStream",
 }));
@@ -1622,6 +1785,14 @@ export const updateDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataRetention",
+  iam: {
+    actions: ["kinesisvideo:UpdateDataRetention"],
+    resources: {
+      "kinesisvideo:UpdateDataRetention": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataRetention",
 }));
@@ -1656,6 +1827,14 @@ export const updateImageGenerationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImageGenerationConfiguration",
+  iam: {
+    actions: ["kinesisvideo:UpdateImageGenerationConfiguration"],
+    resources: {
+      "kinesisvideo:UpdateImageGenerationConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateImageGenerationConfiguration",
 }));
@@ -1703,6 +1882,14 @@ export const updateMediaStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaStorageConfiguration",
+  iam: {
+    actions: ["kinesisvideo:UpdateMediaStorageConfiguration"],
+    resources: {
+      "kinesisvideo:UpdateMediaStorageConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMediaStorageConfiguration",
 }));
@@ -1737,6 +1924,14 @@ export const updateNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationConfiguration",
+  iam: {
+    actions: ["kinesisvideo:UpdateNotificationConfiguration"],
+    resources: {
+      "kinesisvideo:UpdateNotificationConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNotificationConfiguration",
 }));
@@ -1779,6 +1974,14 @@ export const updateSignalingChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSignalingChannel",
+  iam: {
+    actions: ["kinesisvideo:UpdateSignalingChannel"],
+    resources: {
+      "kinesisvideo:UpdateSignalingChannel": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSignalingChannel",
 }));
@@ -1826,6 +2029,14 @@ export const updateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStream",
+  iam: {
+    actions: ["kinesisvideo:UpdateStream"],
+    resources: {
+      "kinesisvideo:UpdateStream": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStream",
 }));
@@ -1866,6 +2077,14 @@ export const updateStreamStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamStorageConfiguration",
+  iam: {
+    actions: ["kinesisvideo:UpdateStreamStorageConfiguration"],
+    resources: {
+      "kinesisvideo:UpdateStreamStorageConfiguration": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateStreamStorageConfiguration",
 }));

@@ -1696,6 +1696,9 @@ export interface GetProfileObjectTypeTemplateResponse {
   TemplateId?: string;
   SourceName?: string;
   SourceObject?: string;
+  DefaultMaxProfileObjectCount?: number;
+  DefaultMaxProfileObjectCountEffectiveAfter?: Date;
+  StoreOnly?: boolean;
   AllowProfileCreation?: boolean;
   SourceLastUpdatedTimestampFormat?: string;
   Fields?: { [key: string]: ObjectTypeField | undefined };
@@ -2969,6 +2972,14 @@ export const addProfileKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddProfileKey",
+  iam: {
+    actions: ["profile:AddProfileKey"],
+    resources: {
+      "profile:AddProfileKey": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AddProfileKey",
 }));
@@ -3003,6 +3014,14 @@ export const associateStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateStreamForSegments",
+  iam: {
+    actions: ["profile:AssociateStreamForSegments"],
+    resources: {
+      "profile:AssociateStreamForSegments": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateStreamForSegments",
 }));
@@ -3035,6 +3054,14 @@ export const batchGetCalculatedAttributeForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCalculatedAttributeForProfile",
+  iam: {
+    actions: ["profile:BatchGetCalculatedAttributeForProfile"],
+    resources: {
+      "profile:BatchGetCalculatedAttributeForProfile": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/calculated-attributes/${CalculatedAttributeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetCalculatedAttributeForProfile",
 }));
@@ -3067,6 +3094,14 @@ export const batchGetProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetProfile",
+  iam: {
+    actions: ["profile:BatchGetProfile"],
+    resources: {
+      "profile:BatchGetProfile": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetProfile",
 }));
@@ -3148,6 +3183,15 @@ export const createCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCalculatedAttributeDefinition",
+  iam: {
+    actions: ["profile:CreateCalculatedAttributeDefinition", "profile:TagResource"],
+    resources: {
+      "profile:CreateCalculatedAttributeDefinition": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/calculated-attributes/${CalculatedAttributeName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCalculatedAttributeDefinition",
 }));
@@ -3199,6 +3243,15 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
+  iam: {
+    actions: ["profile:CreateDomain", "profile:TagResource"],
+    resources: {
+      "profile:CreateDomain": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -3232,6 +3285,15 @@ export const createDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainLayout",
+  iam: {
+    actions: ["profile:CreateDomainLayout", "profile:TagResource"],
+    resources: {
+      "profile:CreateDomainLayout": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/layouts/${LayoutDefinitionName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDomainLayout",
 }));
@@ -3268,6 +3330,15 @@ export const createEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventStream",
+  iam: {
+    actions: ["profile:CreateEventStream", "profile:TagResource"],
+    resources: {
+      "profile:CreateEventStream": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/event-streams/${EventStreamName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEventStream",
 }));
@@ -3304,6 +3375,15 @@ export const createEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventTrigger",
+  iam: {
+    actions: ["profile:CreateEventTrigger", "profile:TagResource"],
+    resources: {
+      "profile:CreateEventTrigger": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/event-triggers/${EventTriggerName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateEventTrigger",
 }));
@@ -3337,6 +3417,16 @@ export const createIntegrationWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegrationWorkflow",
+  iam: {
+    actions: ["profile:CreateIntegrationWorkflow", "iam:PassRole"],
+    resources: {
+      "profile:CreateIntegrationWorkflow": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/integrations/${Uri}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateIntegrationWorkflow",
 }));
@@ -3372,6 +3462,14 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
+  iam: {
+    actions: ["profile:CreateProfile"],
+    resources: {
+      "profile:CreateProfile": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProfile",
 }));
@@ -3404,6 +3502,15 @@ export const createRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommender",
+  iam: {
+    actions: ["profile:CreateRecommender", "profile:TagResource"],
+    resources: {
+      "profile:CreateRecommender": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommenders/${RecommenderTypeName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRecommender",
 }));
@@ -3436,6 +3543,15 @@ export const createRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderFilter",
+  iam: {
+    actions: ["profile:CreateRecommenderFilter", "profile:TagResource"],
+    resources: {
+      "profile:CreateRecommenderFilter": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommender-filters/${RecommenderFilterName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRecommenderFilter",
 }));
@@ -3468,6 +3584,15 @@ export const createRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderSchema",
+  iam: {
+    actions: ["profile:CreateRecommenderSchema", "profile:TagResource"],
+    resources: {
+      "profile:CreateRecommenderSchema": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommender-schemas/${RecommenderSchemaName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRecommenderSchema",
 }));
@@ -3500,6 +3625,15 @@ export const createSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentDefinition",
+  iam: {
+    actions: ["profile:CreateSegmentDefinition", "profile:TagResource"],
+    resources: {
+      "profile:CreateSegmentDefinition": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSegmentDefinition",
 }));
@@ -3532,6 +3666,14 @@ export const createSegmentEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentEstimate",
+  iam: {
+    actions: ["profile:CreateSegmentEstimate"],
+    resources: {
+      "profile:CreateSegmentEstimate": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateSegmentEstimate",
 }));
@@ -3564,6 +3706,16 @@ export const createSegmentSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegmentSnapshot",
+  iam: {
+    actions: ["profile:CreateSegmentSnapshot", "iam:PassRole"],
+    resources: {
+      "profile:CreateSegmentSnapshot": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSegmentSnapshot",
 }));
@@ -3597,6 +3749,14 @@ export const createUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUploadJob",
+  iam: {
+    actions: ["profile:CreateUploadJob"],
+    resources: {
+      "profile:CreateUploadJob": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateUploadJob",
 }));
@@ -3632,6 +3792,14 @@ export const deleteCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCalculatedAttributeDefinition",
+  iam: {
+    actions: ["profile:DeleteCalculatedAttributeDefinition"],
+    resources: {
+      "profile:DeleteCalculatedAttributeDefinition": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/calculated-attributes/${CalculatedAttributeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCalculatedAttributeDefinition",
 }));
@@ -3665,6 +3833,14 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
+  iam: {
+    actions: ["profile:DeleteDomain"],
+    resources: {
+      "profile:DeleteDomain": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -3698,6 +3874,14 @@ export const deleteDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainLayout",
+  iam: {
+    actions: ["profile:DeleteDomainLayout"],
+    resources: {
+      "profile:DeleteDomainLayout": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/layouts/${LayoutDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomainLayout",
 }));
@@ -3730,6 +3914,14 @@ export const deleteDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainObjectType",
+  iam: {
+    actions: ["profile:DeleteDomainObjectType"],
+    resources: {
+      "profile:DeleteDomainObjectType": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/domain-object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDomainObjectType",
 }));
@@ -3762,6 +3954,14 @@ export const deleteEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventStream",
+  iam: {
+    actions: ["profile:DeleteEventStream"],
+    resources: {
+      "profile:DeleteEventStream": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/event-streams/${EventStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEventStream",
 }));
@@ -3796,6 +3996,14 @@ export const deleteEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventTrigger",
+  iam: {
+    actions: ["profile:DeleteEventTrigger"],
+    resources: {
+      "profile:DeleteEventTrigger": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/event-triggers/${EventTriggerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteEventTrigger",
 }));
@@ -3828,6 +4036,14 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
+  iam: {
+    actions: ["profile:DeleteIntegration"],
+    resources: {
+      "profile:DeleteIntegration": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/integrations/${Uri}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
 }));
@@ -3860,6 +4076,14 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
+  iam: {
+    actions: ["profile:DeleteProfile"],
+    resources: {
+      "profile:DeleteProfile": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfile",
 }));
@@ -3892,6 +4116,14 @@ export const deleteProfileKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileKey",
+  iam: {
+    actions: ["profile:DeleteProfileKey"],
+    resources: {
+      "profile:DeleteProfileKey": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfileKey",
 }));
@@ -3924,6 +4156,14 @@ export const deleteProfileObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileObject",
+  iam: {
+    actions: ["profile:DeleteProfileObject"],
+    resources: {
+      "profile:DeleteProfileObject": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfileObject",
 }));
@@ -3959,6 +4199,14 @@ export const deleteProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfileObjectType",
+  iam: {
+    actions: ["profile:DeleteProfileObjectType"],
+    resources: {
+      "profile:DeleteProfileObjectType": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProfileObjectType",
 }));
@@ -3991,6 +4239,14 @@ export const deleteRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommender",
+  iam: {
+    actions: ["profile:DeleteRecommender"],
+    resources: {
+      "profile:DeleteRecommender": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommenders/${RecommenderTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRecommender",
 }));
@@ -4023,6 +4279,14 @@ export const deleteRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderFilter",
+  iam: {
+    actions: ["profile:DeleteRecommenderFilter"],
+    resources: {
+      "profile:DeleteRecommenderFilter": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommender-filters/${RecommenderFilterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRecommenderFilter",
 }));
@@ -4055,6 +4319,14 @@ export const deleteRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderSchema",
+  iam: {
+    actions: ["profile:DeleteRecommenderSchema"],
+    resources: {
+      "profile:DeleteRecommenderSchema": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommender-schemas/${RecommenderSchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRecommenderSchema",
 }));
@@ -4087,6 +4359,14 @@ export const deleteSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegmentDefinition",
+  iam: {
+    actions: ["profile:DeleteSegmentDefinition"],
+    resources: {
+      "profile:DeleteSegmentDefinition": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSegmentDefinition",
 }));
@@ -4120,6 +4400,15 @@ export const deleteSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegmentSubscription",
+  iam: {
+    actions: ["profile:DeleteSegmentSubscription"],
+    resources: {
+      "profile:DeleteSegmentSubscription": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSegmentSubscription",
 }));
@@ -4153,6 +4442,14 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  iam: {
+    actions: ["profile:DeleteWorkflow"],
+    resources: {
+      "profile:DeleteWorkflow": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflow",
 }));
@@ -4185,6 +4482,14 @@ export const detectProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectProfileObjectType",
+  iam: {
+    actions: ["profile:DetectProfileObjectType"],
+    resources: {
+      "profile:DetectProfileObjectType": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetectProfileObjectType",
 }));
@@ -4218,6 +4523,14 @@ export const disassociateStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateStreamForSegments",
+  iam: {
+    actions: ["profile:DisassociateStreamForSegments"],
+    resources: {
+      "profile:DisassociateStreamForSegments": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateStreamForSegments",
 }));
@@ -4262,6 +4575,14 @@ export const getAutoMergingPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoMergingPreview",
+  iam: {
+    actions: ["profile:GetAutoMergingPreview"],
+    resources: {
+      "profile:GetAutoMergingPreview": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutoMergingPreview",
 }));
@@ -4295,6 +4616,14 @@ export const getCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculatedAttributeDefinition",
+  iam: {
+    actions: ["profile:GetCalculatedAttributeDefinition"],
+    resources: {
+      "profile:GetCalculatedAttributeDefinition": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/calculated-attributes/${CalculatedAttributeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCalculatedAttributeDefinition",
 }));
@@ -4327,6 +4656,14 @@ export const getCalculatedAttributeForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculatedAttributeForProfile",
+  iam: {
+    actions: ["profile:GetCalculatedAttributeForProfile"],
+    resources: {
+      "profile:GetCalculatedAttributeForProfile": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/calculated-attributes/${CalculatedAttributeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCalculatedAttributeForProfile",
 }));
@@ -4359,6 +4696,12 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
+  iam: {
+    actions: ["profile:GetDomain"],
+    resources: {
+      "profile:GetDomain": ["arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDomain",
 }));
@@ -4392,6 +4735,14 @@ export const getDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainLayout",
+  iam: {
+    actions: ["profile:GetDomainLayout"],
+    resources: {
+      "profile:GetDomainLayout": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/layouts/${LayoutDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDomainLayout",
 }));
@@ -4424,6 +4775,14 @@ export const getDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainObjectType",
+  iam: {
+    actions: ["profile:GetDomainObjectType"],
+    resources: {
+      "profile:GetDomainObjectType": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/domain-object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDomainObjectType",
 }));
@@ -4456,6 +4815,14 @@ export const getEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventStream",
+  iam: {
+    actions: ["profile:GetEventStream"],
+    resources: {
+      "profile:GetEventStream": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/event-streams/${EventStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEventStream",
 }));
@@ -4488,6 +4855,14 @@ export const getEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventTrigger",
+  iam: {
+    actions: ["profile:GetEventTrigger"],
+    resources: {
+      "profile:GetEventTrigger": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/event-triggers/${EventTriggerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEventTrigger",
 }));
@@ -4523,6 +4898,14 @@ export const getIdentityResolutionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityResolutionJob",
+  iam: {
+    actions: ["profile:GetIdentityResolutionJob"],
+    resources: {
+      "profile:GetIdentityResolutionJob": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdentityResolutionJob",
 }));
@@ -4555,6 +4938,14 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
+  iam: {
+    actions: ["profile:GetIntegration"],
+    resources: {
+      "profile:GetIntegration": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/integrations/${Uri}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIntegration",
 }));
@@ -4624,6 +5015,12 @@ export const getMatches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMatches",
+  iam: {
+    actions: ["profile:GetMatches"],
+    resources: {
+      "profile:GetMatches": ["arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMatches",
 }));
@@ -4662,6 +5059,14 @@ export const getObjectTypeAttributeStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTypeAttributeStatistics",
+  iam: {
+    actions: ["profile:GetObjectTypeAttributeStatistics"],
+    resources: {
+      "profile:GetObjectTypeAttributeStatistics": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetObjectTypeAttributeStatistics",
 }));
@@ -4694,6 +5099,14 @@ export const getProfileHistoryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileHistoryRecord",
+  iam: {
+    actions: ["profile:GetProfileHistoryRecord"],
+    resources: {
+      "profile:GetProfileHistoryRecord": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfileHistoryRecord",
 }));
@@ -4726,6 +5139,14 @@ export const getProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileObjectType",
+  iam: {
+    actions: ["profile:GetProfileObjectType"],
+    resources: {
+      "profile:GetProfileObjectType": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfileObjectType",
 }));
@@ -4763,6 +5184,7 @@ export const getProfileObjectTypeTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileObjectTypeTemplate",
+  iam: { actions: ["profile:GetProfileObjectTypeTemplate"] },
   telemetry: TELEMETRY,
   span: "GetProfileObjectTypeTemplate",
 }));
@@ -4795,6 +5217,14 @@ export const getProfileRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfileRecommendations",
+  iam: {
+    actions: ["profile:GetProfileRecommendations"],
+    resources: {
+      "profile:GetProfileRecommendations": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommenders/${RecommenderTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProfileRecommendations",
 }));
@@ -4827,6 +5257,14 @@ export const getRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommender",
+  iam: {
+    actions: ["profile:GetRecommender"],
+    resources: {
+      "profile:GetRecommender": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommenders/${RecommenderTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommender",
 }));
@@ -4859,6 +5297,14 @@ export const getRecommenderFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderFilter",
+  iam: {
+    actions: ["profile:GetRecommenderFilter"],
+    resources: {
+      "profile:GetRecommenderFilter": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommender-filters/${RecommenderFilterName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommenderFilter",
 }));
@@ -4891,6 +5337,14 @@ export const getRecommenderSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderSchema",
+  iam: {
+    actions: ["profile:GetRecommenderSchema"],
+    resources: {
+      "profile:GetRecommenderSchema": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommender-schemas/${RecommenderSchemaName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommenderSchema",
 }));
@@ -4923,6 +5377,14 @@ export const getSegmentDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentDefinition",
+  iam: {
+    actions: ["profile:GetSegmentDefinition"],
+    resources: {
+      "profile:GetSegmentDefinition": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSegmentDefinition",
 }));
@@ -4955,6 +5417,14 @@ export const getSegmentEstimate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentEstimate",
+  iam: {
+    actions: ["profile:GetSegmentEstimate"],
+    resources: {
+      "profile:GetSegmentEstimate": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSegmentEstimate",
 }));
@@ -4987,6 +5457,15 @@ export const getSegmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentMembership",
+  iam: {
+    actions: ["profile:GetSegmentMembership"],
+    resources: {
+      "profile:GetSegmentMembership": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSegmentMembership",
 }));
@@ -5019,6 +5498,14 @@ export const getSegmentSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentSnapshot",
+  iam: {
+    actions: ["profile:GetSegmentSnapshot"],
+    resources: {
+      "profile:GetSegmentSnapshot": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSegmentSnapshot",
 }));
@@ -5052,6 +5539,15 @@ export const getSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentSubscription",
+  iam: {
+    actions: ["profile:GetSegmentSubscription"],
+    resources: {
+      "profile:GetSegmentSubscription": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSegmentSubscription",
 }));
@@ -5094,6 +5590,14 @@ export const getSimilarProfiles: API.PaginatedOperationMethod<
     items: "ProfileIds",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:GetSimilarProfiles"],
+    resources: {
+      "profile:GetSimilarProfiles": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSimilarProfiles",
 })) as any;
@@ -5127,6 +5631,14 @@ export const getStreamForSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStreamForSegments",
+  iam: {
+    actions: ["profile:GetStreamForSegments"],
+    resources: {
+      "profile:GetStreamForSegments": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetStreamForSegments",
 }));
@@ -5159,6 +5671,14 @@ export const getUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUploadJob",
+  iam: {
+    actions: ["profile:GetUploadJob"],
+    resources: {
+      "profile:GetUploadJob": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUploadJob",
 }));
@@ -5192,6 +5712,14 @@ export const getUploadJobPath: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUploadJobPath",
+  iam: {
+    actions: ["profile:GetUploadJobPath"],
+    resources: {
+      "profile:GetUploadJobPath": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetUploadJobPath",
 }));
@@ -5224,6 +5752,14 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  iam: {
+    actions: ["profile:GetWorkflow"],
+    resources: {
+      "profile:GetWorkflow": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflow",
 }));
@@ -5256,6 +5792,14 @@ export const getWorkflowSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowSteps",
+  iam: {
+    actions: ["profile:GetWorkflowSteps"],
+    resources: {
+      "profile:GetWorkflowSteps": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowSteps",
 }));
@@ -5288,6 +5832,7 @@ export const listAccountIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccountIntegrations",
+  iam: { actions: ["profile:ListAccountIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListAccountIntegrations",
 }));
@@ -5320,6 +5865,14 @@ export const listCalculatedAttributeDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCalculatedAttributeDefinitions",
+  iam: {
+    actions: ["profile:ListCalculatedAttributeDefinitions"],
+    resources: {
+      "profile:ListCalculatedAttributeDefinitions": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCalculatedAttributeDefinitions",
 }));
@@ -5352,6 +5905,14 @@ export const listCalculatedAttributesForProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCalculatedAttributesForProfile",
+  iam: {
+    actions: ["profile:ListCalculatedAttributesForProfile"],
+    resources: {
+      "profile:ListCalculatedAttributesForProfile": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCalculatedAttributesForProfile",
 }));
@@ -5392,6 +5953,14 @@ export const listDomainLayouts: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListDomainLayouts"],
+    resources: {
+      "profile:ListDomainLayouts": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDomainLayouts",
 })) as any;
@@ -5431,6 +6000,14 @@ export const listDomainObjectTypes: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListDomainObjectTypes"],
+    resources: {
+      "profile:ListDomainObjectTypes": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDomainObjectTypes",
 })) as any;
@@ -5463,6 +6040,7 @@ export const listDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomains",
+  iam: { actions: ["profile:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 }));
@@ -5502,6 +6080,14 @@ export const listEventStreams: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListEventStreams"],
+    resources: {
+      "profile:ListEventStreams": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEventStreams",
 })) as any;
@@ -5541,6 +6127,14 @@ export const listEventTriggers: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListEventTriggers"],
+    resources: {
+      "profile:ListEventTriggers": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEventTriggers",
 })) as any;
@@ -5574,6 +6168,14 @@ export const listIdentityResolutionJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityResolutionJobs",
+  iam: {
+    actions: ["profile:ListIdentityResolutionJobs"],
+    resources: {
+      "profile:ListIdentityResolutionJobs": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIdentityResolutionJobs",
 }));
@@ -5606,6 +6208,14 @@ export const listIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIntegrations",
+  iam: {
+    actions: ["profile:ListIntegrations"],
+    resources: {
+      "profile:ListIntegrations": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIntegrations",
 }));
@@ -5645,6 +6255,14 @@ export const listObjectTypeAttributes: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListObjectTypeAttributes"],
+    resources: {
+      "profile:ListObjectTypeAttributes": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListObjectTypeAttributes",
 })) as any;
@@ -5677,6 +6295,14 @@ export const listObjectTypeAttributeValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectTypeAttributeValues",
+  iam: {
+    actions: ["profile:ListObjectTypeAttributeValues"],
+    resources: {
+      "profile:ListObjectTypeAttributeValues": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListObjectTypeAttributeValues",
 }));
@@ -5709,6 +6335,14 @@ export const listProfileAttributeValues: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileAttributeValues",
+  iam: {
+    actions: ["profile:ListProfileAttributeValues"],
+    resources: {
+      "profile:ListProfileAttributeValues": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProfileAttributeValues",
 }));
@@ -5741,6 +6375,14 @@ export const listProfileHistoryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileHistoryRecords",
+  iam: {
+    actions: ["profile:ListProfileHistoryRecords"],
+    resources: {
+      "profile:ListProfileHistoryRecords": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProfileHistoryRecords",
 }));
@@ -5773,6 +6415,14 @@ export const listProfileObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjects",
+  iam: {
+    actions: ["profile:ListProfileObjects"],
+    resources: {
+      "profile:ListProfileObjects": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProfileObjects",
 }));
@@ -5805,6 +6455,14 @@ export const listProfileObjectTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjectTypes",
+  iam: {
+    actions: ["profile:ListProfileObjectTypes"],
+    resources: {
+      "profile:ListProfileObjectTypes": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListProfileObjectTypes",
 }));
@@ -5837,6 +6495,7 @@ export const listProfileObjectTypeTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfileObjectTypeTemplates",
+  iam: { actions: ["profile:ListProfileObjectTypeTemplates"] },
   telemetry: TELEMETRY,
   span: "ListProfileObjectTypeTemplates",
 }));
@@ -5876,6 +6535,14 @@ export const listRecommenderFilters: API.PaginatedOperationMethod<
     items: "RecommenderFilters",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListRecommenderFilters"],
+    resources: {
+      "profile:ListRecommenderFilters": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecommenderFilters",
 })) as any;
@@ -5913,6 +6580,7 @@ export const listRecommenderRecipes: API.PaginatedOperationMethod<
     items: "RecommenderRecipes",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["profile:ListRecommenderRecipes"] },
   telemetry: TELEMETRY,
   span: "ListRecommenderRecipes",
 })) as any;
@@ -5952,6 +6620,14 @@ export const listRecommenders: API.PaginatedOperationMethod<
     items: "Recommenders",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListRecommenders"],
+    resources: {
+      "profile:ListRecommenders": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecommenders",
 })) as any;
@@ -5991,6 +6667,14 @@ export const listRecommenderSchemas: API.PaginatedOperationMethod<
     items: "RecommenderSchemas",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListRecommenderSchemas"],
+    resources: {
+      "profile:ListRecommenderSchemas": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecommenderSchemas",
 })) as any;
@@ -6030,6 +6714,14 @@ export const listRuleBasedMatches: API.PaginatedOperationMethod<
     items: "MatchIds",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListRuleBasedMatches"],
+    resources: {
+      "profile:ListRuleBasedMatches": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRuleBasedMatches",
 })) as any;
@@ -6069,6 +6761,14 @@ export const listSegmentDefinitions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListSegmentDefinitions"],
+    resources: {
+      "profile:ListSegmentDefinitions": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSegmentDefinitions",
 })) as any;
@@ -6111,6 +6811,15 @@ export const listSegmentSubscriptionEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListSegmentSubscriptionEvents"],
+    resources: {
+      "profile:ListSegmentSubscriptionEvents": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSegmentSubscriptionEvents",
 })) as any;
@@ -6136,6 +6845,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["profile:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -6175,6 +6885,14 @@ export const listUploadJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["profile:ListUploadJobs"],
+    resources: {
+      "profile:ListUploadJobs": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListUploadJobs",
 })) as any;
@@ -6207,6 +6925,14 @@ export const listWorkflows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListWorkflows",
+  iam: {
+    actions: ["profile:ListWorkflows"],
+    resources: {
+      "profile:ListWorkflows": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflows",
 }));
@@ -6265,6 +6991,14 @@ export const mergeProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeProfiles",
+  iam: {
+    actions: ["profile:MergeProfiles"],
+    resources: {
+      "profile:MergeProfiles": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MergeProfiles",
 }));
@@ -6297,6 +7031,15 @@ export const putDomainObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDomainObjectType",
+  iam: {
+    actions: ["profile:PutDomainObjectType", "profile:TagResource"],
+    resources: {
+      "profile:PutDomainObjectType": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/domain-object-types/${ObjectTypeName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutDomainObjectType",
 }));
@@ -6336,6 +7079,15 @@ export const putIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegration",
+  iam: {
+    actions: ["profile:PutIntegration", "profile:TagResource"],
+    resources: {
+      "profile:PutIntegration": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/integrations/${Uri}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutIntegration",
 }));
@@ -6380,6 +7132,14 @@ export const putProfileObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileObject",
+  iam: {
+    actions: ["profile:PutProfileObject"],
+    resources: {
+      "profile:PutProfileObject": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutProfileObject",
 }));
@@ -6415,6 +7175,15 @@ export const putProfileObjectType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProfileObjectType",
+  iam: {
+    actions: ["profile:PutProfileObjectType", "profile:TagResource"],
+    resources: {
+      "profile:PutProfileObjectType": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/object-types/${ObjectTypeName}",
+      ],
+    },
+    conditional: { "profile:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutProfileObjectType",
 }));
@@ -6460,6 +7229,15 @@ export const putSegmentSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSegmentSubscription",
+  iam: {
+    actions: ["profile:PutSegmentSubscription"],
+    resources: {
+      "profile:PutSegmentSubscription": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/segment-definitions/${SegmentDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutSegmentSubscription",
 }));
@@ -6498,6 +7276,14 @@ export const searchProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchProfiles",
+  iam: {
+    actions: ["profile:SearchProfiles"],
+    resources: {
+      "profile:SearchProfiles": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchProfiles",
 }));
@@ -6570,6 +7356,14 @@ export const startRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommender",
+  iam: {
+    actions: ["profile:StartRecommender"],
+    resources: {
+      "profile:StartRecommender": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommenders/${RecommenderTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartRecommender",
 }));
@@ -6602,6 +7396,14 @@ export const startUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUploadJob",
+  iam: {
+    actions: ["profile:StartUploadJob"],
+    resources: {
+      "profile:StartUploadJob": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartUploadJob",
 }));
@@ -6634,6 +7436,14 @@ export const stopRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRecommender",
+  iam: {
+    actions: ["profile:StopRecommender"],
+    resources: {
+      "profile:StopRecommender": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommenders/${RecommenderTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopRecommender",
 }));
@@ -6666,6 +7476,14 @@ export const stopUploadJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopUploadJob",
+  iam: {
+    actions: ["profile:StopUploadJob"],
+    resources: {
+      "profile:StopUploadJob": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopUploadJob",
 }));
@@ -6704,6 +7522,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["profile:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6729,6 +7548,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["profile:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6763,6 +7583,14 @@ export const updateCalculatedAttributeDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCalculatedAttributeDefinition",
+  iam: {
+    actions: ["profile:UpdateCalculatedAttributeDefinition"],
+    resources: {
+      "profile:UpdateCalculatedAttributeDefinition": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/calculated-attributes/${CalculatedAttributeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCalculatedAttributeDefinition",
 }));
@@ -6807,6 +7635,14 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
+  iam: {
+    actions: ["profile:UpdateDomain"],
+    resources: {
+      "profile:UpdateDomain": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDomain",
 }));
@@ -6840,6 +7676,14 @@ export const updateDomainLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainLayout",
+  iam: {
+    actions: ["profile:UpdateDomainLayout"],
+    resources: {
+      "profile:UpdateDomainLayout": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/layouts/${LayoutDefinitionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDomainLayout",
 }));
@@ -6872,6 +7716,14 @@ export const updateEventTrigger: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventTrigger",
+  iam: {
+    actions: ["profile:UpdateEventTrigger"],
+    resources: {
+      "profile:UpdateEventTrigger": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/event-triggers/${EventTriggerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateEventTrigger",
 }));
@@ -6909,6 +7761,14 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
+  iam: {
+    actions: ["profile:UpdateProfile"],
+    resources: {
+      "profile:UpdateProfile": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProfile",
 }));
@@ -6941,6 +7801,14 @@ export const updateRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommender",
+  iam: {
+    actions: ["profile:UpdateRecommender"],
+    resources: {
+      "profile:UpdateRecommender": [
+        "arn:${Partition}:profile:${Region}:${Account}:domains/${DomainName}/recommenders/${RecommenderTypeName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRecommender",
 }));
@@ -9716,6 +10584,11 @@ function __c94(j: number): any {
           TemplateId: S.optional(S.String),
           SourceName: S.optional(S.String),
           SourceObject: S.optional(S.String),
+          DefaultMaxProfileObjectCount: S.optional(S.Number),
+          DefaultMaxProfileObjectCountEffectiveAfter: S.optional(
+            S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+          ),
+          StoreOnly: S.optional(S.Boolean),
           AllowProfileCreation: S.optional(S.Boolean),
           SourceLastUpdatedTimestampFormat: S.optional(S.String),
           Fields: S.optional(__S(801, __c50, 1)),

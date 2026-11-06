@@ -1,0 +1,22 @@
+{
+  "operations": {
+    "batchUpdateStandardsControlAssociations": {
+      "iam": {
+        "reason": "The standards-control action of Security Hub's pre-consolidation controls API; the consolidated security-controls call authorizes its own action.",
+        "remove": ["securityhub:UpdateStandardsControl"]
+      }
+    },
+    "updateSecurityControl": {
+      "iam": {
+        "reason": "The standards-control action of Security Hub's pre-consolidation controls API; the consolidated security-controls call authorizes its own action.",
+        "remove": ["securityhub:UpdateStandardsControl"]
+      }
+    }
+  },
+  "allOperations": {
+    "iam": {
+      "reason": "The standards-control action of Security Hub's pre-consolidation controls API; the consolidated security-controls call authorizes its own action.",
+      "remove": ["securityhub:DescribeStandardsControls"]
+    }
+  }
+}

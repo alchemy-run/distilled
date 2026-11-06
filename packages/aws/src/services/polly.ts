@@ -137,6 +137,12 @@ export class InvalidSsmlException
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
+export class InvalidTagParameterException
+  extends /*@__PURE__*/ S.TaggedError<InvalidTagParameterException>()(
+    "InvalidTagParameterException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
+  ).pipe(C.withBadRequestError) {}
 export class InvalidTaskIdException
   extends /*@__PURE__*/ S.TaggedError<InvalidTaskIdException>()(
     "InvalidTaskIdException",
@@ -178,6 +184,18 @@ export class MaxLexiconsNumberExceededException
     "MaxLexiconsNumberExceededException",
     { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
     /*@__PURE__*/ T.HttpError(400),
+  ).pipe(C.withBadRequestError) {}
+export class ResourceNotFoundException
+  extends /*@__PURE__*/ S.TaggedError<ResourceNotFoundException>()(
+    "ResourceNotFoundException",
+    {
+      message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
+      resourceId: S.String,
+      resourceType: /*@__PURE__*/ S.suspend(() => S.String).annotate({
+        identifier: "ResourceType",
+      }),
+    },
+    /*@__PURE__*/ T.HttpError(404),
   ).pipe(C.withBadRequestError) {}
 export class ServiceFailureException
   extends /*@__PURE__*/ S.TaggedError<ServiceFailureException>()(
@@ -228,6 +246,12 @@ export class ThrottlingException
       /*@__PURE__*/ T.AwsQueryError({ code: "Throttling", httpResponseCode: 400 }),
       /*@__PURE__*/ T.HttpError(400),
     ),
+  ).pipe(C.withBadRequestError) {}
+export class TooManyTagsException
+  extends /*@__PURE__*/ S.TaggedError<TooManyTagsException>()(
+    "TooManyTagsException",
+    { message: /*@__PURE__*/ S.optional(S.String).pipe(/*@__PURE__*/ T.ErrorMessage()) },
+    /*@__PURE__*/ T.HttpError(400),
   ).pipe(C.withBadRequestError) {}
 export class UnsupportedPlsAlphabetException
   extends /*@__PURE__*/ S.TaggedError<UnsupportedPlsAlphabetException>()(
@@ -423,6 +447,16 @@ export type VoiceId =
   | "Lennart"
   | "Lorenzo"
   | "Tiffany"
+  | "Arjun"
+  | "Carlos"
+  | "Carolina"
+  | "Curtis"
+  | "Hyunduk"
+  | "Kenneth"
+  | "Kiara"
+  | "Leo"
+  | "Nate"
+  | "Tina"
   | (string & {});
 export type LanguageName = string;
 export type VoiceName = string;
@@ -533,9 +567,20 @@ export interface ListSpeechSynthesisTasksOutput {
   NextToken?: string;
   SynthesisTasks?: SynthesisTask[];
 }
+export type AmazonResourceName = string;
+export interface ListTagsForResourceInput {
+  ResourceArn: string;
+}
+export type TagKey = string;
+export type TagValue = string;
+export type TagMap = { [key: string]: string | undefined };
+export interface ListTagsForResourceOutput {
+  Tags?: { [key: string]: string | undefined };
+}
 export interface PutLexiconInput {
   Name: string;
   Content: string | redacted.Redacted<string>;
+  Tags?: { [key: string]: string | undefined };
 }
 export interface PutLexiconOutput {}
 export type Text = string;
@@ -683,6 +728,20 @@ export interface SynthesizeSpeechOutput {
   ContentType?: string;
   RequestCharacters?: number;
 }
+export interface TagResourceInput {
+  ResourceArn: string;
+  Tags: { [key: string]: string | undefined };
+}
+export interface TagResourceOutput {}
+export type TagKeyList = string[];
+export interface UntagResourceInput {
+  ResourceArn: string;
+  TagKeys: string[];
+}
+export interface UntagResourceOutput {}
+export type ExceptionMessage = string;
+export type ResourceId = string;
+export type ResourceType = "lexicon" | (string & {});
 export type DeleteLexiconError = LexiconNotFoundException | ServiceFailureException | CommonErrors;
 /**
  * Deletes the specified pronunciation lexicon stored in an Amazon Web Services Region. A lexicon which has been deleted is not available for
@@ -703,6 +762,12 @@ export const deleteLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLexicon",
+  iam: {
+    actions: ["polly:DeleteLexicon"],
+    resources: {
+      "polly:DeleteLexicon": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLexicon",
 }));
@@ -745,6 +810,7 @@ export const describeVoices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVoices",
+  iam: { actions: ["polly:DescribeVoices"] },
   telemetry: TELEMETRY,
   span: "DescribeVoices",
 }));
@@ -766,6 +832,12 @@ export const getLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLexicon",
+  iam: {
+    actions: ["polly:GetLexicon"],
+    resources: {
+      "polly:GetLexicon": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetLexicon",
 }));
@@ -793,6 +865,7 @@ export const getSpeechSynthesisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeechSynthesisTask",
+  iam: { actions: ["polly:GetSpeechSynthesisTask"] },
   telemetry: TELEMETRY,
   span: "GetSpeechSynthesisTask",
 }));
@@ -813,6 +886,7 @@ export const listLexicons: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLexicons",
+  iam: { actions: ["polly:ListLexicons"] },
   telemetry: TELEMETRY,
   span: "ListLexicons",
 }));
@@ -844,18 +918,62 @@ export const listSpeechSynthesisTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["polly:ListSpeechSynthesisTasks"] },
   telemetry: TELEMETRY,
   span: "ListSpeechSynthesisTasks",
 })) as any;
 
+export type ListTagsForResourceError =
+  | InvalidTagParameterException
+  | ResourceNotFoundException
+  | ServiceFailureException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the tags for an Amazon Polly resource.
+ */
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput & RegionInput,
+  ListTagsForResourceOutput,
+  ListTagsForResourceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(224, __c14, 0) as any as S.Schema<ListTagsForResourceInput>,
+  output: __S(225, __c14, 1) as any as S.Schema<ListTagsForResourceOutput>,
+  errors: [
+    InvalidTagParameterException,
+    ResourceNotFoundException,
+    ServiceFailureException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListTagsForResource",
+  iam: {
+    actions: ["polly:ListTagsForResource"],
+    resources: {
+      "polly:ListTagsForResource": [
+        "arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}",
+      ],
+    },
+  },
+  telemetry: TELEMETRY,
+  span: "ListTagsForResource",
+}));
+
 export type PutLexiconError =
   | InvalidLexiconException
+  | InvalidTagParameterException
   | LexiconSizeExceededException
   | MaxLexemeLengthExceededException
   | MaxLexiconsNumberExceededException
   | ServiceFailureException
+  | TooManyTagsException
   | UnsupportedPlsAlphabetException
   | UnsupportedPlsLanguageException
+  | ValidationException
   | CommonErrors;
 /**
  * Stores a pronunciation lexicon in an Amazon Web Services Region. If
@@ -863,6 +981,12 @@ export type PutLexiconError =
  * overwritten by the new lexicon. Lexicon operations have eventual
  * consistency, therefore, it might take some time before the lexicon is
  * available to the SynthesizeSpeech operation.
+ *
+ * Overwriting a lexicon keeps its existing tags. You can specify tags
+ * only when you create a lexicon. If you specify tags for a lexicon that
+ * already exists, the request fails with a `ValidationException`.
+ * To change the tags of an existing lexicon, use `TagResource`
+ * and `UntagResource`.
  *
  * For more information, see Managing Lexicons.
  */
@@ -872,20 +996,31 @@ export const putLexicon: API.OperationMethod<
   PutLexiconError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(224, __c14, 0) as any as S.Schema<PutLexiconInput>,
+  input: __S(256, __c16, 0) as any as S.Schema<PutLexiconInput>,
   output: __S(48, __c3, 0) as any as S.Schema<PutLexiconOutput>,
   errors: [
     InvalidLexiconException,
+    InvalidTagParameterException,
     LexiconSizeExceededException,
     MaxLexemeLengthExceededException,
     MaxLexiconsNumberExceededException,
     ServiceFailureException,
+    TooManyTagsException,
     UnsupportedPlsAlphabetException,
     UnsupportedPlsLanguageException,
+    ValidationException,
   ],
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLexicon",
+  iam: {
+    actions: ["polly:PutLexicon", "polly:TagResource"],
+    resources: {
+      "polly:PutLexicon": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
+      "polly:TagResource": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
+    },
+    conditional: { "polly:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutLexicon",
 }));
@@ -911,8 +1046,8 @@ export const startSpeechSynthesisStream: API.OperationMethod<
   StartSpeechSynthesisStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(244, __c15, 4) as any as S.Schema<StartSpeechSynthesisStreamInput>,
-  output: __S(248, __c15, 8) as any as S.Schema<StartSpeechSynthesisStreamOutput>,
+  input: __S(276, __c17, 4) as any as S.Schema<StartSpeechSynthesisStreamInput>,
+  output: __S(280, __c17, 8) as any as S.Schema<StartSpeechSynthesisStreamOutput>,
   errors: [
     ServiceFailureException,
     ServiceQuotaExceededException,
@@ -922,6 +1057,7 @@ export const startSpeechSynthesisStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisStream",
+  iam: { actions: ["polly:StartSpeechSynthesisStream"] },
   telemetry: TELEMETRY,
   span: "StartSpeechSynthesisStream",
 }));
@@ -958,7 +1094,7 @@ export const startSpeechSynthesisTask: API.OperationMethod<
   StartSpeechSynthesisTaskError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c16, 0) as any as S.Schema<StartSpeechSynthesisTaskInput>,
+  input: __S(288, __c18, 0) as any as S.Schema<StartSpeechSynthesisTaskInput>,
   output: __S(176, __c11, 0) as any as S.Schema<StartSpeechSynthesisTaskOutput>,
   errors: [
     EngineNotSupportedException,
@@ -977,6 +1113,7 @@ export const startSpeechSynthesisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisTask",
+  iam: { actions: ["polly:StartSpeechSynthesisTask"] },
   telemetry: TELEMETRY,
   span: "StartSpeechSynthesisTask",
 }));
@@ -1005,8 +1142,8 @@ export const synthesizeSpeech: API.OperationMethod<
   SynthesizeSpeechError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<SynthesizeSpeechInput>,
-  output: __S(273, __c17, 1) as any as S.Schema<SynthesizeSpeechOutput>,
+  input: __S(304, __c19, 0) as any as S.Schema<SynthesizeSpeechInput>,
+  output: __S(305, __c19, 1) as any as S.Schema<SynthesizeSpeechOutput>,
   errors: [
     EngineNotSupportedException,
     InvalidSampleRateException,
@@ -1021,8 +1158,90 @@ export const synthesizeSpeech: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SynthesizeSpeech",
+  iam: { actions: ["polly:SynthesizeSpeech"] },
   telemetry: TELEMETRY,
   span: "SynthesizeSpeech",
+}));
+
+export type TagResourceError =
+  | InvalidTagParameterException
+  | ResourceNotFoundException
+  | ServiceFailureException
+  | ThrottlingException
+  | TooManyTagsException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Adds specified tags to a resource with the specified ARN. Existing tags
+ * on a resource are not changed if they are not specified in the request
+ * parameters. If you specify a tag key that already exists on the resource,
+ * the value in the request replaces the existing value.
+ */
+export const tagResource: API.OperationMethod<
+  TagResourceInput & RegionInput,
+  TagResourceOutput,
+  TagResourceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(320, __c20, 0) as any as S.Schema<TagResourceInput>,
+  output: __S(48, __c3, 0) as any as S.Schema<TagResourceOutput>,
+  errors: [
+    InvalidTagParameterException,
+    ResourceNotFoundException,
+    ServiceFailureException,
+    ThrottlingException,
+    TooManyTagsException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "TagResource",
+  iam: {
+    actions: ["polly:TagResource"],
+    resources: {
+      "polly:TagResource": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
+    },
+  },
+  telemetry: TELEMETRY,
+  span: "TagResource",
+}));
+
+export type UntagResourceError =
+  | InvalidTagParameterException
+  | ResourceNotFoundException
+  | ServiceFailureException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Deletes specified tags from a resource.
+ */
+export const untagResource: API.OperationMethod<
+  UntagResourceInput & RegionInput,
+  UntagResourceOutput,
+  UntagResourceError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c21, 0) as any as S.Schema<UntagResourceInput>,
+  output: __S(48, __c3, 0) as any as S.Schema<UntagResourceOutput>,
+  errors: [
+    InvalidTagParameterException,
+    ResourceNotFoundException,
+    ServiceFailureException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "UntagResource",
+  iam: {
+    actions: ["polly:UntagResource"],
+    resources: {
+      "polly:UntagResource": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
+    },
+  },
+  telemetry: TELEMETRY,
+  span: "UntagResource",
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
@@ -1271,7 +1490,39 @@ function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ Name: S.String.pipe(T.HttpLabel("Name")), Content: SensitiveString }).pipe(
+        S.Struct({ ResourceArn: S.String.pipe(T.HttpQuery("arn")) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "GET", uri: "/v1/listTagsForResource" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ListTagsForResourceInput" });
+    case 1:
+      return S.suspend(() => S.Struct({ Tags: S.optional(__S(240, __c15, 0)) }).pipe(ns)).annotate({
+        identifier: "ListTagsForResourceOutput",
+      });
+  }
+}
+function __c15(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          Name: S.String.pipe(T.HttpLabel("Name")),
+          Content: SensitiveString,
+          Tags: S.optional(__S(240, __c15, 0)),
+        }).pipe(
           T.all(
             ns,
             T.Http({ method: "PUT", uri: "/v1/lexicons/{Name}" }),
@@ -1285,7 +1536,7 @@ function __c14(j: number): any {
       ).annotate({ identifier: "PutLexiconInput" });
   }
 }
-function __c15(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ Force: S.optional(S.Boolean) })).annotate({
@@ -1296,7 +1547,7 @@ function __c15(j: number): any {
         S.Struct({
           Text: S.String,
           TextType: S.optional(S.String),
-          FlushStreamConfiguration: S.optional(__S(240, __c15, 0)),
+          FlushStreamConfiguration: S.optional(__S(272, __c17, 0)),
         }),
       ).annotate({ identifier: "TextEvent" });
     case 2:
@@ -1304,8 +1555,8 @@ function __c15(j: number): any {
     case 3:
       return T.InputEventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ TextEvent: __S(241, __c15, 1) }),
-          /*@__PURE__*/ S.Struct({ CloseStreamEvent: __S(242, __c15, 2) }),
+          /*@__PURE__*/ S.Struct({ TextEvent: __S(273, __c17, 1) }),
+          /*@__PURE__*/ S.Struct({ CloseStreamEvent: __S(274, __c17, 2) }),
         ]),
       );
     case 4:
@@ -1317,7 +1568,7 @@ function __c15(j: number): any {
           OutputFormat: S.String.pipe(T.HttpHeader("x-amzn-OutputFormat")),
           SampleRate: S.optional(S.String).pipe(T.HttpHeader("x-amzn-SampleRate")),
           VoiceId: S.String.pipe(T.HttpHeader("x-amzn-VoiceId")),
-          ActionStream: S.optional(__S(243, __c15, 3)).pipe(T.HttpPayload()),
+          ActionStream: S.optional(__S(275, __c17, 3)).pipe(T.HttpPayload()),
         }).pipe(
           T.all(
             ns,
@@ -1341,8 +1592,8 @@ function __c15(j: number): any {
     case 7:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ AudioEvent: __S(245, __c15, 5) }),
-          /*@__PURE__*/ S.Struct({ StreamClosedEvent: __S(246, __c15, 6) }),
+          /*@__PURE__*/ S.Struct({ AudioEvent: __S(277, __c17, 5) }),
+          /*@__PURE__*/ S.Struct({ StreamClosedEvent: __S(278, __c17, 6) }),
           /*@__PURE__*/ S.Struct({
             ValidationException: /*@__PURE__*/ S.suspend(() => ValidationException).annotate({
               identifier: "ValidationException",
@@ -1367,11 +1618,11 @@ function __c15(j: number): any {
       );
     case 8:
       return S.suspend(() =>
-        S.Struct({ EventStream: S.optional(__S(247, __c15, 7)).pipe(T.HttpPayload()) }).pipe(ns),
+        S.Struct({ EventStream: S.optional(__S(279, __c17, 7)).pipe(T.HttpPayload()) }).pipe(ns),
       ).annotate({ identifier: "StartSpeechSynthesisStreamOutput" });
   }
 }
-function __c16(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1402,7 +1653,7 @@ function __c16(j: number): any {
       ).annotate({ identifier: "StartSpeechSynthesisTaskInput" });
   }
 }
-function __c17(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1428,6 +1679,42 @@ function __c17(j: number): any {
           RequestCharacters: S.optional(S.Number).pipe(T.HttpHeader("x-amzn-RequestCharacters")),
         }).pipe(ns),
       ).annotate({ identifier: "SynthesizeSpeechOutput" });
+  }
+}
+function __c20(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, Tags: __S(240, __c15, 0) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/v1/tagResource" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "TagResourceInput" });
+  }
+}
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ ResourceArn: S.String, TagKeys: __S(144, __c9, 0) }).pipe(
+          T.all(
+            ns,
+            T.Http({ method: "POST", uri: "/v1/untagResource" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "UntagResourceInput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

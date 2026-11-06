@@ -1358,6 +1358,22 @@ export const createDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeliveryStream",
+  iam: {
+    actions: ["firehose:CreateDeliveryStream", "iam:PassRole", "firehose:TagDeliveryStream"],
+    resources: {
+      "firehose:CreateDeliveryStream": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "firehose:TagDeliveryStream": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+    conditional: {
+      "iam:PassRole": "KinesisStreamSourceConfiguration.RoleARN",
+      "firehose:TagDeliveryStream": "Tags",
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateDeliveryStream",
 }));
@@ -1396,6 +1412,14 @@ export const deleteDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeliveryStream",
+  iam: {
+    actions: ["firehose:DeleteDeliveryStream"],
+    resources: {
+      "firehose:DeleteDeliveryStream": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDeliveryStream",
 }));
@@ -1423,6 +1447,14 @@ export const describeDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeliveryStream",
+  iam: {
+    actions: ["firehose:DescribeDeliveryStream"],
+    resources: {
+      "firehose:DescribeDeliveryStream": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDeliveryStream",
 }));
@@ -1451,6 +1483,7 @@ export const listDeliveryStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeliveryStreams",
+  iam: { actions: ["firehose:ListDeliveryStreams"] },
   telemetry: TELEMETRY,
   span: "ListDeliveryStreams",
 }));
@@ -1476,6 +1509,14 @@ export const listTagsForDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForDeliveryStream",
+  iam: {
+    actions: ["firehose:ListTagsForDeliveryStream"],
+    resources: {
+      "firehose:ListTagsForDeliveryStream": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForDeliveryStream",
 }));
@@ -1556,6 +1597,14 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
+  iam: {
+    actions: ["firehose:PutRecord"],
+    resources: {
+      "firehose:PutRecord": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRecord",
 }));
@@ -1657,6 +1706,14 @@ export const putRecordBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecordBatch",
+  iam: {
+    actions: ["firehose:PutRecordBatch"],
+    resources: {
+      "firehose:PutRecordBatch": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutRecordBatch",
 }));
@@ -1734,6 +1791,14 @@ export const startDeliveryStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeliveryStreamEncryption",
+  iam: {
+    actions: ["firehose:StartDeliveryStreamEncryption"],
+    resources: {
+      "firehose:StartDeliveryStreamEncryption": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartDeliveryStreamEncryption",
 }));
@@ -1786,6 +1851,14 @@ export const stopDeliveryStreamEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeliveryStreamEncryption",
+  iam: {
+    actions: ["firehose:StopDeliveryStreamEncryption"],
+    resources: {
+      "firehose:StopDeliveryStreamEncryption": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopDeliveryStreamEncryption",
 }));
@@ -1827,6 +1900,14 @@ export const tagDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagDeliveryStream",
+  iam: {
+    actions: ["firehose:TagDeliveryStream"],
+    resources: {
+      "firehose:TagDeliveryStream": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagDeliveryStream",
 }));
@@ -1862,6 +1943,14 @@ export const untagDeliveryStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagDeliveryStream",
+  iam: {
+    actions: ["firehose:UntagDeliveryStream"],
+    resources: {
+      "firehose:UntagDeliveryStream": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagDeliveryStream",
 }));
@@ -1919,6 +2008,16 @@ export const updateDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestination",
+  iam: {
+    actions: ["iam:PassRole", "firehose:UpdateDestination"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "firehose:UpdateDestination": [
+        "arn:${Partition}:firehose:${Region}:${Account}:deliverystream/${DeliveryStreamName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "S3DestinationUpdate.RoleARN" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDestination",
 }));

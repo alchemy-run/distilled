@@ -444,6 +444,14 @@ export const associateCreatedArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCreatedArtifact",
+  iam: {
+    actions: ["mgh:AssociateCreatedArtifact"],
+    resources: {
+      "mgh:AssociateCreatedArtifact": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateCreatedArtifact",
 }));
@@ -487,6 +495,14 @@ export const associateDiscoveredResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDiscoveredResource",
+  iam: {
+    actions: ["mgh:AssociateDiscoveredResource"],
+    resources: {
+      "mgh:AssociateDiscoveredResource": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateDiscoveredResource",
 }));
@@ -526,6 +542,14 @@ export const associateSourceResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceResource",
+  iam: {
+    actions: ["mgh:AssociateSourceResource"],
+    resources: {
+      "mgh:AssociateSourceResource": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateSourceResource",
 }));
@@ -568,6 +592,14 @@ export const createProgressUpdateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProgressUpdateStream",
+  iam: {
+    actions: ["mgh:CreateProgressUpdateStream"],
+    resources: {
+      "mgh:CreateProgressUpdateStream": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProgressUpdateStream",
 }));
@@ -630,6 +662,14 @@ export const deleteProgressUpdateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProgressUpdateStream",
+  iam: {
+    actions: ["mgh:DeleteProgressUpdateStream"],
+    resources: {
+      "mgh:DeleteProgressUpdateStream": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProgressUpdateStream",
 }));
@@ -668,6 +708,7 @@ export const describeApplicationState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationState",
+  iam: { actions: ["mgh:DescribeApplicationState"] },
   telemetry: TELEMETRY,
   span: "DescribeApplicationState",
 }));
@@ -704,6 +745,14 @@ export const describeMigrationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMigrationTask",
+  iam: {
+    actions: ["mgh:DescribeMigrationTask"],
+    resources: {
+      "mgh:DescribeMigrationTask": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMigrationTask",
 }));
@@ -755,6 +804,14 @@ export const disassociateCreatedArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCreatedArtifact",
+  iam: {
+    actions: ["mgh:DisassociateCreatedArtifact"],
+    resources: {
+      "mgh:DisassociateCreatedArtifact": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateCreatedArtifact",
 }));
@@ -796,6 +853,14 @@ export const disassociateDiscoveredResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDiscoveredResource",
+  iam: {
+    actions: ["mgh:DisassociateDiscoveredResource"],
+    resources: {
+      "mgh:DisassociateDiscoveredResource": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateDiscoveredResource",
 }));
@@ -834,6 +899,14 @@ export const disassociateSourceResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceResource",
+  iam: {
+    actions: ["mgh:DisassociateSourceResource"],
+    resources: {
+      "mgh:DisassociateSourceResource": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateSourceResource",
 }));
@@ -878,6 +951,14 @@ export const importMigrationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportMigrationTask",
+  iam: {
+    actions: ["mgh:ImportMigrationTask"],
+    resources: {
+      "mgh:ImportMigrationTask": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportMigrationTask",
 }));
@@ -921,6 +1002,7 @@ export const listApplicationStates: API.PaginatedOperationMethod<
     items: "ApplicationStateList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mgh:ListApplicationStates"] },
   telemetry: TELEMETRY,
   span: "ListApplicationStates",
 })) as any;
@@ -973,6 +1055,14 @@ export const listCreatedArtifacts: API.PaginatedOperationMethod<
     items: "CreatedArtifactList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["mgh:ListCreatedArtifacts"],
+    resources: {
+      "mgh:ListCreatedArtifacts": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCreatedArtifacts",
 })) as any;
@@ -1016,6 +1106,14 @@ export const listDiscoveredResources: API.PaginatedOperationMethod<
     items: "DiscoveredResourceList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["mgh:ListDiscoveredResources"],
+    resources: {
+      "mgh:ListDiscoveredResources": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDiscoveredResources",
 })) as any;
@@ -1069,6 +1167,7 @@ export const listMigrationTasks: API.PaginatedOperationMethod<
     items: "MigrationTaskSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mgh:ListMigrationTasks"] },
   telemetry: TELEMETRY,
   span: "ListMigrationTasks",
 })) as any;
@@ -1111,6 +1210,14 @@ export const listMigrationTaskUpdates: API.PaginatedOperationMethod<
     items: "MigrationTaskUpdateList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["mgh:ListMigrationTaskUpdates"],
+    resources: {
+      "mgh:ListMigrationTaskUpdates": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListMigrationTaskUpdates",
 })) as any;
@@ -1152,6 +1259,7 @@ export const listProgressUpdateStreams: API.PaginatedOperationMethod<
     items: "ProgressUpdateStreamSummaryList",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["mgh:ListProgressUpdateStreams"] },
   telemetry: TELEMETRY,
   span: "ListProgressUpdateStreams",
 })) as any;
@@ -1194,6 +1302,14 @@ export const listSourceResources: API.PaginatedOperationMethod<
     items: "SourceResourceList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["mgh:ListSourceResources"],
+    resources: {
+      "mgh:ListSourceResources": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSourceResources",
 })) as any;
@@ -1239,6 +1355,7 @@ export const notifyApplicationState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyApplicationState",
+  iam: { actions: ["mgh:NotifyApplicationState"] },
   telemetry: TELEMETRY,
   span: "NotifyApplicationState",
 }));
@@ -1289,6 +1406,14 @@ export const notifyMigrationTaskState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyMigrationTaskState",
+  iam: {
+    actions: ["mgh:NotifyMigrationTaskState"],
+    resources: {
+      "mgh:NotifyMigrationTaskState": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "NotifyMigrationTaskState",
 }));
@@ -1346,6 +1471,14 @@ export const putResourceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceAttributes",
+  iam: {
+    actions: ["mgh:PutResourceAttributes"],
+    resources: {
+      "mgh:PutResourceAttributes": [
+        "arn:${Partition}:mgh:${Region}:${Account}:progressUpdateStream/${Stream}/migrationTask/${Task}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutResourceAttributes",
 }));

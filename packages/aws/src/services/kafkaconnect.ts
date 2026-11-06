@@ -186,7 +186,7 @@ export type ConnectorConfiguration = { [key: string]: string | undefined };
 export type __stringMax1024 = string;
 export type __stringMin1Max128 = string;
 export type __listOf__string = string[];
-const __listOf__string = /*@__PURE__*/ __L.at(__c24, 0);
+const __listOf__string = /*@__PURE__*/ __L.at(__c27, 0);
 export interface Vpc {
   securityGroups?: string[];
   subnets: string[];
@@ -237,7 +237,7 @@ export interface Plugin {
   customPlugin: CustomPlugin;
 }
 export type __listOfPlugin = Plugin[];
-const __listOfPlugin = /*@__PURE__*/ __L.at(__c23, 14);
+const __listOfPlugin = /*@__PURE__*/ __L.at(__c28, 4);
 export interface WorkerConfiguration {
   revision: number;
   workerConfigurationArn: string;
@@ -404,7 +404,7 @@ export interface PluginDescription {
   customPlugin?: CustomPluginDescription;
 }
 export type __listOfPluginDescription = PluginDescription[];
-const __listOfPluginDescription = /*@__PURE__*/ __L.at(__c8, 12);
+const __listOfPluginDescription = /*@__PURE__*/ __L.at(__c7, 6);
 export interface WorkerConfigurationDescription {
   revision?: number;
   workerConfigurationArn?: string;
@@ -448,6 +448,9 @@ export type __listOfConnectorOperationStep = ConnectorOperationStep[];
 const __listOfConnectorOperationStep = /*@__PURE__*/ __L.at(__c9, 2);
 export interface WorkerSetting {
   capacity?: CapacityDescription;
+  plugins?: PluginDescription[];
+  workerConfiguration?: WorkerConfigurationDescription;
+  useDefaultWorkerConfiguration?: boolean;
 }
 export interface DescribeConnectorOperationResponse {
   connectorArn?: string;
@@ -604,11 +607,25 @@ export interface ListWorkerConfigurationsResponse {
   nextToken?: string;
   workerConfigurations?: WorkerConfigurationSummary[];
 }
+export interface PauseConnectorRequest {
+  connectorArn: string;
+}
+export interface PauseConnectorResponse {
+  connectorArn?: string;
+  connectorOperationArn?: string;
+}
 export interface RestartConnectorRequest {
   connectorArn: string;
   onlyFailedTasks?: boolean;
 }
 export interface RestartConnectorResponse {
+  connectorArn?: string;
+  connectorOperationArn?: string;
+}
+export interface ResumeConnectorRequest {
+  connectorArn: string;
+}
+export interface ResumeConnectorResponse {
   connectorArn?: string;
   connectorOperationArn?: string;
 }
@@ -647,11 +664,28 @@ export interface CapacityUpdate {
   provisionedCapacity?: ProvisionedCapacityUpdate;
 }
 export type ConnectorConfigurationUpdate = { [key: string]: string | undefined };
+export interface CustomPluginUpdate {
+  customPluginArn: string;
+  revision: number;
+}
+export interface PluginUpdate {
+  customPlugin: CustomPluginUpdate;
+}
+export type __listOfPluginUpdate = PluginUpdate[];
+const __listOfPluginUpdate = __listOfPlugin as any as S.Schema<__listOfPluginUpdate>;
+export interface WorkerConfigurationUpdate {
+  revision: number;
+  workerConfigurationArn: string;
+}
 export interface UpdateConnectorRequest {
   capacity?: CapacityUpdate;
   connectorConfiguration?: { [key: string]: string | undefined };
+  skipHealthValidation?: boolean;
   connectorArn: string;
   currentVersion: string;
+  plugins?: PluginUpdate[];
+  workerConfiguration?: WorkerConfigurationUpdate;
+  useDefaultWorkerConfiguration?: boolean;
 }
 export interface UpdateConnectorResponse {
   connectorArn?: string;
@@ -677,8 +711,8 @@ export const createConnector: API.OperationMethod<
   CreateConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(752, __c23, 16) as any as S.Schema<CreateConnectorRequest>,
-  output: __S(753, __c23, 17) as any as S.Schema<CreateConnectorResponse>,
+  input: __S(428, __c26, 12) as any as S.Schema<CreateConnectorRequest>,
+  output: __S(429, __c26, 13) as any as S.Schema<CreateConnectorResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -692,6 +726,11 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  iam: {
+    actions: ["kafkaconnect:CreateConnector", "iam:PassRole", "kafkaconnect:TagResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "kafkaconnect:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -715,8 +754,8 @@ export const createCustomPlugin: API.OperationMethod<
   CreateCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(866, __c27, 2) as any as S.Schema<CreateCustomPluginRequest>,
-  output: __S(867, __c27, 3) as any as S.Schema<CreateCustomPluginResponse>,
+  input: __S(482, __c30, 2) as any as S.Schema<CreateCustomPluginRequest>,
+  output: __S(483, __c30, 3) as any as S.Schema<CreateCustomPluginResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -730,6 +769,10 @@ export const createCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomPlugin",
+  iam: {
+    actions: ["kafkaconnect:CreateCustomPlugin", "kafkaconnect:TagResource"],
+    conditional: { "kafkaconnect:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomPlugin",
 }));
@@ -768,6 +811,10 @@ export const createWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkerConfiguration",
+  iam: {
+    actions: ["kafkaconnect:CreateWorkerConfiguration", "kafkaconnect:TagResource"],
+    conditional: { "kafkaconnect:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkerConfiguration",
 }));
@@ -790,8 +837,8 @@ export const deleteConnector: API.OperationMethod<
   DeleteConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c2, 0) as any as S.Schema<DeleteConnectorRequest>,
-  output: __S(65, __c2, 1) as any as S.Schema<DeleteConnectorResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<DeleteConnectorRequest>,
+  output: __S(33, __c2, 1) as any as S.Schema<DeleteConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -804,6 +851,14 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  iam: {
+    actions: ["kafkaconnect:DeleteConnector"],
+    resources: {
+      "kafkaconnect:DeleteConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -826,8 +881,8 @@ export const deleteCustomPlugin: API.OperationMethod<
   DeleteCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c3, 0) as any as S.Schema<DeleteCustomPluginRequest>,
-  output: __S(97, __c3, 1) as any as S.Schema<DeleteCustomPluginResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<DeleteCustomPluginRequest>,
+  output: __S(49, __c3, 1) as any as S.Schema<DeleteCustomPluginResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -840,6 +895,14 @@ export const deleteCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomPlugin",
+  iam: {
+    actions: ["kafkaconnect:DeleteCustomPlugin"],
+    resources: {
+      "kafkaconnect:DeleteCustomPlugin": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:custom-plugin/${CustomPluginName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomPlugin",
 }));
@@ -862,8 +925,8 @@ export const deleteWorkerConfiguration: API.OperationMethod<
   DeleteWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c4, 0) as any as S.Schema<DeleteWorkerConfigurationRequest>,
-  output: __S(129, __c4, 1) as any as S.Schema<DeleteWorkerConfigurationResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<DeleteWorkerConfigurationRequest>,
+  output: __S(65, __c4, 1) as any as S.Schema<DeleteWorkerConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -876,6 +939,14 @@ export const deleteWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkerConfiguration",
+  iam: {
+    actions: ["kafkaconnect:DeleteWorkerConfiguration"],
+    resources: {
+      "kafkaconnect:DeleteWorkerConfiguration": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:worker-configuration/${WorkerConfigurationName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkerConfiguration",
 }));
@@ -898,8 +969,8 @@ export const describeConnector: API.OperationMethod<
   DescribeConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c5, 0) as any as S.Schema<DescribeConnectorRequest>,
-  output: __S(161, __c5, 1) as any as S.Schema<DescribeConnectorResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<DescribeConnectorRequest>,
+  output: __S(81, __c5, 1) as any as S.Schema<DescribeConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -912,6 +983,14 @@ export const describeConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnector",
+  iam: {
+    actions: ["kafkaconnect:DescribeConnector"],
+    resources: {
+      "kafkaconnect:DescribeConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnector",
 }));
@@ -934,8 +1013,8 @@ export const describeConnectorOperation: API.OperationMethod<
   DescribeConnectorOperationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c9, 0) as any as S.Schema<DescribeConnectorOperationRequest>,
-  output: __S(292, __c9, 4) as any as S.Schema<DescribeConnectorOperationResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<DescribeConnectorOperationRequest>,
+  output: __S(148, __c9, 4) as any as S.Schema<DescribeConnectorOperationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -948,6 +1027,17 @@ export const describeConnectorOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectorOperation",
+  iam: {
+    actions: ["kafkaconnect:DescribeConnector", "kafkaconnect:DescribeConnectorOperation"],
+    resources: {
+      "kafkaconnect:DescribeConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+      "kafkaconnect:DescribeConnectorOperation": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector-operation/${ConnectorName}/${ConnectorUUID}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeConnectorOperation",
 }));
@@ -970,8 +1060,8 @@ export const describeCustomPlugin: API.OperationMethod<
   DescribeCustomPluginError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c10, 0) as any as S.Schema<DescribeCustomPluginRequest>,
-  output: __S(321, __c10, 1) as any as S.Schema<DescribeCustomPluginResponse>,
+  input: __S(160, __c10, 0) as any as S.Schema<DescribeCustomPluginRequest>,
+  output: __S(161, __c10, 1) as any as S.Schema<DescribeCustomPluginResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -984,6 +1074,14 @@ export const describeCustomPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomPlugin",
+  iam: {
+    actions: ["kafkaconnect:DescribeCustomPlugin"],
+    resources: {
+      "kafkaconnect:DescribeCustomPlugin": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:custom-plugin/${CustomPluginName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCustomPlugin",
 }));
@@ -1006,8 +1104,8 @@ export const describeWorkerConfiguration: API.OperationMethod<
   DescribeWorkerConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(384, __c12, 0) as any as S.Schema<DescribeWorkerConfigurationRequest>,
-  output: __S(386, __c12, 2) as any as S.Schema<DescribeWorkerConfigurationResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<DescribeWorkerConfigurationRequest>,
+  output: __S(194, __c12, 2) as any as S.Schema<DescribeWorkerConfigurationResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1020,6 +1118,14 @@ export const describeWorkerConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkerConfiguration",
+  iam: {
+    actions: ["kafkaconnect:DescribeWorkerConfiguration"],
+    resources: {
+      "kafkaconnect:DescribeWorkerConfiguration": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:worker-configuration/${WorkerConfigurationName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeWorkerConfiguration",
 }));
@@ -1043,8 +1149,8 @@ export const listConnectorOperations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectorOperationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(416, __c13, 0) as any as S.Schema<ListConnectorOperationsRequest>,
-  output: __S(419, __c13, 3) as any as S.Schema<ListConnectorOperationsResponse>,
+  input: __S(208, __c13, 0) as any as S.Schema<ListConnectorOperationsRequest>,
+  output: __S(211, __c13, 3) as any as S.Schema<ListConnectorOperationsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1063,6 +1169,14 @@ export const listConnectorOperations: API.PaginatedOperationMethod<
     items: "connectorOperations",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["kafkaconnect:ListConnectorOperations"],
+    resources: {
+      "kafkaconnect:ListConnectorOperations": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListConnectorOperations",
 })) as any;
@@ -1086,8 +1200,8 @@ export const listConnectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectorSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(448, __c14, 0) as any as S.Schema<ListConnectorsRequest>,
-  output: __S(451, __c14, 3) as any as S.Schema<ListConnectorsResponse>,
+  input: __S(224, __c14, 0) as any as S.Schema<ListConnectorsRequest>,
+  output: __S(227, __c14, 3) as any as S.Schema<ListConnectorsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1106,6 +1220,7 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "connectors",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["kafkaconnect:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -1129,8 +1244,8 @@ export const listCustomPlugins: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CustomPluginSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(480, __c15, 0) as any as S.Schema<ListCustomPluginsRequest>,
-  output: __S(483, __c15, 3) as any as S.Schema<ListCustomPluginsResponse>,
+  input: __S(240, __c15, 0) as any as S.Schema<ListCustomPluginsRequest>,
+  output: __S(243, __c15, 3) as any as S.Schema<ListCustomPluginsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1149,6 +1264,7 @@ export const listCustomPlugins: API.PaginatedOperationMethod<
     items: "customPlugins",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["kafkaconnect:ListCustomPlugins"] },
   telemetry: TELEMETRY,
   span: "ListCustomPlugins",
 })) as any;
@@ -1171,8 +1287,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(512, __c16, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(513, __c16, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(256, __c16, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1185,6 +1301,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["kafkaconnect:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1208,8 +1325,8 @@ export const listWorkerConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   WorkerConfigurationSummary
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(544, __c17, 0) as any as S.Schema<ListWorkerConfigurationsRequest>,
-  output: __S(547, __c17, 3) as any as S.Schema<ListWorkerConfigurationsResponse>,
+  input: __S(272, __c17, 0) as any as S.Schema<ListWorkerConfigurationsRequest>,
+  output: __S(275, __c17, 3) as any as S.Schema<ListWorkerConfigurationsResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1228,9 +1345,56 @@ export const listWorkerConfigurations: API.PaginatedOperationMethod<
     items: "workerConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["kafkaconnect:ListWorkerConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListWorkerConfigurations",
 })) as any;
+
+export type PauseConnectorError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Pauses the specified connector. The operation runs asynchronously. To track the pause, pass the connector operation ARN from the response to `DescribeConnectorOperation`.
+ */
+export const pauseConnector: API.OperationMethod<
+  PauseConnectorRequest & RegionInput,
+  PauseConnectorResponse,
+  PauseConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(288, __c18, 0) as any as S.Schema<PauseConnectorRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<PauseConnectorResponse>,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "PauseConnector",
+  iam: {
+    actions: ["kafkaconnect:PauseConnector"],
+    resources: {
+      "kafkaconnect:PauseConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
+  telemetry: TELEMETRY,
+  span: "PauseConnector",
+}));
 
 export type RestartConnectorError =
   | BadRequestException
@@ -1250,8 +1414,8 @@ export const restartConnector: API.OperationMethod<
   RestartConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(576, __c18, 0) as any as S.Schema<RestartConnectorRequest>,
-  output: __S(577, __c18, 1) as any as S.Schema<RestartConnectorResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<RestartConnectorRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<RestartConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1264,8 +1428,62 @@ export const restartConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartConnector",
+  iam: {
+    actions: ["kafkaconnect:RestartConnector"],
+    resources: {
+      "kafkaconnect:RestartConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestartConnector",
+}));
+
+export type ResumeConnectorError =
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors;
+/**
+ * Resumes the specified paused connector. The operation runs asynchronously. To track the resume, pass the connector operation ARN from the response to `DescribeConnectorOperation`.
+ */
+export const resumeConnector: API.OperationMethod<
+  ResumeConnectorRequest & RegionInput,
+  ResumeConnectorResponse,
+  ResumeConnectorError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(336, __c21, 0) as any as S.Schema<ResumeConnectorRequest>,
+  output: __S(304, __c19, 0) as any as S.Schema<ResumeConnectorResponse>,
+  errors: [
+    BadRequestException,
+    ConflictException,
+    ForbiddenException,
+    InternalServerErrorException,
+    NotFoundException,
+    ServiceUnavailableException,
+    TooManyRequestsException,
+    UnauthorizedException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ResumeConnector",
+  iam: {
+    actions: ["kafkaconnect:ResumeConnector"],
+    resources: {
+      "kafkaconnect:ResumeConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
+  telemetry: TELEMETRY,
+  span: "ResumeConnector",
 }));
 
 export type TagResourceError =
@@ -1287,8 +1505,8 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(608, __c19, 0) as any as S.Schema<TagResourceRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<TagResourceResponse>,
+  input: __S(352, __c22, 0) as any as S.Schema<TagResourceRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     BadRequestException,
     ConflictException,
@@ -1302,6 +1520,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["kafkaconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1324,8 +1543,8 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(672, __c21, 0) as any as S.Schema<UntagResourceRequest>,
-  output: __S(640, __c20, 0) as any as S.Schema<UntagResourceResponse>,
+  input: __S(384, __c24, 0) as any as S.Schema<UntagResourceRequest>,
+  output: __S(368, __c23, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1338,6 +1557,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["kafkaconnect:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1352,7 +1572,7 @@ export type UpdateConnectorError =
   | UnauthorizedException
   | CommonErrors;
 /**
- * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
+ * Updates the specified connector. In the request body, you can update either the connector's worker setting or its connector configuration, but not both in the same request. To update the worker setting, specify one or more of `capacity`, `plugins`, `workerConfiguration`, or `useDefaultWorkerConfiguration`. To update the connector configuration, specify only `connectorConfiguration`.
  */
 export const updateConnector: API.OperationMethod<
   UpdateConnectorRequest & RegionInput,
@@ -1360,8 +1580,8 @@ export const updateConnector: API.OperationMethod<
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(706, __c22, 2) as any as S.Schema<UpdateConnectorRequest>,
-  output: __S(707, __c22, 3) as any as S.Schema<UpdateConnectorResponse>,
+  input: __S(402, __c25, 2) as any as S.Schema<UpdateConnectorRequest>,
+  output: __S(403, __c25, 3) as any as S.Schema<UpdateConnectorResponse>,
   errors: [
     BadRequestException,
     ForbiddenException,
@@ -1374,6 +1594,14 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  iam: {
+    actions: ["kafkaconnect:UpdateConnector"],
+    resources: {
+      "kafkaconnect:UpdateConnector": [
+        "arn:${Partition}:kafkaconnect:${Region}:${Account}:connector/${ConnectorName}/${UUID}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnector",
 }));
@@ -1387,7 +1615,7 @@ function __c0(j: number): any {
           description: S.optional(S.String),
           name: S.String,
           propertiesFileContent: SensitiveString,
-          tags: S.optional(__S(832, __c26, 0)),
+          tags: S.optional(__S(464, __c29, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/worker-configurations" }),
@@ -1403,7 +1631,7 @@ function __c0(j: number): any {
       return S.suspend(() =>
         S.Struct({
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
-          latestRevision: S.optional(__S(32, __c1, 0)),
+          latestRevision: S.optional(__S(16, __c1, 0)),
           name: S.optional(S.String),
           workerConfigurationArn: S.optional(S.String),
           workerConfigurationState: S.optional(S.String),
@@ -1515,24 +1743,24 @@ function __c5(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(__S(227, __c7, 3)),
+          capacity: S.optional(__S(115, __c7, 3)),
           connectorArn: S.optional(S.String),
-          connectorConfiguration: S.optional(__S(832, __c26, 0)),
+          connectorConfiguration: S.optional(__S(464, __c29, 0)),
           connectorDescription: S.optional(S.String),
           connectorName: S.optional(S.String),
           connectorState: S.optional(S.String),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           currentVersion: S.optional(S.String),
-          kafkaCluster: S.optional(__S(258, __c8, 2)),
-          kafkaClusterClientAuthentication: S.optional(__S(259, __c8, 3)),
-          kafkaClusterEncryptionInTransit: S.optional(__S(260, __c8, 4)),
+          kafkaCluster: S.optional(__S(130, __c8, 2)),
+          kafkaClusterClientAuthentication: S.optional(__S(131, __c8, 3)),
+          kafkaClusterEncryptionInTransit: S.optional(__S(132, __c8, 4)),
           kafkaConnectVersion: S.optional(S.String),
-          logDelivery: S.optional(__S(265, __c8, 9)),
+          logDelivery: S.optional(__S(137, __c8, 9)),
           networkType: S.optional(S.String),
           plugins: S.optional(__listOfPluginDescription),
           serviceExecutionRoleArn: S.optional(S.String),
-          workerConfiguration: S.optional(__S(269, __c8, 13)),
-          stateDescription: S.optional(__S(192, __c6, 0)),
+          workerConfiguration: S.optional(__S(119, __c7, 7)),
+          stateDescription: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "DescribeConnectorResponse" });
   }
@@ -1557,8 +1785,8 @@ function __c7(j: number): any {
           maxWorkerCount: S.optional(S.Number),
           mcuCount: S.optional(S.Number),
           minWorkerCount: S.optional(S.Number),
-          scaleInPolicy: S.optional(__S(224, __c7, 0)),
-          scaleOutPolicy: S.optional(__S(224, __c7, 0)),
+          scaleInPolicy: S.optional(__S(112, __c7, 0)),
+          scaleOutPolicy: S.optional(__S(112, __c7, 0)),
           maxAutoscalingTaskCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutoScalingDescription" });
@@ -1569,10 +1797,24 @@ function __c7(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          autoScaling: S.optional(__S(225, __c7, 1)),
-          provisionedCapacity: S.optional(__S(226, __c7, 2)),
+          autoScaling: S.optional(__S(113, __c7, 1)),
+          provisionedCapacity: S.optional(__S(114, __c7, 2)),
         }),
       ).annotate({ identifier: "CapacityDescription" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({ customPluginArn: S.optional(S.String), revision: S.optional(S.Number) }),
+      ).annotate({ identifier: "CustomPluginDescription" });
+    case 5:
+      return S.suspend(() => S.Struct({ customPlugin: S.optional(__S(116, __c7, 4)) })).annotate({
+        identifier: "PluginDescription",
+      });
+    case 6:
+      return S.Array(__S(117, __c7, 5));
+    case 7:
+      return S.suspend(() =>
+        S.Struct({ revision: S.optional(S.Number), workerConfigurationArn: S.optional(S.String) }),
+      ).annotate({ identifier: "WorkerConfigurationDescription" });
   }
 }
 function __c8(j: number): any {
@@ -1586,11 +1828,11 @@ function __c8(j: number): any {
       ).annotate({ identifier: "VpcDescription" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ bootstrapServers: S.optional(S.String), vpc: S.optional(__S(256, __c8, 0)) }),
+        S.Struct({ bootstrapServers: S.optional(S.String), vpc: S.optional(__S(128, __c8, 0)) }),
       ).annotate({ identifier: "ApacheKafkaClusterDescription" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ apacheKafkaCluster: S.optional(__S(257, __c8, 1)) }),
+        S.Struct({ apacheKafkaCluster: S.optional(__S(129, __c8, 1)) }),
       ).annotate({ identifier: "KafkaClusterDescription" });
     case 3:
       return S.suspend(() => S.Struct({ authenticationType: S.optional(S.String) })).annotate({
@@ -1619,29 +1861,15 @@ function __c8(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          cloudWatchLogs: S.optional(__S(261, __c8, 5)),
-          firehose: S.optional(__S(262, __c8, 6)),
-          s3: S.optional(__S(263, __c8, 7)),
+          cloudWatchLogs: S.optional(__S(133, __c8, 5)),
+          firehose: S.optional(__S(134, __c8, 6)),
+          s3: S.optional(__S(135, __c8, 7)),
         }),
       ).annotate({ identifier: "WorkerLogDeliveryDescription" });
     case 9:
       return S.suspend(() =>
-        S.Struct({ workerLogDelivery: S.optional(__S(264, __c8, 8)) }),
+        S.Struct({ workerLogDelivery: S.optional(__S(136, __c8, 8)) }),
       ).annotate({ identifier: "LogDeliveryDescription" });
-    case 10:
-      return S.suspend(() =>
-        S.Struct({ customPluginArn: S.optional(S.String), revision: S.optional(S.Number) }),
-      ).annotate({ identifier: "CustomPluginDescription" });
-    case 11:
-      return S.suspend(() => S.Struct({ customPlugin: S.optional(__S(266, __c8, 10)) })).annotate({
-        identifier: "PluginDescription",
-      });
-    case 12:
-      return S.Array(__S(267, __c8, 11));
-    case 13:
-      return S.suspend(() =>
-        S.Struct({ revision: S.optional(S.Number), workerConfigurationArn: S.optional(S.String) }),
-      ).annotate({ identifier: "WorkerConfigurationDescription" });
   }
 }
 function __c9(j: number): any {
@@ -1666,11 +1894,16 @@ function __c9(j: number): any {
         S.Struct({ stepType: S.optional(S.String), stepState: S.optional(S.String) }),
       ).annotate({ identifier: "ConnectorOperationStep" });
     case 2:
-      return S.Array(__S(289, __c9, 1));
+      return S.Array(__S(145, __c9, 1));
     case 3:
-      return S.suspend(() => S.Struct({ capacity: S.optional(__S(227, __c7, 3)) })).annotate({
-        identifier: "WorkerSetting",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          capacity: S.optional(__S(115, __c7, 3)),
+          plugins: S.optional(__listOfPluginDescription),
+          workerConfiguration: S.optional(__S(119, __c7, 7)),
+          useDefaultWorkerConfiguration: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "WorkerSetting" });
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -1679,11 +1912,11 @@ function __c9(j: number): any {
           connectorOperationState: S.optional(S.String),
           connectorOperationType: S.optional(S.String),
           operationSteps: S.optional(__listOfConnectorOperationStep),
-          originWorkerSetting: S.optional(__S(291, __c9, 3)),
-          originConnectorConfiguration: S.optional(__S(832, __c26, 0)),
-          targetWorkerSetting: S.optional(__S(291, __c9, 3)),
-          targetConnectorConfiguration: S.optional(__S(832, __c26, 0)),
-          errorInfo: S.optional(__S(192, __c6, 0)),
+          originWorkerSetting: S.optional(__S(147, __c9, 3)),
+          originConnectorConfiguration: S.optional(__S(464, __c29, 0)),
+          targetWorkerSetting: S.optional(__S(147, __c9, 3)),
+          targetConnectorConfiguration: S.optional(__S(464, __c29, 0)),
+          errorInfo: S.optional(__S(96, __c6, 0)),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           endTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
         }),
@@ -1712,9 +1945,9 @@ function __c10(j: number): any {
           customPluginArn: S.optional(S.String),
           customPluginState: S.optional(S.String),
           description: S.optional(S.String),
-          latestRevision: S.optional(__S(355, __c11, 3)),
+          latestRevision: S.optional(__S(179, __c11, 3)),
           name: S.optional(S.String),
-          stateDescription: S.optional(__S(192, __c6, 0)),
+          stateDescription: S.optional(__S(96, __c6, 0)),
         }),
       ).annotate({ identifier: "DescribeCustomPluginResponse" });
   }
@@ -1734,7 +1967,7 @@ function __c11(j: number): any {
         }),
       ).annotate({ identifier: "S3LocationDescription" });
     case 2:
-      return S.suspend(() => S.Struct({ s3Location: S.optional(__S(353, __c11, 1)) })).annotate({
+      return S.suspend(() => S.Struct({ s3Location: S.optional(__S(177, __c11, 1)) })).annotate({
         identifier: "CustomPluginLocationDescription",
       });
     case 3:
@@ -1743,8 +1976,8 @@ function __c11(j: number): any {
           contentType: S.optional(S.String),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(S.String),
-          fileDescription: S.optional(__S(352, __c11, 0)),
-          location: S.optional(__S(354, __c11, 2)),
+          fileDescription: S.optional(__S(176, __c11, 0)),
+          location: S.optional(__S(178, __c11, 2)),
           revision: S.optional(S.Number),
         }),
       ).annotate({ identifier: "CustomPluginRevisionSummary" });
@@ -1781,7 +2014,7 @@ function __c12(j: number): any {
         S.Struct({
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(S.String),
-          latestRevision: S.optional(__S(385, __c12, 1)),
+          latestRevision: S.optional(__S(193, __c12, 1)),
           name: S.optional(S.String),
           workerConfigurationArn: S.optional(S.String),
           workerConfigurationState: S.optional(S.String),
@@ -1819,7 +2052,7 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ConnectorOperationSummary" });
     case 2:
-      return S.Array(__S(417, __c13, 1));
+      return S.Array(__S(209, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1844,26 +2077,26 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(__S(227, __c7, 3)),
+          capacity: S.optional(__S(115, __c7, 3)),
           connectorArn: S.optional(S.String),
           connectorDescription: S.optional(S.String),
           connectorName: S.optional(S.String),
           connectorState: S.optional(S.String),
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           currentVersion: S.optional(S.String),
-          kafkaCluster: S.optional(__S(258, __c8, 2)),
-          kafkaClusterClientAuthentication: S.optional(__S(259, __c8, 3)),
-          kafkaClusterEncryptionInTransit: S.optional(__S(260, __c8, 4)),
+          kafkaCluster: S.optional(__S(130, __c8, 2)),
+          kafkaClusterClientAuthentication: S.optional(__S(131, __c8, 3)),
+          kafkaClusterEncryptionInTransit: S.optional(__S(132, __c8, 4)),
           kafkaConnectVersion: S.optional(S.String),
-          logDelivery: S.optional(__S(265, __c8, 9)),
+          logDelivery: S.optional(__S(137, __c8, 9)),
           networkType: S.optional(S.String),
           plugins: S.optional(__listOfPluginDescription),
           serviceExecutionRoleArn: S.optional(S.String),
-          workerConfiguration: S.optional(__S(269, __c8, 13)),
+          workerConfiguration: S.optional(__S(119, __c7, 7)),
         }),
       ).annotate({ identifier: "ConnectorSummary" });
     case 2:
-      return S.Array(__S(449, __c14, 1));
+      return S.Array(__S(225, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1892,12 +2125,12 @@ function __c15(j: number): any {
           customPluginArn: S.optional(S.String),
           customPluginState: S.optional(S.String),
           description: S.optional(S.String),
-          latestRevision: S.optional(__S(355, __c11, 3)),
+          latestRevision: S.optional(__S(179, __c11, 3)),
           name: S.optional(S.String),
         }),
       ).annotate({ identifier: "CustomPluginSummary" });
     case 2:
-      return S.Array(__S(481, __c15, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1923,7 +2156,7 @@ function __c16(j: number): any {
         ),
       ).annotate({ identifier: "ListTagsForResourceRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ tags: S.optional(__S(832, __c26, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ tags: S.optional(__S(464, __c29, 0)) })).annotate({
         identifier: "ListTagsForResourceResponse",
       });
   }
@@ -1952,14 +2185,14 @@ function __c17(j: number): any {
         S.Struct({
           creationTime: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
           description: S.optional(S.String),
-          latestRevision: S.optional(__S(32, __c1, 0)),
+          latestRevision: S.optional(__S(16, __c1, 0)),
           name: S.optional(S.String),
           workerConfigurationArn: S.optional(S.String),
           workerConfigurationState: S.optional(S.String),
         }),
       ).annotate({ identifier: "WorkerConfigurationSummary" });
     case 2:
-      return S.Array(__S(545, __c17, 1));
+      return S.Array(__S(273, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -1970,6 +2203,34 @@ function __c17(j: number): any {
   }
 }
 function __c18(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ connectorArn: S.String.pipe(T.HttpLabel("connectorArn")) }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/v1/connectors/{connectorArn}/pause" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "PauseConnectorRequest" });
+  }
+}
+function __c19(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          connectorArn: S.optional(S.String),
+          connectorOperationArn: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "PauseConnectorResponse" });
+  }
+}
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1987,22 +2248,32 @@ function __c18(j: number): any {
           ),
         ),
       ).annotate({ identifier: "RestartConnectorRequest" });
-    case 1:
-      return S.suspend(() =>
-        S.Struct({
-          connectorArn: S.optional(S.String),
-          connectorOperationArn: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "RestartConnectorResponse" });
   }
 }
-function __c19(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ connectorArn: S.String.pipe(T.HttpLabel("connectorArn")) }).pipe(
+          T.all(
+            T.Http({ method: "PUT", uri: "/v1/connectors/{connectorArn}/resume" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "ResumeConnectorRequest" });
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           resourceArn: S.String.pipe(T.HttpLabel("resourceArn")),
-          tags: __S(832, __c26, 0),
+          tags: __S(464, __c29, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/tags/{resourceArn}" }),
@@ -2016,13 +2287,13 @@ function __c19(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c20(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "TagResourceResponse" });
   }
 }
-function __c21(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2042,7 +2313,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c22(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2050,25 +2321,29 @@ function __c22(j: number): any {
           maxWorkerCount: S.Number,
           mcuCount: S.Number,
           minWorkerCount: S.Number,
-          scaleInPolicy: __S(800, __c25, 0),
-          scaleOutPolicy: __S(800, __c25, 0),
+          scaleInPolicy: __S(448, __c28, 0),
+          scaleOutPolicy: __S(448, __c28, 0),
           maxAutoscalingTaskCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutoScalingUpdate" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoScaling: S.optional(__S(704, __c22, 0)),
-          provisionedCapacity: S.optional(__S(801, __c25, 1)),
+          autoScaling: S.optional(__S(400, __c25, 0)),
+          provisionedCapacity: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "CapacityUpdate" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          capacity: S.optional(__S(705, __c22, 1)),
-          connectorConfiguration: S.optional(__S(832, __c26, 0)),
+          capacity: S.optional(__S(401, __c25, 1)),
+          connectorConfiguration: S.optional(__S(464, __c29, 0)),
+          skipHealthValidation: S.optional(S.Boolean),
           connectorArn: S.String.pipe(T.HttpLabel("connectorArn")),
           currentVersion: S.String.pipe(T.HttpQuery("currentVersion")),
+          plugins: S.optional(__listOfPluginUpdate),
+          workerConfiguration: S.optional(__S(453, __c28, 5)),
+          useDefaultWorkerConfiguration: S.optional(S.Boolean),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/v1/connectors/{connectorArn}" }),
@@ -2090,7 +2365,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "UpdateConnectorResponse" });
   }
 }
-function __c23(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2098,16 +2373,16 @@ function __c23(j: number): any {
           maxWorkerCount: S.Number,
           mcuCount: S.Number,
           minWorkerCount: S.Number,
-          scaleInPolicy: S.optional(__S(800, __c25, 0)),
-          scaleOutPolicy: S.optional(__S(800, __c25, 0)),
+          scaleInPolicy: S.optional(__S(448, __c28, 0)),
+          scaleOutPolicy: S.optional(__S(448, __c28, 0)),
           maxAutoscalingTaskCount: S.optional(S.Number),
         }),
       ).annotate({ identifier: "AutoScaling" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          autoScaling: S.optional(__S(736, __c23, 0)),
-          provisionedCapacity: S.optional(__S(801, __c25, 1)),
+          autoScaling: S.optional(__S(416, __c26, 0)),
+          provisionedCapacity: S.optional(__S(449, __c28, 1)),
         }),
       ).annotate({ identifier: "Capacity" });
     case 2:
@@ -2116,10 +2391,10 @@ function __c23(j: number): any {
       ).annotate({ identifier: "Vpc" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ bootstrapServers: S.String, vpc: __S(738, __c23, 2) }),
+        S.Struct({ bootstrapServers: S.String, vpc: __S(418, __c26, 2) }),
       ).annotate({ identifier: "ApacheKafkaCluster" });
     case 4:
-      return S.suspend(() => S.Struct({ apacheKafkaCluster: __S(739, __c23, 3) })).annotate({
+      return S.suspend(() => S.Struct({ apacheKafkaCluster: __S(419, __c26, 3) })).annotate({
         identifier: "KafkaCluster",
       });
     case 5:
@@ -2149,51 +2424,37 @@ function __c23(j: number): any {
     case 10:
       return S.suspend(() =>
         S.Struct({
-          cloudWatchLogs: S.optional(__S(743, __c23, 7)),
-          firehose: S.optional(__S(744, __c23, 8)),
-          s3: S.optional(__S(745, __c23, 9)),
+          cloudWatchLogs: S.optional(__S(423, __c26, 7)),
+          firehose: S.optional(__S(424, __c26, 8)),
+          s3: S.optional(__S(425, __c26, 9)),
         }),
       ).annotate({ identifier: "WorkerLogDelivery" });
     case 11:
-      return S.suspend(() => S.Struct({ workerLogDelivery: __S(746, __c23, 10) })).annotate({
+      return S.suspend(() => S.Struct({ workerLogDelivery: __S(426, __c26, 10) })).annotate({
         identifier: "LogDelivery",
       });
     case 12:
-      return S.suspend(() => S.Struct({ customPluginArn: S.String, revision: S.Number })).annotate({
-        identifier: "CustomPlugin",
-      });
-    case 13:
-      return S.suspend(() => S.Struct({ customPlugin: __S(748, __c23, 12) })).annotate({
-        identifier: "Plugin",
-      });
-    case 14:
-      return S.Array(__S(749, __c23, 13));
-    case 15:
-      return S.suspend(() =>
-        S.Struct({ revision: S.Number, workerConfigurationArn: S.String }),
-      ).annotate({ identifier: "WorkerConfiguration" });
-    case 16:
       return S.suspend(() =>
         S.Struct({
-          capacity: __S(737, __c23, 1),
-          connectorConfiguration: __S(832, __c26, 0),
+          capacity: __S(417, __c26, 1),
+          connectorConfiguration: __S(464, __c29, 0),
           connectorDescription: S.optional(S.String),
           connectorName: S.String,
-          kafkaCluster: __S(740, __c23, 4),
-          kafkaClusterClientAuthentication: __S(741, __c23, 5),
-          kafkaClusterEncryptionInTransit: __S(742, __c23, 6),
+          kafkaCluster: __S(420, __c26, 4),
+          kafkaClusterClientAuthentication: __S(421, __c26, 5),
+          kafkaClusterEncryptionInTransit: __S(422, __c26, 6),
           kafkaConnectVersion: S.String,
-          logDelivery: S.optional(__S(747, __c23, 11)),
+          logDelivery: S.optional(__S(427, __c26, 11)),
           networkType: S.optional(S.String),
           plugins: __listOfPlugin,
           serviceExecutionRoleArn: S.String,
-          workerConfiguration: S.optional(__S(751, __c23, 15)),
-          tags: S.optional(__S(832, __c26, 0)),
+          workerConfiguration: S.optional(__S(453, __c28, 5)),
+          tags: S.optional(__S(464, __c29, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/v1/connectors" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "CreateConnectorRequest" });
-    case 17:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           connectorArn: S.optional(S.String),
@@ -2203,13 +2464,13 @@ function __c23(j: number): any {
       ).annotate({ identifier: "CreateConnectorResponse" });
   }
 }
-function __c24(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c25(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ cpuUtilizationPercentage: S.Number })).annotate({
@@ -2219,22 +2480,36 @@ function __c25(j: number): any {
       return S.suspend(() => S.Struct({ mcuCount: S.Number, workerCount: S.Number })).annotate({
         identifier: "ProvisionedCapacity",
       });
+    case 2:
+      return S.suspend(() => S.Struct({ customPluginArn: S.String, revision: S.Number })).annotate({
+        identifier: "CustomPlugin",
+      });
+    case 3:
+      return S.suspend(() => S.Struct({ customPlugin: __S(450, __c28, 2) })).annotate({
+        identifier: "Plugin",
+      });
+    case 4:
+      return S.Array(__S(451, __c28, 3));
+    case 5:
+      return S.suspend(() =>
+        S.Struct({ revision: S.Number, workerConfigurationArn: S.String }),
+      ).annotate({ identifier: "WorkerConfiguration" });
   }
 }
-function __c26(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.String.pipe(S.optional));
   }
 }
-function __c27(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ bucketArn: S.String, fileKey: S.String, objectVersion: S.optional(S.String) }),
       ).annotate({ identifier: "S3Location" });
     case 1:
-      return S.suspend(() => S.Struct({ s3Location: __S(864, __c27, 0) })).annotate({
+      return S.suspend(() => S.Struct({ s3Location: __S(480, __c30, 0) })).annotate({
         identifier: "CustomPluginLocation",
       });
     case 2:
@@ -2242,9 +2517,9 @@ function __c27(j: number): any {
         S.Struct({
           contentType: S.String,
           description: S.optional(S.String),
-          location: __S(865, __c27, 1),
+          location: __S(481, __c30, 1),
           name: S.String,
-          tags: S.optional(__S(832, __c26, 0)),
+          tags: S.optional(__S(464, __c29, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/v1/custom-plugins" }),

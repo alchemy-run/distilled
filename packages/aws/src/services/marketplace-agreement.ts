@@ -1365,6 +1365,12 @@ export const acceptAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAgreementCancellationRequest",
+  iam: {
+    actions: [
+      "aws-marketplace:AcceptAgreementCancellationRequest",
+      "aws-marketplace:CancelAgreement",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "AcceptAgreementCancellationRequest",
 }));
@@ -1401,6 +1407,12 @@ export const acceptAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAgreementPaymentRequest",
+  iam: {
+    actions: [
+      "aws-marketplace:AcceptAgreementPaymentRequest",
+      "aws-marketplace:UpdatePurchaseOrders",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "AcceptAgreementPaymentRequest",
 }));
@@ -1435,6 +1447,7 @@ export const acceptAgreementRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptAgreementRequest",
+  iam: { actions: ["aws-marketplace:AcceptAgreementRequest", "aws-marketplace:Subscribe"] },
   telemetry: TELEMETRY,
   span: "AcceptAgreementRequest",
 }));
@@ -1469,6 +1482,7 @@ export const batchCreateBillingAdjustmentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateBillingAdjustmentRequest",
+  iam: { actions: ["aws-marketplace:BatchCreateBillingAdjustmentRequest"] },
   telemetry: TELEMETRY,
   span: "BatchCreateBillingAdjustmentRequest",
 }));
@@ -1503,6 +1517,7 @@ export const cancelAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAgreement",
+  iam: { actions: ["aws-marketplace:CancelAgreement", "aws-marketplace:Unsubscribe"] },
   telemetry: TELEMETRY,
   span: "CancelAgreement",
 }));
@@ -1539,6 +1554,7 @@ export const cancelAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAgreementCancellationRequest",
+  iam: { actions: ["aws-marketplace:CancelAgreementCancellationRequest"] },
   telemetry: TELEMETRY,
   span: "CancelAgreementCancellationRequest",
 }));
@@ -1575,6 +1591,7 @@ export const cancelAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAgreementPaymentRequest",
+  iam: { actions: ["aws-marketplace:CancelAgreementPaymentRequest"] },
   telemetry: TELEMETRY,
   span: "CancelAgreementPaymentRequest",
 }));
@@ -1611,6 +1628,7 @@ export const createAgreementRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgreementRequest",
+  iam: { actions: ["aws-marketplace:CreateAgreementRequest", "aws-marketplace:Subscribe"] },
   telemetry: TELEMETRY,
   span: "CreateAgreementRequest",
 }));
@@ -1643,6 +1661,7 @@ export const describeAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgreement",
+  iam: { actions: ["aws-marketplace:DescribeAgreement", "aws-marketplace:ViewSubscriptions"] },
   telemetry: TELEMETRY,
   span: "DescribeAgreement",
 }));
@@ -1675,6 +1694,7 @@ export const getAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgreementCancellationRequest",
+  iam: { actions: ["aws-marketplace:GetAgreementCancellationRequest"] },
   telemetry: TELEMETRY,
   span: "GetAgreementCancellationRequest",
 }));
@@ -1714,6 +1734,9 @@ export const getAgreementEntitlements: API.PaginatedOperationMethod<
     items: "agreementEntitlements",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["aws-marketplace:GetAgreementEntitlements", "aws-marketplace:ViewSubscriptions"],
+  },
   telemetry: TELEMETRY,
   span: "GetAgreementEntitlements",
 })) as any;
@@ -1748,6 +1771,7 @@ export const getAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgreementPaymentRequest",
+  iam: { actions: ["aws-marketplace:GetAgreementPaymentRequest"] },
   telemetry: TELEMETRY,
   span: "GetAgreementPaymentRequest",
 }));
@@ -1797,6 +1821,7 @@ export const getAgreementTerms: API.PaginatedOperationMethod<
     items: "acceptedTerms",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:GetAgreementTerms", "aws-marketplace:ViewSubscriptions"] },
   telemetry: TELEMETRY,
   span: "GetAgreementTerms",
 })) as any;
@@ -1829,6 +1854,7 @@ export const getBillingAdjustmentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillingAdjustmentRequest",
+  iam: { actions: ["aws-marketplace:GetBillingAdjustmentRequest"] },
   telemetry: TELEMETRY,
   span: "GetBillingAdjustmentRequest",
 }));
@@ -1868,6 +1894,7 @@ export const listAgreementCancellationRequests: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:ListAgreementCancellationRequests"] },
   telemetry: TELEMETRY,
   span: "ListAgreementCancellationRequests",
 })) as any;
@@ -1905,6 +1932,7 @@ export const listAgreementCharges: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:ListAgreementCharges"] },
   telemetry: TELEMETRY,
   span: "ListAgreementCharges",
 })) as any;
@@ -1946,6 +1974,7 @@ export const listAgreementInvoiceLineItems: API.PaginatedOperationMethod<
     items: "agreementInvoiceLineItemGroupSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:ListAgreementInvoiceLineItems"] },
   telemetry: TELEMETRY,
   span: "ListAgreementInvoiceLineItems",
 })) as any;
@@ -1985,6 +2014,7 @@ export const listAgreementPaymentRequests: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:ListAgreementPaymentRequests"] },
   telemetry: TELEMETRY,
   span: "ListAgreementPaymentRequests",
 })) as any;
@@ -2022,6 +2052,7 @@ export const listBillingAdjustmentRequests: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:ListBillingAdjustmentRequests"] },
   telemetry: TELEMETRY,
   span: "ListBillingAdjustmentRequests",
 })) as any;
@@ -2058,6 +2089,7 @@ export const rejectAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAgreementCancellationRequest",
+  iam: { actions: ["aws-marketplace:RejectAgreementCancellationRequest"] },
   telemetry: TELEMETRY,
   span: "RejectAgreementCancellationRequest",
 }));
@@ -2094,6 +2126,7 @@ export const rejectAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectAgreementPaymentRequest",
+  iam: { actions: ["aws-marketplace:RejectAgreementPaymentRequest"] },
   telemetry: TELEMETRY,
   span: "RejectAgreementPaymentRequest",
 }));
@@ -2131,6 +2164,7 @@ export const searchAgreements: API.PaginatedOperationMethod<
     items: "agreementViewSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["aws-marketplace:SearchAgreements", "aws-marketplace:ViewSubscriptions"] },
   telemetry: TELEMETRY,
   span: "SearchAgreements",
 })) as any;
@@ -2165,6 +2199,7 @@ export const sendAgreementCancellationRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAgreementCancellationRequest",
+  iam: { actions: ["aws-marketplace:SendAgreementCancellationRequest"] },
   telemetry: TELEMETRY,
   span: "SendAgreementCancellationRequest",
 }));
@@ -2201,6 +2236,7 @@ export const sendAgreementPaymentRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAgreementPaymentRequest",
+  iam: { actions: ["aws-marketplace:SendAgreementPaymentRequest"] },
   telemetry: TELEMETRY,
   span: "SendAgreementPaymentRequest",
 }));
@@ -2235,6 +2271,7 @@ export const updatePurchaseOrders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePurchaseOrders",
+  iam: { actions: ["aws-marketplace:UpdatePurchaseOrders"] },
   telemetry: TELEMETRY,
   span: "UpdatePurchaseOrders",
 }));

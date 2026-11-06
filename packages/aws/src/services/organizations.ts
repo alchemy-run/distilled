@@ -24,7 +24,7 @@ const ver = /*@__PURE__*/ T.ServiceVersion("2016-11-28");
 const proto = /*@__PURE__*/ T.AwsProtocolsAwsJson1_1();
 const rules = /*@__PURE__*/ T.EndpointResolver(
   (p, _) => {
-    const { Region, UseDualStack = false, UseFIPS = false, Endpoint } = p;
+    const { UseDualStack = false, UseFIPS = false, Endpoint, Region } = p;
     const e = (u: unknown, p = {}, h = {}): T.EndpointResolverResult => ({
       type: "endpoint" as const,
       endpoint: { url: u as string, properties: p, headers: h },
@@ -33,13 +33,9 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
       type: "error" as const,
       message: m as string,
     });
-    const _p0 = () => ({
-      authSchemes: [{ name: "sigv4", signingName: "organizations", signingRegion: "us-east-1" }],
-    });
-    const _p1 = () => ({
-      authSchemes: [
-        { name: "sigv4", signingName: "organizations", signingRegion: "us-gov-west-1" },
-      ],
+    const _p0 = () => ({ authSchemes: [{ name: "sigv4", signingRegion: "us-gov-west-1" }] });
+    const _p1 = (_0: unknown) => ({
+      authSchemes: [{ name: "sigv4", signingRegion: `${_.getAttr(_0, "implicitGlobalRegion")}` }],
     });
     if (Endpoint != null) {
       if (UseFIPS === true) {
@@ -55,92 +51,18 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
         const PartitionResult = _.partition(Region);
         if (PartitionResult != null && PartitionResult !== false) {
           if (
-            _.getAttr(PartitionResult, "name") === "aws" &&
-            UseFIPS === false &&
-            UseDualStack === false
-          ) {
-            return e("https://organizations.us-east-1.amazonaws.com", _p0(), {});
-          }
-          if (
-            _.getAttr(PartitionResult, "name") === "aws" &&
-            UseFIPS === true &&
-            UseDualStack === false
-          ) {
-            return e("https://organizations-fips.us-east-1.amazonaws.com", _p0(), {});
-          }
-          if (
-            _.getAttr(PartitionResult, "name") === "aws-cn" &&
-            UseFIPS === false &&
-            UseDualStack === false
-          ) {
-            return e(
-              "https://organizations.cn-northwest-1.amazonaws.com.cn",
-              {
-                authSchemes: [
-                  { name: "sigv4", signingName: "organizations", signingRegion: "cn-northwest-1" },
-                ],
-              },
-              {},
-            );
-          }
-          if (
-            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
-            UseFIPS === false &&
-            UseDualStack === false
-          ) {
-            return e("https://organizations.us-gov-west-1.amazonaws.com", _p1(), {});
-          }
-          if (
             _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
             UseFIPS === true &&
             UseDualStack === false
           ) {
-            return e("https://organizations.us-gov-west-1.amazonaws.com", _p1(), {});
+            return e("https://organizations.us-gov-west-1.amazonaws.com", _p0(), {});
           }
           if (
-            _.getAttr(PartitionResult, "name") === "aws-iso" &&
-            UseFIPS === false &&
-            UseDualStack === false
+            _.getAttr(PartitionResult, "name") === "aws-us-gov" &&
+            UseFIPS === true &&
+            UseDualStack === true
           ) {
-            return e(
-              "https://organizations.us-iso-east-1.c2s.ic.gov",
-              {
-                authSchemes: [
-                  { name: "sigv4", signingName: "organizations", signingRegion: "us-iso-east-1" },
-                ],
-              },
-              {},
-            );
-          }
-          if (
-            _.getAttr(PartitionResult, "name") === "aws-iso-b" &&
-            UseFIPS === false &&
-            UseDualStack === false
-          ) {
-            return e(
-              "https://organizations.us-isob-east-1.sc2s.sgov.gov",
-              {
-                authSchemes: [
-                  { name: "sigv4", signingName: "organizations", signingRegion: "us-isob-east-1" },
-                ],
-              },
-              {},
-            );
-          }
-          if (
-            _.getAttr(PartitionResult, "name") === "aws-iso-f" &&
-            UseFIPS === false &&
-            UseDualStack === false
-          ) {
-            return e(
-              "https://organizations.us-isof-south-1.csp.hci.ic.gov",
-              {
-                authSchemes: [
-                  { name: "sigv4", signingName: "organizations", signingRegion: "us-isof-south-1" },
-                ],
-              },
-              {},
-            );
+            return e("https://organizations.us-gov-west-1.api.aws", _p0(), {});
           }
           if (UseFIPS === true && UseDualStack === true) {
             if (
@@ -148,36 +70,46 @@ const rules = /*@__PURE__*/ T.EndpointResolver(
               true === _.getAttr(PartitionResult, "supportsDualStack")
             ) {
               return e(
-                `https://organizations-fips.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                `https://organizations-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p1(PartitionResult),
+                {},
               );
             }
             return err(
               "FIPS and DualStack are enabled, but this partition does not support one or both",
             );
           }
-          if (UseFIPS === true) {
+          if (UseFIPS === true && UseDualStack === false) {
             if (_.getAttr(PartitionResult, "supportsFIPS") === true) {
               return e(
-                `https://organizations-fips.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                `https://organizations-fips.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+                _p1(PartitionResult),
+                {},
               );
             }
             return err("FIPS is enabled but this partition does not support FIPS");
           }
-          if (UseDualStack === true) {
+          if (UseFIPS === false && UseDualStack === true) {
             if (true === _.getAttr(PartitionResult, "supportsDualStack")) {
               return e(
-                `https://organizations.${Region}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                `https://organizations.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dualStackDnsSuffix")}`,
+                _p1(PartitionResult),
+                {},
               );
             }
             return err("DualStack is enabled but this partition does not support DualStack");
           }
-          return e(`https://organizations.${Region}.${_.getAttr(PartitionResult, "dnsSuffix")}`);
+          return e(
+            `https://organizations.${_.getAttr(PartitionResult, "implicitGlobalRegion")}.${_.getAttr(PartitionResult, "dnsSuffix")}`,
+            _p1(PartitionResult),
+            {},
+          );
         }
       }
     }
     return err("Invalid Configuration: Missing Region");
   },
-  '{"url":"https://organizations.us-east-1.{D}","properties":{"authSchemes":[{"name":"sigv4","signingName":"organizations","signingRegion":"us-east-1"}]},"headers":{}}',
+  '{"url":"https://organizations.us-east-1.{D}","properties":{"authSchemes":[{"name":"sigv4","signingRegion":"us-east-1"}]},"headers":{}}',
   [
     "us-gov-west-1",
     "us-gov-east-1",
@@ -1504,6 +1436,7 @@ export const acceptHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptHandshake",
+  iam: { actions: ["organizations:AcceptHandshake"] },
   telemetry: TELEMETRY,
   span: "AcceptHandshake",
 }));
@@ -1584,6 +1517,7 @@ export const attachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachPolicy",
+  iam: { actions: ["organizations:AttachPolicy"] },
   telemetry: TELEMETRY,
   span: "AttachPolicy",
 }));
@@ -1628,6 +1562,7 @@ export const cancelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelHandshake",
+  iam: { actions: ["organizations:CancelHandshake"] },
   telemetry: TELEMETRY,
   span: "CancelHandshake",
 }));
@@ -1718,6 +1653,14 @@ export const closeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseAccount",
+  iam: {
+    actions: ["organizations:CloseAccount"],
+    resources: {
+      "organizations:CloseAccount": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CloseAccount",
 }));
@@ -1827,6 +1770,10 @@ export const createAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccount",
+  iam: {
+    actions: ["organizations:CreateAccount", "organizations:TagResource"],
+    conditional: { "organizations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAccount",
 }));
@@ -1980,6 +1927,10 @@ export const createGovCloudAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGovCloudAccount",
+  iam: {
+    actions: ["organizations:CreateGovCloudAccount", "organizations:TagResource"],
+    conditional: { "organizations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGovCloudAccount",
 }));
@@ -2035,6 +1986,7 @@ export const createOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrganization",
+  iam: { actions: ["organizations:CreateOrganization"] },
   telemetry: TELEMETRY,
   span: "CreateOrganization",
 }));
@@ -2087,6 +2039,10 @@ export const createOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrganizationalUnit",
+  iam: {
+    actions: ["organizations:CreateOrganizationalUnit", "organizations:TagResource"],
+    conditional: { "organizations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateOrganizationalUnit",
 }));
@@ -2140,6 +2096,15 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
+  iam: {
+    actions: ["organizations:CreatePolicy", "organizations:TagResource"],
+    resources: {
+      "organizations:CreatePolicy": [
+        "arn:${Partition}:organizations::${Account}:policy/o-${OrganizationId}/${PolicyType}/p-${PolicyId}",
+      ],
+    },
+    conditional: { "organizations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePolicy",
 }));
@@ -2184,6 +2149,7 @@ export const declineHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineHandshake",
+  iam: { actions: ["organizations:DeclineHandshake"] },
   telemetry: TELEMETRY,
   span: "DeclineHandshake",
 }));
@@ -2228,6 +2194,7 @@ export const deleteOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganization",
+  iam: { actions: ["organizations:DeleteOrganization"] },
   telemetry: TELEMETRY,
   span: "DeleteOrganization",
 }));
@@ -2269,6 +2236,14 @@ export const deleteOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganizationalUnit",
+  iam: {
+    actions: ["organizations:DeleteOrganizationalUnit"],
+    resources: {
+      "organizations:DeleteOrganizationalUnit": [
+        "arn:${Partition}:organizations::${Account}:ou/o-${OrganizationId}/ou-${OrganizationalUnitId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteOrganizationalUnit",
 }));
@@ -2313,6 +2288,14 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
+  iam: {
+    actions: ["organizations:DeletePolicy"],
+    resources: {
+      "organizations:DeletePolicy": [
+        "arn:${Partition}:organizations::${Account}:policy/o-${OrganizationId}/${PolicyType}/p-${PolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -2353,6 +2336,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["organizations:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -2408,6 +2392,14 @@ export const deregisterDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDelegatedAdministrator",
+  iam: {
+    actions: ["organizations:DeregisterDelegatedAdministrator"],
+    resources: {
+      "organizations:DeregisterDelegatedAdministrator": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterDelegatedAdministrator",
 }));
@@ -2444,6 +2436,14 @@ export const describeAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccount",
+  iam: {
+    actions: ["organizations:DescribeAccount"],
+    resources: {
+      "organizations:DescribeAccount": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAccount",
 }));
@@ -2482,6 +2482,7 @@ export const describeCreateAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCreateAccountStatus",
+  iam: { actions: ["organizations:DescribeCreateAccountStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeCreateAccountStatus",
 }));
@@ -2534,6 +2535,14 @@ export const describeEffectivePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEffectivePolicy",
+  iam: {
+    actions: ["organizations:DescribeEffectivePolicy"],
+    resources: {
+      "organizations:DescribeEffectivePolicy": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEffectivePolicy",
 }));
@@ -2574,6 +2583,7 @@ export const describeHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHandshake",
+  iam: { actions: ["organizations:DescribeHandshake"] },
   telemetry: TELEMETRY,
   span: "DescribeHandshake",
 }));
@@ -2613,6 +2623,7 @@ export const describeOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganization",
+  iam: { actions: ["organizations:DescribeOrganization"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganization",
 }));
@@ -2649,6 +2660,14 @@ export const describeOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationalUnit",
+  iam: {
+    actions: ["organizations:DescribeOrganizationalUnit"],
+    resources: {
+      "organizations:DescribeOrganizationalUnit": [
+        "arn:${Partition}:organizations::${Account}:ou/o-${OrganizationId}/ou-${OrganizationalUnitId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationalUnit",
 }));
@@ -2687,6 +2706,14 @@ export const describePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePolicy",
+  iam: {
+    actions: ["organizations:DescribePolicy"],
+    resources: {
+      "organizations:DescribePolicy": [
+        "arn:${Partition}:organizations::${Account}:policy/o-${OrganizationId}/${PolicyType}/p-${PolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePolicy",
 }));
@@ -2725,6 +2752,7 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
+  iam: { actions: ["organizations:DescribeResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DescribeResourcePolicy",
 }));
@@ -2763,6 +2791,14 @@ export const describeResponsibilityTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResponsibilityTransfer",
+  iam: {
+    actions: ["organizations:DescribeResponsibilityTransfer"],
+    resources: {
+      "organizations:DescribeResponsibilityTransfer": [
+        "arn:${Partition}:organizations::${Account}:transfer/o-${OrganizationId}/${TransferType}/${TransferDirection}/rt-${ResponsibilityTransferId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeResponsibilityTransfer",
 }));
@@ -2824,6 +2860,7 @@ export const detachPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachPolicy",
+  iam: { actions: ["organizations:DetachPolicy"] },
   telemetry: TELEMETRY,
   span: "DetachPolicy",
 }));
@@ -2916,6 +2953,7 @@ export const disableAWSServiceAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAWSServiceAccess",
+  iam: { actions: ["organizations:DisableAWSServiceAccess"] },
   telemetry: TELEMETRY,
   span: "DisableAWSServiceAccess",
 }));
@@ -2973,6 +3011,14 @@ export const disablePolicyType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisablePolicyType",
+  iam: {
+    actions: ["organizations:DisablePolicyType"],
+    resources: {
+      "organizations:DisablePolicyType": [
+        "arn:${Partition}:organizations::${Account}:root/o-${OrganizationId}/r-${RootId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisablePolicyType",
 }));
@@ -3038,6 +3084,7 @@ export const enableAllFeatures: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAllFeatures",
+  iam: { actions: ["organizations:EnableAllFeatures"] },
   telemetry: TELEMETRY,
   span: "EnableAllFeatures",
 }));
@@ -3094,6 +3141,7 @@ export const enableAWSServiceAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAWSServiceAccess",
+  iam: { actions: ["organizations:EnableAWSServiceAccess"] },
   telemetry: TELEMETRY,
   span: "EnableAWSServiceAccess",
 }));
@@ -3153,6 +3201,14 @@ export const enablePolicyType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnablePolicyType",
+  iam: {
+    actions: ["organizations:EnablePolicyType"],
+    resources: {
+      "organizations:EnablePolicyType": [
+        "arn:${Partition}:organizations::${Account}:root/o-${OrganizationId}/r-${RootId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnablePolicyType",
 }));
@@ -3211,6 +3267,10 @@ export const inviteAccountToOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteAccountToOrganization",
+  iam: {
+    actions: ["organizations:InviteAccountToOrganization", "organizations:TagResource"],
+    conditional: { "organizations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "InviteAccountToOrganization",
 }));
@@ -3257,6 +3317,13 @@ export const inviteOrganizationToTransferResponsibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InviteOrganizationToTransferResponsibility",
+  iam: {
+    actions: [
+      "organizations:InviteOrganizationToTransferResponsibility",
+      "organizations:TagResource",
+    ],
+    conditional: { "organizations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "InviteOrganizationToTransferResponsibility",
 }));
@@ -3350,6 +3417,7 @@ export const leaveOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LeaveOrganization",
+  iam: { actions: ["organizations:LeaveOrganization"] },
   telemetry: TELEMETRY,
   span: "LeaveOrganization",
 }));
@@ -3395,6 +3463,7 @@ export const listAccounts: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListAccounts"] },
   telemetry: TELEMETRY,
   span: "ListAccounts",
 })) as any;
@@ -3445,6 +3514,7 @@ export const listAccountsForParent: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListAccountsForParent"] },
   telemetry: TELEMETRY,
   span: "ListAccountsForParent",
 })) as any;
@@ -3495,6 +3565,7 @@ export const listAccountsWithInvalidEffectivePolicy: API.PaginatedOperationMetho
     items: "Accounts",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListAccountsWithInvalidEffectivePolicy"] },
   telemetry: TELEMETRY,
   span: "ListAccountsWithInvalidEffectivePolicy",
 })) as any;
@@ -3545,6 +3616,7 @@ export const listAWSServiceAccessForOrganization: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListAWSServiceAccessForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListAWSServiceAccessForOrganization",
 })) as any;
@@ -3593,6 +3665,7 @@ export const listChildren: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListChildren"] },
   telemetry: TELEMETRY,
   span: "ListChildren",
 })) as any;
@@ -3640,6 +3713,7 @@ export const listCreateAccountStatus: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListCreateAccountStatus"] },
   telemetry: TELEMETRY,
   span: "ListCreateAccountStatus",
 })) as any;
@@ -3686,6 +3760,7 @@ export const listDelegatedAdministrators: API.PaginatedOperationMethod<
     items: "DelegatedAdministrators",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListDelegatedAdministrators"] },
   telemetry: TELEMETRY,
   span: "ListDelegatedAdministrators",
 })) as any;
@@ -3736,6 +3811,14 @@ export const listDelegatedServicesForAccount: API.PaginatedOperationMethod<
     items: "DelegatedServices",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["organizations:ListDelegatedServicesForAccount"],
+    resources: {
+      "organizations:ListDelegatedServicesForAccount": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDelegatedServicesForAccount",
 })) as any;
@@ -3786,6 +3869,14 @@ export const listEffectivePolicyValidationErrors: API.PaginatedOperationMethod<
     items: "EffectivePolicyValidationErrors",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["organizations:ListEffectivePolicyValidationErrors"],
+    resources: {
+      "organizations:ListEffectivePolicyValidationErrors": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListEffectivePolicyValidationErrors",
 })) as any;
@@ -3834,6 +3925,7 @@ export const listHandshakesForAccount: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListHandshakesForAccount"] },
   telemetry: TELEMETRY,
   span: "ListHandshakesForAccount",
 })) as any;
@@ -3884,6 +3976,7 @@ export const listHandshakesForOrganization: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListHandshakesForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListHandshakesForOrganization",
 })) as any;
@@ -3927,6 +4020,7 @@ export const listInboundResponsibilityTransfers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInboundResponsibilityTransfers",
+  iam: { actions: ["organizations:ListInboundResponsibilityTransfers"] },
   telemetry: TELEMETRY,
   span: "ListInboundResponsibilityTransfers",
 }));
@@ -3973,6 +4067,7 @@ export const listOrganizationalUnitsForParent: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListOrganizationalUnitsForParent"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationalUnitsForParent",
 })) as any;
@@ -4015,6 +4110,7 @@ export const listOutboundResponsibilityTransfers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOutboundResponsibilityTransfers",
+  iam: { actions: ["organizations:ListOutboundResponsibilityTransfers"] },
   telemetry: TELEMETRY,
   span: "ListOutboundResponsibilityTransfers",
 }));
@@ -4065,6 +4161,7 @@ export const listParents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListParents"] },
   telemetry: TELEMETRY,
   span: "ListParents",
 })) as any;
@@ -4111,6 +4208,7 @@ export const listPolicies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -4161,6 +4259,7 @@ export const listPoliciesForTarget: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListPoliciesForTarget"] },
   telemetry: TELEMETRY,
   span: "ListPoliciesForTarget",
 })) as any;
@@ -4211,6 +4310,7 @@ export const listRoots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListRoots"] },
   telemetry: TELEMETRY,
   span: "ListRoots",
 })) as any;
@@ -4259,6 +4359,7 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Tags" } as const,
+  iam: { actions: ["organizations:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -4308,6 +4409,7 @@ export const listTargetsForPolicy: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["organizations:ListTargetsForPolicy"] },
   telemetry: TELEMETRY,
   span: "ListTargetsForPolicy",
 })) as any;
@@ -4353,6 +4455,16 @@ export const moveAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MoveAccount",
+  iam: {
+    actions: ["organizations:MoveAccount"],
+    resources: {
+      "organizations:MoveAccount": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+        "arn:${Partition}:organizations::${Account}:ou/o-${OrganizationId}/ou-${OrganizationalUnitId}",
+        "arn:${Partition}:organizations::${Account}:root/o-${OrganizationId}/r-${RootId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "MoveAccount",
 }));
@@ -4393,6 +4505,15 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: {
+    actions: ["organizations:PutResourcePolicy", "organizations:TagResource"],
+    resources: {
+      "organizations:PutResourcePolicy": [
+        "arn:${Partition}:organizations::${Account}:resourcepolicy/o-${OrganizationId}/rp-${ResourcePolicyId}",
+      ],
+    },
+    conditional: { "organizations:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -4444,6 +4565,14 @@ export const registerDelegatedAdministrator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDelegatedAdministrator",
+  iam: {
+    actions: ["organizations:RegisterDelegatedAdministrator"],
+    resources: {
+      "organizations:RegisterDelegatedAdministrator": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterDelegatedAdministrator",
 }));
@@ -4515,6 +4644,14 @@ export const removeAccountFromOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAccountFromOrganization",
+  iam: {
+    actions: ["organizations:RemoveAccountFromOrganization"],
+    resources: {
+      "organizations:RemoveAccountFromOrganization": [
+        "arn:${Partition}:organizations::${Account}:account/o-${OrganizationId}/${AccountId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RemoveAccountFromOrganization",
 }));
@@ -4565,6 +4702,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["organizations:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4617,6 +4755,14 @@ export const terminateResponsibilityTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateResponsibilityTransfer",
+  iam: {
+    actions: ["organizations:TerminateResponsibilityTransfer"],
+    resources: {
+      "organizations:TerminateResponsibilityTransfer": [
+        "arn:${Partition}:organizations::${Account}:transfer/o-${OrganizationId}/${TransferType}/${TransferDirection}/rt-${ResponsibilityTransferId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TerminateResponsibilityTransfer",
 }));
@@ -4667,6 +4813,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["organizations:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4709,6 +4856,14 @@ export const updateOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationalUnit",
+  iam: {
+    actions: ["organizations:UpdateOrganizationalUnit"],
+    resources: {
+      "organizations:UpdateOrganizationalUnit": [
+        "arn:${Partition}:organizations::${Account}:ou/o-${OrganizationId}/ou-${OrganizationalUnitId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateOrganizationalUnit",
 }));
@@ -4759,6 +4914,14 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
+  iam: {
+    actions: ["organizations:UpdatePolicy"],
+    resources: {
+      "organizations:UpdatePolicy": [
+        "arn:${Partition}:organizations::${Account}:policy/o-${OrganizationId}/${PolicyType}/p-${PolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePolicy",
 }));
@@ -4801,6 +4964,14 @@ export const updateResponsibilityTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResponsibilityTransfer",
+  iam: {
+    actions: ["organizations:UpdateResponsibilityTransfer"],
+    resources: {
+      "organizations:UpdateResponsibilityTransfer": [
+        "arn:${Partition}:organizations::${Account}:transfer/o-${OrganizationId}/${TransferType}/${TransferDirection}/rt-${ResponsibilityTransferId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResponsibilityTransfer",
 }));

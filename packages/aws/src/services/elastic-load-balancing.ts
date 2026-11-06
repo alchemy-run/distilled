@@ -728,6 +728,7 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
+  iam: { actions: ["elasticloadbalancing:AddTags"] },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -759,6 +760,14 @@ export const applySecurityGroupsToLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplySecurityGroupsToLoadBalancer",
+  iam: {
+    actions: ["elasticloadbalancing:ApplySecurityGroupsToLoadBalancer"],
+    resources: {
+      "elasticloadbalancing:ApplySecurityGroupsToLoadBalancer": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ApplySecurityGroupsToLoadBalancer",
 }));
@@ -793,6 +802,14 @@ export const attachLoadBalancerToSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerToSubnets",
+  iam: {
+    actions: ["elasticloadbalancing:AttachLoadBalancerToSubnets"],
+    resources: {
+      "elasticloadbalancing:AttachLoadBalancerToSubnets": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AttachLoadBalancerToSubnets",
 }));
@@ -816,6 +833,14 @@ export const configureHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureHealthCheck",
+  iam: {
+    actions: ["elasticloadbalancing:ConfigureHealthCheck"],
+    resources: {
+      "elasticloadbalancing:ConfigureHealthCheck": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ConfigureHealthCheck",
 }));
@@ -857,6 +882,14 @@ export const createAppCookieStickinessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppCookieStickinessPolicy",
+  iam: {
+    actions: ["elasticloadbalancing:CreateAppCookieStickinessPolicy"],
+    resources: {
+      "elasticloadbalancing:CreateAppCookieStickinessPolicy": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAppCookieStickinessPolicy",
 }));
@@ -895,6 +928,14 @@ export const createLBCookieStickinessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLBCookieStickinessPolicy",
+  iam: {
+    actions: ["elasticloadbalancing:CreateLBCookieStickinessPolicy"],
+    resources: {
+      "elasticloadbalancing:CreateLBCookieStickinessPolicy": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLBCookieStickinessPolicy",
 }));
@@ -955,6 +996,10 @@ export const createLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
+  iam: {
+    actions: ["elasticloadbalancing:AddTags", "elasticloadbalancing:CreateLoadBalancer"],
+    conditional: { "elasticloadbalancing:AddTags": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateLoadBalancer",
 }));
@@ -990,6 +1035,14 @@ export const createLoadBalancerListeners: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancerListeners",
+  iam: {
+    actions: ["elasticloadbalancing:CreateLoadBalancerListeners"],
+    resources: {
+      "elasticloadbalancing:CreateLoadBalancerListeners": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLoadBalancerListeners",
 }));
@@ -1024,6 +1077,14 @@ export const createLoadBalancerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancerPolicy",
+  iam: {
+    actions: ["elasticloadbalancing:CreateLoadBalancerPolicy"],
+    resources: {
+      "elasticloadbalancing:CreateLoadBalancerPolicy": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateLoadBalancerPolicy",
 }));
@@ -1049,6 +1110,7 @@ export const deleteLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
+  iam: { actions: ["elasticloadbalancing:DeleteLoadBalancer"] },
   telemetry: TELEMETRY,
   span: "DeleteLoadBalancer",
 }));
@@ -1069,6 +1131,14 @@ export const deleteLoadBalancerListeners: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancerListeners",
+  iam: {
+    actions: ["elasticloadbalancing:DeleteLoadBalancerListeners"],
+    resources: {
+      "elasticloadbalancing:DeleteLoadBalancerListeners": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLoadBalancerListeners",
 }));
@@ -1092,6 +1162,14 @@ export const deleteLoadBalancerPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancerPolicy",
+  iam: {
+    actions: ["elasticloadbalancing:DeleteLoadBalancerPolicy"],
+    resources: {
+      "elasticloadbalancing:DeleteLoadBalancerPolicy": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteLoadBalancerPolicy",
 }));
@@ -1120,6 +1198,14 @@ export const deregisterInstancesFromLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterInstancesFromLoadBalancer",
+  iam: {
+    actions: ["elasticloadbalancing:DeregisterInstancesFromLoadBalancer"],
+    resources: {
+      "elasticloadbalancing:DeregisterInstancesFromLoadBalancer": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterInstancesFromLoadBalancer",
 }));
@@ -1143,6 +1229,7 @@ export const describeAccountLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountLimits",
+  iam: { actions: ["elasticloadbalancing:DescribeAccountLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountLimits",
 }));
@@ -1166,6 +1253,7 @@ export const describeInstanceHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceHealth",
+  iam: { actions: ["elasticloadbalancing:DescribeInstanceHealth"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceHealth",
 }));
@@ -1189,6 +1277,7 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerAttributes",
+  iam: { actions: ["elasticloadbalancing:DescribeLoadBalancerAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancerAttributes",
 }));
@@ -1217,6 +1306,7 @@ export const describeLoadBalancerPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerPolicies",
+  iam: { actions: ["elasticloadbalancing:DescribeLoadBalancerPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancerPolicies",
 }));
@@ -1246,6 +1336,7 @@ export const describeLoadBalancerPolicyTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerPolicyTypes",
+  iam: { actions: ["elasticloadbalancing:DescribeLoadBalancerPolicyTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancerPolicyTypes",
 }));
@@ -1275,6 +1366,7 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
     outputToken: "NextMarker",
     items: "LoadBalancerDescriptions",
   } as const,
+  iam: { actions: ["elasticloadbalancing:DescribeLoadBalancers"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancers",
 })) as any;
@@ -1295,6 +1387,7 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
+  iam: { actions: ["elasticloadbalancing:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 }));
@@ -1322,6 +1415,14 @@ export const detachLoadBalancerFromSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancerFromSubnets",
+  iam: {
+    actions: ["elasticloadbalancing:DetachLoadBalancerFromSubnets"],
+    resources: {
+      "elasticloadbalancing:DetachLoadBalancerFromSubnets": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DetachLoadBalancerFromSubnets",
 }));
@@ -1356,6 +1457,14 @@ export const disableAvailabilityZonesForLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAvailabilityZonesForLoadBalancer",
+  iam: {
+    actions: ["elasticloadbalancing:DisableAvailabilityZonesForLoadBalancer"],
+    resources: {
+      "elasticloadbalancing:DisableAvailabilityZonesForLoadBalancer": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisableAvailabilityZonesForLoadBalancer",
 }));
@@ -1385,6 +1494,14 @@ export const enableAvailabilityZonesForLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAvailabilityZonesForLoadBalancer",
+  iam: {
+    actions: ["elasticloadbalancing:EnableAvailabilityZonesForLoadBalancer"],
+    resources: {
+      "elasticloadbalancing:EnableAvailabilityZonesForLoadBalancer": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableAvailabilityZonesForLoadBalancer",
 }));
@@ -1427,6 +1544,7 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLoadBalancerAttributes",
+  iam: { actions: ["elasticloadbalancing:ModifyLoadBalancerAttributes"] },
   telemetry: TELEMETRY,
   span: "ModifyLoadBalancerAttributes",
 }));
@@ -1468,6 +1586,14 @@ export const registerInstancesWithLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterInstancesWithLoadBalancer",
+  iam: {
+    actions: ["elasticloadbalancing:RegisterInstancesWithLoadBalancer"],
+    resources: {
+      "elasticloadbalancing:RegisterInstancesWithLoadBalancer": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterInstancesWithLoadBalancer",
 }));
@@ -1488,6 +1614,7 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
+  iam: { actions: ["elasticloadbalancing:RemoveTags"] },
   telemetry: TELEMETRY,
   span: "RemoveTags",
 }));
@@ -1524,6 +1651,14 @@ export const setLoadBalancerListenerSSLCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerListenerSSLCertificate",
+  iam: {
+    actions: ["elasticloadbalancing:SetLoadBalancerListenerSSLCertificate"],
+    resources: {
+      "elasticloadbalancing:SetLoadBalancerListenerSSLCertificate": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetLoadBalancerListenerSSLCertificate",
 }));
@@ -1564,6 +1699,14 @@ export const setLoadBalancerPoliciesForBackendServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerPoliciesForBackendServer",
+  iam: {
+    actions: ["elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer"],
+    resources: {
+      "elasticloadbalancing:SetLoadBalancerPoliciesForBackendServer": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetLoadBalancerPoliciesForBackendServer",
 }));
@@ -1602,6 +1745,14 @@ export const setLoadBalancerPoliciesOfListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLoadBalancerPoliciesOfListener",
+  iam: {
+    actions: ["elasticloadbalancing:SetLoadBalancerPoliciesOfListener"],
+    resources: {
+      "elasticloadbalancing:SetLoadBalancerPoliciesOfListener": [
+        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:loadbalancer/${LoadBalancerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetLoadBalancerPoliciesOfListener",
 }));

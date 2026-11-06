@@ -940,6 +940,7 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
+  iam: { actions: ["amplifyuibuilder:CreateComponent", "amplifyuibuilder:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreateComponent",
 }));
@@ -970,6 +971,7 @@ export const createForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateForm",
+  iam: { actions: ["amplifyuibuilder:CreateForm", "amplifyuibuilder:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreateForm",
 }));
@@ -1000,6 +1002,7 @@ export const createTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTheme",
+  iam: { actions: ["amplifyuibuilder:CreateTheme", "amplifyuibuilder:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreateTheme",
 }));
@@ -1024,6 +1027,14 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
+  iam: {
+    actions: ["amplifyuibuilder:DeleteComponent"],
+    resources: {
+      "amplifyuibuilder:DeleteComponent": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/components/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteComponent",
 }));
@@ -1048,6 +1059,14 @@ export const deleteForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForm",
+  iam: {
+    actions: ["amplifyuibuilder:DeleteForm"],
+    resources: {
+      "amplifyuibuilder:DeleteForm": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/forms/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteForm",
 }));
@@ -1072,6 +1091,14 @@ export const deleteTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTheme",
+  iam: {
+    actions: ["amplifyuibuilder:DeleteTheme"],
+    resources: {
+      "amplifyuibuilder:DeleteTheme": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/themes/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTheme",
 }));
@@ -1094,6 +1121,7 @@ export const exchangeCodeForToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExchangeCodeForToken",
+  iam: { actions: ["amplifyuibuilder:ExchangeCodeForToken"] },
   telemetry: TELEMETRY,
   span: "ExchangeCodeForToken",
 }));
@@ -1119,6 +1147,7 @@ export const exportComponents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportComponents",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  iam: { actions: ["amplifyuibuilder:ExportComponents"] },
   telemetry: TELEMETRY,
   span: "ExportComponents",
 })) as any;
@@ -1141,6 +1170,7 @@ export const exportForms: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportForms",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  iam: { actions: ["amplifyuibuilder:ExportForms"] },
   telemetry: TELEMETRY,
   span: "ExportForms",
 })) as any;
@@ -1163,6 +1193,7 @@ export const exportThemes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ExportThemes",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entities" } as const,
+  iam: { actions: ["amplifyuibuilder:ExportThemes"] },
   telemetry: TELEMETRY,
   span: "ExportThemes",
 })) as any;
@@ -1193,6 +1224,14 @@ export const getCodegenJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodegenJob",
+  iam: {
+    actions: ["amplifyuibuilder:GetCodegenJob"],
+    resources: {
+      "amplifyuibuilder:GetCodegenJob": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/codegen-jobs/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCodegenJob",
 }));
@@ -1217,6 +1256,14 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
+  iam: {
+    actions: ["amplifyuibuilder:GetComponent"],
+    resources: {
+      "amplifyuibuilder:GetComponent": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/components/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetComponent",
 }));
@@ -1241,6 +1288,14 @@ export const getForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetForm",
+  iam: {
+    actions: ["amplifyuibuilder:GetForm"],
+    resources: {
+      "amplifyuibuilder:GetForm": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/forms/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetForm",
 }));
@@ -1261,6 +1316,7 @@ export const getMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetadata",
+  iam: { actions: ["amplifyuibuilder:GetMetadata"] },
   telemetry: TELEMETRY,
   span: "GetMetadata",
 }));
@@ -1285,6 +1341,14 @@ export const getTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTheme",
+  iam: {
+    actions: ["amplifyuibuilder:GetTheme"],
+    resources: {
+      "amplifyuibuilder:GetTheme": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/themes/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTheme",
 }));
@@ -1316,6 +1380,7 @@ export const listCodegenJobs: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["amplifyuibuilder:ListCodegenJobs"] },
   telemetry: TELEMETRY,
   span: "ListCodegenJobs",
 })) as any;
@@ -1347,6 +1412,7 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["amplifyuibuilder:ListComponents"] },
   telemetry: TELEMETRY,
   span: "ListComponents",
 })) as any;
@@ -1374,6 +1440,7 @@ export const listForms: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["amplifyuibuilder:ListForms"] },
   telemetry: TELEMETRY,
   span: "ListForms",
 })) as any;
@@ -1406,6 +1473,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["amplifyuibuilder:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1434,6 +1502,7 @@ export const listThemes: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["amplifyuibuilder:ListThemes"] },
   telemetry: TELEMETRY,
   span: "ListThemes",
 })) as any;
@@ -1454,6 +1523,7 @@ export const putMetadataFlag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMetadataFlag",
+  iam: { actions: ["amplifyuibuilder:PutMetadataFlag"] },
   telemetry: TELEMETRY,
   span: "PutMetadataFlag",
 }));
@@ -1476,6 +1546,7 @@ export const refreshToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshToken",
+  iam: { actions: ["amplifyuibuilder:RefreshToken"] },
   telemetry: TELEMETRY,
   span: "RefreshToken",
 }));
@@ -1500,6 +1571,7 @@ export const startCodegenJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodegenJob",
+  iam: { actions: ["amplifyuibuilder:StartCodegenJob"] },
   telemetry: TELEMETRY,
   span: "StartCodegenJob",
 }));
@@ -1532,6 +1604,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["amplifyuibuilder:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1564,6 +1637,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["amplifyuibuilder:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1588,6 +1662,14 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
+  iam: {
+    actions: ["amplifyuibuilder:UpdateComponent"],
+    resources: {
+      "amplifyuibuilder:UpdateComponent": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/components/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateComponent",
 }));
@@ -1612,6 +1694,14 @@ export const updateForm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateForm",
+  iam: {
+    actions: ["amplifyuibuilder:UpdateForm"],
+    resources: {
+      "amplifyuibuilder:UpdateForm": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/forms/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateForm",
 }));
@@ -1636,6 +1726,14 @@ export const updateTheme: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTheme",
+  iam: {
+    actions: ["amplifyuibuilder:UpdateTheme"],
+    resources: {
+      "amplifyuibuilder:UpdateTheme": [
+        "arn:${Partition}:amplifyuibuilder:${Region}:${Account}:app/${AppId}/environment/${EnvironmentName}/themes/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTheme",
 }));

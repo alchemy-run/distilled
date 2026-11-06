@@ -1349,6 +1349,14 @@ export const batchGetNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetNamedQuery",
+  iam: {
+    actions: ["athena:BatchGetNamedQuery"],
+    resources: {
+      "athena:BatchGetNamedQuery": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetNamedQuery",
 }));
@@ -1376,6 +1384,14 @@ export const batchGetPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPreparedStatement",
+  iam: {
+    actions: ["athena:BatchGetPreparedStatement"],
+    resources: {
+      "athena:BatchGetPreparedStatement": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetPreparedStatement",
 }));
@@ -1404,6 +1420,14 @@ export const batchGetQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetQueryExecution",
+  iam: {
+    actions: ["athena:BatchGetQueryExecution"],
+    resources: {
+      "athena:BatchGetQueryExecution": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetQueryExecution",
 }));
@@ -1430,6 +1454,14 @@ export const cancelCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCapacityReservation",
+  iam: {
+    actions: ["athena:CancelCapacityReservation"],
+    resources: {
+      "athena:CancelCapacityReservation": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelCapacityReservation",
 }));
@@ -1454,6 +1486,21 @@ export const createCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityReservation",
+  iam: {
+    actions: ["athena:CreateCapacityReservation", "athena:TagResource"],
+    resources: {
+      "athena:CreateCapacityReservation": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+      ],
+      "athena:TagResource": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}/session/${SessionId}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+    conditional: { "athena:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCapacityReservation",
 }));
@@ -1493,6 +1540,21 @@ export const createDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataCatalog",
+  iam: {
+    actions: ["athena:CreateDataCatalog", "athena:TagResource"],
+    resources: {
+      "athena:CreateDataCatalog": [
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+      ],
+      "athena:TagResource": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}/session/${SessionId}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+    conditional: { "athena:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateDataCatalog",
 }));
@@ -1517,6 +1579,14 @@ export const createNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamedQuery",
+  iam: {
+    actions: ["athena:CreateNamedQuery"],
+    resources: {
+      "athena:CreateNamedQuery": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateNamedQuery",
 }));
@@ -1543,6 +1613,14 @@ export const createNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebook",
+  iam: {
+    actions: ["athena:CreateNotebook"],
+    resources: {
+      "athena:CreateNotebook": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateNotebook",
 }));
@@ -1566,6 +1644,14 @@ export const createPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePreparedStatement",
+  iam: {
+    actions: ["athena:CreatePreparedStatement"],
+    resources: {
+      "athena:CreatePreparedStatement": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePreparedStatement",
 }));
@@ -1594,6 +1680,14 @@ export const createPresignedNotebookUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedNotebookUrl",
+  iam: {
+    actions: ["athena:CreatePresignedNotebookUrl"],
+    resources: {
+      "athena:CreatePresignedNotebookUrl": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePresignedNotebookUrl",
 }));
@@ -1615,6 +1709,22 @@ export const createWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkGroup",
+  iam: {
+    actions: ["athena:CreateWorkGroup", "iam:PassRole", "athena:TagResource"],
+    resources: {
+      "athena:CreateWorkGroup": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "athena:TagResource": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}/session/${SessionId}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "Configuration.ExecutionRole", "athena:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkGroup",
 }));
@@ -1642,6 +1752,14 @@ export const deleteCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityReservation",
+  iam: {
+    actions: ["athena:DeleteCapacityReservation"],
+    resources: {
+      "athena:DeleteCapacityReservation": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCapacityReservation",
 }));
@@ -1666,6 +1784,14 @@ export const deleteDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataCatalog",
+  iam: {
+    actions: ["athena:DeleteDataCatalog"],
+    resources: {
+      "athena:DeleteDataCatalog": [
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataCatalog",
 }));
@@ -1691,6 +1817,14 @@ export const deleteNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamedQuery",
+  iam: {
+    actions: ["athena:DeleteNamedQuery"],
+    resources: {
+      "athena:DeleteNamedQuery": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNamedQuery",
 }));
@@ -1715,6 +1849,14 @@ export const deleteNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebook",
+  iam: {
+    actions: ["athena:DeleteNotebook"],
+    resources: {
+      "athena:DeleteNotebook": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteNotebook",
 }));
@@ -1746,6 +1888,14 @@ export const deletePreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePreparedStatement",
+  iam: {
+    actions: ["athena:DeletePreparedStatement"],
+    resources: {
+      "athena:DeletePreparedStatement": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePreparedStatement",
 }));
@@ -1767,6 +1917,14 @@ export const deleteWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkGroup",
+  iam: {
+    actions: ["athena:DeleteWorkGroup"],
+    resources: {
+      "athena:DeleteWorkGroup": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkGroup",
 }));
@@ -1791,6 +1949,14 @@ export const exportNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportNotebook",
+  iam: {
+    actions: ["athena:ExportNotebook"],
+    resources: {
+      "athena:ExportNotebook": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportNotebook",
 }));
@@ -1815,6 +1981,14 @@ export const getCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecution",
+  iam: {
+    actions: ["athena:GetCalculationExecution"],
+    resources: {
+      "athena:GetCalculationExecution": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCalculationExecution",
 }));
@@ -1839,6 +2013,14 @@ export const getCalculationExecutionCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecutionCode",
+  iam: {
+    actions: ["athena:GetCalculationExecutionCode"],
+    resources: {
+      "athena:GetCalculationExecutionCode": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCalculationExecutionCode",
 }));
@@ -1863,6 +2045,14 @@ export const getCalculationExecutionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalculationExecutionStatus",
+  iam: {
+    actions: ["athena:GetCalculationExecutionStatus"],
+    resources: {
+      "athena:GetCalculationExecutionStatus": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCalculationExecutionStatus",
 }));
@@ -1887,6 +2077,14 @@ export const getCapacityAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityAssignmentConfiguration",
+  iam: {
+    actions: ["athena:GetCapacityAssignmentConfiguration"],
+    resources: {
+      "athena:GetCapacityAssignmentConfiguration": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCapacityAssignmentConfiguration",
 }));
@@ -1910,6 +2108,14 @@ export const getCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityReservation",
+  iam: {
+    actions: ["athena:GetCapacityReservation"],
+    resources: {
+      "athena:GetCapacityReservation": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCapacityReservation",
 }));
@@ -1934,6 +2140,14 @@ export const getDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatabase",
+  iam: {
+    actions: ["athena:GetDatabase"],
+    resources: {
+      "athena:GetDatabase": [
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDatabase",
 }));
@@ -1958,6 +2172,14 @@ export const getDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataCatalog",
+  iam: {
+    actions: ["athena:GetDataCatalog"],
+    resources: {
+      "athena:GetDataCatalog": [
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDataCatalog",
 }));
@@ -1983,6 +2205,14 @@ export const getNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamedQuery",
+  iam: {
+    actions: ["athena:GetNamedQuery"],
+    resources: {
+      "athena:GetNamedQuery": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNamedQuery",
 }));
@@ -2007,6 +2237,14 @@ export const getNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotebookMetadata",
+  iam: {
+    actions: ["athena:GetNotebookMetadata"],
+    resources: {
+      "athena:GetNotebookMetadata": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetNotebookMetadata",
 }));
@@ -2038,6 +2276,14 @@ export const getPreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreparedStatement",
+  iam: {
+    actions: ["athena:GetPreparedStatement"],
+    resources: {
+      "athena:GetPreparedStatement": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPreparedStatement",
 }));
@@ -2063,6 +2309,14 @@ export const getQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryExecution",
+  iam: {
+    actions: ["athena:GetQueryExecution"],
+    resources: {
+      "athena:GetQueryExecution": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueryExecution",
 }));
@@ -2108,6 +2362,14 @@ export const getQueryResults: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:GetQueryResults"],
+    resources: {
+      "athena:GetQueryResults": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueryResults",
 })) as any;
@@ -2137,6 +2399,14 @@ export const getQueryRuntimeStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryRuntimeStatistics",
+  iam: {
+    actions: ["athena:GetQueryRuntimeStatistics"],
+    resources: {
+      "athena:GetQueryRuntimeStatistics": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetQueryRuntimeStatistics",
 }));
@@ -2161,6 +2431,7 @@ export const getResourceDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDashboard",
+  iam: { actions: ["athena:GetResourceDashboard"] },
   telemetry: TELEMETRY,
   span: "GetResourceDashboard",
 }));
@@ -2186,6 +2457,7 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  iam: { actions: ["athena:GetSession"] },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -2210,6 +2482,7 @@ export const getSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionEndpoint",
+  iam: { actions: ["athena:GetSessionEndpoint"] },
   telemetry: TELEMETRY,
   span: "GetSessionEndpoint",
 }));
@@ -2234,6 +2507,7 @@ export const getSessionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSessionStatus",
+  iam: { actions: ["athena:GetSessionStatus"] },
   telemetry: TELEMETRY,
   span: "GetSessionStatus",
 }));
@@ -2258,6 +2532,14 @@ export const getTableMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMetadata",
+  iam: {
+    actions: ["athena:GetTableMetadata"],
+    resources: {
+      "athena:GetTableMetadata": [
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTableMetadata",
 }));
@@ -2282,6 +2564,14 @@ export const getWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkGroup",
+  iam: {
+    actions: ["athena:GetWorkGroup"],
+    resources: {
+      "athena:GetWorkGroup": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkGroup",
 }));
@@ -2311,6 +2601,14 @@ export const importNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportNotebook",
+  iam: {
+    actions: ["athena:ImportNotebook"],
+    resources: {
+      "athena:ImportNotebook": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ImportNotebook",
 }));
@@ -2342,6 +2640,7 @@ export const listApplicationDPUSizes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["athena:ListApplicationDPUSizes"] },
   telemetry: TELEMETRY,
   span: "ListApplicationDPUSizes",
 })) as any;
@@ -2373,6 +2672,14 @@ export const listCalculationExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:ListCalculationExecutions"],
+    resources: {
+      "athena:ListCalculationExecutions": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCalculationExecutions",
 })) as any;
@@ -2402,6 +2709,7 @@ export const listCapacityReservations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["athena:ListCapacityReservations"] },
   telemetry: TELEMETRY,
   span: "ListCapacityReservations",
 })) as any;
@@ -2433,6 +2741,14 @@ export const listDatabases: API.PaginatedOperationMethod<
     items: "DatabaseList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:ListDatabases"],
+    resources: {
+      "athena:ListDatabases": [
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDatabases",
 })) as any;
@@ -2466,6 +2782,7 @@ export const listDataCatalogs: API.PaginatedOperationMethod<
     items: "DataCatalogsSummary",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["athena:ListDataCatalogs"] },
   telemetry: TELEMETRY,
   span: "ListDataCatalogs",
 })) as any;
@@ -2496,6 +2813,7 @@ export const listEngineVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["athena:ListEngineVersions"] },
   telemetry: TELEMETRY,
   span: "ListEngineVersions",
 })) as any;
@@ -2528,6 +2846,7 @@ export const listExecutors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["athena:ListExecutors"] },
   telemetry: TELEMETRY,
   span: "ListExecutors",
 })) as any;
@@ -2559,6 +2878,14 @@ export const listNamedQueries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:ListNamedQueries"],
+    resources: {
+      "athena:ListNamedQueries": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNamedQueries",
 })) as any;
@@ -2583,6 +2910,14 @@ export const listNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookMetadata",
+  iam: {
+    actions: ["athena:ListNotebookMetadata"],
+    resources: {
+      "athena:ListNotebookMetadata": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNotebookMetadata",
 }));
@@ -2610,6 +2945,14 @@ export const listNotebookSessions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListNotebookSessions",
+  iam: {
+    actions: ["athena:ListNotebookSessions"],
+    resources: {
+      "athena:ListNotebookSessions": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListNotebookSessions",
 }));
@@ -2639,6 +2982,14 @@ export const listPreparedStatements: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:ListPreparedStatements"],
+    resources: {
+      "athena:ListPreparedStatements": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPreparedStatements",
 })) as any;
@@ -2671,6 +3022,14 @@ export const listQueryExecutions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:ListQueryExecutions"],
+    resources: {
+      "athena:ListQueryExecutions": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListQueryExecutions",
 })) as any;
@@ -2704,6 +3063,14 @@ export const listSessions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:ListSessions"],
+    resources: {
+      "athena:ListSessions": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -2735,6 +3102,14 @@ export const listTableMetadata: API.PaginatedOperationMethod<
     items: "TableMetadataList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:ListTableMetadata"],
+    resources: {
+      "athena:ListTableMetadata": [
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTableMetadata",
 })) as any;
@@ -2766,6 +3141,17 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["athena:ListTagsForResource"],
+    resources: {
+      "athena:ListTagsForResource": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}/session/${SessionId}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -2792,6 +3178,7 @@ export const listWorkGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["athena:ListWorkGroups"] },
   telemetry: TELEMETRY,
   span: "ListWorkGroups",
 })) as any;
@@ -2817,6 +3204,15 @@ export const putCapacityAssignmentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCapacityAssignmentConfiguration",
+  iam: {
+    actions: ["athena:PutCapacityAssignmentConfiguration"],
+    resources: {
+      "athena:PutCapacityAssignmentConfiguration": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutCapacityAssignmentConfiguration",
 }));
@@ -2847,6 +3243,14 @@ export const startCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCalculationExecution",
+  iam: {
+    actions: ["athena:StartCalculationExecution"],
+    resources: {
+      "athena:StartCalculationExecution": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartCalculationExecution",
 }));
@@ -2876,6 +3280,14 @@ export const startQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryExecution",
+  iam: {
+    actions: ["athena:StartQueryExecution"],
+    resources: {
+      "athena:StartQueryExecution": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartQueryExecution",
 }));
@@ -2909,6 +3321,30 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
+  iam: {
+    actions: [
+      "athena:ListTagsForResource",
+      "iam:PassRole",
+      "athena:StartSession",
+      "athena:TagResource",
+    ],
+    resources: {
+      "athena:ListTagsForResource": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}/session/${SessionId}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "athena:TagResource": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}/session/${SessionId}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ExecutionRole", "athena:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartSession",
 }));
@@ -2941,6 +3377,14 @@ export const stopCalculationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCalculationExecution",
+  iam: {
+    actions: ["athena:StopCalculationExecution"],
+    resources: {
+      "athena:StopCalculationExecution": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopCalculationExecution",
 }));
@@ -2965,6 +3409,14 @@ export const stopQueryExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryExecution",
+  iam: {
+    actions: ["athena:StopQueryExecution"],
+    resources: {
+      "athena:StopQueryExecution": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopQueryExecution",
 }));
@@ -2999,6 +3451,17 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["athena:TagResource"],
+    resources: {
+      "athena:TagResource": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}/session/${SessionId}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3027,6 +3490,7 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
+  iam: { actions: ["athena:TerminateSession"] },
   telemetry: TELEMETRY,
   span: "TerminateSession",
 }));
@@ -3051,6 +3515,17 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["athena:UntagResource"],
+    resources: {
+      "athena:UntagResource": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}/session/${SessionId}",
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3075,6 +3550,14 @@ export const updateCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityReservation",
+  iam: {
+    actions: ["athena:UpdateCapacityReservation"],
+    resources: {
+      "athena:UpdateCapacityReservation": [
+        "arn:${Partition}:athena:${Region}:${Account}:capacity-reservation/${CapacityReservationName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCapacityReservation",
 }));
@@ -3099,6 +3582,14 @@ export const updateDataCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataCatalog",
+  iam: {
+    actions: ["athena:UpdateDataCatalog"],
+    resources: {
+      "athena:UpdateDataCatalog": [
+        "arn:${Partition}:athena:${Region}:${Account}:datacatalog/${DataCatalogName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateDataCatalog",
 }));
@@ -3124,6 +3615,14 @@ export const updateNamedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNamedQuery",
+  iam: {
+    actions: ["athena:UpdateNamedQuery"],
+    resources: {
+      "athena:UpdateNamedQuery": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNamedQuery",
 }));
@@ -3148,6 +3647,14 @@ export const updateNotebook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebook",
+  iam: {
+    actions: ["athena:UpdateNotebook"],
+    resources: {
+      "athena:UpdateNotebook": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNotebook",
 }));
@@ -3172,6 +3679,14 @@ export const updateNotebookMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebookMetadata",
+  iam: {
+    actions: ["athena:UpdateNotebookMetadata"],
+    resources: {
+      "athena:UpdateNotebookMetadata": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateNotebookMetadata",
 }));
@@ -3196,6 +3711,14 @@ export const updatePreparedStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreparedStatement",
+  iam: {
+    actions: ["athena:UpdatePreparedStatement"],
+    resources: {
+      "athena:UpdatePreparedStatement": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePreparedStatement",
 }));
@@ -3221,6 +3744,16 @@ export const updateWorkGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkGroup",
+  iam: {
+    actions: ["iam:PassRole", "athena:UpdateWorkGroup"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "athena:UpdateWorkGroup": [
+        "arn:${Partition}:athena:${Region}:${Account}:workgroup/${WorkGroupName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "ConfigurationUpdates.ExecutionRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkGroup",
 }));

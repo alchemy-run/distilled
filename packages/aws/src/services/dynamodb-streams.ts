@@ -400,12 +400,14 @@ export type ShardIteratorType =
   | "LATEST"
   | "AT_SEQUENCE_NUMBER"
   | "AFTER_SEQUENCE_NUMBER"
+  | "AT_TIMESTAMP"
   | (string & {});
 export interface GetShardIteratorInput {
   StreamArn: string;
   ShardId: string;
   ShardIteratorType: ShardIteratorType;
   SequenceNumber?: string;
+  Timestamp?: Date;
 }
 export interface GetShardIteratorOutput {
   ShardIterator?: string;
@@ -450,6 +452,17 @@ export const describeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStream",
+  iam: {
+    actions: ["dynamodb:DescribeStream", "dynamodb:ReadDataForReplication"],
+    resources: {
+      "dynamodb:DescribeStream": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+      ],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeStream",
 }));
@@ -491,6 +504,17 @@ export const getRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecords",
+  iam: {
+    actions: ["dynamodb:GetRecords", "dynamodb:ReadDataForReplication"],
+    resources: {
+      "dynamodb:GetRecords": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+      ],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecords",
 }));
@@ -521,6 +545,17 @@ export const getShardIterator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetShardIterator",
+  iam: {
+    actions: ["dynamodb:GetShardIterator", "dynamodb:ReadDataForReplication"],
+    resources: {
+      "dynamodb:GetShardIterator": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}/stream/${StreamLabel}",
+      ],
+      "dynamodb:ReadDataForReplication": [
+        "arn:${Partition}:dynamodb:${Region}:${Account}:table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetShardIterator",
 }));
@@ -545,6 +580,7 @@ export const listStreams: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStreams",
+  iam: { actions: ["dynamodb:ListStreams"] },
   telemetry: TELEMETRY,
   span: "ListStreams",
 }));
@@ -707,6 +743,7 @@ function __c2(j: number): any {
           ShardId: S.String,
           ShardIteratorType: S.String,
           SequenceNumber: S.optional(S.String),
+          Timestamp: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }).pipe(T.all(ns, T.Http({ method: "POST", uri: "/" }), svc, auth, proto, ver, rules)),
       ).annotate({ identifier: "GetShardIteratorInput" });
     case 1:

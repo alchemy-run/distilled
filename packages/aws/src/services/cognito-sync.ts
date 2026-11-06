@@ -470,6 +470,14 @@ export const bulkPublish: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BulkPublish",
+  iam: {
+    actions: ["cognito-sync:BulkPublish"],
+    resources: {
+      "cognito-sync:BulkPublish": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BulkPublish",
 }));
@@ -509,6 +517,14 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
+  iam: {
+    actions: ["cognito-sync:DeleteDataset"],
+    resources: {
+      "cognito-sync:DeleteDataset": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}/dataset/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -545,6 +561,14 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
+  iam: {
+    actions: ["cognito-sync:DescribeDataset"],
+    resources: {
+      "cognito-sync:DescribeDataset": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}/dataset/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeDataset",
 }));
@@ -620,6 +644,14 @@ export const describeIdentityPoolUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityPoolUsage",
+  iam: {
+    actions: ["cognito-sync:DescribeIdentityPoolUsage"],
+    resources: {
+      "cognito-sync:DescribeIdentityPoolUsage": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIdentityPoolUsage",
 }));
@@ -697,6 +729,14 @@ export const describeIdentityUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityUsage",
+  iam: {
+    actions: ["cognito-sync:DescribeIdentityUsage"],
+    resources: {
+      "cognito-sync:DescribeIdentityUsage": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeIdentityUsage",
 }));
@@ -729,6 +769,14 @@ export const getBulkPublishDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBulkPublishDetails",
+  iam: {
+    actions: ["cognito-sync:GetBulkPublishDetails"],
+    resources: {
+      "cognito-sync:GetBulkPublishDetails": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetBulkPublishDetails",
 }));
@@ -763,6 +811,14 @@ export const getCognitoEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCognitoEvents",
+  iam: {
+    actions: ["cognito-sync:GetCognitoEvents"],
+    resources: {
+      "cognito-sync:GetCognitoEvents": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCognitoEvents",
 }));
@@ -837,6 +893,14 @@ export const getIdentityPoolConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPoolConfiguration",
+  iam: {
+    actions: ["cognito-sync:GetIdentityPoolConfiguration"],
+    resources: {
+      "cognito-sync:GetIdentityPoolConfiguration": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIdentityPoolConfiguration",
 }));
@@ -921,6 +985,14 @@ export const listDatasets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDatasets",
+  iam: {
+    actions: ["cognito-sync:ListDatasets"],
+    resources: {
+      "cognito-sync:ListDatasets": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}/dataset/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 }));
@@ -1005,6 +1077,14 @@ export const listIdentityPoolUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentityPoolUsage",
+  iam: {
+    actions: ["cognito-sync:ListIdentityPoolUsage"],
+    resources: {
+      "cognito-sync:ListIdentityPoolUsage": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListIdentityPoolUsage",
 }));
@@ -1086,6 +1166,14 @@ export const listRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecords",
+  iam: {
+    actions: ["cognito-sync:ListRecords"],
+    resources: {
+      "cognito-sync:ListRecords": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}/dataset/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRecords",
 }));
@@ -1161,6 +1249,14 @@ export const registerDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDevice",
+  iam: {
+    actions: ["cognito-sync:RegisterDevice"],
+    resources: {
+      "cognito-sync:RegisterDevice": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterDevice",
 }));
@@ -1195,6 +1291,14 @@ export const setCognitoEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetCognitoEvents",
+  iam: {
+    actions: ["cognito-sync:SetCognitoEvents"],
+    resources: {
+      "cognito-sync:SetCognitoEvents": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetCognitoEvents",
 }));
@@ -1276,6 +1380,16 @@ export const setIdentityPoolConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityPoolConfiguration",
+  iam: {
+    actions: ["iam:PassRole", "cognito-sync:SetIdentityPoolConfiguration"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "cognito-sync:SetIdentityPoolConfiguration": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "PushSync.RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "SetIdentityPoolConfiguration",
 }));
@@ -1350,6 +1464,14 @@ export const subscribeToDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToDataset",
+  iam: {
+    actions: ["cognito-sync:SubscribeToDataset"],
+    resources: {
+      "cognito-sync:SubscribeToDataset": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}/dataset/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SubscribeToDataset",
 }));
@@ -1425,6 +1547,14 @@ export const unsubscribeFromDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnsubscribeFromDataset",
+  iam: {
+    actions: ["cognito-sync:UnsubscribeFromDataset"],
+    resources: {
+      "cognito-sync:UnsubscribeFromDataset": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}/dataset/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UnsubscribeFromDataset",
 }));
@@ -1471,6 +1601,14 @@ export const updateRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecords",
+  iam: {
+    actions: ["cognito-sync:UpdateRecords"],
+    resources: {
+      "cognito-sync:UpdateRecords": [
+        "arn:${Partition}:cognito-sync:${Region}:${Account}:identitypool/${IdentityPoolId}/identity/${IdentityId}/dataset/${DatasetName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRecords",
 }));

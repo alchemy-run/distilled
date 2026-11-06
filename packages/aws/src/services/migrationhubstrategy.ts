@@ -754,6 +754,7 @@ export const getApplicationComponentDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationComponentDetails",
+  iam: { actions: ["migrationhub-strategy:GetApplicationComponentDetails"] },
   telemetry: TELEMETRY,
   span: "GetApplicationComponentDetails",
 }));
@@ -779,6 +780,7 @@ export const getApplicationComponentStrategies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationComponentStrategies",
+  iam: { actions: ["migrationhub-strategy:GetApplicationComponentStrategies"] },
   telemetry: TELEMETRY,
   span: "GetApplicationComponentStrategies",
 }));
@@ -809,6 +811,7 @@ export const getAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessment",
+  iam: { actions: ["migrationhub-strategy:GetAssessment"] },
   telemetry: TELEMETRY,
   span: "GetAssessment",
 }));
@@ -841,6 +844,7 @@ export const getImportFileTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportFileTask",
+  iam: { actions: ["migrationhub-strategy:GetImportFileTask"] },
   telemetry: TELEMETRY,
   span: "GetImportFileTask",
 }));
@@ -871,6 +875,7 @@ export const getLatestAssessmentId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLatestAssessmentId",
+  iam: { actions: ["migrationhub-strategy:GetLatestAssessmentId"] },
   telemetry: TELEMETRY,
   span: "GetLatestAssessmentId",
 }));
@@ -901,6 +906,7 @@ export const getPortfolioPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortfolioPreferences",
+  iam: { actions: ["migrationhub-strategy:GetPortfolioPreferences"] },
   telemetry: TELEMETRY,
   span: "GetPortfolioPreferences",
 }));
@@ -926,6 +932,7 @@ export const getPortfolioSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPortfolioSummary",
+  iam: { actions: ["migrationhub-strategy:GetPortfolioSummary"] },
   telemetry: TELEMETRY,
   span: "GetPortfolioSummary",
 }));
@@ -958,6 +965,7 @@ export const getRecommendationReportDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendationReportDetails",
+  iam: { actions: ["migrationhub-strategy:GetRecommendationReportDetails"] },
   telemetry: TELEMETRY,
   span: "GetRecommendationReportDetails",
 }));
@@ -997,6 +1005,7 @@ export const getServerDetails: API.PaginatedOperationMethod<
     items: "associatedApplications",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-strategy:GetServerDetails"] },
   telemetry: TELEMETRY,
   span: "GetServerDetails",
 })) as any;
@@ -1029,6 +1038,7 @@ export const getServerStrategies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServerStrategies",
+  iam: { actions: ["migrationhub-strategy:GetServerStrategies"] },
   telemetry: TELEMETRY,
   span: "GetServerStrategies",
 }));
@@ -1066,6 +1076,7 @@ export const listAnalyzableServers: API.PaginatedOperationMethod<
     items: "analyzableServers",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-strategy:ListAnalyzableServers"] },
   telemetry: TELEMETRY,
   span: "ListAnalyzableServers",
 })) as any;
@@ -1103,6 +1114,7 @@ export const listApplicationComponents: API.PaginatedOperationMethod<
     items: "applicationComponentInfos",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-strategy:ListApplicationComponents"] },
   telemetry: TELEMETRY,
   span: "ListApplicationComponents",
 })) as any;
@@ -1140,6 +1152,7 @@ export const listCollectors: API.PaginatedOperationMethod<
     items: "Collectors",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-strategy:ListCollectors"] },
   telemetry: TELEMETRY,
   span: "ListCollectors",
 })) as any;
@@ -1177,6 +1190,7 @@ export const listImportFileTask: API.PaginatedOperationMethod<
     items: "taskInfos",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-strategy:ListImportFileTask"] },
   telemetry: TELEMETRY,
   span: "ListImportFileTask",
 })) as any;
@@ -1214,6 +1228,7 @@ export const listServers: API.PaginatedOperationMethod<
     items: "serverInfos",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["migrationhub-strategy:ListServers"] },
   telemetry: TELEMETRY,
   span: "ListServers",
 })) as any;
@@ -1246,6 +1261,7 @@ export const putPortfolioPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPortfolioPreferences",
+  iam: { actions: ["migrationhub-strategy:PutPortfolioPreferences"] },
   telemetry: TELEMETRY,
   span: "PutPortfolioPreferences",
 }));
@@ -1276,6 +1292,7 @@ export const startAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssessment",
+  iam: { actions: ["migrationhub-strategy:StartAssessment"] },
   telemetry: TELEMETRY,
   span: "StartAssessment",
 }));
@@ -1308,6 +1325,7 @@ export const startImportFileTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportFileTask",
+  iam: { actions: ["migrationhub-strategy:StartImportFileTask"] },
   telemetry: TELEMETRY,
   span: "StartImportFileTask",
 }));
@@ -1340,6 +1358,7 @@ export const startRecommendationReportGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendationReportGeneration",
+  iam: { actions: ["migrationhub-strategy:StartRecommendationReportGeneration"] },
   telemetry: TELEMETRY,
   span: "StartRecommendationReportGeneration",
 }));
@@ -1370,6 +1389,7 @@ export const stopAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAssessment",
+  iam: { actions: ["migrationhub-strategy:StopAssessment"] },
   telemetry: TELEMETRY,
   span: "StopAssessment",
 }));
@@ -1400,6 +1420,7 @@ export const updateApplicationComponentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationComponentConfig",
+  iam: { actions: ["migrationhub-strategy:UpdateApplicationComponentConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateApplicationComponentConfig",
 }));
@@ -1430,6 +1451,7 @@ export const updateServerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServerConfig",
+  iam: { actions: ["migrationhub-strategy:UpdateServerConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateServerConfig",
 }));

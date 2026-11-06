@@ -459,6 +459,7 @@ export const batchGetTokenBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTokenBalance",
+  iam: { actions: ["managedblockchain-query:BatchGetTokenBalance"] },
   telemetry: TELEMETRY,
   span: "BatchGetTokenBalance",
 }));
@@ -499,6 +500,7 @@ export const getAssetContract: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssetContract",
+  iam: { actions: ["managedblockchain-query:GetAssetContract"] },
   telemetry: TELEMETRY,
   span: "GetAssetContract",
 }));
@@ -536,6 +538,7 @@ export const getTokenBalance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokenBalance",
+  iam: { actions: ["managedblockchain-query:GetTokenBalance"] },
   telemetry: TELEMETRY,
   span: "GetTokenBalance",
 }));
@@ -574,6 +577,7 @@ export const getTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTransaction",
+  iam: { actions: ["managedblockchain-query:GetTransaction"] },
   telemetry: TELEMETRY,
   span: "GetTransaction",
 }));
@@ -617,6 +621,7 @@ export const listAssetContracts: API.PaginatedOperationMethod<
     items: "contracts",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["managedblockchain-query:ListAssetContracts"] },
   telemetry: TELEMETRY,
   span: "ListAssetContracts",
 })) as any;
@@ -658,6 +663,7 @@ export const listFilteredTransactionEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["managedblockchain-query:ListFilteredTransactionEvents"] },
   telemetry: TELEMETRY,
   span: "ListFilteredTransactionEvents",
 })) as any;
@@ -707,6 +713,7 @@ export const listTokenBalances: API.PaginatedOperationMethod<
     items: "tokenBalances",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["managedblockchain-query:ListTokenBalances"] },
   telemetry: TELEMETRY,
   span: "ListTokenBalances",
 })) as any;
@@ -750,6 +757,7 @@ export const listTransactionEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["managedblockchain-query:ListTransactionEvents"] },
   telemetry: TELEMETRY,
   span: "ListTransactionEvents",
 })) as any;
@@ -789,6 +797,7 @@ export const listTransactions: API.PaginatedOperationMethod<
     items: "transactions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["managedblockchain-query:ListTransactions"] },
   telemetry: TELEMETRY,
   span: "ListTransactions",
 })) as any;

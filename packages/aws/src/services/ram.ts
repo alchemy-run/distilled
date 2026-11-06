@@ -973,6 +973,14 @@ export const acceptResourceShareInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptResourceShareInvitation",
+  iam: {
+    actions: ["ram:AcceptResourceShareInvitation"],
+    resources: {
+      "ram:AcceptResourceShareInvitation": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share-invitation/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AcceptResourceShareInvitation",
 }));
@@ -1019,6 +1027,14 @@ export const associateResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceShare",
+  iam: {
+    actions: ["ram:AssociateResourceShare"],
+    resources: {
+      "ram:AssociateResourceShare": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateResourceShare",
 }));
@@ -1058,6 +1074,16 @@ export const associateResourceSharePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourceSharePermission",
+  iam: {
+    actions: ["ram:AssociateResourceSharePermission"],
+    resources: {
+      "ram:AssociateResourceSharePermission": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+        "arn:${Partition}:ram::${Account}:permission/${ResourcePath}",
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateResourceSharePermission",
 }));
@@ -1101,6 +1127,10 @@ export const createPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermission",
+  iam: {
+    actions: ["ram:CreatePermission", "ram:TagResource"],
+    conditional: { "ram:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePermission",
 }));
@@ -1149,6 +1179,14 @@ export const createPermissionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermissionVersion",
+  iam: {
+    actions: ["ram:CreatePermissionVersion"],
+    resources: {
+      "ram:CreatePermissionVersion": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreatePermissionVersion",
 }));
@@ -1203,6 +1241,10 @@ export const createResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceShare",
+  iam: {
+    actions: ["ram:CreateResourceShare", "ram:TagResource"],
+    conditional: { "ram:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateResourceShare",
 }));
@@ -1241,6 +1283,14 @@ export const deletePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermission",
+  iam: {
+    actions: ["ram:DeletePermission"],
+    resources: {
+      "ram:DeletePermission": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePermission",
 }));
@@ -1283,6 +1333,14 @@ export const deletePermissionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermissionVersion",
+  iam: {
+    actions: ["ram:DeletePermissionVersion"],
+    resources: {
+      "ram:DeletePermissionVersion": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePermissionVersion",
 }));
@@ -1328,6 +1386,14 @@ export const deleteResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceShare",
+  iam: {
+    actions: ["ram:DeleteResourceShare"],
+    resources: {
+      "ram:DeleteResourceShare": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResourceShare",
 }));
@@ -1373,6 +1439,14 @@ export const disassociateResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceShare",
+  iam: {
+    actions: ["ram:DisassociateResourceShare"],
+    resources: {
+      "ram:DisassociateResourceShare": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateResourceShare",
 }));
@@ -1413,6 +1487,16 @@ export const disassociateResourceSharePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourceSharePermission",
+  iam: {
+    actions: ["ram:DisassociateResourceSharePermission"],
+    resources: {
+      "ram:DisassociateResourceSharePermission": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+        "arn:${Partition}:ram::${Account}:permission/${ResourcePath}",
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateResourceSharePermission",
 }));
@@ -1447,6 +1531,7 @@ export const enableSharingWithAwsOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSharingWithAwsOrganization",
+  iam: { actions: ["ram:EnableSharingWithAwsOrganization"] },
   telemetry: TELEMETRY,
   span: "EnableSharingWithAwsOrganization",
 }));
@@ -1481,6 +1566,7 @@ export const getPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPermission",
+  iam: { actions: ["ram:GetPermission"] },
   telemetry: TELEMETRY,
   span: "GetPermission",
 }));
@@ -1528,6 +1614,7 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:GetResourcePolicies"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicies",
 })) as any;
@@ -1577,6 +1664,7 @@ export const getResourceShareAssociations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:GetResourceShareAssociations"] },
   telemetry: TELEMETRY,
   span: "GetResourceShareAssociations",
 })) as any;
@@ -1627,6 +1715,7 @@ export const getResourceShareInvitations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:GetResourceShareInvitations"] },
   telemetry: TELEMETRY,
   span: "GetResourceShareInvitations",
 })) as any;
@@ -1673,6 +1762,7 @@ export const getResourceShares: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:GetResourceShares"] },
   telemetry: TELEMETRY,
   span: "GetResourceShares",
 })) as any;
@@ -1727,6 +1817,14 @@ export const listPendingInvitationResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ram:ListPendingInvitationResources"],
+    resources: {
+      "ram:ListPendingInvitationResources": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share-invitation/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPendingInvitationResources",
 })) as any;
@@ -1773,6 +1871,15 @@ export const listPermissionAssociations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ram:ListPermissionAssociations"],
+    resources: {
+      "ram:ListPermissionAssociations": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+        "arn:${Partition}:ram::${Account}:permission/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPermissionAssociations",
 })) as any;
@@ -1818,6 +1925,7 @@ export const listPermissions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:ListPermissions"] },
   telemetry: TELEMETRY,
   span: "ListPermissions",
 })) as any;
@@ -1866,6 +1974,7 @@ export const listPermissionVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:ListPermissionVersions"] },
   telemetry: TELEMETRY,
   span: "ListPermissionVersions",
 })) as any;
@@ -1913,6 +2022,7 @@ export const listPrincipals: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:ListPrincipals"] },
   telemetry: TELEMETRY,
   span: "ListPrincipals",
 })) as any;
@@ -1956,6 +2066,7 @@ export const listReplacePermissionAssociationsWork: API.PaginatedOperationMethod
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:ListReplacePermissionAssociationsWork"] },
   telemetry: TELEMETRY,
   span: "ListReplacePermissionAssociationsWork",
 })) as any;
@@ -2005,6 +2116,7 @@ export const listResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:ListResources"] },
   telemetry: TELEMETRY,
   span: "ListResources",
 })) as any;
@@ -2053,6 +2165,14 @@ export const listResourceSharePermissions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["ram:ListResourceSharePermissions"],
+    resources: {
+      "ram:ListResourceSharePermissions": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListResourceSharePermissions",
 })) as any;
@@ -2089,6 +2209,7 @@ export const listResourceTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:ListResourceTypes"] },
   telemetry: TELEMETRY,
   span: "ListResourceTypes",
 })) as any;
@@ -2132,6 +2253,7 @@ export const listSourceAssociations: API.PaginatedOperationMethod<
     items: "sourceAssociations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["ram:ListSourceAssociations"] },
   telemetry: TELEMETRY,
   span: "ListSourceAssociations",
 })) as any;
@@ -2196,6 +2318,14 @@ export const promotePermissionCreatedFromPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PromotePermissionCreatedFromPolicy",
+  iam: {
+    actions: ["ram:PromotePermissionCreatedFromPolicy"],
+    resources: {
+      "ram:PromotePermissionCreatedFromPolicy": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PromotePermissionCreatedFromPolicy",
 }));
@@ -2251,6 +2381,14 @@ export const promoteResourceShareCreatedFromPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PromoteResourceShareCreatedFromPolicy",
+  iam: {
+    actions: ["ram:PromoteResourceShareCreatedFromPolicy"],
+    resources: {
+      "ram:PromoteResourceShareCreatedFromPolicy": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PromoteResourceShareCreatedFromPolicy",
 }));
@@ -2293,6 +2431,14 @@ export const rejectResourceShareInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectResourceShareInvitation",
+  iam: {
+    actions: ["ram:RejectResourceShareInvitation"],
+    resources: {
+      "ram:RejectResourceShareInvitation": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share-invitation/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RejectResourceShareInvitation",
 }));
@@ -2346,6 +2492,15 @@ export const replacePermissionAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplacePermissionAssociations",
+  iam: {
+    actions: ["ram:ReplacePermissionAssociations"],
+    resources: {
+      "ram:ReplacePermissionAssociations": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+        "arn:${Partition}:ram::${Account}:permission/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ReplacePermissionAssociations",
 }));
@@ -2384,6 +2539,14 @@ export const setDefaultPermissionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDefaultPermissionVersion",
+  iam: {
+    actions: ["ram:SetDefaultPermissionVersion"],
+    resources: {
+      "ram:SetDefaultPermissionVersion": [
+        "arn:${Partition}:ram:${Region}:${Account}:permission/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SetDefaultPermissionVersion",
 }));
@@ -2425,6 +2588,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["ram:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2457,6 +2621,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["ram:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2497,6 +2662,14 @@ export const updateResourceShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceShare",
+  iam: {
+    actions: ["ram:UpdateResourceShare"],
+    resources: {
+      "ram:UpdateResourceShare": [
+        "arn:${Partition}:ram:${Region}:${Account}:resource-share/${ResourcePath}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResourceShare",
 }));

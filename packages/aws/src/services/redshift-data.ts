@@ -229,6 +229,7 @@ export interface SubStatementData {
   ResultRows?: number;
   ResultSize?: number;
   RedshiftQueryId?: number;
+  RedshiftQueryUuid?: string;
   HasResultSet?: boolean;
 }
 export type SubStatementList = SubStatementData[];
@@ -249,6 +250,7 @@ export interface DescribeStatementResponse {
   ResultRows?: number;
   ResultSize?: number;
   RedshiftQueryId?: number;
+  RedshiftQueryUuid?: string;
   QueryParameters?: SqlParameter[];
   SubStatements?: SubStatementData[];
   WorkgroupName?: string;
@@ -552,6 +554,7 @@ export const batchExecuteStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
+  iam: { actions: ["redshift-data:BatchExecuteStatement"] },
   telemetry: TELEMETRY,
   span: "BatchExecuteStatement",
 }));
@@ -586,6 +589,7 @@ export const cancelStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelStatement",
+  iam: { actions: ["redshift-data:CancelStatement"] },
   telemetry: TELEMETRY,
   span: "CancelStatement",
 }));
@@ -618,6 +622,7 @@ export const describeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStatement",
+  iam: { actions: ["redshift-data:DescribeStatement"] },
   telemetry: TELEMETRY,
   span: "DescribeStatement",
 }));
@@ -669,6 +674,15 @@ export const describeTable: API.PaginatedOperationMethod<
     items: "ColumnList",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["redshift-data:DescribeTable"],
+    resources: {
+      "redshift-data:DescribeTable": [
+        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTable",
 })) as any;
@@ -715,6 +729,7 @@ export const executeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
+  iam: { actions: ["redshift-data:ExecuteStatement"] },
   telemetry: TELEMETRY,
   span: "ExecuteStatement",
 }));
@@ -749,6 +764,7 @@ export const getStatementResult: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetStatementResult",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Records" } as const,
+  iam: { actions: ["redshift-data:GetStatementResult"] },
   telemetry: TELEMETRY,
   span: "GetStatementResult",
 })) as any;
@@ -783,6 +799,7 @@ export const getStatementResultV2: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetStatementResultV2",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Records" } as const,
+  iam: { actions: ["redshift-data:GetStatementResult"] },
   telemetry: TELEMETRY,
   span: "GetStatementResultV2",
 })) as any;
@@ -834,6 +851,15 @@ export const listDatabases: API.PaginatedOperationMethod<
     items: "Databases",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["redshift-data:ListDatabases"],
+    resources: {
+      "redshift-data:ListDatabases": [
+        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDatabases",
 })) as any;
@@ -885,6 +911,15 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["redshift-data:ListSchemas"],
+    resources: {
+      "redshift-data:ListSchemas": [
+        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSchemas",
 })) as any;
@@ -918,6 +953,7 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["redshift-data:ListSessions"] },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -953,6 +989,7 @@ export const listStatements: API.PaginatedOperationMethod<
     items: "Statements",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["redshift-data:ListStatements"] },
   telemetry: TELEMETRY,
   span: "ListStatements",
 })) as any;
@@ -1004,6 +1041,15 @@ export const listTables: API.PaginatedOperationMethod<
     items: "Tables",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["redshift-data:ListTables"],
+    resources: {
+      "redshift-data:ListTables": [
+        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
+        "arn:${Partition}:redshift-serverless:${Region}:${Account}:workgroup/${WorkgroupId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTables",
 })) as any;
@@ -1105,6 +1151,7 @@ function __c5(j: number): any {
           ResultRows: S.optional(S.Number),
           ResultSize: S.optional(S.Number),
           RedshiftQueryId: S.optional(S.Number),
+          RedshiftQueryUuid: S.optional(S.String),
           HasResultSet: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "SubStatementData" });
@@ -1129,6 +1176,7 @@ function __c5(j: number): any {
           ResultRows: S.optional(S.Number),
           ResultSize: S.optional(S.Number),
           RedshiftQueryId: S.optional(S.Number),
+          RedshiftQueryUuid: S.optional(S.String),
           QueryParameters: S.optional(__S(9, __c1, 1)),
           SubStatements: S.optional(__S(42, __c5, 2)),
           WorkgroupName: S.optional(S.String),

@@ -1353,6 +1353,14 @@ export const associateTrackerConsumer: API.OperationMethod<
   retry: Retry,
   operationName: "AssociateTrackerConsumer",
   endpointHostPrefix: "cp.tracking.",
+  iam: {
+    actions: ["geo:AssociateTrackerConsumer"],
+    resources: {
+      "geo:AssociateTrackerConsumer": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AssociateTrackerConsumer",
 }));
@@ -1386,6 +1394,14 @@ export const batchDeleteDevicePositionHistory: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteDevicePositionHistory",
   endpointHostPrefix: "tracking.",
+  iam: {
+    actions: ["geo:BatchDeleteDevicePositionHistory"],
+    resources: {
+      "geo:BatchDeleteDevicePositionHistory": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteDevicePositionHistory",
 }));
@@ -1421,6 +1437,14 @@ export const batchDeleteGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "BatchDeleteGeofence",
   endpointHostPrefix: "geofencing.",
+  iam: {
+    actions: ["geo:BatchDeleteGeofence"],
+    resources: {
+      "geo:BatchDeleteGeofence": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteGeofence",
 }));
@@ -1466,6 +1490,14 @@ export const batchEvaluateGeofences: API.OperationMethod<
   retry: Retry,
   operationName: "BatchEvaluateGeofences",
   endpointHostPrefix: "geofencing.",
+  iam: {
+    actions: ["geo:BatchEvaluateGeofences"],
+    resources: {
+      "geo:BatchEvaluateGeofences": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchEvaluateGeofences",
 }));
@@ -1499,6 +1531,14 @@ export const batchGetDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "BatchGetDevicePosition",
   endpointHostPrefix: "tracking.",
+  iam: {
+    actions: ["geo:BatchGetDevicePosition"],
+    resources: {
+      "geo:BatchGetDevicePosition": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetDevicePosition",
 }));
@@ -1532,6 +1572,14 @@ export const batchPutGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "BatchPutGeofence",
   endpointHostPrefix: "geofencing.",
+  iam: {
+    actions: ["geo:BatchPutGeofence"],
+    resources: {
+      "geo:BatchPutGeofence": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchPutGeofence",
 }));
@@ -1571,6 +1619,14 @@ export const batchUpdateDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "BatchUpdateDevicePosition",
   endpointHostPrefix: "tracking.",
+  iam: {
+    actions: ["geo:BatchUpdateDevicePosition"],
+    resources: {
+      "geo:BatchUpdateDevicePosition": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchUpdateDevicePosition",
 }));
@@ -1626,6 +1682,14 @@ export const calculateRoute: API.OperationMethod<
   retry: Retry,
   operationName: "CalculateRoute",
   endpointHostPrefix: "routes.",
+  iam: {
+    actions: ["geo:CalculateRoute"],
+    resources: {
+      "geo:CalculateRoute": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CalculateRoute",
 }));
@@ -1685,6 +1749,14 @@ export const calculateRouteMatrix: API.OperationMethod<
   retry: Retry,
   operationName: "CalculateRouteMatrix",
   endpointHostPrefix: "routes.",
+  iam: {
+    actions: ["geo:CalculateRouteMatrix"],
+    resources: {
+      "geo:CalculateRouteMatrix": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CalculateRouteMatrix",
 }));
@@ -1720,6 +1792,10 @@ export const cancelJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelJob",
   endpointHostPrefix: "metadata.",
+  iam: {
+    actions: ["geo:CancelJob"],
+    resources: { "geo:CancelJob": ["arn:${Partition}:geo:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "CancelJob",
 }));
@@ -1755,6 +1831,15 @@ export const createGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "CreateGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  iam: {
+    actions: ["geo:CreateGeofenceCollection", "geo:TagResource"],
+    resources: {
+      "geo:CreateGeofenceCollection": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+    conditional: { "geo:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGeofenceCollection",
 }));
@@ -1792,6 +1877,76 @@ export const createKey: API.OperationMethod<
   retry: Retry,
   operationName: "CreateKey",
   endpointHostPrefix: "cp.metadata.",
+  iam: {
+    actions: [
+      "geo-places:Autocomplete",
+      "geo-routes:CalculateIsolines",
+      "geo:CalculateRoute",
+      "geo:CalculateRouteMatrix",
+      "geo-routes:CalculateRouteMatrix",
+      "geo-routes:CalculateRoutes",
+      "geo:CreateKey",
+      "geo-places:Geocode",
+      "geo:GetMapGlyphs",
+      "geo:GetMapSprites",
+      "geo:GetMapStyleDescriptor",
+      "geo:GetMapTile",
+      "geo:GetPlace",
+      "geo-places:GetPlace",
+      "geo-maps:GetStaticMap",
+      "geo-maps:GetTile",
+      "geo-routes:OptimizeWaypoints",
+      "geo-places:ReverseGeocode",
+      "geo-places:SearchNearby",
+      "geo:SearchPlaceIndexForPosition",
+      "geo:SearchPlaceIndexForSuggestions",
+      "geo:SearchPlaceIndexForText",
+      "geo-places:SearchText",
+      "geo-routes:SnapToRoads",
+      "geo-places:Suggest",
+      "geo:TagResource",
+    ],
+    resources: {
+      "geo-places:Autocomplete": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo-routes:CalculateIsolines": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+      "geo:CalculateRoute": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+      "geo:CalculateRouteMatrix": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+      "geo-routes:CalculateRouteMatrix": [
+        "arn:${Partition}:geo-routes:${Region}::provider/default",
+      ],
+      "geo-routes:CalculateRoutes": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+      "geo:CreateKey": ["arn:${Partition}:geo:${Region}:${Account}:api-key/${KeyName}"],
+      "geo-places:Geocode": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo:GetMapGlyphs": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+      "geo:GetMapSprites": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+      "geo:GetMapStyleDescriptor": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+      "geo:GetMapTile": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+      "geo:GetPlace": ["arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}"],
+      "geo-places:GetPlace": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo-maps:GetStaticMap": ["arn:${Partition}:geo-maps:${Region}::provider/default"],
+      "geo-maps:GetTile": ["arn:${Partition}:geo-maps:${Region}::provider/default"],
+      "geo-routes:OptimizeWaypoints": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+      "geo-places:ReverseGeocode": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo-places:SearchNearby": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo:SearchPlaceIndexForPosition": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+      "geo:SearchPlaceIndexForSuggestions": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+      "geo:SearchPlaceIndexForText": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+      "geo-places:SearchText": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo-routes:SnapToRoads": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+      "geo-places:Suggest": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+    },
+    conditional: { "geo:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateKey",
 }));
@@ -1841,6 +1996,11 @@ export const createMap: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMap",
   endpointHostPrefix: "cp.maps.",
+  iam: {
+    actions: ["geo:CreateMap", "geo:TagResource"],
+    resources: { "geo:CreateMap": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"] },
+    conditional: { "geo:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMap",
 }));
@@ -1890,6 +2050,15 @@ export const createPlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "CreatePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  iam: {
+    actions: ["geo:CreatePlaceIndex", "geo:TagResource"],
+    resources: {
+      "geo:CreatePlaceIndex": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+    },
+    conditional: { "geo:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePlaceIndex",
 }));
@@ -1941,6 +2110,15 @@ export const createRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "CreateRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  iam: {
+    actions: ["geo:CreateRouteCalculator", "geo:TagResource"],
+    resources: {
+      "geo:CreateRouteCalculator": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+    },
+    conditional: { "geo:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateRouteCalculator",
 }));
@@ -1976,6 +2154,13 @@ export const createTracker: API.OperationMethod<
   retry: Retry,
   operationName: "CreateTracker",
   endpointHostPrefix: "cp.tracking.",
+  iam: {
+    actions: ["geo:CreateTracker", "geo:TagResource"],
+    resources: {
+      "geo:CreateTracker": ["arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}"],
+    },
+    conditional: { "geo:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTracker",
 }));
@@ -2011,6 +2196,14 @@ export const deleteGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  iam: {
+    actions: ["geo:DeleteGeofenceCollection"],
+    resources: {
+      "geo:DeleteGeofenceCollection": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGeofenceCollection",
 }));
@@ -2046,6 +2239,12 @@ export const deleteKey: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteKey",
   endpointHostPrefix: "cp.metadata.",
+  iam: {
+    actions: ["geo:DeleteKey"],
+    resources: {
+      "geo:DeleteKey": ["arn:${Partition}:geo:${Region}:${Account}:api-key/${KeyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteKey",
 }));
@@ -2093,6 +2292,10 @@ export const deleteMap: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteMap",
   endpointHostPrefix: "cp.maps.",
+  iam: {
+    actions: ["geo:DeleteMap"],
+    resources: { "geo:DeleteMap": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMap",
 }));
@@ -2140,6 +2343,14 @@ export const deletePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "DeletePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  iam: {
+    actions: ["geo:DeletePlaceIndex"],
+    resources: {
+      "geo:DeletePlaceIndex": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePlaceIndex",
 }));
@@ -2187,6 +2398,14 @@ export const deleteRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  iam: {
+    actions: ["geo:DeleteRouteCalculator"],
+    resources: {
+      "geo:DeleteRouteCalculator": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteRouteCalculator",
 }));
@@ -2222,6 +2441,12 @@ export const deleteTracker: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteTracker",
   endpointHostPrefix: "cp.tracking.",
+  iam: {
+    actions: ["geo:DeleteTracker"],
+    resources: {
+      "geo:DeleteTracker": ["arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteTracker",
 }));
@@ -2255,6 +2480,14 @@ export const describeGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  iam: {
+    actions: ["geo:DescribeGeofenceCollection"],
+    resources: {
+      "geo:DescribeGeofenceCollection": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeGeofenceCollection",
 }));
@@ -2290,6 +2523,12 @@ export const describeKey: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeKey",
   endpointHostPrefix: "cp.metadata.",
+  iam: {
+    actions: ["geo:DescribeKey"],
+    resources: {
+      "geo:DescribeKey": ["arn:${Partition}:geo:${Region}:${Account}:api-key/${KeyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeKey",
 }));
@@ -2335,6 +2574,10 @@ export const describeMap: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeMap",
   endpointHostPrefix: "cp.maps.",
+  iam: {
+    actions: ["geo:DescribeMap"],
+    resources: { "geo:DescribeMap": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"] },
+  },
   telemetry: TELEMETRY,
   span: "DescribeMap",
 }));
@@ -2380,6 +2623,14 @@ export const describePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "DescribePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  iam: {
+    actions: ["geo:DescribePlaceIndex"],
+    resources: {
+      "geo:DescribePlaceIndex": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribePlaceIndex",
 }));
@@ -2425,6 +2676,14 @@ export const describeRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  iam: {
+    actions: ["geo:DescribeRouteCalculator"],
+    resources: {
+      "geo:DescribeRouteCalculator": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeRouteCalculator",
 }));
@@ -2458,6 +2717,12 @@ export const describeTracker: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeTracker",
   endpointHostPrefix: "cp.tracking.",
+  iam: {
+    actions: ["geo:DescribeTracker"],
+    resources: {
+      "geo:DescribeTracker": ["arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTracker",
 }));
@@ -2493,6 +2758,14 @@ export const disassociateTrackerConsumer: API.OperationMethod<
   retry: Retry,
   operationName: "DisassociateTrackerConsumer",
   endpointHostPrefix: "cp.tracking.",
+  iam: {
+    actions: ["geo:DisassociateTrackerConsumer"],
+    resources: {
+      "geo:DisassociateTrackerConsumer": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DisassociateTrackerConsumer",
 }));
@@ -2541,6 +2814,14 @@ export const forecastGeofenceEvents: API.PaginatedOperationMethod<
     items: "ForecastedEvents",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ForecastGeofenceEvents"],
+    resources: {
+      "geo:ForecastGeofenceEvents": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ForecastGeofenceEvents",
 })) as any;
@@ -2576,6 +2857,12 @@ export const getDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "GetDevicePosition",
   endpointHostPrefix: "tracking.",
+  iam: {
+    actions: ["geo:GetDevicePosition"],
+    resources: {
+      "geo:GetDevicePosition": ["arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDevicePosition",
 }));
@@ -2618,6 +2905,14 @@ export const getDevicePositionHistory: API.PaginatedOperationMethod<
     items: "DevicePositions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:GetDevicePositionHistory"],
+    resources: {
+      "geo:GetDevicePositionHistory": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDevicePositionHistory",
 })) as any;
@@ -2653,6 +2948,14 @@ export const getGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "GetGeofence",
   endpointHostPrefix: "geofencing.",
+  iam: {
+    actions: ["geo:GetGeofence"],
+    resources: {
+      "geo:GetGeofence": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGeofence",
 }));
@@ -2688,6 +2991,10 @@ export const getJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetJob",
   endpointHostPrefix: "metadata.",
+  iam: {
+    actions: ["geo:GetJob"],
+    resources: { "geo:GetJob": ["arn:${Partition}:geo:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -2733,6 +3040,10 @@ export const getMapGlyphs: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapGlyphs",
   endpointHostPrefix: "maps.",
+  iam: {
+    actions: ["geo:GetMapGlyphs"],
+    resources: { "geo:GetMapGlyphs": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetMapGlyphs",
 }));
@@ -2778,6 +3089,12 @@ export const getMapSprites: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapSprites",
   endpointHostPrefix: "maps.",
+  iam: {
+    actions: ["geo:GetMapSprites"],
+    resources: {
+      "geo:GetMapSprites": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMapSprites",
 }));
@@ -2825,6 +3142,12 @@ export const getMapStyleDescriptor: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapStyleDescriptor",
   endpointHostPrefix: "maps.",
+  iam: {
+    actions: ["geo:GetMapStyleDescriptor"],
+    resources: {
+      "geo:GetMapStyleDescriptor": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMapStyleDescriptor",
 }));
@@ -2872,6 +3195,10 @@ export const getMapTile: API.OperationMethod<
   retry: Retry,
   operationName: "GetMapTile",
   endpointHostPrefix: "maps.",
+  iam: {
+    actions: ["geo:GetMapTile"],
+    resources: { "geo:GetMapTile": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"] },
+  },
   telemetry: TELEMETRY,
   span: "GetMapTile",
 }));
@@ -2927,6 +3254,12 @@ export const getPlace: API.OperationMethod<
   retry: Retry,
   operationName: "GetPlace",
   endpointHostPrefix: "places.",
+  iam: {
+    actions: ["geo:GetPlace"],
+    resources: {
+      "geo:GetPlace": ["arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPlace",
 }));
@@ -2965,6 +3298,14 @@ export const listDevicePositions: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListDevicePositions"],
+    resources: {
+      "geo:ListDevicePositions": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListDevicePositions",
 })) as any;
@@ -3003,6 +3344,14 @@ export const listGeofenceCollections: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListGeofenceCollections"],
+    resources: {
+      "geo:ListGeofenceCollections": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGeofenceCollections",
 })) as any;
@@ -3043,6 +3392,14 @@ export const listGeofences: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListGeofences"],
+    resources: {
+      "geo:ListGeofences": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListGeofences",
 })) as any;
@@ -3083,6 +3440,10 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListJobs"],
+    resources: { "geo:ListJobs": ["arn:${Partition}:geo:${Region}:${Account}:job/${JobId}"] },
+  },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -3123,6 +3484,10 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListKeys"],
+    resources: { "geo:ListKeys": ["arn:${Partition}:geo:${Region}:${Account}:api-key/${KeyName}"] },
+  },
   telemetry: TELEMETRY,
   span: "ListKeys",
 })) as any;
@@ -3173,6 +3538,10 @@ export const listMaps: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListMaps"],
+    resources: { "geo:ListMaps": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"] },
+  },
   telemetry: TELEMETRY,
   span: "ListMaps",
 })) as any;
@@ -3223,6 +3592,14 @@ export const listPlaceIndexes: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListPlaceIndexes"],
+    resources: {
+      "geo:ListPlaceIndexes": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListPlaceIndexes",
 })) as any;
@@ -3273,6 +3650,14 @@ export const listRouteCalculators: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListRouteCalculators"],
+    resources: {
+      "geo:ListRouteCalculators": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListRouteCalculators",
 })) as any;
@@ -3306,6 +3691,7 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "cp.metadata.",
+  iam: { actions: ["geo:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3346,6 +3732,14 @@ export const listTrackerConsumers: API.PaginatedOperationMethod<
     items: "ConsumerArns",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListTrackerConsumers"],
+    resources: {
+      "geo:ListTrackerConsumers": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTrackerConsumers",
 })) as any;
@@ -3384,6 +3778,12 @@ export const listTrackers: API.PaginatedOperationMethod<
     items: "Entries",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["geo:ListTrackers"],
+    resources: {
+      "geo:ListTrackers": ["arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTrackers",
 })) as any;
@@ -3419,6 +3819,14 @@ export const putGeofence: API.OperationMethod<
   retry: Retry,
   operationName: "PutGeofence",
   endpointHostPrefix: "geofencing.",
+  iam: {
+    actions: ["geo:PutGeofence"],
+    resources: {
+      "geo:PutGeofence": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutGeofence",
 }));
@@ -3462,6 +3870,14 @@ export const searchPlaceIndexForPosition: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForPosition",
   endpointHostPrefix: "places.",
+  iam: {
+    actions: ["geo:SearchPlaceIndexForPosition"],
+    resources: {
+      "geo:SearchPlaceIndexForPosition": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchPlaceIndexForPosition",
 }));
@@ -3509,6 +3925,14 @@ export const searchPlaceIndexForSuggestions: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForSuggestions",
   endpointHostPrefix: "places.",
+  iam: {
+    actions: ["geo:SearchPlaceIndexForSuggestions"],
+    resources: {
+      "geo:SearchPlaceIndexForSuggestions": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchPlaceIndexForSuggestions",
 }));
@@ -3558,6 +3982,14 @@ export const searchPlaceIndexForText: API.OperationMethod<
   retry: Retry,
   operationName: "SearchPlaceIndexForText",
   endpointHostPrefix: "places.",
+  iam: {
+    actions: ["geo:SearchPlaceIndexForText"],
+    resources: {
+      "geo:SearchPlaceIndexForText": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SearchPlaceIndexForText",
 }));
@@ -3591,6 +4023,14 @@ export const startJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartJob",
   endpointHostPrefix: "metadata.",
+  iam: {
+    actions: ["iam:PassRole", "geo:StartJob", "geo:TagResource"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "geo:StartJob": ["arn:${Partition}:geo:${Region}:${Account}:job/${JobId}"],
+    },
+    conditional: { "geo:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "StartJob",
 }));
@@ -3630,6 +4070,7 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "cp.metadata.",
+  iam: { actions: ["geo:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3663,6 +4104,7 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "cp.metadata.",
+  iam: { actions: ["geo:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3696,6 +4138,14 @@ export const updateGeofenceCollection: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateGeofenceCollection",
   endpointHostPrefix: "cp.geofencing.",
+  iam: {
+    actions: ["geo:UpdateGeofenceCollection"],
+    resources: {
+      "geo:UpdateGeofenceCollection": [
+        "arn:${Partition}:geo:${Region}:${Account}:geofence-collection/${GeofenceCollectionName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateGeofenceCollection",
 }));
@@ -3729,6 +4179,74 @@ export const updateKey: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateKey",
   endpointHostPrefix: "cp.metadata.",
+  iam: {
+    actions: [
+      "geo-places:Autocomplete",
+      "geo-routes:CalculateIsolines",
+      "geo:CalculateRoute",
+      "geo:CalculateRouteMatrix",
+      "geo-routes:CalculateRouteMatrix",
+      "geo-routes:CalculateRoutes",
+      "geo-places:Geocode",
+      "geo:GetMapGlyphs",
+      "geo:GetMapSprites",
+      "geo:GetMapStyleDescriptor",
+      "geo:GetMapTile",
+      "geo:GetPlace",
+      "geo-places:GetPlace",
+      "geo-maps:GetStaticMap",
+      "geo-maps:GetTile",
+      "geo-routes:OptimizeWaypoints",
+      "geo-places:ReverseGeocode",
+      "geo-places:SearchNearby",
+      "geo:SearchPlaceIndexForPosition",
+      "geo:SearchPlaceIndexForSuggestions",
+      "geo:SearchPlaceIndexForText",
+      "geo-places:SearchText",
+      "geo-routes:SnapToRoads",
+      "geo-places:Suggest",
+      "geo:UpdateKey",
+    ],
+    resources: {
+      "geo-places:Autocomplete": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo-routes:CalculateIsolines": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+      "geo:CalculateRoute": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+      "geo:CalculateRouteMatrix": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+      "geo-routes:CalculateRouteMatrix": [
+        "arn:${Partition}:geo-routes:${Region}::provider/default",
+      ],
+      "geo-routes:CalculateRoutes": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+      "geo-places:Geocode": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo:GetMapGlyphs": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+      "geo:GetMapSprites": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+      "geo:GetMapStyleDescriptor": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+      "geo:GetMapTile": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"],
+      "geo:GetPlace": ["arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}"],
+      "geo-places:GetPlace": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo-maps:GetStaticMap": ["arn:${Partition}:geo-maps:${Region}::provider/default"],
+      "geo-maps:GetTile": ["arn:${Partition}:geo-maps:${Region}::provider/default"],
+      "geo-routes:OptimizeWaypoints": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+      "geo-places:ReverseGeocode": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo-places:SearchNearby": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo:SearchPlaceIndexForPosition": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+      "geo:SearchPlaceIndexForSuggestions": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+      "geo:SearchPlaceIndexForText": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+      "geo-places:SearchText": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo-routes:SnapToRoads": ["arn:${Partition}:geo-routes:${Region}::provider/default"],
+      "geo-places:Suggest": ["arn:${Partition}:geo-places:${Region}::provider/default"],
+      "geo:UpdateKey": ["arn:${Partition}:geo:${Region}:${Account}:api-key/${KeyName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateKey",
 }));
@@ -3774,6 +4292,10 @@ export const updateMap: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateMap",
   endpointHostPrefix: "cp.maps.",
+  iam: {
+    actions: ["geo:UpdateMap"],
+    resources: { "geo:UpdateMap": ["arn:${Partition}:geo:${Region}:${Account}:map/${MapName}"] },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMap",
 }));
@@ -3819,6 +4341,14 @@ export const updatePlaceIndex: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePlaceIndex",
   endpointHostPrefix: "cp.places.",
+  iam: {
+    actions: ["geo:UpdatePlaceIndex"],
+    resources: {
+      "geo:UpdatePlaceIndex": [
+        "arn:${Partition}:geo:${Region}:${Account}:place-index/${IndexName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdatePlaceIndex",
 }));
@@ -3864,6 +4394,14 @@ export const updateRouteCalculator: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateRouteCalculator",
   endpointHostPrefix: "cp.routes.",
+  iam: {
+    actions: ["geo:UpdateRouteCalculator"],
+    resources: {
+      "geo:UpdateRouteCalculator": [
+        "arn:${Partition}:geo:${Region}:${Account}:route-calculator/${CalculatorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateRouteCalculator",
 }));
@@ -3897,6 +4435,12 @@ export const updateTracker: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateTracker",
   endpointHostPrefix: "cp.tracking.",
+  iam: {
+    actions: ["geo:UpdateTracker"],
+    resources: {
+      "geo:UpdateTracker": ["arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateTracker",
 }));
@@ -3932,6 +4476,14 @@ export const verifyDevicePosition: API.OperationMethod<
   retry: Retry,
   operationName: "VerifyDevicePosition",
   endpointHostPrefix: "tracking.",
+  iam: {
+    actions: ["geo:VerifyDevicePosition"],
+    resources: {
+      "geo:VerifyDevicePosition": [
+        "arn:${Partition}:geo:${Region}:${Account}:tracker/${TrackerName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "VerifyDevicePosition",
 }));

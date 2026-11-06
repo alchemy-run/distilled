@@ -1064,8 +1064,13 @@ export interface GuardrailContextualGroundingFilterConfig {
   enabled?: boolean;
 }
 export type GuardrailContextualGroundingFiltersConfig = GuardrailContextualGroundingFilterConfig[];
+export type GuardrailContextualGroundingTierName = "CLASSIC" | "STANDARD" | (string & {});
+export interface GuardrailContextualGroundingTierConfig {
+  tierName: GuardrailContextualGroundingTierName;
+}
 export interface GuardrailContextualGroundingPolicyConfig {
   filtersConfig: GuardrailContextualGroundingFilterConfig[];
+  tierConfig?: GuardrailContextualGroundingTierConfig;
 }
 export type AutomatedReasoningPolicyArnList = string[];
 export type AutomatedReasoningConfidenceFilterThreshold = number;
@@ -2691,8 +2696,12 @@ export interface GuardrailContextualGroundingFilter {
   enabled?: boolean;
 }
 export type GuardrailContextualGroundingFilters = GuardrailContextualGroundingFilter[];
+export interface GuardrailContextualGroundingTier {
+  tierName: GuardrailContextualGroundingTierName;
+}
 export interface GuardrailContextualGroundingPolicy {
   filters: GuardrailContextualGroundingFilter[];
+  tier?: GuardrailContextualGroundingTier;
 }
 export interface GuardrailAutomatedReasoningPolicy {
   policies: string[];
@@ -3805,6 +3814,14 @@ export const batchDeleteAdvancedPromptOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAdvancedPromptOptimizationJob",
+  iam: {
+    actions: ["bedrock:BatchDeleteAdvancedPromptOptimizationJob"],
+    resources: {
+      "bedrock:BatchDeleteAdvancedPromptOptimizationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteAdvancedPromptOptimizationJob",
 }));
@@ -3839,6 +3856,14 @@ export const batchDeleteEvaluationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteEvaluationJob",
+  iam: {
+    actions: ["bedrock:BatchDeleteEvaluationJob"],
+    resources: {
+      "bedrock:BatchDeleteEvaluationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteEvaluationJob",
 }));
@@ -3875,6 +3900,14 @@ export const cancelAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelAutomatedReasoningPolicyBuildWorkflow",
+  iam: {
+    actions: ["bedrock:CancelAutomatedReasoningPolicyBuildWorkflow"],
+    resources: {
+      "bedrock:CancelAutomatedReasoningPolicyBuildWorkflow": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CancelAutomatedReasoningPolicyBuildWorkflow",
 }));
@@ -3913,6 +3946,21 @@ export const createAdvancedPromptOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAdvancedPromptOptimizationJob",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateAdvancedPromptOptimizationJob",
+      "bedrock:TagResource",
+    ],
+    resources: {
+      "bedrock:CreateAdvancedPromptOptimizationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+      ],
+    },
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAdvancedPromptOptimizationJob",
 }));
@@ -3953,6 +4001,14 @@ export const createAutomatedReasoningPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomatedReasoningPolicy",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateAutomatedReasoningPolicy",
+      "bedrock:TagResource",
+    ],
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAutomatedReasoningPolicy",
 }));
@@ -3989,6 +4045,14 @@ export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomatedReasoningPolicyTestCase",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:CreateAutomatedReasoningPolicyTestCase"],
+    resources: {
+      "bedrock:CreateAutomatedReasoningPolicyTestCase": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateAutomatedReasoningPolicyTestCase",
 }));
@@ -4027,6 +4091,19 @@ export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutomatedReasoningPolicyVersion",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateAutomatedReasoningPolicyVersion",
+      "bedrock:TagResource",
+    ],
+    resources: {
+      "bedrock:CreateAutomatedReasoningPolicyVersion": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateAutomatedReasoningPolicyVersion",
 }));
@@ -4089,6 +4166,16 @@ export const createCustomModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomModel",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateCustomModel",
+      "iam:PassRole",
+      "bedrock:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "roleArn" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomModel",
 }));
@@ -4135,6 +4222,19 @@ export const createCustomModelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomModelDeployment",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateCustomModelDeployment",
+      "bedrock:TagResource",
+    ],
+    resources: {
+      "bedrock:CreateCustomModelDeployment": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+      ],
+    },
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCustomModelDeployment",
 }));
@@ -4171,6 +4271,23 @@ export const createEvaluationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluationJob",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateEvaluationJob",
+      "iam:PassRole",
+      "bedrock:TagResource",
+    ],
+    resources: {
+      "bedrock:CreateEvaluationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateEvaluationJob",
 }));
@@ -4205,6 +4322,7 @@ export const createFoundationModelAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFoundationModelAgreement",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:CreateFoundationModelAgreement"] },
   telemetry: TELEMETRY,
   span: "CreateFoundationModelAgreement",
 }));
@@ -4257,6 +4375,10 @@ export const createGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGuardrail",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:CreateGuardrail", "bedrock:TagResource"],
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateGuardrail",
 }));
@@ -4293,6 +4415,14 @@ export const createGuardrailVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGuardrailVersion",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:CreateGuardrailVersion"],
+    resources: {
+      "bedrock:CreateGuardrailVersion": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateGuardrailVersion",
 }));
@@ -4331,6 +4461,21 @@ export const createInferenceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceProfile",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateInferenceProfile",
+      "bedrock:TagResource",
+    ],
+    resources: {
+      "bedrock:CreateInferenceProfile": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+      ],
+    },
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateInferenceProfile",
 }));
@@ -4367,6 +4512,15 @@ export const createMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMarketplaceModelEndpoint",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateMarketplaceModelEndpoint",
+      "iam:PassRole",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMarketplaceModelEndpoint",
 }));
@@ -4397,6 +4551,14 @@ export const createModelCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelCopyJob",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:CreateModelCopyJob", "bedrock:TagResource"],
+    resources: {
+      "bedrock:CreateModelCopyJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateModelCopyJob",
 }));
@@ -4443,6 +4605,21 @@ export const createModelCustomizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelCustomizationJob",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateModelCustomizationJob",
+      "iam:PassRole",
+      "bedrock:TagResource",
+    ],
+    resources: {
+      "bedrock:CreateModelCustomizationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateModelCustomizationJob",
 }));
@@ -4481,6 +4658,15 @@ export const createModelImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelImportJob",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateModelImportJob",
+      "iam:PassRole",
+      "bedrock:TagResource",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+  },
   telemetry: TELEMETRY,
   span: "CreateModelImportJob",
 }));
@@ -4519,6 +4705,23 @@ export const createModelInvocationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelInvocationJob",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateModelInvocationJob",
+      "iam:PassRole",
+      "bedrock:TagResource",
+    ],
+    resources: {
+      "bedrock:CreateModelInvocationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateModelInvocationJob",
 }));
@@ -4557,6 +4760,17 @@ export const createPromptRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePromptRouter",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:CreatePromptRouter", "bedrock:TagResource"],
+    resources: {
+      "bedrock:CreatePromptRouter": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+      ],
+    },
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreatePromptRouter",
 }));
@@ -4593,6 +4807,20 @@ export const createProvisionedModelThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisionedModelThroughput",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:CreateProvisionedModelThroughput",
+      "bedrock:TagResource",
+    ],
+    resources: {
+      "bedrock:CreateProvisionedModelThroughput": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+      ],
+    },
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProvisionedModelThroughput",
 }));
@@ -4629,6 +4857,15 @@ export const deleteAutomatedReasoningPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomatedReasoningPolicy",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeleteAutomatedReasoningPolicy"],
+    resources: {
+      "bedrock:DeleteAutomatedReasoningPolicy": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAutomatedReasoningPolicy",
 }));
@@ -4669,6 +4906,14 @@ export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomatedReasoningPolicyBuildWorkflow",
+  iam: {
+    actions: ["bedrock:DeleteAutomatedReasoningPolicyBuildWorkflow"],
+    resources: {
+      "bedrock:DeleteAutomatedReasoningPolicyBuildWorkflow": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAutomatedReasoningPolicyBuildWorkflow",
 }));
@@ -4705,6 +4950,14 @@ export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutomatedReasoningPolicyTestCase",
+  iam: {
+    actions: ["bedrock:DeleteAutomatedReasoningPolicyTestCase"],
+    resources: {
+      "bedrock:DeleteAutomatedReasoningPolicyTestCase": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAutomatedReasoningPolicyTestCase",
 }));
@@ -4739,6 +4992,14 @@ export const deleteCustomModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomModel",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeleteCustomModel"],
+    resources: {
+      "bedrock:DeleteCustomModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomModel",
 }));
@@ -4781,6 +5042,14 @@ export const deleteCustomModelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomModelDeployment",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeleteCustomModelDeployment"],
+    resources: {
+      "bedrock:DeleteCustomModelDeployment": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCustomModelDeployment",
 }));
@@ -4813,6 +5082,7 @@ export const deleteEnforcedGuardrailConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnforcedGuardrailConfiguration",
+  iam: { actions: ["bedrock:DeleteEnforcedGuardrailConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteEnforcedGuardrailConfiguration",
 }));
@@ -4847,6 +5117,7 @@ export const deleteFoundationModelAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFoundationModelAgreement",
+  iam: { actions: ["bedrock:DeleteFoundationModelAgreement"] },
   telemetry: TELEMETRY,
   span: "DeleteFoundationModelAgreement",
 }));
@@ -4887,6 +5158,14 @@ export const deleteGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGuardrail",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeleteGuardrail"],
+    resources: {
+      "bedrock:DeleteGuardrail": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteGuardrail",
 }));
@@ -4921,6 +5200,14 @@ export const deleteImportedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportedModel",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeleteImportedModel"],
+    resources: {
+      "bedrock:DeleteImportedModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteImportedModel",
 }));
@@ -4955,6 +5242,14 @@ export const deleteInferenceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceProfile",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeleteInferenceProfile"],
+    resources: {
+      "bedrock:DeleteInferenceProfile": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteInferenceProfile",
 }));
@@ -4987,6 +5282,14 @@ export const deleteMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMarketplaceModelEndpoint",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeleteMarketplaceModelEndpoint"],
+    resources: {
+      "bedrock:DeleteMarketplaceModelEndpoint": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMarketplaceModelEndpoint",
 }));
@@ -5011,6 +5314,7 @@ export const deleteModelInvocationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelInvocationLoggingConfiguration",
+  iam: { actions: ["bedrock:DeleteModelInvocationLoggingConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteModelInvocationLoggingConfiguration",
 }));
@@ -5043,6 +5347,14 @@ export const deletePromptRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePromptRouter",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeletePromptRouter"],
+    resources: {
+      "bedrock:DeletePromptRouter": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeletePromptRouter",
 }));
@@ -5077,6 +5389,14 @@ export const deleteProvisionedModelThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedModelThroughput",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeleteProvisionedModelThroughput"],
+    resources: {
+      "bedrock:DeleteProvisionedModelThroughput": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProvisionedModelThroughput",
 }));
@@ -5109,6 +5429,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["bedrock:DeleteResourcePolicy", "bedrock:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -5143,6 +5464,14 @@ export const deregisterMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterMarketplaceModelEndpoint",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:DeregisterMarketplaceModelEndpoint"],
+    resources: {
+      "bedrock:DeregisterMarketplaceModelEndpoint": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeregisterMarketplaceModelEndpoint",
 }));
@@ -5175,6 +5504,15 @@ export const exportAutomatedReasoningPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportAutomatedReasoningPolicyVersion",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:ExportAutomatedReasoningPolicyVersion"],
+    resources: {
+      "bedrock:ExportAutomatedReasoningPolicyVersion": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ExportAutomatedReasoningPolicyVersion",
 }));
@@ -5205,6 +5543,7 @@ export const getAccountDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountDataRetention",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:GetAccountDataRetention"] },
   telemetry: TELEMETRY,
   span: "GetAccountDataRetention",
 }));
@@ -5237,6 +5576,14 @@ export const getAdvancedPromptOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdvancedPromptOptimizationJob",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetAdvancedPromptOptimizationJob"],
+    resources: {
+      "bedrock:GetAdvancedPromptOptimizationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAdvancedPromptOptimizationJob",
 }));
@@ -5269,6 +5616,15 @@ export const getAutomatedReasoningPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicy",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetAutomatedReasoningPolicy"],
+    resources: {
+      "bedrock:GetAutomatedReasoningPolicy": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomatedReasoningPolicy",
 }));
@@ -5301,6 +5657,14 @@ export const getAutomatedReasoningPolicyAnnotations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyAnnotations",
+  iam: {
+    actions: ["bedrock:GetAutomatedReasoningPolicyAnnotations"],
+    resources: {
+      "bedrock:GetAutomatedReasoningPolicyAnnotations": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomatedReasoningPolicyAnnotations",
 }));
@@ -5333,6 +5697,14 @@ export const getAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyBuildWorkflow",
+  iam: {
+    actions: ["bedrock:GetAutomatedReasoningPolicyBuildWorkflow"],
+    resources: {
+      "bedrock:GetAutomatedReasoningPolicyBuildWorkflow": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomatedReasoningPolicyBuildWorkflow",
 }));
@@ -5373,6 +5745,14 @@ export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: API.Operation
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyBuildWorkflowResultAssets",
+  iam: {
+    actions: ["bedrock:GetAutomatedReasoningPolicyBuildWorkflowResultAssets"],
+    resources: {
+      "bedrock:GetAutomatedReasoningPolicyBuildWorkflowResultAssets": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomatedReasoningPolicyBuildWorkflowResultAssets",
 }));
@@ -5405,6 +5785,14 @@ export const getAutomatedReasoningPolicyNextScenario: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyNextScenario",
+  iam: {
+    actions: ["bedrock:GetAutomatedReasoningPolicyNextScenario"],
+    resources: {
+      "bedrock:GetAutomatedReasoningPolicyNextScenario": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomatedReasoningPolicyNextScenario",
 }));
@@ -5437,6 +5825,14 @@ export const getAutomatedReasoningPolicyTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyTestCase",
+  iam: {
+    actions: ["bedrock:GetAutomatedReasoningPolicyTestCase"],
+    resources: {
+      "bedrock:GetAutomatedReasoningPolicyTestCase": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomatedReasoningPolicyTestCase",
 }));
@@ -5469,6 +5865,14 @@ export const getAutomatedReasoningPolicyTestResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedReasoningPolicyTestResult",
+  iam: {
+    actions: ["bedrock:GetAutomatedReasoningPolicyTestResult"],
+    resources: {
+      "bedrock:GetAutomatedReasoningPolicyTestResult": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAutomatedReasoningPolicyTestResult",
 }));
@@ -5501,6 +5905,14 @@ export const getCustomModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomModel",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetCustomModel"],
+    resources: {
+      "bedrock:GetCustomModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomModel",
 }));
@@ -5541,6 +5953,14 @@ export const getCustomModelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomModelDeployment",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetCustomModelDeployment"],
+    resources: {
+      "bedrock:GetCustomModelDeployment": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetCustomModelDeployment",
 }));
@@ -5573,6 +5993,14 @@ export const getEvaluationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluationJob",
+  iam: {
+    actions: ["bedrock:GetEvaluationJob"],
+    resources: {
+      "bedrock:GetEvaluationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEvaluationJob",
 }));
@@ -5605,6 +6033,14 @@ export const getFoundationModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFoundationModel",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetFoundationModel"],
+    resources: {
+      "bedrock:GetFoundationModel": [
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFoundationModel",
 }));
@@ -5637,6 +6073,7 @@ export const getFoundationModelAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFoundationModelAvailability",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:GetFoundationModelAvailability"] },
   telemetry: TELEMETRY,
   span: "GetFoundationModelAvailability",
 }));
@@ -5669,6 +6106,14 @@ export const getGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGuardrail",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetGuardrail"],
+    resources: {
+      "bedrock:GetGuardrail": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetGuardrail",
 }));
@@ -5701,6 +6146,14 @@ export const getImportedModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportedModel",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetImportedModel"],
+    resources: {
+      "bedrock:GetImportedModel": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetImportedModel",
 }));
@@ -5733,6 +6186,15 @@ export const getInferenceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInferenceProfile",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetInferenceProfile"],
+    resources: {
+      "bedrock:GetInferenceProfile": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:inference-profile/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInferenceProfile",
 }));
@@ -5765,6 +6227,14 @@ export const getMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMarketplaceModelEndpoint",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetMarketplaceModelEndpoint"],
+    resources: {
+      "bedrock:GetMarketplaceModelEndpoint": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMarketplaceModelEndpoint",
 }));
@@ -5797,6 +6267,14 @@ export const getModelCopyJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelCopyJob",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetModelCopyJob"],
+    resources: {
+      "bedrock:GetModelCopyJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-copy-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetModelCopyJob",
 }));
@@ -5829,6 +6307,14 @@ export const getModelCustomizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelCustomizationJob",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetModelCustomizationJob"],
+    resources: {
+      "bedrock:GetModelCustomizationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-customization-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetModelCustomizationJob",
 }));
@@ -5861,6 +6347,14 @@ export const getModelImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelImportJob",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetModelImportJob"],
+    resources: {
+      "bedrock:GetModelImportJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-import-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetModelImportJob",
 }));
@@ -5893,6 +6387,14 @@ export const getModelInvocationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelInvocationJob",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetModelInvocationJob"],
+    resources: {
+      "bedrock:GetModelInvocationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetModelInvocationJob",
 }));
@@ -5917,6 +6419,9 @@ export const getModelInvocationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelInvocationLoggingConfiguration",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetModelInvocationLoggingConfiguration"],
+  },
   telemetry: TELEMETRY,
   span: "GetModelInvocationLoggingConfiguration",
 }));
@@ -5949,6 +6454,15 @@ export const getPromptRouter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPromptRouter",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetPromptRouter"],
+    resources: {
+      "bedrock:GetPromptRouter": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:default-prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPromptRouter",
 }));
@@ -5981,6 +6495,14 @@ export const getProvisionedModelThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedModelThroughput",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:GetProvisionedModelThroughput"],
+    resources: {
+      "bedrock:GetProvisionedModelThroughput": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProvisionedModelThroughput",
 }));
@@ -6013,6 +6535,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["bedrock:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -6043,6 +6566,7 @@ export const getUseCaseForModelAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUseCaseForModelAccess",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:GetUseCaseForModelAccess"] },
   telemetry: TELEMETRY,
   span: "GetUseCaseForModelAccess",
 }));
@@ -6080,6 +6604,7 @@ export const listAdvancedPromptOptimizationJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListAdvancedPromptOptimizationJobs"] },
   telemetry: TELEMETRY,
   span: "ListAdvancedPromptOptimizationJobs",
 })) as any;
@@ -6119,6 +6644,7 @@ export const listAutomatedReasoningPolicies: API.PaginatedOperationMethod<
     items: "automatedReasoningPolicySummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListAutomatedReasoningPolicies"] },
   telemetry: TELEMETRY,
   span: "ListAutomatedReasoningPolicies",
 })) as any;
@@ -6162,6 +6688,14 @@ export const listAutomatedReasoningPolicyBuildWorkflows: API.PaginatedOperationM
     items: "automatedReasoningPolicyBuildWorkflowSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock:ListAutomatedReasoningPolicyBuildWorkflows"],
+    resources: {
+      "bedrock:ListAutomatedReasoningPolicyBuildWorkflows": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAutomatedReasoningPolicyBuildWorkflows",
 })) as any;
@@ -6201,6 +6735,14 @@ export const listAutomatedReasoningPolicyTestCases: API.PaginatedOperationMethod
     items: "testCases",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock:ListAutomatedReasoningPolicyTestCases"],
+    resources: {
+      "bedrock:ListAutomatedReasoningPolicyTestCases": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAutomatedReasoningPolicyTestCases",
 })) as any;
@@ -6242,6 +6784,14 @@ export const listAutomatedReasoningPolicyTestResults: API.PaginatedOperationMeth
     items: "testResults",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:ListAutomatedReasoningPolicyTestResults"],
+    resources: {
+      "bedrock:ListAutomatedReasoningPolicyTestResults": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListAutomatedReasoningPolicyTestResults",
 })) as any;
@@ -6289,6 +6839,7 @@ export const listCustomModelDeployments: API.PaginatedOperationMethod<
     items: "modelDeploymentSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListCustomModelDeployments"] },
   telemetry: TELEMETRY,
   span: "ListCustomModelDeployments",
 })) as any;
@@ -6328,6 +6879,7 @@ export const listCustomModels: API.PaginatedOperationMethod<
     items: "modelSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListCustomModels"] },
   telemetry: TELEMETRY,
   span: "ListCustomModels",
 })) as any;
@@ -6366,6 +6918,7 @@ export const listEnforcedGuardrailsConfiguration: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "guardrailsConfig",
   } as const,
+  iam: { actions: ["bedrock:ListEnforcedGuardrailsConfiguration"] },
   telemetry: TELEMETRY,
   span: "ListEnforcedGuardrailsConfiguration",
 })) as any;
@@ -6403,6 +6956,7 @@ export const listEvaluationJobs: API.PaginatedOperationMethod<
     items: "jobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:ListEvaluationJobs"] },
   telemetry: TELEMETRY,
   span: "ListEvaluationJobs",
 })) as any;
@@ -6435,6 +6989,7 @@ export const listFoundationModelAgreementOffers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFoundationModelAgreementOffers",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListFoundationModelAgreementOffers"] },
   telemetry: TELEMETRY,
   span: "ListFoundationModelAgreementOffers",
 }));
@@ -6465,6 +7020,7 @@ export const listFoundationModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFoundationModels",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListFoundationModels"] },
   telemetry: TELEMETRY,
   span: "ListFoundationModels",
 }));
@@ -6506,6 +7062,7 @@ export const listGuardrails: API.PaginatedOperationMethod<
     items: "guardrails",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListGuardrails"] },
   telemetry: TELEMETRY,
   span: "ListGuardrails",
 })) as any;
@@ -6543,6 +7100,7 @@ export const listImportedModels: API.PaginatedOperationMethod<
     items: "modelSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:ListImportedModels"] },
   telemetry: TELEMETRY,
   span: "ListImportedModels",
 })) as any;
@@ -6580,6 +7138,7 @@ export const listInferenceProfiles: API.PaginatedOperationMethod<
     items: "inferenceProfileSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListInferenceProfiles"] },
   telemetry: TELEMETRY,
   span: "ListInferenceProfiles",
 })) as any;
@@ -6619,6 +7178,7 @@ export const listMarketplaceModelEndpoints: API.PaginatedOperationMethod<
     items: "marketplaceModelEndpoints",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListMarketplaceModelEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListMarketplaceModelEndpoints",
 })) as any;
@@ -6658,6 +7218,7 @@ export const listModelCopyJobs: API.PaginatedOperationMethod<
     items: "modelCopyJobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListModelCopyJobs"] },
   telemetry: TELEMETRY,
   span: "ListModelCopyJobs",
 })) as any;
@@ -6697,6 +7258,7 @@ export const listModelCustomizationJobs: API.PaginatedOperationMethod<
     items: "modelCustomizationJobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListModelCustomizationJobs"] },
   telemetry: TELEMETRY,
   span: "ListModelCustomizationJobs",
 })) as any;
@@ -6734,6 +7296,7 @@ export const listModelImportJobs: API.PaginatedOperationMethod<
     items: "modelImportJobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:ListModelImportJobs"] },
   telemetry: TELEMETRY,
   span: "ListModelImportJobs",
 })) as any;
@@ -6771,6 +7334,7 @@ export const listModelInvocationJobs: API.PaginatedOperationMethod<
     items: "invocationJobSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListModelInvocationJobs"] },
   telemetry: TELEMETRY,
   span: "ListModelInvocationJobs",
 })) as any;
@@ -6808,6 +7372,7 @@ export const listPromptRouters: API.PaginatedOperationMethod<
     items: "promptRouterSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListPromptRouters"] },
   telemetry: TELEMETRY,
   span: "ListPromptRouters",
 })) as any;
@@ -6845,6 +7410,7 @@ export const listProvisionedModelThroughputs: API.PaginatedOperationMethod<
     items: "provisionedModelSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:ListProvisionedModelThroughputs"] },
   telemetry: TELEMETRY,
   span: "ListProvisionedModelThroughputs",
 })) as any;
@@ -6879,6 +7445,45 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:ListTagsForResource"],
+    resources: {
+      "bedrock:ListTagsForResource": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:agent/${AgentId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint-optimization-invocation/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-invocation/${JobId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library-ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-copy-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-customization-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-evaluation-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-import-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}:${PromptVersion}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:retrieval-instruction/${RetrievalInstructionId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -6909,6 +7514,7 @@ export const putAccountDataRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountDataRetention",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:PutAccountDataRetention"] },
   telemetry: TELEMETRY,
   span: "PutAccountDataRetention",
 }));
@@ -6943,6 +7549,7 @@ export const putEnforcedGuardrailConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEnforcedGuardrailConfiguration",
+  iam: { actions: ["bedrock:PutEnforcedGuardrailConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutEnforcedGuardrailConfiguration",
 }));
@@ -6973,6 +7580,15 @@ export const putModelInvocationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutModelInvocationLoggingConfiguration",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "iam:PassRole",
+      "bedrock:PutModelInvocationLoggingConfiguration",
+    ],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "PutModelInvocationLoggingConfiguration",
 }));
@@ -7005,6 +7621,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["bedrock:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -7035,6 +7652,7 @@ export const putUseCaseForModelAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutUseCaseForModelAccess",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:PutUseCaseForModelAccess"] },
   telemetry: TELEMETRY,
   span: "PutUseCaseForModelAccess",
 }));
@@ -7069,6 +7687,14 @@ export const registerMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterMarketplaceModelEndpoint",
+  iam: {
+    actions: ["bedrock:RegisterMarketplaceModelEndpoint"],
+    resources: {
+      "bedrock:RegisterMarketplaceModelEndpoint": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RegisterMarketplaceModelEndpoint",
 }));
@@ -7107,6 +7733,14 @@ export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomatedReasoningPolicyBuildWorkflow",
+  iam: {
+    actions: ["bedrock:StartAutomatedReasoningPolicyBuildWorkflow"],
+    resources: {
+      "bedrock:StartAutomatedReasoningPolicyBuildWorkflow": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAutomatedReasoningPolicyBuildWorkflow",
 }));
@@ -7141,6 +7775,22 @@ export const startAutomatedReasoningPolicyTestWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomatedReasoningPolicyTestWorkflow",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "bedrock:InvokeAutomatedReasoningPolicy",
+      "bedrock:StartAutomatedReasoningPolicyTestWorkflow",
+    ],
+    resources: {
+      "bedrock:InvokeAutomatedReasoningPolicy": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
+      ],
+      "bedrock:StartAutomatedReasoningPolicyTestWorkflow": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartAutomatedReasoningPolicyTestWorkflow",
 }));
@@ -7175,6 +7825,14 @@ export const stopAdvancedPromptOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAdvancedPromptOptimizationJob",
+  iam: {
+    actions: ["bedrock:StopAdvancedPromptOptimizationJob"],
+    resources: {
+      "bedrock:StopAdvancedPromptOptimizationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopAdvancedPromptOptimizationJob",
 }));
@@ -7209,6 +7867,14 @@ export const stopEvaluationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEvaluationJob",
+  iam: {
+    actions: ["bedrock:StopEvaluationJob"],
+    resources: {
+      "bedrock:StopEvaluationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopEvaluationJob",
 }));
@@ -7243,6 +7909,14 @@ export const stopModelCustomizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopModelCustomizationJob",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:StopModelCustomizationJob"],
+    resources: {
+      "bedrock:StopModelCustomizationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-customization-job/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopModelCustomizationJob",
 }));
@@ -7277,6 +7951,14 @@ export const stopModelInvocationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopModelInvocationJob",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:StopModelInvocationJob"],
+    resources: {
+      "bedrock:StopModelInvocationJob": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopModelInvocationJob",
 }));
@@ -7311,6 +7993,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -7343,6 +8026,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -7379,6 +8063,14 @@ export const updateAutomatedReasoningPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedReasoningPolicy",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:UpdateAutomatedReasoningPolicy"],
+    resources: {
+      "bedrock:UpdateAutomatedReasoningPolicy": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAutomatedReasoningPolicy",
 }));
@@ -7413,6 +8105,14 @@ export const updateAutomatedReasoningPolicyAnnotations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedReasoningPolicyAnnotations",
+  iam: {
+    actions: ["bedrock:UpdateAutomatedReasoningPolicyAnnotations"],
+    resources: {
+      "bedrock:UpdateAutomatedReasoningPolicyAnnotations": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAutomatedReasoningPolicyAnnotations",
 }));
@@ -7449,6 +8149,14 @@ export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedReasoningPolicyTestCase",
+  iam: {
+    actions: ["bedrock:UpdateAutomatedReasoningPolicyTestCase"],
+    resources: {
+      "bedrock:UpdateAutomatedReasoningPolicyTestCase": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateAutomatedReasoningPolicyTestCase",
 }));
@@ -7481,6 +8189,15 @@ export const updateCustomModelDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomModelDeployment",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:UpdateCustomModelDeployment"],
+    resources: {
+      "bedrock:UpdateCustomModelDeployment": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCustomModelDeployment",
 }));
@@ -7537,6 +8254,7 @@ export const updateGuardrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGuardrail",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:UpdateGuardrail"] },
   telemetry: TELEMETRY,
   span: "UpdateGuardrail",
 }));
@@ -7573,6 +8291,20 @@ export const updateMarketplaceModelEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMarketplaceModelEndpoint",
+  iam: {
+    actions: [
+      "bedrock:CallWithBearerToken",
+      "iam:PassRole",
+      "bedrock:UpdateMarketplaceModelEndpoint",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "bedrock:UpdateMarketplaceModelEndpoint": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:marketplace/model-endpoint/all-access",
+      ],
+    },
+    conditional: { "iam:PassRole": "a role the request names" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMarketplaceModelEndpoint",
 }));
@@ -7605,6 +8337,16 @@ export const updateProvisionedModelThroughput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedModelThroughput",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:UpdateProvisionedModelThroughput"],
+    resources: {
+      "bedrock:UpdateProvisionedModelThroughput": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}::foundation-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProvisionedModelThroughput",
 }));
@@ -8927,9 +9669,12 @@ function __c46(j: number): any {
         }),
       ).annotate({ identifier: "GuardrailSensitiveInformationPolicyConfig" });
     case 6:
-      return S.suspend(() => S.Struct({ filtersConfig: __S(1548, __c48, 12) })).annotate({
-        identifier: "GuardrailContextualGroundingPolicyConfig",
-      });
+      return S.suspend(() =>
+        S.Struct({
+          filtersConfig: __S(1548, __c48, 12),
+          tierConfig: S.optional(__S(1536, __c48, 0)),
+        }),
+      ).annotate({ identifier: "GuardrailContextualGroundingPolicyConfig" });
     case 7:
       return S.suspend(() => S.Struct({ guardrailProfileIdentifier: S.String })).annotate({
         identifier: "GuardrailCrossRegionConfig",
@@ -10793,9 +11538,9 @@ function __c105(j: number): any {
         }),
       ).annotate({ identifier: "GuardrailSensitiveInformationPolicy" });
     case 7:
-      return S.suspend(() => S.Struct({ filters: __S(1548, __c48, 12) })).annotate({
-        identifier: "GuardrailContextualGroundingPolicy",
-      });
+      return S.suspend(() =>
+        S.Struct({ filters: __S(1548, __c48, 12), tier: S.optional(__S(1536, __c48, 0)) }),
+      ).annotate({ identifier: "GuardrailContextualGroundingPolicy" });
     case 8:
       return S.suspend(() =>
         S.Struct({

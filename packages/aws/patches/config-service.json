@@ -1,0 +1,10 @@
+{
+  "operations": {
+    "startResourceEvaluation": {
+      "iam": {
+        "reason": "cloudformation:DescribeType is a dependent action: Config validates the CFN_RESOURCE_SCHEMA resource type schema with the CALLER's permissions and rejects with AccessDeniedException without it (observed live; see the StartResourceEvaluation API reference).",
+        "add": ["cloudformation:DescribeType"]
+      }
+    }
+  }
+}

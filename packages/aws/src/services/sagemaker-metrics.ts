@@ -178,6 +178,15 @@ export const batchGetMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMetrics",
+  iam: {
+    actions: ["sagemaker:BatchGetMetrics"],
+    resources: {
+      "sagemaker:BatchGetMetrics": [
+        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
+        "arn:${Partition}:sagemaker:${Region}:${Account}:training-job/${TrainingJobName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetMetrics",
 }));
@@ -198,6 +207,15 @@ export const batchPutMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutMetrics",
+  iam: {
+    actions: ["sagemaker:BatchPutMetrics"],
+    resources: {
+      "sagemaker:BatchPutMetrics": [
+        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
+        "arn:${Partition}:sagemaker:${Region}:${Account}:training-job/${TrainingJobName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchPutMetrics",
 }));

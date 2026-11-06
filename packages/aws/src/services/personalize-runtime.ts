@@ -217,6 +217,7 @@ export const getActionRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetActionRecommendations",
+  iam: { actions: ["personalize:GetActionRecommendations"] },
   telemetry: TELEMETRY,
   span: "GetActionRecommendations",
 }));
@@ -244,6 +245,14 @@ export const getPersonalizedRanking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPersonalizedRanking",
+  iam: {
+    actions: ["personalize:GetPersonalizedRanking"],
+    resources: {
+      "personalize:GetPersonalizedRanking": [
+        "arn:${Partition}:personalize:${Region}:${Account}:campaign/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetPersonalizedRanking",
 }));
@@ -278,6 +287,14 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
+  iam: {
+    actions: ["personalize:GetRecommendations"],
+    resources: {
+      "personalize:GetRecommendations": [
+        "arn:${Partition}:personalize:${Region}:${Account}:campaign/${ResourceId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetRecommendations",
 }));

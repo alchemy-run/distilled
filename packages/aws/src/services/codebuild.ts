@@ -1562,6 +1562,14 @@ export const batchDeleteBuilds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteBuilds",
+  iam: {
+    actions: ["codebuild:BatchDeleteBuilds"],
+    resources: {
+      "codebuild:BatchDeleteBuilds": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchDeleteBuilds",
 }));
@@ -1582,6 +1590,14 @@ export const batchGetBuildBatches: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetBuildBatches",
+  iam: {
+    actions: ["codebuild:BatchGetBuildBatches"],
+    resources: {
+      "codebuild:BatchGetBuildBatches": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetBuildBatches",
 }));
@@ -1602,6 +1618,14 @@ export const batchGetBuilds: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetBuilds",
+  iam: {
+    actions: ["codebuild:BatchGetBuilds"],
+    resources: {
+      "codebuild:BatchGetBuilds": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetBuilds",
 }));
@@ -1622,6 +1646,14 @@ export const batchGetCommandExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCommandExecutions",
+  iam: {
+    actions: ["codebuild:BatchGetCommandExecutions"],
+    resources: {
+      "codebuild:BatchGetCommandExecutions": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:sandbox/${SandboxId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetCommandExecutions",
 }));
@@ -1642,6 +1674,14 @@ export const batchGetFleets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFleets",
+  iam: {
+    actions: ["codebuild:BatchGetFleets"],
+    resources: {
+      "codebuild:BatchGetFleets": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:fleet/${FleetName}:${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetFleets",
 }));
@@ -1662,6 +1702,14 @@ export const batchGetProjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetProjects",
+  iam: {
+    actions: ["codebuild:BatchGetProjects"],
+    resources: {
+      "codebuild:BatchGetProjects": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetProjects",
 }));
@@ -1682,6 +1730,14 @@ export const batchGetReportGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetReportGroups",
+  iam: {
+    actions: ["codebuild:BatchGetReportGroups"],
+    resources: {
+      "codebuild:BatchGetReportGroups": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetReportGroups",
 }));
@@ -1702,6 +1758,14 @@ export const batchGetReports: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetReports",
+  iam: {
+    actions: ["codebuild:BatchGetReports"],
+    resources: {
+      "codebuild:BatchGetReports": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetReports",
 }));
@@ -1722,6 +1786,14 @@ export const batchGetSandboxes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSandboxes",
+  iam: {
+    actions: ["codebuild:BatchGetSandboxes"],
+    resources: {
+      "codebuild:BatchGetSandboxes": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "BatchGetSandboxes",
 }));
@@ -1746,6 +1818,16 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
+  iam: {
+    actions: ["codebuild:CreateFleet", "iam:PassRole"],
+    resources: {
+      "codebuild:CreateFleet": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:fleet/${FleetName}:${FleetId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+    conditional: { "iam:PassRole": "fleetServiceRole" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFleet",
 }));
@@ -1770,6 +1852,18 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
+  iam: {
+    actions: ["codebuild:CreateProject", "secretsmanager:DescribeSecret", "iam:PassRole"],
+    resources: {
+      "codebuild:CreateProject": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+      "secretsmanager:DescribeSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateProject",
 }));
@@ -1794,6 +1888,14 @@ export const createReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReportGroup",
+  iam: {
+    actions: ["codebuild:CreateReportGroup"],
+    resources: {
+      "codebuild:CreateReportGroup": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateReportGroup",
 }));
@@ -1833,6 +1935,14 @@ export const createWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebhook",
+  iam: {
+    actions: ["codebuild:CreateWebhook"],
+    resources: {
+      "codebuild:CreateWebhook": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateWebhook",
 }));
@@ -1853,6 +1963,14 @@ export const deleteBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBuildBatch",
+  iam: {
+    actions: ["codebuild:DeleteBuildBatch"],
+    resources: {
+      "codebuild:DeleteBuildBatch": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteBuildBatch",
 }));
@@ -1873,6 +1991,14 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
+  iam: {
+    actions: ["codebuild:DeleteFleet"],
+    resources: {
+      "codebuild:DeleteFleet": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:fleet/${FleetName}:${FleetId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFleet",
 }));
@@ -1893,6 +2019,14 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
+  iam: {
+    actions: ["codebuild:DeleteProject"],
+    resources: {
+      "codebuild:DeleteProject": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
@@ -1913,6 +2047,14 @@ export const deleteReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReport",
+  iam: {
+    actions: ["codebuild:DeleteReport"],
+    resources: {
+      "codebuild:DeleteReport": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReport",
 }));
@@ -1933,6 +2075,14 @@ export const deleteReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportGroup",
+  iam: {
+    actions: ["codebuild:DeleteReportGroup"],
+    resources: {
+      "codebuild:DeleteReportGroup": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteReportGroup",
 }));
@@ -1953,6 +2103,7 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
+  iam: { actions: ["codebuild:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1976,6 +2127,7 @@ export const deleteSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceCredentials",
+  iam: { actions: ["codebuild:DeleteSourceCredentials"] },
   telemetry: TELEMETRY,
   span: "DeleteSourceCredentials",
 }));
@@ -2002,6 +2154,14 @@ export const deleteWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebhook",
+  iam: {
+    actions: ["codebuild:DeleteWebhook"],
+    resources: {
+      "codebuild:DeleteWebhook": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWebhook",
 }));
@@ -2029,6 +2189,14 @@ export const describeCodeCoverages: API.PaginatedOperationMethod<
     items: "codeCoverages",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codebuild:DescribeCodeCoverages"],
+    resources: {
+      "codebuild:DescribeCodeCoverages": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeCodeCoverages",
 })) as any;
@@ -2059,6 +2227,14 @@ export const describeTestCases: API.PaginatedOperationMethod<
     items: "testCases",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codebuild:DescribeTestCases"],
+    resources: {
+      "codebuild:DescribeTestCases": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeTestCases",
 })) as any;
@@ -2082,6 +2258,14 @@ export const getReportGroupTrend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReportGroupTrend",
+  iam: {
+    actions: ["codebuild:GetReportGroupTrend"],
+    resources: {
+      "codebuild:GetReportGroupTrend": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetReportGroupTrend",
 }));
@@ -2105,6 +2289,7 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
+  iam: { actions: ["codebuild:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -2130,6 +2315,7 @@ export const importSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSourceCredentials",
+  iam: { actions: ["codebuild:ImportSourceCredentials"] },
   telemetry: TELEMETRY,
   span: "ImportSourceCredentials",
 }));
@@ -2153,6 +2339,14 @@ export const invalidateProjectCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvalidateProjectCache",
+  iam: {
+    actions: ["codebuild:InvalidateProjectCache"],
+    resources: {
+      "codebuild:InvalidateProjectCache": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvalidateProjectCache",
 }));
@@ -2180,6 +2374,7 @@ export const listBuildBatches: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codebuild:ListBuildBatches"] },
   telemetry: TELEMETRY,
   span: "ListBuildBatches",
 })) as any;
@@ -2210,6 +2405,14 @@ export const listBuildBatchesForProject: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codebuild:ListBuildBatchesForProject"],
+    resources: {
+      "codebuild:ListBuildBatchesForProject": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBuildBatchesForProject",
 })) as any;
@@ -2232,6 +2435,7 @@ export const listBuilds: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBuilds",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "ids" } as const,
+  iam: { actions: ["codebuild:ListBuilds"] },
   telemetry: TELEMETRY,
   span: "ListBuilds",
 })) as any;
@@ -2258,6 +2462,14 @@ export const listBuildsForProject: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListBuildsForProject",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "ids" } as const,
+  iam: {
+    actions: ["codebuild:ListBuildsForProject"],
+    resources: {
+      "codebuild:ListBuildsForProject": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListBuildsForProject",
 })) as any;
@@ -2288,6 +2500,14 @@ export const listCommandExecutionsForSandbox: API.PaginatedOperationMethod<
     items: "commandExecutions",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codebuild:ListCommandExecutionsForSandbox"],
+    resources: {
+      "codebuild:ListCommandExecutionsForSandbox": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:sandbox/${SandboxId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListCommandExecutionsForSandbox",
 })) as any;
@@ -2308,6 +2528,7 @@ export const listCuratedEnvironmentImages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCuratedEnvironmentImages",
+  iam: { actions: ["codebuild:ListCuratedEnvironmentImages"] },
   telemetry: TELEMETRY,
   span: "ListCuratedEnvironmentImages",
 }));
@@ -2334,6 +2555,7 @@ export const listFleets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codebuild:ListFleets"] },
   telemetry: TELEMETRY,
   span: "ListFleets",
 })) as any;
@@ -2357,6 +2579,7 @@ export const listProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "projects" } as const,
+  iam: { actions: ["codebuild:ListProjects"] },
   telemetry: TELEMETRY,
   span: "ListProjects",
 })) as any;
@@ -2384,6 +2607,7 @@ export const listReportGroups: API.PaginatedOperationMethod<
     items: "reportGroups",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codebuild:ListReportGroups"] },
   telemetry: TELEMETRY,
   span: "ListReportGroups",
 })) as any;
@@ -2411,6 +2635,7 @@ export const listReports: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codebuild:ListReports"] },
   telemetry: TELEMETRY,
   span: "ListReports",
 })) as any;
@@ -2441,6 +2666,14 @@ export const listReportsForReportGroup: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codebuild:ListReportsForReportGroup"],
+    resources: {
+      "codebuild:ListReportsForReportGroup": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListReportsForReportGroup",
 })) as any;
@@ -2468,6 +2701,7 @@ export const listSandboxes: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codebuild:ListSandboxes"] },
   telemetry: TELEMETRY,
   span: "ListSandboxes",
 })) as any;
@@ -2498,6 +2732,14 @@ export const listSandboxesForProject: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["codebuild:ListSandboxesForProject"],
+    resources: {
+      "codebuild:ListSandboxesForProject": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListSandboxesForProject",
 })) as any;
@@ -2525,6 +2767,7 @@ export const listSharedProjects: API.PaginatedOperationMethod<
     items: "projects",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codebuild:ListSharedProjects"] },
   telemetry: TELEMETRY,
   span: "ListSharedProjects",
 })) as any;
@@ -2552,6 +2795,7 @@ export const listSharedReportGroups: API.PaginatedOperationMethod<
     items: "reportGroups",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["codebuild:ListSharedReportGroups"] },
   telemetry: TELEMETRY,
   span: "ListSharedReportGroups",
 })) as any;
@@ -2572,6 +2816,7 @@ export const listSourceCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSourceCredentials",
+  iam: { actions: ["codebuild:ListSourceCredentials"] },
   telemetry: TELEMETRY,
   span: "ListSourceCredentials",
 }));
@@ -2596,6 +2841,7 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
+  iam: { actions: ["codebuild:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -2620,6 +2866,14 @@ export const retryBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryBuild",
+  iam: {
+    actions: ["codebuild:RetryBuild"],
+    resources: {
+      "codebuild:RetryBuild": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetryBuild",
 }));
@@ -2640,6 +2894,14 @@ export const retryBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryBuildBatch",
+  iam: {
+    actions: ["codebuild:RetryBuildBatch"],
+    resources: {
+      "codebuild:RetryBuildBatch": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RetryBuildBatch",
 }));
@@ -2668,6 +2930,16 @@ export const startBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBuild",
+  iam: {
+    actions: ["iam:PassRole", "codebuild:StartBuild"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "codebuild:StartBuild": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "imagePullCredentialsTypeOverride.SERVICE_ROLE" },
+  },
   telemetry: TELEMETRY,
   span: "StartBuild",
 }));
@@ -2688,6 +2960,16 @@ export const startBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBuildBatch",
+  iam: {
+    actions: ["iam:PassRole", "codebuild:StartBuildBatch"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "codebuild:StartBuildBatch": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "imagePullCredentialsTypeOverride.SERVICE_ROLE" },
+  },
   telemetry: TELEMETRY,
   span: "StartBuildBatch",
 }));
@@ -2711,6 +2993,14 @@ export const startCommandExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCommandExecution",
+  iam: {
+    actions: ["codebuild:StartCommandExecution"],
+    resources: {
+      "codebuild:StartCommandExecution": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:sandbox/${SandboxId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartCommandExecution",
 }));
@@ -2735,6 +3025,14 @@ export const startSandbox: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSandbox",
+  iam: {
+    actions: ["codebuild:StartSandbox"],
+    resources: {
+      "codebuild:StartSandbox": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartSandbox",
 }));
@@ -2758,6 +3056,14 @@ export const startSandboxConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSandboxConnection",
+  iam: {
+    actions: ["codebuild:StartSandboxConnection"],
+    resources: {
+      "codebuild:StartSandboxConnection": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:sandbox/${SandboxId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartSandboxConnection",
 }));
@@ -2778,6 +3084,14 @@ export const stopBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBuild",
+  iam: {
+    actions: ["codebuild:StopBuild"],
+    resources: {
+      "codebuild:StopBuild": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopBuild",
 }));
@@ -2798,6 +3112,14 @@ export const stopBuildBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBuildBatch",
+  iam: {
+    actions: ["codebuild:StopBuildBatch"],
+    resources: {
+      "codebuild:StopBuildBatch": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopBuildBatch",
 }));
@@ -2818,6 +3140,14 @@ export const stopSandbox: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSandbox",
+  iam: {
+    actions: ["codebuild:StopSandbox"],
+    resources: {
+      "codebuild:StopSandbox": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopSandbox",
 }));
@@ -2842,6 +3172,16 @@ export const updateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
+  iam: {
+    actions: ["iam:PassRole", "codebuild:UpdateFleet"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "codebuild:UpdateFleet": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:fleet/${FleetName}:${FleetId}",
+      ],
+    },
+    conditional: { "iam:PassRole": "fleetServiceRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFleet",
 }));
@@ -2862,6 +3202,19 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
+  iam: {
+    actions: ["secretsmanager:DescribeSecret", "iam:PassRole", "codebuild:UpdateProject"],
+    resources: {
+      "secretsmanager:DescribeSecret": [
+        "arn:${Partition}:secretsmanager:${Region}:${Account}:secret:${SecretId}",
+      ],
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "codebuild:UpdateProject": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "serviceRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProject",
 }));
@@ -2911,6 +3264,16 @@ export const updateProjectVisibility: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProjectVisibility",
+  iam: {
+    actions: ["iam:PassRole", "codebuild:UpdateProjectVisibility"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "codebuild:UpdateProjectVisibility": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+    conditional: { "iam:PassRole": "resourceAccessRole" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProjectVisibility",
 }));
@@ -2934,6 +3297,14 @@ export const updateReportGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReportGroup",
+  iam: {
+    actions: ["codebuild:UpdateReportGroup"],
+    resources: {
+      "codebuild:UpdateReportGroup": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:report-group/${ReportGroupName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateReportGroup",
 }));
@@ -2960,6 +3331,14 @@ export const updateWebhook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebhook",
+  iam: {
+    actions: ["codebuild:UpdateWebhook"],
+    resources: {
+      "codebuild:UpdateWebhook": [
+        "arn:${Partition}:codebuild:${Region}:${Account}:project/${ProjectName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWebhook",
 }));

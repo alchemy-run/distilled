@@ -561,6 +561,10 @@ export const createKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeyspace",
+  iam: {
+    actions: ["cassandra:Create", "cassandra:CreateMultiRegionResource", "cassandra:TagResource"],
+    conditional: { "cassandra:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateKeyspace",
 }));
@@ -599,6 +603,10 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
+  iam: {
+    actions: ["cassandra:Create", "cassandra:CreateMultiRegionResource", "cassandra:TagResource"],
+    conditional: { "cassandra:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateTable",
 }));
@@ -637,6 +645,7 @@ export const createType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateType",
+  iam: { actions: ["cassandra:Create", "cassandra:CreateMultiRegionResource"] },
   telemetry: TELEMETRY,
   span: "CreateType",
 }));
@@ -671,6 +680,7 @@ export const deleteKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeyspace",
+  iam: { actions: ["cassandra:Drop", "cassandra:DropMultiRegionResource"] },
   telemetry: TELEMETRY,
   span: "DeleteKeyspace",
 }));
@@ -705,6 +715,7 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
+  iam: { actions: ["cassandra:Drop", "cassandra:DropMultiRegionResource"] },
   telemetry: TELEMETRY,
   span: "DeleteTable",
 }));
@@ -741,6 +752,7 @@ export const deleteType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteType",
+  iam: { actions: ["cassandra:Drop", "cassandra:DropMultiRegionResource"] },
   telemetry: TELEMETRY,
   span: "DeleteType",
 }));
@@ -773,6 +785,14 @@ export const getKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyspace",
+  iam: {
+    actions: ["cassandra:Select"],
+    resources: {
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetKeyspace",
 }));
@@ -807,6 +827,14 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
+  iam: {
+    actions: ["cassandra:Select"],
+    resources: {
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTable",
 }));
@@ -849,6 +877,22 @@ export const getTableAutoScalingSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableAutoScalingSettings",
+  iam: {
+    actions: [
+      "application-autoscaling:DescribeScalableTargets",
+      "application-autoscaling:DescribeScalingPolicies",
+      "cassandra:Select",
+      "cassandra:SelectMultiRegionResource",
+    ],
+    resources: {
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+      "cassandra:SelectMultiRegionResource": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTableAutoScalingSettings",
 }));
@@ -883,6 +927,14 @@ export const getType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetType",
+  iam: {
+    actions: ["cassandra:Select"],
+    resources: {
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetType",
 }));
@@ -922,6 +974,14 @@ export const listKeyspaces: API.PaginatedOperationMethod<
     items: "keyspaces",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cassandra:Select"],
+    resources: {
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListKeyspaces",
 })) as any;
@@ -963,6 +1023,14 @@ export const listTables: API.PaginatedOperationMethod<
     items: "tables",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cassandra:Select"],
+    resources: {
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTables",
 })) as any;
@@ -1045,6 +1113,14 @@ export const listTypes: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["cassandra:Select"],
+    resources: {
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTypes",
 })) as any;
@@ -1105,6 +1181,20 @@ export const restoreTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTable",
+  iam: {
+    actions: ["cassandra:Restore", "cassandra:RestoreMultiRegionTable", "cassandra:Select"],
+    resources: {
+      "cassandra:Restore": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+      "cassandra:RestoreMultiRegionTable": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "RestoreTable",
 }));
@@ -1141,6 +1231,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: [
+      "cassandra:Alter",
+      "cassandra:AlterMultiRegionResource",
+      "cassandra:TagMultiRegionResource",
+      "cassandra:TagResource",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1175,6 +1273,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: [
+      "cassandra:Alter",
+      "cassandra:AlterMultiRegionResource",
+      "cassandra:UnTagMultiRegionResource",
+      "cassandra:UntagResource",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1249,6 +1355,44 @@ export const updateKeyspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyspace",
+  iam: {
+    actions: [
+      "cassandra:Alter",
+      "cassandra:AlterMultiRegionResource",
+      "cassandra:Create",
+      "cassandra:CreateMultiRegionResource",
+      "application-autoscaling:DescribeScalableTargets",
+      "application-autoscaling:DescribeScalingPolicies",
+      "cassandra:Modify",
+      "cassandra:ModifyMultiRegionResource",
+      "application-autoscaling:PutScalingPolicy",
+      "application-autoscaling:RegisterScalableTarget",
+      "cassandra:Select",
+      "cassandra:SelectMultiRegionResource",
+      "cassandra:TagMultiRegionResource",
+      "cassandra:TagResource",
+    ],
+    resources: {
+      "cassandra:Modify": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+      "cassandra:ModifyMultiRegionResource": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+      "application-autoscaling:PutScalingPolicy": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+      "application-autoscaling:RegisterScalableTarget": [
+        "arn:${Partition}:application-autoscaling:${Region}:${Account}:scalable-target/${ResourceId}",
+      ],
+      "cassandra:Select": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+      "cassandra:SelectMultiRegionResource": [
+        "arn:${Partition}:cassandra:${Region}:${Account}:/keyspace/${KeyspaceName}/table/${TableName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateKeyspace",
 }));
@@ -1283,6 +1427,7 @@ export const updateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTable",
+  iam: { actions: ["cassandra:Alter", "cassandra:AlterMultiRegionResource"] },
   telemetry: TELEMETRY,
   span: "UpdateTable",
 }));

@@ -1,8 +1,14 @@
 {
   "errors": {
     "ThrottlingException": {
-      "message": { "type": "string", "optional": true },
-      "serviceCode": { "type": "string", "optional": true }
+      "message": {
+        "type": "string",
+        "optional": true
+      },
+      "serviceCode": {
+        "type": "string",
+        "optional": true
+      }
     }
   },
   "errorCategories": {
@@ -11,6 +17,18 @@
   "operations": {
     "associateAttributeGroup": {
       "errors": ["ThrottlingException"]
+    },
+    "syncResource": {
+      "iam": {
+        "reason": "The target is an arbitrary external resource, so nothing here supports resource-level scoping.",
+        "add": [
+          "cloudformation:DescribeStacks",
+          "cloudformation:UpdateStack",
+          "tag:GetResources",
+          "tag:TagResources",
+          "tag:UntagResources"
+        ]
+      }
     }
   }
 }

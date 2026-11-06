@@ -460,6 +460,7 @@ export const cancelResourceRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelResourceRequest",
+  iam: { actions: ["cloudformation:CancelResourceRequest"] },
   telemetry: TELEMETRY,
   span: "CancelResourceRequest",
 }));
@@ -525,6 +526,11 @@ export const createResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResource",
+  iam: {
+    actions: ["cloudformation:CreateResource", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "CreateResource",
 }));
@@ -590,6 +596,11 @@ export const deleteResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResource",
+  iam: {
+    actions: ["cloudformation:DeleteResource", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "DeleteResource",
 }));
@@ -650,6 +661,11 @@ export const getResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResource",
+  iam: {
+    actions: ["cloudformation:GetResource", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "GetResource",
 }));
@@ -672,6 +688,7 @@ export const getResourceRequestStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceRequestStatus",
+  iam: { actions: ["cloudformation:GetResourceRequestStatus"] },
   telemetry: TELEMETRY,
   span: "GetResourceRequestStatus",
 }));
@@ -703,6 +720,7 @@ export const listResourceRequests: API.PaginatedOperationMethod<
     items: "ResourceRequestStatusSummaries",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["cloudformation:ListResourceRequests"] },
   telemetry: TELEMETRY,
   span: "ListResourceRequests",
 })) as any;
@@ -769,6 +787,11 @@ export const listResources: API.PaginatedOperationMethod<
     items: "ResourceDescriptions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["cloudformation:ListResources", "iam:PassRole"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "ListResources",
 })) as any;
@@ -844,6 +867,11 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
+  iam: {
+    actions: ["iam:PassRole", "cloudformation:UpdateResource"],
+    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
+    conditional: { "iam:PassRole": "RoleArn" },
+  },
   telemetry: TELEMETRY,
   span: "UpdateResource",
 }));

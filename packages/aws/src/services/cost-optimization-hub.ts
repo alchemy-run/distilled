@@ -1418,6 +1418,7 @@ export const getPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPreferences",
+  iam: { actions: ["cost-optimization-hub:GetPreferences"] },
   telemetry: TELEMETRY,
   span: "GetPreferences",
 }));
@@ -1452,6 +1453,7 @@ export const getRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendation",
+  iam: { actions: ["cost-optimization-hub:GetRecommendation"] },
   telemetry: TELEMETRY,
   span: "GetRecommendation",
 }));
@@ -1491,6 +1493,7 @@ export const listEfficiencyMetrics: API.PaginatedOperationMethod<
     items: "efficiencyMetricsByGroup",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cost-optimization-hub:ListEfficiencyMetrics"] },
   telemetry: TELEMETRY,
   span: "ListEfficiencyMetrics",
 })) as any;
@@ -1528,6 +1531,7 @@ export const listEnrollmentStatuses: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cost-optimization-hub:ListEnrollmentStatuses"] },
   telemetry: TELEMETRY,
   span: "ListEnrollmentStatuses",
 })) as any;
@@ -1565,6 +1569,7 @@ export const listRecommendations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cost-optimization-hub:ListRecommendations"] },
   telemetry: TELEMETRY,
   span: "ListRecommendations",
 })) as any;
@@ -1604,6 +1609,7 @@ export const listRecommendationSummaries: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["cost-optimization-hub:ListRecommendationSummaries"] },
   telemetry: TELEMETRY,
   span: "ListRecommendationSummaries",
 })) as any;
@@ -1638,6 +1644,7 @@ export const updateEnrollmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnrollmentStatus",
+  iam: { actions: ["cost-optimization-hub:UpdateEnrollmentStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateEnrollmentStatus",
 }));
@@ -1668,6 +1675,7 @@ export const updatePreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePreferences",
+  iam: { actions: ["cost-optimization-hub:UpdatePreferences"] },
   telemetry: TELEMETRY,
   span: "UpdatePreferences",
 }));

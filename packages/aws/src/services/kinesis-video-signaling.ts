@@ -210,6 +210,14 @@ export const getIceServerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIceServerConfig",
+  iam: {
+    actions: ["kinesisvideo:GetIceServerConfig"],
+    resources: {
+      "kinesisvideo:GetIceServerConfig": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetIceServerConfig",
 }));
@@ -245,6 +253,14 @@ export const sendAlexaOfferToMaster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAlexaOfferToMaster",
+  iam: {
+    actions: ["kinesisvideo:SendAlexaOfferToMaster"],
+    resources: {
+      "kinesisvideo:SendAlexaOfferToMaster": [
+        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "SendAlexaOfferToMaster",
 }));

@@ -307,6 +307,15 @@ export const acceptConnectionProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptConnectionProposal",
+  iam: {
+    actions: ["interconnect:AcceptConnectionProposal", "interconnect:TagResource"],
+    resources: {
+      "interconnect:TagResource": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:connection/${Id}",
+      ],
+    },
+    conditional: { "interconnect:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "AcceptConnectionProposal",
 }));
@@ -333,6 +342,18 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
+  iam: {
+    actions: ["interconnect:CreateConnection", "interconnect:TagResource"],
+    resources: {
+      "interconnect:CreateConnection": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:connection/${Id}",
+      ],
+      "interconnect:TagResource": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:connection/${Id}",
+      ],
+    },
+    conditional: { "interconnect:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnection",
 }));
@@ -355,6 +376,14 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
+  iam: {
+    actions: ["interconnect:DeleteConnection"],
+    resources: {
+      "interconnect:DeleteConnection": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:connection/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -375,6 +404,7 @@ export const describeConnectionProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionProposal",
+  iam: { actions: ["interconnect:DescribeConnectionProposal"] },
   telemetry: TELEMETRY,
   span: "DescribeConnectionProposal",
 }));
@@ -395,6 +425,14 @@ export const getConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnection",
+  iam: {
+    actions: ["interconnect:GetConnection"],
+    resources: {
+      "interconnect:GetConnection": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:connection/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetConnection",
 }));
@@ -415,6 +453,14 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
+  iam: {
+    actions: ["interconnect:GetEnvironment"],
+    resources: {
+      "interconnect:GetEnvironment": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:environment/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -442,6 +488,7 @@ export const listAttachPoints: API.PaginatedOperationMethod<
     items: "attachPoints",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["interconnect:ListAttachPoints"] },
   telemetry: TELEMETRY,
   span: "ListAttachPoints",
 })) as any;
@@ -481,6 +528,7 @@ export const listConnections: API.PaginatedOperationMethod<
     items: "connections",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["interconnect:ListConnections"] },
   telemetry: TELEMETRY,
   span: "ListConnections",
 })) as any;
@@ -508,6 +556,7 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["interconnect:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -528,6 +577,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["interconnect:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -548,6 +598,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["interconnect:TagResource"],
+    resources: {
+      "interconnect:TagResource": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:connection/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -568,6 +626,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["interconnect:UntagResource"],
+    resources: {
+      "interconnect:UntagResource": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:connection/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -588,6 +654,14 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
+  iam: {
+    actions: ["interconnect:UpdateConnection"],
+    resources: {
+      "interconnect:UpdateConnection": [
+        "arn:${Partition}:interconnect:${Region}:${Account}:connection/${Id}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnection",
 }));

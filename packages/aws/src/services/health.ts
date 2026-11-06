@@ -575,6 +575,9 @@ export const describeAffectedAccountsForOrganization: API.PaginatedOperationMeth
     items: "affectedAccounts",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["health:DescribeAffectedAccountsForOrganization", "organizations:ListAccounts"],
+  },
   telemetry: TELEMETRY,
   span: "DescribeAffectedAccountsForOrganization",
 })) as any;
@@ -616,6 +619,14 @@ export const describeAffectedEntities: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["health:DescribeAffectedEntities"],
+    resources: {
+      "health:DescribeAffectedEntities": [
+        "arn:${Partition}:health:*::event/${Service}/${EventTypeCode}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeAffectedEntities",
 })) as any;
@@ -660,6 +671,9 @@ export const describeAffectedEntitiesForOrganization: API.PaginatedOperationMeth
     items: "entities",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["health:DescribeAffectedEntitiesForOrganization", "organizations:ListAccounts"],
+  },
   telemetry: TELEMETRY,
   span: "DescribeAffectedEntitiesForOrganization",
 })) as any;
@@ -680,6 +694,7 @@ export const describeEntityAggregates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityAggregates",
+  iam: { actions: ["health:DescribeEntityAggregates"] },
   telemetry: TELEMETRY,
   span: "DescribeEntityAggregates",
 }));
@@ -700,6 +715,9 @@ export const describeEntityAggregatesForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntityAggregatesForOrganization",
+  iam: {
+    actions: ["health:DescribeEntityAggregatesForOrganization", "organizations:ListAccounts"],
+  },
   telemetry: TELEMETRY,
   span: "DescribeEntityAggregatesForOrganization",
 }));
@@ -731,6 +749,7 @@ export const describeEventAggregates: API.PaginatedOperationMethod<
     items: "eventAggregates",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["health:DescribeEventAggregates"] },
   telemetry: TELEMETRY,
   span: "DescribeEventAggregates",
 })) as any;
@@ -760,6 +779,14 @@ export const describeEventDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventDetails",
+  iam: {
+    actions: ["health:DescribeEventDetails"],
+    resources: {
+      "health:DescribeEventDetails": [
+        "arn:${Partition}:health:*::event/${Service}/${EventTypeCode}/*",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DescribeEventDetails",
 }));
@@ -807,6 +834,7 @@ export const describeEventDetailsForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventDetailsForOrganization",
+  iam: { actions: ["health:DescribeEventDetailsForOrganization", "organizations:ListAccounts"] },
   telemetry: TELEMETRY,
   span: "DescribeEventDetailsForOrganization",
 }));
@@ -851,6 +879,7 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["health:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 })) as any;
@@ -903,6 +932,7 @@ export const describeEventsForOrganization: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["health:DescribeEventsForOrganization", "organizations:ListAccounts"] },
   telemetry: TELEMETRY,
   span: "DescribeEventsForOrganization",
 })) as any;
@@ -936,6 +966,7 @@ export const describeEventTypes: API.PaginatedOperationMethod<
     items: "eventTypes",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["health:DescribeEventTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeEventTypes",
 })) as any;
@@ -958,6 +989,9 @@ export const describeHealthServiceStatusForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHealthServiceStatusForOrganization",
+  iam: {
+    actions: ["health:DescribeHealthServiceStatusForOrganization", "organizations:ListAccounts"],
+  },
   telemetry: TELEMETRY,
   span: "DescribeHealthServiceStatusForOrganization",
 }));
@@ -1020,6 +1054,13 @@ export const disableHealthServiceAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableHealthServiceAccessForOrganization",
+  iam: {
+    actions: [
+      "organizations:DisableAWSServiceAccess",
+      "health:DisableHealthServiceAccessForOrganization",
+      "organizations:ListAccounts",
+    ],
+  },
   telemetry: TELEMETRY,
   span: "DisableHealthServiceAccessForOrganization",
 }));
@@ -1061,6 +1102,17 @@ export const enableHealthServiceAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableHealthServiceAccessForOrganization",
+  iam: {
+    actions: [
+      "iam:CreateServiceLinkedRole",
+      "organizations:EnableAWSServiceAccess",
+      "health:EnableHealthServiceAccessForOrganization",
+      "organizations:ListAccounts",
+    ],
+    resources: {
+      "iam:CreateServiceLinkedRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EnableHealthServiceAccessForOrganization",
 }));

@@ -502,6 +502,12 @@ export interface AgenticRetrieveMemoryConfiguration {
   retrievalConfigs?: AgenticRetrieveMemoryRetrievalConfig[];
   persistenceMode?: AgenticRetrieveMemoryPersistenceMode;
 }
+export type RetrievalInstructionId = string;
+export type RetrievalInstructionVersion = string;
+export interface AgenticRetrieveInstructionConfiguration {
+  retrievalInstructionId: string;
+  version?: string;
+}
 export interface AgenticRetrieveStreamRequest {
   messages: AgenticRetrieveMessage[];
   retrievers: AgenticRetriever[];
@@ -510,6 +516,7 @@ export interface AgenticRetrieveStreamRequest {
   nextToken?: string;
   userContext?: UserContext;
   memoryConfiguration?: AgenticRetrieveMemoryConfiguration;
+  retrievalInstructionConfiguration?: AgenticRetrieveInstructionConfiguration;
   generateResponse?: boolean;
 }
 export type MimeType = string;
@@ -553,6 +560,7 @@ export type AgenticRetrieveStep =
   | "SpeculativeRetrieval"
   | "FullDocumentExpansion"
   | "SessionHistoryLoad"
+  | "CodeExecution"
   | (string & {});
 export type AgenticRetrieveStatus = "IN_PROGRESS" | "SUCCEEDED" | "FAILED" | (string & {});
 export type AgenticRetrieveSourceRetrieverList = AgenticRetrieveSourceRetriever[];
@@ -571,10 +579,19 @@ export interface AgenticRetrieveMemoryRetrieveDetails {
   namespacePath?: string;
   strategyId?: string;
 }
+export interface AgenticRetrieveCodeExecutionDocument {
+  documentId?: string;
+  sourceRetriever?: AgenticRetrieveSourceRetriever;
+}
+export type AgenticRetrieveCodeExecutionDocumentList = AgenticRetrieveCodeExecutionDocument[];
+export interface AgenticRetrieveCodeExecutionDetails {
+  documents?: AgenticRetrieveCodeExecutionDocument[];
+}
 export interface AgenticRetrieveAction {
   retrieve?: AgenticRetrieveActionDetails;
   fullDocumentExpansion?: AgenticRetrieveFullDocExpansionDetails;
   memoryRetrieve?: AgenticRetrieveMemoryRetrieveDetails;
+  codeExecution?: AgenticRetrieveCodeExecutionDetails;
 }
 export type AgenticRetrieveActions = AgenticRetrieveAction[];
 export interface AgenticRetrieveWarningMessage {
@@ -607,6 +624,10 @@ export interface AgenticRetrieveTraceResultItem {
   sourceRetriever?: AgenticRetrieveSourceRetriever;
 }
 export type AgenticRetrieveTraceResults = AgenticRetrieveTraceResultItem[];
+export interface AgenticRetrieveAppliedInstruction {
+  id: string;
+  version?: string;
+}
 export interface AgenticRetrieveTraceEventAttributes {
   step: AgenticRetrieveStep;
   status: AgenticRetrieveStatus;
@@ -616,6 +637,7 @@ export interface AgenticRetrieveTraceEventAttributes {
   failures?: AgenticRetrieveFailure[];
   retrievalMetadata?: AgenticRetrieveSourceMetadata[];
   retrievalResponse?: AgenticRetrieveTraceResultItem[];
+  appliedInstruction?: AgenticRetrieveAppliedInstruction;
 }
 export interface AgenticRetrieveTraceEvent {
   id: string;
@@ -3741,8 +3763,8 @@ export const agenticRetrieveStream: API.OperationMethod<
   AgenticRetrieveStreamError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c0, 24) as any as S.Schema<AgenticRetrieveStreamRequest>,
-  output: __S(53, __c1, 21) as any as S.Schema<AgenticRetrieveStreamResponse>,
+  input: __S(25, __c0, 25) as any as S.Schema<AgenticRetrieveStreamRequest>,
+  output: __S(57, __c1, 25) as any as S.Schema<AgenticRetrieveStreamResponse>,
   errors: [
     AccessDeniedException,
     BadGatewayException,
@@ -3757,6 +3779,14 @@ export const agenticRetrieveStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AgenticRetrieveStream",
+  iam: {
+    actions: ["bedrock:AgenticRetrieveStream", "bedrock:Retrieve"],
+    resources: {
+      "bedrock:Retrieve": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "AgenticRetrieveStream",
 }));
@@ -3789,6 +3819,7 @@ export const checkIngestedDocumentAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckIngestedDocumentAcl",
+  iam: { actions: ["bedrock:CheckIngestedDocumentAcl"] },
   telemetry: TELEMETRY,
   span: "CheckIngestedDocumentAcl",
 }));
@@ -3833,6 +3864,14 @@ export const createInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvocation",
+  iam: {
+    actions: ["bedrock:CreateInvocation"],
+    resources: {
+      "bedrock:CreateInvocation": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "CreateInvocation",
 }));
@@ -3881,6 +3920,10 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
+  iam: {
+    actions: ["bedrock:CreateSession", "bedrock:TagResource"],
+    conditional: { "bedrock:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateSession",
 }));
@@ -3921,6 +3964,14 @@ export const deleteAgentMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentMemory",
+  iam: {
+    actions: ["bedrock:DeleteAgentMemory"],
+    resources: {
+      "bedrock:DeleteAgentMemory": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteAgentMemory",
 }));
@@ -3955,6 +4006,14 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
+  iam: {
+    actions: ["bedrock:DeleteSession"],
+    resources: {
+      "bedrock:DeleteSession": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteSession",
 }));
@@ -3989,6 +4048,12 @@ export const endSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EndSession",
+  iam: {
+    actions: ["bedrock:EndSession"],
+    resources: {
+      "bedrock:EndSession": ["arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "EndSession",
 }));
@@ -4029,6 +4094,14 @@ export const generateQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateQuery",
+  iam: {
+    actions: ["bedrock:GenerateQuery", "bedrock:GetKnowledgeBase"],
+    resources: {
+      "bedrock:GetKnowledgeBase": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GenerateQuery",
 }));
@@ -4076,6 +4149,14 @@ export const getAgentMemory: API.PaginatedOperationMethod<
     items: "memoryContents",
     pageSize: "maxItems",
   } as const,
+  iam: {
+    actions: ["bedrock:GetAgentMemory"],
+    resources: {
+      "bedrock:GetAgentMemory": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetAgentMemory",
 })) as any;
@@ -4108,6 +4189,14 @@ export const getDocumentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentContent",
+  iam: {
+    actions: ["bedrock:GetDocumentContent", "bedrock:Retrieve"],
+    resources: {
+      "bedrock:Retrieve": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetDocumentContent",
 }));
@@ -4142,6 +4231,16 @@ export const getExecutionFlowSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecutionFlowSnapshot",
+  iam: {
+    actions: ["bedrock:GetExecutionFlowSnapshot"],
+    resources: {
+      "bedrock:GetExecutionFlowSnapshot": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetExecutionFlowSnapshot",
 }));
@@ -4174,6 +4273,16 @@ export const getFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowExecution",
+  iam: {
+    actions: ["bedrock:GetFlowExecution"],
+    resources: {
+      "bedrock:GetFlowExecution": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetFlowExecution",
 }));
@@ -4206,6 +4315,7 @@ export const getIngestedDocumentAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestedDocumentAcl",
+  iam: { actions: ["bedrock:GetIngestedDocumentAcl"] },
   telemetry: TELEMETRY,
   span: "GetIngestedDocumentAcl",
 }));
@@ -4238,6 +4348,14 @@ export const getInvocationStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvocationStep",
+  iam: {
+    actions: ["bedrock:GetInvocationStep"],
+    resources: {
+      "bedrock:GetInvocationStep": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetInvocationStep",
 }));
@@ -4270,6 +4388,12 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
+  iam: {
+    actions: ["bedrock:GetSession"],
+    resources: {
+      "bedrock:GetSession": ["arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}"],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -4334,6 +4458,14 @@ export const invokeAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgent",
+  iam: {
+    actions: ["bedrock:InvokeAgent"],
+    resources: {
+      "bedrock:InvokeAgent": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeAgent",
 }));
@@ -4376,6 +4508,14 @@ export const invokeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeFlow",
+  iam: {
+    actions: ["bedrock:InvokeFlow"],
+    resources: {
+      "bedrock:InvokeFlow": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "InvokeFlow",
 }));
@@ -4426,6 +4566,7 @@ export const invokeInlineAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeInlineAgent",
+  iam: { actions: ["bedrock:InvokeInlineAgent"] },
   telemetry: TELEMETRY,
   span: "InvokeInlineAgent",
 }));
@@ -4467,6 +4608,16 @@ export const listFlowExecutionEvents: API.PaginatedOperationMethod<
     items: "flowExecutionEvents",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock:ListFlowExecutionEvents"],
+    resources: {
+      "bedrock:ListFlowExecutionEvents": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListFlowExecutionEvents",
 })) as any;
@@ -4508,6 +4659,7 @@ export const listFlowExecutions: API.PaginatedOperationMethod<
     items: "flowExecutionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:ListFlowExecutions"] },
   telemetry: TELEMETRY,
   span: "ListFlowExecutions",
 })) as any;
@@ -4547,6 +4699,14 @@ export const listInvocations: API.PaginatedOperationMethod<
     items: "invocationSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock:ListInvocations"],
+    resources: {
+      "bedrock:ListInvocations": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInvocations",
 })) as any;
@@ -4586,6 +4746,17 @@ export const listInvocationSteps: API.PaginatedOperationMethod<
     items: "invocationStepSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: {
+    actions: ["bedrock:ListInvocationSteps", "bedrock:ListInvocations"],
+    resources: {
+      "bedrock:ListInvocationSteps": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+      "bedrock:ListInvocations": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListInvocationSteps",
 })) as any;
@@ -4623,6 +4794,7 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["bedrock:ListSessions"] },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -4655,6 +4827,45 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["bedrock:CallWithBearerToken", "bedrock:ListTagsForResource"],
+    resources: {
+      "bedrock:ListTagsForResource": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:agent/${AgentId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint-optimization-invocation/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-invocation/${JobId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library-ingestion-job/${IngestionJobId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-copy-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-customization-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-evaluation-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-import-job/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}:${PromptVersion}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:retrieval-instruction/${RetrievalInstructionId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4689,6 +4900,7 @@ export const optimizePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptimizePrompt",
+  iam: { actions: ["bedrock:OptimizePrompt"] },
   telemetry: TELEMETRY,
   span: "OptimizePrompt",
 }));
@@ -4735,6 +4947,14 @@ export const putInvocationStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInvocationStep",
+  iam: {
+    actions: ["bedrock:PutInvocationStep"],
+    resources: {
+      "bedrock:PutInvocationStep": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "PutInvocationStep",
 }));
@@ -4777,6 +4997,7 @@ export const rerank: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "Rerank",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "results" } as const,
+  iam: { actions: ["bedrock:Rerank"] },
   telemetry: TELEMETRY,
   span: "Rerank",
 })) as any;
@@ -4823,6 +5044,14 @@ export const retrieve: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "retrievalResults",
   } as const,
+  iam: {
+    actions: ["bedrock:Retrieve"],
+    resources: {
+      "bedrock:Retrieve": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "Retrieve",
 })) as any;
@@ -4865,6 +5094,7 @@ export const retrieveAndGenerate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveAndGenerate",
+  iam: { actions: ["bedrock:RetrieveAndGenerate"] },
   telemetry: TELEMETRY,
   span: "RetrieveAndGenerate",
 }));
@@ -4911,6 +5141,7 @@ export const retrieveAndGenerateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveAndGenerateStream",
+  iam: { actions: ["bedrock:RetrieveAndGenerate"] },
   telemetry: TELEMETRY,
   span: "RetrieveAndGenerateStream",
 }));
@@ -4955,6 +5186,15 @@ export const startFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowExecution",
+  iam: {
+    actions: ["bedrock:StartFlowExecution"],
+    resources: {
+      "bedrock:StartFlowExecution": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartFlowExecution",
 }));
@@ -4993,6 +5233,16 @@ export const stopFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlowExecution",
+  iam: {
+    actions: ["bedrock:StopFlowExecution"],
+    resources: {
+      "bedrock:StopFlowExecution": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
+        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopFlowExecution",
 }));
@@ -5027,6 +5277,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5059,6 +5310,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5093,6 +5345,14 @@ export const updateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSession",
+  iam: {
+    actions: ["bedrock:UpdateSession"],
+    resources: {
+      "bedrock:UpdateSession": [
+        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateSession",
 }));
@@ -5218,6 +5478,10 @@ function __c0(j: number): any {
       ).annotate({ identifier: "AgenticRetrieveMemoryConfiguration" });
     case 24:
       return S.suspend(() =>
+        S.Struct({ retrievalInstructionId: S.String, version: S.optional(S.String) }),
+      ).annotate({ identifier: "AgenticRetrieveInstructionConfiguration" });
+    case 25:
+      return S.suspend(() =>
         S.Struct({
           messages: __S(1, __c0, 1),
           retrievers: __S(6, __c0, 6),
@@ -5226,6 +5490,7 @@ function __c0(j: number): any {
           nextToken: S.optional(S.String),
           userContext: S.optional(__S(64, __c2, 0)),
           memoryConfiguration: S.optional(__S(23, __c0, 23)),
+          retrievalInstructionConfiguration: S.optional(__S(24, __c0, 24)),
           generateResponse: S.optional(S.Boolean),
         }).pipe(
           T.all(
@@ -5238,7 +5503,7 @@ function __c0(j: number): any {
           ),
         ),
       ).annotate({ identifier: "AgenticRetrieveStreamRequest" });
-    case 25:
+    case 26:
       return S.suspend(() =>
         S.Struct({
           byteContent: S.optional(T.Blob),
@@ -5246,62 +5511,62 @@ function __c0(j: number): any {
           mimeType: S.String,
         }),
       ).annotate({ identifier: "RetrievalContent" });
-    case 26:
+    case 27:
       return S.suspend(() => S.Struct({ identifier: S.String })).annotate({
         identifier: "AgenticRetrieveSourceRetriever",
       });
-    case 27:
+    case 28:
       return S.suspend(() =>
         S.Struct({
-          content: __S(25, __c0, 25),
+          content: __S(26, __c0, 26),
           metadata: S.optional(__S(128, __c4, 0)),
-          sourceRetriever: __S(26, __c0, 26),
+          sourceRetriever: __S(27, __c0, 27),
         }),
       ).annotate({ identifier: "AgenticRetrieveResultItem" });
-    case 28:
-      return S.Array(__S(27, __c0, 27));
     case 29:
+      return S.Array(__S(28, __c0, 28));
+    case 30:
       return S.suspend(() => S.Struct({ resultIndex: S.Number })).annotate({
         identifier: "AgenticRetrieveCitationReference",
       });
-    case 30:
-      return S.Array(__S(29, __c0, 29));
     case 31:
-      return S.suspend(() =>
-        S.Struct({ startIndex: S.Number, endIndex: S.Number, references: __S(30, __c0, 30) }),
-      ).annotate({ identifier: "AgenticRetrieveCitation" });
+      return S.Array(__S(30, __c0, 30));
   }
 }
 function __c1(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(31, __c0, 31));
-    case 1:
       return S.suspend(() =>
-        S.Struct({ answer: S.String, citations: S.optional(__S(32, __c1, 0)) }),
-      ).annotate({ identifier: "AgenticRetrieveGeneratedResponse" });
+        S.Struct({ startIndex: S.Number, endIndex: S.Number, references: __S(31, __c0, 31) }),
+      ).annotate({ identifier: "AgenticRetrieveCitation" });
+    case 1:
+      return S.Array(__S(32, __c1, 0));
     case 2:
       return S.suspend(() =>
+        S.Struct({ answer: S.String, citations: S.optional(__S(33, __c1, 1)) }),
+      ).annotate({ identifier: "AgenticRetrieveGeneratedResponse" });
+    case 3:
+      return S.suspend(() =>
         S.Struct({
-          results: __S(28, __c0, 28),
-          generatedResponse: S.optional(__S(33, __c1, 1)),
+          results: __S(29, __c0, 29),
+          generatedResponse: S.optional(__S(34, __c1, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveResultEvent" });
-    case 3:
-      return S.Array(__S(26, __c0, 26));
     case 4:
-      return S.suspend(() =>
-        S.Struct({ inputQuery: __S(96, __c3, 0), sourceRetrievers: __S(35, __c1, 3) }),
-      ).annotate({ identifier: "AgenticRetrieveActionDetails" });
+      return S.Array(__S(27, __c0, 27));
     case 5:
+      return S.suspend(() =>
+        S.Struct({ inputQuery: __S(96, __c3, 0), sourceRetrievers: __S(36, __c1, 4) }),
+      ).annotate({ identifier: "AgenticRetrieveActionDetails" });
+    case 6:
       return S.suspend(() =>
         S.Struct({
           documentId: S.optional(S.String),
-          sourceRetriever: S.optional(__S(26, __c0, 26)),
+          sourceRetriever: S.optional(__S(27, __c0, 27)),
         }),
       ).annotate({ identifier: "AgenticRetrieveFullDocExpansionDetails" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           inputQuery: __S(96, __c3, 0),
@@ -5311,21 +5576,28 @@ function __c1(j: number): any {
           strategyId: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveMemoryRetrieveDetails" });
-    case 7:
+    case 8:
+      return S.Array(__S(38, __c1, 6));
+    case 9:
+      return S.suspend(() => S.Struct({ documents: S.optional(__S(40, __c1, 8)) })).annotate({
+        identifier: "AgenticRetrieveCodeExecutionDetails",
+      });
+    case 10:
       return S.suspend(() =>
         S.Struct({
-          retrieve: S.optional(__S(36, __c1, 4)),
-          fullDocumentExpansion: S.optional(__S(37, __c1, 5)),
-          memoryRetrieve: S.optional(__S(38, __c1, 6)),
+          retrieve: S.optional(__S(37, __c1, 5)),
+          fullDocumentExpansion: S.optional(__S(38, __c1, 6)),
+          memoryRetrieve: S.optional(__S(39, __c1, 7)),
+          codeExecution: S.optional(__S(41, __c1, 9)),
         }),
       ).annotate({ identifier: "AgenticRetrieveAction" });
-    case 8:
-      return S.Array(__S(39, __c1, 7));
-    case 9:
+    case 11:
+      return S.Array(__S(42, __c1, 10));
+    case 12:
       return S.suspend(() => S.Struct({ message: S.String })).annotate({
         identifier: "AgenticRetrieveWarningMessage",
       });
-    case 10:
+    case 13:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
@@ -5334,53 +5606,58 @@ function __c1(j: number): any {
           message: S.optional(S.String),
         }),
       ).annotate({ identifier: "AgenticRetrieveGuardrailWarning" });
-    case 11:
-      return S.Union([
-        /*@__PURE__*/ S.Struct({ message: __S(41, __c1, 9) }),
-        /*@__PURE__*/ S.Struct({ guardrail: __S(42, __c1, 10) }),
-      ]);
-    case 12:
-      return S.Array(__S(43, __c1, 11));
-    case 13:
-      return S.Array(__S(41, __c1, 9));
     case 14:
-      return S.suspend(() =>
-        S.Struct({ identifier: S.optional(S.String), retrievalType: S.optional(S.String) }),
-      ).annotate({ identifier: "AgenticRetrieveSourceMetadata" });
+      return S.Union([
+        /*@__PURE__*/ S.Struct({ message: __S(44, __c1, 12) }),
+        /*@__PURE__*/ S.Struct({ guardrail: __S(45, __c1, 13) }),
+      ]);
     case 15:
       return S.Array(__S(46, __c1, 14));
     case 16:
+      return S.Array(__S(44, __c1, 12));
+    case 17:
+      return S.suspend(() =>
+        S.Struct({ identifier: S.optional(S.String), retrievalType: S.optional(S.String) }),
+      ).annotate({ identifier: "AgenticRetrieveSourceMetadata" });
+    case 18:
+      return S.Array(__S(49, __c1, 17));
+    case 19:
       return S.suspend(() =>
         S.Struct({
-          content: S.optional(__S(25, __c0, 25)),
+          content: S.optional(__S(26, __c0, 26)),
           metadata: S.optional(__S(128, __c4, 0)),
-          sourceRetriever: S.optional(__S(26, __c0, 26)),
+          sourceRetriever: S.optional(__S(27, __c0, 27)),
         }),
       ).annotate({ identifier: "AgenticRetrieveTraceResultItem" });
-    case 17:
-      return S.Array(__S(48, __c1, 16));
-    case 18:
+    case 20:
+      return S.Array(__S(51, __c1, 19));
+    case 21:
+      return S.suspend(() => S.Struct({ id: S.String, version: S.optional(S.String) })).annotate({
+        identifier: "AgenticRetrieveAppliedInstruction",
+      });
+    case 22:
       return S.suspend(() =>
         S.Struct({
           step: S.String,
           status: S.String,
           message: S.String,
-          actions: S.optional(__S(40, __c1, 8)),
-          warnings: S.optional(__S(44, __c1, 12)),
-          failures: S.optional(__S(45, __c1, 13)),
-          retrievalMetadata: S.optional(__S(47, __c1, 15)),
-          retrievalResponse: S.optional(__S(49, __c1, 17)),
+          actions: S.optional(__S(43, __c1, 11)),
+          warnings: S.optional(__S(47, __c1, 15)),
+          failures: S.optional(__S(48, __c1, 16)),
+          retrievalMetadata: S.optional(__S(50, __c1, 18)),
+          retrievalResponse: S.optional(__S(52, __c1, 20)),
+          appliedInstruction: S.optional(__S(53, __c1, 21)),
         }),
       ).annotate({ identifier: "AgenticRetrieveTraceEventAttributes" });
-    case 19:
+    case 23:
       return S.suspend(() =>
-        S.Struct({ id: S.String, timestamp: S.Number, attributes: __S(50, __c1, 18) }),
+        S.Struct({ id: S.String, timestamp: S.Number, attributes: __S(54, __c1, 22) }),
       ).annotate({ identifier: "AgenticRetrieveTraceEvent" });
-    case 20:
+    case 24:
       return T.EventStream(
         /*@__PURE__*/ S.Union([
-          /*@__PURE__*/ S.Struct({ result: __S(34, __c1, 2) }),
-          /*@__PURE__*/ S.Struct({ traceEvent: __S(51, __c1, 19) }),
+          /*@__PURE__*/ S.Struct({ result: __S(35, __c1, 3) }),
+          /*@__PURE__*/ S.Struct({ traceEvent: __S(55, __c1, 23) }),
           /*@__PURE__*/ S.Struct({ responseEvent: __S(224, __c7, 0) }),
           /*@__PURE__*/ S.Struct({
             internalServerException: /*@__PURE__*/ S.suspend(
@@ -5429,9 +5706,9 @@ function __c1(j: number): any {
           }),
         ]),
       );
-    case 21:
+    case 25:
       return S.suspend(() =>
-        S.Struct({ stream: __S(52, __c1, 20).pipe(T.HttpPayload()) }),
+        S.Struct({ stream: __S(56, __c1, 24).pipe(T.HttpPayload()) }),
       ).annotate({ identifier: "AgenticRetrieveStreamResponse" });
   }
 }

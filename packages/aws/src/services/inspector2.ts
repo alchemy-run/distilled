@@ -157,7 +157,7 @@ export class ValidationException
       message: /*@__PURE__*/ S.String.pipe(/*@__PURE__*/ T.ErrorMessage()),
       reason: S.String,
       fields: /*@__PURE__*/ S.optional(
-        /*@__PURE__*/ S.suspend(() => __S(3169, __c99, 1)).annotate({
+        /*@__PURE__*/ S.suspend(() => __S(3233, __c101, 1)).annotate({
           identifier: "ValidationExceptionFields",
         }),
       ),
@@ -237,6 +237,7 @@ export interface ResourceState {
   lambda?: State;
   lambdaCode?: State;
   codeRepository?: State;
+  ami?: State;
 }
 export interface AccountState {
   accountId: string;
@@ -250,6 +251,7 @@ export interface ResourceStatus {
   lambda?: string;
   lambdaCode?: string;
   codeRepository?: string;
+  ami?: string;
 }
 export interface FailedAccount {
   accountId: string;
@@ -683,6 +685,10 @@ export interface FilterCriteria {
   epssScore?: NumberFilter[];
   codeRepositoryProjectName?: StringFilter[];
   codeRepositoryProviderType?: StringFilter[];
+  machineImageId?: StringFilter[];
+  machineImageName?: StringFilter[];
+  machineImageOwnerAccountId?: StringFilter[];
+  machineImagePlatform?: StringFilter[];
   cloudProvider?: StringFilter[];
   cloudProviderRegion?: StringFilter[];
   cloudProviderAccountId?: StringFilter[];
@@ -722,6 +728,7 @@ export interface Destination {
   bucketName: string;
   keyPrefix?: string;
   kmsKeyArn: string;
+  expectedBucketOwner?: string;
 }
 export interface CreateFindingsReportRequest {
   filterCriteria?: FilterCriteria;
@@ -810,6 +817,7 @@ export interface AutoEnable {
   lambda?: boolean;
   lambdaCode?: boolean;
   codeRepository?: boolean;
+  ami?: boolean;
 }
 export interface DescribeOrganizationConfigurationResponse {
   autoEnable?: AutoEnable;
@@ -1056,9 +1064,33 @@ export interface Ec2ConfigurationState {
   scanModeState?: Ec2ScanModeState;
   vmScannerState?: VMScannerState;
 }
+export type AmiScanDuration = string;
+export type AmiScanMode = string;
+export type AmiTagKey = string;
+export type AmiTagValue = string;
+export interface AmiTagFilter {
+  key: string;
+  value?: string;
+}
+export type AmiTagFilterList = AmiTagFilter[];
+export interface AmiScanModeConfiguration {
+  scanMode: string;
+  tags?: AmiTagFilter[];
+  excludeCopiedAmis?: boolean;
+  excludeBackupDlmAmis?: boolean;
+}
+export type AmiConfigurationStatus = string;
+export interface AmiConfigurationState {
+  lastLaunchedWithin?: string;
+  createdWithin?: string;
+  scanModeConfiguration?: AmiScanModeConfiguration;
+  status?: string;
+  updatedAt?: Date;
+}
 export interface GetConfigurationResponse {
   ecrConfiguration?: EcrConfigurationState;
   ec2Configuration?: Ec2ConfigurationState;
+  amiConfiguration?: AmiConfigurationState;
 }
 export interface GetDelegatedAdminAccountRequest {}
 export type RelationshipStatus = string;
@@ -1113,6 +1145,31 @@ export interface Member {
 }
 export interface GetMemberResponse {
   member?: Member;
+}
+export type ScanId = string;
+export type OnDemandResourceType = "AMI" | (string & {});
+export interface GetOnDemandScanStatusRequest {
+  resourceId: string;
+  scanId: string;
+  resourceType: OnDemandResourceType;
+}
+export type OnDemandScanStatus = "IN_PROGRESS" | "SUCCESSFUL" | "FAILED" | (string & {});
+export type OnDemandScanStatusReason =
+  | "ACCESS_DENIED"
+  | "INTERNAL_ERROR"
+  | "STORAGE_LIMIT_EXCEEDED"
+  | "EXTRACTION_COLLECTION_TIME_LIMIT_EXCEEDED"
+  | "UNSUPPORTED_OS"
+  | "RESOURCE_TERMINATED"
+  | (string & {});
+export interface GetOnDemandScanStatusResponse {
+  scanId: string;
+  resourceId: string;
+  resourceType: OnDemandResourceType;
+  scanStatus: OnDemandScanStatus;
+  scanStatusReason?: OnDemandScanStatusReason;
+  startedAt: Date;
+  completedAt?: Date;
 }
 export interface GetSbomExportRequest {
   reportId: string;
@@ -1575,6 +1632,7 @@ export interface CoverageFilterCriteria {
   lambdaFunctionName?: CoverageStringFilter[];
   lambdaFunctionTags?: CoverageMapFilter[];
   lambdaFunctionRuntime?: CoverageStringFilter[];
+  machineImageTags?: CoverageMapFilter[];
   lastScannedAt?: CoverageDateFilter[];
   scanMode?: CoverageStringFilter[];
   imagePulledAt?: CoverageDateFilter[];
@@ -1691,6 +1749,11 @@ export interface ServerlessFunctionMetadata {
   runtime?: string;
   functionTags?: { [key: string]: string | undefined };
 }
+export type MachineImagePlatform = string;
+export interface MachineImageMetadata {
+  tags?: { [key: string]: string | undefined };
+  platform?: string;
+}
 export interface ResourceScanMetadata {
   ecrRepository?: EcrRepositoryMetadata;
   ecrImage?: EcrContainerImageMetadata;
@@ -1702,6 +1765,7 @@ export interface ResourceScanMetadata {
   containerRepository?: ContainerRepositoryMetadata;
   containerRegistry?: ContainerRegistryMetadata;
   serverlessFunction?: ServerlessFunctionMetadata;
+  machineImage?: MachineImageMetadata;
 }
 export type ScanMode = string;
 export type Provider = string;
@@ -1799,10 +1863,13 @@ export interface AccountAggregation {
   sortBy?: string;
 }
 export type AmiSortBy = string;
+export type ScanSource = string;
+export type ScanSourceList = string[];
 export interface AmiAggregation {
   amis?: StringFilter[];
   sortOrder?: string;
   sortBy?: string;
+  scanSources?: string[];
 }
 export type AwsEcrContainerSortBy = string;
 export interface AwsEcrContainerAggregation {
@@ -2225,6 +2292,7 @@ export interface AmiAggregationResponse {
   cloudAccountId?: string;
   severityCounts?: SeverityCounts;
   affectedInstances?: number;
+  scanSource?: string;
 }
 export type StringList = string[];
 export interface AwsEcrContainerAggregationResponse {
@@ -2722,6 +2790,19 @@ export interface CodeRepositoryDetails {
   integrationArn?: string;
   providerType?: string;
 }
+export interface MachineImageDetails {
+  machineImageId: string;
+  name?: string;
+  ownerAccountId?: string;
+  platform?: string;
+  architecture?: string;
+  creationDate?: Date;
+  state?: string;
+  isPublic?: boolean;
+  rootDeviceType?: string;
+  virtualizationType?: string;
+  sourceResourceId?: string;
+}
 export type CloudSubnetIdList = string[];
 export type CloudSecurityGroupIdList = string[];
 export interface Vm {
@@ -2771,6 +2852,7 @@ export interface ResourceDetails {
   awsEcrContainerImage?: AwsEcrContainerImageDetails;
   awsLambdaFunction?: AwsLambdaFunctionDetails;
   codeRepository?: CodeRepositoryDetails;
+  machineImage?: MachineImageDetails;
   vm?: Vm;
   image?: Image;
   serverlessFunction?: ServerlessFunction;
@@ -2937,6 +3019,27 @@ export interface ListMembersResponse {
   members?: Member[];
   nextToken?: string;
 }
+export type OnDemandScanNextToken = string;
+export interface ListOnDemandScansRequest {
+  resourceId: string;
+  resourceType: OnDemandResourceType;
+  maxResults?: number;
+  nextToken?: string;
+}
+export interface OnDemandScan {
+  scanId: string;
+  resourceId: string;
+  resourceType: OnDemandResourceType;
+  scanStatus: OnDemandScanStatus;
+  scanStatusReason?: OnDemandScanStatusReason;
+  startedAt: Date;
+  completedAt?: Date;
+}
+export type OnDemandScanList = OnDemandScan[];
+export interface ListOnDemandScansResponse {
+  items: OnDemandScan[];
+  nextToken?: string;
+}
 export type Arn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
@@ -3094,6 +3197,14 @@ export interface StartCodeSecurityScanResponse {
   scanId?: string;
   status?: CodeScanStatus;
 }
+export interface StartOnDemandScanRequest {
+  resourceId: string;
+  resourceType: OnDemandResourceType;
+  clientToken?: string;
+}
+export interface StartOnDemandScanResponse {
+  scanId: string;
+}
 export type StopCisSessionStatus =
   | "SUCCESS"
   | "FAILED"
@@ -3199,15 +3310,22 @@ export interface Ec2Configuration {
   scanMode: string;
   activateVMScanner?: boolean;
 }
+export interface AmiConfiguration {
+  lastLaunchedWithin?: string;
+  createdWithin?: string;
+  scanModeConfiguration: AmiScanModeConfiguration;
+}
 export type InheritanceMode = string;
 export interface UpdateConfigurationInheritance {
   ec2Configuration?: string;
   ecrConfiguration?: string;
+  amiConfiguration?: string;
 }
 export interface UpdateConfigurationRequest {
   accountId?: string;
   ecrConfiguration?: EcrConfiguration;
   ec2Configuration?: Ec2Configuration;
+  amiConfiguration?: AmiConfiguration;
   updateConfigurationInheritance?: UpdateConfigurationInheritance;
 }
 export interface UpdateConfigurationResponse {}
@@ -3281,10 +3399,7 @@ export type AssociateMemberError =
   | ValidationException
   | CommonErrors;
 /**
- * Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response
- * indicates the association was successfully started, but doesn't indicate whether it was
- * completed. You can check if the association completed by using ListMembers for multiple
- * accounts or GetMembers for a single account.
+ * Associates an Amazon Web Services account with an Amazon Inspector delegated administrator. An HTTP 200 response indicates the association was successfully started, but doesn't indicate whether it was completed. You can check if the association completed by using ListMembers for multiple accounts or GetMembers for a single account.
  */
 export const associateMember: API.OperationMethod<
   AssociateMemberRequest & RegionInput,
@@ -3292,8 +3407,8 @@ export const associateMember: API.OperationMethod<
   AssociateMemberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3520, __c110, 0) as any as S.Schema<AssociateMemberRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<AssociateMemberResponse>,
+  input: __S(3584, __c112, 0) as any as S.Schema<AssociateMemberRequest>,
+  output: __S(3616, __c113, 0) as any as S.Schema<AssociateMemberResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -3304,6 +3419,7 @@ export const associateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMember",
+  iam: { actions: ["inspector2:AssociateMember"] },
   telemetry: TELEMETRY,
   span: "AssociateMember",
 }));
@@ -3317,8 +3433,7 @@ export type BatchAssociateCodeSecurityScanConfigurationError =
   | ValidationException
   | CommonErrors;
 /**
- * Associates multiple code repositories with an Amazon Inspector code security scan
- * configuration.
+ * Associates multiple code repositories with an Amazon Inspector code security scan configuration.
  */
 export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
   BatchAssociateCodeSecurityScanConfigurationRequest & RegionInput,
@@ -3327,13 +3442,13 @@ export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    3872,
-    __c121,
+    3968,
+    __c124,
     0,
   ) as any as S.Schema<BatchAssociateCodeSecurityScanConfigurationRequest>,
   output: __S(
-    3910,
-    __c122,
+    4006,
+    __c125,
     6,
   ) as any as S.Schema<BatchAssociateCodeSecurityScanConfigurationResponse>,
   errors: [
@@ -3347,6 +3462,7 @@ export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateCodeSecurityScanConfiguration",
+  iam: { actions: ["inspector2:BatchAssociateCodeSecurityScanConfiguration"] },
   telemetry: TELEMETRY,
   span: "BatchAssociateCodeSecurityScanConfiguration",
 }));
@@ -3360,8 +3476,7 @@ export type BatchDisassociateCodeSecurityScanConfigurationError =
   | ValidationException
   | CommonErrors;
 /**
- * Disassociates multiple code repositories from an Amazon Inspector code security scan
- * configuration.
+ * Disassociates multiple code repositories from an Amazon Inspector code security scan configuration.
  */
 export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod<
   BatchDisassociateCodeSecurityScanConfigurationRequest & RegionInput,
@@ -3371,8 +3486,8 @@ export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<BatchDisassociateCodeSecurityScanConfigurationRequest>,
   output: __S(
-    3910,
-    __c122,
+    4006,
+    __c125,
     6,
   ) as any as S.Schema<BatchDisassociateCodeSecurityScanConfigurationResponse>,
   errors: [
@@ -3386,6 +3501,7 @@ export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateCodeSecurityScanConfiguration",
+  iam: { actions: ["inspector2:BatchDisassociateCodeSecurityScanConfiguration"] },
   telemetry: TELEMETRY,
   span: "BatchDisassociateCodeSecurityScanConfiguration",
 }));
@@ -3418,6 +3534,7 @@ export const batchGetAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAccountStatus",
+  iam: { actions: ["inspector2:BatchGetAccountStatus"] },
   telemetry: TELEMETRY,
   span: "BatchGetAccountStatus",
 }));
@@ -3429,8 +3546,7 @@ export type BatchGetCodeSnippetError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities
- * in.
+ * Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities in.
  */
 export const batchGetCodeSnippet: API.OperationMethod<
   BatchGetCodeSnippetRequest & RegionInput,
@@ -3449,6 +3565,7 @@ export const batchGetCodeSnippet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeSnippet",
+  iam: { actions: ["inspector2:BatchGetCodeSnippet"] },
   telemetry: TELEMETRY,
   span: "BatchGetCodeSnippet",
 }));
@@ -3479,6 +3596,7 @@ export const batchGetFindingDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFindingDetails",
+  iam: { actions: ["inspector2:BatchGetFindingDetails"] },
   telemetry: TELEMETRY,
   span: "BatchGetFindingDetails",
 }));
@@ -3509,6 +3627,7 @@ export const batchGetFreeTrialInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFreeTrialInfo",
+  iam: { actions: ["inspector2:BatchGetFreeTrialInfo"] },
   telemetry: TELEMETRY,
   span: "BatchGetFreeTrialInfo",
 }));
@@ -3520,9 +3639,7 @@ export type BatchGetMemberEc2DeepInspectionStatusError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within
- * your organization. You must be the delegated administrator of an organization in Amazon Inspector to
- * use this API.
+ * Retrieves Amazon Inspector deep inspection activation status of multiple member accounts within your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
  */
 export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
   BatchGetMemberEc2DeepInspectionStatusRequest & RegionInput,
@@ -3541,6 +3658,7 @@ export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMemberEc2DeepInspectionStatus",
+  iam: { actions: ["inspector2:BatchGetMemberEc2DeepInspectionStatus"] },
   telemetry: TELEMETRY,
   span: "BatchGetMemberEc2DeepInspectionStatus",
 }));
@@ -3552,9 +3670,7 @@ export type BatchUpdateMemberEc2DeepInspectionStatusError =
   | ValidationException
   | CommonErrors;
 /**
- * Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your
- * organization. You must be the delegated administrator of an organization in Amazon Inspector to use
- * this API.
+ * Activates or deactivates Amazon Inspector deep inspection for the provided member accounts in your organization. You must be the delegated administrator of an organization in Amazon Inspector to use this API.
  */
 export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
   BatchUpdateMemberEc2DeepInspectionStatusRequest & RegionInput,
@@ -3573,6 +3689,7 @@ export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateMemberEc2DeepInspectionStatus",
+  iam: { actions: ["inspector2:BatchUpdateMemberEc2DeepInspectionStatus"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateMemberEc2DeepInspectionStatus",
 }));
@@ -3605,6 +3722,7 @@ export const cancelFindingsReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelFindingsReport",
+  iam: { actions: ["inspector2:CancelFindingsReport"] },
   telemetry: TELEMETRY,
   span: "CancelFindingsReport",
 }));
@@ -3637,6 +3755,7 @@ export const cancelSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSbomExport",
+  iam: { actions: ["inspector2:CancelSbomExport"] },
   telemetry: TELEMETRY,
   span: "CancelSbomExport",
 }));
@@ -3667,6 +3786,15 @@ export const createCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCisScanConfiguration",
+  iam: {
+    actions: ["inspector2:CreateCisScanConfiguration", "inspector2:TagResource"],
+    resources: {
+      "inspector2:CreateCisScanConfiguration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/cis-configuration/${CISScanConfigurationId}",
+      ],
+    },
+    conditional: { "inspector2:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCisScanConfiguration",
 }));
@@ -3682,10 +3810,7 @@ export type CreateCodeSecurityIntegrationError =
 /**
  * Creates a code security integration with a source code repository provider.
  *
- * After calling the `CreateCodeSecurityIntegration` operation, you complete
- * authentication and authorization with your provider. Next you call the
- * `UpdateCodeSecurityIntegration` operation to provide the `details`
- * to complete the integration setup
+ * After calling the `CreateCodeSecurityIntegration` operation, you complete authentication and authorization with your provider. Next you call the `UpdateCodeSecurityIntegration` operation to provide the `details` to complete the integration setup
  */
 export const createCodeSecurityIntegration: API.OperationMethod<
   CreateCodeSecurityIntegrationRequest & RegionInput,
@@ -3706,6 +3831,15 @@ export const createCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSecurityIntegration",
+  iam: {
+    actions: ["inspector2:CreateCodeSecurityIntegration", "inspector2:TagResource"],
+    resources: {
+      "inspector2:CreateCodeSecurityIntegration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:codesecurity-integration/${CodeSecurityIntegrationId}",
+      ],
+    },
+    conditional: { "inspector2:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCodeSecurityIntegration",
 }));
@@ -3740,6 +3874,15 @@ export const createCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSecurityScanConfiguration",
+  iam: {
+    actions: ["inspector2:CreateCodeSecurityScanConfiguration", "inspector2:TagResource"],
+    resources: {
+      "inspector2:CreateCodeSecurityScanConfiguration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/codesecurity-configuration/${CodeSecurityScanConfigurationId}",
+      ],
+    },
+    conditional: { "inspector2:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateCodeSecurityScanConfiguration",
 }));
@@ -3774,6 +3917,15 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
+  iam: {
+    actions: ["inspector2:CreateConnector", "inspector2:TagResource"],
+    resources: {
+      "inspector2:CreateConnector": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+    conditional: { "inspector2:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -3787,8 +3939,7 @@ export type CreateFilterError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a filter resource using specified filter criteria. When the filter action is set
- * to `SUPPRESS` this action creates a suppression rule.
+ * Creates a filter resource using specified filter criteria. When the filter action is set to `SUPPRESS` this action creates a suppression rule.
  */
 export const createFilter: API.OperationMethod<
   CreateFilterRequest & RegionInput,
@@ -3809,6 +3960,15 @@ export const createFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFilter",
+  iam: {
+    actions: ["inspector2:CreateFilter", "inspector2:TagResource"],
+    resources: {
+      "inspector2:CreateFilter": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/filter/${FilterId}",
+      ],
+    },
+    conditional: { "inspector2:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateFilter",
 }));
@@ -3821,9 +3981,7 @@ export type CreateFindingsReportError =
   | ValidationException
   | CommonErrors;
 /**
- * Creates a finding report. By default only `ACTIVE` findings are returned in
- * the report. To see `SUPRESSED` or `CLOSED` findings you must specify
- * a value for the `findingStatus` filter criteria.
+ * Creates a finding report. By default only `ACTIVE` findings are returned in the report. To see `SUPRESSED` or `CLOSED` findings you must specify a value for the `findingStatus` filter criteria.
  */
 export const createFindingsReport: API.OperationMethod<
   CreateFindingsReportRequest & RegionInput,
@@ -3843,6 +4001,7 @@ export const createFindingsReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingsReport",
+  iam: { actions: ["inspector2:CreateFindingsReport"] },
   telemetry: TELEMETRY,
   span: "CreateFindingsReport",
 }));
@@ -3875,6 +4034,7 @@ export const createSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSbomExport",
+  iam: { actions: ["inspector2:CreateSbomExport"] },
   telemetry: TELEMETRY,
   span: "CreateSbomExport",
 }));
@@ -3907,6 +4067,14 @@ export const deleteCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCisScanConfiguration",
+  iam: {
+    actions: ["inspector2:DeleteCisScanConfiguration"],
+    resources: {
+      "inspector2:DeleteCisScanConfiguration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/cis-configuration/${CISScanConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCisScanConfiguration",
 }));
@@ -3939,6 +4107,14 @@ export const deleteCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSecurityIntegration",
+  iam: {
+    actions: ["inspector2:DeleteCodeSecurityIntegration"],
+    resources: {
+      "inspector2:DeleteCodeSecurityIntegration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:codesecurity-integration/${CodeSecurityIntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCodeSecurityIntegration",
 }));
@@ -3971,6 +4147,14 @@ export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSecurityScanConfiguration",
+  iam: {
+    actions: ["inspector2:DeleteCodeSecurityScanConfiguration"],
+    resources: {
+      "inspector2:DeleteCodeSecurityScanConfiguration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/codesecurity-configuration/${CodeSecurityScanConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteCodeSecurityScanConfiguration",
 }));
@@ -4005,6 +4189,14 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
+  iam: {
+    actions: ["inspector2:DeleteConnector"],
+    resources: {
+      "inspector2:DeleteConnector": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -4037,6 +4229,14 @@ export const deleteFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
+  iam: {
+    actions: ["inspector2:DeleteFilter"],
+    resources: {
+      "inspector2:DeleteFilter": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/filter/${FilterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteFilter",
 }));
@@ -4067,6 +4267,7 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
+  iam: { actions: ["inspector2:DescribeOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConfiguration",
 }));
@@ -4079,8 +4280,7 @@ export type DisableError =
   | ValidationException
   | CommonErrors;
 /**
- * Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an
- * account disables the Amazon Inspector service.
+ * Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an account disables the Amazon Inspector service.
  */
 export const disable: API.OperationMethod<
   DisableRequest & RegionInput,
@@ -4100,6 +4300,7 @@ export const disable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Disable",
+  iam: { actions: ["inspector2:Disable"] },
   telemetry: TELEMETRY,
   span: "Disable",
 }));
@@ -4134,6 +4335,7 @@ export const disableDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDelegatedAdminAccount",
+  iam: { actions: ["inspector2:DisableDelegatedAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DisableDelegatedAdminAccount",
 }));
@@ -4154,7 +4356,7 @@ export const disassociateMember: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c51, 0) as any as S.Schema<DisassociateMemberRequest>,
-  output: __S(3552, __c111, 0) as any as S.Schema<DisassociateMemberResponse>,
+  output: __S(3616, __c113, 0) as any as S.Schema<DisassociateMemberResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4164,6 +4366,7 @@ export const disassociateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMember",
+  iam: { actions: ["inspector2:DisassociateMember"] },
   telemetry: TELEMETRY,
   span: "DisassociateMember",
 }));
@@ -4196,6 +4399,7 @@ export const enable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Enable",
+  iam: { actions: ["inspector2:Enable"] },
   telemetry: TELEMETRY,
   span: "Enable",
 }));
@@ -4230,6 +4434,7 @@ export const enableDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDelegatedAdminAccount",
+  iam: { actions: ["inspector2:EnableDelegatedAdminAccount"] },
   telemetry: TELEMETRY,
   span: "EnableDelegatedAdminAccount",
 }));
@@ -4262,6 +4467,7 @@ export const getCisScanReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCisScanReport",
+  iam: { actions: ["inspector2:GetCisScanReport"] },
   telemetry: TELEMETRY,
   span: "GetCisScanReport",
 }));
@@ -4299,6 +4505,7 @@ export const getCisScanResultDetails: API.PaginatedOperationMethod<
     items: "scanResultDetails",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:GetCisScanResultDetails"] },
   telemetry: TELEMETRY,
   span: "GetCisScanResultDetails",
 })) as any;
@@ -4336,6 +4543,7 @@ export const getClustersForImage: API.PaginatedOperationMethod<
     items: "cluster",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:GetClustersForImage"] },
   telemetry: TELEMETRY,
   span: "GetClustersForImage",
 })) as any;
@@ -4368,6 +4576,7 @@ export const getCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityIntegration",
+  iam: { actions: ["inspector2:GetCodeSecurityIntegration"] },
   telemetry: TELEMETRY,
   span: "GetCodeSecurityIntegration",
 }));
@@ -4402,6 +4611,7 @@ export const getCodeSecurityScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityScan",
+  iam: { actions: ["inspector2:GetCodeSecurityScan"] },
   telemetry: TELEMETRY,
   span: "GetCodeSecurityScan",
 }));
@@ -4434,6 +4644,7 @@ export const getCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityScanConfiguration",
+  iam: { actions: ["inspector2:GetCodeSecurityScanConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetCodeSecurityScanConfiguration",
 }));
@@ -4446,11 +4657,7 @@ export type GetConfigurationError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves setting configurations for Amazon Inspector scans. If you specify an
- * `accountId`, this operation returns the scan configuration for that member
- * account. You must be the delegated administrator for the specified member account.
- * If you do not specify an `accountId`, this operation returns your own
- * scan configuration.
+ * Retrieves setting configurations for Amazon Inspector scans. If you specify an `accountId`, this operation returns the scan configuration for that member account. You must be the delegated administrator for the specified member account. If you do not specify an `accountId`, this operation returns your own scan configuration.
  */
 export const getConfiguration: API.OperationMethod<
   GetConfigurationRequest & RegionInput,
@@ -4459,7 +4666,7 @@ export const getConfiguration: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1984, __c62, 0) as any as S.Schema<GetConfigurationRequest>,
-  output: __S(1990, __c62, 6) as any as S.Schema<GetConfigurationResponse>,
+  output: __S(1991, __c62, 7) as any as S.Schema<GetConfigurationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4470,6 +4677,7 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
+  iam: { actions: ["inspector2:GetConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetConfiguration",
 }));
@@ -4482,8 +4690,7 @@ export type GetDelegatedAdminAccountError =
   | ValidationException
   | CommonErrors;
 /**
- * Retrieves information about the Amazon Inspector delegated administrator for your
- * organization.
+ * Retrieves information about the Amazon Inspector delegated administrator for your organization.
  */
 export const getDelegatedAdminAccount: API.OperationMethod<
   GetDelegatedAdminAccountRequest & RegionInput,
@@ -4491,8 +4698,8 @@ export const getDelegatedAdminAccount: API.OperationMethod<
   GetDelegatedAdminAccountError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2016, __c63, 0) as any as S.Schema<GetDelegatedAdminAccountRequest>,
-  output: __S(2018, __c63, 2) as any as S.Schema<GetDelegatedAdminAccountResponse>,
+  input: __S(2048, __c64, 0) as any as S.Schema<GetDelegatedAdminAccountRequest>,
+  output: __S(2050, __c64, 2) as any as S.Schema<GetDelegatedAdminAccountResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4503,6 +4710,7 @@ export const getDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegatedAdminAccount",
+  iam: { actions: ["inspector2:GetDelegatedAdminAccount"] },
   telemetry: TELEMETRY,
   span: "GetDelegatedAdminAccount",
 }));
@@ -4514,8 +4722,7 @@ export type GetEc2DeepInspectionConfigurationError =
   | ThrottlingException
   | CommonErrors;
 /**
- * Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated
- * with your account.
+ * Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated with your account.
  */
 export const getEc2DeepInspectionConfiguration: API.OperationMethod<
   GetEc2DeepInspectionConfigurationRequest & RegionInput,
@@ -4523,8 +4730,8 @@ export const getEc2DeepInspectionConfiguration: API.OperationMethod<
   GetEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2048, __c64, 0) as any as S.Schema<GetEc2DeepInspectionConfigurationRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<GetEc2DeepInspectionConfigurationResponse>,
+  input: __S(2080, __c65, 0) as any as S.Schema<GetEc2DeepInspectionConfigurationRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<GetEc2DeepInspectionConfigurationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4534,6 +4741,7 @@ export const getEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEc2DeepInspectionConfiguration",
+  iam: { actions: ["inspector2:GetEc2DeepInspectionConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetEc2DeepInspectionConfiguration",
 }));
@@ -4554,8 +4762,8 @@ export const getEncryptionKey: API.OperationMethod<
   GetEncryptionKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2112, __c66, 0) as any as S.Schema<GetEncryptionKeyRequest>,
-  output: __S(2113, __c66, 1) as any as S.Schema<GetEncryptionKeyResponse>,
+  input: __S(2144, __c67, 0) as any as S.Schema<GetEncryptionKeyRequest>,
+  output: __S(2145, __c67, 1) as any as S.Schema<GetEncryptionKeyResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4566,6 +4774,7 @@ export const getEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncryptionKey",
+  iam: { actions: ["inspector2:GetEncryptionKey"] },
   telemetry: TELEMETRY,
   span: "GetEncryptionKey",
 }));
@@ -4586,8 +4795,8 @@ export const getFindingsReportStatus: API.OperationMethod<
   GetFindingsReportStatusError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2144, __c67, 0) as any as S.Schema<GetFindingsReportStatusRequest>,
-  output: __S(2145, __c67, 1) as any as S.Schema<GetFindingsReportStatusResponse>,
+  input: __S(2176, __c68, 0) as any as S.Schema<GetFindingsReportStatusRequest>,
+  output: __S(2177, __c68, 1) as any as S.Schema<GetFindingsReportStatusResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4598,6 +4807,7 @@ export const getFindingsReportStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsReportStatus",
+  iam: { actions: ["inspector2:GetFindingsReportStatus"] },
   telemetry: TELEMETRY,
   span: "GetFindingsReportStatus",
 }));
@@ -4618,8 +4828,8 @@ export const getMember: API.OperationMethod<
   GetMemberError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2176, __c68, 0) as any as S.Schema<GetMemberRequest>,
-  output: __S(2177, __c68, 1) as any as S.Schema<GetMemberResponse>,
+  input: __S(2208, __c69, 0) as any as S.Schema<GetMemberRequest>,
+  output: __S(2209, __c69, 1) as any as S.Schema<GetMemberResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4630,8 +4840,42 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
+  iam: { actions: ["inspector2:GetMember"] },
   telemetry: TELEMETRY,
   span: "GetMember",
+}));
+
+export type GetOnDemandScanStatusError =
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Retrieves the status of a specific on-demand scan for a resource.
+ */
+export const getOnDemandScanStatus: API.OperationMethod<
+  GetOnDemandScanStatusRequest & RegionInput,
+  GetOnDemandScanStatusResponse,
+  GetOnDemandScanStatusError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(2272, __c71, 0) as any as S.Schema<GetOnDemandScanStatusRequest>,
+  output: __S(2304, __c72, 0) as any as S.Schema<GetOnDemandScanStatusResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ResourceNotFoundException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "GetOnDemandScanStatus",
+  iam: { actions: ["inspector2:GetOnDemandScanStatus"] },
+  telemetry: TELEMETRY,
+  span: "GetOnDemandScanStatus",
 }));
 
 export type GetSbomExportError =
@@ -4650,8 +4894,8 @@ export const getSbomExport: API.OperationMethod<
   GetSbomExportError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2240, __c70, 0) as any as S.Schema<GetSbomExportRequest>,
-  output: __S(2241, __c70, 1) as any as S.Schema<GetSbomExportResponse>,
+  input: __S(2336, __c73, 0) as any as S.Schema<GetSbomExportRequest>,
+  output: __S(2337, __c73, 1) as any as S.Schema<GetSbomExportResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4662,6 +4906,7 @@ export const getSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSbomExport",
+  iam: { actions: ["inspector2:GetSbomExport"] },
   telemetry: TELEMETRY,
   span: "GetSbomExport",
 }));
@@ -4673,8 +4918,7 @@ export type ListAccountPermissionsError =
   | ValidationException
   | CommonErrors;
 /**
- * Lists the permissions an account has to configure Amazon Inspector.
- * If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
+ * Lists the permissions an account has to configure Amazon Inspector. If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
  */
 export const listAccountPermissions: API.PaginatedOperationMethod<
   ListAccountPermissionsRequest & RegionInput,
@@ -4683,8 +4927,8 @@ export const listAccountPermissions: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Permission
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2272, __c71, 0) as any as S.Schema<ListAccountPermissionsRequest>,
-  output: __S(2275, __c71, 3) as any as S.Schema<ListAccountPermissionsResponse>,
+  input: __S(2368, __c74, 0) as any as S.Schema<ListAccountPermissionsRequest>,
+  output: __S(2371, __c74, 3) as any as S.Schema<ListAccountPermissionsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4700,6 +4944,7 @@ export const listAccountPermissions: API.PaginatedOperationMethod<
     items: "permissions",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListAccountPermissions"] },
   telemetry: TELEMETRY,
   span: "ListAccountPermissions",
 })) as any;
@@ -4720,8 +4965,8 @@ export const listCisScanConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CisScanConfiguration
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2305, __c72, 1) as any as S.Schema<ListCisScanConfigurationsRequest>,
-  output: __S(2308, __c72, 4) as any as S.Schema<ListCisScanConfigurationsResponse>,
+  input: __S(2401, __c75, 1) as any as S.Schema<ListCisScanConfigurationsRequest>,
+  output: __S(2404, __c75, 4) as any as S.Schema<ListCisScanConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4737,6 +4982,7 @@ export const listCisScanConfigurations: API.PaginatedOperationMethod<
     items: "scanConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListCisScanConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListCisScanConfigurations",
 })) as any;
@@ -4757,8 +5003,8 @@ export const listCisScanResultsAggregatedByChecks: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CisCheckAggregation
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2401, __c75, 1) as any as S.Schema<ListCisScanResultsAggregatedByChecksRequest>,
-  output: __S(2404, __c75, 4) as any as S.Schema<ListCisScanResultsAggregatedByChecksResponse>,
+  input: __S(2497, __c78, 1) as any as S.Schema<ListCisScanResultsAggregatedByChecksRequest>,
+  output: __S(2500, __c78, 4) as any as S.Schema<ListCisScanResultsAggregatedByChecksResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4774,6 +5020,7 @@ export const listCisScanResultsAggregatedByChecks: API.PaginatedOperationMethod<
     items: "checkAggregations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListCisScanResultsAggregatedByChecks"] },
   telemetry: TELEMETRY,
   span: "ListCisScanResultsAggregatedByChecks",
 })) as any;
@@ -4795,13 +5042,13 @@ export const listCisScanResultsAggregatedByTargetResource: API.PaginatedOperatio
   CisTargetResourceAggregation
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(
-    2465,
-    __c77,
+    2561,
+    __c80,
     1,
   ) as any as S.Schema<ListCisScanResultsAggregatedByTargetResourceRequest>,
   output: __S(
-    2468,
-    __c77,
+    2564,
+    __c80,
     4,
   ) as any as S.Schema<ListCisScanResultsAggregatedByTargetResourceResponse>,
   errors: [
@@ -4819,6 +5066,7 @@ export const listCisScanResultsAggregatedByTargetResource: API.PaginatedOperatio
     items: "targetResourceAggregations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListCisScanResultsAggregatedByTargetResource"] },
   telemetry: TELEMETRY,
   span: "ListCisScanResultsAggregatedByTargetResource",
 })) as any;
@@ -4839,8 +5087,8 @@ export const listCisScans: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CisScan
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2499, __c78, 3) as any as S.Schema<ListCisScansRequest>,
-  output: __S(2502, __c78, 6) as any as S.Schema<ListCisScansResponse>,
+  input: __S(2595, __c81, 3) as any as S.Schema<ListCisScansRequest>,
+  output: __S(2598, __c81, 6) as any as S.Schema<ListCisScansResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4856,6 +5104,7 @@ export const listCisScans: API.PaginatedOperationMethod<
     items: "scans",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListCisScans"] },
   telemetry: TELEMETRY,
   span: "ListCisScans",
 })) as any;
@@ -4875,8 +5124,8 @@ export const listCodeSecurityIntegrations: API.OperationMethod<
   ListCodeSecurityIntegrationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2528, __c79, 0) as any as S.Schema<ListCodeSecurityIntegrationsRequest>,
-  output: __S(2531, __c79, 3) as any as S.Schema<ListCodeSecurityIntegrationsResponse>,
+  input: __S(2624, __c82, 0) as any as S.Schema<ListCodeSecurityIntegrationsRequest>,
+  output: __S(2627, __c82, 3) as any as S.Schema<ListCodeSecurityIntegrationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4886,6 +5135,7 @@ export const listCodeSecurityIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityIntegrations",
+  iam: { actions: ["inspector2:ListCodeSecurityIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListCodeSecurityIntegrations",
 }));
@@ -4898,8 +5148,7 @@ export type ListCodeSecurityScanConfigurationAssociationsError =
   | ValidationException
   | CommonErrors;
 /**
- * Lists the associations between code repositories and Amazon Inspector code security scan
- * configurations.
+ * Lists the associations between code repositories and Amazon Inspector code security scan configurations.
  */
 export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
   ListCodeSecurityScanConfigurationAssociationsRequest & RegionInput,
@@ -4908,13 +5157,13 @@ export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(
-    2560,
-    __c80,
+    2656,
+    __c83,
     0,
   ) as any as S.Schema<ListCodeSecurityScanConfigurationAssociationsRequest>,
   output: __S(
-    2563,
-    __c80,
+    2659,
+    __c83,
     3,
   ) as any as S.Schema<ListCodeSecurityScanConfigurationAssociationsResponse>,
   errors: [
@@ -4927,6 +5176,7 @@ export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityScanConfigurationAssociations",
+  iam: { actions: ["inspector2:ListCodeSecurityScanConfigurationAssociations"] },
   telemetry: TELEMETRY,
   span: "ListCodeSecurityScanConfigurationAssociations",
 }));
@@ -4947,8 +5197,8 @@ export const listCodeSecurityScanConfigurations: API.OperationMethod<
   ListCodeSecurityScanConfigurationsError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(2592, __c81, 0) as any as S.Schema<ListCodeSecurityScanConfigurationsRequest>,
-  output: __S(2595, __c81, 3) as any as S.Schema<ListCodeSecurityScanConfigurationsResponse>,
+  input: __S(2688, __c84, 0) as any as S.Schema<ListCodeSecurityScanConfigurationsRequest>,
+  output: __S(2691, __c84, 3) as any as S.Schema<ListCodeSecurityScanConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4959,6 +5209,7 @@ export const listCodeSecurityScanConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityScanConfigurations",
+  iam: { actions: ["inspector2:ListCodeSecurityScanConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListCodeSecurityScanConfigurations",
 }));
@@ -4979,8 +5230,8 @@ export const listConnectors: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Connector
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2625, __c82, 1) as any as S.Schema<ListConnectorsRequest>,
-  output: __S(2631, __c82, 7) as any as S.Schema<ListConnectorsResponse>,
+  input: __S(2721, __c85, 1) as any as S.Schema<ListConnectorsRequest>,
+  output: __S(2727, __c85, 7) as any as S.Schema<ListConnectorsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -4996,6 +5247,7 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -5016,8 +5268,8 @@ export const listConnectorScanConfigurations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   ConnectorScanConfigurationItem
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2656, __c83, 0) as any as S.Schema<ListConnectorScanConfigurationsRequest>,
-  output: __S(2659, __c83, 3) as any as S.Schema<ListConnectorScanConfigurationsResponse>,
+  input: __S(2752, __c86, 0) as any as S.Schema<ListConnectorScanConfigurationsRequest>,
+  output: __S(2755, __c86, 3) as any as S.Schema<ListConnectorScanConfigurationsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5033,6 +5285,7 @@ export const listConnectorScanConfigurations: API.PaginatedOperationMethod<
     items: "scanConfigurations",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListConnectorScanConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListConnectorScanConfigurations",
 })) as any;
@@ -5052,8 +5305,8 @@ export const listCoverage: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   CoveredResource
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2720, __c85, 0) as any as S.Schema<ListCoverageRequest>,
-  output: __S(2740, __c85, 20) as any as S.Schema<ListCoverageResponse>,
+  input: __S(2816, __c88, 0) as any as S.Schema<ListCoverageRequest>,
+  output: __S(2837, __c88, 21) as any as S.Schema<ListCoverageResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5064,6 +5317,7 @@ export const listCoverage: API.PaginatedOperationMethod<
     items: "coveredResources",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListCoverage"] },
   telemetry: TELEMETRY,
   span: "ListCoverage",
 })) as any;
@@ -5083,8 +5337,8 @@ export const listCoverageStatistics: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Counts
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2784, __c87, 0) as any as S.Schema<ListCoverageStatisticsRequest>,
-  output: __S(2787, __c87, 3) as any as S.Schema<ListCoverageStatisticsResponse>,
+  input: __S(2880, __c90, 0) as any as S.Schema<ListCoverageStatisticsRequest>,
+  output: __S(2883, __c90, 3) as any as S.Schema<ListCoverageStatisticsResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5094,6 +5348,7 @@ export const listCoverageStatistics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "countsByGroup",
   } as const,
+  iam: { actions: ["inspector2:ListCoverageStatistics"] },
   telemetry: TELEMETRY,
   span: "ListCoverageStatistics",
 })) as any;
@@ -5114,8 +5369,8 @@ export const listDelegatedAdminAccounts: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   DelegatedAdminAccount
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2816, __c88, 0) as any as S.Schema<ListDelegatedAdminAccountsRequest>,
-  output: __S(2819, __c88, 3) as any as S.Schema<ListDelegatedAdminAccountsResponse>,
+  input: __S(2912, __c91, 0) as any as S.Schema<ListDelegatedAdminAccountsRequest>,
+  output: __S(2915, __c91, 3) as any as S.Schema<ListDelegatedAdminAccountsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5131,6 +5386,7 @@ export const listDelegatedAdminAccounts: API.PaginatedOperationMethod<
     items: "delegatedAdminAccounts",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListDelegatedAdminAccounts"] },
   telemetry: TELEMETRY,
   span: "ListDelegatedAdminAccounts",
 })) as any;
@@ -5151,8 +5407,8 @@ export const listFilters: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Filter
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2848, __c89, 0) as any as S.Schema<ListFiltersRequest>,
-  output: __S(2851, __c89, 3) as any as S.Schema<ListFiltersResponse>,
+  input: __S(2944, __c92, 0) as any as S.Schema<ListFiltersRequest>,
+  output: __S(2947, __c92, 3) as any as S.Schema<ListFiltersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5168,6 +5424,7 @@ export const listFilters: API.PaginatedOperationMethod<
     items: "filters",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListFilters"] },
   telemetry: TELEMETRY,
   span: "ListFilters",
 })) as any;
@@ -5187,8 +5444,8 @@ export const listFindingAggregations: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   AggregationResponse
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2895, __c90, 15) as any as S.Schema<ListFindingAggregationsRequest>,
-  output: __S(2914, __c91, 2) as any as S.Schema<ListFindingAggregationsResponse>,
+  input: __S(2991, __c93, 15) as any as S.Schema<ListFindingAggregationsRequest>,
+  output: __S(3010, __c94, 2) as any as S.Schema<ListFindingAggregationsResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5199,6 +5456,7 @@ export const listFindingAggregations: API.PaginatedOperationMethod<
     items: "responses",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListFindingAggregations"] },
   telemetry: TELEMETRY,
   span: "ListFindingAggregations",
 })) as any;
@@ -5218,8 +5476,8 @@ export const listFindings: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Finding
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(2945, __c92, 1) as any as S.Schema<ListFindingsRequest>,
-  output: __S(2978, __c93, 2) as any as S.Schema<ListFindingsResponse>,
+  input: __S(3041, __c95, 1) as any as S.Schema<ListFindingsRequest>,
+  output: __S(3075, __c96, 3) as any as S.Schema<ListFindingsResponse>,
   errors: [InternalServerException, ThrottlingException, ValidationException],
   protocol: AwsProtocol,
   retry: Retry,
@@ -5230,6 +5488,7 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListFindings"] },
   telemetry: TELEMETRY,
   span: "ListFindings",
 })) as any;
@@ -5241,8 +5500,7 @@ export type ListMembersError =
   | ValidationException
   | CommonErrors;
 /**
- * List members associated with the Amazon Inspector delegated administrator for your
- * organization.
+ * List members associated with the Amazon Inspector delegated administrator for your organization.
  */
 export const listMembers: API.PaginatedOperationMethod<
   ListMembersRequest & RegionInput,
@@ -5251,8 +5509,8 @@ export const listMembers: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Member
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3040, __c95, 0) as any as S.Schema<ListMembersRequest>,
-  output: __S(3042, __c95, 2) as any as S.Schema<ListMembersResponse>,
+  input: __S(3136, __c98, 0) as any as S.Schema<ListMembersRequest>,
+  output: __S(3138, __c98, 2) as any as S.Schema<ListMembersResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5268,8 +5526,47 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListMembers"] },
   telemetry: TELEMETRY,
   span: "ListMembers",
+})) as any;
+
+export type ListOnDemandScansError =
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Lists the on-demand scans for a resource.
+ */
+export const listOnDemandScans: API.PaginatedOperationMethod<
+  ListOnDemandScansRequest & RegionInput,
+  ListOnDemandScansResponse,
+  ListOnDemandScansError,
+  Credentials | HttpClient.HttpClient,
+  OnDemandScan
+> = /*@__PURE__*/ API.makePaginated(() => ({
+  input: __S(3168, __c99, 0) as any as S.Schema<ListOnDemandScansRequest>,
+  output: __S(3170, __c99, 2) as any as S.Schema<ListOnDemandScansResponse>,
+  errors: [
+    AccessDeniedException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "ListOnDemandScans",
+  pagination: {
+    inputToken: "nextToken",
+    outputToken: "nextToken",
+    items: "items",
+    pageSize: "maxResults",
+  } as const,
+  iam: { actions: ["inspector2:ListOnDemandScans"] },
+  telemetry: TELEMETRY,
+  span: "ListOnDemandScans",
 })) as any;
 
 export type ListTagsForResourceError =
@@ -5287,8 +5584,8 @@ export const listTagsForResource: API.OperationMethod<
   ListTagsForResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3072, __c96, 0) as any as S.Schema<ListTagsForResourceRequest>,
-  output: __S(3073, __c96, 1) as any as S.Schema<ListTagsForResourceResponse>,
+  input: __S(3200, __c100, 0) as any as S.Schema<ListTagsForResourceRequest>,
+  output: __S(3201, __c100, 1) as any as S.Schema<ListTagsForResourceResponse>,
   errors: [
     InternalServerException,
     ResourceNotFoundException,
@@ -5298,6 +5595,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["inspector2:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5318,8 +5616,8 @@ export const listUsageTotals: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   UsageTotal
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3104, __c97, 0) as any as S.Schema<ListUsageTotalsRequest>,
-  output: __S(3109, __c97, 5) as any as S.Schema<ListUsageTotalsResponse>,
+  input: __S(3264, __c102, 0) as any as S.Schema<ListUsageTotalsRequest>,
+  output: __S(3269, __c102, 5) as any as S.Schema<ListUsageTotalsResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5335,6 +5633,7 @@ export const listUsageTotals: API.PaginatedOperationMethod<
     items: "totals",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["inspector2:ListUsageTotals"] },
   telemetry: TELEMETRY,
   span: "ListUsageTotals",
 })) as any;
@@ -5347,8 +5646,7 @@ export type ResetEncryptionKeyError =
   | ValidationException
   | CommonErrors;
 /**
- * Resets an encryption key. After the key is reset your resources will be encrypted by an
- * Amazon Web Services owned key.
+ * Resets an encryption key. After the key is reset your resources will be encrypted by an Amazon Web Services owned key.
  */
 export const resetEncryptionKey: API.OperationMethod<
   ResetEncryptionKeyRequest & RegionInput,
@@ -5356,7 +5654,7 @@ export const resetEncryptionKey: API.OperationMethod<
   ResetEncryptionKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3136, __c98, 0) as any as S.Schema<ResetEncryptionKeyRequest>,
+  input: __S(3296, __c103, 0) as any as S.Schema<ResetEncryptionKeyRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<ResetEncryptionKeyResponse>,
   errors: [
     AccessDeniedException,
@@ -5368,6 +5666,7 @@ export const resetEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEncryptionKey",
+  iam: { actions: ["inspector2:ResetEncryptionKey"] },
   telemetry: TELEMETRY,
   span: "ResetEncryptionKey",
 }));
@@ -5388,8 +5687,8 @@ export const searchVulnerabilities: API.PaginatedOperationMethod<
   Credentials | HttpClient.HttpClient,
   Vulnerability
 > = /*@__PURE__*/ API.makePaginated(() => ({
-  input: __S(3201, __c100, 1) as any as S.Schema<SearchVulnerabilitiesRequest>,
-  output: __S(3206, __c100, 6) as any as S.Schema<SearchVulnerabilitiesResponse>,
+  input: __S(3329, __c104, 1) as any as S.Schema<SearchVulnerabilitiesRequest>,
+  output: __S(3334, __c104, 6) as any as S.Schema<SearchVulnerabilitiesResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5404,6 +5703,7 @@ export const searchVulnerabilities: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "vulnerabilities",
   } as const,
+  iam: { actions: ["inspector2:SearchVulnerabilities"] },
   telemetry: TELEMETRY,
   span: "SearchVulnerabilities",
 })) as any;
@@ -5416,9 +5716,7 @@ export type SendCisSessionHealthError =
   | ValidationException
   | CommonErrors;
 /**
- * Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to
- * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
- * this API to start a CIS scan session for the scan ID supplied by the service.
+ * Sends a CIS session health. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const sendCisSessionHealth: API.OperationMethod<
   SendCisSessionHealthRequest & RegionInput,
@@ -5426,7 +5724,7 @@ export const sendCisSessionHealth: API.OperationMethod<
   SendCisSessionHealthError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3232, __c101, 0) as any as S.Schema<SendCisSessionHealthRequest>,
+  input: __S(3360, __c105, 0) as any as S.Schema<SendCisSessionHealthRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<SendCisSessionHealthResponse>,
   errors: [
     AccessDeniedException,
@@ -5438,6 +5736,7 @@ export const sendCisSessionHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCisSessionHealth",
+  iam: { actions: ["inspector2:SendCisSessionHealth"] },
   telemetry: TELEMETRY,
   span: "SendCisSessionHealth",
 }));
@@ -5450,9 +5749,7 @@ export type SendCisSessionTelemetryError =
   | ValidationException
   | CommonErrors;
 /**
- * Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to
- * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
- * this API to start a CIS scan session for the scan ID supplied by the service.
+ * Sends a CIS session telemetry. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const sendCisSessionTelemetry: API.OperationMethod<
   SendCisSessionTelemetryRequest & RegionInput,
@@ -5460,7 +5757,7 @@ export const sendCisSessionTelemetry: API.OperationMethod<
   SendCisSessionTelemetryError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3266, __c102, 2) as any as S.Schema<SendCisSessionTelemetryRequest>,
+  input: __S(3394, __c106, 2) as any as S.Schema<SendCisSessionTelemetryRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<SendCisSessionTelemetryResponse>,
   errors: [
     AccessDeniedException,
@@ -5472,6 +5769,7 @@ export const sendCisSessionTelemetry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCisSessionTelemetry",
+  iam: { actions: ["inspector2:SendCisSessionTelemetry"] },
   telemetry: TELEMETRY,
   span: "SendCisSessionTelemetry",
 }));
@@ -5484,9 +5782,7 @@ export type StartCisSessionError =
   | ValidationException
   | CommonErrors;
 /**
- * Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to
- * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
- * this API to start a CIS scan session for the scan ID supplied by the service.
+ * Starts a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to start a CIS scan session for the scan ID supplied by the service.
  */
 export const startCisSession: API.OperationMethod<
   StartCisSessionRequest & RegionInput,
@@ -5494,7 +5790,7 @@ export const startCisSession: API.OperationMethod<
   StartCisSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3297, __c103, 1) as any as S.Schema<StartCisSessionRequest>,
+  input: __S(3425, __c107, 1) as any as S.Schema<StartCisSessionRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<StartCisSessionResponse>,
   errors: [
     AccessDeniedException,
@@ -5506,6 +5802,7 @@ export const startCisSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCisSession",
+  iam: { actions: ["inspector2:StartCisSession"] },
   telemetry: TELEMETRY,
   span: "StartCisSession",
 }));
@@ -5527,8 +5824,8 @@ export const startCodeSecurityScan: API.OperationMethod<
   StartCodeSecurityScanError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3328, __c104, 0) as any as S.Schema<StartCodeSecurityScanRequest>,
-  output: __S(3329, __c104, 1) as any as S.Schema<StartCodeSecurityScanResponse>,
+  input: __S(3456, __c108, 0) as any as S.Schema<StartCodeSecurityScanRequest>,
+  output: __S(3457, __c108, 1) as any as S.Schema<StartCodeSecurityScanResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5540,8 +5837,42 @@ export const startCodeSecurityScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeSecurityScan",
+  iam: { actions: ["inspector2:StartCodeSecurityScan"] },
   telemetry: TELEMETRY,
   span: "StartCodeSecurityScan",
+}));
+
+export type StartOnDemandScanError =
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors;
+/**
+ * Starts an on-demand scan of the specified resource, such as an Amazon Machine Image (AMI).
+ */
+export const startOnDemandScan: API.OperationMethod<
+  StartOnDemandScanRequest & RegionInput,
+  StartOnDemandScanResponse,
+  StartOnDemandScanError,
+  Credentials | HttpClient.HttpClient
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(3488, __c109, 0) as any as S.Schema<StartOnDemandScanRequest>,
+  output: __S(3489, __c109, 1) as any as S.Schema<StartOnDemandScanResponse>,
+  errors: [
+    AccessDeniedException,
+    ConflictException,
+    InternalServerException,
+    ThrottlingException,
+    ValidationException,
+  ],
+  protocol: AwsProtocol,
+  retry: Retry,
+  operationName: "StartOnDemandScan",
+  iam: { actions: ["inspector2:StartOnDemandScan"] },
+  telemetry: TELEMETRY,
+  span: "StartOnDemandScan",
 }));
 
 export type StopCisSessionError =
@@ -5552,9 +5883,7 @@ export type StopCisSessionError =
   | ValidationException
   | CommonErrors;
 /**
- * Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to
- * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
- * this API to stop a CIS scan session for the scan ID supplied by the service.
+ * Stops a CIS session. This API is used by the Amazon Inspector SSM plugin to communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls this API to stop a CIS scan session for the scan ID supplied by the service.
  */
 export const stopCisSession: API.OperationMethod<
   StopCisSessionRequest & RegionInput,
@@ -5562,7 +5891,7 @@ export const stopCisSession: API.OperationMethod<
   StopCisSessionError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3363, __c105, 3) as any as S.Schema<StopCisSessionRequest>,
+  input: __S(3523, __c110, 3) as any as S.Schema<StopCisSessionRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<StopCisSessionResponse>,
   errors: [
     AccessDeniedException,
@@ -5574,6 +5903,7 @@ export const stopCisSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCisSession",
+  iam: { actions: ["inspector2:StopCisSession"] },
   telemetry: TELEMETRY,
   span: "StopCisSession",
 }));
@@ -5594,7 +5924,7 @@ export const tagResource: API.OperationMethod<
   TagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3392, __c106, 0) as any as S.Schema<TagResourceRequest>,
+  input: __S(3552, __c111, 0) as any as S.Schema<TagResourceRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<TagResourceResponse>,
   errors: [
     BadRequestException,
@@ -5606,6 +5936,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["inspector2:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5625,7 +5956,7 @@ export const untagResource: API.OperationMethod<
   UntagResourceError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3424, __c107, 0) as any as S.Schema<UntagResourceRequest>,
+  input: __S(3648, __c114, 0) as any as S.Schema<UntagResourceRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<UntagResourceResponse>,
   errors: [
     InternalServerException,
@@ -5636,6 +5967,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["inspector2:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5656,7 +5988,7 @@ export const updateCisScanConfiguration: API.OperationMethod<
   UpdateCisScanConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3456, __c108, 0) as any as S.Schema<UpdateCisScanConfigurationRequest>,
+  input: __S(3680, __c115, 0) as any as S.Schema<UpdateCisScanConfigurationRequest>,
   output: __S(768, __c24, 0) as any as S.Schema<UpdateCisScanConfigurationResponse>,
   errors: [
     AccessDeniedException,
@@ -5668,6 +6000,14 @@ export const updateCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCisScanConfiguration",
+  iam: {
+    actions: ["inspector2:UpdateCisScanConfiguration"],
+    resources: {
+      "inspector2:UpdateCisScanConfiguration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/cis-configuration/${CISScanConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCisScanConfiguration",
 }));
@@ -5683,10 +6023,7 @@ export type UpdateCodeSecurityIntegrationError =
 /**
  * Updates an existing code security integration.
  *
- * After calling the `CreateCodeSecurityIntegration` operation, you complete
- * authentication and authorization with your provider. Next you call the
- * `UpdateCodeSecurityIntegration` operation to provide the `details`
- * to complete the integration setup
+ * After calling the `CreateCodeSecurityIntegration` operation, you complete authentication and authorization with your provider. Next you call the `UpdateCodeSecurityIntegration` operation to provide the `details` to complete the integration setup
  */
 export const updateCodeSecurityIntegration: API.OperationMethod<
   UpdateCodeSecurityIntegrationRequest & RegionInput,
@@ -5694,8 +6031,8 @@ export const updateCodeSecurityIntegration: API.OperationMethod<
   UpdateCodeSecurityIntegrationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3491, __c109, 3) as any as S.Schema<UpdateCodeSecurityIntegrationRequest>,
-  output: __S(3492, __c109, 4) as any as S.Schema<UpdateCodeSecurityIntegrationResponse>,
+  input: __S(3715, __c116, 3) as any as S.Schema<UpdateCodeSecurityIntegrationRequest>,
+  output: __S(3716, __c116, 4) as any as S.Schema<UpdateCodeSecurityIntegrationResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5707,6 +6044,14 @@ export const updateCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSecurityIntegration",
+  iam: {
+    actions: ["inspector2:UpdateCodeSecurityIntegration"],
+    resources: {
+      "inspector2:UpdateCodeSecurityIntegration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:codesecurity-integration/${CodeSecurityIntegrationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCodeSecurityIntegration",
 }));
@@ -5728,7 +6073,7 @@ export const updateCodeSecurityScanConfiguration: API.OperationMethod<
   UpdateCodeSecurityScanConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3584, __c112, 0) as any as S.Schema<UpdateCodeSecurityScanConfigurationRequest>,
+  input: __S(3744, __c117, 0) as any as S.Schema<UpdateCodeSecurityScanConfigurationRequest>,
   output: __S(576, __c18, 0) as any as S.Schema<UpdateCodeSecurityScanConfigurationResponse>,
   errors: [
     AccessDeniedException,
@@ -5741,23 +6086,27 @@ export const updateCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSecurityScanConfiguration",
+  iam: {
+    actions: ["inspector2:UpdateCodeSecurityScanConfiguration"],
+    resources: {
+      "inspector2:UpdateCodeSecurityScanConfiguration": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/codesecurity-configuration/${CodeSecurityScanConfigurationId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateCodeSecurityScanConfiguration",
 }));
 
 export type UpdateConfigurationError =
   | AccessDeniedException
+  | ConflictException
   | InternalServerException
   | ThrottlingException
   | ValidationException
   | CommonErrors;
 /**
- * Updates the scan configuration for your Amazon Inspector account. If you don't specify an
- * `accountId`, this operation updates the delegated administrator's configuration
- * and propagates it to member accounts that have not been individually configured. If you
- * specify an `accountId`, this operation updates that member account's
- * configuration. Only the delegated administrator can specify an `accountId`;
- * member accounts cannot call this operation.
+ * Updates the scan configuration for your Amazon Inspector account. If you don't specify an `accountId`, this operation updates the delegated administrator's configuration and propagates it to member accounts that have not been individually configured. If you specify an `accountId`, this operation updates that member account's configuration. Only the delegated administrator can specify an `accountId`; member accounts cannot call this operation.
  */
 export const updateConfiguration: API.OperationMethod<
   UpdateConfigurationRequest & RegionInput,
@@ -5765,10 +6114,11 @@ export const updateConfiguration: API.OperationMethod<
   UpdateConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3619, __c113, 3) as any as S.Schema<UpdateConfigurationRequest>,
+  input: __S(3780, __c118, 4) as any as S.Schema<UpdateConfigurationRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<UpdateConfigurationResponse>,
   errors: [
     AccessDeniedException,
+    ConflictException,
     InternalServerException,
     ThrottlingException,
     ValidationException,
@@ -5776,6 +6126,7 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
+  iam: { actions: ["inspector2:UpdateConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateConfiguration",
 }));
@@ -5797,8 +6148,8 @@ export const updateConnector: API.OperationMethod<
   UpdateConnectorError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3650, __c114, 2) as any as S.Schema<UpdateConnectorRequest>,
-  output: __S(3651, __c114, 3) as any as S.Schema<UpdateConnectorResponse>,
+  input: __S(3810, __c119, 2) as any as S.Schema<UpdateConnectorRequest>,
+  output: __S(3811, __c119, 3) as any as S.Schema<UpdateConnectorResponse>,
   errors: [
     AccessDeniedException,
     ConflictException,
@@ -5810,6 +6161,14 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
+  iam: {
+    actions: ["inspector2:UpdateConnector"],
+    resources: {
+      "inspector2:UpdateConnector": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:connector/${ConnectorId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateConnector",
 }));
@@ -5831,7 +6190,7 @@ export const updateConnectorScanConfiguration: API.OperationMethod<
   UpdateConnectorScanConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3680, __c115, 0) as any as S.Schema<UpdateConnectorScanConfigurationRequest>,
+  input: __S(3840, __c120, 0) as any as S.Schema<UpdateConnectorScanConfigurationRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<UpdateConnectorScanConfigurationResponse>,
   errors: [
     AccessDeniedException,
@@ -5844,6 +6203,7 @@ export const updateConnectorScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorScanConfiguration",
+  iam: { actions: ["inspector2:UpdateConnectorScanConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateConnectorScanConfiguration",
 }));
@@ -5863,8 +6223,8 @@ export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
   UpdateEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3712, __c116, 0) as any as S.Schema<UpdateEc2DeepInspectionConfigurationRequest>,
-  output: __S(2080, __c65, 0) as any as S.Schema<UpdateEc2DeepInspectionConfigurationResponse>,
+  input: __S(3872, __c121, 0) as any as S.Schema<UpdateEc2DeepInspectionConfigurationRequest>,
+  output: __S(2112, __c66, 0) as any as S.Schema<UpdateEc2DeepInspectionConfigurationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5874,6 +6234,7 @@ export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEc2DeepInspectionConfiguration",
+  iam: { actions: ["inspector2:UpdateEc2DeepInspectionConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateEc2DeepInspectionConfiguration",
 }));
@@ -5886,8 +6247,7 @@ export type UpdateEncryptionKeyError =
   | ValidationException
   | CommonErrors;
 /**
- * Updates an encryption key. A `ResourceNotFoundException` means that an
- * Amazon Web Services owned key is being used for encryption.
+ * Updates an encryption key. A `ResourceNotFoundException` means that an Amazon Web Services owned key is being used for encryption.
  */
 export const updateEncryptionKey: API.OperationMethod<
   UpdateEncryptionKeyRequest & RegionInput,
@@ -5895,7 +6255,7 @@ export const updateEncryptionKey: API.OperationMethod<
   UpdateEncryptionKeyError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3744, __c117, 0) as any as S.Schema<UpdateEncryptionKeyRequest>,
+  input: __S(3904, __c122, 0) as any as S.Schema<UpdateEncryptionKeyRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<UpdateEncryptionKeyResponse>,
   errors: [
     AccessDeniedException,
@@ -5907,6 +6267,7 @@ export const updateEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEncryptionKey",
+  iam: { actions: ["inspector2:UpdateEncryptionKey"] },
   telemetry: TELEMETRY,
   span: "UpdateEncryptionKey",
 }));
@@ -5927,7 +6288,7 @@ export const updateFilter: API.OperationMethod<
   UpdateFilterError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3776, __c118, 0) as any as S.Schema<UpdateFilterRequest>,
+  input: __S(3936, __c123, 0) as any as S.Schema<UpdateFilterRequest>,
   output: __S(1120, __c35, 0) as any as S.Schema<UpdateFilterResponse>,
   errors: [
     AccessDeniedException,
@@ -5939,6 +6300,14 @@ export const updateFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFilter",
+  iam: {
+    actions: ["inspector2:UpdateFilter"],
+    resources: {
+      "inspector2:UpdateFilter": [
+        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/filter/${FilterId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateFilter",
 }));
@@ -5958,8 +6327,8 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   UpdateOrganizationConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3808, __c119, 0) as any as S.Schema<UpdateOrganizationConfigurationRequest>,
-  output: __S(3809, __c119, 1) as any as S.Schema<UpdateOrganizationConfigurationResponse>,
+  input: __S(4064, __c127, 0) as any as S.Schema<UpdateOrganizationConfigurationRequest>,
+  output: __S(4065, __c127, 1) as any as S.Schema<UpdateOrganizationConfigurationResponse>,
   errors: [
     AccessDeniedException,
     InternalServerException,
@@ -5969,6 +6338,7 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
+  iam: { actions: ["inspector2:UpdateOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateOrganizationConfiguration",
 }));
@@ -5980,8 +6350,7 @@ export type UpdateOrgEc2DeepInspectionConfigurationError =
   | ValidationException
   | CommonErrors;
 /**
- * Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an
- * Amazon Inspector delegated administrator to use this API.
+ * Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an Amazon Inspector delegated administrator to use this API.
  */
 export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
   UpdateOrgEc2DeepInspectionConfigurationRequest & RegionInput,
@@ -5989,7 +6358,7 @@ export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
   UpdateOrgEc2DeepInspectionConfigurationError,
   Credentials | HttpClient.HttpClient
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(3840, __c120, 0) as any as S.Schema<UpdateOrgEc2DeepInspectionConfigurationRequest>,
+  input: __S(4096, __c128, 0) as any as S.Schema<UpdateOrgEc2DeepInspectionConfigurationRequest>,
   output: __S(608, __c19, 0) as any as S.Schema<UpdateOrgEc2DeepInspectionConfigurationResponse>,
   errors: [
     AccessDeniedException,
@@ -6000,6 +6369,7 @@ export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrgEc2DeepInspectionConfiguration",
+  iam: { actions: ["inspector2:UpdateOrgEc2DeepInspectionConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateOrgEc2DeepInspectionConfiguration",
 }));
@@ -6009,7 +6379,7 @@ function __c0(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ disassociateConfigurationRequests: __S(3905, __c122, 1) }).pipe(
+        S.Struct({ disassociateConfigurationRequests: __S(4001, __c125, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/codesecurity/scan-configuration/batch/disassociate" }),
             svc,
@@ -6046,6 +6416,7 @@ function __c1(j: number): any {
           lambda: S.optional(__S(33, __c1, 1)),
           lambdaCode: S.optional(__S(33, __c1, 1)),
           codeRepository: S.optional(__S(33, __c1, 1)),
+          ami: S.optional(__S(33, __c1, 1)),
         }),
       ).annotate({ identifier: "ResourceState" });
     case 3:
@@ -6076,6 +6447,7 @@ function __c3(j: number): any {
           lambda: S.optional(S.String),
           lambdaCode: S.optional(S.String),
           codeRepository: S.optional(S.String),
+          ami: S.optional(S.String),
         }),
       ).annotate({ identifier: "ResourceStatus" });
     case 1:
@@ -6736,6 +7108,10 @@ function __c34(j: number): any {
           epssScore: S.optional(__S(1025, __c32, 1)),
           codeRepositoryProjectName: S.optional(__S(961, __c30, 1)),
           codeRepositoryProviderType: S.optional(__S(961, __c30, 1)),
+          machineImageId: S.optional(__S(961, __c30, 1)),
+          machineImageName: S.optional(__S(961, __c30, 1)),
+          machineImageOwnerAccountId: S.optional(__S(961, __c30, 1)),
+          machineImagePlatform: S.optional(__S(961, __c30, 1)),
           cloudProvider: S.optional(__S(961, __c30, 1)),
           cloudProviderRegion: S.optional(__S(961, __c30, 1)),
           cloudProviderAccountId: S.optional(__S(961, __c30, 1)),
@@ -6785,7 +7161,12 @@ function __c37(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ bucketName: S.String, keyPrefix: S.optional(S.String), kmsKeyArn: S.String }),
+        S.Struct({
+          bucketName: S.String,
+          keyPrefix: S.optional(S.String),
+          kmsKeyArn: S.String,
+          expectedBucketOwner: S.optional(S.String),
+        }),
       ).annotate({ identifier: "Destination" });
   }
 }
@@ -6947,6 +7328,7 @@ function __c46(j: number): any {
           lambda: S.optional(S.Boolean),
           lambdaCode: S.optional(S.Boolean),
           codeRepository: S.optional(S.Boolean),
+          ami: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "AutoEnable" });
   }
@@ -7253,7 +7635,7 @@ function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ resource: __S(3936, __c123, 0), scanId: S.String }).pipe(
+        S.Struct({ resource: __S(4032, __c126, 0), scanId: S.String }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/codesecurity/scan/get" }),
             svc,
@@ -7268,7 +7650,7 @@ function __c60(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scanId: S.optional(S.String),
-          resource: S.optional(__S(3936, __c123, 0)),
+          resource: S.optional(__S(4032, __c126, 0)),
           accountId: S.optional(S.String),
           status: S.optional(S.String),
           statusReason: S.optional(S.String),
@@ -7360,13 +7742,43 @@ function __c62(j: number): any {
     case 6:
       return S.suspend(() =>
         S.Struct({
+          lastLaunchedWithin: S.optional(S.String),
+          createdWithin: S.optional(S.String),
+          scanModeConfiguration: S.optional(__S(2018, __c63, 2)),
+          status: S.optional(S.String),
+          updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+        }),
+      ).annotate({ identifier: "AmiConfigurationState" });
+    case 7:
+      return S.suspend(() =>
+        S.Struct({
           ecrConfiguration: S.optional(__S(1986, __c62, 2)),
           ec2Configuration: S.optional(__S(1989, __c62, 5)),
+          amiConfiguration: S.optional(__S(1990, __c62, 6)),
         }),
       ).annotate({ identifier: "GetConfigurationResponse" });
   }
 }
 function __c63(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ key: S.String, value: S.optional(S.String) })).annotate({
+        identifier: "AmiTagFilter",
+      });
+    case 1:
+      return S.Array(__S(2016, __c63, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          scanMode: S.String,
+          tags: S.optional(__S(2017, __c63, 1)),
+          excludeCopiedAmis: S.optional(S.Boolean),
+          excludeBackupDlmAmis: S.optional(S.Boolean),
+        }),
+      ).annotate({ identifier: "AmiScanModeConfiguration" });
+  }
+}
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7387,11 +7799,11 @@ function __c63(j: number): any {
       ).annotate({ identifier: "DelegatedAdmin" });
     case 2:
       return S.suspend(() =>
-        S.Struct({ delegatedAdmin: S.optional(__S(2017, __c63, 1)) }),
+        S.Struct({ delegatedAdmin: S.optional(__S(2049, __c64, 1)) }),
       ).annotate({ identifier: "GetDelegatedAdminAccountResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7408,7 +7820,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetEc2DeepInspectionConfigurationRequest" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7421,7 +7833,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "GetEc2DeepInspectionConfigurationResponse" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7438,7 +7850,7 @@ function __c66(j: number): any {
       });
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7466,7 +7878,7 @@ function __c67(j: number): any {
       ).annotate({ identifier: "GetFindingsReportStatusResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7475,12 +7887,12 @@ function __c68(j: number): any {
         ),
       ).annotate({ identifier: "GetMemberRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ member: S.optional(__S(2208, __c69, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ member: S.optional(__S(2240, __c70, 0)) })).annotate({
         identifier: "GetMemberResponse",
       });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7493,7 +7905,40 @@ function __c69(j: number): any {
       ).annotate({ identifier: "Member" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ resourceId: S.String, scanId: S.String, resourceType: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/ondemand/scan/status" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "GetOnDemandScanStatusRequest" });
+  }
+}
+function __c72(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          scanId: S.String,
+          resourceId: S.String,
+          resourceType: S.String,
+          scanStatus: S.String,
+          scanStatusReason: S.optional(S.String),
+          startedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
+          completedAt: S.optional(T.DateFromString.pipe(T.TimestampFormat("date-time"))),
+        }),
+      ).annotate({ identifier: "GetOnDemandScanStatusResponse" });
+  }
+}
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7515,7 +7960,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetSbomExportResponse" });
   }
 }
-function __c71(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7539,27 +7984,27 @@ function __c71(j: number): any {
         identifier: "Permission",
       });
     case 2:
-      return S.Array(__S(2273, __c71, 1));
+      return S.Array(__S(2369, __c74, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ permissions: __S(2274, __c71, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ permissions: __S(2370, __c74, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListAccountPermissionsResponse" });
   }
 }
-function __c72(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           scanNameFilters: S.optional(__S(1793, __c56, 1)),
-          targetResourceTagFilters: S.optional(__S(2337, __c73, 1)),
+          targetResourceTagFilters: S.optional(__S(2433, __c76, 1)),
           scanConfigurationArnFilters: S.optional(__S(1793, __c56, 1)),
         }),
       ).annotate({ identifier: "ListCisScanConfigurationsFilterCriteria" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          filterCriteria: S.optional(__S(2304, __c72, 0)),
+          filterCriteria: S.optional(__S(2400, __c75, 0)),
           sortBy: S.optional(S.String),
           sortOrder: S.optional(S.String),
           nextToken: S.optional(S.String),
@@ -7583,32 +8028,32 @@ function __c72(j: number): any {
           scanName: S.optional(S.String),
           securityLevel: S.optional(S.String),
           schedule: S.optional(__S(676, __c21, 4)),
-          targets: S.optional(__S(2368, __c74, 0)),
+          targets: S.optional(__S(2464, __c77, 0)),
           tags: S.optional(__S(512, __c16, 0)),
         }),
       ).annotate({ identifier: "CisScanConfiguration" });
     case 3:
-      return S.Array(__S(2306, __c72, 2));
+      return S.Array(__S(2402, __c75, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          scanConfigurations: S.optional(__S(2307, __c72, 3)),
+          scanConfigurations: S.optional(__S(2403, __c75, 3)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCisScanConfigurationsResponse" });
   }
 }
-function __c73(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ comparison: S.String, key: S.String, value: S.String }),
       ).annotate({ identifier: "TagFilter" });
     case 1:
-      return S.Array(__S(2336, __c73, 0));
+      return S.Array(__S(2432, __c76, 0));
   }
 }
-function __c74(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7619,7 +8064,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "CisTargets" });
   }
 }
-function __c75(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7636,7 +8081,7 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scanArn: S.String,
-          filterCriteria: S.optional(__S(2400, __c75, 0)),
+          filterCriteria: S.optional(__S(2496, __c78, 0)),
           sortBy: S.optional(S.String),
           sortOrder: S.optional(S.String),
           nextToken: S.optional(S.String),
@@ -7661,22 +8106,22 @@ function __c75(j: number): any {
           checkDescription: S.optional(S.String),
           level: S.optional(S.String),
           accountId: S.optional(S.String),
-          statusCounts: S.optional(__S(2432, __c76, 0)),
+          statusCounts: S.optional(__S(2528, __c79, 0)),
           platform: S.optional(S.String),
         }),
       ).annotate({ identifier: "CisCheckAggregation" });
     case 3:
-      return S.Array(__S(2402, __c75, 2));
+      return S.Array(__S(2498, __c78, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          checkAggregations: S.optional(__S(2403, __c75, 3)),
+          checkAggregations: S.optional(__S(2499, __c78, 3)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCisScanResultsAggregatedByChecksResponse" });
   }
 }
-function __c76(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7688,7 +8133,7 @@ function __c76(j: number): any {
       ).annotate({ identifier: "StatusCounts" });
   }
 }
-function __c77(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7697,7 +8142,7 @@ function __c77(j: number): any {
           statusFilters: S.optional(__S(1825, __c57, 1)),
           checkIdFilters: S.optional(__S(1793, __c56, 1)),
           targetResourceIdFilters: S.optional(__S(1793, __c56, 1)),
-          targetResourceTagFilters: S.optional(__S(2337, __c73, 1)),
+          targetResourceTagFilters: S.optional(__S(2433, __c76, 1)),
           platformFilters: S.optional(__S(1793, __c56, 1)),
           targetStatusFilters: S.optional(__S(1825, __c57, 1)),
           targetStatusReasonFilters: S.optional(__S(1825, __c57, 1)),
@@ -7708,7 +8153,7 @@ function __c77(j: number): any {
       return S.suspend(() =>
         S.Struct({
           scanArn: S.String,
-          filterCriteria: S.optional(__S(2464, __c77, 0)),
+          filterCriteria: S.optional(__S(2560, __c80, 0)),
           sortBy: S.optional(S.String),
           sortOrder: S.optional(S.String),
           nextToken: S.optional(S.String),
@@ -7731,24 +8176,24 @@ function __c77(j: number): any {
           targetResourceId: S.optional(S.String),
           accountId: S.optional(S.String),
           targetResourceTags: S.optional(__S(640, __c20, 0)),
-          statusCounts: S.optional(__S(2432, __c76, 0)),
+          statusCounts: S.optional(__S(2528, __c79, 0)),
           platform: S.optional(S.String),
           targetStatus: S.optional(S.String),
           targetStatusReason: S.optional(S.String),
         }),
       ).annotate({ identifier: "CisTargetResourceAggregation" });
     case 3:
-      return S.Array(__S(2466, __c77, 2));
+      return S.Array(__S(2562, __c80, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          targetResourceAggregations: S.optional(__S(2467, __c77, 3)),
+          targetResourceAggregations: S.optional(__S(2563, __c80, 3)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCisScanResultsAggregatedByTargetResourceResponse" });
   }
 }
-function __c78(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7758,15 +8203,15 @@ function __c78(j: number): any {
         }),
       ).annotate({ identifier: "CisDateFilter" });
     case 1:
-      return S.Array(__S(2496, __c78, 0));
+      return S.Array(__S(2592, __c81, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           scanNameFilters: S.optional(__S(1793, __c56, 1)),
-          targetResourceTagFilters: S.optional(__S(2337, __c73, 1)),
+          targetResourceTagFilters: S.optional(__S(2433, __c76, 1)),
           targetResourceIdFilters: S.optional(__S(1793, __c56, 1)),
           scanStatusFilters: S.optional(__S(1825, __c57, 1)),
-          scanAtFilters: S.optional(__S(2497, __c78, 1)),
+          scanAtFilters: S.optional(__S(2593, __c81, 1)),
           scanConfigurationArnFilters: S.optional(__S(1793, __c56, 1)),
           scanArnFilters: S.optional(__S(1793, __c56, 1)),
           scheduledByFilters: S.optional(__S(1793, __c56, 1)),
@@ -7777,7 +8222,7 @@ function __c78(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          filterCriteria: S.optional(__S(2498, __c78, 2)),
+          filterCriteria: S.optional(__S(2594, __c81, 2)),
           detailLevel: S.optional(S.String),
           sortBy: S.optional(S.String),
           sortOrder: S.optional(S.String),
@@ -7797,20 +8242,20 @@ function __c78(j: number): any {
           scanDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           failedChecks: S.optional(S.Number),
           totalChecks: S.optional(S.Number),
-          targets: S.optional(__S(2368, __c74, 0)),
+          targets: S.optional(__S(2464, __c77, 0)),
           scheduledBy: S.optional(S.String),
           securityLevel: S.optional(S.String),
         }),
       ).annotate({ identifier: "CisScan" });
     case 5:
-      return S.Array(__S(2500, __c78, 4));
+      return S.Array(__S(2596, __c81, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ scans: S.optional(__S(2501, __c78, 5)), nextToken: S.optional(S.String) }),
+        S.Struct({ scans: S.optional(__S(2597, __c81, 5)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListCisScansResponse" });
   }
 }
-function __c79(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7841,17 +8286,17 @@ function __c79(j: number): any {
         }),
       ).annotate({ identifier: "CodeSecurityIntegrationSummary" });
     case 2:
-      return S.Array(__S(2529, __c79, 1));
+      return S.Array(__S(2625, __c82, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          integrations: S.optional(__S(2530, __c79, 2)),
+          integrations: S.optional(__S(2626, __c82, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCodeSecurityIntegrationsResponse" });
   }
 }
-function __c80(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7871,21 +8316,21 @@ function __c80(j: number): any {
         ),
       ).annotate({ identifier: "ListCodeSecurityScanConfigurationAssociationsRequest" });
     case 1:
-      return S.suspend(() => S.Struct({ resource: S.optional(__S(3936, __c123, 0)) })).annotate({
+      return S.suspend(() => S.Struct({ resource: S.optional(__S(4032, __c126, 0)) })).annotate({
         identifier: "CodeSecurityScanConfigurationAssociationSummary",
       });
     case 2:
-      return S.Array(__S(2561, __c80, 1));
+      return S.Array(__S(2657, __c83, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          associations: S.optional(__S(2562, __c80, 2)),
+          associations: S.optional(__S(2658, __c83, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCodeSecurityScanConfigurationAssociationsResponse" });
   }
 }
-function __c81(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7917,17 +8362,17 @@ function __c81(j: number): any {
         }),
       ).annotate({ identifier: "CodeSecurityScanConfigurationSummary" });
     case 2:
-      return S.Array(__S(2593, __c81, 1));
+      return S.Array(__S(2689, __c84, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          configurations: S.optional(__S(2594, __c81, 2)),
+          configurations: S.optional(__S(2690, __c84, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCodeSecurityScanConfigurationsResponse" });
   }
 }
-function __c82(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -7944,7 +8389,7 @@ function __c82(j: number): any {
         S.Struct({
           maxResults: S.optional(S.Number),
           nextToken: S.optional(SensitiveString),
-          filterCriteria: S.optional(__S(2624, __c82, 0)),
+          filterCriteria: S.optional(__S(2720, __c85, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/connector/list" }), svc, auth, proto, ver, rules),
         ),
@@ -7969,9 +8414,9 @@ function __c82(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          vmScanning: S.optional(__S(2627, __c82, 3)),
-          containerImageScanning: S.optional(__S(2627, __c82, 3)),
-          serverlessScanning: S.optional(__S(2627, __c82, 3)),
+          vmScanning: S.optional(__S(2723, __c85, 3)),
+          containerImageScanning: S.optional(__S(2723, __c85, 3)),
+          serverlessScanning: S.optional(__S(2723, __c85, 3)),
         }),
       ).annotate({ identifier: "AzureScopeConfiguration" });
     case 5:
@@ -7983,25 +8428,25 @@ function __c82(j: number): any {
           provider: S.String,
           enablementStatus: S.optional(S.String),
           enablementStatusReason: S.optional(S.String),
-          health: S.optional(__S(2626, __c82, 2)),
+          health: S.optional(__S(2722, __c85, 2)),
           createdAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           updatedAt: T.DateFromString.pipe(T.TimestampFormat("date-time")),
           azureRegions: S.optional(__S(64, __c2, 0)),
           awsConfigConnectorArn: S.optional(S.String),
-          scopeConfiguration: S.optional(__S(2628, __c82, 4)),
+          scopeConfiguration: S.optional(__S(2724, __c85, 4)),
           tags: S.optional(__S(512, __c16, 0)),
           autoInstallVMScanner: S.optional(S.Boolean),
         }),
       ).annotate({ identifier: "Connector" });
     case 6:
-      return S.Array(__S(2629, __c82, 5));
+      return S.Array(__S(2725, __c85, 5));
     case 7:
       return S.suspend(() =>
-        S.Struct({ items: __S(2630, __c82, 6), nextToken: S.optional(SensitiveString) }),
+        S.Struct({ items: __S(2726, __c85, 6), nextToken: S.optional(SensitiveString) }),
       ).annotate({ identifier: "ListConnectorsResponse" });
   }
 }
-function __c83(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8025,21 +8470,21 @@ function __c83(j: number): any {
         S.Struct({
           awsConfigConnectorArn: S.String,
           connectorArns: __S(64, __c2, 0),
-          scanConfiguration: __S(2689, __c84, 1),
+          scanConfiguration: __S(2785, __c87, 1),
         }),
       ).annotate({ identifier: "ConnectorScanConfigurationItem" });
     case 2:
-      return S.Array(__S(2657, __c83, 1));
+      return S.Array(__S(2753, __c86, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          scanConfigurations: __S(2658, __c83, 2),
+          scanConfigurations: __S(2754, __c86, 2),
           nextToken: S.optional(SensitiveString),
         }),
       ).annotate({ identifier: "ListConnectorScanConfigurationsResponse" });
   }
 }
-function __c84(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8047,18 +8492,18 @@ function __c84(j: number): any {
       ).annotate({ identifier: "ConnectorContainerImageScanConfiguration" });
     case 1:
       return S.suspend(() =>
-        S.Struct({ containerImageScanning: S.optional(__S(2688, __c84, 0)) }),
+        S.Struct({ containerImageScanning: S.optional(__S(2784, __c87, 0)) }),
       ).annotate({ identifier: "ConnectorScanConfiguration" });
   }
 }
-function __c85(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
-          filterCriteria: S.optional(__S(2752, __c86, 0)),
+          filterCriteria: S.optional(__S(2848, __c89, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/coverage/list" }), svc, auth, proto, ver, rules),
         ),
@@ -8105,7 +8550,7 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "ProjectPeriodicScanConfiguration" });
     case 7:
-      return S.Array(__S(2726, __c85, 6));
+      return S.Array(__S(2822, __c88, 6));
     case 8:
       return S.suspend(() =>
         S.Struct({
@@ -8114,12 +8559,12 @@ function __c85(j: number): any {
         }),
       ).annotate({ identifier: "ProjectContinuousIntegrationScanConfiguration" });
     case 9:
-      return S.Array(__S(2728, __c85, 8));
+      return S.Array(__S(2824, __c88, 8));
     case 10:
       return S.suspend(() =>
         S.Struct({
-          periodicScanConfigurations: S.optional(__S(2727, __c85, 7)),
-          continuousIntegrationScanConfigurations: S.optional(__S(2729, __c85, 9)),
+          periodicScanConfigurations: S.optional(__S(2823, __c88, 7)),
+          continuousIntegrationScanConfigurations: S.optional(__S(2825, __c88, 9)),
         }),
       ).annotate({ identifier: "ProjectCodeSecurityScanConfiguration" });
     case 11:
@@ -8127,7 +8572,7 @@ function __c85(j: number): any {
         S.Struct({
           lastScannedCommitId: S.optional(S.String),
           lastScanAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
-          scanStatus: S.optional(__S(2721, __c85, 1)),
+          scanStatus: S.optional(__S(2817, __c88, 1)),
         }),
       ).annotate({ identifier: "CodeRepositoryOnDemandScan" });
     case 12:
@@ -8138,8 +8583,8 @@ function __c85(j: number): any {
           providerType: S.String,
           providerTypeVisibility: S.String,
           lastScannedCommitId: S.optional(S.String),
-          scanConfiguration: S.optional(__S(2730, __c85, 10)),
-          onDemandScan: S.optional(__S(2731, __c85, 11)),
+          scanConfiguration: S.optional(__S(2826, __c88, 10)),
+          onDemandScan: S.optional(__S(2827, __c88, 11)),
         }),
       ).annotate({ identifier: "CodeRepositoryMetadata" });
     case 13:
@@ -8174,28 +8619,33 @@ function __c85(j: number): any {
       ).annotate({ identifier: "ServerlessFunctionMetadata" });
     case 17:
       return S.suspend(() =>
+        S.Struct({ tags: S.optional(__S(512, __c16, 0)), platform: S.optional(S.String) }),
+      ).annotate({ identifier: "MachineImageMetadata" });
+    case 18:
+      return S.suspend(() =>
         S.Struct({
-          ecrRepository: S.optional(__S(2722, __c85, 2)),
-          ecrImage: S.optional(__S(2723, __c85, 3)),
-          ec2: S.optional(__S(2724, __c85, 4)),
-          lambdaFunction: S.optional(__S(2725, __c85, 5)),
-          codeRepository: S.optional(__S(2732, __c85, 12)),
-          vmInstance: S.optional(__S(2733, __c85, 13)),
-          containerImage: S.optional(__S(2734, __c85, 14)),
-          containerRepository: S.optional(__S(2722, __c85, 2)),
-          containerRegistry: S.optional(__S(2735, __c85, 15)),
-          serverlessFunction: S.optional(__S(2736, __c85, 16)),
+          ecrRepository: S.optional(__S(2818, __c88, 2)),
+          ecrImage: S.optional(__S(2819, __c88, 3)),
+          ec2: S.optional(__S(2820, __c88, 4)),
+          lambdaFunction: S.optional(__S(2821, __c88, 5)),
+          codeRepository: S.optional(__S(2828, __c88, 12)),
+          vmInstance: S.optional(__S(2829, __c88, 13)),
+          containerImage: S.optional(__S(2830, __c88, 14)),
+          containerRepository: S.optional(__S(2818, __c88, 2)),
+          containerRegistry: S.optional(__S(2831, __c88, 15)),
+          serverlessFunction: S.optional(__S(2832, __c88, 16)),
+          machineImage: S.optional(__S(2833, __c88, 17)),
         }),
       ).annotate({ identifier: "ResourceScanMetadata" });
-    case 18:
+    case 19:
       return S.suspend(() =>
         S.Struct({
           resourceType: S.String,
           resourceId: S.String,
           accountId: S.String,
           scanType: S.String,
-          scanStatus: S.optional(__S(2721, __c85, 1)),
-          resourceMetadata: S.optional(__S(2737, __c85, 17)),
+          scanStatus: S.optional(__S(2817, __c88, 1)),
+          resourceMetadata: S.optional(__S(2834, __c88, 18)),
           lastScannedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           scanMode: S.optional(S.String),
           provider: S.optional(S.String),
@@ -8205,18 +8655,18 @@ function __c85(j: number): any {
           providerPartition: S.optional(S.String),
         }),
       ).annotate({ identifier: "CoveredResource" });
-    case 19:
-      return S.Array(__S(2738, __c85, 18));
     case 20:
+      return S.Array(__S(2835, __c88, 19));
+    case 21:
       return S.suspend(() =>
         S.Struct({
           nextToken: S.optional(S.String),
-          coveredResources: S.optional(__S(2739, __c85, 19)),
+          coveredResources: S.optional(__S(2836, __c88, 20)),
         }),
       ).annotate({ identifier: "ListCoverageResponse" });
   }
 }
-function __c86(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8233,6 +8683,7 @@ function __c86(j: number): any {
           lambdaFunctionName: S.optional(__S(961, __c30, 1)),
           lambdaFunctionTags: S.optional(__S(993, __c31, 1)),
           lambdaFunctionRuntime: S.optional(__S(961, __c30, 1)),
+          machineImageTags: S.optional(__S(993, __c31, 1)),
           lastScannedAt: S.optional(__S(1057, __c33, 1)),
           scanMode: S.optional(__S(961, __c30, 1)),
           imagePulledAt: S.optional(__S(1057, __c33, 1)),
@@ -8257,12 +8708,12 @@ function __c86(j: number): any {
       ).annotate({ identifier: "CoverageFilterCriteria" });
   }
 }
-function __c87(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          filterCriteria: S.optional(__S(2752, __c86, 0)),
+          filterCriteria: S.optional(__S(2848, __c89, 0)),
           groupBy: S.optional(S.String),
           nextToken: S.optional(S.String),
         }).pipe(
@@ -8281,18 +8732,18 @@ function __c87(j: number): any {
         S.Struct({ count: S.optional(S.Number), groupKey: S.optional(S.String) }),
       ).annotate({ identifier: "Counts" });
     case 2:
-      return S.Array(__S(2785, __c87, 1));
+      return S.Array(__S(2881, __c90, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          countsByGroup: S.optional(__S(2786, __c87, 2)),
+          countsByGroup: S.optional(__S(2882, __c90, 2)),
           totalCounts: S.Number,
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListCoverageStatisticsResponse" });
   }
 }
-function __c88(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8312,17 +8763,17 @@ function __c88(j: number): any {
         S.Struct({ accountId: S.optional(S.String), status: S.optional(S.String) }),
       ).annotate({ identifier: "DelegatedAdminAccount" });
     case 2:
-      return S.Array(__S(2817, __c88, 1));
+      return S.Array(__S(2913, __c91, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          delegatedAdminAccounts: S.optional(__S(2818, __c88, 2)),
+          delegatedAdminAccounts: S.optional(__S(2914, __c91, 2)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDelegatedAdminAccountsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8351,14 +8802,14 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "Filter" });
     case 2:
-      return S.Array(__S(2849, __c89, 1));
+      return S.Array(__S(2945, __c92, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ filters: __S(2850, __c89, 2), nextToken: S.optional(S.String) }),
+        S.Struct({ filters: __S(2946, __c92, 2), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListFiltersResponse" });
   }
 }
-function __c90(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -8375,6 +8826,7 @@ function __c90(j: number): any {
           amis: S.optional(__S(961, __c30, 1)),
           sortOrder: S.optional(S.String),
           sortBy: S.optional(S.String),
+          scanSources: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "AmiAggregation" });
     case 2:
@@ -8529,21 +8981,21 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ServerlessFunctionAggregation" });
     case 14:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ accountAggregation: __S(2880, __c90, 0) }),
-        /*@__PURE__*/ S.Struct({ amiAggregation: __S(2881, __c90, 1) }),
-        /*@__PURE__*/ S.Struct({ awsEcrContainerAggregation: __S(2882, __c90, 2) }),
-        /*@__PURE__*/ S.Struct({ ec2InstanceAggregation: __S(2883, __c90, 3) }),
-        /*@__PURE__*/ S.Struct({ findingTypeAggregation: __S(2880, __c90, 0) }),
-        /*@__PURE__*/ S.Struct({ imageLayerAggregation: __S(2884, __c90, 4) }),
-        /*@__PURE__*/ S.Struct({ packageAggregation: __S(2885, __c90, 5) }),
-        /*@__PURE__*/ S.Struct({ repositoryAggregation: __S(2886, __c90, 6) }),
-        /*@__PURE__*/ S.Struct({ titleAggregation: __S(2887, __c90, 7) }),
-        /*@__PURE__*/ S.Struct({ lambdaLayerAggregation: __S(2888, __c90, 8) }),
-        /*@__PURE__*/ S.Struct({ lambdaFunctionAggregation: __S(2889, __c90, 9) }),
-        /*@__PURE__*/ S.Struct({ codeRepositoryAggregation: __S(2890, __c90, 10) }),
-        /*@__PURE__*/ S.Struct({ vmInstanceAggregation: __S(2891, __c90, 11) }),
-        /*@__PURE__*/ S.Struct({ containerImageAggregation: __S(2892, __c90, 12) }),
-        /*@__PURE__*/ S.Struct({ serverlessFunctionAggregation: __S(2893, __c90, 13) }),
+        /*@__PURE__*/ S.Struct({ accountAggregation: __S(2976, __c93, 0) }),
+        /*@__PURE__*/ S.Struct({ amiAggregation: __S(2977, __c93, 1) }),
+        /*@__PURE__*/ S.Struct({ awsEcrContainerAggregation: __S(2978, __c93, 2) }),
+        /*@__PURE__*/ S.Struct({ ec2InstanceAggregation: __S(2979, __c93, 3) }),
+        /*@__PURE__*/ S.Struct({ findingTypeAggregation: __S(2976, __c93, 0) }),
+        /*@__PURE__*/ S.Struct({ imageLayerAggregation: __S(2980, __c93, 4) }),
+        /*@__PURE__*/ S.Struct({ packageAggregation: __S(2981, __c93, 5) }),
+        /*@__PURE__*/ S.Struct({ repositoryAggregation: __S(2982, __c93, 6) }),
+        /*@__PURE__*/ S.Struct({ titleAggregation: __S(2983, __c93, 7) }),
+        /*@__PURE__*/ S.Struct({ lambdaLayerAggregation: __S(2984, __c93, 8) }),
+        /*@__PURE__*/ S.Struct({ lambdaFunctionAggregation: __S(2985, __c93, 9) }),
+        /*@__PURE__*/ S.Struct({ codeRepositoryAggregation: __S(2986, __c93, 10) }),
+        /*@__PURE__*/ S.Struct({ vmInstanceAggregation: __S(2987, __c93, 11) }),
+        /*@__PURE__*/ S.Struct({ containerImageAggregation: __S(2988, __c93, 12) }),
+        /*@__PURE__*/ S.Struct({ serverlessFunctionAggregation: __S(2989, __c93, 13) }),
       ]);
     case 15:
       return S.suspend(() =>
@@ -8552,7 +9004,7 @@ function __c90(j: number): any {
           nextToken: S.optional(S.String),
           maxResults: S.optional(S.Number),
           accountIds: S.optional(__S(961, __c30, 1)),
-          aggregationRequest: S.optional(__S(2894, __c90, 14)),
+          aggregationRequest: S.optional(__S(2990, __c93, 14)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/findings/aggregation/list" }),
@@ -8580,7 +9032,7 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           exploitAvailableCount: S.optional(S.Number),
           fixAvailableCount: S.optional(S.Number),
         }),
@@ -8595,8 +9047,9 @@ function __c90(j: number): any {
           cloudRegion: S.optional(S.String),
           cloudOrgId: S.optional(S.String),
           cloudAccountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           affectedInstances: S.optional(S.Number),
+          scanSource: S.optional(S.String),
         }),
       ).annotate({ identifier: "AmiAggregationResponse" });
     case 19:
@@ -8608,7 +9061,7 @@ function __c90(j: number): any {
           architecture: S.optional(S.String),
           imageTags: S.optional(__S(64, __c2, 0)),
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           lastInUseAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           inUseCount: S.optional(S.Number),
         }),
@@ -8621,7 +9074,7 @@ function __c90(j: number): any {
           operatingSystem: S.optional(S.String),
           instanceTags: S.optional(__S(512, __c16, 0)),
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           networkFindings: S.optional(S.Number),
         }),
       ).annotate({ identifier: "Ec2InstanceAggregationResponse" });
@@ -8629,7 +9082,7 @@ function __c90(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           exploitAvailableCount: S.optional(S.Number),
           fixAvailableCount: S.optional(S.Number),
           cloudProvider: S.optional(S.String),
@@ -8651,7 +9104,7 @@ function __c90(j: number): any {
           cloudOrgId: S.optional(S.String),
           cloudRegion: S.optional(S.String),
           cloudPartition: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
         }),
       ).annotate({ identifier: "ImageLayerAggregationResponse" });
     case 23:
@@ -8659,7 +9112,7 @@ function __c90(j: number): any {
         S.Struct({
           packageName: S.String,
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
         }),
       ).annotate({ identifier: "PackageAggregationResponse" });
     case 24:
@@ -8672,7 +9125,7 @@ function __c90(j: number): any {
           cloudRegion: S.optional(S.String),
           cloudOrgId: S.optional(S.String),
           cloudAccountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           affectedImages: S.optional(S.Number),
         }),
       ).annotate({ identifier: "RepositoryAggregationResponse" });
@@ -8682,7 +9135,7 @@ function __c90(j: number): any {
           title: S.String,
           vulnerabilityId: S.optional(S.String),
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
         }),
       ).annotate({ identifier: "TitleAggregationResponse" });
     case 26:
@@ -8692,7 +9145,7 @@ function __c90(j: number): any {
           resourceId: S.String,
           layerArn: S.String,
           accountId: S.String,
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
         }),
       ).annotate({ identifier: "LambdaLayerAggregationResponse" });
     case 27:
@@ -8703,7 +9156,7 @@ function __c90(j: number): any {
           runtime: S.optional(S.String),
           lambdaTags: S.optional(__S(512, __c16, 0)),
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "LambdaFunctionAggregationResponse" });
@@ -8712,7 +9165,7 @@ function __c90(j: number): any {
         S.Struct({
           projectNames: S.String,
           providerType: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           exploitAvailableActiveFindingsCount: S.optional(S.Number),
           fixAvailableActiveFindingsCount: S.optional(S.Number),
           accountId: S.optional(S.String),
@@ -8732,7 +9185,7 @@ function __c90(j: number): any {
           operatingSystem: S.optional(S.String),
           tags: S.optional(__S(512, __c16, 0)),
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           networkFindings: S.optional(S.Number),
           exploitAvailableActiveFindingsCount: S.optional(S.Number),
           fixAvailableActiveFindingsCount: S.optional(S.Number),
@@ -8753,7 +9206,7 @@ function __c90(j: number): any {
           architecture: S.optional(S.String),
           imageTags: S.optional(__S(64, __c2, 0)),
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           lastInUseAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           inUseCount: S.optional(S.Number),
           exploitAvailableActiveFindingsCount: S.optional(S.Number),
@@ -8773,7 +9226,7 @@ function __c90(j: number): any {
           runtime: S.optional(S.String),
           tags: S.optional(__S(512, __c16, 0)),
           accountId: S.optional(S.String),
-          severityCounts: S.optional(__S(2896, __c90, 16)),
+          severityCounts: S.optional(__S(2992, __c93, 16)),
           lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           exploitAvailableActiveFindingsCount: S.optional(S.Number),
           fixAvailableActiveFindingsCount: S.optional(S.Number),
@@ -8781,39 +9234,39 @@ function __c90(j: number): any {
       ).annotate({ identifier: "ServerlessFunctionAggregationResponse" });
   }
 }
-function __c91(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ accountAggregation: __S(2897, __c90, 17) }),
-        /*@__PURE__*/ S.Struct({ amiAggregation: __S(2898, __c90, 18) }),
-        /*@__PURE__*/ S.Struct({ awsEcrContainerAggregation: __S(2899, __c90, 19) }),
-        /*@__PURE__*/ S.Struct({ ec2InstanceAggregation: __S(2900, __c90, 20) }),
-        /*@__PURE__*/ S.Struct({ findingTypeAggregation: __S(2901, __c90, 21) }),
-        /*@__PURE__*/ S.Struct({ imageLayerAggregation: __S(2902, __c90, 22) }),
-        /*@__PURE__*/ S.Struct({ packageAggregation: __S(2903, __c90, 23) }),
-        /*@__PURE__*/ S.Struct({ repositoryAggregation: __S(2904, __c90, 24) }),
-        /*@__PURE__*/ S.Struct({ titleAggregation: __S(2905, __c90, 25) }),
-        /*@__PURE__*/ S.Struct({ lambdaLayerAggregation: __S(2906, __c90, 26) }),
-        /*@__PURE__*/ S.Struct({ lambdaFunctionAggregation: __S(2907, __c90, 27) }),
-        /*@__PURE__*/ S.Struct({ codeRepositoryAggregation: __S(2908, __c90, 28) }),
-        /*@__PURE__*/ S.Struct({ vmInstanceAggregation: __S(2909, __c90, 29) }),
-        /*@__PURE__*/ S.Struct({ containerImageAggregation: __S(2910, __c90, 30) }),
-        /*@__PURE__*/ S.Struct({ serverlessFunctionAggregation: __S(2911, __c90, 31) }),
+        /*@__PURE__*/ S.Struct({ accountAggregation: __S(2993, __c93, 17) }),
+        /*@__PURE__*/ S.Struct({ amiAggregation: __S(2994, __c93, 18) }),
+        /*@__PURE__*/ S.Struct({ awsEcrContainerAggregation: __S(2995, __c93, 19) }),
+        /*@__PURE__*/ S.Struct({ ec2InstanceAggregation: __S(2996, __c93, 20) }),
+        /*@__PURE__*/ S.Struct({ findingTypeAggregation: __S(2997, __c93, 21) }),
+        /*@__PURE__*/ S.Struct({ imageLayerAggregation: __S(2998, __c93, 22) }),
+        /*@__PURE__*/ S.Struct({ packageAggregation: __S(2999, __c93, 23) }),
+        /*@__PURE__*/ S.Struct({ repositoryAggregation: __S(3000, __c93, 24) }),
+        /*@__PURE__*/ S.Struct({ titleAggregation: __S(3001, __c93, 25) }),
+        /*@__PURE__*/ S.Struct({ lambdaLayerAggregation: __S(3002, __c93, 26) }),
+        /*@__PURE__*/ S.Struct({ lambdaFunctionAggregation: __S(3003, __c93, 27) }),
+        /*@__PURE__*/ S.Struct({ codeRepositoryAggregation: __S(3004, __c93, 28) }),
+        /*@__PURE__*/ S.Struct({ vmInstanceAggregation: __S(3005, __c93, 29) }),
+        /*@__PURE__*/ S.Struct({ containerImageAggregation: __S(3006, __c93, 30) }),
+        /*@__PURE__*/ S.Struct({ serverlessFunctionAggregation: __S(3007, __c93, 31) }),
       ]);
     case 1:
-      return S.Array(__S(2912, __c91, 0));
+      return S.Array(__S(3008, __c94, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           aggregationType: S.String,
-          responses: S.optional(__S(2913, __c91, 1)),
+          responses: S.optional(__S(3009, __c94, 1)),
           nextToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListFindingAggregationsResponse" });
   }
 }
-function __c92(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ field: S.String, sortOrder: S.String })).annotate({
@@ -8825,7 +9278,7 @@ function __c92(j: number): any {
           maxResults: S.optional(S.Number),
           nextToken: S.optional(S.String),
           filterCriteria: S.optional(__S(1092, __c34, 4)),
-          sortCriteria: S.optional(__S(2944, __c92, 0)),
+          sortCriteria: S.optional(__S(3040, __c95, 0)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/findings/list" }), svc, auth, proto, ver, rules),
         ),
@@ -8836,7 +9289,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "Recommendation" });
     case 3:
       return S.suspend(() =>
-        S.Struct({ recommendation: S.optional(__S(2946, __c92, 2)) }),
+        S.Struct({ recommendation: S.optional(__S(3042, __c95, 2)) }),
       ).annotate({ identifier: "Remediation" });
     case 4:
       return S.suspend(() =>
@@ -8885,7 +9338,7 @@ function __c92(j: number): any {
           version: S.String,
           executionRoleArn: S.String,
           layers: S.optional(__S(64, __c2, 0)),
-          vpcConfig: S.optional(__S(2950, __c92, 6)),
+          vpcConfig: S.optional(__S(3046, __c95, 6)),
           packageType: S.optional(S.String),
           architectures: S.optional(__S(64, __c2, 0)),
           lastModifiedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
@@ -8902,6 +9355,22 @@ function __c92(j: number): any {
     case 9:
       return S.suspend(() =>
         S.Struct({
+          machineImageId: S.String,
+          name: S.optional(S.String),
+          ownerAccountId: S.optional(S.String),
+          platform: S.optional(S.String),
+          architecture: S.optional(S.String),
+          creationDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+          state: S.optional(S.String),
+          isPublic: S.optional(S.Boolean),
+          rootDeviceType: S.optional(S.String),
+          virtualizationType: S.optional(S.String),
+          sourceResourceId: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "MachineImageDetails" });
+    case 10:
+      return S.suspend(() =>
+        S.Struct({
           type: S.optional(S.String),
           vmName: S.optional(S.String),
           vmImageReference: S.optional(S.String),
@@ -8916,7 +9385,7 @@ function __c92(j: number): any {
           keyName: S.optional(S.String),
         }),
       ).annotate({ identifier: "Vm" });
-    case 10:
+    case 11:
       return S.suspend(() =>
         S.Struct({
           repositoryName: S.optional(S.String),
@@ -8931,7 +9400,7 @@ function __c92(j: number): any {
           platform: S.optional(S.String),
         }),
       ).annotate({ identifier: "Image" });
-    case 11:
+    case 12:
       return S.suspend(() =>
         S.Struct({
           serverlessFunctionName: S.optional(S.String),
@@ -8948,19 +9417,20 @@ function __c92(j: number): any {
           layers: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "ServerlessFunction" });
-    case 12:
+    case 13:
       return S.suspend(() =>
         S.Struct({
-          awsEc2Instance: S.optional(__S(2948, __c92, 4)),
-          awsEcrContainerImage: S.optional(__S(2949, __c92, 5)),
-          awsLambdaFunction: S.optional(__S(2951, __c92, 7)),
-          codeRepository: S.optional(__S(2952, __c92, 8)),
-          vm: S.optional(__S(2953, __c92, 9)),
-          image: S.optional(__S(2954, __c92, 10)),
-          serverlessFunction: S.optional(__S(2955, __c92, 11)),
+          awsEc2Instance: S.optional(__S(3044, __c95, 4)),
+          awsEcrContainerImage: S.optional(__S(3045, __c95, 5)),
+          awsLambdaFunction: S.optional(__S(3047, __c95, 7)),
+          codeRepository: S.optional(__S(3048, __c95, 8)),
+          machineImage: S.optional(__S(3049, __c95, 9)),
+          vm: S.optional(__S(3050, __c95, 10)),
+          image: S.optional(__S(3051, __c95, 11)),
+          serverlessFunction: S.optional(__S(3052, __c95, 12)),
         }),
       ).annotate({ identifier: "ResourceDetails" });
-    case 13:
+    case 14:
       return S.suspend(() =>
         S.Struct({
           type: S.String,
@@ -8968,21 +9438,21 @@ function __c92(j: number): any {
           partition: S.optional(S.String),
           region: S.optional(S.String),
           tags: S.optional(__S(512, __c16, 0)),
-          details: S.optional(__S(2956, __c92, 12)),
+          details: S.optional(__S(3053, __c95, 13)),
           provider: S.optional(S.String),
           providerAccountId: S.optional(S.String),
           providerOrgId: S.optional(S.String),
         }),
       ).annotate({ identifier: "Resource" });
-    case 14:
-      return S.Array(__S(2957, __c92, 13));
     case 15:
+      return S.Array(__S(3054, __c95, 14));
+    case 16:
       return S.suspend(() => S.Struct({ metric: S.String, reason: S.String })).annotate({
         identifier: "CvssScoreAdjustment",
       });
-    case 16:
-      return S.Array(__S(2959, __c92, 15));
     case 17:
+      return S.Array(__S(3056, __c95, 16));
+    case 18:
       return S.suspend(() =>
         S.Struct({
           scoreSource: S.String,
@@ -8990,18 +9460,18 @@ function __c92(j: number): any {
           version: S.String,
           score: S.Number,
           scoringVector: S.String,
-          adjustments: S.optional(__S(2960, __c92, 16)),
+          adjustments: S.optional(__S(3057, __c95, 17)),
         }),
       ).annotate({ identifier: "CvssScoreDetails" });
-    case 18:
-      return S.suspend(() => S.Struct({ adjustedCvss: S.optional(__S(2961, __c92, 17)) })).annotate(
+    case 19:
+      return S.suspend(() => S.Struct({ adjustedCvss: S.optional(__S(3058, __c95, 18)) })).annotate(
         { identifier: "InspectorScoreDetails" },
       );
-    case 19:
+    case 20:
       return S.suspend(() => S.Struct({ begin: S.Number, end: S.Number })).annotate({
         identifier: "PortRange",
       });
-    case 20:
+    case 21:
       return S.suspend(() =>
         S.Struct({
           componentId: S.String,
@@ -9009,21 +9479,21 @@ function __c92(j: number): any {
           componentArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "Step" });
-    case 21:
-      return S.Array(__S(2964, __c92, 20));
     case 22:
-      return S.suspend(() => S.Struct({ steps: S.optional(__S(2965, __c92, 21)) })).annotate({
+      return S.Array(__S(3061, __c95, 21));
+    case 23:
+      return S.suspend(() => S.Struct({ steps: S.optional(__S(3062, __c95, 22)) })).annotate({
         identifier: "NetworkPath",
       });
-    case 23:
+    case 24:
       return S.suspend(() =>
         S.Struct({
-          openPortRange: __S(2963, __c92, 19),
+          openPortRange: __S(3060, __c95, 20),
           protocol: S.String,
-          networkPath: __S(2966, __c92, 22),
+          networkPath: __S(3063, __c95, 23),
         }),
       ).annotate({ identifier: "NetworkReachabilityDetails" });
-    case 24:
+    case 25:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
@@ -9039,9 +9509,9 @@ function __c92(j: number): any {
           sourceLambdaLayerArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "VulnerablePackage" });
-    case 25:
-      return S.Array(__S(2968, __c92, 24));
     case 26:
+      return S.Array(__S(3065, __c95, 25));
+    case 27:
       return S.suspend(() =>
         S.Struct({
           baseScore: S.Number,
@@ -9050,15 +9520,15 @@ function __c92(j: number): any {
           source: S.String,
         }),
       ).annotate({ identifier: "CvssScore" });
-    case 27:
-      return S.Array(__S(2970, __c92, 26));
     case 28:
+      return S.Array(__S(3067, __c95, 27));
+    case 29:
       return S.suspend(() =>
         S.Struct({
           vulnerabilityId: S.String,
-          vulnerablePackages: S.optional(__S(2969, __c92, 25)),
+          vulnerablePackages: S.optional(__S(3066, __c95, 26)),
           source: S.String,
-          cvss: S.optional(__S(2971, __c92, 27)),
+          cvss: S.optional(__S(3068, __c95, 28)),
           relatedVulnerabilities: S.optional(__S(64, __c2, 0)),
           sourceUrl: S.optional(S.String),
           vendorSeverity: S.optional(S.String),
@@ -9067,13 +9537,13 @@ function __c92(j: number): any {
           referenceUrls: S.optional(__S(64, __c2, 0)),
         }),
       ).annotate({ identifier: "PackageVulnerabilityDetails" });
-    case 29:
+    case 30:
       return S.suspend(() =>
         S.Struct({
           lastKnownExploitAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
         }),
       ).annotate({ identifier: "ExploitabilityDetails" });
-    case 30:
+    case 31:
       return S.suspend(() =>
         S.Struct({
           fileName: S.String,
@@ -9082,10 +9552,14 @@ function __c92(j: number): any {
           endLine: S.Number,
         }),
       ).annotate({ identifier: "CodeFilePath" });
-    case 31:
+  }
+}
+function __c96(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
-          filePath: __S(2974, __c92, 30),
+          filePath: __S(3071, __c95, 31),
           detectorTags: S.optional(__S(64, __c2, 0)),
           referenceUrls: S.optional(__S(64, __c2, 0)),
           ruleId: S.optional(S.String),
@@ -9095,11 +9569,7 @@ function __c92(j: number): any {
           cwes: __S(64, __c2, 0),
         }),
       ).annotate({ identifier: "CodeVulnerabilityDetails" });
-  }
-}
-function __c93(j: number): any {
-  switch (j) {
-    case 0:
+    case 1:
       return S.suspend(() =>
         S.Struct({
           findingArn: S.String,
@@ -9107,33 +9577,33 @@ function __c93(j: number): any {
           type: S.String,
           description: S.String,
           title: S.optional(S.String),
-          remediation: __S(2947, __c92, 3),
+          remediation: __S(3043, __c95, 3),
           severity: S.String,
           firstObservedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           lastObservedAt: S.Date.pipe(T.TimestampFormat("epoch-seconds")),
           updatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           status: S.String,
-          resources: __S(2958, __c92, 14),
+          resources: __S(3055, __c95, 15),
           inspectorScore: S.optional(S.Number),
-          inspectorScoreDetails: S.optional(__S(2962, __c92, 18)),
-          networkReachabilityDetails: S.optional(__S(2967, __c92, 23)),
-          packageVulnerabilityDetails: S.optional(__S(2972, __c92, 28)),
+          inspectorScoreDetails: S.optional(__S(3059, __c95, 19)),
+          networkReachabilityDetails: S.optional(__S(3064, __c95, 24)),
+          packageVulnerabilityDetails: S.optional(__S(3069, __c95, 29)),
           fixAvailable: S.optional(S.String),
           exploitAvailable: S.optional(S.String),
-          exploitabilityDetails: S.optional(__S(2973, __c92, 29)),
-          codeVulnerabilityDetails: S.optional(__S(2975, __c92, 31)),
-          epss: S.optional(__S(3008, __c94, 0)),
+          exploitabilityDetails: S.optional(__S(3070, __c95, 30)),
+          codeVulnerabilityDetails: S.optional(__S(3072, __c96, 0)),
+          epss: S.optional(__S(3104, __c97, 0)),
         }),
       ).annotate({ identifier: "Finding" });
-    case 1:
-      return S.Array(__S(2976, __c93, 0));
     case 2:
+      return S.Array(__S(3073, __c96, 1));
+    case 3:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), findings: S.optional(__S(2977, __c93, 1)) }),
+        S.Struct({ nextToken: S.optional(S.String), findings: S.optional(__S(3074, __c96, 2)) }),
       ).annotate({ identifier: "ListFindingsResponse" });
   }
 }
-function __c94(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ score: S.optional(S.Number) })).annotate({
@@ -9141,7 +9611,7 @@ function __c94(j: number): any {
       });
   }
 }
-function __c95(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9154,14 +9624,35 @@ function __c95(j: number): any {
         ),
       ).annotate({ identifier: "ListMembersRequest" });
     case 1:
-      return S.Array(__S(2208, __c69, 0));
+      return S.Array(__S(2240, __c70, 0));
     case 2:
       return S.suspend(() =>
-        S.Struct({ members: S.optional(__S(3041, __c95, 1)), nextToken: S.optional(S.String) }),
+        S.Struct({ members: S.optional(__S(3137, __c98, 1)), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "ListMembersResponse" });
   }
 }
-function __c96(j: number): any {
+function __c99(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String,
+          resourceType: S.String,
+          maxResults: S.optional(S.Number),
+          nextToken: S.optional(S.String),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/ondemand/scans" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "ListOnDemandScansRequest" });
+    case 1:
+      return S.Array(__S(2304, __c72, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({ items: __S(3169, __c99, 1), nextToken: S.optional(S.String) }),
+      ).annotate({ identifier: "ListOnDemandScansResponse" });
+  }
+}
+function __c100(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9182,7 +9673,17 @@ function __c96(j: number): any {
       });
   }
 }
-function __c97(j: number): any {
+function __c101(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
+        identifier: "ValidationExceptionField",
+      });
+    case 1:
+      return S.Array(__S(3232, __c101, 0));
+  }
+}
+function __c102(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9205,20 +9706,20 @@ function __c97(j: number): any {
         }),
       ).annotate({ identifier: "Usage" });
     case 2:
-      return S.Array(__S(3105, __c97, 1));
+      return S.Array(__S(3265, __c102, 1));
     case 3:
       return S.suspend(() =>
-        S.Struct({ accountId: S.optional(S.String), usage: S.optional(__S(3106, __c97, 2)) }),
+        S.Struct({ accountId: S.optional(S.String), usage: S.optional(__S(3266, __c102, 2)) }),
       ).annotate({ identifier: "UsageTotal" });
     case 4:
-      return S.Array(__S(3107, __c97, 3));
+      return S.Array(__S(3267, __c102, 3));
     case 5:
       return S.suspend(() =>
-        S.Struct({ nextToken: S.optional(S.String), totals: S.optional(__S(3108, __c97, 4)) }),
+        S.Struct({ nextToken: S.optional(S.String), totals: S.optional(__S(3268, __c102, 4)) }),
       ).annotate({ identifier: "ListUsageTotalsResponse" });
   }
 }
-function __c98(j: number): any {
+function __c103(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9235,17 +9736,7 @@ function __c98(j: number): any {
       ).annotate({ identifier: "ResetEncryptionKeyRequest" });
   }
 }
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ name: S.String, message: S.String })).annotate({
-        identifier: "ValidationExceptionField",
-      });
-    case 1:
-      return S.Array(__S(3168, __c99, 0));
-  }
-}
-function __c100(j: number): any {
+function __c104(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ vulnerabilityIds: __S(64, __c2, 0) })).annotate({
@@ -9253,7 +9744,7 @@ function __c100(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ filterCriteria: __S(3200, __c100, 0), nextToken: S.optional(S.String) }).pipe(
+        S.Struct({ filterCriteria: __S(3328, __c104, 0), nextToken: S.optional(S.String) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/vulnerabilities/search" }),
             svc,
@@ -9285,30 +9776,30 @@ function __c100(j: number): any {
           cisaData: S.optional(__S(224, __c7, 0)),
           source: S.optional(S.String),
           description: S.optional(S.String),
-          atigData: S.optional(__S(3202, __c100, 2)),
+          atigData: S.optional(__S(3330, __c104, 2)),
           vendorSeverity: S.optional(S.String),
-          cvss4: S.optional(__S(3203, __c100, 3)),
-          cvss3: S.optional(__S(3203, __c100, 3)),
+          cvss4: S.optional(__S(3331, __c104, 3)),
+          cvss3: S.optional(__S(3331, __c104, 3)),
           relatedVulnerabilities: S.optional(__S(64, __c2, 0)),
-          cvss2: S.optional(__S(3203, __c100, 3)),
+          cvss2: S.optional(__S(3331, __c104, 3)),
           vendorCreatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           vendorUpdatedAt: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
           sourceUrl: S.optional(S.String),
           referenceUrls: S.optional(__S(64, __c2, 0)),
           exploitObserved: S.optional(__S(225, __c7, 1)),
           detectionPlatforms: S.optional(__S(64, __c2, 0)),
-          epss: S.optional(__S(3008, __c94, 0)),
+          epss: S.optional(__S(3104, __c97, 0)),
         }),
       ).annotate({ identifier: "Vulnerability" });
     case 5:
-      return S.Array(__S(3204, __c100, 4));
+      return S.Array(__S(3332, __c104, 4));
     case 6:
       return S.suspend(() =>
-        S.Struct({ vulnerabilities: __S(3205, __c100, 5), nextToken: S.optional(S.String) }),
+        S.Struct({ vulnerabilities: __S(3333, __c104, 5), nextToken: S.optional(S.String) }),
       ).annotate({ identifier: "SearchVulnerabilitiesResponse" });
   }
 }
-function __c101(j: number): any {
+function __c105(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9325,20 +9816,20 @@ function __c101(j: number): any {
       ).annotate({ identifier: "SendCisSessionHealthRequest" });
   }
 }
-function __c102(j: number): any {
+function __c106(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({ ruleId: S.String, status: S.String, cisRuleDetails: T.Blob }),
       ).annotate({ identifier: "CisSessionMessage" });
     case 1:
-      return S.Array(__S(3264, __c102, 0));
+      return S.Array(__S(3392, __c106, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
           scanJobId: S.String,
           sessionToken: S.String,
-          messages: __S(3265, __c102, 1),
+          messages: __S(3393, __c106, 1),
         }).pipe(
           T.all(
             T.Http({ method: "PUT", uri: "/cissession/telemetry/send" }),
@@ -9352,7 +9843,7 @@ function __c102(j: number): any {
       ).annotate({ identifier: "SendCisSessionTelemetryRequest" });
   }
 }
-function __c103(j: number): any {
+function __c107(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ sessionToken: S.String })).annotate({
@@ -9360,19 +9851,19 @@ function __c103(j: number): any {
       });
     case 1:
       return S.suspend(() =>
-        S.Struct({ scanJobId: S.String, message: __S(3296, __c103, 0) }).pipe(
+        S.Struct({ scanJobId: S.String, message: __S(3424, __c107, 0) }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/cissession/start" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "StartCisSessionRequest" });
   }
 }
-function __c104(j: number): any {
+function __c108(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
-          resource: __S(3936, __c123, 0),
+          resource: __S(4032, __c126, 0),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/codesecurity/scan/start" }),
@@ -9390,7 +9881,25 @@ function __c104(j: number): any {
       ).annotate({ identifier: "StartCodeSecurityScanResponse" });
   }
 }
-function __c105(j: number): any {
+function __c109(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          resourceId: S.String,
+          resourceType: S.String,
+          clientToken: S.optional(S.String).pipe(T.IdempotencyToken()),
+        }).pipe(
+          T.all(T.Http({ method: "POST", uri: "/ondemand/scan" }), svc, auth, proto, ver, rules),
+        ),
+      ).annotate({ identifier: "StartOnDemandScanRequest" });
+    case 1:
+      return S.suspend(() => S.Struct({ scanId: S.String })).annotate({
+        identifier: "StartOnDemandScanResponse",
+      });
+  }
+}
+function __c110(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9418,8 +9927,8 @@ function __c105(j: number): any {
         S.Struct({
           status: S.String,
           reason: S.optional(S.String),
-          progress: __S(3360, __c105, 0),
-          computePlatform: S.optional(__S(3361, __c105, 1)),
+          progress: __S(3520, __c110, 0),
+          computePlatform: S.optional(__S(3521, __c110, 1)),
           benchmarkVersion: S.optional(S.String),
           benchmarkProfile: S.optional(S.String),
         }),
@@ -9429,14 +9938,14 @@ function __c105(j: number): any {
         S.Struct({
           scanJobId: S.String,
           sessionToken: S.String,
-          message: __S(3362, __c105, 2),
+          message: __S(3522, __c110, 2),
         }).pipe(
           T.all(T.Http({ method: "PUT", uri: "/cissession/stop" }), svc, auth, proto, ver, rules),
         ),
       ).annotate({ identifier: "StopCisSessionRequest" });
   }
 }
-function __c106(j: number): any {
+function __c111(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9456,7 +9965,32 @@ function __c106(j: number): any {
       ).annotate({ identifier: "TagResourceRequest" });
   }
 }
-function __c107(j: number): any {
+function __c112(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ accountId: S.String }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/members/associate" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "AssociateMemberRequest" });
+  }
+}
+function __c113(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({ accountId: S.String })).annotate({
+        identifier: "AssociateMemberResponse",
+      });
+  }
+}
+function __c114(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9476,7 +10010,7 @@ function __c107(j: number): any {
       ).annotate({ identifier: "UntagResourceRequest" });
   }
 }
-function __c108(j: number): any {
+function __c115(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9485,7 +10019,7 @@ function __c108(j: number): any {
           scanName: S.optional(S.String),
           securityLevel: S.optional(S.String),
           schedule: S.optional(__S(676, __c21, 4)),
-          targets: S.optional(__S(2368, __c74, 0)),
+          targets: S.optional(__S(2464, __c77, 0)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/cis/scan-configuration/update" }),
@@ -9499,7 +10033,7 @@ function __c108(j: number): any {
       ).annotate({ identifier: "UpdateCisScanConfigurationRequest" });
   }
 }
-function __c109(j: number): any {
+function __c116(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({ authCode: SensitiveString })).annotate({
@@ -9511,12 +10045,12 @@ function __c109(j: number): any {
       ).annotate({ identifier: "UpdateGitHubIntegrationDetail" });
     case 2:
       return S.Union([
-        /*@__PURE__*/ S.Struct({ gitlabSelfManaged: __S(3488, __c109, 0) }),
-        /*@__PURE__*/ S.Struct({ github: __S(3489, __c109, 1) }),
+        /*@__PURE__*/ S.Struct({ gitlabSelfManaged: __S(3712, __c116, 0) }),
+        /*@__PURE__*/ S.Struct({ github: __S(3713, __c116, 1) }),
       ]);
     case 3:
       return S.suspend(() =>
-        S.Struct({ integrationArn: S.String, details: __S(3490, __c109, 2) }).pipe(
+        S.Struct({ integrationArn: S.String, details: __S(3714, __c116, 2) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/codesecurity/integration/update" }),
             svc,
@@ -9533,32 +10067,7 @@ function __c109(j: number): any {
       });
   }
 }
-function __c110(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ accountId: S.String }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/members/associate" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "AssociateMemberRequest" });
-  }
-}
-function __c111(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({ accountId: S.String })).annotate({
-        identifier: "AssociateMemberResponse",
-      });
-  }
-}
-function __c112(j: number): any {
+function __c117(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9575,7 +10084,7 @@ function __c112(j: number): any {
       ).annotate({ identifier: "UpdateCodeSecurityScanConfigurationRequest" });
   }
 }
-function __c113(j: number): any {
+function __c118(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9592,17 +10101,27 @@ function __c113(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          ec2Configuration: S.optional(S.String),
-          ecrConfiguration: S.optional(S.String),
+          lastLaunchedWithin: S.optional(S.String),
+          createdWithin: S.optional(S.String),
+          scanModeConfiguration: __S(2018, __c63, 2),
         }),
-      ).annotate({ identifier: "UpdateConfigurationInheritance" });
+      ).annotate({ identifier: "AmiConfiguration" });
     case 3:
       return S.suspend(() =>
         S.Struct({
+          ec2Configuration: S.optional(S.String),
+          ecrConfiguration: S.optional(S.String),
+          amiConfiguration: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "UpdateConfigurationInheritance" });
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
           accountId: S.optional(S.String),
-          ecrConfiguration: S.optional(__S(3616, __c113, 0)),
-          ec2Configuration: S.optional(__S(3617, __c113, 1)),
-          updateConfigurationInheritance: S.optional(__S(3618, __c113, 2)),
+          ecrConfiguration: S.optional(__S(3776, __c118, 0)),
+          ec2Configuration: S.optional(__S(3777, __c118, 1)),
+          amiConfiguration: S.optional(__S(3778, __c118, 2)),
+          updateConfigurationInheritance: S.optional(__S(3779, __c118, 3)),
         }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/configuration/update" }),
@@ -9616,7 +10135,7 @@ function __c113(j: number): any {
       ).annotate({ identifier: "UpdateConfigurationRequest" });
   }
 }
-function __c114(j: number): any {
+function __c119(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9627,13 +10146,13 @@ function __c114(j: number): any {
         }),
       ).annotate({ identifier: "AzureProviderDetailUpdate" });
     case 1:
-      return S.Union([/*@__PURE__*/ S.Struct({ azure: __S(3648, __c114, 0) })]);
+      return S.Union([/*@__PURE__*/ S.Struct({ azure: __S(3808, __c119, 0) })]);
     case 2:
       return S.suspend(() =>
         S.Struct({
           connectorArn: S.String,
           description: S.optional(S.String),
-          providerDetail: S.optional(__S(3649, __c114, 1)),
+          providerDetail: S.optional(__S(3809, __c119, 1)),
         }).pipe(
           T.all(T.Http({ method: "POST", uri: "/connector/update" }), svc, auth, proto, ver, rules),
         ),
@@ -9644,11 +10163,11 @@ function __c114(j: number): any {
       });
   }
 }
-function __c115(j: number): any {
+function __c120(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({ awsConfigConnectorArn: S.String, scanConfiguration: __S(2689, __c84, 1) }).pipe(
+        S.Struct({ awsConfigConnectorArn: S.String, scanConfiguration: __S(2785, __c87, 1) }).pipe(
           T.all(
             T.Http({ method: "POST", uri: "/connectorscanconfiguration/update" }),
             svc,
@@ -9661,7 +10180,7 @@ function __c115(j: number): any {
       ).annotate({ identifier: "UpdateConnectorScanConfigurationRequest" });
   }
 }
-function __c116(j: number): any {
+function __c121(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9681,7 +10200,7 @@ function __c116(j: number): any {
       ).annotate({ identifier: "UpdateEc2DeepInspectionConfigurationRequest" });
   }
 }
-function __c117(j: number): any {
+function __c122(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9698,7 +10217,7 @@ function __c117(j: number): any {
       ).annotate({ identifier: "UpdateEncryptionKeyRequest" });
   }
 }
-function __c118(j: number): any {
+function __c123(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9715,7 +10234,67 @@ function __c118(j: number): any {
       ).annotate({ identifier: "UpdateFilterRequest" });
   }
 }
-function __c119(j: number): any {
+function __c124(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ associateConfigurationRequests: __S(4001, __c125, 1) }).pipe(
+          T.all(
+            T.Http({ method: "POST", uri: "/codesecurity/scan-configuration/batch/associate" }),
+            svc,
+            auth,
+            proto,
+            ver,
+            rules,
+          ),
+        ),
+      ).annotate({ identifier: "BatchAssociateCodeSecurityScanConfigurationRequest" });
+  }
+}
+function __c125(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({ scanConfigurationArn: S.String, resource: __S(4032, __c126, 0) }),
+      ).annotate({ identifier: "AssociateConfigurationRequest" });
+    case 1:
+      return S.Array(__S(4000, __c125, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          scanConfigurationArn: S.optional(S.String),
+          resource: S.optional(__S(4032, __c126, 0)),
+          statusCode: S.optional(S.String),
+          statusMessage: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "FailedAssociationResult" });
+    case 3:
+      return S.Array(__S(4002, __c125, 2));
+    case 4:
+      return S.suspend(() =>
+        S.Struct({
+          scanConfigurationArn: S.optional(S.String),
+          resource: S.optional(__S(4032, __c126, 0)),
+        }),
+      ).annotate({ identifier: "SuccessfulAssociationResult" });
+    case 5:
+      return S.Array(__S(4004, __c125, 4));
+    case 6:
+      return S.suspend(() =>
+        S.Struct({
+          failedAssociations: S.optional(__S(4003, __c125, 3)),
+          successfulAssociations: S.optional(__S(4005, __c125, 5)),
+        }),
+      ).annotate({ identifier: "BatchAssociateCodeSecurityScanConfigurationResponse" });
+  }
+}
+function __c126(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Union([/*@__PURE__*/ S.Struct({ projectId: S.String })]);
+  }
+}
+function __c127(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9736,7 +10315,7 @@ function __c119(j: number): any {
       });
   }
 }
-function __c120(j: number): any {
+function __c128(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -9751,66 +10330,6 @@ function __c120(j: number): any {
           ),
         ),
       ).annotate({ identifier: "UpdateOrgEc2DeepInspectionConfigurationRequest" });
-  }
-}
-function __c121(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ associateConfigurationRequests: __S(3905, __c122, 1) }).pipe(
-          T.all(
-            T.Http({ method: "POST", uri: "/codesecurity/scan-configuration/batch/associate" }),
-            svc,
-            auth,
-            proto,
-            ver,
-            rules,
-          ),
-        ),
-      ).annotate({ identifier: "BatchAssociateCodeSecurityScanConfigurationRequest" });
-  }
-}
-function __c122(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({ scanConfigurationArn: S.String, resource: __S(3936, __c123, 0) }),
-      ).annotate({ identifier: "AssociateConfigurationRequest" });
-    case 1:
-      return S.Array(__S(3904, __c122, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          scanConfigurationArn: S.optional(S.String),
-          resource: S.optional(__S(3936, __c123, 0)),
-          statusCode: S.optional(S.String),
-          statusMessage: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "FailedAssociationResult" });
-    case 3:
-      return S.Array(__S(3906, __c122, 2));
-    case 4:
-      return S.suspend(() =>
-        S.Struct({
-          scanConfigurationArn: S.optional(S.String),
-          resource: S.optional(__S(3936, __c123, 0)),
-        }),
-      ).annotate({ identifier: "SuccessfulAssociationResult" });
-    case 5:
-      return S.Array(__S(3908, __c122, 4));
-    case 6:
-      return S.suspend(() =>
-        S.Struct({
-          failedAssociations: S.optional(__S(3907, __c122, 3)),
-          successfulAssociations: S.optional(__S(3909, __c122, 5)),
-        }),
-      ).annotate({ identifier: "BatchAssociateCodeSecurityScanConfigurationResponse" });
-  }
-}
-function __c123(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Union([/*@__PURE__*/ S.Struct({ projectId: S.String })]);
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

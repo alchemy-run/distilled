@@ -391,6 +391,15 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
+  iam: {
+    actions: ["networkmonitor:CreateMonitor", "networkmonitor:TagResource"],
+    resources: {
+      "networkmonitor:CreateMonitor": [
+        "arn:${Partition}:networkmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+    conditional: { "networkmonitor:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateMonitor",
 }));
@@ -429,6 +438,10 @@ export const createProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProbe",
+  iam: {
+    actions: ["networkmonitor:CreateProbe", "networkmonitor:TagResource"],
+    conditional: { "networkmonitor:TagResource": "tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateProbe",
 }));
@@ -464,6 +477,14 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
+  iam: {
+    actions: ["networkmonitor:DeleteMonitor"],
+    resources: {
+      "networkmonitor:DeleteMonitor": [
+        "arn:${Partition}:networkmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteMonitor",
 }));
@@ -504,6 +525,14 @@ export const deleteProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProbe",
+  iam: {
+    actions: ["networkmonitor:DeleteProbe"],
+    resources: {
+      "networkmonitor:DeleteProbe": [
+        "arn:${Partition}:networkmonitor:${Region}:${Account}:probe/${ProbeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteProbe",
 }));
@@ -539,6 +568,14 @@ export const getMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
+  iam: {
+    actions: ["networkmonitor:GetMonitor"],
+    resources: {
+      "networkmonitor:GetMonitor": [
+        "arn:${Partition}:networkmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetMonitor",
 }));
@@ -574,6 +611,14 @@ export const getProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProbe",
+  iam: {
+    actions: ["networkmonitor:GetProbe"],
+    resources: {
+      "networkmonitor:GetProbe": [
+        "arn:${Partition}:networkmonitor:${Region}:${Account}:probe/${ProbeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetProbe",
 }));
@@ -611,6 +656,7 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "monitors",
     pageSize: "maxResults",
   } as const,
+  iam: { actions: ["networkmonitor:ListMonitors"] },
   telemetry: TELEMETRY,
   span: "ListMonitors",
 })) as any;
@@ -645,6 +691,7 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: { actions: ["networkmonitor:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -679,6 +726,7 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: { actions: ["networkmonitor:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -713,6 +761,7 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: { actions: ["networkmonitor:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -750,6 +799,14 @@ export const updateMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
+  iam: {
+    actions: ["networkmonitor:UpdateMonitor"],
+    resources: {
+      "networkmonitor:UpdateMonitor": [
+        "arn:${Partition}:networkmonitor:${Region}:${Account}:monitor/${MonitorName}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateMonitor",
 }));
@@ -804,6 +861,14 @@ export const updateProbe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProbe",
+  iam: {
+    actions: ["networkmonitor:UpdateProbe"],
+    resources: {
+      "networkmonitor:UpdateProbe": [
+        "arn:${Partition}:networkmonitor:${Region}:${Account}:probe/${ProbeId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateProbe",
 }));

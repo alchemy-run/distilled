@@ -3,12 +3,14 @@ import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import * as TxXray from "@distilled.cloud/core/telemetry-xray";
 import type * as HttpClient from "effect/http/HttpClient";
+import type * as redacted from "effect/Redacted";
 import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
 import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
+import { SensitiveString } from "../sensitive.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
 const __s: any[] = [];
@@ -203,6 +205,14 @@ export interface NetworkConfiguration {
   SecurityGroupIds?: string[];
   SubnetIds?: string[];
 }
+export type EnvironmentVariableKey = string;
+export type EnvironmentVariableValue = string | redacted.Redacted<string>;
+export type EnvironmentVariablesMap = {
+  [key: string]: string | redacted.Redacted<string> | undefined;
+};
+export interface Environment {
+  Variables?: { [key: string]: string | redacted.Redacted<string> | undefined };
+}
 export type TagKey = string;
 export type TagValue = string;
 export type Tags = { [key: string]: string | undefined };
@@ -217,6 +227,7 @@ export interface CreateWorkflowRequest {
   LoggingConfiguration?: LoggingConfiguration;
   EngineVersion?: EngineVersion;
   NetworkConfiguration?: NetworkConfiguration;
+  Environment?: Environment;
   Tags?: { [key: string]: string | undefined };
   TriggerMode?: string;
 }
@@ -308,6 +319,7 @@ export interface GetWorkflowResponse {
   ScheduleConfiguration?: ScheduleConfiguration;
   RoleArn?: string;
   NetworkConfiguration?: NetworkConfiguration;
+  Environment?: Environment;
   TriggerMode?: string;
   WorkflowDefinition?: string;
 }
@@ -481,6 +493,7 @@ export interface UpdateWorkflowRequest {
   LoggingConfiguration?: LoggingConfiguration;
   EngineVersion?: EngineVersion;
   NetworkConfiguration?: NetworkConfiguration;
+  Environment?: Environment;
   TriggerMode?: string;
 }
 export interface UpdateWorkflowResponse {
@@ -533,6 +546,20 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
+  iam: {
+    actions: [
+      "airflow-serverless:CreateWorkflow",
+      "iam:PassRole",
+      "airflow-serverless:TagResource",
+    ],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "airflow-serverless:TagResource": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+    conditional: { "airflow-serverless:TagResource": "Tags" },
+  },
   telemetry: TELEMETRY,
   span: "CreateWorkflow",
 }));
@@ -567,6 +594,14 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
+  iam: {
+    actions: ["airflow-serverless:DeleteWorkflow"],
+    resources: {
+      "airflow-serverless:DeleteWorkflow": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflow",
 }));
@@ -601,6 +636,14 @@ export const getTaskInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaskInstance",
+  iam: {
+    actions: ["airflow-serverless:GetTaskInstance"],
+    resources: {
+      "airflow-serverless:GetTaskInstance": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetTaskInstance",
 }));
@@ -635,6 +678,14 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
+  iam: {
+    actions: ["airflow-serverless:GetWorkflow"],
+    resources: {
+      "airflow-serverless:GetWorkflow": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflow",
 }));
@@ -669,6 +720,14 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
+  iam: {
+    actions: ["airflow-serverless:GetWorkflowRun"],
+    resources: {
+      "airflow-serverless:GetWorkflowRun": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "GetWorkflowRun",
 }));
@@ -703,6 +762,14 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
+  iam: {
+    actions: ["airflow-serverless:ListTagsForResource"],
+    resources: {
+      "airflow-serverless:ListTagsForResource": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -742,6 +809,14 @@ export const listTaskInstances: API.PaginatedOperationMethod<
     items: "TaskInstances",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["airflow-serverless:ListTaskInstances"],
+    resources: {
+      "airflow-serverless:ListTaskInstances": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListTaskInstances",
 })) as any;
@@ -781,6 +856,14 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "WorkflowRuns",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["airflow-serverless:ListWorkflowRuns"],
+    resources: {
+      "airflow-serverless:ListWorkflowRuns": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowRuns",
 })) as any;
@@ -820,6 +903,7 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "Workflows",
     pageSize: "MaxResults",
   } as const,
+  iam: { actions: ["airflow-serverless:ListWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListWorkflows",
 })) as any;
@@ -859,6 +943,14 @@ export const listWorkflowVersions: API.PaginatedOperationMethod<
     items: "WorkflowVersions",
     pageSize: "MaxResults",
   } as const,
+  iam: {
+    actions: ["airflow-serverless:ListWorkflowVersions"],
+    resources: {
+      "airflow-serverless:ListWorkflowVersions": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "ListWorkflowVersions",
 })) as any;
@@ -897,6 +989,14 @@ export const startWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
+  iam: {
+    actions: ["airflow-serverless:StartWorkflowRun"],
+    resources: {
+      "airflow-serverless:StartWorkflowRun": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StartWorkflowRun",
 }));
@@ -931,6 +1031,14 @@ export const stopWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkflowRun",
+  iam: {
+    actions: ["airflow-serverless:StopWorkflowRun"],
+    resources: {
+      "airflow-serverless:StopWorkflowRun": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "StopWorkflowRun",
 }));
@@ -965,6 +1073,14 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
+  iam: {
+    actions: ["airflow-serverless:TagResource"],
+    resources: {
+      "airflow-serverless:TagResource": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -999,6 +1115,14 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
+  iam: {
+    actions: ["airflow-serverless:UntagResource"],
+    resources: {
+      "airflow-serverless:UntagResource": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1037,6 +1161,15 @@ export const updateWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflow",
+  iam: {
+    actions: ["iam:PassRole", "airflow-serverless:UpdateWorkflow"],
+    resources: {
+      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
+      "airflow-serverless:UpdateWorkflow": [
+        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
+      ],
+    },
+  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflow",
 }));
@@ -1123,6 +1256,7 @@ function __c1(j: number): any {
           ScheduleConfiguration: S.optional(__S(16, __c2, 0)),
           RoleArn: S.optional(S.String),
           NetworkConfiguration: S.optional(__S(178, __c22, 2)),
+          Environment: S.optional(__S(180, __c22, 4)),
           TriggerMode: S.optional(S.String),
           WorkflowDefinition: S.optional(S.String),
         }),
@@ -1490,6 +1624,7 @@ function __c15(j: number): any {
           LoggingConfiguration: S.optional(__S(177, __c22, 1)),
           EngineVersion: S.optional(S.Number),
           NetworkConfiguration: S.optional(__S(178, __c22, 2)),
+          Environment: S.optional(__S(180, __c22, 4)),
           TriggerMode: S.optional(S.String),
         }).pipe(
           T.all(
@@ -1538,6 +1673,7 @@ function __c17(j: number): any {
           LoggingConfiguration: S.optional(__S(177, __c22, 1)),
           EngineVersion: S.optional(S.Number),
           NetworkConfiguration: S.optional(__S(178, __c22, 2)),
+          Environment: S.optional(__S(180, __c22, 4)),
           Tags: S.optional(__S(144, __c18, 0)),
           TriggerMode: S.optional(S.String),
         }).pipe(T.all(T.Http({ method: "POST", uri: "/workflows" }), svc, auth, proto, ver, rules)),
@@ -1599,6 +1735,12 @@ function __c22(j: number): any {
           SubnetIds: S.optional(__S(160, __c20, 0)),
         }),
       ).annotate({ identifier: "NetworkConfiguration" });
+    case 3:
+      return S.Record(S.String, /*@__PURE__*/ SensitiveString.pipe(S.optional));
+    case 4:
+      return S.suspend(() => S.Struct({ Variables: S.optional(__S(179, __c22, 3)) })).annotate({
+        identifier: "Environment",
+      });
   }
 }
 function __c23(j: number): any {
