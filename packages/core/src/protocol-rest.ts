@@ -5,7 +5,7 @@ import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import type * as AST from "effect/SchemaAST";
-import { rawResponseRootSymbol } from "./annotations.ts";
+import { rawResponseRootSymbol, resolveNode } from "./annotations.ts";
 import * as API from "./api.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import { recordPageHeaders } from "./pagination.ts";
@@ -297,6 +297,8 @@ interface DecodePlan {
    * its next-page token in a response header.
    */
   readonly bodyMember: AST.PropertySignature | undefined;
+  /** The output is a bare string, so an empty body decodes to `""`. */
+  readonly text: boolean;
   /** Members read from response headers (`T.Header`). */
   readonly headers: ReadonlyArray<ResponseHeaderMember>;
 }
@@ -308,6 +310,7 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
     plan = {
       binary: getAnn(outputAst, binaryResponseSymbol) !== undefined,
       verbatim: mapsVerbatim(outputAst, "decode"),
+      text: resolveNode(outputAst)._tag === "String",
       headers: responseHeaderMembers(outputAst),
       bodyMember: getProps(outputAst).find((prop) => hasPropAnn(prop, rawResponseSymbol)),
     };
@@ -466,7 +469,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     // with sensitive members, a non-JSON body fails in every mode and parse
     // errors withhold the body.
     const plan = decodePlanFor(outputAst);
-    let body: unknown = nonJson ? text : (json ?? {});
+    let body: unknown = nonJson ? text : (json ?? (plan.text ? "" : {}));
     if (options.transformResponse) body = options.transformResponse(body);
     const mapped =
       plan.bodyMember !== undefined

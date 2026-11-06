@@ -545,6 +545,7 @@
     {
       "path": "./packages/daytona/tsconfig.json"
     },
+    { "path": "./packages/daytona/tsconfig.test.json" },
     {
       "path": "./packages/daytona/tsconfig.scripts.json"
     },

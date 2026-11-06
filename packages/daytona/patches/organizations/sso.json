@@ -1,0 +1,51 @@
+{
+  "description": "Type the SSO entitlement gate: configuring an identity provider on an organization without SSO answers HTTP 403 \"SSO is not enabled for this organization. Contact support to enable it.\" (observed live 2026-11-03 on a team organization).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#SsoNotEnabled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "smithy.api#documentation": "SSO is not enabled for this organization; Daytona enables it on request (HTTP 403).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "SSO is not enabled"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#CreateOrganizationIdentityProvider/errors/-",
+      "value": {
+        "target": "com.daytona.organizations#SsoNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateOrganizationIdentityProvider/errors/-",
+      "value": {
+        "target": "com.daytona.organizations#SsoNotEnabled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#TestOrganizationIdentityProviderConnection/errors/-",
+      "value": {
+        "target": "com.daytona.organizations#SsoNotEnabled"
+      }
+    }
+  ]
+}
