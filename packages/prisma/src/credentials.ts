@@ -16,7 +16,8 @@ import * as Redacted from "effect/Redacted";
 export const DEFAULT_API_BASE_URL = "https://api.prisma.io";
 
 export interface Config {
-  readonly apiToken: Redacted.Redacted<string>;
+  /** Omit when the `HttpClient` authenticates requests itself. */
+  readonly apiToken?: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
 }
 
@@ -25,9 +26,9 @@ export class Credentials
     "PrismaCredentials",
   ) {}
 
-/** Layer from a redacted token + optional base URL. */
+/** Layer from an optional redacted token + optional base URL. */
 export const fromApiToken = (config: {
-  readonly apiToken: Redacted.Redacted<string>;
+  readonly apiToken?: Redacted.Redacted<string>;
   readonly apiBaseUrl?: string;
 }): Layer.Layer<Credentials> =>
   Layer.succeed(
