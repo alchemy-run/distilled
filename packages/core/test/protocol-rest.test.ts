@@ -1151,3 +1151,43 @@ describe("makeRestProtocol raw body members", () => {
     expect(out).toEqual({ items: [] });
   });
 });
+
+describe("makeRestProtocol response code members", () => {
+  // Shaped like an idempotent create that answers 201 when it creates and
+  // 200 when the resource already existed.
+  const CreatedOutput = S.Struct({
+    id: S.optional(S.String),
+    httpStatus: S.optional(S.Number.pipe(T.ResponseCode())),
+  });
+  const createOp = API.make(() => ({
+    input: ThingInput,
+    output: CreatedOutput,
+    errors: [],
+    protocol: DefaultProtocol,
+  })) as unknown as (input: Record<string, unknown>) => Effect.Effect<any, any, any>;
+
+  test("the response code member receives the HTTP status", async () => {
+    const created = await succeed(
+      createOp({ id: "t1" }),
+      fakeClient(() => json({ id: "t1" }, 201)),
+      creds(),
+    );
+    expect(created).toEqual({ id: "t1", httpStatus: 201 });
+
+    const existing = await succeed(
+      createOp({ id: "t1" }),
+      fakeClient(() => json({ id: "t1" }, 200)),
+      creds(),
+    );
+    expect(existing).toEqual({ id: "t1", httpStatus: 200 });
+  });
+
+  test("an output without a response code member is unchanged", async () => {
+    const out = await succeed(
+      createThing({ id: "t1" }),
+      fakeClient(() => json({ id: "t1" }, 201)),
+      creds(),
+    );
+    expect(out).toEqual({ id: "t1" });
+  });
+});

@@ -61,7 +61,7 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  * Anything provider-specific (envelope quirks, bespoke error codes) belongs
  * in the provider package -- via these options or a hand-written protocol.
  */
-import { httpSymbol, makeAnnotation, type HttpTrait } from "./trait.ts";
+import { httpSymbol, makeAnnotation, responseCodeSymbol, type HttpTrait } from "./trait.ts";
 import type { UnknownErrorProps } from "./unknown-error.ts";
 
 // =============================================================================
@@ -380,7 +380,20 @@ interface DecodePlan {
   readonly text: boolean;
   /** Members read from response headers (`T.Header`). */
   readonly headers: ReadonlyArray<ResponseHeaderMember>;
+  /** The member that receives the HTTP status (`T.ResponseCode()`). */
+  readonly responseCode: string | undefined;
 }
+
+const responseCodeKey = (outputAst: AST.AST): string | undefined => {
+  const prop = getProps(outputAst).find((p) => hasPropAnn(p, responseCodeSymbol));
+  return prop === undefined ? undefined : String(prop.name);
+};
+
+/** Set the `T.ResponseCode()` member, when the output has one and is an object. */
+const withResponseCode = (key: string | undefined, value: unknown, status: number): unknown =>
+  key === undefined || value === null || typeof value !== "object" || Array.isArray(value)
+    ? value
+    : { ...(value as Record<string, unknown>), [key]: status };
 
 const decodePlans = /*@__PURE__*/ new WeakMap<AST.AST, DecodePlan>();
 const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
@@ -392,6 +405,7 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
       text: resolveNode(outputAst)._tag === "String",
       headers: responseHeaderMembers(outputAst),
       bodyMember: getProps(outputAst).find((prop) => hasPropAnn(prop, rawResponseSymbol)),
+      responseCode: responseCodeKey(outputAst),
     };
     decodePlans.set(outputAst, plan);
   }
@@ -562,8 +576,8 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     // the output's `items`.
     const collected = framing?.collect(text, headers["content-type"]);
     return collected === undefined
-      ? decodeSuccess(context, headers, text, json, nonJson, outputAst)
-      : decodeSuccess(context, headers, text, collected.json, collected.nonJson, outputAst);
+      ? decodeSuccess(context, status, headers, text, json, nonJson, outputAst)
+      : decodeSuccess(context, status, headers, text, collected.json, collected.nonJson, outputAst);
   };
 
   /**
@@ -578,6 +592,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
    */
   const decodeSuccess = (
     context: Context.Context<any>,
+    status: number,
     headers: Record<string, string | undefined>,
     text: string,
     json: unknown,
@@ -594,7 +609,11 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
           ? body
           : mapKeys(outputAst, body, "decode");
     const checked = checkSuccess(context, outputAst, {
-      value: withResponseHeaders(plan.headers, mapped, headers),
+      value: withResponseCode(
+        plan.responseCode,
+        withResponseHeaders(plan.headers, mapped, headers),
+        status,
+      ),
       body: nonJson ? text : json,
       nonJson,
     });
@@ -674,11 +693,20 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
             // its input asks), else one element of the output's `items`.
             const itemAst = op.config.items?.ast;
             if (itemAst !== undefined) {
-              const decoded = decodeSuccess(context, headers, text, json, false, itemAst);
+              const decoded = decodeSuccess(
+                context,
+                response.status,
+                headers,
+                text,
+                json,
+                false,
+                itemAst,
+              );
               return decoded.ok ? Effect.succeed(decoded.value) : fail(decoded.error);
             }
             const decoded = decodeSuccess(
               context,
+              response.status,
               headers,
               text,
               { items: [json] },
