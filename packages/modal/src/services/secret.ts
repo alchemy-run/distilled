@@ -23,6 +23,16 @@ const TELEMETRY = {
   propagate: "w3c",
 } as const;
 
+/** The environment doesn't exist (gRPC NOT_FOUND). */
+export class EnvironmentNotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<EnvironmentNotFound>()("EnvironmentNotFound", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ code: 5, message: { includes: "Environment" } }],
+  ) {}
+
 /** A secret with this name already exists in the environment (gRPC ALREADY_EXISTS). */
 export class SecretAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
@@ -142,7 +152,7 @@ export const deleteSecret: API.OperationMethod<
   span: "DeleteSecret",
 }));
 
-export type ListSecretError = ModalOpError;
+export type ListSecretError = EnvironmentNotFound | ModalOpError;
 export const listSecret: API.PaginatedOperationMethod<
   ListSecretRequest,
   ListSecretResponse,
@@ -152,7 +162,7 @@ export const listSecret: API.PaginatedOperationMethod<
 > = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(17, __c2, 1) as any as S.Schema<ListSecretRequest>,
   output: __S(20, __c2, 4) as any as S.Schema<ListSecretResponse>,
-  errors: [UnknownModalError],
+  errors: [EnvironmentNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -182,7 +192,11 @@ export const secretGetInfo: API.OperationMethod<
   span: "SecretGetInfo",
 }));
 
-export type SecretGetOrCreateError = SecretNotFound | SecretAlreadyExists | ModalOpError;
+export type SecretGetOrCreateError =
+  | SecretNotFound
+  | SecretAlreadyExists
+  | EnvironmentNotFound
+  | ModalOpError;
 export const secretGetOrCreate: API.OperationMethod<
   SecretGetOrCreateRequest,
   SecretGetOrCreateResponse,
@@ -191,7 +205,7 @@ export const secretGetOrCreate: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(41, __c5, 1) as any as S.Schema<SecretGetOrCreateRequest>,
   output: __S(42, __c5, 2) as any as S.Schema<SecretGetOrCreateResponse>,
-  errors: [SecretNotFound, SecretAlreadyExists, UnknownModalError],
+  errors: [SecretNotFound, SecretAlreadyExists, EnvironmentNotFound, UnknownModalError],
   protocol: ModalProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

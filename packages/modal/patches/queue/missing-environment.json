@@ -1,0 +1,48 @@
+{
+  "description": "Type the missing environment on QueueList and QueueGetOrCreate: listing or looking up a queue in an environment deleted meanwhile answers gRPC NOT_FOUND `Environment '<name>' not found`, which is more specific than QueueNotFound.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.queue#EnvironmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The environment doesn't exist (gRPC NOT_FOUND).",
+          "com.modal.protocols#errorMatchers": [
+            {
+              "code": 5,
+              "message": {
+                "includes": "Environment"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.queue#QueueList/errors",
+      "value": [
+        {
+          "target": "com.modal.queue#EnvironmentNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.modal.queue#QueueGetOrCreate/errors/-",
+      "value": {
+        "target": "com.modal.queue#EnvironmentNotFound"
+      }
+    }
+  ]
+}
