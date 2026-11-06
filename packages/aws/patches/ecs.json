@@ -28,7 +28,8 @@
     "DaemonNotActiveException": ["ConflictError"],
     "TargetNotConnectedException": ["ConflictError"],
     "TargetNotFoundException": ["NotFoundError"],
-    "ServiceLinkedRoleNotAssumable": ["BadRequestError", "RetryableError"]
+    "ServiceLinkedRoleNotAssumable": ["BadRequestError", "RetryableError"],
+    "ServiceRoleNotAssumable": ["BadRequestError", "RetryableError"]
   },
   "operations": {
     "putClusterCapacityProviders": {
@@ -38,6 +39,28 @@
           "from": "InvalidParameterException",
           "message": {
             "includes": "Unable to assume the service linked role"
+          }
+        }
+      ]
+    },
+    "createService": {
+      "syntheticErrors": [
+        {
+          "name": "ServiceRoleNotAssumable",
+          "from": "InvalidParameterException",
+          "message": {
+            "includes": "Unable to assume role"
+          }
+        }
+      ]
+    },
+    "updateService": {
+      "syntheticErrors": [
+        {
+          "name": "ServiceRoleNotAssumable",
+          "from": "InvalidParameterException",
+          "message": {
+            "includes": "Unable to assume role"
           }
         }
       ]

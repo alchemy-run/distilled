@@ -20,6 +20,7 @@ import * as Schema from "./schema-lite-typed.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
 import {
   bodySymbol,
+  commaDelimitedSymbol,
   deepQuerySymbol,
   formDataFileSymbol,
   getErrorMatchers,
@@ -428,6 +429,12 @@ export interface BuildRequestOptions {
    * Defaults to the key verbatim.
    */
   readonly unknownKeyToWire?: (key: string) => string;
+  /**
+   * Send `{}` on a method that takes a body even when the input declares no
+   * body members. Connect unary RPCs (E2B's envd) POST JSON for every call,
+   * and refuse a bodyless one with 415.
+   */
+  readonly emptyJsonBody?: boolean;
 }
 
 /**
@@ -483,6 +490,8 @@ interface MemberPlan {
   /** `{name+}` placeholder. */
   readonly greedy: boolean;
   readonly stringEncoded: boolean;
+  /** A list query member sent as one comma-separated parameter. */
+  readonly commaDelimited: boolean;
   /** `mapKeys(type, value, "encode", rootDict)` returns the value unchanged. */
   readonly verbatim: boolean;
 }
@@ -547,6 +556,7 @@ const planFor = (inputAst: AST.AST): RequestPlan => {
       preserve: typeof preserve === "string" ? preserve : undefined,
       greedy,
       stringEncoded: hasPropAnn(prop, stringEncodedSymbol),
+      commaDelimited: hasPropAnn(prop, commaDelimitedSymbol),
       verbatim: rootDict === undefined && mapsVerbatim(prop.type, "encode"),
     });
   }
@@ -639,6 +649,7 @@ const requestOrInvalid = ({
   headers: baseHeaders,
   mapMemberHeader,
   unknownKeyToWire,
+  emptyJsonBody,
 }: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput => {
   const inputObj = (input ?? {}) as Record<string, unknown>;
   const plan = planFor(inputAst);
@@ -685,7 +696,11 @@ const requestOrInvalid = ({
         break;
       }
       case "query":
-        appendQuery((query ??= new URLSearchParams()), m.name, value);
+        if (m.commaDelimited && Array.isArray(value)) {
+          (query ??= new URLSearchParams()).append(m.name, value.map(String).join(","));
+        } else {
+          appendQuery((query ??= new URLSearchParams()), m.name, value);
+        }
         break;
       case "deepQuery": {
         // Deep-object query member (T.DeepQuery): a nested struct expands into
@@ -842,7 +857,7 @@ const requestOrInvalid = ({
     // The `{}`-when-empty rule below stays limited to methods that expect a
     // body, so a bodyless method with nothing set still sends nothing.
     bodyKeys > 0 ||
-    (hasBodyMembers && bodied && http.method !== "DELETE")
+    ((hasBodyMembers || emptyJsonBody === true) && bodied && http.method !== "DELETE")
   ) {
     // Send `{}` rather than no body when the schema declares body members --
     // some endpoints reject a missing JSON body outright.
