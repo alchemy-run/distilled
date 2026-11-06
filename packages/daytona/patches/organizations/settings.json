@@ -1,0 +1,69 @@
+{
+  "description": "Type two organization-settings rejections observed live 2026-11-03 (API v0.229.2): Daytona Cloud does not serve PATCH /organizations/{id}/default-queue-timeout (NestJS 404 \"Cannot PATCH ...\"), and setOrganizationDefaultRegion answers HTTP 409 \"Organization already has a default region set\" once one is set.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DefaultQueueTimeoutUnavailable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "This Daytona deployment does not serve the default-queue-timeout route (HTTP 404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "Cannot PATCH"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#UpdateOrganizationDefaultQueueTimeout/errors/-",
+      "value": {
+        "target": "com.daytona.organizations#DefaultQueueTimeoutUnavailable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#DefaultRegionAlreadySet",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The organization's default region is set once and cannot change (HTTP 409).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "already has a default region set"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.organizations#SetOrganizationDefaultRegion/errors/-",
+      "value": {
+        "target": "com.daytona.organizations#DefaultRegionAlreadySet"
+      }
+    }
+  ]
+}

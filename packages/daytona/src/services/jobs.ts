@@ -73,6 +73,20 @@ export interface Job {
   /** The last update timestamp of the job */
   updatedAt?: string;
 }
+export interface GetJobRegistryMtlsCredentialsRequest {
+  /** ID of the job */
+  jobId: string;
+  /** Registry credential reference from the job payload */
+  registryId: string;
+}
+export interface RegistryMtlsCredentialsDto {
+  /** PEM-encoded client certificate chain */
+  certificatePem: string;
+  /** PEM-encoded unencrypted client private key */
+  privateKeyPem: string;
+  /** PEM-encoded registry CA bundle */
+  caBundlePem?: string;
+}
 export interface ListJobsRequest {
   /** Page number of the results */
   page?: number;
@@ -125,6 +139,23 @@ export const getJob: API.OperationMethod<GetJobRequest, Job, GetJobError, Dayton
     span: "GetJob",
   }));
 
+export type GetJobRegistryMtlsCredentialsError = DaytonaOpError;
+/** Redeem registry mTLS credentials for an active job */
+export const getJobRegistryMtlsCredentials: API.OperationMethod<
+  GetJobRegistryMtlsCredentialsRequest,
+  RegistryMtlsCredentialsDto,
+  GetJobRegistryMtlsCredentialsError,
+  DaytonaOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(4, __c2, 0) as any as S.Schema<GetJobRegistryMtlsCredentialsRequest>,
+  output: __S(5, __c2, 1) as any as S.Schema<RegistryMtlsCredentialsDto>,
+  errors: [UnknownDaytonaError],
+  protocol: DaytonaProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetJobRegistryMtlsCredentials",
+}));
+
 export type ListJobsError = DaytonaOpError;
 /** List jobs for the runner Returns a paginated list of jobs for the runner, optionally filtered by status. */
 export const listJobs: API.OperationMethod<
@@ -133,8 +164,8 @@ export const listJobs: API.OperationMethod<
   ListJobsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(4, __c2, 0) as any as S.Schema<ListJobsRequest>,
-  output: __S(5, __c2, 1) as any as S.Schema<PaginatedJobs>,
+  input: __S(6, __c3, 0) as any as S.Schema<ListJobsRequest>,
+  output: __S(7, __c3, 1) as any as S.Schema<PaginatedJobs>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -150,8 +181,8 @@ export const pollJobs: API.OperationMethod<
   PollJobsError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c4, 0) as any as S.Schema<PollJobsRequest>,
-  output: __S(9, __c4, 1) as any as S.Schema<PollJobsResponse>,
+  input: __S(10, __c5, 0) as any as S.Schema<PollJobsRequest>,
+  output: __S(11, __c5, 1) as any as S.Schema<PollJobsResponse>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
   retry: Retry.Retry,
@@ -167,7 +198,7 @@ export const updateJobStatus: API.OperationMethod<
   UpdateJobStatusError,
   DaytonaOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(10, __c5, 0) as any as S.Schema<UpdateJobStatusRequest>,
+  input: __S(12, __c6, 0) as any as S.Schema<UpdateJobStatusRequest>,
   output: __S(3, __c1, 1) as any as S.Schema<Job>,
   errors: [UnknownDaytonaError],
   protocol: DaytonaProtocol,
@@ -213,6 +244,27 @@ function __c2(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
+          jobId: S.String.pipe(T.Label()),
+          registryId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({ method: "POST", uri: "/jobs/{jobId}/registry-mtls/{registryId}", code: 200 }),
+        ),
+      ).annotate({ identifier: "GetJobRegistryMtlsCredentialsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          certificatePem: S.String,
+          privateKeyPem: S.String,
+          caBundlePem: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "RegistryMtlsCredentialsDto" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
           page: S.optional(S.Number.pipe(T.Query())),
           limit: S.optional(S.Number.pipe(T.Query())),
           status: S.optional(S.String.pipe(T.Query())),
@@ -222,7 +274,7 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          items: __S(6, __c3, 0),
+          items: __S(8, __c4, 0),
           total: S.Number,
           page: S.Number,
           totalPages: S.Number,
@@ -230,13 +282,13 @@ function __c2(j: number): any {
       ).annotate({ identifier: "PaginatedJobs" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.Array(__S(3, __c1, 1));
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -248,12 +300,12 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          jobs: __S(6, __c3, 0),
+          jobs: __S(8, __c4, 0),
         }),
       ).annotate({ identifier: "PollJobsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

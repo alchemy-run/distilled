@@ -1,0 +1,37 @@
+{
+  "description": "Type the in-use rejection: deleteVolume answers HTTP 409 \"Volume cannot be deleted because it is in use by one or more sandboxes (e.g. <name>)\" while a sandbox still mounts the volume (observed live 2026-11-06).",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.volumes#VolumeInUse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "A sandbox still mounts the volume, so it cannot be deleted until that sandbox is gone (HTTP 409).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "message": {
+                "includes": "in use by one or more sandboxes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.volumes#DeleteVolume/errors/-",
+      "value": {
+        "target": "com.daytona.volumes#VolumeInUse"
+      }
+    }
+  ]
+}
