@@ -317,7 +317,7 @@ const grpcModel = () => ({
 });
 
 describe("proto3 defaults and server streams", () => {
-  const { code } = generateService(grpcModel(), spec);
+  const { code } = generateService(grpcModel(), { ...spec, streams: true });
 
   test("a member with a default is required in a response-only shape", () => {
     expect(code).toMatch(/export interface SayResponse \{\s*text: string;\s*note\?: string;/);

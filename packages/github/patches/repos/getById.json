@@ -26,10 +26,6 @@
         "type": "operation",
         "input": { "target": "com.github.repos#GetByIdRequest" },
         "output": { "target": "com.github.repos#FullRepository" },
-        "errors": [
-          { "target": "com.github.repos#Forbidden" },
-          { "target": "com.github.repos#NotFound" }
-        ],
         "traits": {
           "smithy.api#http": { "method": "GET", "uri": "/repositories/{id}", "code": 200 },
           "smithy.api#documentation": "Get a repository by id\n\nThe repository's numeric id is stable across renames and transfers, so this finds a repository whose name changed. Undocumented in GitHub's REST reference, but served by the API."

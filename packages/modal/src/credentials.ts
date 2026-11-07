@@ -40,6 +40,12 @@ export interface Config {
    * Modal's V2 sandbox RPCs and input plane need. Set by `withAuthToken`.
    */
   readonly authToken?: Redacted.Redacted<string>;
+  /**
+   * Call as the Modal container this code runs in: no token pair, client type
+   * `CLIENT_TYPE_CONTAINER`. Modal identifies the caller by the socket it
+   * calls on. Set by {@link fromContainer}.
+   */
+  readonly container?: boolean;
 }
 
 export class Credentials
@@ -83,6 +89,62 @@ export const credentials = (config: {
       apiBaseUrl: config.apiBaseUrl ?? DEFAULT_API_BASE_URL,
     }),
   );
+
+/** Modal's API socket inside its containers, from `MODAL_SERVER_URL`. */
+export const CONTAINER_SOCKET_PREFIX = "unix:";
+
+/**
+ * The path of the API socket Modal gives this container, or `undefined`
+ * outside one. Modal sets `MODAL_SERVER_URL` to `unix:/run/modal.sock` in
+ * every Function, Server and Sandbox container it starts with its client.
+ */
+export const containerSocket: Effect.Effect<string | undefined> = /*@__PURE__*/ EffectConfig.String(
+  "MODAL_SERVER_URL",
+).pipe(
+  Effect.map((url) =>
+    url.startsWith(CONTAINER_SOCKET_PREFIX) ? url.slice(CONTAINER_SOCKET_PREFIX.length) : undefined,
+  ),
+  Effect.orElseSucceed(() => undefined),
+);
+
+/**
+ * Call Modal as the container this code runs in, as Modal's own client does
+ * there: over the container's API socket (`MODAL_SERVER_URL`), with no token.
+ * Modal authorizes each call as the container's App and environment, so no
+ * credential is stored or passed in. Calls go over HTTP/2 with `node:http2`.
+ *
+ * Outside a Modal container it fails with `ConfigError`.
+ *
+ * @example
+ * ```ts
+ * const { functionId } = yield* Modal.getFunction({ appName: "inference", objectTag: "embed" }).pipe(
+ *   Effect.provide(Modal.fromContainer),
+ * );
+ * ```
+ */
+export const fromContainer: Layer.Layer<Credentials, ConfigError> = /*@__PURE__*/ Layer.unwrap(
+  Effect.gen(function* () {
+    const path = yield* containerSocket;
+    if (path === undefined) {
+      return yield* new ConfigError({
+        message: "Not in a Modal container: MODAL_SERVER_URL isn't a unix: socket",
+      });
+    }
+    return Layer.mergeAll(
+      Layer.succeed(
+        Credentials,
+        Effect.succeed({
+          tokenId: Redacted.make(""),
+          tokenSecret: Redacted.make(""),
+          // Only the `:authority`; the socket carries the call.
+          apiBaseUrl: "http://localhost",
+          container: true,
+        } satisfies Config),
+      ),
+      NodeHttp2.unixLayer(path),
+    );
+  }),
+);
 
 /**
  * Credentials with no token, for the calls Modal serves before one exists:

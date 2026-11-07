@@ -1,6 +1,8 @@
 import * as http from "node:http";
 import * as http2 from "node:http2";
 import type { AddressInfo } from "node:net";
+import * as os from "node:os";
+import * as path from "node:path";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as FetchHttpClient from "effect/http/FetchHttpClient";
@@ -81,8 +83,7 @@ const scripts: Record<string, Script> = {
 
 const seen: Array<{ path: string; headers: Record<string, unknown> }> = [];
 
-const h2Server = http2.createServer();
-h2Server.on("stream", (stream: http2.ServerHttp2Stream, headers) => {
+const onStream = (stream: http2.ServerHttp2Stream, headers: http2.IncomingHttpHeaders) => {
   const path = String(headers[":path"]);
   seen.push({ path, headers: { ...headers } });
   const chunks: Buffer[] = [];
@@ -129,7 +130,15 @@ h2Server.on("stream", (stream: http2.ServerHttp2Stream, headers) => {
     });
   });
   stream.on("error", () => undefined);
-});
+};
+
+const h2Server = http2.createServer();
+h2Server.on("stream", onStream);
+
+/** The same service on a Unix domain socket (as Modal's API inside its containers). */
+const socketServer = http2.createServer();
+socketServer.on("stream", onStream);
+const socketPath = path.join(os.tmpdir(), `distilled-grpc-${process.pid}.sock`);
 
 /** HTTP/1.1, as a bridging proxy answers `fetch`: status in the headers, no trailers. */
 const h1Server = http.createServer((req, res) => {
@@ -164,6 +173,7 @@ let h1Url = "";
 beforeAll(async () => {
   await new Promise<void>((resolve) => h2Server.listen(0, "127.0.0.1", resolve));
   await new Promise<void>((resolve) => h1Server.listen(0, "127.0.0.1", resolve));
+  await new Promise<void>((resolve) => socketServer.listen(socketPath, resolve));
   h2Url = `http://127.0.0.1:${(h2Server.address() as AddressInfo).port}`;
   h1Url = `http://127.0.0.1:${(h1Server.address() as AddressInfo).port}`;
 });
@@ -171,6 +181,7 @@ beforeAll(async () => {
 afterAll(async () => {
   await new Promise((resolve) => h2Server.close(resolve));
   await new Promise((resolve) => h1Server.close(resolve));
+  await new Promise((resolve) => socketServer.close(resolve));
 });
 
 // =============================================================================
@@ -252,6 +263,13 @@ const count: API.StreamingOperationMethod<
 
 const overHttp2 = () =>
   Layer.mergeAll(Layer.succeed(Endpoint, { url: h2Url }), NodeHttp2.layer, FetchHttpClient.layer);
+const overSocket = () =>
+  Layer.mergeAll(
+    // The host is only the `:authority`; the socket carries the call.
+    Layer.succeed(Endpoint, { url: "http://localhost" }),
+    NodeHttp2.unixLayer(socketPath),
+    FetchHttpClient.layer,
+  );
 const overFetch = () =>
   Layer.mergeAll(Layer.succeed(Endpoint, { url: h1Url }), FetchHttpClient.layer);
 
@@ -275,6 +293,35 @@ const fail = async (effect: Effect.Effect<any, any, any>, layer: Layer.Layer<any
 // =============================================================================
 // Tests
 // =============================================================================
+
+describe("gRPC over a Unix domain socket", () => {
+  test("a unary call and its typed error go over the socket", async () => {
+    expect(await succeed(say({ text: "socket" }), overSocket())).toEqual({
+      text: "SOCKET",
+      index: 1,
+      tags: [],
+    });
+    const error = await fail(say({ text: "missing" }), overSocket());
+    expect(error._tag).toBe("ThingNotFound");
+  });
+
+  test("a server stream goes over the socket", async () => {
+    const reply = await succeed(count({ text: "n", count: 3 }), overSocket());
+    expect(reply.items.map((item) => item.index)).toEqual([1, 2, 3]);
+  });
+
+  test("a missing socket is a transport error", async () => {
+    const error = await fail(
+      say({ text: "x" }),
+      Layer.mergeAll(
+        Layer.succeed(Endpoint, { url: "http://localhost" }),
+        NodeHttp2.unixLayer(path.join(os.tmpdir(), "distilled-grpc-missing.sock")),
+        FetchHttpClient.layer,
+      ),
+    );
+    expect(error._tag).toBe("HttpClientError");
+  });
+});
 
 describe("gRPC over node:http2", () => {
   test("sends one protobuf frame and decodes the reply, with proto3 defaults", async () => {
