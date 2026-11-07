@@ -16,6 +16,10 @@ import { Credentials, type Config } from "./credentials.ts";
 import * as Retry from "./retry.ts";
 import { getAuthToken } from "./services/auth.ts";
 
+/** Which identity a cached token belongs to: the token id, or the container. */
+const identityOf = (config: Config) =>
+  config.container ? "container" : Redacted.value(config.tokenId);
+
 /** Seconds of a token's lifetime used before it is refreshed. */
 const REFRESH_FRACTION = 0.5;
 
@@ -39,9 +43,9 @@ const expiryOf = (jwt: string): number | undefined => {
 /**
  * Add Modal's auth token to every request made with the `Credentials` (and
  * `HttpClient`) already in context. The token is fetched once with the
- * token pair, then refreshed when half its lifetime has passed. Requests to
- * a task command router (a bearer token) and anonymous requests are left as
- * they are.
+ * token pair (or as the container, inside one), then refreshed when half
+ * its lifetime has passed. Requests to a task command router (a bearer
+ * token) and anonymous requests are left as they are.
  *
  * @example
  * ```ts
@@ -71,7 +75,7 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
         const now = (yield* Clock.currentTimeMillis) / 1000;
         const lifetime = (expiryOf(token) ?? now + FALLBACK_LIFETIME_SECONDS) - now;
         cached = {
-          tokenId: Redacted.value(config.tokenId),
+          tokenId: identityOf(config),
           token,
           refreshAt: now + lifetime * REFRESH_FRACTION,
         };
@@ -80,7 +84,10 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
 
       return Effect.gen(function* () {
         const config = yield* base;
-        if (config.bearerToken !== undefined || Redacted.value(config.tokenId) === "") {
+        if (
+          config.bearerToken !== undefined ||
+          (Redacted.value(config.tokenId) === "" && !config.container)
+        ) {
           return config;
         }
         // Only the token value is shared between calls, never a lock or a
@@ -89,9 +96,7 @@ export const withAuthToken: Layer.Layer<Credentials, never, Credentials | HttpCl
         // refresh each fetch one.
         const now = (yield* Clock.currentTimeMillis) / 1000;
         const token =
-          cached !== undefined &&
-          cached.tokenId === Redacted.value(config.tokenId) &&
-          now < cached.refreshAt
+          cached !== undefined && cached.tokenId === identityOf(config) && now < cached.refreshAt
             ? cached.token
             : // A failed fetch leaves the request without the header; the
               // calls that need it then fail with Modal's own auth error.
