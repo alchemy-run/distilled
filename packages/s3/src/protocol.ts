@@ -46,7 +46,12 @@ import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
 import * as Stream from "effect/Stream";
 import type { Operation } from "./client/operation.ts";
-import { loadHandler, type LazyHandler, type ProtocolHandler } from "./client/protocol.ts";
+import {
+  loadHandler,
+  serializeFailure,
+  type LazyHandler,
+  type ProtocolHandler,
+} from "./client/protocol.ts";
 import { makeRequestBuilder } from "./client/request-builder.ts";
 import type { Request } from "./client/request.ts";
 import { type Decoded, makeResponseParser, makeSuccessDecoder } from "./client/response-parser.ts";
@@ -570,7 +575,7 @@ const encodeWith = <A>(
             const r = plan.build(input);
             return Effect.isEffect(r) ? r : Effect.succeed(r);
           } catch (e) {
-            return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+            return serializeFailure(prepared.operationName, e);
           }
         }),
       ),
@@ -581,7 +586,7 @@ const encodeWith = <A>(
   try {
     request = plan.build(input);
   } catch (e) {
-    return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+    return serializeFailure(prepared.operationName, e);
   }
   return Effect.isEffect(request) ? Effect.flatMap(request, sendSigned) : sendSigned(request);
 };

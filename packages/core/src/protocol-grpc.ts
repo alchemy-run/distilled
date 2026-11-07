@@ -52,7 +52,6 @@ import {
   encodeMessage,
   frame,
   FrameReader,
-  type ProtobufEncodeError,
   type ProtoDescriptors,
 } from "./protobuf.ts";
 import { InvalidInput, matchTypedError } from "./protocol-http.ts";
@@ -182,12 +181,6 @@ type Headers = Readonly<Record<string, string | undefined>>;
 
 const textDecoder = /*@__PURE__*/ new TextDecoder();
 
-const isEncodeError = (cause: unknown): cause is ProtobufEncodeError =>
-  typeof cause === "object" &&
-  cause !== null &&
-  "_tag" in cause &&
-  cause._tag === "ProtobufEncodeError";
-
 const methodPath = (url: string): string => {
   try {
     return new URL(url).pathname;
@@ -280,14 +273,14 @@ export const makeGrpcProtocol = <C>(options: GrpcProtocolOptions<C>): Layer.Laye
           try {
             payload = encodeMessage(d, method[0], jsonBody(body) ?? {});
           } catch (cause) {
-            if (isEncodeError(cause)) {
-              // The encode channel is typed `never`; InvalidInput is part of
-              // every operation's declared error channel.
-              return Effect.fail(
-                new InvalidInput({ member: method[0], message: cause.message }),
-              ) as unknown as Effect.Effect<HttpClientRequest.HttpClientRequest>;
-            }
-            return Effect.die(cause);
+            // The encode channel is typed `never`; InvalidInput is part of
+            // every operation's declared error channel.
+            return Effect.fail(
+              new InvalidInput({
+                member: method[0],
+                message: cause instanceof Error ? cause.message : String(cause),
+              }),
+            ) as unknown as Effect.Effect<HttpClientRequest.HttpClientRequest>;
           }
           return Effect.succeed(
             request.pipe(

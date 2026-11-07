@@ -93,8 +93,25 @@ export const loadHandler = (
 ): Effect.Effect<ProtocolHandler> => ("ready" in handler ? handler.ready : Effect.succeed(handler));
 
 /**
+ * The typed failure for what a serializer threw: a `ParseError` as is,
+ * anything else as an `InvalidInput` of the operation's input.
+ */
+export const serializeFailure = (
+  operation: string | undefined,
+  e: unknown,
+): Effect.Effect<never, ParseError | InvalidInput> =>
+  Effect.fail(
+    e instanceof ParseError
+      ? e
+      : new InvalidInput({
+          member: operation ?? "input",
+          message: e instanceof Error ? e.message : String(e),
+        }),
+  );
+
+/**
  * `serialize` as an effect: a returned `InvalidInput` or a thrown
- * `ParseError` fails, anything else thrown dies.
+ * `ParseError` fails as is, anything else thrown fails as `InvalidInput`.
  */
 export const serializeEffect =
   (serialize: (input: unknown) => Request | InvalidInput) =>
@@ -103,7 +120,7 @@ export const serializeEffect =
       const request = serialize(input);
       return request instanceof InvalidInput ? Effect.fail(request) : Effect.succeed(request);
     } catch (e) {
-      return e instanceof ParseError ? Effect.fail(e) : Effect.die(e);
+      return serializeFailure(undefined, e);
     }
   };
 
