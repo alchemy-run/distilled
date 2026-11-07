@@ -172,13 +172,13 @@ export interface OperationIam {
   /** The actions the call is authorized as: `"sqs:SendMessage"`. */
   readonly actions: readonly string[];
   /**
-   * Action → the ARN formats a grant may name for it
+   * Per action, the ARN formats a grant may name for it
    * (`"arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"`). An action
    * without an entry is authorized only on `"*"`.
    */
   readonly resources?: Readonly<Record<string, readonly string[]>>;
   /**
-   * Action → the request field that makes the call need it
+   * Per action, the request field that makes the call need it
    * (`"iam:PassRole": "NotificationChannel.RoleArn"`). A call without that
    * field doesn't.
    */
