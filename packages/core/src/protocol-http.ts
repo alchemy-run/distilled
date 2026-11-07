@@ -915,7 +915,7 @@ const matcherSpecificity = (m: ErrorMatcher): number =>
 /** Every supplied constraint must match; an unconstrained matcher matches nothing. */
 export const matchesExpression = (
   m: ErrorMatcher,
-  code: number | undefined,
+  code: number | string | undefined,
   status: number,
   message: string,
   response: ErrorResponse = {},
@@ -957,14 +957,19 @@ export const matchesExpression = (
  * Empty error lists use an HTTP-status message so body/header-only failures can
  * still match. The constructor receives the raw body and headers as well as
  * code/message; error schemas can declare these fields to expose them to callers.
+ * A class whose schema declares `code` as a string receives the wire code as
+ * text (`"not_found"`); any other class receives the numeric code, or 0 when
+ * the wire code is not a number. Code matchers only ever match numeric codes.
  */
 export const matchTypedError = (
   errorClasses: ReadonlyArray<unknown>,
   status: number,
-  errors: ReadonlyArray<{ code?: number; message: string }>,
+  errors: ReadonlyArray<{ code?: number | string; message: string }>,
   response: ErrorResponse = {},
 ): unknown | undefined => {
-  let best: { cls: unknown; specificity: number; code?: number; message: string } | undefined;
+  let best:
+    | { cls: unknown; specificity: number; code?: number | string; message: string }
+    | undefined;
   const wireErrors = errors.length > 0 ? errors : [{ message: `HTTP ${status}` }];
   for (const cls of errorClasses) {
     const matchers = getErrorMatchers(cls);
@@ -980,10 +985,21 @@ export const matchTypedError = (
     }
   }
   if (!best) return undefined;
+  const declaredCode = (
+    best.cls as {
+      readonly fields?: { readonly code?: { readonly ast?: { readonly _tag?: string } } };
+    }
+  ).fields?.code?.ast?._tag;
+  const code =
+    declaredCode === "String"
+      ? best.code?.toString()
+      : typeof best.code === "number"
+        ? best.code
+        : 0;
   const saved = suppressStack();
   try {
     return new (best.cls as new (args: any) => unknown)({
-      code: best.code ?? 0,
+      code,
       message: best.message,
       body: response.body,
       headers: response.headers,

@@ -414,7 +414,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
         status,
         [
           {
-            code: typeof env.code === "number" ? env.code : undefined,
+            code: env.code,
             message,
           },
         ],
