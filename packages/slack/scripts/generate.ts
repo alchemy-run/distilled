@@ -71,6 +71,7 @@ const spec: SdkSpec = {
   paginationProfiles: {
     cursor: {
       strategy: "slackPaginate",
+      requires: () => ["inputToken", "outputToken"],
       // Every stamped trait carries its own `items`; there is no fallback
       // path (a cursor op whose items list the docs don't model degrades to
       // a plain operation instead).

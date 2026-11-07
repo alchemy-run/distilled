@@ -1,3 +1,4 @@
+import type { PaginatedTrait } from "@distilled.cloud/core/pagination";
 import { booleanStringEnums, STRING_ENCODED_TRAIT } from "./boolean-string-enums.ts";
 import {
   enumDecl,
@@ -41,7 +42,13 @@ import {
   modelNamespace,
   type OpEntry,
 } from "./operations.ts";
-import { validatePaginated } from "./pagination.ts";
+import {
+  assertPaginationFields,
+  CORE_STRATEGY_FIELDS,
+  defaultStrategyFields,
+  type PaginationField,
+  validatePaginated,
+} from "./pagination.ts";
 import { JSON_PRELUDE, makeSchemaRef, makeTsRef, TS_JSON_PRELUDE } from "./prelude.ts";
 import {
   ATTRIBUTES_TRAIT as TELEMETRY_ATTRIBUTES_TRAIT,
@@ -131,6 +138,12 @@ export interface PaginationProfile {
   readonly protocol?: string;
   /** Strategy expression passed as makePaginated's second argument. */
   readonly strategy?: string;
+  /**
+   * The trait fields {@link strategy} reads. Core strategies (and no
+   * strategy, i.e. `paginateWithDefaults`) have them built in; a provider
+   * strategy must declare them, or generation fails.
+   */
+  readonly requires?: (trait: PaginatedTrait) => readonly PaginationField[];
   /** Items path fallback when the trait omits `items`. */
   readonly itemsFallback: string;
   /** Output names accepted even when not modeled (delivered by the protocol). */
@@ -768,6 +781,19 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         syntheticOutputs: new Set(profile.syntheticOutputs ?? []),
       });
       if (ok) {
+        const strategy = profile.strategy ?? "paginateWithDefaults";
+        const fields =
+          profile.requires?.(pg) ??
+          (profile.strategy === undefined
+            ? defaultStrategyFields(pg)
+            : CORE_STRATEGY_FIELDS[profile.strategy]);
+        if (fields === undefined) {
+          throw new Error(
+            `pagination profile "${profileName}": ${strategy} is not a core strategy; ` +
+              `declare the trait fields it reads in \`requires\``,
+          );
+        }
+        assertPaginationFields(op.id, strategy, fields, pg);
         op.def.__pagination = pg;
         paginatedOutputs.add(op.def.__output);
         // A profile that injects a page member (Cloudflare's `resultInfo`)
