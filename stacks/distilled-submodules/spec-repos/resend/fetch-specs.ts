@@ -2,8 +2,11 @@
 /**
  * Fetches Resend's OpenAPI document and vendor docs to ../specs/.
  *
- * Resend publishes a first-party OpenAPI 3.0 document at a stable vendor URL
- * (https://resend.com/openapi.json, also listed from https://resend.com/llms.txt).
+ * The OpenAPI document comes from Resend's spec repository
+ * (https://github.com/resend/resend-openapi), whose README names it the source
+ * of truth: `resend.json` is regenerated from `resend.yaml` on every push to
+ * `main`. The copy Resend serves at https://resend.com/openapi.json stopped
+ * changing on 2026-09-10 and lacks 59 operations the repository has.
  * Markdown docs pages listed by https://resend.com/docs/llms.txt are snapshotted
  * under docs/ so generate never crawls live docs.
  *
@@ -22,7 +25,7 @@ import { mkdir, readdir, rm, writeFile } from "fs/promises";
 import { dirname, join, relative } from "path";
 
 const ORIGIN = "https://resend.com";
-const OPENAPI_SPEC_URL = `${ORIGIN}/openapi.json`;
+const OPENAPI_SPEC_URL = "https://raw.githubusercontent.com/resend/resend-openapi/main/resend.json";
 const LLMS_URL = `${ORIGIN}/llms.txt`;
 const DOCS_LLMS_URL = `${ORIGIN}/docs/llms.txt`;
 const SPECS_DIR = "../specs";
@@ -190,9 +193,6 @@ async function main() {
 
   console.log(`Fetching docs indexes from ${LLMS_URL} and ${DOCS_LLMS_URL}...`);
   const [rootLlms, docsLlms] = await Promise.all([fetchText(LLMS_URL), fetchText(DOCS_LLMS_URL)]);
-  if (!rootLlms.includes("resend.com/openapi.json")) {
-    throw new Error(`${LLMS_URL} did not list the vendor OpenAPI URL — refusing to continue`);
-  }
   if (!docsLlms.includes("resend.com/docs/") && !docsLlms.includes("/docs/")) {
     throw new Error(
       `${DOCS_LLMS_URL} did not look like Resend's docs index — refusing to continue`,

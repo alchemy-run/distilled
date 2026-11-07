@@ -1,0 +1,2972 @@
+{
+  "description": "Type Resend's errors per operation. The spec declares no errors, so every failure surfaced as a bare status class or UnknownResendError. Each class matches Resend's machine-readable `name` (core's matcher `code` is numeric, so the name is matched as `body: {\"/name\": ...}`), with the status and, where one name covers several cases, the message, from Resend's error reference (api-reference/errors) and the live runs of 2026-10-29. Each operation lists the errors it alone can answer: idempotency, the sending quota, sender and recipient refusals, the not-founds of the resources it addresses, and state refusals. State errors match name, status and message, so they win over the generic class with the same name: a broadcast refuses edits, sends, deletes and cancels by status, and a sent broadcast can never be deleted; an email that is no longer scheduled can't be rescheduled or canceled (EmailNotScheduled); a draft sends once (InboxDraftAlreadySent); an inbox address must be on a domain the team has added (DomainNotInTeam); a domain with no claim answers 404 \"Domain claim not found\" (DomainClaimNotFound). The quota errors carry no httpError, so they get no throttling category and the default retry policy does not wait out a quota that resets at midnight; rate_limit_exceeded stays core's retried TooManyRequests. The errors every operation can answer (auth, validation, resource lock) are declared once, in src/errors.ts.\n\nType deleteSegment's refusal to delete a team's last segment. Resend keeps at least one segment (formerly audience) per team and answers DELETE /segments/{id} with 403 \"Cannot delete last audience.\" when the delete would leave none. The live run of 2026-11-01 also got this answer for a segment that a GET had just reported gone (404 \"Audience not found\"), so a second delete of an already-deleted segment is refused the same way rather than with SegmentNotFound. The run recorded the status and message only, so the matcher takes those and no error name; with two constraints it still outranks the one-constraint ValidationError.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ApiKeyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The API key does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "API key not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ApiKeysList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ApiKeysCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ApiKeysUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ApiKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ApiKeysRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ApiKeyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The automation does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Automation not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationRunNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The automation run does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Automation run not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AutomationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AutomationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AutomationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsDuplicate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AutomationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsStop/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AutomationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsListRuns/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AutomationNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AutomationsGetRun/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AutomationRunNotFound"
+        },
+        {
+          "target": "com.resend.api#AutomationNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The broadcast does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Broadcast not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#BroadcastNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#BroadcastNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#BroadcastNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsSend/errors",
+      "value": [
+        {
+          "target": "com.resend.api#BroadcastNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsCancel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#BroadcastNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsDuplicate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#BroadcastNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsRecipients/errors",
+      "value": [
+        {
+          "target": "com.resend.api#BroadcastNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsListClickedLinks/errors",
+      "value": [
+        {
+          "target": "com.resend.api#BroadcastNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastNotDraft",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The broadcast is no longer a draft, so it can't be edited, sent or scheduled (403 or 422 `validation_error`, \"Only draft broadcasts can be …\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "Only draft broadcasts can be"
+              }
+            },
+            {
+              "status": 422,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "Only draft broadcasts can be"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsUpdate/errors/-",
+      "value": {
+        "target": "com.resend.api#BroadcastNotDraft"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsSend/errors/-",
+      "value": {
+        "target": "com.resend.api#BroadcastNotDraft"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastNotDeletable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Only draft or scheduled broadcasts can be deleted; a sent broadcast stays (403 `validation_error`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "Only draft or scheduled broadcasts can be deleted"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsRemove/errors/-",
+      "value": {
+        "target": "com.resend.api#BroadcastNotDeletable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastNotCancelable",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Only queued or scheduled broadcasts can be canceled (403 `validation_error`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "Only queued or scheduled broadcasts can be canceled"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#BroadcastsCancel/errors/-",
+      "value": {
+        "target": "com.resend.api#BroadcastNotCancelable"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertyNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The contact property does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactPropertyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactPropertyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactPropertiesRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactPropertyNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactImportNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The contact import does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The contact does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Contact not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsListImports/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsCreateImport/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsGetImport/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactImportNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsListSegments/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsAddSegment/errors",
+      "value": [
+        {
+          "target": "com.resend.api#SegmentNotFound"
+        },
+        {
+          "target": "com.resend.api#ContactNotFound"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsRemoveSegment/errors",
+      "value": [
+        {
+          "target": "com.resend.api#SegmentNotFound"
+        },
+        {
+          "target": "com.resend.api#ContactNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsListTopics/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ContactsUpdateTopics/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ContactNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainAlreadyRegistered",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The domain is registered to a Resend team already, maybe another one (403).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "has been registered already"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#FreePublicDomain",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Resend refuses domains under free subdomain services (422 \"We don't allow free public domains\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "don't allow free public domains"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The domain does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Domain not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        },
+        {
+          "target": "com.resend.api#DomainAlreadyRegistered"
+        },
+        {
+          "target": "com.resend.api#FreePublicDomain"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DomainNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DomainNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DomainNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsVerify/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DomainNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsCreateClaim/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        },
+        {
+          "target": "com.resend.api#DomainAlreadyRegistered"
+        },
+        {
+          "target": "com.resend.api#FreePublicDomain"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsGetClaim/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DomainNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsVerifyClaim/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DomainNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainClaimNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The domain has no claim (404 `not_found`, \"Domain claim not found\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Domain claim not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsGetClaim/errors/-",
+      "value": {
+        "target": "com.resend.api#DomainClaimNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainsVerifyClaim/errors/-",
+      "value": {
+        "target": "com.resend.api#DomainClaimNotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CreateBatchEmailsResponse/members/errors",
+      "value": {
+        "target": "com.resend.api#CreateBatchEmailsResponseErrorsList",
+        "traits": {
+          "smithy.api#documentation": "The emails a permissive batch rejected. Only present with `batchValidation: \"permissive\"`."
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsSend/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EmailNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EmailNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsCancel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EmailNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsShare/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EmailNotFound"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsSendBatch/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListAttachments/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EmailNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsGetAttachment/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AttachmentNotFound"
+        },
+        {
+          "target": "com.resend.api#EmailNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailNotScheduled",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The email is not scheduled, so it can't be rescheduled or canceled (422 `validation_error`, \"Email is not scheduled\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "Email is not scheduled"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsCancel/errors/-",
+      "value": {
+        "target": "com.resend.api#EmailNotScheduled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsUpdate/errors/-",
+      "value": {
+        "target": "com.resend.api#EmailNotScheduled"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsSend/errors",
+      "value": [
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxLimitReached",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The plan's included inboxes are used up and pay-as-you-go is off (403).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "reached the inboxes included in your plan"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The inbox does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxLabelNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The inbox label does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxThreadNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The inbox thread does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxDraftNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The inbox draft does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        },
+        {
+          "target": "com.resend.api#InboxLimitReached"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGetAgent/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdateAgent/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListLabels/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesCreateLabel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdateLabel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxLabelNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemoveLabel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxLabelNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListThreads/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSearchThreads/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGetThread/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdateThread/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemoveThread/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesAddThreadLabels/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        },
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSetThreadLabels/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemoveThreadLabel/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxLabelNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListThreadEmails/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxThreadNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGetThreadEmail/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EmailNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesReplyThreadEmail/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EmailNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesForwardThreadEmail/errors",
+      "value": [
+        {
+          "target": "com.resend.api#EmailNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesListDrafts/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesCreateDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesGetDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxDraftNotFound"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesUpdateDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxDraftNotFound"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesRemoveDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxDraftNotFound"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSendDraft/errors",
+      "value": [
+        {
+          "target": "com.resend.api#InboxDraftNotFound"
+        },
+        {
+          "target": "com.resend.api#DailyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#MonthlyQuotaExceeded"
+        },
+        {
+          "target": "com.resend.api#UnverifiedSender"
+        },
+        {
+          "target": "com.resend.api#TestingRecipientOnly"
+        },
+        {
+          "target": "com.resend.api#InvalidAttachment"
+        },
+        {
+          "target": "com.resend.api#InvalidIdempotencyKey"
+        },
+        {
+          "target": "com.resend.api#IdempotencyKeyReused"
+        },
+        {
+          "target": "com.resend.api#IdempotentRequestInProgress"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxDraftAlreadySent",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The draft was already sent (409 `invalid_parameter`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "invalid_parameter"
+              },
+              "message": {
+                "includes": "already been sent"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesSendDraft/errors/-",
+      "value": {
+        "target": "com.resend.api#InboxDraftAlreadySent"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DomainNotInTeam",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The address is on a domain this team hasn't added (422 `validation_error`, \"domain is not added to this team\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "is not added to this team"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InboxesCreate/errors/-",
+      "value": {
+        "target": "com.resend.api#DomainNotInTeam"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#LogNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The log does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#LogsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#LogsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#LogNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#OAuthGrantNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The OAuth grant does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#OauthListGrants/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#OauthRevokeGrant/errors",
+      "value": [
+        {
+          "target": "com.resend.api#OAuthGrantNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailAboveQuota",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The received email arrived while the team was over quota, so its content is withheld (403 `email_above_quota`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "email_above_quota"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#ReceivedEmailNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The received email does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Inbound email not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListReceiving/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsGetReceiving/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ReceivedEmailNotFound"
+        },
+        {
+          "target": "com.resend.api#EmailAboveQuota"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsListReceivingAttachments/errors",
+      "value": [
+        {
+          "target": "com.resend.api#ReceivedEmailNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        },
+        {
+          "target": "com.resend.api#EmailAboveQuota"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailsGetReceivingAttachment/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AttachmentNotFound"
+        },
+        {
+          "target": "com.resend.api#ReceivedEmailNotFound"
+        },
+        {
+          "target": "com.resend.api#EmailAboveQuota"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#SegmentNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#SegmentNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#SegmentNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsListContacts/errors",
+      "value": [
+        {
+          "target": "com.resend.api#SegmentNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#DailyQuotaExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The team's daily sending quota is used up (429 `daily_quota_exceeded`). It resets at midnight UTC, so it is not retried.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 429,
+              "body": {
+                "/name": "daily_quota_exceeded"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#MonthlyQuotaExceeded",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The team's monthly sending quota is used up (429 `monthly_quota_exceeded`). Not retried.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 429,
+              "body": {
+                "/name": "monthly_quota_exceeded"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#UnverifiedSender",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The `from` domain is not a verified domain of the team (403 `validation_error`), including `resend.dev` for broadcasts.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "is not verified"
+              }
+            },
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "cannot be sent from resend.dev"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TestingRecipientOnly",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Without a verified domain, Resend sends only to the account's own address and its test addresses (`delivered@resend.dev`, ...): 403, or 422 for a domain such as `example.com`.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "You can only send testing emails"
+              }
+            },
+            {
+              "status": 422,
+              "body": {
+                "/name": "validation_error"
+              },
+              "message": {
+                "includes": "Please use our testing email address"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InvalidAttachment",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "An attachment has neither `content` nor `path` (422 `invalid_attachment`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 422,
+              "body": {
+                "/name": "invalid_attachment"
+              }
+            }
+          ],
+          "smithy.api#httpError": 422
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#InvalidIdempotencyKey",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The Idempotency-Key is empty or longer than 256 characters (400 `invalid_idempotency_key`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 400,
+              "body": {
+                "/name": "invalid_idempotency_key"
+              }
+            }
+          ],
+          "smithy.api#httpError": 400
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#IdempotencyKeyReused",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The Idempotency-Key was used in the last 24 hours with a different body (409 `invalid_idempotent_request`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "invalid_idempotent_request"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#IdempotentRequestInProgress",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Another request with the same Idempotency-Key is in progress (409 `concurrent_idempotent_requests`). Retried by default.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "concurrent_idempotent_requests"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409,
+          "smithy.api#retryable": {}
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AlreadyExists",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "A resource with this unique name or key already exists (409 `invalid_parameter`, \"There is already a ...\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/name": "invalid_parameter"
+              }
+            }
+          ],
+          "smithy.api#httpError": 409
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#PaginationCursorNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The `after` or `before` cursor names an object that does not exist (404).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "pagination cursor"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EmailNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The email does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Email not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#AttachmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The attachment does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Attachment not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The segment does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Audience not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#EventNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The event does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Event not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuppressionNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The suppression does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Suppression not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuppressionsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuppressionsAdd/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuppressionsBatchAdd/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuppressionsBatchRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuppressionsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#SuppressionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SuppressionsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#SuppressionNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplateNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The template does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Template not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplatesList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplatesCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplatesGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#TemplateNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplatesUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#TemplateNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplatesRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#TemplateNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplatesPublish/errors",
+      "value": [
+        {
+          "target": "com.resend.api#TemplateNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TemplatesDuplicate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#TemplateNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TopicNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The topic does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Topic not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TopicsList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TopicsCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TopicsGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#TopicNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TopicsUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#TopicNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#TopicsRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#TopicNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhookNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The webhook endpoint does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            },
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              },
+              "message": {
+                "includes": "Webhook endpoint not found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhookEventNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "The webhook event does not exist (404 `not_found`).",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "body": {
+                "/name": "not_found"
+              }
+            }
+          ],
+          "smithy.api#httpError": 404
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksList/errors",
+      "value": [
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksCreate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#AlreadyExists"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksGet/errors",
+      "value": [
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksUpdate/errors",
+      "value": [
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksRemove/errors",
+      "value": [
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksRotateSigningSecret/errors",
+      "value": [
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksListEvents/errors",
+      "value": [
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksGetEvent/errors",
+      "value": [
+        {
+          "target": "com.resend.api#WebhookEventNotFound"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksReplayEvent/errors",
+      "value": [
+        {
+          "target": "com.resend.api#WebhookEventNotFound"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#WebhooksListEventAttempts/errors",
+      "value": [
+        {
+          "target": "com.resend.api#WebhookEventNotFound"
+        },
+        {
+          "target": "com.resend.api#WebhookNotFound"
+        },
+        {
+          "target": "com.resend.api#EventNotFound"
+        },
+        {
+          "target": "com.resend.api#PaginationCursorNotFound"
+        }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#CannotDeleteLastSegment",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#documentation": "Resend refused to delete the team's last segment (403 \"Cannot delete last audience.\"). Also the answer to a second delete of a segment that is already gone.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Cannot delete last audience"
+              }
+            }
+          ],
+          "smithy.api#httpError": 403
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.resend.api#SegmentsRemove/errors/-",
+      "value": {
+        "target": "com.resend.api#CannotDeleteLastSegment"
+      }
+    }
+  ]
+}
