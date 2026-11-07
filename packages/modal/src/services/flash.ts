@@ -37,13 +37,13 @@ export interface ListFlashContainerRequest {
   functionId?: string;
 }
 export interface ListFlashContainerResponseContainer {
-  taskId?: string;
-  host?: string;
-  port?: number;
+  taskId: string;
+  host: string;
+  port: number;
 }
 export type ListFlashContainerResponseContainerList = Array<ListFlashContainerResponseContainer>;
 export interface ListFlashContainerResponse {
-  containers?: ListFlashContainerResponseContainerList;
+  containers: ListFlashContainerResponseContainerList;
 }
 export interface RegisterFlashContainerRequest {
   serviceName?: string;
@@ -54,7 +54,7 @@ export interface RegisterFlashContainerRequest {
   port?: number;
 }
 export interface RegisterFlashContainerResponse {
-  url?: string;
+  url: string;
 }
 export type FlashContainerDeregisterError = ModalOpError;
 /** Modal Flash (experimental) */
@@ -180,9 +180,9 @@ function __c3(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          taskId: S.optional(S.String),
-          host: S.optional(S.String),
-          port: S.optional(S.Number),
+          taskId: S.String,
+          host: S.String,
+          port: S.Number,
         }),
       ).annotate({ identifier: "ListFlashContainerResponseContainer" });
     case 2:
@@ -190,7 +190,7 @@ function __c3(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          containers: S.optional(__S(14, __c3, 2)),
+          containers: __S(14, __c3, 2),
         }),
       ).annotate({ identifier: "ListFlashContainerResponse" });
   }
@@ -216,7 +216,7 @@ function __c4(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          url: S.optional(S.String),
+          url: S.String,
         }),
       ).annotate({ identifier: "RegisterFlashContainerResponse" });
   }

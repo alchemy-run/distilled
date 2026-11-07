@@ -520,6 +520,9 @@ importers:
 
   packages/archil:
     dependencies:
+      '@distilled.cloud/aws4signer':
+        specifier: workspace:*
+        version: link:../aws4signer
       '@distilled.cloud/core':
         specifier: workspace:*
         version: link:../core
@@ -899,6 +902,28 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
+
+  packages/e2b:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.1.2
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.4(@types/node@26.6.5)(vite@8.3.4(@types/node@26.6.5)(jiti@2.7.0)(yaml@2.9.1))
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.1
 
   packages/elasticsearch:
     dependencies:
@@ -1582,6 +1607,22 @@ importers:
         version: 26.6.5
 
   packages/resend:
+    dependencies:
+      '@distilled.cloud/core':
+        specifier: workspace:*
+        version: link:../core
+      effect:
+        specifier: 'catalog:'
+        version: 4.1.2
+    devDependencies:
+      '@distilled.cloud/dev':
+        specifier: workspace:*
+        version: link:../dev
+      '@types/node':
+        specifier: 'catalog:'
+        version: 26.6.5
+
+  packages/rivet:
     dependencies:
       '@distilled.cloud/core':
         specifier: workspace:*

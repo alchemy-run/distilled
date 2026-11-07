@@ -27,11 +27,15 @@ export type EnvironmentRole =
   | "ENVIRONMENT_ROLE_UNSPECIFIED"
   | "ENVIRONMENT_ROLE_VIEWER"
   | "ENVIRONMENT_ROLE_CONTRIBUTOR"
-  | "ENVIRONMENT_ROLE_NO_ACCESS";
+  | "ENVIRONMENT_ROLE_NO_ACCESS"
+  | "ENVIRONMENT_ROLE_MODAL_ADMINISTERED_OBSERVER"
+  | "ENVIRONMENT_ROLE_CUSTOM";
 export interface SetUserGroupEnvironmentRequest {
   environmentId?: string;
   userGroupId?: string;
   role?: EnvironmentRole | (string & {});
+  /** Custom role (`rd-`). */
+  environmentRoleDefinitionId?: string;
 }
 export interface SetUserGroupEnvironmentResponse {}
 export type SetUserGroupEnvironmentError = ModalOpError;
@@ -60,6 +64,7 @@ function __c0(j: number): any {
           environmentId: S.optional(S.String),
           userGroupId: S.optional(S.String),
           role: S.optional(S.String),
+          environmentRoleDefinitionId: S.optional(S.String),
         }).pipe(
           T.Http({
             method: "POST",

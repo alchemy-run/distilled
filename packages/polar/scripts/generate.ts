@@ -63,6 +63,7 @@ const polarSpec: SdkSpec = {
   paginationProfiles: {
     page: {
       strategy: "paginatePolar",
+      requires: () => ["inputToken", "outputToken"],
       itemsFallback: "items",
     },
   },

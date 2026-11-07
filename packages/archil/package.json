@@ -63,6 +63,18 @@
       "worker": "./src/services/*.ts",
       "distilled-lazy": "./lib/services.lazy/*.js",
       "default": "./lib/services/*.js"
+    },
+    "./Objects": {
+      "types": "./lib/objects.d.ts",
+      "bun": "./src/objects.ts",
+      "worker": "./src/objects.ts",
+      "default": "./lib/objects.js"
+    },
+    "./Process": {
+      "types": "./lib/process.d.ts",
+      "bun": "./src/process.ts",
+      "worker": "./src/process.ts",
+      "default": "./lib/process.js"
     }
   },
   "scripts": {
@@ -74,6 +86,7 @@
     "specs:update": "git submodule update --remote --force --depth=1 specs/spec-mirror-archil"
   },
   "dependencies": {
+    "@distilled.cloud/aws4signer": "workspace:*",
     "@distilled.cloud/core": "workspace:*"
   },
   "devDependencies": {
@@ -84,7 +97,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-10-05"
+    "generatedAt": "2026-11-04",
+    "specUpdatedAt": "2026-11-04"
   }
 }
