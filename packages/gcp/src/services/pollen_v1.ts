@@ -238,10 +238,6 @@ export const lookupForecast: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupForecast",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

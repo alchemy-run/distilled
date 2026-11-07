@@ -4928,7 +4928,6 @@ export const activateProjectsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateProjectsJobTriggers",
-  iam: { actions: ["dlp.jobTriggers.update"], roles: ["roles/dlp.jobTriggersEditor"] },
 }));
 
 export type ActivateProjectsLocationsJobTriggersError =
@@ -4951,7 +4950,6 @@ export const activateProjectsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateProjectsLocationsJobTriggers",
-  iam: { actions: ["dlp.jobTriggers.update"], roles: ["roles/dlp.jobTriggersEditor"] },
 }));
 
 export type CancelProjectsDlpJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4969,7 +4967,6 @@ export const cancelProjectsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsDlpJobs",
-  iam: { actions: ["dlp.jobs.cancel"], roles: ["roles/dlp.jobsEditor"] },
 }));
 
 export type CancelProjectsLocationsDlpJobsError =
@@ -4992,7 +4989,6 @@ export const cancelProjectsLocationsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsDlpJobs",
-  iam: { actions: ["dlp.jobs.cancel"], roles: ["roles/dlp.jobsEditor"] },
 }));
 
 export type CreateOrganizationsDeidentifyTemplatesError =
@@ -5502,10 +5498,6 @@ export const deidentifyProjectsContent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeidentifyProjectsContent",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type DeidentifyProjectsLocationsContentError =
@@ -5528,10 +5520,6 @@ export const deidentifyProjectsLocationsContent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeidentifyProjectsLocationsContent",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type DeleteOrganizationsDeidentifyTemplatesError =
@@ -5903,7 +5891,6 @@ export const deleteProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConnections",
-  iam: { actions: ["dlp.connections.delete"], roles: ["roles/dlp.connectionsAdmin"] },
 }));
 
 export type DeleteProjectsLocationsContentPoliciesError =
@@ -6018,7 +6005,6 @@ export const deleteProjectsLocationsFileStoreDataProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsFileStoreDataProfiles",
-  iam: { actions: ["dlp.fileStoreProfiles.delete"], roles: ["roles/dlp.fileStoreProfilesAdmin"] },
 }));
 
 export type DeleteProjectsLocationsInspectTemplatesError =
@@ -6107,7 +6093,6 @@ export const deleteProjectsLocationsTableDataProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTableDataProfiles",
-  iam: { actions: ["dlp.tableDataProfiles.delete"], roles: ["roles/dlp.tableDataProfilesAdmin"] },
 }));
 
 export type DeleteProjectsStoredInfoTypesError =
@@ -6152,7 +6137,6 @@ export const finishProjectsLocationsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FinishProjectsLocationsDlpJobs",
-  iam: { actions: ["dlp.jobs.cancel"], roles: ["roles/dlp.jobsEditor"] },
 }));
 
 export type GetOrganizationsDeidentifyTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6170,7 +6154,6 @@ export const getOrganizationsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsDeidentifyTemplates",
-  iam: { actions: ["dlp.deidentifyTemplates.get"], roles: ["roles/dlp.deidentifyTemplatesReader"] },
 }));
 
 export type GetOrganizationsInspectTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6188,7 +6171,6 @@ export const getOrganizationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsInspectTemplates",
-  iam: { actions: ["dlp.inspectTemplates.get"], roles: ["roles/dlp.inspectTemplatesReader"] },
 }));
 
 export type GetOrganizationsLocationsColumnDataProfilesError = NotFound | Forbidden | GcpOpError;
@@ -6248,7 +6230,6 @@ export const getOrganizationsLocationsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsDeidentifyTemplates",
-  iam: { actions: ["dlp.deidentifyTemplates.get"], roles: ["roles/dlp.deidentifyTemplatesReader"] },
 }));
 
 export type GetOrganizationsLocationsDiscoveryConfigsError = NotFound | Forbidden | GcpOpError;
@@ -6266,10 +6247,6 @@ export const getOrganizationsLocationsDiscoveryConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsDiscoveryConfigs",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type GetOrganizationsLocationsFileStoreDataProfilesError = NotFound | Forbidden | GcpOpError;
@@ -6308,7 +6285,6 @@ export const getOrganizationsLocationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsInspectTemplates",
-  iam: { actions: ["dlp.inspectTemplates.get"], roles: ["roles/dlp.inspectTemplatesReader"] },
 }));
 
 export type GetOrganizationsLocationsJobTriggersError = NotFound | Forbidden | GcpOpError;
@@ -6326,7 +6302,6 @@ export const getOrganizationsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsJobTriggers",
-  iam: { actions: ["dlp.jobTriggers.get"], roles: ["roles/dlp.jobTriggersReader"] },
 }));
 
 export type GetOrganizationsLocationsProjectDataProfilesError = NotFound | Forbidden | GcpOpError;
@@ -6365,7 +6340,6 @@ export const getOrganizationsLocationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsStoredInfoTypes",
-  iam: { actions: ["dlp.storedInfoTypes.get"], roles: ["roles/dlp.storedInfoTypesReader"] },
 }));
 
 export type GetOrganizationsLocationsTableDataProfilesError = NotFound | Forbidden | GcpOpError;
@@ -6400,7 +6374,6 @@ export const getOrganizationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsStoredInfoTypes",
-  iam: { actions: ["dlp.storedInfoTypes.get"], roles: ["roles/dlp.storedInfoTypesReader"] },
 }));
 
 export type GetProjectsDeidentifyTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6418,7 +6391,6 @@ export const getProjectsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDeidentifyTemplates",
-  iam: { actions: ["dlp.deidentifyTemplates.get"], roles: ["roles/dlp.deidentifyTemplatesReader"] },
 }));
 
 export type GetProjectsDlpJobsError = NotFound | Forbidden | GcpOpError;
@@ -6436,7 +6408,6 @@ export const getProjectsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDlpJobs",
-  iam: { actions: ["dlp.jobs.get"], roles: ["roles/dlp.jobsReader"] },
 }));
 
 export type GetProjectsInspectTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6454,7 +6425,6 @@ export const getProjectsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInspectTemplates",
-  iam: { actions: ["dlp.inspectTemplates.get"], roles: ["roles/dlp.inspectTemplatesReader"] },
 }));
 
 export type GetProjectsJobTriggersError = NotFound | Forbidden | GcpOpError;
@@ -6472,7 +6442,6 @@ export const getProjectsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsJobTriggers",
-  iam: { actions: ["dlp.jobTriggers.get"], roles: ["roles/dlp.jobTriggersReader"] },
 }));
 
 export type GetProjectsLocationsColumnDataProfilesError = NotFound | Forbidden | GcpOpError;
@@ -6490,7 +6459,6 @@ export const getProjectsLocationsColumnDataProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsColumnDataProfiles",
-  iam: { actions: ["dlp.columnDataProfiles.get"], roles: ["roles/dlp.columnDataProfilesReader"] },
 }));
 
 export type GetProjectsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -6508,7 +6476,6 @@ export const getProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnections",
-  iam: { actions: ["dlp.connections.get"], roles: ["roles/dlp.connectionsReader"] },
 }));
 
 export type GetProjectsLocationsContentPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -6526,7 +6493,6 @@ export const getProjectsLocationsContentPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsContentPolicies",
-  iam: { actions: ["dlp.contentPolicies.get"], roles: ["roles/dlp.contentPoliciesReader"] },
 }));
 
 export type GetProjectsLocationsDeidentifyTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6544,7 +6510,6 @@ export const getProjectsLocationsDeidentifyTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeidentifyTemplates",
-  iam: { actions: ["dlp.deidentifyTemplates.get"], roles: ["roles/dlp.deidentifyTemplatesReader"] },
 }));
 
 export type GetProjectsLocationsDiscoveryConfigsError = NotFound | Forbidden | GcpOpError;
@@ -6562,10 +6527,6 @@ export const getProjectsLocationsDiscoveryConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveryConfigs",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type GetProjectsLocationsDlpJobsError = NotFound | Forbidden | GcpOpError;
@@ -6583,7 +6544,6 @@ export const getProjectsLocationsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDlpJobs",
-  iam: { actions: ["dlp.jobs.get"], roles: ["roles/dlp.jobsReader"] },
 }));
 
 export type GetProjectsLocationsFileStoreDataProfilesError = NotFound | Forbidden | GcpOpError;
@@ -6601,7 +6561,6 @@ export const getProjectsLocationsFileStoreDataProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFileStoreDataProfiles",
-  iam: { actions: ["dlp.fileStoreProfiles.get"], roles: ["roles/dlp.fileStoreProfilesReader"] },
 }));
 
 export type GetProjectsLocationsInspectTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6619,7 +6578,6 @@ export const getProjectsLocationsInspectTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInspectTemplates",
-  iam: { actions: ["dlp.inspectTemplates.get"], roles: ["roles/dlp.inspectTemplatesReader"] },
 }));
 
 export type GetProjectsLocationsJobTriggersError = NotFound | Forbidden | GcpOpError;
@@ -6637,7 +6595,6 @@ export const getProjectsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobTriggers",
-  iam: { actions: ["dlp.jobTriggers.get"], roles: ["roles/dlp.jobTriggersReader"] },
 }));
 
 export type GetProjectsLocationsProjectDataProfilesError = NotFound | Forbidden | GcpOpError;
@@ -6655,7 +6612,6 @@ export const getProjectsLocationsProjectDataProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProjectDataProfiles",
-  iam: { actions: ["dlp.projectDataProfiles.get"], roles: ["roles/dlp.projectDataProfilesReader"] },
 }));
 
 export type GetProjectsLocationsStoredInfoTypesError = NotFound | Forbidden | GcpOpError;
@@ -6673,7 +6629,6 @@ export const getProjectsLocationsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsStoredInfoTypes",
-  iam: { actions: ["dlp.storedInfoTypes.get"], roles: ["roles/dlp.storedInfoTypesReader"] },
 }));
 
 export type GetProjectsLocationsTableDataProfilesError = NotFound | Forbidden | GcpOpError;
@@ -6691,7 +6646,6 @@ export const getProjectsLocationsTableDataProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTableDataProfiles",
-  iam: { actions: ["dlp.tableDataProfiles.get"], roles: ["roles/dlp.tableDataProfilesReader"] },
 }));
 
 export type GetProjectsStoredInfoTypesError = NotFound | Forbidden | GcpOpError;
@@ -6709,7 +6663,6 @@ export const getProjectsStoredInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsStoredInfoTypes",
-  iam: { actions: ["dlp.storedInfoTypes.get"], roles: ["roles/dlp.storedInfoTypesReader"] },
 }));
 
 export type HybridInspectProjectsLocationsDlpJobsError =
@@ -6732,7 +6685,6 @@ export const hybridInspectProjectsLocationsDlpJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "HybridInspectProjectsLocationsDlpJobs",
-  iam: { actions: ["dlp.jobs.hybridInspect"], roles: ["roles/dlp.jobsEditor"] },
 }));
 
 export type HybridInspectProjectsLocationsJobTriggersError =
@@ -6755,7 +6707,6 @@ export const hybridInspectProjectsLocationsJobTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "HybridInspectProjectsLocationsJobTriggers",
-  iam: { actions: ["dlp.jobTriggers.hybridInspect"], roles: ["roles/dlp.jobTriggersEditor"] },
 }));
 
 export type InspectProjectsContentError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -6773,10 +6724,6 @@ export const inspectProjectsContent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InspectProjectsContent",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type InspectProjectsLocationsContentError =
@@ -6799,10 +6746,6 @@ export const inspectProjectsLocationsContent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InspectProjectsLocationsContent",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type ListInfoTypesError = NotFound | Forbidden | GcpOpError;
@@ -7169,10 +7112,6 @@ export const listProjectsDeidentifyTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDeidentifyTemplates",
-  iam: {
-    actions: ["dlp.deidentifyTemplates.list"],
-    roles: ["roles/dlp.deidentifyTemplatesReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7192,7 +7131,6 @@ export const listProjectsDlpJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDlpJobs",
-  iam: { actions: ["dlp.jobs.list"], roles: ["roles/dlp.jobsReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7212,7 +7150,6 @@ export const listProjectsInspectTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInspectTemplates",
-  iam: { actions: ["dlp.inspectTemplates.list"], roles: ["roles/dlp.inspectTemplatesReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7232,7 +7169,6 @@ export const listProjectsJobTriggers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsJobTriggers",
-  iam: { actions: ["dlp.jobTriggers.list"], roles: ["roles/dlp.jobTriggersReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7252,7 +7188,6 @@ export const listProjectsLocationsColumnDataProfiles: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsColumnDataProfiles",
-  iam: { actions: ["dlp.columnDataProfiles.list"], roles: ["roles/dlp.columnDataProfilesReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7272,7 +7207,6 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnections",
-  iam: { actions: ["dlp.connections.list"], roles: ["roles/dlp.connectionsReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7292,7 +7226,6 @@ export const listProjectsLocationsContentPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsContentPolicies",
-  iam: { actions: ["dlp.contentPolicies.list"], roles: ["roles/dlp.contentPoliciesReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7316,10 +7249,6 @@ export const listProjectsLocationsDeidentifyTemplates: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeidentifyTemplates",
-  iam: {
-    actions: ["dlp.deidentifyTemplates.list"],
-    roles: ["roles/dlp.deidentifyTemplatesReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7339,10 +7268,6 @@ export const listProjectsLocationsDiscoveryConfigs: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDiscoveryConfigs",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7362,7 +7287,6 @@ export const listProjectsLocationsDlpJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDlpJobs",
-  iam: { actions: ["dlp.jobs.list"], roles: ["roles/dlp.jobsReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7382,7 +7306,6 @@ export const listProjectsLocationsFileStoreDataProfiles: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFileStoreDataProfiles",
-  iam: { actions: ["dlp.fileStoreProfiles.list"], roles: ["roles/dlp.fileStoreProfilesReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7401,10 +7324,6 @@ export const listProjectsLocationsInfoTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInfoTypes",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type ListProjectsLocationsInspectTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -7423,7 +7342,6 @@ export const listProjectsLocationsInspectTemplates: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInspectTemplates",
-  iam: { actions: ["dlp.inspectTemplates.list"], roles: ["roles/dlp.inspectTemplatesReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7443,7 +7361,6 @@ export const listProjectsLocationsJobTriggers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobTriggers",
-  iam: { actions: ["dlp.jobTriggers.list"], roles: ["roles/dlp.jobTriggersReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7463,10 +7380,6 @@ export const listProjectsLocationsProjectDataProfiles: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProjectDataProfiles",
-  iam: {
-    actions: ["dlp.projectDataProfiles.list"],
-    roles: ["roles/dlp.projectDataProfilesReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7486,7 +7399,6 @@ export const listProjectsLocationsStoredInfoTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStoredInfoTypes",
-  iam: { actions: ["dlp.storedInfoTypes.list"], roles: ["roles/dlp.storedInfoTypesReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7506,7 +7418,6 @@ export const listProjectsLocationsTableDataProfiles: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTableDataProfiles",
-  iam: { actions: ["dlp.tableDataProfiles.list"], roles: ["roles/dlp.tableDataProfilesReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7526,7 +7437,6 @@ export const listProjectsStoredInfoTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsStoredInfoTypes",
-  iam: { actions: ["dlp.storedInfoTypes.list"], roles: ["roles/dlp.storedInfoTypesReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7818,7 +7728,6 @@ export const patchProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConnections",
-  iam: { actions: ["dlp.connections.update"], roles: ["roles/dlp.connectionsAdmin"] },
 }));
 
 export type PatchProjectsLocationsContentPoliciesError =
@@ -7990,10 +7899,6 @@ export const redactProjectsImage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RedactProjectsImage",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type RedactProjectsLocationsImageError =
@@ -8016,10 +7921,6 @@ export const redactProjectsLocationsImage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RedactProjectsLocationsImage",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type ReidentifyProjectsContentError =
@@ -8042,10 +7943,6 @@ export const reidentifyProjectsContent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReidentifyProjectsContent",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type ReidentifyProjectsLocationsContentError =
@@ -8068,10 +7965,6 @@ export const reidentifyProjectsLocationsContent: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReidentifyProjectsLocationsContent",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type SearchOrganizationsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -8109,7 +8002,6 @@ export const searchProjectsLocationsConnections: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsConnections",
-  iam: { actions: ["dlp.connections.search"], roles: ["roles/dlp.connectionsReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

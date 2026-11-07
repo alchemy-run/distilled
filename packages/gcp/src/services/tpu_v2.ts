@@ -946,7 +946,6 @@ export const getGuestAttributesProjectsLocationsNodes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGuestAttributesProjectsLocationsNodes",
-  iam: { actions: ["tpu.nodes.get"], roles: ["roles/tpu.viewer"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -985,7 +984,6 @@ export const getProjectsLocationsAcceleratorTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAcceleratorTypes",
-  iam: { actions: ["tpu.acceleratortypes.get"], roles: ["roles/tpu.viewer"] },
 }));
 
 export type GetProjectsLocationsNodesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1066,7 +1064,6 @@ export const getProjectsLocationsRuntimeVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRuntimeVersions",
-  iam: { actions: ["tpu.runtimeversions.get"], roles: ["roles/tpu.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1108,7 +1105,6 @@ export const listProjectsLocationsAcceleratorTypes: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAcceleratorTypes",
-  iam: { actions: ["tpu.acceleratortypes.list"], roles: ["roles/tpu.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1128,7 +1124,6 @@ export const listProjectsLocationsNodes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNodes",
-  iam: { actions: ["tpu.nodes.list"], roles: ["roles/tpu.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1175,7 +1170,6 @@ export const listProjectsLocationsQueuedResources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsQueuedResources",
-  iam: { actions: ["tpu.nodes.list"], roles: ["roles/tpu.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1199,7 +1193,6 @@ export const listProjectsLocationsRuntimeVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRuntimeVersions",
-  iam: { actions: ["tpu.runtimeversions.list"], roles: ["roles/tpu.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1247,7 +1240,6 @@ export const resetProjectsLocationsQueuedResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetProjectsLocationsQueuedResources",
-  iam: { actions: ["tpu.nodes.reset"], roles: ["roles/tpu.editor"] },
 }));
 
 export type StartProjectsLocationsNodesError =
@@ -1271,7 +1263,6 @@ export const startProjectsLocationsNodes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsNodes",
-  iam: { actions: ["tpu.nodes.start"], roles: ["roles/tpu.editor"] },
 }));
 
 export type StopProjectsLocationsNodesError =
@@ -1295,7 +1286,6 @@ export const stopProjectsLocationsNodes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsNodes",
-  iam: { actions: ["tpu.nodes.stop"], roles: ["roles/tpu.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

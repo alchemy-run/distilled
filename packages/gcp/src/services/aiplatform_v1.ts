@@ -19998,7 +19998,6 @@ export const activateProjectsLocationsOnlineEvaluators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateProjectsLocationsOnlineEvaluators",
-  iam: { actions: ["aiplatform.onlineEvaluators.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type AddContextArtifactsAndExecutionsProjectsLocationsMetadataStoresContextsError =
@@ -20029,10 +20028,6 @@ export const addContextArtifactsAndExecutionsProjectsLocationsMetadataStoresCont
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddContextArtifactsAndExecutionsProjectsLocationsMetadataStoresContexts",
-  iam: {
-    actions: ["aiplatform.contexts.addContextArtifactsAndExecutions"],
-    roles: ["roles/aiplatform.user"],
-  },
 }));
 
 export type AddContextChildrenProjectsLocationsMetadataStoresContextsError =
@@ -20063,7 +20058,6 @@ export const addContextChildrenProjectsLocationsMetadataStoresContexts: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddContextChildrenProjectsLocationsMetadataStoresContexts",
-  iam: { actions: ["aiplatform.contexts.addContextChildren"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type AddExecutionEventsProjectsLocationsMetadataStoresExecutionsError =
@@ -20094,7 +20088,6 @@ export const addExecutionEventsProjectsLocationsMetadataStoresExecutions: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddExecutionEventsProjectsLocationsMetadataStoresExecutions",
-  iam: { actions: ["aiplatform.executions.addExecutionEvents"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type AddTrialMeasurementProjectsLocationsStudiesTrialsError =
@@ -20121,7 +20114,6 @@ export const addTrialMeasurementProjectsLocationsStudiesTrials: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddTrialMeasurementProjectsLocationsStudiesTrials",
-  iam: { actions: ["aiplatform.trials.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type AppendEventProjectsLocationsReasoningEnginesSessionsError =
@@ -20148,7 +20140,6 @@ export const appendEventProjectsLocationsReasoningEnginesSessions: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppendEventProjectsLocationsReasoningEnginesSessions",
-  iam: { actions: ["aiplatform.sessions.update"], roles: ["roles/aiplatform.sessionEditor"] },
 }));
 
 export type AskContextsProjectsLocationsError =
@@ -20193,10 +20184,6 @@ export const assignProjectsLocationsNotebookRuntimes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AssignProjectsLocationsNotebookRuntimes",
-  iam: {
-    actions: ["aiplatform.notebookRuntimes.assign"],
-    roles: ["roles/aiplatform.notebookRuntimeUser"],
-  },
 }));
 
 export type AsyncQueryProjectsLocationsReasoningEnginesError =
@@ -20223,7 +20210,6 @@ export const asyncQueryProjectsLocationsReasoningEngines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AsyncQueryProjectsLocationsReasoningEngines",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type AsyncQueryReasoningEnginesError =
@@ -20328,7 +20314,6 @@ export const authorizeAccessProjectsLocationsReasoningEnginesSandboxEnvironments
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AuthorizeAccessProjectsLocationsReasoningEnginesSandboxEnvironments",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type AuthorizeAccessReasoningEnginesSandboxEnvironmentsError =
@@ -20367,7 +20352,6 @@ export const authorizeAccessReasoningEnginesSandboxEnvironments: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AuthorizeAccessReasoningEnginesSandboxEnvironments",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type BatchCancelProjectsLocationsPipelineJobsError =
@@ -20390,7 +20374,6 @@ export const batchCancelProjectsLocationsPipelineJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCancelProjectsLocationsPipelineJobs",
-  iam: { actions: ["aiplatform.pipelineJobs.cancel"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type BatchCreateProjectsLocationsFeatureGroupsFeaturesError =
@@ -20417,7 +20400,6 @@ export const batchCreateProjectsLocationsFeatureGroupsFeatures: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsFeatureGroupsFeatures",
-  iam: { actions: ["aiplatform.features.update"], roles: ["roles/aiplatform.entityTypeOwner"] },
 }));
 
 export type BatchCreateProjectsLocationsFeaturestoresEntityTypesFeaturesError =
@@ -20444,7 +20426,6 @@ export const batchCreateProjectsLocationsFeaturestoresEntityTypesFeatures: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsFeaturestoresEntityTypesFeatures",
-  iam: { actions: ["aiplatform.features.update"], roles: ["roles/aiplatform.entityTypeOwner"] },
 }));
 
 export type BatchCreateProjectsLocationsTensorboardsExperimentsError =
@@ -20475,7 +20456,6 @@ export const batchCreateProjectsLocationsTensorboardsExperiments: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsTensorboardsExperiments",
-  iam: { actions: ["aiplatform.tensorboards.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type BatchCreateProjectsLocationsTensorboardsExperimentsRunsError =
@@ -20506,7 +20486,6 @@ export const batchCreateProjectsLocationsTensorboardsExperimentsRuns: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsTensorboardsExperimentsRuns",
-  iam: { actions: ["aiplatform.tensorboards.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type BatchDeleteProjectsLocationsPipelineJobsError =
@@ -20529,7 +20508,6 @@ export const batchDeleteProjectsLocationsPipelineJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteProjectsLocationsPipelineJobs",
-  iam: { actions: ["aiplatform.pipelineJobs.delete"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type BatchImportProjectsLocationsModelsEvaluationsSlicesError =
@@ -20560,7 +20538,6 @@ export const batchImportProjectsLocationsModelsEvaluationsSlices: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchImportProjectsLocationsModelsEvaluationsSlices",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type BatchMigrateProjectsLocationsMigratableResourcesError =
@@ -20587,10 +20564,6 @@ export const batchMigrateProjectsLocationsMigratableResources: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchMigrateProjectsLocationsMigratableResources",
-  iam: {
-    actions: ["aiplatform.migratableResources.migrate"],
-    roles: ["roles/aiplatform.migrator"],
-  },
 }));
 
 export type BatchReadFeatureValuesProjectsLocationsFeaturestoresError =
@@ -20617,10 +20590,6 @@ export const batchReadFeatureValuesProjectsLocationsFeaturestores: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchReadFeatureValuesProjectsLocationsFeaturestores",
-  iam: {
-    actions: ["aiplatform.featurestores.batchReadFeatureValues"],
-    roles: ["roles/aiplatform.featurestoreDataViewer"],
-  },
 }));
 
 export type BatchReadProjectsLocationsTensorboardsError = NotFound | Forbidden | GcpOpError;
@@ -20642,7 +20611,6 @@ export const batchReadProjectsLocationsTensorboards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchReadProjectsLocationsTensorboards",
-  iam: { actions: ["aiplatform.tensorboards.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CancelAsyncQueryProjectsLocationsReasoningEnginesError =
@@ -20673,7 +20641,6 @@ export const cancelAsyncQueryProjectsLocationsReasoningEngines: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelAsyncQueryProjectsLocationsReasoningEngines",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type CancelAsyncQueryReasoningEnginesError =
@@ -21433,10 +21400,6 @@ export const cancelProjectsLocationsBatchPredictionJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsBatchPredictionJobs",
-  iam: {
-    actions: ["aiplatform.batchPredictionJobs.cancel"],
-    roles: ["roles/aiplatform.expressAdmin"],
-  },
 }));
 
 export type CancelProjectsLocationsCustomJobsError =
@@ -21459,7 +21422,6 @@ export const cancelProjectsLocationsCustomJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsCustomJobs",
-  iam: { actions: ["aiplatform.customJobs.cancel"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CancelProjectsLocationsCustomJobsOperationsError =
@@ -21509,7 +21471,6 @@ export const cancelProjectsLocationsDataLabelingJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsDataLabelingJobs",
-  iam: { actions: ["aiplatform.dataLabelingJobs.cancel"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CancelProjectsLocationsDataLabelingJobsOperationsError =
@@ -21741,7 +21702,6 @@ export const cancelProjectsLocationsEvaluationRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsEvaluationRuns",
-  iam: { actions: ["aiplatform.evaluationRuns.cancel"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CancelProjectsLocationsFeaturestoresEntityTypesFeaturesOperationsError =
@@ -21846,10 +21806,6 @@ export const cancelProjectsLocationsHyperparameterTuningJobs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsHyperparameterTuningJobs",
-  iam: {
-    actions: ["aiplatform.hyperparameterTuningJobs.cancel"],
-    roles: ["roles/aiplatform.user"],
-  },
 }));
 
 export type CancelProjectsLocationsHyperparameterTuningJobsOperationsError =
@@ -22202,7 +22158,6 @@ export const cancelProjectsLocationsNasJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsNasJobs",
-  iam: { actions: ["aiplatform.nasJobs.cancel"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CancelProjectsLocationsNotebookExecutionJobsOperationsError =
@@ -22377,7 +22332,6 @@ export const cancelProjectsLocationsPipelineJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsPipelineJobs",
-  iam: { actions: ["aiplatform.pipelineJobs.cancel"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CancelProjectsLocationsPipelineJobsOperationsError =
@@ -23004,7 +22958,6 @@ export const cancelProjectsLocationsTuningJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsTuningJobs",
-  iam: { actions: ["aiplatform.tuningJobs.cancel"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CancelProjectsLocationsTuningJobsOperationsError =
@@ -23578,7 +23531,6 @@ export const checkTrialEarlyStoppingStateProjectsLocationsStudiesTrials: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckTrialEarlyStoppingStateProjectsLocationsStudiesTrials",
-  iam: { actions: ["aiplatform.trials.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type CompactProjectsLocationsPublishersV1ResponsesError =
@@ -23631,7 +23583,6 @@ export const compactProjectsLocationsReasoningEnginesSessions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompactProjectsLocationsReasoningEnginesSessions",
-  iam: { actions: ["aiplatform.sessions.update"], roles: ["roles/aiplatform.sessionEditor"] },
 }));
 
 export type CompleteProjectsLocationsStudiesTrialsError =
@@ -23654,7 +23605,6 @@ export const completeProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteProjectsLocationsStudiesTrials",
-  iam: { actions: ["aiplatform.trials.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CompletionsEndpointsChatError =
@@ -23699,7 +23649,6 @@ export const completionsProjectsLocationsEndpointsChat: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompletionsProjectsLocationsEndpointsChat",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CompletionsProjectsLocationsEndpointsOpenapiError =
@@ -23765,7 +23714,6 @@ export const computeTokensProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeTokensProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type ComputeTokensProjectsLocationsPublishersModelsError =
@@ -23792,7 +23740,6 @@ export const computeTokensProjectsLocationsPublishersModels: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeTokensProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type ComputeTokensPublishersModelsError =
@@ -23837,7 +23784,6 @@ export const copyProjectsLocationsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CopyProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CorroborateContentProjectsLocationsError =
@@ -23903,7 +23849,6 @@ export const countTokensProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CountTokensProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type CountTokensProjectsLocationsPublishersModelsError =
@@ -23930,7 +23875,6 @@ export const countTokensProjectsLocationsPublishersModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CountTokensProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type CountTokensPublishersModelsError =
@@ -24244,7 +24188,6 @@ export const createProjectsLocationsEvaluationMetrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEvaluationMetrics",
-  iam: { actions: ["aiplatform.evaluationMetrics.create"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CreateProjectsLocationsEvaluationRunsError =
@@ -24681,7 +24624,6 @@ export const createProjectsLocationsMetadataStoresMetadataSchemas: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsMetadataStoresMetadataSchemas",
-  iam: { actions: ["aiplatform.metadataSchemas.create"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type CreateProjectsLocationsModelDeploymentMonitoringJobsError =
@@ -25812,10 +25754,6 @@ export const deleteFeatureValuesProjectsLocationsFeaturestoresEntityTypes: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFeatureValuesProjectsLocationsFeaturestoresEntityTypes",
-  iam: {
-    actions: ["aiplatform.entityTypes.deleteFeatureValues"],
-    roles: ["roles/aiplatform.featurestoreDataWriter"],
-  },
 }));
 
 export type DeleteHyperparameterTuningJobsOperationsError =
@@ -26418,7 +26356,6 @@ export const deleteProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasets",
-  iam: { actions: ["aiplatform.datasets.delete"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type DeleteProjectsLocationsDatasetsAnnotationSpecsOperationsError =
@@ -26523,7 +26460,6 @@ export const deleteProjectsLocationsDatasetsDatasetVersions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasetsDatasetVersions",
-  iam: { actions: ["aiplatform.datasetVersions.delete"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type DeleteProjectsLocationsDatasetsOperationsError =
@@ -26572,7 +26508,6 @@ export const deleteProjectsLocationsDatasetsSavedQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasetsSavedQueries",
-  iam: { actions: ["aiplatform.datasets.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type DeleteProjectsLocationsDatasetsSavedQueriesOperationsError =
@@ -26721,7 +26656,6 @@ export const deleteProjectsLocationsEndpointsResponses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEndpointsResponses",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DeleteProjectsLocationsEvaluationItemsError =
@@ -26766,7 +26700,6 @@ export const deleteProjectsLocationsEvaluationMetrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEvaluationMetrics",
-  iam: { actions: ["aiplatform.evaluationMetrics.delete"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DeleteProjectsLocationsEvaluationRunsError =
@@ -27337,7 +27270,6 @@ export const deleteProjectsLocationsMemoryBanksMemories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsMemoryBanksMemories",
-  iam: { actions: ["aiplatform.memories.delete"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type DeleteProjectsLocationsMemoryBanksMemoriesOperationsError =
@@ -27694,7 +27626,6 @@ export const deleteProjectsLocationsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.delete"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DeleteProjectsLocationsModelsEvaluationsOperationsError =
@@ -27839,10 +27770,6 @@ export const deleteProjectsLocationsNotebookRuntimes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsNotebookRuntimes",
-  iam: {
-    actions: ["aiplatform.notebookRuntimes.delete"],
-    roles: ["roles/aiplatform.notebookRuntimeAdmin"],
-  },
 }));
 
 export type DeleteProjectsLocationsNotebookRuntimesOperationsError =
@@ -28187,7 +28114,6 @@ export const deleteProjectsLocationsRagCorporaRagFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRagCorporaRagFiles",
-  iam: { actions: ["aiplatform.ragFiles.delete"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DeleteProjectsLocationsRagCorporaRagFilesOperationsError =
@@ -28374,10 +28300,6 @@ export const deleteProjectsLocationsReasoningEnginesSandboxEnvironments: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsReasoningEnginesSandboxEnvironments",
-  iam: {
-    actions: ["aiplatform.sandboxEnvironments.delete"],
-    roles: ["roles/aiplatform.expressUser"],
-  },
 }));
 
 export type DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshotsError =
@@ -28404,7 +28326,6 @@ export const deleteProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type DeleteProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshotsOperationsError =
@@ -29837,7 +29758,6 @@ export const deleteVersionProjectsLocationsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteVersionProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DeployIndexProjectsLocationsIndexEndpointsError =
@@ -29864,7 +29784,6 @@ export const deployIndexProjectsLocationsIndexEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployIndexProjectsLocationsIndexEndpoints",
-  iam: { actions: ["aiplatform.indexEndpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DeployModelProjectsLocationsEndpointsError =
@@ -29887,7 +29806,6 @@ export const deployModelProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployModelProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DeployProjectsLocationsError =
@@ -29936,10 +29854,6 @@ export const deprovisionProjectsLocationsSemanticGovernancePolicyEngine: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeprovisionProjectsLocationsSemanticGovernancePolicyEngine",
-  iam: {
-    actions: ["aiplatform.semanticGovernancePolicyEngine.update"],
-    roles: ["roles/aiplatform.user"],
-  },
 }));
 
 export type DirectPredictProjectsLocationsEndpointsError =
@@ -29962,7 +29876,6 @@ export const directPredictProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DirectPredictProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DirectRawPredictProjectsLocationsEndpointsError =
@@ -29989,7 +29902,6 @@ export const directRawPredictProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DirectRawPredictProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type DirectWriteProjectsLocationsFeatureOnlineStoresFeatureViewsError =
@@ -30020,10 +29932,6 @@ export const directWriteProjectsLocationsFeatureOnlineStoresFeatureViews: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DirectWriteProjectsLocationsFeatureOnlineStoresFeatureViews",
-  iam: {
-    actions: ["aiplatform.featureViews.directWrite"],
-    roles: ["roles/aiplatform.featurestoreAdmin"],
-  },
 }));
 
 export type EmbedContentProjectsLocationsPublishersModelsError =
@@ -30050,7 +29958,6 @@ export const embedContentProjectsLocationsPublishersModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EmbedContentProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type EmbeddingsProjectsLocationsEndpointsOpenapiError =
@@ -30189,7 +30096,6 @@ export const executeCodeProjectsLocationsReasoningEngines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteCodeProjectsLocationsReasoningEngines",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type ExecuteCodeReasoningEnginesError =
@@ -30250,10 +30156,6 @@ export const executeProjectsLocationsReasoningEnginesSandboxEnvironments: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteProjectsLocationsReasoningEnginesSandboxEnvironments",
-  iam: {
-    actions: ["aiplatform.sandboxEnvironments.execute"],
-    roles: ["roles/aiplatform.expressUser"],
-  },
 }));
 
 export type ExecuteReasoningEnginesSandboxEnvironmentsError =
@@ -30292,10 +30194,6 @@ export const executeReasoningEnginesSandboxEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteReasoningEnginesSandboxEnvironments",
-  iam: {
-    actions: ["aiplatform.sandboxEnvironments.execute"],
-    roles: ["roles/aiplatform.expressUser"],
-  },
 }));
 
 export type ExplainProjectsLocationsEndpointsError =
@@ -30318,7 +30216,6 @@ export const explainProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExplainProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.explain"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type ExportFeatureValuesProjectsLocationsFeaturestoresEntityTypesError =
@@ -30345,10 +30242,6 @@ export const exportFeatureValuesProjectsLocationsFeaturestoresEntityTypes: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportFeatureValuesProjectsLocationsFeaturestoresEntityTypes",
-  iam: {
-    actions: ["aiplatform.entityTypes.exportFeatureValues"],
-    roles: ["roles/aiplatform.featurestoreDataViewer"],
-  },
 }));
 
 export type ExportProjectsLocationsDatasetsError =
@@ -30371,7 +30264,6 @@ export const exportProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsDatasets",
-  iam: { actions: ["aiplatform.datasets.export"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ExportProjectsLocationsModelsError =
@@ -30394,7 +30286,6 @@ export const exportProjectsLocationsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.export"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ExportTensorboardTimeSeriesProjectsLocationsTensorboardsExperimentsRunsTimeSeriesError =
@@ -30425,7 +30316,6 @@ export const exportTensorboardTimeSeriesProjectsLocationsTensorboardsExperiments
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportTensorboardTimeSeriesProjectsLocationsTensorboardsExperimentsRunsTimeSeries",
-  iam: { actions: ["aiplatform.tensorboards.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type FetchFeatureValuesProjectsLocationsFeatureOnlineStoresFeatureViewsError =
@@ -30456,10 +30346,6 @@ export const fetchFeatureValuesProjectsLocationsFeatureOnlineStoresFeatureViews:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchFeatureValuesProjectsLocationsFeatureOnlineStoresFeatureViews",
-  iam: {
-    actions: ["aiplatform.featureViews.fetchFeatureValues"],
-    roles: ["roles/aiplatform.featurestoreDataViewer"],
-  },
 }));
 
 export type FetchPredictOperationEndpointsError =
@@ -30508,7 +30394,6 @@ export const fetchPredictOperationProjectsLocationsEndpoints: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchPredictOperationProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type FetchPredictOperationProjectsLocationsPublishersModelsError =
@@ -30535,7 +30420,6 @@ export const fetchPredictOperationProjectsLocationsPublishersModels: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchPredictOperationProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type FetchPredictOperationPublishersModelsError =
@@ -30584,7 +30468,6 @@ export const findNeighborsProjectsLocationsIndexEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FindNeighborsProjectsLocationsIndexEndpoints",
-  iam: { actions: ["aiplatform.indexEndpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type GenerateContentEndpointsError =
@@ -30629,7 +30512,6 @@ export const generateContentProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateContentProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type GenerateContentProjectsLocationsPublishersModelsError =
@@ -30708,10 +30590,6 @@ export const generateFetchAccessTokenProjectsLocationsFeatureOnlineStoresFeature
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateFetchAccessTokenProjectsLocationsFeatureOnlineStoresFeatureViews",
-  iam: {
-    actions: ["aiplatform.featureViews.update"],
-    roles: ["roles/aiplatform.featurestoreAdmin"],
-  },
 }));
 
 export type GenerateInstanceRubricsProjectsLocationsError =
@@ -30812,7 +30690,6 @@ export const generateProjectsLocationsMemoryBanksMemories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateProjectsLocationsMemoryBanksMemories",
-  iam: { actions: ["aiplatform.memories.generate"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type GenerateProjectsLocationsReasoningEnginesMemoriesError =
@@ -30839,7 +30716,6 @@ export const generateProjectsLocationsReasoningEnginesMemories: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateProjectsLocationsReasoningEnginesMemories",
-  iam: { actions: ["aiplatform.memories.generate"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type GenerateSyntheticDataProjectsLocationsError =
@@ -30926,7 +30802,6 @@ export const getCacheConfigProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCacheConfigProjects",
-  iam: { actions: ["aiplatform.cacheConfigs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetContextsProjectsLocationsError =
@@ -31871,7 +31746,6 @@ export const getProjectsLocationsBatchPredictionJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBatchPredictionJobs",
-  iam: { actions: ["aiplatform.batchPredictionJobs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsCachedContentsError = NotFound | Forbidden | GcpOpError;
@@ -31889,7 +31763,6 @@ export const getProjectsLocationsCachedContents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCachedContents",
-  iam: { actions: ["aiplatform.cachedContents.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsCustomJobsError = NotFound | Forbidden | GcpOpError;
@@ -31907,7 +31780,6 @@ export const getProjectsLocationsCustomJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCustomJobs",
-  iam: { actions: ["aiplatform.customJobs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsCustomJobsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -31946,7 +31818,6 @@ export const getProjectsLocationsDataLabelingJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataLabelingJobs",
-  iam: { actions: ["aiplatform.dataLabelingJobs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsDataLabelingJobsOperationsError =
@@ -31989,7 +31860,6 @@ export const getProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasets",
-  iam: { actions: ["aiplatform.datasets.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsDatasetsAnnotationSpecsError = NotFound | Forbidden | GcpOpError;
@@ -32011,7 +31881,6 @@ export const getProjectsLocationsDatasetsAnnotationSpecs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsAnnotationSpecs",
-  iam: { actions: ["aiplatform.annotationSpecs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsDatasetsAnnotationSpecsOperationsError =
@@ -32105,7 +31974,6 @@ export const getProjectsLocationsDatasetsDatasetVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsDatasetVersions",
-  iam: { actions: ["aiplatform.datasetVersions.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsDatasetsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -32168,7 +32036,6 @@ export const getProjectsLocationsDeploymentResourcePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeploymentResourcePools",
-  iam: { actions: ["aiplatform.deploymentResourcePools.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsDeploymentResourcePoolsOperationsError =
@@ -32210,7 +32077,6 @@ export const getProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsEndpointsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -32245,7 +32111,6 @@ export const getProjectsLocationsEndpointsResponses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEndpointsResponses",
-  iam: { actions: ["aiplatform.endpoints.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsEvaluationItemsError = NotFound | Forbidden | GcpOpError;
@@ -32263,7 +32128,6 @@ export const getProjectsLocationsEvaluationItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEvaluationItems",
-  iam: { actions: ["aiplatform.evaluationItems.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsEvaluationMetricsError = NotFound | Forbidden | GcpOpError;
@@ -32281,7 +32145,6 @@ export const getProjectsLocationsEvaluationMetrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEvaluationMetrics",
-  iam: { actions: ["aiplatform.evaluationMetrics.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsEvaluationRunsError = NotFound | Forbidden | GcpOpError;
@@ -32299,7 +32162,6 @@ export const getProjectsLocationsEvaluationRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEvaluationRuns",
-  iam: { actions: ["aiplatform.evaluationRuns.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsEvaluationSetsError = NotFound | Forbidden | GcpOpError;
@@ -32317,7 +32179,6 @@ export const getProjectsLocationsEvaluationSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEvaluationSets",
-  iam: { actions: ["aiplatform.evaluationSets.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsFeatureGroupsError = NotFound | Forbidden | GcpOpError;
@@ -32335,10 +32196,6 @@ export const getProjectsLocationsFeatureGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFeatureGroups",
-  iam: {
-    actions: ["aiplatform.featureGroups.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFeatureGroupsFeaturesError = NotFound | Forbidden | GcpOpError;
@@ -32356,10 +32213,6 @@ export const getProjectsLocationsFeatureGroupsFeatures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFeatureGroupsFeatures",
-  iam: {
-    actions: ["aiplatform.features.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFeatureGroupsFeaturesOperationsError =
@@ -32422,10 +32275,6 @@ export const getProjectsLocationsFeatureOnlineStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFeatureOnlineStores",
-  iam: {
-    actions: ["aiplatform.featureOnlineStores.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFeatureOnlineStoresFeatureViewsError =
@@ -32450,10 +32299,6 @@ export const getProjectsLocationsFeatureOnlineStoresFeatureViews: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFeatureOnlineStoresFeatureViews",
-  iam: {
-    actions: ["aiplatform.featureViews.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFeatureOnlineStoresFeatureViewsFeatureViewSyncsError =
@@ -32478,10 +32323,6 @@ export const getProjectsLocationsFeatureOnlineStoresFeatureViewsFeatureViewSyncs
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFeatureOnlineStoresFeatureViewsFeatureViewSyncs",
-  iam: {
-    actions: ["aiplatform.featureViewSyncs.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFeatureOnlineStoresFeatureViewsOperationsError =
@@ -32547,10 +32388,6 @@ export const getProjectsLocationsFeaturestores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFeaturestores",
-  iam: {
-    actions: ["aiplatform.featurestores.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFeaturestoresEntityTypesError = NotFound | Forbidden | GcpOpError;
@@ -32572,10 +32409,6 @@ export const getProjectsLocationsFeaturestoresEntityTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFeaturestoresEntityTypes",
-  iam: {
-    actions: ["aiplatform.entityTypes.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFeaturestoresEntityTypesFeaturesError =
@@ -32600,10 +32433,6 @@ export const getProjectsLocationsFeaturestoresEntityTypesFeatures: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFeaturestoresEntityTypesFeatures",
-  iam: {
-    actions: ["aiplatform.features.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFeaturestoresEntityTypesFeaturesOperationsError =
@@ -32694,7 +32523,6 @@ export const getProjectsLocationsHyperparameterTuningJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsHyperparameterTuningJobs",
-  iam: { actions: ["aiplatform.hyperparameterTuningJobs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsHyperparameterTuningJobsOperationsError =
@@ -32736,7 +32564,6 @@ export const getProjectsLocationsIndexEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIndexEndpoints",
-  iam: { actions: ["aiplatform.indexEndpoints.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsIndexEndpointsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -32775,7 +32602,6 @@ export const getProjectsLocationsIndexes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIndexes",
-  iam: { actions: ["aiplatform.indexes.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsIndexesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -32810,7 +32636,6 @@ export const getProjectsLocationsMemoryBanksMemories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMemoryBanksMemories",
-  iam: { actions: ["aiplatform.memories.get"], roles: ["roles/aiplatform.memoryViewer"] },
 }));
 
 export type GetProjectsLocationsMemoryBanksMemoriesOperationsError =
@@ -32859,7 +32684,6 @@ export const getProjectsLocationsMemoryBanksMemoriesRevisions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMemoryBanksMemoriesRevisions",
-  iam: { actions: ["aiplatform.memories.get"], roles: ["roles/aiplatform.memoryViewer"] },
 }));
 
 export type GetProjectsLocationsMemoryBanksOperationsError = NotFound | Forbidden | GcpOpError;
@@ -32894,7 +32718,6 @@ export const getProjectsLocationsMetadataStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMetadataStores",
-  iam: { actions: ["aiplatform.metadataStores.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsMetadataStoresArtifactsError = NotFound | Forbidden | GcpOpError;
@@ -32916,7 +32739,6 @@ export const getProjectsLocationsMetadataStoresArtifacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMetadataStoresArtifacts",
-  iam: { actions: ["aiplatform.artifacts.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsMetadataStoresArtifactsOperationsError =
@@ -32962,7 +32784,6 @@ export const getProjectsLocationsMetadataStoresContexts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMetadataStoresContexts",
-  iam: { actions: ["aiplatform.contexts.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsMetadataStoresContextsOperationsError =
@@ -33008,7 +32829,6 @@ export const getProjectsLocationsMetadataStoresExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMetadataStoresExecutions",
-  iam: { actions: ["aiplatform.executions.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsMetadataStoresExecutionsOperationsError =
@@ -33057,7 +32877,6 @@ export const getProjectsLocationsMetadataStoresMetadataSchemas: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMetadataStoresMetadataSchemas",
-  iam: { actions: ["aiplatform.metadataSchemas.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsMetadataStoresOperationsError = NotFound | Forbidden | GcpOpError;
@@ -33131,10 +32950,6 @@ export const getProjectsLocationsModelDeploymentMonitoringJobs: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsModelDeploymentMonitoringJobs",
-  iam: {
-    actions: ["aiplatform.modelDeploymentMonitoringJobs.get"],
-    roles: ["roles/aiplatform.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsModelDeploymentMonitoringJobsOperationsError =
@@ -33176,7 +32991,6 @@ export const getProjectsLocationsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsModelsEvaluationsError = NotFound | Forbidden | GcpOpError;
@@ -33194,7 +33008,6 @@ export const getProjectsLocationsModelsEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsModelsEvaluations",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsModelsEvaluationsOperationsError =
@@ -33240,7 +33053,6 @@ export const getProjectsLocationsModelsEvaluationsSlices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsModelsEvaluationsSlices",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsModelsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -33275,7 +33087,6 @@ export const getProjectsLocationsNasJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNasJobs",
-  iam: { actions: ["aiplatform.nasJobs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsNasJobsNasTrialDetailsError = NotFound | Forbidden | GcpOpError;
@@ -33297,7 +33108,6 @@ export const getProjectsLocationsNasJobsNasTrialDetails: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNasJobsNasTrialDetails",
-  iam: { actions: ["aiplatform.nasTrialDetails.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsNotebookExecutionJobsError = NotFound | Forbidden | GcpOpError;
@@ -33315,7 +33125,6 @@ export const getProjectsLocationsNotebookExecutionJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNotebookExecutionJobs",
-  iam: { actions: ["aiplatform.notebookExecutionJobs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsNotebookExecutionJobsOperationsError =
@@ -33357,7 +33166,6 @@ export const getProjectsLocationsNotebookRuntimes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNotebookRuntimes",
-  iam: { actions: ["aiplatform.notebookRuntimes.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsNotebookRuntimesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -33400,7 +33208,6 @@ export const getProjectsLocationsNotebookRuntimeTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNotebookRuntimeTemplates",
-  iam: { actions: ["aiplatform.notebookRuntimeTemplates.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsNotebookRuntimeTemplatesOperationsError =
@@ -33442,7 +33249,6 @@ export const getProjectsLocationsOnlineEvaluators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsOnlineEvaluators",
-  iam: { actions: ["aiplatform.onlineEvaluators.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsOnlineEvaluatorsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -33498,7 +33304,6 @@ export const getProjectsLocationsPersistentResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPersistentResources",
-  iam: { actions: ["aiplatform.persistentResources.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsPersistentResourcesOperationsError =
@@ -33540,7 +33345,6 @@ export const getProjectsLocationsPipelineJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPipelineJobs",
-  iam: { actions: ["aiplatform.pipelineJobs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsPipelineJobsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -33596,7 +33400,6 @@ export const getProjectsLocationsRagCorpora: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRagCorpora",
-  iam: { actions: ["aiplatform.ragCorpora.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsRagCorporaOperationsError = NotFound | Forbidden | GcpOpError;
@@ -33631,7 +33434,6 @@ export const getProjectsLocationsRagCorporaRagFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRagCorporaRagFiles",
-  iam: { actions: ["aiplatform.ragFiles.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsRagCorporaRagFilesOperationsError =
@@ -33715,7 +33517,6 @@ export const getProjectsLocationsReasoningEnginesMemories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReasoningEnginesMemories",
-  iam: { actions: ["aiplatform.memories.get"], roles: ["roles/aiplatform.memoryViewer"] },
 }));
 
 export type GetProjectsLocationsReasoningEnginesMemoriesOperationsError =
@@ -33764,7 +33565,6 @@ export const getProjectsLocationsReasoningEnginesMemoriesRevisions: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReasoningEnginesMemoriesRevisions",
-  iam: { actions: ["aiplatform.memories.get"], roles: ["roles/aiplatform.memoryViewer"] },
 }));
 
 export type GetProjectsLocationsReasoningEnginesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -33811,7 +33611,6 @@ export const getProjectsLocationsReasoningEnginesSandboxEnvironments: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReasoningEnginesSandboxEnvironments",
-  iam: { actions: ["aiplatform.sandboxEnvironments.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshotsError =
@@ -33840,7 +33639,6 @@ export const getProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots",
-  iam: { actions: ["aiplatform.reasoningEngines.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshotsOperationsError =
@@ -33963,7 +33761,6 @@ export const getProjectsLocationsReasoningEnginesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReasoningEnginesSessions",
-  iam: { actions: ["aiplatform.sessions.get"], roles: ["roles/aiplatform.sessionViewer"] },
 }));
 
 export type GetProjectsLocationsReasoningEnginesSessionsOperationsError =
@@ -34005,7 +33802,6 @@ export const getProjectsLocationsSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchedules",
-  iam: { actions: ["aiplatform.schedules.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsSchedulesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -34044,10 +33840,6 @@ export const getProjectsLocationsSemanticGovernancePolicies: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSemanticGovernancePolicies",
-  iam: {
-    actions: ["aiplatform.semanticGovernancePolicies.get"],
-    roles: ["roles/aiplatform.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsSemanticGovernancePoliciesOperationsError =
@@ -34144,7 +33936,6 @@ export const getProjectsLocationsSpecialistPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSpecialistPools",
-  iam: { actions: ["aiplatform.specialistPools.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsSpecialistPoolsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -34183,7 +33974,6 @@ export const getProjectsLocationsStudies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsStudies",
-  iam: { actions: ["aiplatform.studies.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsStudiesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -34218,7 +34008,6 @@ export const getProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsStudiesTrials",
-  iam: { actions: ["aiplatform.trials.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsStudiesTrialsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -34274,7 +34063,6 @@ export const getProjectsLocationsTensorboards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTensorboards",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsTensorboardsExperimentsError = NotFound | Forbidden | GcpOpError;
@@ -34296,7 +34084,6 @@ export const getProjectsLocationsTensorboardsExperiments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTensorboardsExperiments",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsTensorboardsExperimentsOperationsError =
@@ -34345,7 +34132,6 @@ export const getProjectsLocationsTensorboardsExperimentsRuns: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTensorboardsExperimentsRuns",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsTensorboardsExperimentsRunsOperationsError =
@@ -34394,7 +34180,6 @@ export const getProjectsLocationsTensorboardsExperimentsRunsTimeSeries: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTensorboardsExperimentsRunsTimeSeries",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsTensorboardsExperimentsRunsTimeSeriesOperationsError =
@@ -34498,7 +34283,6 @@ export const getProjectsLocationsTuningJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTuningJobs",
-  iam: { actions: ["aiplatform.tuningJobs.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type GetProjectsLocationsTuningJobsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -35115,10 +34899,6 @@ export const importFeatureValuesProjectsLocationsFeaturestoresEntityTypes: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportFeatureValuesProjectsLocationsFeaturestoresEntityTypes",
-  iam: {
-    actions: ["aiplatform.entityTypes.importFeatureValues"],
-    roles: ["roles/aiplatform.featurestoreDataWriter"],
-  },
 }));
 
 export type ImportProjectsLocationsDatasetsError =
@@ -35141,7 +34921,6 @@ export const importProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsDatasets",
-  iam: { actions: ["aiplatform.datasets.import"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ImportProjectsLocationsEvaluationSetsError =
@@ -35164,7 +34943,6 @@ export const importProjectsLocationsEvaluationSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsEvaluationSets",
-  iam: { actions: ["aiplatform.evaluationSets.import"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ImportProjectsLocationsModelsEvaluationsError =
@@ -35187,7 +34965,6 @@ export const importProjectsLocationsModelsEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsModelsEvaluations",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ImportProjectsLocationsRagCorporaRagFilesError =
@@ -35210,7 +34987,6 @@ export const importProjectsLocationsRagCorporaRagFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsRagCorporaRagFiles",
-  iam: { actions: ["aiplatform.ragFiles.import"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type InferenceProjectsLocationsEndpointsGoogleScienceError =
@@ -35259,7 +35035,6 @@ export const ingestEventsProjectsLocationsMemoryBanks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "IngestEventsProjectsLocationsMemoryBanks",
-  iam: { actions: ["aiplatform.memories.create"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type IngestEventsProjectsLocationsReasoningEnginesMemoriesError =
@@ -35286,7 +35061,6 @@ export const ingestEventsProjectsLocationsReasoningEnginesMemories: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "IngestEventsProjectsLocationsReasoningEnginesMemories",
-  iam: { actions: ["aiplatform.memories.update"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type InvokeProjectsLocationsEndpointsDeployedModelsInvokeError =
@@ -35313,7 +35087,6 @@ export const invokeProjectsLocationsEndpointsDeployedModelsInvoke: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InvokeProjectsLocationsEndpointsDeployedModelsInvoke",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type InvokeProjectsLocationsEndpointsInvokeError =
@@ -35336,7 +35109,6 @@ export const invokeProjectsLocationsEndpointsInvoke: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InvokeProjectsLocationsEndpointsInvoke",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type InvokeProjectsLocationsPublishersModelsInvokeError =
@@ -35363,7 +35135,6 @@ export const invokeProjectsLocationsPublishersModelsInvoke: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InvokeProjectsLocationsPublishersModelsInvoke",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ListBatchPredictionJobsError = NotFound | Forbidden | GcpOpError;
@@ -35409,7 +35180,6 @@ export const listCheckpointsProjectsLocationsModels: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCheckpointsProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36069,7 +35839,6 @@ export const listOptimalTrialsProjectsLocationsStudiesTrials: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOptimalTrialsProjectsLocationsStudiesTrials",
-  iam: { actions: ["aiplatform.trials.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type ListPersistentResourcesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -36149,7 +35918,6 @@ export const listProjectsLocationsBatchPredictionJobs: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBatchPredictionJobs",
-  iam: { actions: ["aiplatform.batchPredictionJobs.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36173,7 +35941,6 @@ export const listProjectsLocationsCachedContents: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCachedContents",
-  iam: { actions: ["aiplatform.cachedContents.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36193,7 +35960,6 @@ export const listProjectsLocationsCustomJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCustomJobs",
-  iam: { actions: ["aiplatform.customJobs.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36244,7 +36010,6 @@ export const listProjectsLocationsDataLabelingJobs: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataLabelingJobs",
-  iam: { actions: ["aiplatform.dataLabelingJobs.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36291,7 +36056,6 @@ export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasets",
-  iam: { actions: ["aiplatform.datasets.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36337,7 +36101,6 @@ export const listProjectsLocationsDatasetsDataItems: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsDataItems",
-  iam: { actions: ["aiplatform.dataItems.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36364,7 +36127,6 @@ export const listProjectsLocationsDatasetsDataItemsAnnotations: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsDataItemsAnnotations",
-  iam: { actions: ["aiplatform.annotations.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36444,7 +36206,6 @@ export const listProjectsLocationsDatasetsDatasetVersions: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsDatasetVersions",
-  iam: { actions: ["aiplatform.datasetVersions.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36491,7 +36252,6 @@ export const listProjectsLocationsDatasetsSavedQueries: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsSavedQueries",
-  iam: { actions: ["aiplatform.datasets.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36545,7 +36305,6 @@ export const listProjectsLocationsDeploymentResourcePools: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeploymentResourcePools",
-  iam: { actions: ["aiplatform.deploymentResourcePools.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36591,7 +36350,6 @@ export const listProjectsLocationsEndpoints: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36634,7 +36392,6 @@ export const listProjectsLocationsEvaluationItems: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvaluationItems",
-  iam: { actions: ["aiplatform.evaluationItems.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36658,7 +36415,6 @@ export const listProjectsLocationsEvaluationMetrics: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvaluationMetrics",
-  iam: { actions: ["aiplatform.evaluationMetrics.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36682,7 +36438,6 @@ export const listProjectsLocationsEvaluationRuns: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvaluationRuns",
-  iam: { actions: ["aiplatform.evaluationRuns.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36706,7 +36461,6 @@ export const listProjectsLocationsEvaluationSets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvaluationSets",
-  iam: { actions: ["aiplatform.evaluationSets.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36730,10 +36484,6 @@ export const listProjectsLocationsFeatureGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFeatureGroups",
-  iam: {
-    actions: ["aiplatform.featureGroups.list"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36757,10 +36507,6 @@ export const listProjectsLocationsFeatureGroupsFeatures: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFeatureGroupsFeatures",
-  iam: {
-    actions: ["aiplatform.features.list"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36784,10 +36530,6 @@ export const listProjectsLocationsFeatureOnlineStores: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFeatureOnlineStores",
-  iam: {
-    actions: ["aiplatform.featureOnlineStores.list"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36818,10 +36560,6 @@ export const listProjectsLocationsFeatureOnlineStoresFeatureViews: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFeatureOnlineStoresFeatureViews",
-  iam: {
-    actions: ["aiplatform.featureViews.list"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36852,10 +36590,6 @@ export const listProjectsLocationsFeatureOnlineStoresFeatureViewsFeatureViewSync
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFeatureOnlineStoresFeatureViewsFeatureViewSyncs",
-  iam: {
-    actions: ["aiplatform.featureViewSyncs.list"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36879,10 +36613,6 @@ export const listProjectsLocationsFeaturestores: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFeaturestores",
-  iam: {
-    actions: ["aiplatform.featurestores.list"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36906,10 +36636,6 @@ export const listProjectsLocationsFeaturestoresEntityTypes: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFeaturestoresEntityTypes",
-  iam: {
-    actions: ["aiplatform.entityTypes.list"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -36936,10 +36662,6 @@ export const listProjectsLocationsFeaturestoresEntityTypesFeatures: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFeaturestoresEntityTypesFeatures",
-  iam: {
-    actions: ["aiplatform.features.list"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37042,10 +36764,6 @@ export const listProjectsLocationsHyperparameterTuningJobs: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsHyperparameterTuningJobs",
-  iam: {
-    actions: ["aiplatform.hyperparameterTuningJobs.list"],
-    roles: ["roles/aiplatform.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37095,7 +36813,6 @@ export const listProjectsLocationsIndexEndpoints: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIndexEndpoints",
-  iam: { actions: ["aiplatform.indexEndpoints.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37138,7 +36855,6 @@ export const listProjectsLocationsIndexes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIndexes",
-  iam: { actions: ["aiplatform.indexes.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37177,7 +36893,6 @@ export const listProjectsLocationsMemoryBanksMemories: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMemoryBanksMemories",
-  iam: { actions: ["aiplatform.memories.list"], roles: ["roles/aiplatform.memoryViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37234,7 +36949,6 @@ export const listProjectsLocationsMemoryBanksMemoriesRevisions: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMemoryBanksMemoriesRevisions",
-  iam: { actions: ["aiplatform.memories.get"], roles: ["roles/aiplatform.memoryViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37281,7 +36995,6 @@ export const listProjectsLocationsMetadataStores: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMetadataStores",
-  iam: { actions: ["aiplatform.metadataStores.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37305,7 +37018,6 @@ export const listProjectsLocationsMetadataStoresArtifacts: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMetadataStoresArtifacts",
-  iam: { actions: ["aiplatform.artifacts.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37355,7 +37067,6 @@ export const listProjectsLocationsMetadataStoresContexts: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMetadataStoresContexts",
-  iam: { actions: ["aiplatform.contexts.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37405,7 +37116,6 @@ export const listProjectsLocationsMetadataStoresExecutions: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMetadataStoresExecutions",
-  iam: { actions: ["aiplatform.executions.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37462,7 +37172,6 @@ export const listProjectsLocationsMetadataStoresMetadataSchemas: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMetadataStoresMetadataSchemas",
-  iam: { actions: ["aiplatform.metadataSchemas.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37542,10 +37251,6 @@ export const listProjectsLocationsModelDeploymentMonitoringJobs: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsModelDeploymentMonitoringJobs",
-  iam: {
-    actions: ["aiplatform.modelDeploymentMonitoringJobs.list"],
-    roles: ["roles/aiplatform.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37591,7 +37296,6 @@ export const listProjectsLocationsModels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37615,7 +37319,6 @@ export const listProjectsLocationsModelsEvaluations: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsModelsEvaluations",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37669,7 +37372,6 @@ export const listProjectsLocationsModelsEvaluationsSlices: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsModelsEvaluationsSlices",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37708,7 +37410,6 @@ export const listProjectsLocationsNasJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNasJobs",
-  iam: { actions: ["aiplatform.nasJobs.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37736,7 +37437,6 @@ export const listProjectsLocationsNasJobsNasTrialDetails: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNasJobsNasTrialDetails",
-  iam: { actions: ["aiplatform.nasTrialDetails.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37764,7 +37464,6 @@ export const listProjectsLocationsNotebookExecutionJobs: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNotebookExecutionJobs",
-  iam: { actions: ["aiplatform.notebookExecutionJobs.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37814,7 +37513,6 @@ export const listProjectsLocationsNotebookRuntimes: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNotebookRuntimes",
-  iam: { actions: ["aiplatform.notebookRuntimes.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37868,10 +37566,6 @@ export const listProjectsLocationsNotebookRuntimeTemplates: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNotebookRuntimeTemplates",
-  iam: {
-    actions: ["aiplatform.notebookRuntimeTemplates.list"],
-    roles: ["roles/aiplatform.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37921,7 +37615,6 @@ export const listProjectsLocationsOnlineEvaluators: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsOnlineEvaluators",
-  iam: { actions: ["aiplatform.onlineEvaluators.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -37990,7 +37683,6 @@ export const listProjectsLocationsPersistentResources: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPersistentResources",
-  iam: { actions: ["aiplatform.persistentResources.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38040,7 +37732,6 @@ export const listProjectsLocationsPipelineJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPipelineJobs",
-  iam: { actions: ["aiplatform.pipelineJobs.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38083,7 +37774,6 @@ export const listProjectsLocationsRagCorpora: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRagCorpora",
-  iam: { actions: ["aiplatform.ragCorpora.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38126,7 +37816,6 @@ export const listProjectsLocationsRagCorporaRagFiles: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRagCorporaRagFiles",
-  iam: { actions: ["aiplatform.ragFiles.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38199,7 +37888,6 @@ export const listProjectsLocationsReasoningEngines: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReasoningEngines",
-  iam: { actions: ["aiplatform.reasoningEngines.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38223,7 +37911,6 @@ export const listProjectsLocationsReasoningEnginesMemories: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReasoningEnginesMemories",
-  iam: { actions: ["aiplatform.memories.list"], roles: ["roles/aiplatform.memoryViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38280,7 +37967,6 @@ export const listProjectsLocationsReasoningEnginesMemoriesRevisions: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReasoningEnginesMemoriesRevisions",
-  iam: { actions: ["aiplatform.memories.get"], roles: ["roles/aiplatform.memoryViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38338,7 +38024,6 @@ export const listProjectsLocationsReasoningEnginesSandboxEnvironments: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReasoningEnginesSandboxEnvironments",
-  iam: { actions: ["aiplatform.sandboxEnvironments.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38369,7 +38054,6 @@ export const listProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReasoningEnginesSandboxEnvironmentSnapshots",
-  iam: { actions: ["aiplatform.reasoningEngines.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38401,7 +38085,6 @@ export const listProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReasoningEnginesSandboxEnvironmentTemplates",
-  iam: { actions: ["aiplatform.reasoningEngines.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38425,7 +38108,6 @@ export const listProjectsLocationsReasoningEnginesSessions: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReasoningEnginesSessions",
-  iam: { actions: ["aiplatform.sessions.list"], roles: ["roles/aiplatform.sessionViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38452,7 +38134,6 @@ export const listProjectsLocationsReasoningEnginesSessionsEvents: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReasoningEnginesSessionsEvents",
-  iam: { actions: ["aiplatform.sessions.get"], roles: ["roles/aiplatform.sessionViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38498,7 +38179,6 @@ export const listProjectsLocationsSchedules: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchedules",
-  iam: { actions: ["aiplatform.schedules.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38548,10 +38228,6 @@ export const listProjectsLocationsSemanticGovernancePolicies: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSemanticGovernancePolicies",
-  iam: {
-    actions: ["aiplatform.semanticGovernancePolicies.list"],
-    roles: ["roles/aiplatform.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38666,7 +38342,6 @@ export const listProjectsLocationsSpecialistPools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSpecialistPools",
-  iam: { actions: ["aiplatform.specialistPools.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38709,7 +38384,6 @@ export const listProjectsLocationsStudies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStudies",
-  iam: { actions: ["aiplatform.studies.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38748,7 +38422,6 @@ export const listProjectsLocationsStudiesTrials: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStudiesTrials",
-  iam: { actions: ["aiplatform.trials.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38818,7 +38491,6 @@ export const listProjectsLocationsTensorboards: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTensorboards",
-  iam: { actions: ["aiplatform.tensorboards.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38846,7 +38518,6 @@ export const listProjectsLocationsTensorboardsExperiments: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTensorboardsExperiments",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38903,7 +38574,6 @@ export const listProjectsLocationsTensorboardsExperimentsRuns: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTensorboardsExperimentsRuns",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -38960,7 +38630,6 @@ export const listProjectsLocationsTensorboardsExperimentsRunsTimeSeries: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTensorboardsExperimentsRunsTimeSeries",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -39033,7 +38702,6 @@ export const listProjectsLocationsTrainingPipelines: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTrainingPipelines",
-  iam: { actions: ["aiplatform.trainingPipelines.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -39079,7 +38747,6 @@ export const listProjectsLocationsTuningJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTuningJobs",
-  iam: { actions: ["aiplatform.tuningJobs.list"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -39628,7 +39295,6 @@ export const listVersionsProjectsLocationsModels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVersionsProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -39839,7 +39505,6 @@ export const lookupProjectsLocationsStudies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupProjectsLocationsStudies",
-  iam: { actions: ["aiplatform.studies.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type MergeVersionAliasesProjectsLocationsModelsError =
@@ -39866,7 +39531,6 @@ export const mergeVersionAliasesProjectsLocationsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MergeVersionAliasesProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type MutateDeployedIndexProjectsLocationsIndexEndpointsError =
@@ -39893,7 +39557,6 @@ export const mutateDeployedIndexProjectsLocationsIndexEndpoints: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MutateDeployedIndexProjectsLocationsIndexEndpoints",
-  iam: { actions: ["aiplatform.indexEndpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type MutateDeployedModelProjectsLocationsEndpointsError =
@@ -39920,7 +39583,6 @@ export const mutateDeployedModelProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MutateDeployedModelProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type PatchDatasetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -40004,7 +39666,6 @@ export const patchProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDatasets",
-  iam: { actions: ["aiplatform.datasets.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type PatchProjectsLocationsDatasetsDatasetVersionsError =
@@ -40031,7 +39692,6 @@ export const patchProjectsLocationsDatasetsDatasetVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDatasetsDatasetVersions",
-  iam: { actions: ["aiplatform.datasets.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type PatchProjectsLocationsDeploymentResourcePoolsError =
@@ -40346,7 +40006,6 @@ export const patchProjectsLocationsMemoryBanksMemories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsMemoryBanksMemories",
-  iam: { actions: ["aiplatform.memories.update"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type PatchProjectsLocationsMetadataStoresArtifactsError =
@@ -40473,7 +40132,6 @@ export const patchProjectsLocationsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type PatchProjectsLocationsNotebookRuntimeTemplatesError =
@@ -40879,10 +40537,6 @@ export const pauseProjectsLocationsModelDeploymentMonitoringJobs: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsModelDeploymentMonitoringJobs",
-  iam: {
-    actions: ["aiplatform.modelDeploymentMonitoringJobs.pause"],
-    roles: ["roles/aiplatform.user"],
-  },
 }));
 
 export type PauseProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
@@ -40917,7 +40571,6 @@ export const pauseProjectsLocationsReasoningEnginesSandboxEnvironments: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsReasoningEnginesSandboxEnvironments",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type PauseProjectsLocationsSchedulesError =
@@ -40940,10 +40593,6 @@ export const pauseProjectsLocationsSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsSchedules",
-  iam: {
-    actions: ["aiplatform.schedules.update"],
-    roles: ["roles/aiplatform.notebookExecutorUser"],
-  },
 }));
 
 export type PauseReasoningEnginesSandboxEnvironmentsError =
@@ -41036,7 +40685,6 @@ export const predictLongRunningProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PredictLongRunningProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type PredictLongRunningProjectsLocationsPublishersModelsError =
@@ -41062,7 +40710,6 @@ export const predictLongRunningProjectsLocationsPublishersModels: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PredictLongRunningProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type PredictLongRunningPublishersModelsError =
@@ -41105,7 +40752,6 @@ export const predictProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PredictProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.predict"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type PredictProjectsLocationsPublishersModelsError =
@@ -41127,7 +40773,6 @@ export const predictProjectsLocationsPublishersModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PredictProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type PredictPublishersModelsError =
@@ -41175,7 +40820,6 @@ export const purgeProjectsLocationsMemoryBanksMemories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsMemoryBanksMemories",
-  iam: { actions: ["aiplatform.memories.update"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type PurgeProjectsLocationsMetadataStoresArtifactsError =
@@ -41202,7 +40846,6 @@ export const purgeProjectsLocationsMetadataStoresArtifacts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsMetadataStoresArtifacts",
-  iam: { actions: ["aiplatform.artifacts.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type PurgeProjectsLocationsMetadataStoresContextsError =
@@ -41229,7 +40872,6 @@ export const purgeProjectsLocationsMetadataStoresContexts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsMetadataStoresContexts",
-  iam: { actions: ["aiplatform.contexts.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type PurgeProjectsLocationsMetadataStoresExecutionsError =
@@ -41256,7 +40898,6 @@ export const purgeProjectsLocationsMetadataStoresExecutions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsMetadataStoresExecutions",
-  iam: { actions: ["aiplatform.executions.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type PurgeProjectsLocationsReasoningEnginesMemoriesError =
@@ -41283,7 +40924,6 @@ export const purgeProjectsLocationsReasoningEnginesMemories: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsReasoningEnginesMemories",
-  iam: { actions: ["aiplatform.memories.update"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type QueryArtifactLineageSubgraphProjectsLocationsMetadataStoresArtifactsError =
@@ -41308,7 +40948,6 @@ export const queryArtifactLineageSubgraphProjectsLocationsMetadataStoresArtifact
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryArtifactLineageSubgraphProjectsLocationsMetadataStoresArtifacts",
-  iam: { actions: ["aiplatform.artifacts.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type QueryContextLineageSubgraphProjectsLocationsMetadataStoresContextsError =
@@ -41333,10 +40972,6 @@ export const queryContextLineageSubgraphProjectsLocationsMetadataStoresContexts:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryContextLineageSubgraphProjectsLocationsMetadataStoresContexts",
-  iam: {
-    actions: ["aiplatform.contexts.queryContextLineageSubgraph"],
-    roles: ["roles/aiplatform.viewer"],
-  },
 }));
 
 export type QueryDeployedModelsProjectsLocationsDeploymentResourcePoolsError =
@@ -41366,10 +41001,6 @@ export const queryDeployedModelsProjectsLocationsDeploymentResourcePools: API.Pa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryDeployedModelsProjectsLocationsDeploymentResourcePools",
-  iam: {
-    actions: ["aiplatform.deploymentResourcePools.queryDeployedModels"],
-    roles: ["roles/aiplatform.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -41395,10 +41026,6 @@ export const queryExecutionInputsAndOutputsProjectsLocationsMetadataStoresExecut
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryExecutionInputsAndOutputsProjectsLocationsMetadataStoresExecutions",
-  iam: {
-    actions: ["aiplatform.executions.queryExecutionInputsAndOutputs"],
-    roles: ["roles/aiplatform.viewer"],
-  },
 }));
 
 export type QueryProjectsLocationsReasoningEnginesError =
@@ -41456,7 +41083,6 @@ export const queryProjectsLocationsReasoningEnginesRuntimeRevisions: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryProjectsLocationsReasoningEnginesRuntimeRevisions",
-  iam: { actions: ["aiplatform.reasoningEngines.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type QueryReasoningEnginesError =
@@ -41532,7 +41158,6 @@ export const rawPredictProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RawPredictProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type RawPredictProjectsLocationsPublishersModelsError =
@@ -41559,7 +41184,6 @@ export const rawPredictProjectsLocationsPublishersModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RawPredictProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ReadBlobDataProjectsLocationsTensorboardsExperimentsRunsTimeSeriesError =
@@ -41588,7 +41212,6 @@ export const readBlobDataProjectsLocationsTensorboardsExperimentsRunsTimeSeries:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadBlobDataProjectsLocationsTensorboardsExperimentsRunsTimeSeries",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type ReadFeatureValuesProjectsLocationsFeaturestoresEntityTypesError =
@@ -41619,10 +41242,6 @@ export const readFeatureValuesProjectsLocationsFeaturestoresEntityTypes: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadFeatureValuesProjectsLocationsFeaturestoresEntityTypes",
-  iam: {
-    actions: ["aiplatform.entityTypes.readFeatureValues"],
-    roles: ["roles/aiplatform.featurestoreDataViewer"],
-  },
 }));
 
 export type ReadIndexDatapointsProjectsLocationsIndexEndpointsError =
@@ -41653,7 +41272,6 @@ export const readIndexDatapointsProjectsLocationsIndexEndpoints: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadIndexDatapointsProjectsLocationsIndexEndpoints",
-  iam: { actions: ["aiplatform.indexEndpoints.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type ReadProjectsLocationsTensorboardsExperimentsRunsTimeSeriesError =
@@ -41682,7 +41300,6 @@ export const readProjectsLocationsTensorboardsExperimentsRunsTimeSeries: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadProjectsLocationsTensorboardsExperimentsRunsTimeSeries",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type ReadSizeProjectsLocationsTensorboardsError = NotFound | Forbidden | GcpOpError;
@@ -41704,7 +41321,6 @@ export const readSizeProjectsLocationsTensorboards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadSizeProjectsLocationsTensorboards",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type ReadUsageProjectsLocationsTensorboardsError = NotFound | Forbidden | GcpOpError;
@@ -41726,7 +41342,6 @@ export const readUsageProjectsLocationsTensorboards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadUsageProjectsLocationsTensorboards",
-  iam: { actions: ["aiplatform.tensorboards.get"], roles: ["roles/aiplatform.viewer"] },
 }));
 
 export type RebaseTunedModelProjectsLocationsTuningJobsError =
@@ -41753,7 +41368,6 @@ export const rebaseTunedModelProjectsLocationsTuningJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RebaseTunedModelProjectsLocationsTuningJobs",
-  iam: { actions: ["aiplatform.tuningJobs.create"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type RebootProjectsLocationsPersistentResourcesError =
@@ -41810,7 +41424,6 @@ export const removeContextChildrenProjectsLocationsMetadataStoresContexts: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveContextChildrenProjectsLocationsMetadataStoresContexts",
-  iam: { actions: ["aiplatform.contexts.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type RemoveDatapointsProjectsLocationsIndexesError =
@@ -41837,7 +41450,6 @@ export const removeDatapointsProjectsLocationsIndexes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveDatapointsProjectsLocationsIndexes",
-  iam: { actions: ["aiplatform.indexes.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ResponsesProjectsLocationsEndpointsOpenapiError =
@@ -41927,7 +41539,6 @@ export const restoreProjectsLocationsDatasetsDatasetVersions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsDatasetsDatasetVersions",
-  iam: { actions: ["aiplatform.datasetVersions.restore"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type ResumeProjectsLocationsModelDeploymentMonitoringJobsError =
@@ -41954,10 +41565,6 @@ export const resumeProjectsLocationsModelDeploymentMonitoringJobs: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsModelDeploymentMonitoringJobs",
-  iam: {
-    actions: ["aiplatform.modelDeploymentMonitoringJobs.resume"],
-    roles: ["roles/aiplatform.user"],
-  },
 }));
 
 export type ResumeProjectsLocationsReasoningEnginesSandboxEnvironmentsError =
@@ -41992,7 +41599,6 @@ export const resumeProjectsLocationsReasoningEnginesSandboxEnvironments: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsReasoningEnginesSandboxEnvironments",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type ResumeProjectsLocationsSchedulesError =
@@ -42015,10 +41621,6 @@ export const resumeProjectsLocationsSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsSchedules",
-  iam: {
-    actions: ["aiplatform.schedules.update"],
-    roles: ["roles/aiplatform.notebookExecutorUser"],
-  },
 }));
 
 export type ResumeReasoningEnginesSandboxEnvironmentsError =
@@ -42083,7 +41685,6 @@ export const retrieveProjectsLocationsMemoryBanksMemories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RetrieveProjectsLocationsMemoryBanksMemories",
-  iam: { actions: ["aiplatform.memories.retrieve"], roles: ["roles/aiplatform.memoryViewer"] },
 }));
 
 export type RetrieveProjectsLocationsReasoningEnginesMemoriesError =
@@ -42114,7 +41715,6 @@ export const retrieveProjectsLocationsReasoningEnginesMemories: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RetrieveProjectsLocationsReasoningEnginesMemories",
-  iam: { actions: ["aiplatform.memories.retrieve"], roles: ["roles/aiplatform.memoryViewer"] },
 }));
 
 export type RollbackProjectsLocationsMemoryBanksMemoriesError =
@@ -42141,7 +41741,6 @@ export const rollbackProjectsLocationsMemoryBanksMemories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsMemoryBanksMemories",
-  iam: { actions: ["aiplatform.memories.update"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type RollbackProjectsLocationsReasoningEnginesMemoriesError =
@@ -42168,7 +41767,6 @@ export const rollbackProjectsLocationsReasoningEnginesMemories: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsReasoningEnginesMemories",
-  iam: { actions: ["aiplatform.memories.update"], roles: ["roles/aiplatform.memoryEditor"] },
 }));
 
 export type SearchDataItemsProjectsLocationsDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -42187,7 +41785,6 @@ export const searchDataItemsProjectsLocationsDatasets: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchDataItemsProjectsLocationsDatasets",
-  iam: { actions: ["aiplatform.datasets.get"], roles: ["roles/aiplatform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -42211,10 +41808,6 @@ export const searchFeaturesProjectsLocationsFeaturestores: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchFeaturesProjectsLocationsFeaturestores",
-  iam: {
-    actions: ["aiplatform.featurestores.get"],
-    roles: ["roles/aiplatform.featurestoreResourceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -42246,10 +41839,6 @@ export const searchModelDeploymentMonitoringStatsAnomaliesProjectsLocationsModel
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchModelDeploymentMonitoringStatsAnomaliesProjectsLocationsModelDeploymentMonitoringJobs",
-  iam: {
-    actions: ["aiplatform.modelDeploymentMonitoringJobs.get"],
-    roles: ["roles/aiplatform.viewer"],
-  },
 }));
 
 export type SearchNearestEntitiesProjectsLocationsFeatureOnlineStoresFeatureViewsError =
@@ -42280,10 +41869,6 @@ export const searchNearestEntitiesProjectsLocationsFeatureOnlineStoresFeatureVie
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchNearestEntitiesProjectsLocationsFeatureOnlineStoresFeatureViews",
-  iam: {
-    actions: ["aiplatform.featureViews.searchNearestEntities"],
-    roles: ["roles/aiplatform.featurestoreDataViewer"],
-  },
 }));
 
 export type SearchProjectsLocationsMigratableResourcesError =
@@ -42314,7 +41899,6 @@ export const searchProjectsLocationsMigratableResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsMigratableResources",
-  iam: { actions: ["aiplatform.migratableResources.search"], roles: ["roles/aiplatform.migrator"] },
 }));
 
 export type ServerStreamingPredictProjectsLocationsEndpointsError =
@@ -42345,7 +41929,6 @@ export const serverStreamingPredictProjectsLocationsEndpoints: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ServerStreamingPredictProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type ServerStreamingPredictProjectsLocationsPublishersModelsError =
@@ -42376,7 +41959,6 @@ export const serverStreamingPredictProjectsLocationsPublishersModels: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ServerStreamingPredictProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type SetIamPolicyProjectsLocationsDatasetsError =
@@ -42629,7 +42211,6 @@ export const snapshotProjectsLocationsReasoningEnginesSandboxEnvironments: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SnapshotProjectsLocationsReasoningEnginesSandboxEnvironments",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type SnapshotReasoningEnginesSandboxEnvironmentsError =
@@ -42656,7 +42237,6 @@ export const snapshotReasoningEnginesSandboxEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SnapshotReasoningEnginesSandboxEnvironments",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type StartProjectsLocationsNotebookRuntimesError =
@@ -42679,10 +42259,6 @@ export const startProjectsLocationsNotebookRuntimes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsNotebookRuntimes",
-  iam: {
-    actions: ["aiplatform.notebookRuntimes.start"],
-    roles: ["roles/aiplatform.notebookRuntimeAdmin"],
-  },
 }));
 
 export type StopProjectsLocationsNotebookRuntimesError =
@@ -42705,10 +42281,6 @@ export const stopProjectsLocationsNotebookRuntimes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsNotebookRuntimes",
-  iam: {
-    actions: ["aiplatform.notebookRuntimes.update"],
-    roles: ["roles/aiplatform.notebookRuntimeAdmin"],
-  },
 }));
 
 export type StopProjectsLocationsStudiesTrialsError =
@@ -42731,7 +42303,6 @@ export const stopProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsStudiesTrials",
-  iam: { actions: ["aiplatform.trials.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type StreamGenerateContentEndpointsError =
@@ -42780,7 +42351,6 @@ export const streamGenerateContentProjectsLocationsEndpoints: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamGenerateContentProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type StreamGenerateContentProjectsLocationsPublishersModelsError =
@@ -42807,7 +42377,6 @@ export const streamGenerateContentProjectsLocationsPublishersModels: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamGenerateContentProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type StreamGenerateContentPublishersModelsError =
@@ -42860,10 +42429,6 @@ export const streamingReadFeatureValuesProjectsLocationsFeaturestoresEntityTypes
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamingReadFeatureValuesProjectsLocationsFeaturestoresEntityTypes",
-  iam: {
-    actions: ["aiplatform.entityTypes.streamingReadFeatureValues"],
-    roles: ["roles/aiplatform.featurestoreDataViewer"],
-  },
 }));
 
 export type StreamQueryProjectsLocationsReasoningEnginesError =
@@ -42891,7 +42456,6 @@ export const streamQueryProjectsLocationsReasoningEngines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamQueryProjectsLocationsReasoningEngines",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type StreamQueryProjectsLocationsReasoningEnginesRuntimeRevisionsError =
@@ -42918,7 +42482,6 @@ export const streamQueryProjectsLocationsReasoningEnginesRuntimeRevisions: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamQueryProjectsLocationsReasoningEnginesRuntimeRevisions",
-  iam: { actions: ["aiplatform.reasoningEngines.update"], roles: ["roles/aiplatform.expressUser"] },
 }));
 
 export type StreamQueryReasoningEnginesError =
@@ -42994,7 +42557,6 @@ export const streamRawPredictProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamRawPredictProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type StreamRawPredictProjectsLocationsPublishersModelsError =
@@ -43021,7 +42583,6 @@ export const streamRawPredictProjectsLocationsPublishersModels: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamRawPredictProjectsLocationsPublishersModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type SuggestProjectsLocationsStudiesTrialsError =
@@ -43044,7 +42605,6 @@ export const suggestProjectsLocationsStudiesTrials: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuggestProjectsLocationsStudiesTrials",
-  iam: { actions: ["aiplatform.trials.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type SuspendProjectsLocationsOnlineEvaluatorsError =
@@ -43067,7 +42627,6 @@ export const suspendProjectsLocationsOnlineEvaluators: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SuspendProjectsLocationsOnlineEvaluators",
-  iam: { actions: ["aiplatform.onlineEvaluators.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type SyncProjectsLocationsFeatureOnlineStoresFeatureViewsError =
@@ -43094,7 +42653,6 @@ export const syncProjectsLocationsFeatureOnlineStoresFeatureViews: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SyncProjectsLocationsFeatureOnlineStoresFeatureViews",
-  iam: { actions: ["aiplatform.featureViews.sync"], roles: ["roles/aiplatform.featurestoreAdmin"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsDatasetsError =
@@ -43355,7 +42913,6 @@ export const undeployIndexProjectsLocationsIndexEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeployIndexProjectsLocationsIndexEndpoints",
-  iam: { actions: ["aiplatform.indexEndpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type UndeployModelProjectsLocationsEndpointsError =
@@ -43378,7 +42935,6 @@ export const undeployModelProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeployModelProjectsLocationsEndpoints",
-  iam: { actions: ["aiplatform.endpoints.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type UpdateCacheConfigProjectsError =
@@ -43401,7 +42957,6 @@ export const updateCacheConfigProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateCacheConfigProjects",
-  iam: { actions: ["aiplatform.cacheConfigs.update"], roles: ["roles/aiplatform.editor"] },
 }));
 
 export type UpdateExplanationDatasetProjectsLocationsModelsError =
@@ -43428,7 +42983,6 @@ export const updateExplanationDatasetProjectsLocationsModels: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateExplanationDatasetProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type UpdateProjectsLocationsEndpointsError =
@@ -43521,10 +43075,6 @@ export const upgradeProjectsLocationsNotebookRuntimes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpgradeProjectsLocationsNotebookRuntimes",
-  iam: {
-    actions: ["aiplatform.notebookRuntimes.upgrade"],
-    roles: ["roles/aiplatform.notebookRuntimeAdmin"],
-  },
 }));
 
 export type UploadMediaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -43564,7 +43114,6 @@ export const uploadProjectsLocationsModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadProjectsLocationsModels",
-  iam: { actions: ["aiplatform.models.upload"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type UpsertDatapointsProjectsLocationsIndexesError =
@@ -43591,7 +43140,6 @@ export const upsertDatapointsProjectsLocationsIndexes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpsertDatapointsProjectsLocationsIndexes",
-  iam: { actions: ["aiplatform.indexes.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type WaitCustomJobsOperationsError =
@@ -46394,10 +45942,6 @@ export const writeFeatureValuesProjectsLocationsFeaturestoresEntityTypes: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteFeatureValuesProjectsLocationsFeaturestoresEntityTypes",
-  iam: {
-    actions: ["aiplatform.entityTypes.writeFeatureValues"],
-    roles: ["roles/aiplatform.featurestoreDataWriter"],
-  },
 }));
 
 export type WriteProjectsLocationsTensorboardsExperimentsError =
@@ -46428,7 +45972,6 @@ export const writeProjectsLocationsTensorboardsExperiments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsLocationsTensorboardsExperiments",
-  iam: { actions: ["aiplatform.tensorboards.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 export type WriteProjectsLocationsTensorboardsExperimentsRunsError =
@@ -46459,7 +46002,6 @@ export const writeProjectsLocationsTensorboardsExperimentsRuns: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsLocationsTensorboardsExperimentsRuns",
-  iam: { actions: ["aiplatform.tensorboards.update"], roles: ["roles/aiplatform.user"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

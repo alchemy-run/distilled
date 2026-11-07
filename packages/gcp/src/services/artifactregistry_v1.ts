@@ -1488,10 +1488,6 @@ export const batchDeleteProjectsLocationsRepositoriesPackagesVersions: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteProjectsLocationsRepositoriesPackagesVersions",
-  iam: {
-    actions: ["artifactregistry.versions.delete"],
-    roles: ["roles/artifactregistry.repoAdmin"],
-  },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1588,10 +1584,6 @@ export const createProjectsLocationsRepositoriesAttachments: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRepositoriesAttachments",
-  iam: {
-    actions: ["artifactregistry.attachments.create"],
-    roles: ["roles/artifactregistry.attachmentWriter"],
-  },
 }));
 
 export type CreateProjectsLocationsRepositoriesPackagesTagsError =
@@ -1618,7 +1610,6 @@ export const createProjectsLocationsRepositoriesPackagesTags: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRepositoriesPackagesTags",
-  iam: { actions: ["artifactregistry.tags.create"], roles: ["roles/artifactregistry.writer"] },
 }));
 
 export type CreateProjectsLocationsRepositoriesRulesError =
@@ -1641,7 +1632,6 @@ export const createProjectsLocationsRepositoriesRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRepositoriesRules",
-  iam: { actions: ["artifactregistry.rules.create"], roles: ["roles/artifactregistry.repoAdmin"] },
 }));
 
 export type DeleteProjectsLocationsRepositoriesError =
@@ -1690,10 +1680,6 @@ export const deleteProjectsLocationsRepositoriesAttachments: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRepositoriesAttachments",
-  iam: {
-    actions: ["artifactregistry.attachments.delete"],
-    roles: ["roles/artifactregistry.attachmentWriter"],
-  },
 }));
 
 export type DeleteProjectsLocationsRepositoriesFilesError =
@@ -1716,7 +1702,6 @@ export const deleteProjectsLocationsRepositoriesFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRepositoriesFiles",
-  iam: { actions: ["artifactregistry.files.delete"], roles: ["roles/artifactregistry.repoAdmin"] },
 }));
 
 export type DeleteProjectsLocationsRepositoriesPackagesError =
@@ -1739,10 +1724,6 @@ export const deleteProjectsLocationsRepositoriesPackages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRepositoriesPackages",
-  iam: {
-    actions: ["artifactregistry.packages.delete"],
-    roles: ["roles/artifactregistry.repoAdmin"],
-  },
 }));
 
 export type DeleteProjectsLocationsRepositoriesPackagesTagsError =
@@ -1769,7 +1750,6 @@ export const deleteProjectsLocationsRepositoriesPackagesTags: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRepositoriesPackagesTags",
-  iam: { actions: ["artifactregistry.tags.delete"], roles: ["roles/artifactregistry.repoAdmin"] },
 }));
 
 export type DeleteProjectsLocationsRepositoriesPackagesVersionsError =
@@ -1796,10 +1776,6 @@ export const deleteProjectsLocationsRepositoriesPackagesVersions: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRepositoriesPackagesVersions",
-  iam: {
-    actions: ["artifactregistry.versions.delete"],
-    roles: ["roles/artifactregistry.repoAdmin"],
-  },
 }));
 
 export type DeleteProjectsLocationsRepositoriesRulesError =
@@ -1822,7 +1798,6 @@ export const deleteProjectsLocationsRepositoriesRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRepositoriesRules",
-  iam: { actions: ["artifactregistry.rules.delete"], roles: ["roles/artifactregistry.repoAdmin"] },
 }));
 
 export type DownloadProjectsLocationsRepositoriesFilesError = NotFound | Forbidden | GcpOpError;
@@ -1840,10 +1815,6 @@ export const downloadProjectsLocationsRepositoriesFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadProjectsLocationsRepositoriesFiles",
-  iam: {
-    actions: ["artifactregistry.files.download"],
-    roles: ["roles/artifactregistry.attachmentReader"],
-  },
 }));
 
 export type ExportArtifactProjectsLocationsRepositoriesError =
@@ -1866,10 +1837,6 @@ export const exportArtifactProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportArtifactProjectsLocationsRepositories",
-  iam: {
-    actions: ["artifactregistry.repositories.exportArtifacts"],
-    roles: ["roles/artifactregistry.reader"],
-  },
 }));
 
 export type GetIamPolicyProjectsLocationsRepositoriesError = NotFound | Forbidden | GcpOpError;
@@ -1972,7 +1939,6 @@ export const getProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositories",
-  iam: { actions: ["artifactregistry.repositories.get"], roles: ["roles/artifactregistry.reader"] },
 }));
 
 export type GetProjectsLocationsRepositoriesAttachmentsError = NotFound | Forbidden | GcpOpError;
@@ -1990,10 +1956,6 @@ export const getProjectsLocationsRepositoriesAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesAttachments",
-  iam: {
-    actions: ["artifactregistry.attachments.get"],
-    roles: ["roles/artifactregistry.attachmentReader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesDockerImagesError = NotFound | Forbidden | GcpOpError;
@@ -2011,7 +1973,6 @@ export const getProjectsLocationsRepositoriesDockerImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesDockerImages",
-  iam: { actions: ["artifactregistry.dockerimages.get"], roles: ["roles/artifactregistry.reader"] },
 }));
 
 export type GetProjectsLocationsRepositoriesFilesError = NotFound | Forbidden | GcpOpError;
@@ -2029,7 +1990,6 @@ export const getProjectsLocationsRepositoriesFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesFiles",
-  iam: { actions: ["artifactregistry.files.get"], roles: ["roles/artifactregistry.reader"] },
 }));
 
 export type GetProjectsLocationsRepositoriesMavenArtifactsError = NotFound | Forbidden | GcpOpError;
@@ -2051,10 +2011,6 @@ export const getProjectsLocationsRepositoriesMavenArtifacts: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesMavenArtifacts",
-  iam: {
-    actions: ["artifactregistry.mavenartifacts.get"],
-    roles: ["roles/artifactregistry.reader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesNpmPackagesError = NotFound | Forbidden | GcpOpError;
@@ -2072,7 +2028,6 @@ export const getProjectsLocationsRepositoriesNpmPackages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesNpmPackages",
-  iam: { actions: ["artifactregistry.npmpackages.get"], roles: ["roles/artifactregistry.reader"] },
 }));
 
 export type GetProjectsLocationsRepositoriesPackagesError = NotFound | Forbidden | GcpOpError;
@@ -2090,7 +2045,6 @@ export const getProjectsLocationsRepositoriesPackages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesPackages",
-  iam: { actions: ["artifactregistry.packages.get"], roles: ["roles/artifactregistry.reader"] },
 }));
 
 export type GetProjectsLocationsRepositoriesPackagesTagsError = NotFound | Forbidden | GcpOpError;
@@ -2112,7 +2066,6 @@ export const getProjectsLocationsRepositoriesPackagesTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesPackagesTags",
-  iam: { actions: ["artifactregistry.tags.get"], roles: ["roles/artifactregistry.reader"] },
 }));
 
 export type GetProjectsLocationsRepositoriesPackagesVersionsError =
@@ -2137,7 +2090,6 @@ export const getProjectsLocationsRepositoriesPackagesVersions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesPackagesVersions",
-  iam: { actions: ["artifactregistry.versions.get"], roles: ["roles/artifactregistry.reader"] },
 }));
 
 export type GetProjectsLocationsRepositoriesPythonPackagesError = NotFound | Forbidden | GcpOpError;
@@ -2159,10 +2111,6 @@ export const getProjectsLocationsRepositoriesPythonPackages: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesPythonPackages",
-  iam: {
-    actions: ["artifactregistry.pythonpackages.get"],
-    roles: ["roles/artifactregistry.reader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesRulesError = NotFound | Forbidden | GcpOpError;
@@ -2180,7 +2128,6 @@ export const getProjectsLocationsRepositoriesRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesRules",
-  iam: { actions: ["artifactregistry.rules.get"], roles: ["roles/artifactregistry.reader"] },
 }));
 
 export type GetVpcscConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2224,10 +2171,6 @@ export const importProjectsLocationsRepositoriesAptArtifacts: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsRepositoriesAptArtifacts",
-  iam: {
-    actions: ["artifactregistry.repositories.uploadArtifacts"],
-    roles: ["roles/artifactregistry.writer"],
-  },
 }));
 
 export type ImportProjectsLocationsRepositoriesGoogetArtifactsError =
@@ -2254,10 +2197,6 @@ export const importProjectsLocationsRepositoriesGoogetArtifacts: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsRepositoriesGoogetArtifacts",
-  iam: {
-    actions: ["artifactregistry.repositories.uploadArtifacts"],
-    roles: ["roles/artifactregistry.writer"],
-  },
 }));
 
 export type ImportProjectsLocationsRepositoriesYumArtifactsError =
@@ -2284,10 +2223,6 @@ export const importProjectsLocationsRepositoriesYumArtifacts: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsRepositoriesYumArtifacts",
-  iam: {
-    actions: ["artifactregistry.repositories.uploadArtifacts"],
-    roles: ["roles/artifactregistry.writer"],
-  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2325,10 +2260,6 @@ export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositories",
-  iam: {
-    actions: ["artifactregistry.repositories.list"],
-    roles: ["roles/artifactregistry.reader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2352,10 +2283,6 @@ export const listProjectsLocationsRepositoriesAttachments: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesAttachments",
-  iam: {
-    actions: ["artifactregistry.attachments.list"],
-    roles: ["roles/artifactregistry.attachmentReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2398,7 +2325,6 @@ export const listProjectsLocationsRepositoriesFiles: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesFiles",
-  iam: { actions: ["artifactregistry.files.list"], roles: ["roles/artifactregistry.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2425,10 +2351,6 @@ export const listProjectsLocationsRepositoriesMavenArtifacts: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesMavenArtifacts",
-  iam: {
-    actions: ["artifactregistry.mavenartifacts.list"],
-    roles: ["roles/artifactregistry.reader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2452,7 +2374,6 @@ export const listProjectsLocationsRepositoriesNpmPackages: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesNpmPackages",
-  iam: { actions: ["artifactregistry.npmpackages.list"], roles: ["roles/artifactregistry.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2472,7 +2393,6 @@ export const listProjectsLocationsRepositoriesPackages: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesPackages",
-  iam: { actions: ["artifactregistry.packages.list"], roles: ["roles/artifactregistry.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2496,7 +2416,6 @@ export const listProjectsLocationsRepositoriesPackagesTags: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesPackagesTags",
-  iam: { actions: ["artifactregistry.tags.list"], roles: ["roles/artifactregistry.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2523,7 +2442,6 @@ export const listProjectsLocationsRepositoriesPackagesVersions: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesPackagesVersions",
-  iam: { actions: ["artifactregistry.versions.list"], roles: ["roles/artifactregistry.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2576,10 +2494,6 @@ export const listProjectsLocationsRepositoriesPythonPackages: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesPythonPackages",
-  iam: {
-    actions: ["artifactregistry.pythonpackages.list"],
-    roles: ["roles/artifactregistry.reader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2599,7 +2513,6 @@ export const listProjectsLocationsRepositoriesRules: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesRules",
-  iam: { actions: ["artifactregistry.rules.list"], roles: ["roles/artifactregistry.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2645,7 +2558,6 @@ export const patchProjectsLocationsRepositoriesFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositoriesFiles",
-  iam: { actions: ["artifactregistry.files.update"], roles: ["roles/artifactregistry.writer"] },
 }));
 
 export type PatchProjectsLocationsRepositoriesPackagesError =
@@ -2668,7 +2580,6 @@ export const patchProjectsLocationsRepositoriesPackages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositoriesPackages",
-  iam: { actions: ["artifactregistry.packages.update"], roles: ["roles/artifactregistry.writer"] },
 }));
 
 export type PatchProjectsLocationsRepositoriesPackagesTagsError =
@@ -2695,7 +2606,6 @@ export const patchProjectsLocationsRepositoriesPackagesTags: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositoriesPackagesTags",
-  iam: { actions: ["artifactregistry.tags.update"], roles: ["roles/artifactregistry.writer"] },
 }));
 
 export type PatchProjectsLocationsRepositoriesPackagesVersionsError =
@@ -2722,10 +2632,6 @@ export const patchProjectsLocationsRepositoriesPackagesVersions: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositoriesPackagesVersions",
-  iam: {
-    actions: ["artifactregistry.versions.update"],
-    roles: ["roles/artifactregistry.repoAdmin"],
-  },
 }));
 
 export type PatchProjectsLocationsRepositoriesRulesError =
@@ -2748,7 +2654,6 @@ export const patchProjectsLocationsRepositoriesRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositoriesRules",
-  iam: { actions: ["artifactregistry.rules.update"], roles: ["roles/artifactregistry.repoAdmin"] },
 }));
 
 export type PrewarmArtifactProjectsLocationsRepositoriesError =

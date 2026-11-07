@@ -2273,7 +2273,6 @@ export const bulkRestoreObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkRestoreObjects",
-  iam: { actions: ["storage.objects.restore"], roles: ["roles/storage.objectUser"] },
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2308,7 +2307,6 @@ export const composeObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComposeObjects",
-  iam: { actions: ["storage.objects.create"], roles: ["roles/storage.objectUser"] },
 }));
 
 export type CopyObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2326,7 +2324,6 @@ export const copyObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CopyObjects",
-  iam: { actions: ["storage.objects.create"], roles: ["roles/storage.objectUser"] },
 }));
 
 export type CreateProjectsHmacKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2536,7 +2533,6 @@ export const deleteRecursiveFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteRecursiveFolders",
-  iam: { actions: ["storage.folders.delete"], roles: ["roles/storage.legacyBucketWriter"] },
 }));
 
 export type DisableAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2554,7 +2550,6 @@ export const disableAnywhereCaches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableAnywhereCaches",
-  iam: { actions: ["storage.anywhereCaches.disable"], roles: ["roles/storage.legacyBucketOwner"] },
 }));
 
 export type DisableRapidCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2589,7 +2584,6 @@ export const getAnywhereCaches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAnywhereCaches",
-  iam: { actions: ["storage.anywhereCaches.get"], roles: ["roles/storage.legacyBucketOwner"] },
 }));
 
 export type GetBucketAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -2607,7 +2601,6 @@ export const getBucketAccessControls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBucketAccessControls",
-  iam: { actions: ["storage.buckets.getIamPolicy"], roles: ["roles/storage.legacyBucketOwner"] },
 }));
 
 export type GetBucketsError = NotFound | Forbidden | GcpOpError;
@@ -2625,7 +2618,6 @@ export const getBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBuckets",
-  iam: { actions: ["storage.buckets.get"], roles: ["roles/storage.bucketViewer"] },
 }));
 
 export type GetDefaultObjectAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -2643,7 +2635,6 @@ export const getDefaultObjectAccessControls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDefaultObjectAccessControls",
-  iam: { actions: ["storage.buckets.getIamPolicy"], roles: ["roles/storage.legacyBucketOwner"] },
 }));
 
 export type GetFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2661,7 +2652,6 @@ export const getFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFolders",
-  iam: { actions: ["storage.folders.get"], roles: ["roles/storage.legacyBucketReader"] },
 }));
 
 export type GetIamPolicyBucketsError = NotFound | Forbidden | GcpOpError;
@@ -2730,7 +2720,6 @@ export const getManagedFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetManagedFolders",
-  iam: { actions: ["storage.managedFolders.get"], roles: ["roles/storage.legacyBucketReader"] },
 }));
 
 export type GetNotificationsError = NotFound | Forbidden | GcpOpError;
@@ -2748,7 +2737,6 @@ export const getNotifications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNotifications",
-  iam: { actions: ["storage.buckets.get"], roles: ["roles/storage.bucketViewer"] },
 }));
 
 export type GetObjectAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -2766,7 +2754,6 @@ export const getObjectAccessControls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetObjectAccessControls",
-  iam: { actions: ["storage.objects.getIamPolicy"], roles: ["roles/storage.legacyObjectOwner"] },
 }));
 
 export type GetObjectsError = NotFound | Forbidden | GcpOpError;
@@ -2818,7 +2805,6 @@ export const getProjectsHmacKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsHmacKeys",
-  iam: { actions: ["storage.hmacKeys.get"], roles: ["roles/storage.viewer"] },
 }));
 
 export type GetProjectsServiceAccountError = NotFound | Forbidden | GcpOpError;
@@ -2870,7 +2856,6 @@ export const getStorageLayoutBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStorageLayoutBuckets",
-  iam: { actions: ["storage.objects.list"], roles: ["roles/storage.objectViewer"] },
 }));
 
 export type InsertAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3087,7 +3072,6 @@ export const listAnywhereCaches: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAnywhereCaches",
-  iam: { actions: ["storage.anywhereCaches.list"], roles: ["roles/storage.legacyBucketOwner"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3106,7 +3090,6 @@ export const listBucketAccessControls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBucketAccessControls",
-  iam: { actions: ["storage.buckets.getIamPolicy"], roles: ["roles/storage.legacyBucketOwner"] },
 }));
 
 export type ListBucketsError = NotFound | Forbidden | GcpOpError;
@@ -3125,7 +3108,6 @@ export const listBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBuckets",
-  iam: { actions: ["storage.buckets.list"], roles: ["roles/storage.bucketViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3144,7 +3126,6 @@ export const listDefaultObjectAccessControls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDefaultObjectAccessControls",
-  iam: { actions: ["storage.buckets.getIamPolicy"], roles: ["roles/storage.legacyBucketOwner"] },
 }));
 
 export type ListFoldersError = NotFound | Forbidden | GcpOpError;
@@ -3163,7 +3144,6 @@ export const listFolders: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFolders",
-  iam: { actions: ["storage.folders.list"], roles: ["roles/storage.legacyBucketReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3183,7 +3163,6 @@ export const listManagedFolders: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedFolders",
-  iam: { actions: ["storage.managedFolders.list"], roles: ["roles/storage.legacyBucketReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3202,7 +3181,6 @@ export const listNotifications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNotifications",
-  iam: { actions: ["storage.buckets.get"], roles: ["roles/storage.bucketViewer"] },
 }));
 
 export type ListObjectAccessControlsError = NotFound | Forbidden | GcpOpError;
@@ -3220,7 +3198,6 @@ export const listObjectAccessControls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListObjectAccessControls",
-  iam: { actions: ["storage.objects.getIamPolicy"], roles: ["roles/storage.legacyObjectOwner"] },
 }));
 
 export type ListObjectsError = NotFound | Forbidden | GcpOpError;
@@ -3277,7 +3254,6 @@ export const listProjectsHmacKeys: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHmacKeys",
-  iam: { actions: ["storage.hmacKeys.list"], roles: ["roles/storage.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -3337,7 +3313,6 @@ export const moveObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveObjects",
-  iam: { actions: ["storage.objects.move"], roles: ["roles/storage.objectUser"] },
 }));
 
 export type PatchBucketAccessControlsError =
@@ -3444,7 +3419,6 @@ export const patchObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchObjects",
-  iam: { actions: ["storage.objects.update"], roles: ["roles/storage.objectUser"] },
 }));
 
 export type RelocateBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3479,7 +3453,6 @@ export const renameFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenameFolders",
-  iam: { actions: ["storage.folders.rename"], roles: ["roles/storage.legacyBucketWriter"] },
 }));
 
 export type RestoreBucketsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3497,7 +3470,6 @@ export const restoreBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreBuckets",
-  iam: { actions: ["storage.buckets.restore"], roles: ["roles/storage.admin"] },
 }));
 
 export type RestoreObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3515,7 +3487,6 @@ export const restoreObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreObjects",
-  iam: { actions: ["storage.objects.restore"], roles: ["roles/storage.objectUser"] },
 }));
 
 export type ResumeAnywhereCachesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3533,7 +3504,6 @@ export const resumeAnywhereCaches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeAnywhereCaches",
-  iam: { actions: ["storage.anywhereCaches.resume"], roles: ["roles/storage.legacyBucketOwner"] },
 }));
 
 export type RewriteObjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3551,7 +3521,6 @@ export const rewriteObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RewriteObjects",
-  iam: { actions: ["storage.objects.create"], roles: ["roles/storage.objectUser"] },
 }));
 
 export type SetIamPolicyBucketsError =
@@ -3699,7 +3668,6 @@ export const updateAnywhereCaches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAnywhereCaches",
-  iam: { actions: ["storage.anywhereCaches.update"], roles: ["roles/storage.legacyBucketOwner"] },
 }));
 
 export type UpdateBucketAccessControlsError =
@@ -3817,7 +3785,6 @@ export const updateObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateObjects",
-  iam: { actions: ["storage.objects.update"], roles: ["roles/storage.objectUser"] },
 }));
 
 export type UpdateProjectsHmacKeysError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3869,7 +3836,6 @@ export const viewFullContextObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ViewFullContextObjects",
-  iam: { actions: ["storage.objects.get"], roles: ["roles/storage.objectViewer"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

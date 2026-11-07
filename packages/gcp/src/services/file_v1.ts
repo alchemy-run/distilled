@@ -1001,7 +1001,6 @@ export const listProjectsLocationsBackups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackups",
-  iam: { actions: ["file.backups.list"], roles: ["roles/file.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1021,7 +1020,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: { actions: ["file.instances.list"], roles: ["roles/file.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1041,7 +1039,6 @@ export const listProjectsLocationsInstancesSnapshots: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstancesSnapshots",
-  iam: { actions: ["file.snapshots.list"], roles: ["roles/file.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1150,7 +1147,6 @@ export const pauseReplicaProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseReplicaProjectsLocationsInstances",
-  iam: { actions: ["file.instances.update"], roles: ["roles/file.editor"] },
 }));
 
 export type PromoteReplicaProjectsLocationsInstancesError =
@@ -1173,7 +1169,6 @@ export const promoteReplicaProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PromoteReplicaProjectsLocationsInstances",
-  iam: { actions: ["file.instances.update"], roles: ["roles/file.editor"] },
 }));
 
 export type RestoreProjectsLocationsInstancesError =
@@ -1196,7 +1191,6 @@ export const restoreProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsInstances",
-  iam: { actions: ["file.instances.restore"], roles: ["roles/file.editor"] },
 }));
 
 export type ResumeReplicaProjectsLocationsInstancesError =
@@ -1219,7 +1213,6 @@ export const resumeReplicaProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeReplicaProjectsLocationsInstances",
-  iam: { actions: ["file.instances.update"], roles: ["roles/file.editor"] },
 }));
 
 export type RevertProjectsLocationsInstancesError =
@@ -1242,7 +1235,6 @@ export const revertProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevertProjectsLocationsInstances",
-  iam: { actions: ["file.instances.revert"], roles: ["roles/file.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

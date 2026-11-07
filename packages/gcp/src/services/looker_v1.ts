@@ -674,7 +674,6 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.create"], roles: ["roles/looker.admin"] },
 }));
 
 export type CreateProjectsLocationsInstancesBackupsError =
@@ -719,7 +718,6 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.delete"], roles: ["roles/looker.admin"] },
 }));
 
 export type DeleteProjectsLocationsInstancesBackupsError =
@@ -786,7 +784,6 @@ export const exportProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.export"], roles: ["roles/looker.admin"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -821,7 +818,6 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.get"], roles: ["roles/looker.viewer"] },
 }));
 
 export type GetProjectsLocationsInstancesBackupsError = NotFound | Forbidden | GcpOpError;
@@ -838,7 +834,6 @@ export const getProjectsLocationsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstancesBackups",
-  iam: { actions: ["looker.backups.get"], roles: ["roles/looker.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -878,7 +873,6 @@ export const importProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.import"], roles: ["roles/looker.admin"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -916,7 +910,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.list"], roles: ["roles/looker.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -936,7 +929,6 @@ export const listProjectsLocationsInstancesBackups: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstancesBackups",
-  iam: { actions: ["looker.backups.list"], roles: ["roles/looker.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -979,7 +971,6 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.update"], roles: ["roles/looker.admin"] },
 }));
 
 export type RestartProjectsLocationsInstancesError =
@@ -1002,7 +993,6 @@ export const restartProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.update"], roles: ["roles/looker.admin"] },
 }));
 
 export type RestoreProjectsLocationsInstancesError =
@@ -1025,7 +1015,6 @@ export const restoreProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.update"], roles: ["roles/looker.admin"] },
 }));
 
 export type UndeleteProjectsLocationsInstancesError =
@@ -1048,7 +1037,6 @@ export const undeleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsLocationsInstances",
-  iam: { actions: ["looker.instances.update"], roles: ["roles/looker.admin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

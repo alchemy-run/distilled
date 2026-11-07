@@ -929,7 +929,6 @@ export const checkUpgradeProjectsLocationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckUpgradeProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.get"], roles: ["roles/composer.viewer"] },
 }));
 
 export type CreateProjectsLocationsEnvironmentsError =
@@ -1030,7 +1029,6 @@ export const databaseFailoverProjectsLocationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DatabaseFailoverProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.update"], roles: ["roles/composer.editor"] },
 }));
 
 export type DeleteProjectsLocationsEnvironmentsError =
@@ -1178,7 +1176,6 @@ export const fetchDatabasePropertiesProjectsLocationsEnvironments: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchDatabasePropertiesProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.get"], roles: ["roles/composer.viewer"] },
 }));
 
 export type GetProjectsLocationsEnvironmentsError = NotFound | Forbidden | GcpOpError;
@@ -1279,7 +1276,6 @@ export const listProjectsLocationsEnvironments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.list"], roles: ["roles/composer.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1306,7 +1302,6 @@ export const listProjectsLocationsEnvironmentsUserWorkloadsConfigMaps: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEnvironmentsUserWorkloadsConfigMaps",
-  iam: { actions: ["composer.userworkloadsconfigmaps.list"], roles: ["roles/composer.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1333,7 +1328,6 @@ export const listProjectsLocationsEnvironmentsUserWorkloadsSecrets: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEnvironmentsUserWorkloadsSecrets",
-  iam: { actions: ["composer.userworkloadssecrets.list"], roles: ["roles/composer.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1353,7 +1347,6 @@ export const listProjectsLocationsEnvironmentsWorkloads: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEnvironmentsWorkloads",
-  iam: { actions: ["composer.environments.get"], roles: ["roles/composer.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1373,7 +1366,6 @@ export const listProjectsLocationsImageVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsImageVersions",
-  iam: { actions: ["composer.imageversions.list"], roles: ["roles/composer.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1416,7 +1408,6 @@ export const loadSnapshotProjectsLocationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LoadSnapshotProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.update"], roles: ["roles/composer.editor"] },
 }));
 
 export type PatchProjectsLocationsEnvironmentsError =
@@ -1465,7 +1456,6 @@ export const pollAirflowCommandProjectsLocationsEnvironments: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PollAirflowCommandProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.update"], roles: ["roles/composer.editor"] },
 }));
 
 export type RestartWebServerProjectsLocationsEnvironmentsError =
@@ -1492,7 +1482,6 @@ export const restartWebServerProjectsLocationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartWebServerProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.update"], roles: ["roles/composer.editor"] },
 }));
 
 export type SaveSnapshotProjectsLocationsEnvironmentsError =
@@ -1515,7 +1504,6 @@ export const saveSnapshotProjectsLocationsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SaveSnapshotProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.update"], roles: ["roles/composer.editor"] },
 }));
 
 export type StopAirflowCommandProjectsLocationsEnvironmentsError =
@@ -1542,7 +1530,6 @@ export const stopAirflowCommandProjectsLocationsEnvironments: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopAirflowCommandProjectsLocationsEnvironments",
-  iam: { actions: ["composer.environments.update"], roles: ["roles/composer.editor"] },
 }));
 
 export type UpdateProjectsLocationsEnvironmentsUserWorkloadsConfigMapsError =

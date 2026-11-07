@@ -864,7 +864,6 @@ export const createProjectsLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAuditSchedules",
-  iam: { actions: ["auditmanager.auditSchedules.create"], roles: ["roles/auditmanager.auditor"] },
 }));
 
 export type DeleteOrganizationsLocationsOperationsError =
@@ -1089,7 +1088,6 @@ export const generateProjectsLocationsAuditReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateProjectsLocationsAuditReports",
-  iam: { actions: ["auditmanager.auditReports.generate"], roles: ["roles/auditmanager.auditor"] },
 }));
 
 export type GenerateProjectsLocationsAuditScopeReportsError =
@@ -1112,10 +1110,6 @@ export const generateProjectsLocationsAuditScopeReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateProjectsLocationsAuditScopeReports",
-  iam: {
-    actions: ["auditmanager.auditScopeReports.generate"],
-    roles: ["roles/auditmanager.auditor"],
-  },
 }));
 
 export type GetFoldersLocationsAuditReportsError = NotFound | Forbidden | GcpOpError;
@@ -1344,7 +1338,6 @@ export const getProjectsLocationsAuditReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuditReports",
-  iam: { actions: ["auditmanager.auditReports.get"], roles: ["roles/auditmanager.viewer"] },
 }));
 
 export type GetProjectsLocationsAuditSchedulesError = NotFound | Forbidden | GcpOpError;
@@ -1362,7 +1355,6 @@ export const getProjectsLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuditSchedules",
-  iam: { actions: ["auditmanager.auditSchedules.get"], roles: ["roles/auditmanager.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationDetailsError = NotFound | Forbidden | GcpOpError;
@@ -1435,10 +1427,6 @@ export const getProjectsLocationsResourceEnrollmentStatuses: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsResourceEnrollmentStatuses",
-  iam: {
-    actions: ["auditmanager.resourceEnrollmentStatuses.get"],
-    roles: ["roles/auditmanager.viewer"],
-  },
 }));
 
 export type ListFoldersLocationsAuditReportsError = NotFound | Forbidden | GcpOpError;
@@ -1658,7 +1646,6 @@ export const listProjectsLocationsAuditReports: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuditReports",
-  iam: { actions: ["auditmanager.auditReports.list"], roles: ["roles/auditmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1678,7 +1665,6 @@ export const listProjectsLocationsAuditSchedules: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuditSchedules",
-  iam: { actions: ["auditmanager.auditSchedules.list"], roles: ["roles/auditmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1717,7 +1703,6 @@ export const listProjectsLocationsStandardsControls: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsStandardsControls",
-  iam: { actions: ["auditmanager.controls.list"], roles: ["roles/auditmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1785,7 +1770,6 @@ export const patchProjectsLocationsAuditSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsAuditSchedules",
-  iam: { actions: ["auditmanager.auditSchedules.update"], roles: ["roles/auditmanager.auditor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

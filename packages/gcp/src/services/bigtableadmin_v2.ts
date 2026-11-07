@@ -1749,7 +1749,6 @@ export const checkConsistencyProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckConsistencyProjectsInstancesTables",
-  iam: { actions: ["bigtable.tables.checkConsistency"], roles: ["roles/bigtable.viewer"] },
 }));
 
 export type CopyProjectsInstancesClustersBackupsError =
@@ -1772,7 +1771,6 @@ export const copyProjectsInstancesClustersBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CopyProjectsInstancesClustersBackups",
-  iam: { actions: ["bigtable.backups.create"], roles: ["roles/bigtable.editor"] },
 }));
 
 export type CreateProjectsInstancesError =
@@ -2194,7 +2192,6 @@ export const dropRowRangeProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DropRowRangeProjectsInstancesTables",
-  iam: { actions: ["bigtable.tables.mutateRows"], roles: ["roles/bigtable.user"] },
 }));
 
 export type GenerateConsistencyTokenProjectsInstancesTablesError =
@@ -2221,7 +2218,6 @@ export const generateConsistencyTokenProjectsInstancesTables: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateConsistencyTokenProjectsInstancesTables",
-  iam: { actions: ["bigtable.tables.generateConsistencyToken"], roles: ["roles/bigtable.viewer"] },
 }));
 
 export type GetIamPolicyProjectsInstancesError =
@@ -2461,7 +2457,6 @@ export const getProjectsInstancesAppProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesAppProfiles",
-  iam: { actions: ["bigtable.appProfiles.get"], roles: ["roles/bigtable.viewer"] },
 }));
 
 export type GetProjectsInstancesClustersError = NotFound | Forbidden | GcpOpError;
@@ -2496,7 +2491,6 @@ export const getProjectsInstancesClustersBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesClustersBackups",
-  iam: { actions: ["bigtable.backups.get"], roles: ["roles/bigtable.viewer"] },
 }));
 
 export type GetProjectsInstancesLogicalViewsError = NotFound | Forbidden | GcpOpError;
@@ -2514,7 +2508,6 @@ export const getProjectsInstancesLogicalViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesLogicalViews",
-  iam: { actions: ["bigtable.logicalViews.get"], roles: ["roles/bigtable.viewer"] },
 }));
 
 export type GetProjectsInstancesMaterializedViewsError = NotFound | Forbidden | GcpOpError;
@@ -2532,7 +2525,6 @@ export const getProjectsInstancesMaterializedViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesMaterializedViews",
-  iam: { actions: ["bigtable.materializedViews.get"], roles: ["roles/bigtable.viewer"] },
 }));
 
 export type GetProjectsInstancesTablesError = NotFound | Forbidden | TableNotReady | GcpOpError;
@@ -2567,7 +2559,6 @@ export const getProjectsInstancesTablesAuthorizedViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesTablesAuthorizedViews",
-  iam: { actions: ["bigtable.authorizedViews.get"], roles: ["roles/bigtable.viewer"] },
 }));
 
 export type GetProjectsInstancesTablesSchemaBundlesError = NotFound | Forbidden | GcpOpError;
@@ -2585,7 +2576,6 @@ export const getProjectsInstancesTablesSchemaBundles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesTablesSchemaBundles",
-  iam: { actions: ["bigtable.schemaBundles.get"], roles: ["roles/bigtable.viewer"] },
 }));
 
 export type ListOperationsProjectsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2623,7 +2613,6 @@ export const listProjectsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstances",
-  iam: { actions: ["bigtable.instances.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2643,7 +2632,6 @@ export const listProjectsInstancesAppProfiles: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesAppProfiles",
-  iam: { actions: ["bigtable.appProfiles.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2663,7 +2651,6 @@ export const listProjectsInstancesClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesClusters",
-  iam: { actions: ["bigtable.clusters.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2683,7 +2670,6 @@ export const listProjectsInstancesClustersBackups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesClustersBackups",
-  iam: { actions: ["bigtable.backups.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2703,7 +2689,6 @@ export const listProjectsInstancesClustersHotTablets: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesClustersHotTablets",
-  iam: { actions: ["bigtable.hotTablets.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2723,7 +2708,6 @@ export const listProjectsInstancesClustersMemoryLayers: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesClustersMemoryLayers",
-  iam: { actions: ["bigtable.memoryLayers.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2743,7 +2727,6 @@ export const listProjectsInstancesLogicalViews: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesLogicalViews",
-  iam: { actions: ["bigtable.logicalViews.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2763,7 +2746,6 @@ export const listProjectsInstancesMaterializedViews: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesMaterializedViews",
-  iam: { actions: ["bigtable.materializedViews.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2783,7 +2765,6 @@ export const listProjectsInstancesTables: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesTables",
-  iam: { actions: ["bigtable.tables.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2803,7 +2784,6 @@ export const listProjectsInstancesTablesAuthorizedViews: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesTablesAuthorizedViews",
-  iam: { actions: ["bigtable.authorizedViews.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2823,7 +2803,6 @@ export const listProjectsInstancesTablesSchemaBundles: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesTablesSchemaBundles",
-  iam: { actions: ["bigtable.schemaBundles.list"], roles: ["roles/bigtable.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2866,7 +2845,6 @@ export const modifyColumnFamiliesProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyColumnFamiliesProjectsInstancesTables",
-  iam: { actions: ["bigtable.tables.update"], roles: ["roles/bigtable.editor"] },
 }));
 
 export type PartialUpdateClusterProjectsInstancesClustersError =
@@ -3091,7 +3069,6 @@ export const restoreProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsInstancesTables",
-  iam: { actions: ["bigtable.backups.restore"], roles: ["roles/bigtable.editor"] },
 }));
 
 export type SetIamPolicyProjectsInstancesError =
@@ -3459,7 +3436,6 @@ export const undeleteProjectsInstancesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsInstancesTables",
-  iam: { actions: ["bigtable.tables.undelete"], roles: ["roles/bigtable.editor"] },
 }));
 
 export type UpdateMemoryLayerProjectsInstancesClustersError =

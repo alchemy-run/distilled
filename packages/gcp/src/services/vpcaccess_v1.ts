@@ -306,7 +306,6 @@ export const getProjectsLocationsConnectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectors",
-  iam: { actions: ["vpcaccess.connectors.get"], roles: ["roles/vpcaccess.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -361,7 +360,6 @@ export const listProjectsLocationsConnectors: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectors",
-  iam: { actions: ["vpcaccess.connectors.list"], roles: ["roles/vpcaccess.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

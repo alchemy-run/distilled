@@ -997,10 +997,6 @@ export const createProjectsLocationsBackendsRollouts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBackendsRollouts",
-  iam: {
-    actions: ["firebaseapphosting.rollouts.create"],
-    roles: ["roles/firebaseapphosting.developer"],
-  },
 }));
 
 export type DeleteProjectsLocationsBackendsError =
@@ -1123,7 +1119,6 @@ export const getProjectsLocationsBackends: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackends",
-  iam: { actions: ["firebaseapphosting.backends.get"], roles: ["roles/firebaseapphosting.viewer"] },
 }));
 
 export type GetProjectsLocationsBackendsBuildsError = NotFound | Forbidden | GcpOpError;
@@ -1141,7 +1136,6 @@ export const getProjectsLocationsBackendsBuilds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackendsBuilds",
-  iam: { actions: ["firebaseapphosting.builds.get"], roles: ["roles/firebaseapphosting.viewer"] },
 }));
 
 export type GetProjectsLocationsBackendsDomainsError = NotFound | Forbidden | GcpOpError;
@@ -1159,7 +1153,6 @@ export const getProjectsLocationsBackendsDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackendsDomains",
-  iam: { actions: ["firebaseapphosting.domains.get"], roles: ["roles/firebaseapphosting.viewer"] },
 }));
 
 export type GetProjectsLocationsBackendsRolloutsError = NotFound | Forbidden | GcpOpError;
@@ -1177,7 +1170,6 @@ export const getProjectsLocationsBackendsRollouts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackendsRollouts",
-  iam: { actions: ["firebaseapphosting.rollouts.get"], roles: ["roles/firebaseapphosting.viewer"] },
 }));
 
 export type GetProjectsLocationsBackendsTrafficError = NotFound | Forbidden | GcpOpError;
@@ -1195,7 +1187,6 @@ export const getProjectsLocationsBackendsTraffic: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackendsTraffic",
-  iam: { actions: ["firebaseapphosting.traffic.get"], roles: ["roles/firebaseapphosting.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1250,10 +1241,6 @@ export const listProjectsLocationsBackends: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackends",
-  iam: {
-    actions: ["firebaseapphosting.backends.list"],
-    roles: ["roles/firebaseapphosting.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1273,7 +1260,6 @@ export const listProjectsLocationsBackendsBuilds: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackendsBuilds",
-  iam: { actions: ["firebaseapphosting.builds.list"], roles: ["roles/firebaseapphosting.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1293,7 +1279,6 @@ export const listProjectsLocationsBackendsDomains: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackendsDomains",
-  iam: { actions: ["firebaseapphosting.domains.list"], roles: ["roles/firebaseapphosting.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1313,10 +1298,6 @@ export const listProjectsLocationsBackendsRollouts: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackendsRollouts",
-  iam: {
-    actions: ["firebaseapphosting.rollouts.list"],
-    roles: ["roles/firebaseapphosting.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1403,10 +1384,6 @@ export const patchProjectsLocationsBackendsTraffic: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackendsTraffic",
-  iam: {
-    actions: ["firebaseapphosting.traffic.update"],
-    roles: ["roles/firebaseapphosting.developer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

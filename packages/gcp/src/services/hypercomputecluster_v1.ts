@@ -616,10 +616,6 @@ export const createProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsClusters",
-  iam: {
-    actions: ["hypercomputecluster.clusters.create"],
-    roles: ["roles/hypercomputecluster.editor"],
-  },
 }));
 
 export type DeleteProjectsLocationsClustersError =
@@ -642,10 +638,6 @@ export const deleteProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsClusters",
-  iam: {
-    actions: ["hypercomputecluster.clusters.delete"],
-    roles: ["roles/hypercomputecluster.editor"],
-  },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -702,10 +694,6 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsClusters",
-  iam: {
-    actions: ["hypercomputecluster.clusters.get"],
-    roles: ["roles/hypercomputecluster.editor"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -760,10 +748,6 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClusters",
-  iam: {
-    actions: ["hypercomputecluster.clusters.list"],
-    roles: ["roles/hypercomputecluster.editor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -806,10 +790,6 @@ export const patchProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsClusters",
-  iam: {
-    actions: ["hypercomputecluster.clusters.update"],
-    roles: ["roles/hypercomputecluster.editor"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -921,7 +921,6 @@ export const allocateIdsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AllocateIdsProjects",
-  iam: { actions: ["datastore.entities.allocateIds"], roles: ["roles/datastore.user"] },
 }));
 
 export type BeginTransactionProjectsError =
@@ -944,7 +943,6 @@ export const beginTransactionProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BeginTransactionProjects",
-  iam: { actions: ["datastore.entities.get"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type CancelProjectsOperationsError =
@@ -1057,7 +1055,6 @@ export const exportProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjects",
-  iam: { actions: ["datastore.databases.export"], roles: ["roles/datastore.importExportAdmin"] },
 }));
 
 export type GetProjectsIndexesError = NotFound | Forbidden | GcpOpError;
@@ -1075,7 +1072,6 @@ export const getProjectsIndexes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsIndexes",
-  iam: { actions: ["datastore.databases.getMetadata"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type GetProjectsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1110,7 +1106,6 @@ export const importProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjects",
-  iam: { actions: ["datastore.databases.import"], roles: ["roles/datastore.importExportAdmin"] },
 }));
 
 export type ListProjectsIndexesError = NotFound | Forbidden | GcpOpError;
@@ -1129,7 +1124,6 @@ export const listProjectsIndexes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsIndexes",
-  iam: { actions: ["datastore.databases.getMetadata"], roles: ["roles/datastore.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1184,7 +1178,6 @@ export const reserveIdsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReserveIdsProjects",
-  iam: { actions: ["datastore.entities.allocateIds"], roles: ["roles/datastore.user"] },
 }));
 
 export type RollbackProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1202,7 +1195,6 @@ export const rollbackProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjects",
-  iam: { actions: ["datastore.entities.get"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type RunAggregationQueryProjectsError =
@@ -1225,7 +1217,6 @@ export const runAggregationQueryProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunAggregationQueryProjects",
-  iam: { actions: ["datastore.entities.get"], roles: ["roles/datastore.viewer"] },
 }));
 
 export type RunQueryProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

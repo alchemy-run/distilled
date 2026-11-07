@@ -1591,7 +1591,6 @@ export const getProjectsLocationsAppConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppConnections",
-  iam: { actions: ["beyondcorp.appConnections.get"], roles: ["roles/beyondcorp.viewer"] },
 }));
 
 export type GetProjectsLocationsAppConnectorsError = NotFound | Forbidden | GcpOpError;
@@ -1609,7 +1608,6 @@ export const getProjectsLocationsAppConnectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppConnectors",
-  iam: { actions: ["beyondcorp.appConnectors.get"], roles: ["roles/beyondcorp.viewer"] },
 }));
 
 export type GetProjectsLocationsAppGatewaysError = NotFound | Forbidden | GcpOpError;
@@ -1627,7 +1625,6 @@ export const getProjectsLocationsAppGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppGateways",
-  iam: { actions: ["beyondcorp.appGateways.get"], roles: ["roles/beyondcorp.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1666,7 +1663,6 @@ export const getProjectsLocationsSecurityGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSecurityGateways",
-  iam: { actions: ["beyondcorp.securityGateways.get"], roles: ["roles/beyondcorp.viewer"] },
 }));
 
 export type GetProjectsLocationsSecurityGatewaysApplicationsError =
@@ -1691,7 +1687,6 @@ export const getProjectsLocationsSecurityGatewaysApplications: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSecurityGatewaysApplications",
-  iam: { actions: ["beyondcorp.securityGateways.get"], roles: ["roles/beyondcorp.viewer"] },
 }));
 
 export type ListOrganizationsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1752,7 +1747,6 @@ export const listProjectsLocationsAppConnections: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppConnections",
-  iam: { actions: ["beyondcorp.appConnections.list"], roles: ["roles/beyondcorp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1776,7 +1770,6 @@ export const listProjectsLocationsAppConnectors: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppConnectors",
-  iam: { actions: ["beyondcorp.appConnectors.list"], roles: ["roles/beyondcorp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1796,7 +1789,6 @@ export const listProjectsLocationsAppGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppGateways",
-  iam: { actions: ["beyondcorp.appGateways.list"], roles: ["roles/beyondcorp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1839,7 +1831,6 @@ export const listProjectsLocationsSecurityGateways: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSecurityGateways",
-  iam: { actions: ["beyondcorp.securityGateways.list"], roles: ["roles/beyondcorp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1870,7 +1861,6 @@ export const listProjectsLocationsSecurityGatewaysApplications: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSecurityGatewaysApplications",
-  iam: { actions: ["beyondcorp.securityGateways.get"], roles: ["roles/beyondcorp.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1986,7 +1976,6 @@ export const reportStatusProjectsLocationsAppConnectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportStatusProjectsLocationsAppConnectors",
-  iam: { actions: ["beyondcorp.appConnectors.reportStatus"], roles: ["roles/beyondcorp.editor"] },
 }));
 
 export type ResolveInstanceConfigProjectsLocationsAppConnectorsError =
@@ -2015,7 +2004,6 @@ export const resolveInstanceConfigProjectsLocationsAppConnectors: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResolveInstanceConfigProjectsLocationsAppConnectors",
-  iam: { actions: ["beyondcorp.appConnectors.update"], roles: ["roles/beyondcorp.editor"] },
 }));
 
 export type ResolveProjectsLocationsAppConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -2038,7 +2026,6 @@ export const resolveProjectsLocationsAppConnections: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResolveProjectsLocationsAppConnections",
-  iam: { actions: ["beyondcorp.appConnections.update"], roles: ["roles/beyondcorp.editor"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

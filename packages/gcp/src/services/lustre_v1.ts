@@ -736,7 +736,6 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstances",
-  iam: { actions: ["lustre.instances.create"], roles: ["roles/lustre.admin"] },
 }));
 
 export type CreateProjectsLocationsInstancesDirectoryPoliciesError =
@@ -763,7 +762,6 @@ export const createProjectsLocationsInstancesDirectoryPolicies: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstancesDirectoryPolicies",
-  iam: { actions: ["lustre.instances.update"], roles: ["roles/lustre.admin"] },
 }));
 
 export type CreateProjectsLocationsInstancesMirrorsError =
@@ -786,7 +784,6 @@ export const createProjectsLocationsInstancesMirrors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstancesMirrors",
-  iam: { actions: ["lustre.instances.update"], roles: ["roles/lustre.admin"] },
 }));
 
 export type DeleteProjectsLocationsInstancesError =
@@ -809,7 +806,6 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstances",
-  iam: { actions: ["lustre.instances.delete"], roles: ["roles/lustre.admin"] },
 }));
 
 export type DeleteProjectsLocationsInstancesDirectoryPoliciesError =
@@ -836,7 +832,6 @@ export const deleteProjectsLocationsInstancesDirectoryPolicies: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstancesDirectoryPolicies",
-  iam: { actions: ["lustre.instances.update"], roles: ["roles/lustre.admin"] },
 }));
 
 export type DeleteProjectsLocationsInstancesMirrorsError =
@@ -859,7 +854,6 @@ export const deleteProjectsLocationsInstancesMirrors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstancesMirrors",
-  iam: { actions: ["lustre.instances.update"], roles: ["roles/lustre.admin"] },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -904,7 +898,6 @@ export const exportDataProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportDataProjectsLocationsInstances",
-  iam: { actions: ["lustre.instances.exportData"], roles: ["roles/lustre.admin"] },
 }));
 
 export type GetIamPolicyProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -980,7 +973,6 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
-  iam: { actions: ["lustre.instances.get"], roles: ["roles/lustre.viewer"] },
 }));
 
 export type GetProjectsLocationsInstancesDirectoryPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -1002,7 +994,6 @@ export const getProjectsLocationsInstancesDirectoryPolicies: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstancesDirectoryPolicies",
-  iam: { actions: ["lustre.instances.get"], roles: ["roles/lustre.viewer"] },
 }));
 
 export type GetProjectsLocationsInstancesMirrorsError = NotFound | Forbidden | GcpOpError;
@@ -1020,7 +1011,6 @@ export const getProjectsLocationsInstancesMirrors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstancesMirrors",
-  iam: { actions: ["lustre.instances.get"], roles: ["roles/lustre.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1060,7 +1050,6 @@ export const importDataProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportDataProjectsLocationsInstances",
-  iam: { actions: ["lustre.instances.importData"], roles: ["roles/lustre.admin"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1098,7 +1087,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: { actions: ["lustre.instances.list"], roles: ["roles/lustre.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1125,7 +1113,6 @@ export const listProjectsLocationsInstancesDirectoryPolicies: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstancesDirectoryPolicies",
-  iam: { actions: ["lustre.instances.get"], roles: ["roles/lustre.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1145,7 +1132,6 @@ export const listProjectsLocationsInstancesMirrors: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstancesMirrors",
-  iam: { actions: ["lustre.instances.get"], roles: ["roles/lustre.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1188,7 +1174,6 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsInstances",
-  iam: { actions: ["lustre.instances.update"], roles: ["roles/lustre.admin"] },
 }));
 
 export type PatchProjectsLocationsInstancesMirrorsError =
@@ -1211,7 +1196,6 @@ export const patchProjectsLocationsInstancesMirrors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsInstancesMirrors",
-  iam: { actions: ["lustre.instances.update"], roles: ["roles/lustre.admin"] },
 }));
 
 export type RescheduleMaintenanceProjectsLocationsInstancesError =
@@ -1238,7 +1222,6 @@ export const rescheduleMaintenanceProjectsLocationsInstances: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RescheduleMaintenanceProjectsLocationsInstances",
-  iam: { actions: ["lustre.instances.rescheduleMaintenance"], roles: ["roles/lustre.admin"] },
 }));
 
 export type SetIamPolicyProjectsLocationsInstancesError =

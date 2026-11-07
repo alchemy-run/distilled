@@ -916,7 +916,6 @@ export const checkValidCredsProjectsDataSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckValidCredsProjectsDataSources",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
 }));
 
 export type CheckValidCredsProjectsLocationsDataSourcesError =
@@ -939,7 +938,6 @@ export const checkValidCredsProjectsLocationsDataSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckValidCredsProjectsLocationsDataSources",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
 }));
 
 export type CreateProjectsLocationsTransferConfigsError =
@@ -1028,7 +1026,6 @@ export const deleteProjectsLocationsTransferConfigsRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTransferConfigsRuns",
-  iam: { actions: ["bigquery.transfers.update"], roles: ["roles/bigquery.admin"] },
 }));
 
 export type DeleteProjectsTransferConfigsError =
@@ -1095,7 +1092,6 @@ export const enrollDataSourcesProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnrollDataSourcesProjects",
-  iam: { actions: ["bigquery.transfers.update"], roles: ["roles/bigquery.admin"] },
 }));
 
 export type EnrollDataSourcesProjectsLocationsError =
@@ -1135,7 +1131,6 @@ export const getProjectsDataSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsDataSources",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1170,7 +1165,6 @@ export const getProjectsLocationsDataSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataSources",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
 }));
 
 export type GetProjectsLocationsTransferConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1188,7 +1182,6 @@ export const getProjectsLocationsTransferConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTransferConfigs",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
 }));
 
 export type GetProjectsLocationsTransferConfigsRunsError = NotFound | Forbidden | GcpOpError;
@@ -1206,7 +1199,6 @@ export const getProjectsLocationsTransferConfigsRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTransferConfigsRuns",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
 }));
 
 export type GetProjectsLocationsTransferConfigsTransferResourcesError =
@@ -1231,7 +1223,6 @@ export const getProjectsLocationsTransferConfigsTransferResources: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTransferConfigsTransferResources",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
 }));
 
 export type GetProjectsTransferConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1301,7 +1292,6 @@ export const listProjectsDataSources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsDataSources",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1340,7 +1330,6 @@ export const listProjectsLocationsDataSources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataSources",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1360,7 +1349,6 @@ export const listProjectsLocationsTransferConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTransferConfigs",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1380,7 +1368,6 @@ export const listProjectsLocationsTransferConfigsRuns: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTransferConfigsRuns",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1407,7 +1394,6 @@ export const listProjectsLocationsTransferConfigsRunsTransferLogs: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTransferConfigsRunsTransferLogs",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1434,7 +1420,6 @@ export const listProjectsLocationsTransferConfigsTransferResources: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTransferConfigsTransferResources",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1454,7 +1439,6 @@ export const listProjectsTransferConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsTransferConfigs",
-  iam: { actions: ["bigquery.transfers.get"], roles: ["roles/bigquery.user"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1579,7 +1563,6 @@ export const scheduleRunsProjectsLocationsTransferConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ScheduleRunsProjectsLocationsTransferConfigs",
-  iam: { actions: ["bigquery.transfers.update"], roles: ["roles/bigquery.admin"] },
 }));
 
 export type ScheduleRunsProjectsTransferConfigsError =

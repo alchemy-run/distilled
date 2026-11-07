@@ -213,10 +213,6 @@ export const generateAccessTokenProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateAccessTokenProjectsServiceAccounts",
-  iam: {
-    actions: ["iam.serviceAccounts.getAccessToken"],
-    roles: ["roles/iam.workloadIdentityUser"],
-  },
 }));
 
 export type GenerateIdTokenProjectsServiceAccountsError =
@@ -239,10 +235,6 @@ export const generateIdTokenProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateIdTokenProjectsServiceAccounts",
-  iam: {
-    actions: ["iam.serviceAccounts.getOpenIdToken"],
-    roles: ["roles/iam.serviceAccountOpenIdTokenCreator"],
-  },
 }));
 
 export type GetAllowedLocationsLocationsWorkforcePoolsError = NotFound | Forbidden | GcpOpError;
@@ -323,10 +315,6 @@ export const signBlobProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignBlobProjectsServiceAccounts",
-  iam: {
-    actions: ["iam.serviceAccounts.signBlob"],
-    roles: ["roles/iam.serviceAccountTokenCreator"],
-  },
 }));
 
 export type SignJwtProjectsServiceAccountsError =
@@ -349,10 +337,6 @@ export const signJwtProjectsServiceAccounts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SignJwtProjectsServiceAccounts",
-  iam: {
-    actions: ["iam.serviceAccounts.signJwt"],
-    roles: ["roles/iam.serviceAccountTokenCreator"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

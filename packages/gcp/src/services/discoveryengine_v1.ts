@@ -7721,10 +7721,6 @@ export const answerProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnswerProjectsLocationsCollectionsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.answer"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type AnswerProjectsLocationsCollectionsEnginesServingConfigsError =
@@ -7755,10 +7751,6 @@ export const answerProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnswerProjectsLocationsCollectionsEnginesServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.answer"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type AnswerProjectsLocationsDataStoresServingConfigsError =
@@ -7789,10 +7781,6 @@ export const answerProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnswerProjectsLocationsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.answer"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type BatchCreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError =
@@ -7845,10 +7833,6 @@ export const batchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSites: 
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsDataStoresSiteSearchEngineTargetSites",
-  iam: {
-    actions: ["discoveryengine.targetSites.batchCreate"],
-    roles: ["roles/discoveryengine.admin"],
-  },
 }));
 
 export type BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranchesError =
@@ -7877,10 +7861,6 @@ export const batchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBran
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetDocumentsMetadataProjectsLocationsCollectionsDataStoresBranches",
-  iam: {
-    actions: ["discoveryengine.branches.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type BatchGetDocumentsMetadataProjectsLocationsDataStoresBranchesError =
@@ -7909,10 +7889,6 @@ export const batchGetDocumentsMetadataProjectsLocationsDataStoresBranches: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetDocumentsMetadataProjectsLocationsDataStoresBranches",
-  iam: {
-    actions: ["discoveryengine.branches.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type BatchUpdateUserLicensesProjectsLocationsUserStoresError =
@@ -7939,10 +7915,6 @@ export const batchUpdateUserLicensesProjectsLocationsUserStores: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchUpdateUserLicensesProjectsLocationsUserStores",
-  iam: {
-    actions: ["discoveryengine.userStores.batchUpdateUserLicenses"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngineError =
@@ -7969,10 +7941,6 @@ export const batchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSea
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchVerifyTargetSitesProjectsLocationsCollectionsDataStoresSiteSearchEngine",
-  iam: {
-    actions: ["discoveryengine.siteSearchEngines.batchVerifyTargetSites"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type CancelProjectsLocationsCollectionsDataStoresBranchesOperationsError =
@@ -8025,7 +7993,6 @@ export const cancelProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks",
-  iam: { actions: ["discoveryengine.agents.update"], roles: ["roles/discoveryengine.agentAdmin"] },
 }));
 
 export type CancelProjectsLocationsCollectionsEnginesOperationsError =
@@ -8126,10 +8093,6 @@ export const checkProjectsLocationsGroundingConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckProjectsLocationsGroundingConfigs",
-  iam: {
-    actions: ["discoveryengine.groundingConfigs.check"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type CollectProjectsLocationsCollectionsDataStoresUserEventsError =
@@ -8154,10 +8117,6 @@ export const collectProjectsLocationsCollectionsDataStoresUserEvents: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CollectProjectsLocationsCollectionsDataStoresUserEvents",
-  iam: {
-    actions: ["discoveryengine.dataStores.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type CollectProjectsLocationsDataStoresUserEventsError = NotFound | Forbidden | GcpOpError;
@@ -8179,10 +8138,6 @@ export const collectProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CollectProjectsLocationsDataStoresUserEvents",
-  iam: {
-    actions: ["discoveryengine.dataStores.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type CollectProjectsLocationsUserEventsError = NotFound | Forbidden | GcpOpError;
@@ -8200,10 +8155,6 @@ export const collectProjectsLocationsUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CollectProjectsLocationsUserEvents",
-  iam: {
-    actions: ["discoveryengine.userEvents.create"],
-    roles: ["roles/discoveryengine.agentspaceRestrictedUser"],
-  },
 }));
 
 export type CompleteQueryProjectsLocationsCollectionsDataStoresError =
@@ -8232,10 +8183,6 @@ export const completeQueryProjectsLocationsCollectionsDataStores: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteQueryProjectsLocationsCollectionsDataStores",
-  iam: {
-    actions: ["discoveryengine.dataStores.completeQuery"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type CompleteQueryProjectsLocationsCollectionsDataStoresCompletionConfigError =
@@ -8317,10 +8264,6 @@ export const completeQueryProjectsLocationsDataStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteQueryProjectsLocationsDataStores",
-  iam: {
-    actions: ["discoveryengine.dataStores.completeQuery"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type CompleteQueryProjectsLocationsDataStoresCompletionConfigError =
@@ -8351,10 +8294,6 @@ export const completeQueryProjectsLocationsDataStoresCompletionConfig: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteQueryProjectsLocationsDataStoresCompletionConfig",
-  iam: {
-    actions: ["discoveryengine.completionConfigs.completeQuery"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type ConverseProjectsLocationsCollectionsDataStoresConversationsError =
@@ -8385,10 +8324,6 @@ export const converseProjectsLocationsCollectionsDataStoresConversations: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConverseProjectsLocationsCollectionsDataStoresConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.converse"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type ConverseProjectsLocationsCollectionsEnginesConversationsError =
@@ -8419,10 +8354,6 @@ export const converseProjectsLocationsCollectionsEnginesConversations: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConverseProjectsLocationsCollectionsEnginesConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.converse"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type ConverseProjectsLocationsDataStoresConversationsError =
@@ -8453,10 +8384,6 @@ export const converseProjectsLocationsDataStoresConversations: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConverseProjectsLocationsDataStoresConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.converse"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type CreateProjectsLocationsCollectionsDataStoresError =
@@ -8667,10 +8594,6 @@ export const createProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemap
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps",
-  iam: {
-    actions: ["discoveryengine.sitemaps.create"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type CreateProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesError =
@@ -9070,10 +8993,6 @@ export const createProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDataStoresSiteSearchEngineSitemaps",
-  iam: {
-    actions: ["discoveryengine.sitemaps.create"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type CreateProjectsLocationsDataStoresSiteSearchEngineTargetSitesError =
@@ -9156,10 +9075,6 @@ export const createProjectsLocationsLicenseConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsLicenseConfigs",
-  iam: {
-    actions: ["discoveryengine.licenseConfigs.create"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type DeleteProjectsLocationsCmekConfigsError =
@@ -9182,7 +9097,6 @@ export const deleteProjectsLocationsCmekConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCmekConfigs",
-  iam: { actions: ["discoveryengine.cmekConfigs.delete"], roles: ["roles/discoveryengine.admin"] },
 }));
 
 export type DeleteProjectsLocationsCollectionsError =
@@ -9205,7 +9119,6 @@ export const deleteProjectsLocationsCollections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCollections",
-  iam: { actions: ["discoveryengine.collections.delete"], roles: ["roles/discoveryengine.admin"] },
 }));
 
 export type DeleteProjectsLocationsCollectionsDataStoresError =
@@ -9514,7 +9427,6 @@ export const deleteProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigs",
-  iam: { actions: ["discoveryengine.agents.update"], roles: ["roles/discoveryengine.agentAdmin"] },
 }));
 
 export type DeleteProjectsLocationsCollectionsEnginesControlsError =
@@ -9915,10 +9827,6 @@ export const disableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine",
-  iam: {
-    actions: ["discoveryengine.siteSearchEngines.disableAdvancedSiteSearch"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type DistributeLicenseConfigBillingAccountsBillingAccountLicenseConfigsError =
@@ -10001,10 +9909,6 @@ export const enableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableAdvancedSiteSearchProjectsLocationsDataStoresSiteSearchEngine",
-  iam: {
-    actions: ["discoveryengine.siteSearchEngines.enableAdvancedSiteSearch"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngineError =
@@ -10034,10 +9938,6 @@ export const fetchDomainVerificationStatusProjectsLocationsCollectionsDataStores
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchDomainVerificationStatusProjectsLocationsCollectionsDataStoresSiteSearchEngine",
-  iam: {
-    actions: ["discoveryengine.siteSearchEngines.fetchDomainVerificationStatus"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -10067,10 +9967,6 @@ export const fetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchProjectsLocationsCollectionsDataStoresSiteSearchEngineSitemaps",
-  iam: {
-    actions: ["discoveryengine.sitemaps.fetch"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type FetchProjectsLocationsDataStoresSiteSearchEngineSitemapsError =
@@ -10099,10 +9995,6 @@ export const fetchProjectsLocationsDataStoresSiteSearchEngineSitemaps: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchProjectsLocationsDataStoresSiteSearchEngineSitemaps",
-  iam: {
-    actions: ["discoveryengine.sitemaps.fetch"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetAclConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -10144,10 +10036,6 @@ export const getCardProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCardProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1",
-  iam: {
-    actions: ["discoveryengine.agents.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetCmekConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -10186,10 +10074,6 @@ export const getDataConnectorProjectsLocationsCollections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDataConnectorProjectsLocationsCollections",
-  iam: {
-    actions: ["discoveryengine.collections.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetIamPolicyProjectsLocationsCollectionsError = NotFound | Forbidden | GcpOpError;
@@ -10289,10 +10173,6 @@ export const getProjectsLocationsCmekConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCmekConfigs",
-  iam: {
-    actions: ["discoveryengine.cmekConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataConnectorOperationsError =
@@ -10334,10 +10214,6 @@ export const getProjectsLocationsCollectionsDataStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStores",
-  iam: {
-    actions: ["discoveryengine.dataStores.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
@@ -10362,10 +10238,6 @@ export const getProjectsLocationsCollectionsDataStoresBranchesDocuments: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresBranchesDocuments",
-  iam: {
-    actions: ["discoveryengine.documents.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresBranchesOperationsError =
@@ -10414,10 +10286,6 @@ export const getProjectsLocationsCollectionsDataStoresControls: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresControls",
-  iam: {
-    actions: ["discoveryengine.controls.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresConversationsError =
@@ -10442,10 +10310,6 @@ export const getProjectsLocationsCollectionsDataStoresConversations: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresModelsOperationsError =
@@ -10518,10 +10382,6 @@ export const getProjectsLocationsCollectionsDataStoresSchemas: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresSchemas",
-  iam: {
-    actions: ["discoveryengine.schemas.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresSchemasOperationsError =
@@ -10570,10 +10430,6 @@ export const getProjectsLocationsCollectionsDataStoresServingConfigs: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresSessionsError =
@@ -10598,10 +10454,6 @@ export const getProjectsLocationsCollectionsDataStoresSessions: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresSessions",
-  iam: {
-    actions: ["discoveryengine.sessions.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresSessionsAnswersError =
@@ -10626,10 +10478,6 @@ export const getProjectsLocationsCollectionsDataStoresSessionsAnswers: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresSessionsAnswers",
-  iam: {
-    actions: ["discoveryengine.answers.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineOperationsError =
@@ -10678,10 +10526,6 @@ export const getProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSite
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites",
-  iam: {
-    actions: ["discoveryengine.targetSites.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSitesOperationsError =
@@ -10730,10 +10574,6 @@ export const getProjectsLocationsCollectionsDataStoresWidgetConfigs: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsDataStoresWidgetConfigs",
-  iam: {
-    actions: ["discoveryengine.widgetConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesError = NotFound | Forbidden | GcpOpError;
@@ -10751,10 +10591,6 @@ export const getProjectsLocationsCollectionsEngines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEngines",
-  iam: {
-    actions: ["discoveryengine.engines.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsError =
@@ -10779,10 +10615,6 @@ export const getProjectsLocationsCollectionsEnginesAssistants: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesAssistants",
-  iam: {
-    actions: ["discoveryengine.assistants.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksError =
@@ -10807,10 +10639,6 @@ export const getProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks",
-  iam: {
-    actions: ["discoveryengine.agents.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigsError =
@@ -10835,10 +10663,6 @@ export const getProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPus
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigs",
-  iam: {
-    actions: ["discoveryengine.agents.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesAssistantsAgentsOperationsError =
@@ -10884,10 +10708,6 @@ export const getProjectsLocationsCollectionsEnginesControls: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesControls",
-  iam: {
-    actions: ["discoveryengine.controls.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesConversationsError =
@@ -10912,10 +10732,6 @@ export const getProjectsLocationsCollectionsEnginesConversations: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesOperationsError =
@@ -10964,10 +10780,6 @@ export const getProjectsLocationsCollectionsEnginesServingConfigs: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesSessionsError = NotFound | Forbidden | GcpOpError;
@@ -10989,10 +10801,6 @@ export const getProjectsLocationsCollectionsEnginesSessions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesSessions",
-  iam: {
-    actions: ["discoveryengine.sessions.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesSessionsAnswersError =
@@ -11017,10 +10825,6 @@ export const getProjectsLocationsCollectionsEnginesSessionsAnswers: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesSessionsAnswers",
-  iam: {
-    actions: ["discoveryengine.answers.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsEnginesWidgetConfigsError =
@@ -11045,10 +10849,6 @@ export const getProjectsLocationsCollectionsEnginesWidgetConfigs: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCollectionsEnginesWidgetConfigs",
-  iam: {
-    actions: ["discoveryengine.widgetConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCollectionsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -11083,10 +10883,6 @@ export const getProjectsLocationsDataStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStores",
-  iam: {
-    actions: ["discoveryengine.dataStores.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresBranchesDocumentsError =
@@ -11111,10 +10907,6 @@ export const getProjectsLocationsDataStoresBranchesDocuments: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresBranchesDocuments",
-  iam: {
-    actions: ["discoveryengine.documents.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresBranchesOperationsError =
@@ -11156,10 +10948,6 @@ export const getProjectsLocationsDataStoresControls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresControls",
-  iam: {
-    actions: ["discoveryengine.controls.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresConversationsError = NotFound | Forbidden | GcpOpError;
@@ -11177,10 +10965,6 @@ export const getProjectsLocationsDataStoresConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresModelsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -11236,10 +11020,6 @@ export const getProjectsLocationsDataStoresSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresSchemas",
-  iam: {
-    actions: ["discoveryengine.schemas.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresServingConfigsError = NotFound | Forbidden | GcpOpError;
@@ -11261,10 +11041,6 @@ export const getProjectsLocationsDataStoresServingConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresSessionsError = NotFound | Forbidden | GcpOpError;
@@ -11282,10 +11058,6 @@ export const getProjectsLocationsDataStoresSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresSessions",
-  iam: {
-    actions: ["discoveryengine.sessions.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresSessionsAnswersError = NotFound | Forbidden | GcpOpError;
@@ -11307,10 +11079,6 @@ export const getProjectsLocationsDataStoresSessionsAnswers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresSessionsAnswers",
-  iam: {
-    actions: ["discoveryengine.answers.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresSiteSearchEngineTargetSitesError =
@@ -11335,10 +11103,6 @@ export const getProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresSiteSearchEngineTargetSites",
-  iam: {
-    actions: ["discoveryengine.targetSites.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDataStoresWidgetConfigsError = NotFound | Forbidden | GcpOpError;
@@ -11356,10 +11120,6 @@ export const getProjectsLocationsDataStoresWidgetConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataStoresWidgetConfigs",
-  iam: {
-    actions: ["discoveryengine.widgetConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsIdentityMappingStoresError = NotFound | Forbidden | GcpOpError;
@@ -11377,10 +11137,6 @@ export const getProjectsLocationsIdentityMappingStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIdentityMappingStores",
-  iam: {
-    actions: ["discoveryengine.identityMappingStores.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsIdentityMappingStoresOperationsError =
@@ -11422,10 +11178,6 @@ export const getProjectsLocationsLicenseConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLicenseConfigs",
-  iam: {
-    actions: ["discoveryengine.licenseConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -11477,10 +11229,6 @@ export const getProjectsLocationsUserStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsUserStores",
-  iam: {
-    actions: ["discoveryengine.userStores.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type GetProjectsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -11543,10 +11291,6 @@ export const getSiteSearchEngineProjectsLocationsDataStores: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSiteSearchEngineProjectsLocationsDataStores",
-  iam: {
-    actions: ["discoveryengine.dataStores.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type ImportIdentityMappingsProjectsLocationsIdentityMappingStoresError =
@@ -11573,10 +11317,6 @@ export const importIdentityMappingsProjectsLocationsIdentityMappingStores: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportIdentityMappingsProjectsLocationsIdentityMappingStores",
-  iam: {
-    actions: ["discoveryengine.identityMappingStores.importIdentityMappings"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ImportProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
@@ -11603,10 +11343,6 @@ export const importProjectsLocationsCollectionsDataStoresBranchesDocuments: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCollectionsDataStoresBranchesDocuments",
-  iam: {
-    actions: ["discoveryengine.documents.import"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ImportProjectsLocationsCollectionsDataStoresCompletionSuggestionsError =
@@ -11633,10 +11369,6 @@ export const importProjectsLocationsCollectionsDataStoresCompletionSuggestions: 
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCollectionsDataStoresCompletionSuggestions",
-  iam: {
-    actions: ["discoveryengine.completionSuggestions.import"],
-    roles: ["roles/discoveryengine.admin"],
-  },
 }));
 
 export type ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError =
@@ -11663,10 +11395,6 @@ export const importProjectsLocationsCollectionsDataStoresSuggestionDenyListEntri
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries",
-  iam: {
-    actions: ["discoveryengine.suggestionDenyListEntries.import"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ImportProjectsLocationsCollectionsDataStoresUserEventsError =
@@ -11693,10 +11421,6 @@ export const importProjectsLocationsCollectionsDataStoresUserEvents: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsCollectionsDataStoresUserEvents",
-  iam: {
-    actions: ["discoveryengine.userEvents.import"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ImportProjectsLocationsDataStoresBranchesDocumentsError =
@@ -11723,10 +11447,6 @@ export const importProjectsLocationsDataStoresBranchesDocuments: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsDataStoresBranchesDocuments",
-  iam: {
-    actions: ["discoveryengine.documents.import"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ImportProjectsLocationsDataStoresCompletionSuggestionsError =
@@ -11753,10 +11473,6 @@ export const importProjectsLocationsDataStoresCompletionSuggestions: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsDataStoresCompletionSuggestions",
-  iam: {
-    actions: ["discoveryengine.completionSuggestions.import"],
-    roles: ["roles/discoveryengine.admin"],
-  },
 }));
 
 export type ImportProjectsLocationsDataStoresSuggestionDenyListEntriesError =
@@ -11783,10 +11499,6 @@ export const importProjectsLocationsDataStoresSuggestionDenyListEntries: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsDataStoresSuggestionDenyListEntries",
-  iam: {
-    actions: ["discoveryengine.suggestionDenyListEntries.import"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ImportProjectsLocationsDataStoresUserEventsError =
@@ -11809,10 +11521,6 @@ export const importProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsDataStoresUserEvents",
-  iam: {
-    actions: ["discoveryengine.userEvents.import"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ImportProjectsLocationsUserEventsError =
@@ -11835,10 +11543,6 @@ export const importProjectsLocationsUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsUserEvents",
-  iam: {
-    actions: ["discoveryengine.userEvents.import"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ListIdentityMappingsProjectsLocationsIdentityMappingStoresError =
@@ -11868,10 +11572,6 @@ export const listIdentityMappingsProjectsLocationsIdentityMappingStores: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIdentityMappingsProjectsLocationsIdentityMappingStores",
-  iam: {
-    actions: ["discoveryengine.identityMappingStores.listIdentityMappings"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -11894,10 +11594,6 @@ export const listProjectsLocationsCmekConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCmekConfigs",
-  iam: {
-    actions: ["discoveryengine.cmekConfigs.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type ListProjectsLocationsCollectionsDataConnectorOperationsError =
@@ -11946,10 +11642,6 @@ export const listProjectsLocationsCollectionsDataStores: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStores",
-  iam: {
-    actions: ["discoveryengine.dataStores.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -11980,10 +11672,6 @@ export const listProjectsLocationsCollectionsDataStoresBranchesDocuments: API.Pa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStoresBranchesDocuments",
-  iam: {
-    actions: ["discoveryengine.documents.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12036,10 +11724,6 @@ export const listProjectsLocationsCollectionsDataStoresControls: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStoresControls",
-  iam: {
-    actions: ["discoveryengine.controls.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12070,10 +11754,6 @@ export const listProjectsLocationsCollectionsDataStoresConversations: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStoresConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12103,10 +11783,6 @@ export const listProjectsLocationsCollectionsDataStoresCustomModels: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStoresCustomModels",
-  iam: {
-    actions: ["discoveryengine.dataStores.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type ListProjectsLocationsCollectionsDataStoresModelsOperationsError =
@@ -12184,10 +11860,6 @@ export const listProjectsLocationsCollectionsDataStoresSchemas: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStoresSchemas",
-  iam: {
-    actions: ["discoveryengine.schemas.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12244,10 +11916,6 @@ export const listProjectsLocationsCollectionsDataStoresServingConfigs: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12274,10 +11942,6 @@ export const listProjectsLocationsCollectionsDataStoresSessions: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStoresSessions",
-  iam: {
-    actions: ["discoveryengine.sessions.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12334,10 +11998,6 @@ export const listProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSit
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsDataStoresSiteSearchEngineTargetSites",
-  iam: {
-    actions: ["discoveryengine.targetSites.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12383,10 +12043,6 @@ export const listProjectsLocationsCollectionsEngines: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsEngines",
-  iam: {
-    actions: ["discoveryengine.engines.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12417,10 +12073,6 @@ export const listProjectsLocationsCollectionsEnginesAssistants: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsEnginesAssistants",
-  iam: {
-    actions: ["discoveryengine.assistants.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12447,10 +12099,6 @@ export const listProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPu
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksPushNotificationConfigs",
-  iam: {
-    actions: ["discoveryengine.agents.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12477,10 +12125,6 @@ export const listProjectsLocationsCollectionsEnginesControls: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsEnginesControls",
-  iam: {
-    actions: ["discoveryengine.controls.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12511,10 +12155,6 @@ export const listProjectsLocationsCollectionsEnginesConversations: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsEnginesConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12571,10 +12211,6 @@ export const listProjectsLocationsCollectionsEnginesServingConfigs: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsEnginesServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12601,10 +12237,6 @@ export const listProjectsLocationsCollectionsEnginesSessions: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCollectionsEnginesSessions",
-  iam: {
-    actions: ["discoveryengine.sessions.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12647,10 +12279,6 @@ export const listProjectsLocationsDataStores: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataStores",
-  iam: {
-    actions: ["discoveryengine.dataStores.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12681,10 +12309,6 @@ export const listProjectsLocationsDataStoresBranchesDocuments: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataStoresBranchesDocuments",
-  iam: {
-    actions: ["discoveryengine.documents.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12730,10 +12354,6 @@ export const listProjectsLocationsDataStoresControls: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataStoresControls",
-  iam: {
-    actions: ["discoveryengine.controls.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12761,10 +12381,6 @@ export const listProjectsLocationsDataStoresConversations: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataStoresConversations",
-  iam: {
-    actions: ["discoveryengine.conversations.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12829,10 +12445,6 @@ export const listProjectsLocationsDataStoresSchemas: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataStoresSchemas",
-  iam: {
-    actions: ["discoveryengine.schemas.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12860,10 +12472,6 @@ export const listProjectsLocationsDataStoresServingConfigs: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12883,10 +12491,6 @@ export const listProjectsLocationsDataStoresSessions: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataStoresSessions",
-  iam: {
-    actions: ["discoveryengine.sessions.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12917,10 +12521,6 @@ export const listProjectsLocationsDataStoresSiteSearchEngineTargetSites: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataStoresSiteSearchEngineTargetSites",
-  iam: {
-    actions: ["discoveryengine.targetSites.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12944,10 +12544,6 @@ export const listProjectsLocationsIdentityMappingStores: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIdentityMappingStores",
-  iam: {
-    actions: ["discoveryengine.identityMappingStores.list"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -12997,10 +12593,6 @@ export const listProjectsLocationsLicenseConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLicenseConfigs",
-  iam: {
-    actions: ["discoveryengine.licenseConfigs.list"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13049,10 +12641,6 @@ export const listProjectsLocationsUserStoresLicenseConfigsUsageStats: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsUserStoresLicenseConfigsUsageStats",
-  iam: {
-    actions: ["discoveryengine.userStores.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type ListProjectsLocationsUserStoresUserLicensesError = NotFound | Forbidden | GcpOpError;
@@ -13079,10 +12667,6 @@ export const listProjectsLocationsUserStoresUserLicenses: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsUserStoresUserLicenses",
-  iam: {
-    actions: ["discoveryengine.userStores.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -13129,10 +12713,6 @@ export const mcpProjectsLocationsCollectionsDataConnector: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "McpProjectsLocationsCollectionsDataConnector",
-  iam: {
-    actions: ["discoveryengine.dataConnectors.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PatchProjectsLocationsCmekConfigsError =
@@ -13155,7 +12735,6 @@ export const patchProjectsLocationsCmekConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCmekConfigs",
-  iam: { actions: ["discoveryengine.cmekConfigs.update"], roles: ["roles/discoveryengine.admin"] },
 }));
 
 export type PatchProjectsLocationsCollectionsDataStoresError =
@@ -13390,10 +12969,6 @@ export const patchProjectsLocationsCollectionsDataStoresWidgetConfigs: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCollectionsDataStoresWidgetConfigs",
-  iam: {
-    actions: ["discoveryengine.widgetConfigs.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PatchProjectsLocationsCollectionsEnginesError =
@@ -13572,10 +13147,6 @@ export const patchProjectsLocationsCollectionsEnginesWidgetConfigs: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCollectionsEnginesWidgetConfigs",
-  iam: {
-    actions: ["discoveryengine.widgetConfigs.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PatchProjectsLocationsDataStoresError =
@@ -13794,10 +13365,6 @@ export const patchProjectsLocationsDataStoresWidgetConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDataStoresWidgetConfigs",
-  iam: {
-    actions: ["discoveryengine.widgetConfigs.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PatchProjectsLocationsLicenseConfigsError =
@@ -13820,10 +13387,6 @@ export const patchProjectsLocationsLicenseConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsLicenseConfigs",
-  iam: {
-    actions: ["discoveryengine.licenseConfigs.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PatchProjectsLocationsUserStoresError =
@@ -13846,7 +13409,6 @@ export const patchProjectsLocationsUserStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsUserStores",
-  iam: { actions: ["discoveryengine.userStores.update"], roles: ["roles/discoveryengine.admin"] },
 }));
 
 export type ProvisionProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -13864,10 +13426,6 @@ export const provisionProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProvisionProjects",
-  iam: {
-    actions: ["discoveryengine.projects.provision"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type ProvisionProjectsLocationsError =
@@ -13916,10 +13474,6 @@ export const purgeIdentityMappingsProjectsLocationsIdentityMappingStores: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeIdentityMappingsProjectsLocationsIdentityMappingStores",
-  iam: {
-    actions: ["discoveryengine.identityMappingStores.purgeIdentityMappings"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PurgeProjectsLocationsCollectionsDataStoresBranchesDocumentsError =
@@ -13946,10 +13500,6 @@ export const purgeProjectsLocationsCollectionsDataStoresBranchesDocuments: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsCollectionsDataStoresBranchesDocuments",
-  iam: {
-    actions: ["discoveryengine.documents.purge"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestionsError =
@@ -13976,10 +13526,6 @@ export const purgeProjectsLocationsCollectionsDataStoresCompletionSuggestions: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsCollectionsDataStoresCompletionSuggestions",
-  iam: {
-    actions: ["discoveryengine.completionSuggestions.purge"],
-    roles: ["roles/discoveryengine.admin"],
-  },
 }));
 
 export type PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntriesError =
@@ -14006,10 +13552,6 @@ export const purgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntrie
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsCollectionsDataStoresSuggestionDenyListEntries",
-  iam: {
-    actions: ["discoveryengine.suggestionDenyListEntries.purge"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PurgeProjectsLocationsCollectionsDataStoresUserEventsError =
@@ -14036,10 +13578,6 @@ export const purgeProjectsLocationsCollectionsDataStoresUserEvents: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsCollectionsDataStoresUserEvents",
-  iam: {
-    actions: ["discoveryengine.userEvents.purge"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PurgeProjectsLocationsDataStoresBranchesDocumentsError =
@@ -14066,10 +13604,6 @@ export const purgeProjectsLocationsDataStoresBranchesDocuments: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsDataStoresBranchesDocuments",
-  iam: {
-    actions: ["discoveryengine.documents.purge"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PurgeProjectsLocationsDataStoresCompletionSuggestionsError =
@@ -14096,10 +13630,6 @@ export const purgeProjectsLocationsDataStoresCompletionSuggestions: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsDataStoresCompletionSuggestions",
-  iam: {
-    actions: ["discoveryengine.completionSuggestions.purge"],
-    roles: ["roles/discoveryengine.admin"],
-  },
 }));
 
 export type PurgeProjectsLocationsDataStoresSuggestionDenyListEntriesError =
@@ -14126,10 +13656,6 @@ export const purgeProjectsLocationsDataStoresSuggestionDenyListEntries: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsDataStoresSuggestionDenyListEntries",
-  iam: {
-    actions: ["discoveryengine.suggestionDenyListEntries.purge"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type PurgeProjectsLocationsDataStoresUserEventsError =
@@ -14152,10 +13678,6 @@ export const purgeProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsDataStoresUserEvents",
-  iam: {
-    actions: ["discoveryengine.userEvents.purge"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type RankProjectsLocationsRankingConfigsError =
@@ -14178,10 +13700,6 @@ export const rankProjectsLocationsRankingConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RankProjectsLocationsRankingConfigs",
-  iam: {
-    actions: ["discoveryengine.rankingConfigs.rank"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type RecommendProjectsLocationsCollectionsDataStoresServingConfigsError =
@@ -14208,10 +13726,6 @@ export const recommendProjectsLocationsCollectionsDataStoresServingConfigs: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecommendProjectsLocationsCollectionsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.recommend"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type RecommendProjectsLocationsCollectionsEnginesServingConfigsError =
@@ -14238,10 +13752,6 @@ export const recommendProjectsLocationsCollectionsEnginesServingConfigs: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecommendProjectsLocationsCollectionsEnginesServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.recommend"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type RecommendProjectsLocationsDataStoresServingConfigsError =
@@ -14268,10 +13778,6 @@ export const recommendProjectsLocationsDataStoresServingConfigs: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecommendProjectsLocationsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.recommend"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type RecrawlUrisProjectsLocationsCollectionsDataStoresSiteSearchEngineError =
@@ -14324,10 +13830,6 @@ export const recrawlUrisProjectsLocationsDataStoresSiteSearchEngine: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RecrawlUrisProjectsLocationsDataStoresSiteSearchEngine",
-  iam: {
-    actions: ["discoveryengine.siteSearchEngines.recrawlUris"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type RetractLicenseConfigBillingAccountsBillingAccountLicenseConfigsError =
@@ -14384,10 +13886,6 @@ export const searchLiteProjectsLocationsCollectionsDataStoresServingConfigs: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchLiteProjectsLocationsCollectionsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type SearchLiteProjectsLocationsCollectionsEnginesServingConfigsError =
@@ -14414,10 +13912,6 @@ export const searchLiteProjectsLocationsCollectionsEnginesServingConfigs: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchLiteProjectsLocationsCollectionsEnginesServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type SearchLiteProjectsLocationsDataStoresServingConfigsError =
@@ -14444,10 +13938,6 @@ export const searchLiteProjectsLocationsDataStoresServingConfigs: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchLiteProjectsLocationsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.get"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type SearchProjectsLocationsCollectionsDataStoresServingConfigsError =
@@ -14474,10 +13964,6 @@ export const searchProjectsLocationsCollectionsDataStoresServingConfigs: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsCollectionsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.search"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type SearchProjectsLocationsCollectionsEnginesServingConfigsError =
@@ -14504,10 +13990,6 @@ export const searchProjectsLocationsCollectionsEnginesServingConfigs: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsCollectionsEnginesServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.search"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type SearchProjectsLocationsDataStoresServingConfigsError =
@@ -14534,10 +14016,6 @@ export const searchProjectsLocationsDataStoresServingConfigs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.search"],
-    roles: ["roles/discoveryengine.agentspaceViewer"],
-  },
 }));
 
 export type SendProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1MessageError =
@@ -14564,7 +14042,6 @@ export const sendProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Message
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Message",
-  iam: { actions: ["discoveryengine.agents.update"], roles: ["roles/discoveryengine.agentAdmin"] },
 }));
 
 export type SetIamPolicyProjectsLocationsCollectionsError =
@@ -14735,10 +14212,6 @@ export const streamAnswerProjectsLocationsCollectionsDataStoresServingConfigs: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamAnswerProjectsLocationsCollectionsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type StreamAnswerProjectsLocationsCollectionsEnginesServingConfigsError =
@@ -14769,10 +14242,6 @@ export const streamAnswerProjectsLocationsCollectionsEnginesServingConfigs: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamAnswerProjectsLocationsCollectionsEnginesServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type StreamAnswerProjectsLocationsDataStoresServingConfigsError =
@@ -14803,10 +14272,6 @@ export const streamAnswerProjectsLocationsDataStoresServingConfigs: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamAnswerProjectsLocationsDataStoresServingConfigs",
-  iam: {
-    actions: ["discoveryengine.servingConfigs.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type StreamAssistProjectsLocationsCollectionsEnginesAssistantsError =
@@ -14837,10 +14302,6 @@ export const streamAssistProjectsLocationsCollectionsEnginesAssistants: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamAssistProjectsLocationsCollectionsEnginesAssistants",
-  iam: {
-    actions: ["discoveryengine.assistants.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type StreamProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1MessageError =
@@ -14867,7 +14328,6 @@ export const streamProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Messa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Message",
-  iam: { actions: ["discoveryengine.agents.update"], roles: ["roles/discoveryengine.agentAdmin"] },
 }));
 
 export type SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1TasksError =
@@ -14892,7 +14352,6 @@ export const subscribeProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Ta
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubscribeProjectsLocationsCollectionsEnginesAssistantsAgentsA2aV1Tasks",
-  iam: { actions: ["discoveryengine.agents.update"], roles: ["roles/discoveryengine.agentAdmin"] },
 }));
 
 export type TrainCustomModelProjectsLocationsCollectionsDataStoresError =
@@ -14919,10 +14378,6 @@ export const trainCustomModelProjectsLocationsCollectionsDataStores: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TrainCustomModelProjectsLocationsCollectionsDataStores",
-  iam: {
-    actions: ["discoveryengine.dataStores.trainCustomModel"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type UpdateAclConfigProjectsLocationsError =
@@ -14993,10 +14448,6 @@ export const updateDataConnectorProjectsLocationsCollections: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDataConnectorProjectsLocationsCollections",
-  iam: {
-    actions: ["discoveryengine.dataConnectors.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type WriteProjectsLocationsCollectionsDataStoresUserEventsError =
@@ -15023,10 +14474,6 @@ export const writeProjectsLocationsCollectionsDataStoresUserEvents: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsLocationsCollectionsDataStoresUserEvents",
-  iam: {
-    actions: ["discoveryengine.dataStores.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type WriteProjectsLocationsDataStoresUserEventsError =
@@ -15049,10 +14496,6 @@ export const writeProjectsLocationsDataStoresUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsLocationsDataStoresUserEvents",
-  iam: {
-    actions: ["discoveryengine.dataStores.update"],
-    roles: ["roles/discoveryengine.agentspaceEditor"],
-  },
 }));
 
 export type WriteProjectsLocationsUserEventsError =
@@ -15075,10 +14518,6 @@ export const writeProjectsLocationsUserEvents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteProjectsLocationsUserEvents",
-  iam: {
-    actions: ["discoveryengine.userEvents.create"],
-    roles: ["roles/discoveryengine.agentspaceRestrictedUser"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

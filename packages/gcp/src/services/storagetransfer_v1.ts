@@ -825,7 +825,6 @@ export const getProjectsAgentPools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAgentPools",
-  iam: { actions: ["storagetransfer.agentpools.get"], roles: ["roles/storagetransfer.viewer"] },
 }));
 
 export type GetTransferJobsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -843,7 +842,6 @@ export const getTransferJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTransferJobs",
-  iam: { actions: ["storagetransfer.jobs.get"], roles: ["roles/storagetransfer.viewer"] },
 }));
 
 export type GetTransferOperationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -879,7 +877,6 @@ export const listProjectsAgentPools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAgentPools",
-  iam: { actions: ["storagetransfer.agentpools.list"], roles: ["roles/storagetransfer.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

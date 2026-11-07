@@ -596,7 +596,6 @@ export const batchEditTagsProjectsLocationsObservationJobsApiObservations: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchEditTagsProjectsLocationsObservationJobsApiObservations",
-  iam: { actions: ["apim.apiObservations.batchEditTags"], roles: ["roles/apim.admin"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -756,7 +755,6 @@ export const disableProjectsLocationsObservationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsObservationJobs",
-  iam: { actions: ["apim.observationJobs.disable"], roles: ["roles/apim.admin"] },
 }));
 
 export type EnableProjectsLocationsObservationJobsError =
@@ -780,7 +778,6 @@ export const enableProjectsLocationsObservationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsLocationsObservationJobs",
-  iam: { actions: ["apim.observationJobs.enable"], roles: ["roles/apim.admin"] },
 }));
 
 export type GetEntitlementProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -836,7 +833,6 @@ export const getProjectsLocationsObservationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsObservationJobs",
-  iam: { actions: ["apim.observationJobs.get"], roles: ["roles/apim.viewer"] },
 }));
 
 export type GetProjectsLocationsObservationJobsApiObservationsError =
@@ -861,7 +857,6 @@ export const getProjectsLocationsObservationJobsApiObservations: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsObservationJobsApiObservations",
-  iam: { actions: ["apim.apiObservations.get"], roles: ["roles/apim.viewer"] },
 }));
 
 export type GetProjectsLocationsObservationJobsApiObservationsApiOperationsError =
@@ -886,7 +881,6 @@ export const getProjectsLocationsObservationJobsApiObservationsApiOperations: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsObservationJobsApiObservationsApiOperations",
-  iam: { actions: ["apim.apiOperations.get"], roles: ["roles/apim.viewer"] },
 }));
 
 export type GetProjectsLocationsObservationSourcesError =
@@ -908,7 +902,6 @@ export const getProjectsLocationsObservationSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsObservationSources",
-  iam: { actions: ["apim.observationSources.get"], roles: ["roles/apim.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -990,7 +983,6 @@ export const listProjectsLocationsObservationJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsObservationJobs",
-  iam: { actions: ["apim.observationJobs.list"], roles: ["roles/apim.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1017,7 +1009,6 @@ export const listProjectsLocationsObservationJobsApiObservations: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsObservationJobsApiObservations",
-  iam: { actions: ["apim.apiObservations.list"], roles: ["roles/apim.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1044,7 +1035,6 @@ export const listProjectsLocationsObservationJobsApiObservationsApiOperations: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsObservationJobsApiObservationsApiOperations",
-  iam: { actions: ["apim.apiOperations.list"], roles: ["roles/apim.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1068,7 +1058,6 @@ export const listProjectsLocationsObservationSources: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsObservationSources",
-  iam: { actions: ["apim.observationSources.list"], roles: ["roles/apim.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

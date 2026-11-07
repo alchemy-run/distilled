@@ -2479,7 +2479,6 @@ export const addSplitPointsProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddSplitPointsProjectsInstancesDatabases",
-  iam: { actions: ["spanner.databases.addSplitPoints"], roles: ["roles/spanner.databaseAdmin"] },
 }));
 
 export type BatchCreateProjectsInstancesDatabasesSessionsError =
@@ -2506,7 +2505,6 @@ export const batchCreateProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.sessions.create"], roles: ["roles/spanner.databaseReader"] },
 }));
 
 export type BatchWriteProjectsInstancesDatabasesSessionsError =
@@ -2556,10 +2554,6 @@ export const beginTransactionProjectsInstancesDatabasesSessions: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BeginTransactionProjectsInstancesDatabasesSessions",
-  iam: {
-    actions: ["spanner.databases.beginOrRollbackReadWriteTransaction"],
-    roles: ["roles/spanner.databaseUser"],
-  },
 }));
 
 export type CancelProjectsInstanceConfigsOperationsError =
@@ -2722,7 +2716,6 @@ export const changequorumProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ChangequorumProjectsInstancesDatabases",
-  iam: { actions: ["spanner.databases.changequorum"], roles: ["roles/spanner.databaseUser"] },
 }));
 
 export type CommitProjectsInstancesDatabasesSessionsError =
@@ -2746,7 +2739,6 @@ export const commitProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.databases.write"], roles: ["roles/spanner.databaseUser"] },
 }));
 
 export type CopyProjectsInstancesBackupsError =
@@ -2769,7 +2761,6 @@ export const copyProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CopyProjectsInstancesBackups",
-  iam: { actions: ["spanner.backups.copy"], roles: ["roles/spanner.backupWriter"] },
 }));
 
 export type CreateProjectsInstanceConfigsError =
@@ -2950,7 +2941,6 @@ export const deleteProjectsInstanceConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstanceConfigs",
-  iam: { actions: ["spanner.instanceConfigs.delete"], roles: ["roles/spanner.editor"] },
 }));
 
 export type DeleteProjectsInstanceConfigsOperationsError =
@@ -3136,7 +3126,6 @@ export const deleteProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.sessions.delete"], roles: ["roles/spanner.databaseReader"] },
 }));
 
 export type DeleteProjectsInstancesInstancePartitionsError =
@@ -3256,7 +3245,6 @@ export const executeBatchDmlProjectsInstancesDatabasesSessions: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteBatchDmlProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.databases.write"], roles: ["roles/spanner.databaseUser"] },
 }));
 
 export type ExecuteSqlProjectsInstancesDatabasesSessionsError =
@@ -3437,7 +3425,6 @@ export const getProjectsInstanceConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstanceConfigs",
-  iam: { actions: ["spanner.instanceConfigs.get"], roles: ["roles/spanner.viewer"] },
 }));
 
 export type GetProjectsInstanceConfigsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3510,7 +3497,6 @@ export const getProjectsInstancesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesBackups",
-  iam: { actions: ["spanner.backups.get"], roles: ["roles/spanner.viewer"] },
 }));
 
 export type GetProjectsInstancesBackupsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3545,7 +3531,6 @@ export const getProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesDatabases",
-  iam: { actions: ["spanner.databases.get"], roles: ["roles/spanner.databaseReader"] },
 }));
 
 export type GetProjectsInstancesDatabasesBackupSchedulesError = NotFound | Forbidden | GcpOpError;
@@ -3567,7 +3552,6 @@ export const getProjectsInstancesDatabasesBackupSchedules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesDatabasesBackupSchedules",
-  iam: { actions: ["spanner.backupSchedules.get"], roles: ["roles/spanner.viewer"] },
 }));
 
 export type GetProjectsInstancesDatabasesOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3606,7 +3590,6 @@ export const getProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.sessions.get"], roles: ["roles/spanner.databaseReader"] },
 }));
 
 export type GetProjectsInstancesInstancePartitionsError = NotFound | Forbidden | GcpOpError;
@@ -3624,7 +3607,6 @@ export const getProjectsInstancesInstancePartitions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsInstancesInstancePartitions",
-  iam: { actions: ["spanner.instancePartitions.get"], roles: ["roles/spanner.databaseReader"] },
 }));
 
 export type GetProjectsInstancesInstancePartitionsOperationsError =
@@ -3701,7 +3683,6 @@ export const listProjectsInstanceConfigOperations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstanceConfigOperations",
-  iam: { actions: ["spanner.instanceConfigOperations.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3721,7 +3702,6 @@ export const listProjectsInstanceConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstanceConfigs",
-  iam: { actions: ["spanner.instanceConfigs.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3783,7 +3763,6 @@ export const listProjectsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstances",
-  iam: { actions: ["spanner.instances.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3803,7 +3782,6 @@ export const listProjectsInstancesBackupOperations: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesBackupOperations",
-  iam: { actions: ["spanner.backupOperations.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3823,7 +3801,6 @@ export const listProjectsInstancesBackups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesBackups",
-  iam: { actions: ["spanner.backups.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3862,7 +3839,6 @@ export const listProjectsInstancesDatabaseOperations: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabaseOperations",
-  iam: { actions: ["spanner.databaseOperations.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3882,7 +3858,6 @@ export const listProjectsInstancesDatabases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabases",
-  iam: { actions: ["spanner.databases.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3906,7 +3881,6 @@ export const listProjectsInstancesDatabasesBackupSchedules: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabasesBackupSchedules",
-  iam: { actions: ["spanner.backupSchedules.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3930,7 +3904,6 @@ export const listProjectsInstancesDatabasesDatabaseRoles: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabasesDatabaseRoles",
-  iam: { actions: ["spanner.databaseRoles.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3969,7 +3942,6 @@ export const listProjectsInstancesDatabasesSessions: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.sessions.list"], roles: ["roles/spanner.databaseReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3996,7 +3968,6 @@ export const listProjectsInstancesInstancePartitionOperations: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesInstancePartitionOperations",
-  iam: { actions: ["spanner.instancePartitionOperations.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4016,7 +3987,6 @@ export const listProjectsInstancesInstancePartitions: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsInstancesInstancePartitions",
-  iam: { actions: ["spanner.instancePartitions.list"], roles: ["roles/spanner.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4099,7 +4069,6 @@ export const moveProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveProjectsInstances",
-  iam: { actions: ["spanner.instances.update"], roles: ["roles/spanner.editor"] },
 }));
 
 export type PartitionQueryProjectsInstancesDatabasesSessionsError =
@@ -4127,7 +4096,6 @@ export const partitionQueryProjectsInstancesDatabasesSessions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PartitionQueryProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.databases.partitionQuery"], roles: ["roles/spanner.databaseReader"] },
 }));
 
 export type PartitionReadProjectsInstancesDatabasesSessionsError =
@@ -4155,7 +4123,6 @@ export const partitionReadProjectsInstancesDatabasesSessions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PartitionReadProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.databases.partitionRead"], roles: ["roles/spanner.databaseReader"] },
 }));
 
 export type PatchProjectsInstanceConfigsError =
@@ -4178,7 +4145,6 @@ export const patchProjectsInstanceConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsInstanceConfigs",
-  iam: { actions: ["spanner.instanceConfigs.update"], roles: ["roles/spanner.editor"] },
 }));
 
 export type PatchProjectsInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4311,7 +4277,6 @@ export const readProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadProjectsInstancesDatabasesSessions",
-  iam: { actions: ["spanner.databases.read"], roles: ["roles/spanner.databaseReader"] },
 }));
 
 export type RestoreProjectsInstancesDatabasesError =
@@ -4334,7 +4299,6 @@ export const restoreProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsInstancesDatabases",
-  iam: { actions: ["spanner.backups.restoreDatabase"], roles: ["roles/spanner.restoreAdmin"] },
 }));
 
 export type RollbackProjectsInstancesDatabasesSessionsError =
@@ -4358,10 +4322,6 @@ export const rollbackProjectsInstancesDatabasesSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsInstancesDatabasesSessions",
-  iam: {
-    actions: ["spanner.databases.beginOrRollbackReadWriteTransaction"],
-    roles: ["roles/spanner.databaseUser"],
-  },
 }));
 
 export type SetIamPolicyProjectsInstancesError =
@@ -4622,7 +4582,6 @@ export const updateDdlProjectsInstancesDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateDdlProjectsInstancesDatabases",
-  iam: { actions: ["spanner.databases.updateDdl"], roles: ["roles/spanner.databaseUser"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

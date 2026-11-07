@@ -287,10 +287,6 @@ export const getProjectsLocationsNotifications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNotifications",
-  iam: {
-    actions: ["advisorynotifications.notifications.get"],
-    roles: ["roles/advisorynotifications.viewer"],
-  },
 }));
 
 export type GetSettingsOrganizationsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -370,10 +366,6 @@ export const listProjectsLocationsNotifications: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNotifications",
-  iam: {
-    actions: ["advisorynotifications.notifications.list"],
-    roles: ["roles/advisorynotifications.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

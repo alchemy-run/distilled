@@ -937,7 +937,6 @@ export const cancelProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsJobs",
-  iam: { actions: ["batch.jobs.delete"], roles: ["roles/batch.jobsEditor"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1060,7 +1059,6 @@ export const getProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobs",
-  iam: { actions: ["batch.jobs.get"], roles: ["roles/batch.jobsViewer"] },
 }));
 
 export type GetProjectsLocationsJobsTaskGroupsTasksError = NotFound | Forbidden | GcpOpError;
@@ -1078,7 +1076,6 @@ export const getProjectsLocationsJobsTaskGroupsTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobsTaskGroupsTasks",
-  iam: { actions: ["batch.tasks.get"], roles: ["roles/batch.jobsViewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1133,7 +1130,6 @@ export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobs",
-  iam: { actions: ["batch.jobs.list"], roles: ["roles/batch.jobsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1153,7 +1149,6 @@ export const listProjectsLocationsJobsTaskGroupsTasks: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobsTaskGroupsTasks",
-  iam: { actions: ["batch.tasks.list"], roles: ["roles/batch.jobsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1196,7 +1191,6 @@ export const reportProjectsLocationsState: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportProjectsLocationsState",
-  iam: { actions: ["batch.states.report"], roles: ["roles/batch.agentReporter"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

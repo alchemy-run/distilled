@@ -1115,7 +1115,6 @@ export const checkReadinessProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckReadinessProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
 }));
 
 export type CheckStatusProjectsLocationsConnectionsError = NotFound | Forbidden | GcpOpError;
@@ -1133,7 +1132,6 @@ export const checkStatusProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckStatusProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
 }));
 
 export type CreateProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1187,10 +1185,6 @@ export const deleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities",
-  iam: {
-    actions: ["connectors.entities.deleteEntitiesWithConditions"],
-    roles: ["roles/connectors.invoker"],
-  },
 }));
 
 export type DeleteProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1240,7 +1234,6 @@ export const exchangeAuthCodeProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExchangeAuthCodeProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.update"], roles: ["roles/connectors.editor"] },
 }));
 
 export type ExecuteHttpRequestProjectsLocationsConnectionsError =
@@ -1263,7 +1256,6 @@ export const executeHttpRequestProjectsLocationsConnections: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteHttpRequestProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.update"], roles: ["roles/connectors.editor"] },
 }));
 
 export type ExecuteProjectsLocationsConnectionsActionsError =
@@ -1286,7 +1278,6 @@ export const executeProjectsLocationsConnectionsActions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteProjectsLocationsConnectionsActions",
-  iam: { actions: ["connectors.actions.execute"], roles: ["roles/connectors.invoker"] },
 }));
 
 export type ExecuteProjectsLocationsConnectionsToolsError =
@@ -1309,7 +1300,6 @@ export const executeProjectsLocationsConnectionsTools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteProjectsLocationsConnectionsTools",
-  iam: { actions: ["connectors.connections.update"], roles: ["roles/connectors.editor"] },
 }));
 
 export type ExecuteSqlQueryProjectsLocationsConnectionsError =
@@ -1332,7 +1322,6 @@ export const executeSqlQueryProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteSqlQueryProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.executeSqlQuery"], roles: ["roles/connectors.invoker"] },
 }));
 
 export type GenerateConnectionToolspecOverrideProjectsLocationsConnectionsError =
@@ -1359,7 +1348,6 @@ export const generateConnectionToolspecOverrideProjectsLocationsConnections: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateConnectionToolspecOverrideProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.update"], roles: ["roles/connectors.editor"] },
 }));
 
 export type GetProjectsLocationsConnectionsActionsError = NotFound | Forbidden | GcpOpError;
@@ -1377,7 +1365,6 @@ export const getProjectsLocationsConnectionsActions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectionsActions",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
 }));
 
 export type GetProjectsLocationsConnectionsEntityTypesError = NotFound | Forbidden | GcpOpError;
@@ -1395,7 +1382,6 @@ export const getProjectsLocationsConnectionsEntityTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectionsEntityTypes",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
 }));
 
 export type GetProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1438,7 +1424,6 @@ export const getProjectsLocationsConnectionsResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectionsResources",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
 }));
 
 export type GetResourcePostProjectsLocationsConnectionsResourcesError =
@@ -1465,7 +1450,6 @@ export const getResourcePostProjectsLocationsConnectionsResources: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourcePostProjectsLocationsConnectionsResources",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
 }));
 
 export type ListCustomToolNamesProjectsLocationsConnectionsError =
@@ -1490,7 +1474,6 @@ export const listCustomToolNamesProjectsLocationsConnections: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCustomToolNamesProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
 }));
 
 export type ListProjectsLocationsConnectionsActionsError = NotFound | Forbidden | GcpOpError;
@@ -1509,7 +1492,6 @@ export const listProjectsLocationsConnectionsActions: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionsActions",
-  iam: { actions: ["connectors.actions.list"], roles: ["roles/connectors.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1529,7 +1511,6 @@ export const listProjectsLocationsConnectionsEntityTypes: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionsEntityTypes",
-  iam: { actions: ["connectors.entityTypes.list"], roles: ["roles/connectors.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1557,7 +1538,6 @@ export const listProjectsLocationsConnectionsEntityTypesEntities: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionsEntityTypesEntities",
-  iam: { actions: ["connectors.entities.list"], roles: ["roles/connectors.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1577,7 +1557,6 @@ export const listProjectsLocationsConnectionsResources: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionsResources",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1597,7 +1576,6 @@ export const listProjectsLocationsConnectionsTools: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionsTools",
-  iam: { actions: ["connectors.connections.get"], roles: ["roles/connectors.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1652,7 +1630,6 @@ export const refreshAccessTokenProjectsLocationsConnections: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RefreshAccessTokenProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.update"], roles: ["roles/connectors.editor"] },
 }));
 
 export type ToolsProjectsLocationsConnectionsError =
@@ -1675,7 +1652,6 @@ export const toolsProjectsLocationsConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ToolsProjectsLocationsConnections",
-  iam: { actions: ["connectors.connections.update"], roles: ["roles/connectors.editor"] },
 }));
 
 export type UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntitiesError =
@@ -1702,10 +1678,6 @@ export const updateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypes
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateEntitiesWithConditionsProjectsLocationsConnectionsEntityTypesEntities",
-  iam: {
-    actions: ["connectors.entities.updateEntitiesWithConditions"],
-    roles: ["roles/connectors.invoker"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

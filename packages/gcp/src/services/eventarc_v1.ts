@@ -1791,7 +1791,6 @@ export const getProjectsLocationsChannelConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsChannelConnections",
-  iam: { actions: ["eventarc.channelConnections.get"], roles: ["roles/eventarc.viewer"] },
 }));
 
 export type GetProjectsLocationsChannelsError = NotFound | Forbidden | GcpOpError;
@@ -1809,7 +1808,6 @@ export const getProjectsLocationsChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsChannels",
-  iam: { actions: ["eventarc.channels.get"], roles: ["roles/eventarc.viewer"] },
 }));
 
 export type GetProjectsLocationsEnrollmentsError = NotFound | Forbidden | GcpOpError;
@@ -1827,7 +1825,6 @@ export const getProjectsLocationsEnrollments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEnrollments",
-  iam: { actions: ["eventarc.enrollments.get"], roles: ["roles/eventarc.viewer"] },
 }));
 
 export type GetProjectsLocationsGoogleApiSourcesError = NotFound | Forbidden | GcpOpError;
@@ -1845,7 +1842,6 @@ export const getProjectsLocationsGoogleApiSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGoogleApiSources",
-  iam: { actions: ["eventarc.googleApiSources.get"], roles: ["roles/eventarc.viewer"] },
 }));
 
 export type GetProjectsLocationsMessageBusesError = NotFound | Forbidden | GcpOpError;
@@ -1863,7 +1859,6 @@ export const getProjectsLocationsMessageBuses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMessageBuses",
-  iam: { actions: ["eventarc.messageBuses.get"], roles: ["roles/eventarc.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1898,7 +1893,6 @@ export const getProjectsLocationsPipelines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPipelines",
-  iam: { actions: ["eventarc.pipelines.get"], roles: ["roles/eventarc.viewer"] },
 }));
 
 export type GetProjectsLocationsProvidersError = NotFound | Forbidden | GcpOpError;
@@ -1916,7 +1910,6 @@ export const getProjectsLocationsProviders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProviders",
-  iam: { actions: ["eventarc.providers.get"], roles: ["roles/eventarc.viewer"] },
 }));
 
 export type GetProjectsLocationsTriggersError = NotFound | Forbidden | GcpOpError;
@@ -1934,7 +1927,6 @@ export const getProjectsLocationsTriggers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTriggers",
-  iam: { actions: ["eventarc.triggers.get"], roles: ["roles/eventarc.viewer"] },
 }));
 
 export type ListEnrollmentsProjectsLocationsMessageBusesError = NotFound | Forbidden | GcpOpError;
@@ -1953,7 +1945,6 @@ export const listEnrollmentsProjectsLocationsMessageBuses: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEnrollmentsProjectsLocationsMessageBuses",
-  iam: { actions: ["eventarc.messageBuses.get"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1992,7 +1983,6 @@ export const listProjectsLocationsChannelConnections: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsChannelConnections",
-  iam: { actions: ["eventarc.channelConnections.list"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2012,7 +2002,6 @@ export const listProjectsLocationsChannels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsChannels",
-  iam: { actions: ["eventarc.channels.list"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2032,7 +2021,6 @@ export const listProjectsLocationsEnrollments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEnrollments",
-  iam: { actions: ["eventarc.enrollments.list"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2052,7 +2040,6 @@ export const listProjectsLocationsGoogleApiSources: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGoogleApiSources",
-  iam: { actions: ["eventarc.googleApiSources.list"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2072,7 +2059,6 @@ export const listProjectsLocationsMessageBuses: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMessageBuses",
-  iam: { actions: ["eventarc.messageBuses.list"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2111,7 +2097,6 @@ export const listProjectsLocationsPipelines: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPipelines",
-  iam: { actions: ["eventarc.pipelines.list"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2131,7 +2116,6 @@ export const listProjectsLocationsProviders: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProviders",
-  iam: { actions: ["eventarc.providers.list"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2151,7 +2135,6 @@ export const listProjectsLocationsTriggers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTriggers",
-  iam: { actions: ["eventarc.triggers.list"], roles: ["roles/eventarc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

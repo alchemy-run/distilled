@@ -4344,10 +4344,6 @@ export const appealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppealProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.appeal"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type AppealProjectsLocationsConversationsAssessmentsError =
@@ -4374,10 +4370,6 @@ export const appealProjectsLocationsConversationsAssessments: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AppealProjectsLocationsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.appeal"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type BulkAnalyzeProjectsLocationsConversationsError =
@@ -4400,10 +4392,6 @@ export const bulkAnalyzeProjectsLocationsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkAnalyzeProjectsLocationsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type BulkAnalyzeProjectsLocationsConversationsSegmentsError =
@@ -4430,10 +4418,6 @@ export const bulkAnalyzeProjectsLocationsConversationsSegments: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkAnalyzeProjectsLocationsConversationsSegments",
-  iam: {
-    actions: ["contactcenterinsights.conversations.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type BulkDeleteFeedbackLabelsProjectsLocationsError =
@@ -4482,10 +4466,6 @@ export const bulkDeleteFeedbackLabelsProjectsLocationsDatasets: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkDeleteFeedbackLabelsProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type BulkDeleteProjectsLocationsConversationsError =
@@ -4534,10 +4514,6 @@ export const bulkDeleteProjectsLocationsDatasetsConversations: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkDeleteProjectsLocationsDatasetsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type BulkDownloadFeedbackLabelsProjectsLocationsError =
@@ -4586,10 +4562,6 @@ export const bulkDownloadFeedbackLabelsProjectsLocationsDatasets: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkDownloadFeedbackLabelsProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type BulkUploadFeedbackLabelsProjectsLocationsError =
@@ -4638,10 +4610,6 @@ export const bulkUploadFeedbackLabelsProjectsLocationsDatasets: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkUploadFeedbackLabelsProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type CalculateIssueModelStatsProjectsLocationsIssueModelsError =
@@ -4670,10 +4638,6 @@ export const calculateIssueModelStatsProjectsLocationsIssueModels: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CalculateIssueModelStatsProjectsLocationsIssueModels",
-  iam: {
-    actions: ["contactcenterinsights.issueModels.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type CalculateStatsProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError =
@@ -4757,10 +4721,6 @@ export const calculateStatsProjectsLocationsDatasetsConversations: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CalculateStatsProjectsLocationsDatasetsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type CancelProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError =
@@ -4983,10 +4943,6 @@ export const createProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes",
-  iam: {
-    actions: ["contactcenterinsights.notes.create"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type CreateProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
@@ -5139,10 +5095,6 @@ export const createProjectsLocationsConversationsAssessmentsNotes: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsConversationsAssessmentsNotes",
-  iam: {
-    actions: ["contactcenterinsights.notes.create"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type CreateProjectsLocationsConversationsFeedbackLabelsError =
@@ -5235,10 +5187,6 @@ export const createProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.create"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type CreateProjectsLocationsDatasetsConversationsFeedbackLabelsError =
@@ -5587,10 +5535,6 @@ export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.delete"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
@@ -5643,10 +5587,6 @@ export const deleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes",
-  iam: {
-    actions: ["contactcenterinsights.notes.delete"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type DeleteProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
@@ -5795,10 +5735,6 @@ export const deleteProjectsLocationsConversationsAssessmentsNotes: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsConversationsAssessmentsNotes",
-  iam: {
-    actions: ["contactcenterinsights.notes.delete"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type DeleteProjectsLocationsConversationsFeedbackLabelsError =
@@ -5891,10 +5827,6 @@ export const deleteProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.delete"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type DeleteProjectsLocationsDatasetsConversationsError =
@@ -5921,10 +5853,6 @@ export const deleteProjectsLocationsDatasetsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasetsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.delete"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type DeleteProjectsLocationsDatasetsConversationsFeedbackLabelsError =
@@ -6158,10 +6086,6 @@ export const deployProjectsLocationsIssueModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployProjectsLocationsIssueModels",
-  iam: {
-    actions: ["contactcenterinsights.issueModels.deploy"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type DeployProjectsLocationsQaScorecardsRevisionsError =
@@ -6192,10 +6116,6 @@ export const deployProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployProjectsLocationsQaScorecardsRevisions",
-  iam: {
-    actions: ["contactcenterinsights.qaScorecards.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type ExportProjectsLocationsDatasetsInsightsdataError =
@@ -6222,10 +6142,6 @@ export const exportProjectsLocationsDatasetsInsightsdata: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsDatasetsInsightsdata",
-  iam: {
-    actions: ["contactcenterinsights.datasets.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type ExportProjectsLocationsInsightsdataError =
@@ -6270,10 +6186,6 @@ export const exportProjectsLocationsIssueModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsIssueModels",
-  iam: {
-    actions: ["contactcenterinsights.issueModels.export"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
@@ -6300,10 +6212,6 @@ export const finalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FinalizeProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.finalize"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type FinalizeProjectsLocationsConversationsAssessmentsError =
@@ -6330,10 +6238,6 @@ export const finalizeProjectsLocationsConversationsAssessments: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FinalizeProjectsLocationsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.finalize"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type GenerateSignedAudioProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError =
@@ -6418,10 +6322,6 @@ export const generateSignedAudioProjectsLocationsDatasetsConversations: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateSignedAudioProjectsLocationsDatasetsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.generateSignedAudio"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GenerativeInsightsProjectsLocationsError =
@@ -6470,10 +6370,6 @@ export const generativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedView
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerativeInsightsProjectsLocationsAuthorizedViewSetsAuthorizedViews",
-  iam: {
-    actions: ["contactcenterinsights.authorizedViews.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type GetCorrelationConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -6553,10 +6449,6 @@ export const getProjectsLocationsAnalysisRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAnalysisRules",
-  iam: {
-    actions: ["contactcenterinsights.analysisRules.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsAssessmentRulesError = NotFound | Forbidden | GcpOpError;
@@ -6574,10 +6466,6 @@ export const getProjectsLocationsAssessmentRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAssessmentRules",
-  iam: {
-    actions: ["contactcenterinsights.assessmentRules.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsAssistantSessionsError = NotFound | Forbidden | GcpOpError;
@@ -6620,10 +6508,6 @@ export const getProjectsLocationsAuthorizedViewSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthorizedViewSets",
-  iam: {
-    actions: ["contactcenterinsights.authorizedViewSets.get"],
-    roles: ["roles/contactcenterinsights.authorizedViewer"],
-  },
 }));
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
@@ -6648,10 +6532,6 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthorizedViewSetsAuthorizedViews",
-  iam: {
-    actions: ["contactcenterinsights.authorizedViews.get"],
-    roles: ["roles/contactcenterinsights.authorizedViewer"],
-  },
 }));
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsError =
@@ -6676,10 +6556,6 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsError =
@@ -6704,10 +6580,6 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsA
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
@@ -6732,10 +6604,6 @@ export const getProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsF
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels",
-  iam: {
-    actions: ["contactcenterinsights.feedbackLabels.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsAuthorizedViewSetsAuthorizedViewsOperationsError =
@@ -6798,10 +6666,6 @@ export const getProjectsLocationsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsConversationsAnalysesError = NotFound | Forbidden | GcpOpError;
@@ -6819,10 +6683,6 @@ export const getProjectsLocationsConversationsAnalyses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConversationsAnalyses",
-  iam: {
-    actions: ["contactcenterinsights.analyses.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsConversationsAssessmentsError = NotFound | Forbidden | GcpOpError;
@@ -6840,10 +6700,6 @@ export const getProjectsLocationsConversationsAssessments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsConversationsFeedbackLabelsError =
@@ -6868,10 +6724,6 @@ export const getProjectsLocationsConversationsFeedbackLabels: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConversationsFeedbackLabels",
-  iam: {
-    actions: ["contactcenterinsights.feedbackLabels.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsDashboardsError = NotFound | Forbidden | GcpOpError;
@@ -6923,10 +6775,6 @@ export const getProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsDatasetsConversationsError = NotFound | Forbidden | GcpOpError;
@@ -6944,10 +6792,6 @@ export const getProjectsLocationsDatasetsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsDatasetsConversationsFeedbackLabelsError =
@@ -6972,10 +6816,6 @@ export const getProjectsLocationsDatasetsConversationsFeedbackLabels: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsConversationsFeedbackLabels",
-  iam: {
-    actions: ["contactcenterinsights.feedbackLabels.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsIssueModelsError = NotFound | Forbidden | GcpOpError;
@@ -6993,10 +6833,6 @@ export const getProjectsLocationsIssueModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIssueModels",
-  iam: {
-    actions: ["contactcenterinsights.issueModels.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsIssueModelsIssuesError = NotFound | Forbidden | GcpOpError;
@@ -7014,10 +6850,6 @@ export const getProjectsLocationsIssueModelsIssues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIssueModelsIssues",
-  iam: {
-    actions: ["contactcenterinsights.issues.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -7052,10 +6884,6 @@ export const getProjectsLocationsPhraseMatchers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPhraseMatchers",
-  iam: {
-    actions: ["contactcenterinsights.phraseMatchers.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsQaQuestionTagsError = NotFound | Forbidden | GcpOpError;
@@ -7073,10 +6901,6 @@ export const getProjectsLocationsQaQuestionTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsQaQuestionTags",
-  iam: {
-    actions: ["contactcenterinsights.qaQuestionTags.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsQaScorecardsError = NotFound | Forbidden | GcpOpError;
@@ -7094,10 +6918,6 @@ export const getProjectsLocationsQaScorecards: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsQaScorecards",
-  iam: {
-    actions: ["contactcenterinsights.qaScorecards.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsQaScorecardsRevisionsError = NotFound | Forbidden | GcpOpError;
@@ -7119,10 +6939,6 @@ export const getProjectsLocationsQaScorecardsRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsQaScorecardsRevisions",
-  iam: {
-    actions: ["contactcenterinsights.qaScorecards.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsQaScorecardsRevisionsQaQuestionsError =
@@ -7147,10 +6963,6 @@ export const getProjectsLocationsQaScorecardsRevisionsQaQuestions: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsQaScorecardsRevisionsQaQuestions",
-  iam: {
-    actions: ["contactcenterinsights.qaQuestions.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsViewsError = NotFound | Forbidden | GcpOpError;
@@ -7168,10 +6980,6 @@ export const getProjectsLocationsViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsViews",
-  iam: {
-    actions: ["contactcenterinsights.views.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type GetSettingsProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -7211,10 +7019,6 @@ export const importProjectsLocationsIssueModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsIssueModels",
-  iam: {
-    actions: ["contactcenterinsights.issueModels.import"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type IngestProjectsLocationsConversationsError =
@@ -7237,10 +7041,6 @@ export const ingestProjectsLocationsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "IngestProjectsLocationsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type IngestProjectsLocationsDatasetsConversationsError =
@@ -7263,10 +7063,6 @@ export const ingestProjectsLocationsDatasetsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "IngestProjectsLocationsDatasetsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type InitializeProjectsLocationsEncryptionSpecError =
@@ -7289,10 +7085,6 @@ export const initializeProjectsLocationsEncryptionSpec: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InitializeProjectsLocationsEncryptionSpec",
-  iam: {
-    actions: ["contactcenterinsights.encryptionSpecs.initialize"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type ListAllFeedbackLabelsProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -7342,10 +7134,6 @@ export const listAllFeedbackLabelsProjectsLocationsDatasets: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAllFeedbackLabelsProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7369,10 +7157,6 @@ export const listProjectsLocationsAnalysisRules: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAnalysisRules",
-  iam: {
-    actions: ["contactcenterinsights.analysisRules.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7396,10 +7180,6 @@ export const listProjectsLocationsAssessmentRules: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAssessmentRules",
-  iam: {
-    actions: ["contactcenterinsights.assessmentRules.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7446,10 +7226,6 @@ export const listProjectsLocationsAuthorizedViewSets: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthorizedViewSets",
-  iam: {
-    actions: ["contactcenterinsights.authorizedViewSets.list"],
-    roles: ["roles/contactcenterinsights.authorizedViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7480,10 +7256,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthorizedViewSetsAuthorizedViews",
-  iam: {
-    actions: ["contactcenterinsights.authorizedViews.list"],
-    roles: ["roles/contactcenterinsights.authorizedViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7514,10 +7286,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7548,10 +7316,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7582,10 +7346,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes",
-  iam: {
-    actions: ["contactcenterinsights.notes.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7616,10 +7376,6 @@ export const listProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversations
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabels",
-  iam: {
-    actions: ["contactcenterinsights.feedbackLabels.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7692,10 +7448,6 @@ export const listProjectsLocationsConversations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7719,10 +7471,6 @@ export const listProjectsLocationsConversationsAnalyses: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConversationsAnalyses",
-  iam: {
-    actions: ["contactcenterinsights.analyses.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7750,10 +7498,6 @@ export const listProjectsLocationsConversationsAssessments: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7784,10 +7528,6 @@ export const listProjectsLocationsConversationsAssessmentsNotes: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConversationsAssessmentsNotes",
-  iam: {
-    actions: ["contactcenterinsights.notes.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7818,10 +7558,6 @@ export const listProjectsLocationsConversationsFeedbackLabels: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConversationsFeedbackLabels",
-  iam: {
-    actions: ["contactcenterinsights.feedbackLabels.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7889,10 +7625,6 @@ export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7916,10 +7648,6 @@ export const listProjectsLocationsDatasetsConversations: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7950,10 +7678,6 @@ export const listProjectsLocationsDatasetsConversationsFeedbackLabels: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsConversationsFeedbackLabels",
-  iam: {
-    actions: ["contactcenterinsights.feedbackLabels.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7976,10 +7700,6 @@ export const listProjectsLocationsIssueModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIssueModels",
-  iam: {
-    actions: ["contactcenterinsights.issueModels.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type ListProjectsLocationsIssueModelsIssuesError = NotFound | Forbidden | GcpOpError;
@@ -8001,10 +7721,6 @@ export const listProjectsLocationsIssueModelsIssues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIssueModelsIssues",
-  iam: {
-    actions: ["contactcenterinsights.issues.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -8046,10 +7762,6 @@ export const listProjectsLocationsPhraseMatchers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPhraseMatchers",
-  iam: {
-    actions: ["contactcenterinsights.phraseMatchers.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8072,10 +7784,6 @@ export const listProjectsLocationsQaQuestionTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsQaQuestionTags",
-  iam: {
-    actions: ["contactcenterinsights.qaQuestionTags.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
 }));
 
 export type ListProjectsLocationsQaScorecardsError = NotFound | Forbidden | GcpOpError;
@@ -8098,10 +7806,6 @@ export const listProjectsLocationsQaScorecards: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsQaScorecards",
-  iam: {
-    actions: ["contactcenterinsights.qaScorecards.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8125,10 +7829,6 @@ export const listProjectsLocationsQaScorecardsRevisions: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsQaScorecardsRevisions",
-  iam: {
-    actions: ["contactcenterinsights.qaScorecards.get"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8159,10 +7859,6 @@ export const listProjectsLocationsQaScorecardsRevisionsQaQuestions: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsQaScorecardsRevisionsQaQuestions",
-  iam: {
-    actions: ["contactcenterinsights.qaQuestions.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8186,10 +7882,6 @@ export const listProjectsLocationsViews: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsViews",
-  iam: {
-    actions: ["contactcenterinsights.views.list"],
-    roles: ["roles/contactcenterinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8313,10 +8005,6 @@ export const patchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessmentsNotes",
-  iam: {
-    actions: ["contactcenterinsights.notes.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type PatchProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsFeedbackLabelsError =
@@ -8417,10 +8105,6 @@ export const patchProjectsLocationsConversationsAssessmentsNotes: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsConversationsAssessmentsNotes",
-  iam: {
-    actions: ["contactcenterinsights.notes.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type PatchProjectsLocationsConversationsFeedbackLabelsError =
@@ -8513,10 +8197,6 @@ export const patchProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDatasets",
-  iam: {
-    actions: ["contactcenterinsights.datasets.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type PatchProjectsLocationsDatasetsConversationsFeedbackLabelsError =
@@ -8727,10 +8407,6 @@ export const publishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishProjectsLocationsAuthorizedViewSetsAuthorizedViewsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.publish"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type PublishProjectsLocationsConversationsAssessmentsError =
@@ -8757,10 +8433,6 @@ export const publishProjectsLocationsConversationsAssessments: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishProjectsLocationsConversationsAssessments",
-  iam: {
-    actions: ["contactcenterinsights.assessments.publish"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type QueryMetricsProjectsLocationsError =
@@ -8809,10 +8481,6 @@ export const queryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViews: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryMetricsProjectsLocationsAuthorizedViewSetsAuthorizedViews",
-  iam: {
-    actions: ["contactcenterinsights.authorizedViews.get"],
-    roles: ["roles/contactcenterinsights.authorizedViewer"],
-  },
 }));
 
 export type QueryPerformanceOverviewProjectsLocationsError =
@@ -8861,10 +8529,6 @@ export const queryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthoriz
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryPerformanceOverviewProjectsLocationsAuthorizedViewSetsAuthorizedViews",
-  iam: {
-    actions: ["contactcenterinsights.authorizedViews.get"],
-    roles: ["roles/contactcenterinsights.authorizedViewer"],
-  },
 }));
 
 export type SampleProjectsLocationsConversationsError =
@@ -8887,10 +8551,6 @@ export const sampleProjectsLocationsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SampleProjectsLocationsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type SampleProjectsLocationsDatasetsConversationsError =
@@ -8917,10 +8577,6 @@ export const sampleProjectsLocationsDatasetsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SampleProjectsLocationsDatasetsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type SearchProjectsLocationsAuthorizedViewSetsAuthorizedViewsError =
@@ -8950,10 +8606,6 @@ export const searchProjectsLocationsAuthorizedViewSetsAuthorizedViews: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsAuthorizedViewSetsAuthorizedViews",
-  iam: {
-    actions: ["contactcenterinsights.authorizedViews.get"],
-    roles: ["roles/contactcenterinsights.authorizedViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -9111,10 +8763,6 @@ export const tuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisions: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TuneQaScorecardRevisionProjectsLocationsQaScorecardsRevisions",
-  iam: {
-    actions: ["contactcenterinsights.qaScorecards.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type UndeployProjectsLocationsIssueModelsError =
@@ -9137,10 +8785,6 @@ export const undeployProjectsLocationsIssueModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeployProjectsLocationsIssueModels",
-  iam: {
-    actions: ["contactcenterinsights.issueModels.undeploy"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type UndeployProjectsLocationsQaScorecardsRevisionsError =
@@ -9171,10 +8815,6 @@ export const undeployProjectsLocationsQaScorecardsRevisions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeployProjectsLocationsQaScorecardsRevisions",
-  iam: {
-    actions: ["contactcenterinsights.qaScorecards.update"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 export type UpdateCorrelationConfigProjectsLocationsError =
@@ -9245,10 +8885,6 @@ export const uploadProjectsLocationsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadProjectsLocationsConversations",
-  iam: {
-    actions: ["contactcenterinsights.conversations.upload"],
-    roles: ["roles/contactcenterinsights.editor"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

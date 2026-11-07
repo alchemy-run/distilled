@@ -1159,10 +1159,6 @@ export const batchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComm
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsRepositoriesPullRequestsPullRequestComments",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.update"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1207,10 +1203,6 @@ export const closeProjectsLocationsRepositoriesIssues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloseProjectsLocationsRepositoriesIssues",
-  iam: {
-    actions: ["securesourcemanager.issues.close"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type CloseProjectsLocationsRepositoriesPullRequestsError =
@@ -1237,10 +1229,6 @@ export const closeProjectsLocationsRepositoriesPullRequests: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloseProjectsLocationsRepositoriesPullRequests",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.close"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type CreateProjectsLocationsInstancesError =
@@ -1263,10 +1251,6 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstances",
-  iam: {
-    actions: ["securesourcemanager.instances.create"],
-    roles: ["roles/securesourcemanager.instanceOwner"],
-  },
 }));
 
 export type CreateProjectsLocationsRepositoriesError =
@@ -1289,10 +1273,6 @@ export const createProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRepositories",
-  iam: {
-    actions: ["securesourcemanager.repositories.create"],
-    roles: ["roles/securesourcemanager.repoCreator"],
-  },
 }));
 
 export type CreateProjectsLocationsRepositoriesBranchRulesError =
@@ -1411,10 +1391,6 @@ export const createProjectsLocationsRepositoriesPullRequests: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRepositoriesPullRequests",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.create"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type CreateProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
@@ -1463,10 +1439,6 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstances",
-  iam: {
-    actions: ["securesourcemanager.instances.delete"],
-    roles: ["roles/securesourcemanager.instanceManager"],
-  },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -1511,10 +1483,6 @@ export const deleteProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRepositories",
-  iam: {
-    actions: ["securesourcemanager.repositories.delete"],
-    roles: ["roles/securesourcemanager.repoAdmin"],
-  },
 }));
 
 export type DeleteProjectsLocationsRepositoriesBranchRulesError =
@@ -1654,10 +1622,6 @@ export const fetchBlobProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchBlobProjectsLocationsRepositories",
-  iam: {
-    actions: ["securesourcemanager.repositories.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
 }));
 
 export type FetchRefsProjectsLocationsRepositoriesError = NotFound | Forbidden | GcpOpError;
@@ -1676,10 +1640,6 @@ export const fetchRefsProjectsLocationsRepositories: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchRefsProjectsLocationsRepositories",
-  iam: {
-    actions: ["securesourcemanager.repositories.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1699,10 +1659,6 @@ export const fetchTreeProjectsLocationsRepositories: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchTreeProjectsLocationsRepositories",
-  iam: {
-    actions: ["securesourcemanager.repositories.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1772,10 +1728,6 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
-  iam: {
-    actions: ["securesourcemanager.instances.get"],
-    roles: ["roles/securesourcemanager.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1810,10 +1762,6 @@ export const getProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositories",
-  iam: {
-    actions: ["securesourcemanager.repositories.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesBranchRulesError = NotFound | Forbidden | GcpOpError;
@@ -1831,10 +1779,6 @@ export const getProjectsLocationsRepositoriesBranchRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesBranchRules",
-  iam: {
-    actions: ["securesourcemanager.branchRules.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesHooksError = NotFound | Forbidden | GcpOpError;
@@ -1852,10 +1796,6 @@ export const getProjectsLocationsRepositoriesHooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesHooks",
-  iam: {
-    actions: ["securesourcemanager.hooks.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesIssuesError = NotFound | Forbidden | GcpOpError;
@@ -1873,10 +1813,6 @@ export const getProjectsLocationsRepositoriesIssues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesIssues",
-  iam: {
-    actions: ["securesourcemanager.issues.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesIssuesIssueCommentsError =
@@ -1901,10 +1837,6 @@ export const getProjectsLocationsRepositoriesIssuesIssueComments: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesIssuesIssueComments",
-  iam: {
-    actions: ["securesourcemanager.issuecomments.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesPullRequestsError = NotFound | Forbidden | GcpOpError;
@@ -1922,10 +1854,6 @@ export const getProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesPullRequests",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
 }));
 
 export type GetProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
@@ -1950,10 +1878,6 @@ export const getProjectsLocationsRepositoriesPullRequestsPullRequestComments: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesPullRequestsPullRequestComments",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
 }));
 
 export type ListFileDiffsProjectsLocationsRepositoriesPullRequestsError =
@@ -1979,10 +1903,6 @@ export const listFileDiffsProjectsLocationsRepositoriesPullRequests: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFileDiffsProjectsLocationsRepositoriesPullRequests",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.listFileDiffs"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2021,10 +1941,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: {
-    actions: ["securesourcemanager.instances.list"],
-    roles: ["roles/securesourcemanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2063,10 +1979,6 @@ export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositories",
-  iam: {
-    actions: ["securesourcemanager.repositories.list"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2086,10 +1998,6 @@ export const listProjectsLocationsRepositoriesBranchRules: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesBranchRules",
-  iam: {
-    actions: ["securesourcemanager.branchRules.list"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2109,10 +2017,6 @@ export const listProjectsLocationsRepositoriesHooks: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesHooks",
-  iam: {
-    actions: ["securesourcemanager.hooks.list"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2132,10 +2036,6 @@ export const listProjectsLocationsRepositoriesIssues: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesIssues",
-  iam: {
-    actions: ["securesourcemanager.issues.list"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2162,10 +2062,6 @@ export const listProjectsLocationsRepositoriesIssuesIssueComments: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesIssuesIssueComments",
-  iam: {
-    actions: ["securesourcemanager.issuecomments.list"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2189,10 +2085,6 @@ export const listProjectsLocationsRepositoriesPullRequests: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesPullRequests",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.list"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2219,10 +2111,6 @@ export const listProjectsLocationsRepositoriesPullRequestsPullRequestComments: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesPullRequestsPullRequestComments",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.get"],
-    roles: ["roles/securesourcemanager.repoReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2250,10 +2138,6 @@ export const mergeProjectsLocationsRepositoriesPullRequests: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MergeProjectsLocationsRepositoriesPullRequests",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.merge"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type OpenProjectsLocationsRepositoriesIssuesError =
@@ -2276,10 +2160,6 @@ export const openProjectsLocationsRepositoriesIssues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "OpenProjectsLocationsRepositoriesIssues",
-  iam: {
-    actions: ["securesourcemanager.issues.open"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type OpenProjectsLocationsRepositoriesPullRequestsError =
@@ -2306,10 +2186,6 @@ export const openProjectsLocationsRepositoriesPullRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "OpenProjectsLocationsRepositoriesPullRequests",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.open"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type PatchProjectsLocationsRepositoriesError =
@@ -2332,10 +2208,6 @@ export const patchProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositories",
-  iam: {
-    actions: ["securesourcemanager.repositories.update"],
-    roles: ["roles/securesourcemanager.repoAdmin"],
-  },
 }));
 
 export type PatchProjectsLocationsRepositoriesBranchRulesError =
@@ -2458,10 +2330,6 @@ export const patchProjectsLocationsRepositoriesPullRequests: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRepositoriesPullRequests",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.update"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type PatchProjectsLocationsRepositoriesPullRequestsPullRequestCommentsError =
@@ -2514,10 +2382,6 @@ export const resolveProjectsLocationsRepositoriesPullRequestsPullRequestComments
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResolveProjectsLocationsRepositoriesPullRequestsPullRequestComments",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.update"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 export type SetIamPolicyProjectsLocationsInstancesError =
@@ -2636,10 +2500,6 @@ export const unresolveProjectsLocationsRepositoriesPullRequestsPullRequestCommen
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnresolveProjectsLocationsRepositoriesPullRequestsPullRequestComments",
-  iam: {
-    actions: ["securesourcemanager.pullRequests.update"],
-    roles: ["roles/securesourcemanager.repoWriter"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

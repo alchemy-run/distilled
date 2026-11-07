@@ -639,10 +639,6 @@ export const computeMessageStatsTopicStatsProjectsLocationsTopics: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeMessageStatsTopicStatsProjectsLocationsTopics",
-  iam: {
-    actions: ["pubsublite.topics.computeMessageStats"],
-    roles: ["roles/pubsublite.subscriber"],
-  },
 }));
 
 export type ComputeTimeCursorTopicStatsProjectsLocationsTopicsError =
@@ -669,7 +665,6 @@ export const computeTimeCursorTopicStatsProjectsLocationsTopics: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeTimeCursorTopicStatsProjectsLocationsTopics",
-  iam: { actions: ["pubsublite.topics.computeTimeCursor"], roles: ["roles/pubsublite.subscriber"] },
 }));
 
 export type CreateAdminProjectsLocationsReservationsError =
@@ -693,7 +688,6 @@ export const createAdminProjectsLocationsReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAdminProjectsLocationsReservations",
-  iam: { actions: ["pubsublite.reservations.create"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type CreateAdminProjectsLocationsSubscriptionsError =
@@ -717,7 +711,6 @@ export const createAdminProjectsLocationsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAdminProjectsLocationsSubscriptions",
-  iam: { actions: ["pubsublite.subscriptions.create"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type CreateAdminProjectsLocationsTopicsError =
@@ -741,7 +734,6 @@ export const createAdminProjectsLocationsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAdminProjectsLocationsTopics",
-  iam: { actions: ["pubsublite.topics.create"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type DeleteAdminProjectsLocationsOperationsError =
@@ -786,7 +778,6 @@ export const deleteAdminProjectsLocationsReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAdminProjectsLocationsReservations",
-  iam: { actions: ["pubsublite.reservations.delete"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type DeleteAdminProjectsLocationsSubscriptionsError =
@@ -809,7 +800,6 @@ export const deleteAdminProjectsLocationsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAdminProjectsLocationsSubscriptions",
-  iam: { actions: ["pubsublite.subscriptions.delete"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type DeleteAdminProjectsLocationsTopicsError =
@@ -832,7 +822,6 @@ export const deleteAdminProjectsLocationsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAdminProjectsLocationsTopics",
-  iam: { actions: ["pubsublite.topics.delete"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type GetAdminProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -955,7 +944,6 @@ export const listAdminProjectsLocationsReservations: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAdminProjectsLocationsReservations",
-  iam: { actions: ["pubsublite.reservations.list"], roles: ["roles/pubsublite.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -975,7 +963,6 @@ export const listAdminProjectsLocationsReservationsTopics: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAdminProjectsLocationsReservationsTopics",
-  iam: { actions: ["pubsublite.topics.list"], roles: ["roles/pubsublite.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -995,7 +982,6 @@ export const listAdminProjectsLocationsSubscriptions: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAdminProjectsLocationsSubscriptions",
-  iam: { actions: ["pubsublite.subscriptions.list"], roles: ["roles/pubsublite.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1015,7 +1001,6 @@ export const listAdminProjectsLocationsTopics: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAdminProjectsLocationsTopics",
-  iam: { actions: ["pubsublite.topics.list"], roles: ["roles/pubsublite.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1039,7 +1024,6 @@ export const listAdminProjectsLocationsTopicsSubscriptions: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAdminProjectsLocationsTopicsSubscriptions",
-  iam: { actions: ["pubsublite.subscriptions.list"], roles: ["roles/pubsublite.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1066,7 +1050,6 @@ export const listCursorProjectsLocationsSubscriptionsCursors: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCursorProjectsLocationsSubscriptionsCursors",
-  iam: { actions: ["pubsublite.subscriptions.get"], roles: ["roles/pubsublite.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1090,7 +1073,6 @@ export const patchAdminProjectsLocationsReservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAdminProjectsLocationsReservations",
-  iam: { actions: ["pubsublite.reservations.update"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type PatchAdminProjectsLocationsSubscriptionsError =
@@ -1113,7 +1095,6 @@ export const patchAdminProjectsLocationsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAdminProjectsLocationsSubscriptions",
-  iam: { actions: ["pubsublite.subscriptions.update"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type PatchAdminProjectsLocationsTopicsError =
@@ -1136,7 +1117,6 @@ export const patchAdminProjectsLocationsTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchAdminProjectsLocationsTopics",
-  iam: { actions: ["pubsublite.topics.update"], roles: ["roles/pubsublite.admin"] },
 }));
 
 export type SeekAdminProjectsLocationsSubscriptionsError =
@@ -1159,7 +1139,6 @@ export const seekAdminProjectsLocationsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SeekAdminProjectsLocationsSubscriptions",
-  iam: { actions: ["pubsublite.subscriptions.seek"], roles: ["roles/pubsublite.subscriber"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

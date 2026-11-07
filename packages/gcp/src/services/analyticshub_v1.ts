@@ -1101,10 +1101,6 @@ export const approveProjectsLocationsDataExchangesQueryTemplates: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApproveProjectsLocationsDataExchangesQueryTemplates",
-  iam: {
-    actions: ["analyticshub.queryTemplates.approve"],
-    roles: ["roles/analyticshub.publisher"],
-  },
 }));
 
 export type CreateProjectsLocationsDataExchangesError =
@@ -1272,10 +1268,6 @@ export const deleteProjectsLocationsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSubscriptions",
-  iam: {
-    actions: ["analyticshub.subscriptions.delete"],
-    roles: ["roles/analyticshub.subscriptionOwner"],
-  },
 }));
 
 export type GetIamPolicyProjectsLocationsDataExchangesError =
@@ -1363,7 +1355,6 @@ export const getProjectsLocationsDataExchanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataExchanges",
-  iam: { actions: ["analyticshub.dataExchanges.get"], roles: ["roles/analyticshub.viewer"] },
 }));
 
 export type GetProjectsLocationsDataExchangesListingsError = NotFound | Forbidden | GcpOpError;
@@ -1381,7 +1372,6 @@ export const getProjectsLocationsDataExchangesListings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataExchangesListings",
-  iam: { actions: ["analyticshub.listings.get"], roles: ["roles/analyticshub.viewer"] },
 }));
 
 export type GetProjectsLocationsDataExchangesQueryTemplatesError =
@@ -1406,7 +1396,6 @@ export const getProjectsLocationsDataExchangesQueryTemplates: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataExchangesQueryTemplates",
-  iam: { actions: ["analyticshub.queryTemplates.get"], roles: ["roles/analyticshub.viewer"] },
 }));
 
 export type GetProjectsLocationsSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -1424,10 +1413,6 @@ export const getProjectsLocationsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSubscriptions",
-  iam: {
-    actions: ["analyticshub.subscriptions.get"],
-    roles: ["roles/analyticshub.subscriptionOwner"],
-  },
 }));
 
 export type ListOrganizationsLocationsDataExchangesError = NotFound | Forbidden | GcpOpError;
@@ -1465,7 +1450,6 @@ export const listProjectsLocationsDataExchanges: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataExchanges",
-  iam: { actions: ["analyticshub.dataExchanges.list"], roles: ["roles/analyticshub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1485,7 +1469,6 @@ export const listProjectsLocationsDataExchangesListings: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataExchangesListings",
-  iam: { actions: ["analyticshub.listings.list"], roles: ["roles/analyticshub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1512,7 +1495,6 @@ export const listProjectsLocationsDataExchangesQueryTemplates: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataExchangesQueryTemplates",
-  iam: { actions: ["analyticshub.queryTemplates.list"], roles: ["roles/analyticshub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1532,10 +1514,6 @@ export const listProjectsLocationsSubscriptions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSubscriptions",
-  iam: {
-    actions: ["analyticshub.subscriptions.list"],
-    roles: ["roles/analyticshub.subscriptionOwner"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1562,10 +1540,6 @@ export const listSubscriptionsProjectsLocationsDataExchanges: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptionsProjectsLocationsDataExchanges",
-  iam: {
-    actions: ["analyticshub.dataExchanges.viewSubscriptions"],
-    roles: ["roles/analyticshub.admin"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1592,10 +1566,6 @@ export const listSubscriptionsProjectsLocationsDataExchangesListings: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptionsProjectsLocationsDataExchangesListings",
-  iam: {
-    actions: ["analyticshub.listings.viewSubscriptions"],
-    roles: ["roles/analyticshub.listingAdmin"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1689,10 +1659,6 @@ export const refreshProjectsLocationsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RefreshProjectsLocationsSubscriptions",
-  iam: {
-    actions: ["analyticshub.subscriptions.update"],
-    roles: ["roles/analyticshub.subscriptionOwner"],
-  },
 }));
 
 export type RevokeProjectsLocationsSubscriptionsError =
@@ -1715,10 +1681,6 @@ export const revokeProjectsLocationsSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevokeProjectsLocationsSubscriptions",
-  iam: {
-    actions: ["analyticshub.subscriptions.update"],
-    roles: ["roles/analyticshub.subscriptionOwner"],
-  },
 }));
 
 export type SetIamPolicyProjectsLocationsDataExchangesError =
@@ -1815,7 +1777,6 @@ export const submitProjectsLocationsDataExchangesQueryTemplates: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubmitProjectsLocationsDataExchangesQueryTemplates",
-  iam: { actions: ["analyticshub.queryTemplates.update"], roles: ["roles/analyticshub.publisher"] },
 }));
 
 export type SubscribeProjectsLocationsDataExchangesError =
@@ -1838,10 +1799,6 @@ export const subscribeProjectsLocationsDataExchanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubscribeProjectsLocationsDataExchanges",
-  iam: {
-    actions: ["analyticshub.dataExchanges.subscribe"],
-    roles: ["roles/analyticshub.subscriber", "roles/bigquery.user"],
-  },
 }));
 
 export type SubscribeProjectsLocationsDataExchangesListingsError =
@@ -1868,7 +1825,6 @@ export const subscribeProjectsLocationsDataExchangesListings: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubscribeProjectsLocationsDataExchangesListings",
-  iam: { actions: ["analyticshub.listings.subscribe"], roles: ["roles/analyticshub.subscriber"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsDataExchangesError =

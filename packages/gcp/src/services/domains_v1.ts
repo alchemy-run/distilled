@@ -1023,7 +1023,6 @@ export const configureContactSettingsProjectsLocationsRegistrations: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigureContactSettingsProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type ConfigureDnsSettingsProjectsLocationsRegistrationsError =
@@ -1050,7 +1049,6 @@ export const configureDnsSettingsProjectsLocationsRegistrations: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigureDnsSettingsProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type ConfigureManagementSettingsProjectsLocationsRegistrationsError =
@@ -1077,7 +1075,6 @@ export const configureManagementSettingsProjectsLocationsRegistrations: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigureManagementSettingsProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type DeleteProjectsLocationsRegistrationsError =
@@ -1100,7 +1097,6 @@ export const deleteProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.delete"], roles: ["roles/domains.editor"] },
 }));
 
 export type ExportProjectsLocationsRegistrationsError =
@@ -1123,7 +1119,6 @@ export const exportProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type GetAuthorizationCodeProjectsLocationsRegistrationsError =
@@ -1292,7 +1287,6 @@ export const getProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.get"], roles: ["roles/domains.viewer"] },
 }));
 
 export type GetRegisterParametersProjectsLocationsRegistrationsError =
@@ -1363,7 +1357,6 @@ export const importProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type InitiatePushTransferProjectsLocationsRegistrationsError =
@@ -1390,7 +1383,6 @@ export const initiatePushTransferProjectsLocationsRegistrations: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InitiatePushTransferProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1447,7 +1439,6 @@ export const listProjectsLocationsRegistrations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.list"], roles: ["roles/domains.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1471,7 +1462,6 @@ export const patchProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type RegisterProjectsLocationsRegistrationsError =
@@ -1494,7 +1484,6 @@ export const registerProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RegisterProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type RenewDomainProjectsLocationsRegistrationsError =
@@ -1517,7 +1506,6 @@ export const renewDomainProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenewDomainProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type ResetAuthorizationCodeProjectsLocationsRegistrationsError =
@@ -1544,7 +1532,6 @@ export const resetAuthorizationCodeProjectsLocationsRegistrations: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetAuthorizationCodeProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 export type SearchDomainsProjectsLocationsRegistrationsError = NotFound | Forbidden | GcpOpError;
@@ -1562,7 +1549,6 @@ export const searchDomainsProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchDomainsProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.get"], roles: ["roles/domains.viewer"] },
 }));
 
 export type SetIamPolicyProjectsLocationsRegistrationsError =
@@ -1633,7 +1619,6 @@ export const transferProjectsLocationsRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TransferProjectsLocationsRegistrations",
-  iam: { actions: ["domains.registrations.update"], roles: ["roles/domains.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

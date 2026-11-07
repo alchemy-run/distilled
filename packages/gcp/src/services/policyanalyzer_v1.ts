@@ -175,10 +175,6 @@ export const queryProjectsLocationsActivityTypesActivities: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryProjectsLocationsActivityTypesActivities",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

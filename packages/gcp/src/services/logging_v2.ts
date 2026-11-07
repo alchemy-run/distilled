@@ -2928,7 +2928,6 @@ export const copyEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CopyEntries",
-  iam: { actions: ["logging.logEntries.download"], roles: ["roles/logging.viewAccessor"] },
 }));
 
 export type CreateAsyncBillingAccountsLocationsBucketsError =
@@ -3039,7 +3038,6 @@ export const createAsyncProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateAsyncProjectsLocationsBuckets",
-  iam: { actions: ["logging.buckets.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type CreateBillingAccountsExclusionsError =
@@ -3702,7 +3700,6 @@ export const createProjectsMetrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsMetrics",
-  iam: { actions: ["logging.logMetrics.create"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type CreateProjectsSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3720,7 +3717,6 @@ export const createProjectsSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSinks",
-  iam: { actions: ["logging.sinks.create"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type CreateSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4478,7 +4474,6 @@ export const deleteProjectsLogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLogs",
-  iam: { actions: ["logging.logs.delete"], roles: ["roles/logging.admin"] },
 }));
 
 export type DeleteProjectsMetricsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4496,7 +4491,6 @@ export const deleteProjectsMetrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsMetrics",
-  iam: { actions: ["logging.logMetrics.delete"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type DeleteProjectsSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4514,7 +4508,6 @@ export const deleteProjectsSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsSinks",
-  iam: { actions: ["logging.sinks.delete"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type DeleteSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4549,7 +4542,6 @@ export const getBillingAccountsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBillingAccountsExclusions",
-  iam: { actions: ["logging.exclusions.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetBillingAccountsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4584,7 +4576,6 @@ export const getBillingAccountsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBillingAccountsLocationsBuckets",
-  iam: { actions: ["logging.buckets.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetBillingAccountsLocationsBucketsLinksError = NotFound | Forbidden | GcpOpError;
@@ -4602,7 +4593,6 @@ export const getBillingAccountsLocationsBucketsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBillingAccountsLocationsBucketsLinks",
-  iam: { actions: ["logging.links.get"], roles: ["roles/logging.linkViewer"] },
 }));
 
 export type GetBillingAccountsLocationsBucketsViewsError = NotFound | Forbidden | GcpOpError;
@@ -4620,7 +4610,6 @@ export const getBillingAccountsLocationsBucketsViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBillingAccountsLocationsBucketsViews",
-  iam: { actions: ["logging.views.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetBillingAccountsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4740,7 +4729,6 @@ export const getCmekSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCmekSettingsProjects",
-  iam: { actions: ["logging.settings.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetCmekSettingsV2Error = NotFound | Forbidden | GcpOpError;
@@ -4758,7 +4746,6 @@ export const getCmekSettingsV2: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCmekSettingsV2",
-  iam: { actions: ["logging.settings.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetExclusionsError = NotFound | Forbidden | GcpOpError;
@@ -4793,7 +4780,6 @@ export const getFoldersExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersExclusions",
-  iam: { actions: ["logging.exclusions.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetFoldersLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4828,7 +4814,6 @@ export const getFoldersLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersLocationsBuckets",
-  iam: { actions: ["logging.buckets.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetFoldersLocationsBucketsLinksError = NotFound | Forbidden | GcpOpError;
@@ -4846,7 +4831,6 @@ export const getFoldersLocationsBucketsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersLocationsBucketsLinks",
-  iam: { actions: ["logging.links.get"], roles: ["roles/logging.linkViewer"] },
 }));
 
 export type GetFoldersLocationsBucketsViewsError = NotFound | Forbidden | GcpOpError;
@@ -4864,7 +4848,6 @@ export const getFoldersLocationsBucketsViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersLocationsBucketsViews",
-  iam: { actions: ["logging.views.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetFoldersLocationsLogScopesError = NotFound | Forbidden | GcpOpError;
@@ -4882,7 +4865,6 @@ export const getFoldersLocationsLogScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersLocationsLogScopes",
-  iam: { actions: ["logging.logScopes.get"], roles: ["roles/logging.viewer"] },
 }));
 
 export type GetFoldersLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5128,7 +5110,6 @@ export const getOrganizationsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsExclusions",
-  iam: { actions: ["logging.exclusions.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetOrganizationsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -5163,7 +5144,6 @@ export const getOrganizationsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsBuckets",
-  iam: { actions: ["logging.buckets.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetOrganizationsLocationsBucketsLinksError = NotFound | Forbidden | GcpOpError;
@@ -5181,7 +5161,6 @@ export const getOrganizationsLocationsBucketsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsBucketsLinks",
-  iam: { actions: ["logging.links.get"], roles: ["roles/logging.linkViewer"] },
 }));
 
 export type GetOrganizationsLocationsBucketsViewsError = NotFound | Forbidden | GcpOpError;
@@ -5199,7 +5178,6 @@ export const getOrganizationsLocationsBucketsViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsBucketsViews",
-  iam: { actions: ["logging.views.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetOrganizationsLocationsLogScopesError = NotFound | Forbidden | GcpOpError;
@@ -5217,7 +5195,6 @@ export const getOrganizationsLocationsLogScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsLogScopes",
-  iam: { actions: ["logging.logScopes.get"], roles: ["roles/logging.viewer"] },
 }));
 
 export type GetOrganizationsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5286,7 +5263,6 @@ export const getProjectsExclusions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsExclusions",
-  iam: { actions: ["logging.exclusions.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -5321,7 +5297,6 @@ export const getProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBuckets",
-  iam: { actions: ["logging.buckets.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetProjectsLocationsBucketsLinksError = NotFound | Forbidden | GcpOpError;
@@ -5339,7 +5314,6 @@ export const getProjectsLocationsBucketsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBucketsLinks",
-  iam: { actions: ["logging.links.get"], roles: ["roles/logging.linkViewer"] },
 }));
 
 export type GetProjectsLocationsBucketsViewsError = NotFound | Forbidden | GcpOpError;
@@ -5357,7 +5331,6 @@ export const getProjectsLocationsBucketsViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBucketsViews",
-  iam: { actions: ["logging.views.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetProjectsLocationsLogScopesError = NotFound | Forbidden | GcpOpError;
@@ -5375,7 +5348,6 @@ export const getProjectsLocationsLogScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLogScopes",
-  iam: { actions: ["logging.logScopes.get"], roles: ["roles/logging.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5410,7 +5382,6 @@ export const getProjectsLocationsSavedQueries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSavedQueries",
-  iam: { actions: ["logging.queries.getShared"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetProjectsMetricsError = NotFound | Forbidden | GcpOpError;
@@ -5428,7 +5399,6 @@ export const getProjectsMetrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsMetrics",
-  iam: { actions: ["logging.logMetrics.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetProjectsSinksError = NotFound | Forbidden | GcpOpError;
@@ -5446,7 +5416,6 @@ export const getProjectsSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSinks",
-  iam: { actions: ["logging.sinks.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetSettingsBillingAccountsError = NotFound | Forbidden | GcpOpError;
@@ -5515,7 +5484,6 @@ export const getSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSettingsProjects",
-  iam: { actions: ["logging.settings.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetSettingsV2Error = NotFound | Forbidden | GcpOpError;
@@ -5533,7 +5501,6 @@ export const getSettingsV2: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSettingsV2",
-  iam: { actions: ["logging.settings.get"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type GetSinksError = NotFound | Forbidden | GcpOpError;
@@ -5622,7 +5589,6 @@ export const listBillingAccountsLocationsBucketsLinks: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBillingAccountsLocationsBucketsLinks",
-  iam: { actions: ["logging.links.list"], roles: ["roles/logging.linkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5642,7 +5608,6 @@ export const listBillingAccountsLocationsBucketsViews: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBillingAccountsLocationsBucketsViews",
-  iam: { actions: ["logging.views.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5666,7 +5631,6 @@ export const listBillingAccountsLocationsBucketsViewsLogs: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBillingAccountsLocationsBucketsViewsLogs",
-  iam: { actions: ["logging.logs.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5780,7 +5744,6 @@ export const listEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListEntries",
-  iam: { actions: ["logging.logEntries.list"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type ListExclusionsError = NotFound | Forbidden | GcpOpError;
@@ -5875,7 +5838,6 @@ export const listFoldersLocationsBucketsLinks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFoldersLocationsBucketsLinks",
-  iam: { actions: ["logging.links.list"], roles: ["roles/logging.linkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5895,7 +5857,6 @@ export const listFoldersLocationsBucketsViews: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFoldersLocationsBucketsViews",
-  iam: { actions: ["logging.views.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5915,7 +5876,6 @@ export const listFoldersLocationsBucketsViewsLogs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFoldersLocationsBucketsViewsLogs",
-  iam: { actions: ["logging.logs.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6163,7 +6123,6 @@ export const listMonitoredResourceDescriptors: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListMonitoredResourceDescriptors",
-  iam: { actions: ["logging.logs.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6240,7 +6199,6 @@ export const listOrganizationsLocationsBucketsLinks: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsBucketsLinks",
-  iam: { actions: ["logging.links.list"], roles: ["roles/logging.linkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6260,7 +6218,6 @@ export const listOrganizationsLocationsBucketsViews: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsBucketsViews",
-  iam: { actions: ["logging.views.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6280,7 +6237,6 @@ export const listOrganizationsLocationsBucketsViewsLogs: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsBucketsViewsLogs",
-  iam: { actions: ["logging.logs.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6414,7 +6370,6 @@ export const listProjectsExclusions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsExclusions",
-  iam: { actions: ["logging.exclusions.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6453,7 +6408,6 @@ export const listProjectsLocationsBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBuckets",
-  iam: { actions: ["logging.buckets.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6473,7 +6427,6 @@ export const listProjectsLocationsBucketsLinks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBucketsLinks",
-  iam: { actions: ["logging.links.list"], roles: ["roles/logging.linkViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6493,7 +6446,6 @@ export const listProjectsLocationsBucketsViews: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBucketsViews",
-  iam: { actions: ["logging.views.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6513,7 +6465,6 @@ export const listProjectsLocationsBucketsViewsLogs: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBucketsViewsLogs",
-  iam: { actions: ["logging.logs.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6533,7 +6484,6 @@ export const listProjectsLocationsLogScopes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLogScopes",
-  iam: { actions: ["logging.logScopes.list"], roles: ["roles/logging.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6572,7 +6522,6 @@ export const listProjectsLocationsRecentQueries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRecentQueries",
-  iam: { actions: ["logging.queries.listShared"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6592,7 +6541,6 @@ export const listProjectsLocationsSavedQueries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSavedQueries",
-  iam: { actions: ["logging.queries.listShared"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6612,7 +6560,6 @@ export const listProjectsLogs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLogs",
-  iam: { actions: ["logging.logs.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6632,7 +6579,6 @@ export const listProjectsMetrics: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsMetrics",
-  iam: { actions: ["logging.logMetrics.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6652,7 +6598,6 @@ export const listProjectsSinks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSinks",
-  iam: { actions: ["logging.sinks.list"], roles: ["roles/logging.privateLogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7220,7 +7165,6 @@ export const patchProjectsSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSinks",
-  iam: { actions: ["logging.sinks.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type SetIamPolicyFoldersLocationsBucketsViewsError =
@@ -7330,7 +7274,6 @@ export const tailEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TailEntries",
-  iam: { actions: ["logging.logEntries.list"], roles: ["roles/logging.privateLogViewer"] },
 }));
 
 export type TestIamPermissionsFoldersLocationsBucketsViewsError =
@@ -7453,7 +7396,6 @@ export const undeleteBillingAccountsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteBillingAccountsLocationsBuckets",
-  iam: { actions: ["logging.buckets.undelete"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UndeleteFoldersLocationsBucketsError =
@@ -7476,7 +7418,6 @@ export const undeleteFoldersLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteFoldersLocationsBuckets",
-  iam: { actions: ["logging.buckets.undelete"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UndeleteLocationsBucketsError =
@@ -7521,7 +7462,6 @@ export const undeleteOrganizationsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteOrganizationsLocationsBuckets",
-  iam: { actions: ["logging.buckets.undelete"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UndeleteProjectsLocationsBucketsError =
@@ -7544,7 +7484,6 @@ export const undeleteProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsLocationsBuckets",
-  iam: { actions: ["logging.buckets.undelete"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateAsyncBillingAccountsLocationsBucketsError =
@@ -7567,7 +7506,6 @@ export const updateAsyncBillingAccountsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAsyncBillingAccountsLocationsBuckets",
-  iam: { actions: ["logging.buckets.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateAsyncFoldersLocationsBucketsError =
@@ -7590,7 +7528,6 @@ export const updateAsyncFoldersLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAsyncFoldersLocationsBuckets",
-  iam: { actions: ["logging.buckets.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateAsyncLocationsBucketsError =
@@ -7635,7 +7572,6 @@ export const updateAsyncOrganizationsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAsyncOrganizationsLocationsBuckets",
-  iam: { actions: ["logging.buckets.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateAsyncProjectsLocationsBucketsError =
@@ -7658,7 +7594,6 @@ export const updateAsyncProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAsyncProjectsLocationsBuckets",
-  iam: { actions: ["logging.buckets.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateBillingAccountsSinksError =
@@ -7720,7 +7655,6 @@ export const updateCmekSettingsV2: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateCmekSettingsV2",
-  iam: { actions: ["logging.settings.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateFoldersSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7777,7 +7711,6 @@ export const updateProjectsMetrics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsMetrics",
-  iam: { actions: ["logging.logMetrics.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateProjectsSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7795,7 +7728,6 @@ export const updateProjectsSinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsSinks",
-  iam: { actions: ["logging.sinks.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateSettingsFoldersError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7852,7 +7784,6 @@ export const updateSettingsV2: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSettingsV2",
-  iam: { actions: ["logging.settings.update"], roles: ["roles/logging.configWriter"] },
 }));
 
 export type UpdateSinksError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -7887,7 +7818,6 @@ export const writeEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteEntries",
-  iam: { actions: ["logging.logEntries.create"], roles: ["roles/logging.logWriter"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

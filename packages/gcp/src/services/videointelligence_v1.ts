@@ -329,10 +329,6 @@ export const annotateVideos: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnotateVideos",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type CancelOperationsProjectsLocationsOperationsError =

@@ -1850,10 +1850,6 @@ export const createProjectsLocationsEntryGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEntryGroups",
-  iam: {
-    actions: ["datacatalog.entryGroups.create"],
-    roles: ["roles/datacatalog.entryGroupCreator"],
-  },
 }));
 
 export type CreateProjectsLocationsEntryGroupsEntriesError =
@@ -1886,7 +1882,6 @@ export const createProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.create"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type CreateProjectsLocationsEntryGroupsEntriesTagsError =
@@ -1923,7 +1918,6 @@ export const createProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEntryGroupsEntriesTags",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type CreateProjectsLocationsEntryGroupsTagsError =
@@ -1956,7 +1950,6 @@ export const createProjectsLocationsEntryGroupsTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsEntryGroupsTags",
-  iam: { actions: ["datacatalog.entryGroups.update"], roles: ["roles/datacatalog.editor"] },
 }));
 
 export type CreateProjectsLocationsTagTemplatesError =
@@ -2003,10 +1996,6 @@ export const createProjectsLocationsTagTemplatesFields: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsTagTemplatesFields",
-  iam: {
-    actions: ["datacatalog.tagTemplates.update"],
-    roles: ["roles/datacatalog.tagTemplateOwner"],
-  },
 }));
 
 export type CreateProjectsLocationsTaxonomiesError =
@@ -2083,7 +2072,6 @@ export const deleteProjectsLocationsEntryGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEntryGroups",
-  iam: { actions: ["datacatalog.entryGroups.delete"], roles: ["roles/datacatalog.editor"] },
 }));
 
 export type DeleteProjectsLocationsEntryGroupsEntriesError =
@@ -2116,7 +2104,6 @@ export const deleteProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.delete"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type DeleteProjectsLocationsEntryGroupsEntriesTagsError =
@@ -2153,7 +2140,6 @@ export const deleteProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEntryGroupsEntriesTags",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type DeleteProjectsLocationsEntryGroupsTagsError =
@@ -2186,7 +2172,6 @@ export const deleteProjectsLocationsEntryGroupsTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEntryGroupsTags",
-  iam: { actions: ["datacatalog.entryGroups.update"], roles: ["roles/datacatalog.editor"] },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -2255,10 +2240,6 @@ export const deleteProjectsLocationsTagTemplatesFields: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsTagTemplatesFields",
-  iam: {
-    actions: ["datacatalog.tagTemplates.update"],
-    roles: ["roles/datacatalog.tagTemplateOwner"],
-  },
 }));
 
 export type DeleteProjectsLocationsTaxonomiesError =
@@ -2320,7 +2301,6 @@ export const exportProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsTaxonomies",
-  iam: { actions: ["datacatalog.taxonomies.update"], roles: ["roles/datacatalog.categoryAdmin"] },
 }));
 
 export type GetConfigOrganizationsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2521,7 +2501,6 @@ export const getProjectsLocationsEntryGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEntryGroups",
-  iam: { actions: ["datacatalog.entryGroups.get"], roles: ["roles/datacatalog.entryViewer"] },
 }));
 
 export type GetProjectsLocationsEntryGroupsEntriesError =
@@ -2550,7 +2529,6 @@ export const getProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.get"], roles: ["roles/datacatalog.entryViewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2589,10 +2567,6 @@ export const getProjectsLocationsTagTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTagTemplates",
-  iam: {
-    actions: ["datacatalog.tagTemplates.get"],
-    roles: ["roles/datacatalog.tagTemplateViewer"],
-  },
 }));
 
 export type GetProjectsLocationsTaxonomiesError = NotFound | Forbidden | GcpOpError;
@@ -2610,7 +2584,6 @@ export const getProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTaxonomies",
-  iam: { actions: ["datacatalog.taxonomies.get"], roles: ["roles/datacatalog.viewer"] },
 }));
 
 export type GetProjectsLocationsTaxonomiesPolicyTagsError = NotFound | Forbidden | GcpOpError;
@@ -2628,7 +2601,6 @@ export const getProjectsLocationsTaxonomiesPolicyTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTaxonomiesPolicyTags",
-  iam: { actions: ["datacatalog.taxonomies.get"], roles: ["roles/datacatalog.viewer"] },
 }));
 
 export type ImportProjectsLocationsEntryGroupsEntriesError =
@@ -2661,7 +2633,6 @@ export const importProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type ImportProjectsLocationsTaxonomiesError =
@@ -2684,7 +2655,6 @@ export const importProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsTaxonomies",
-  iam: { actions: ["datacatalog.taxonomies.update"], roles: ["roles/datacatalog.categoryAdmin"] },
 }));
 
 export type ListProjectsLocationsEntryGroupsError =
@@ -2707,7 +2677,6 @@ export const listProjectsLocationsEntryGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEntryGroups",
-  iam: { actions: ["datacatalog.entryGroups.list"], roles: ["roles/datacatalog.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2738,7 +2707,6 @@ export const listProjectsLocationsEntryGroupsEntries: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.list"], roles: ["roles/datacatalog.entryViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2769,7 +2737,6 @@ export const listProjectsLocationsEntryGroupsEntriesTags: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEntryGroupsEntriesTags",
-  iam: { actions: ["datacatalog.entries.get"], roles: ["roles/datacatalog.entryViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2800,7 +2767,6 @@ export const listProjectsLocationsEntryGroupsTags: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEntryGroupsTags",
-  iam: { actions: ["datacatalog.entryGroups.get"], roles: ["roles/datacatalog.entryViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2839,7 +2805,6 @@ export const listProjectsLocationsTaxonomies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTaxonomies",
-  iam: { actions: ["datacatalog.taxonomies.list"], roles: ["roles/datacatalog.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2859,7 +2824,6 @@ export const listProjectsLocationsTaxonomiesPolicyTags: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTaxonomiesPolicyTags",
-  iam: { actions: ["datacatalog.taxonomies.get"], roles: ["roles/datacatalog.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2878,7 +2842,6 @@ export const lookupEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupEntries",
-  iam: { actions: ["datacatalog.entries.get"], roles: ["roles/datacatalog.entryViewer"] },
 }));
 
 export type ModifyEntryContactsProjectsLocationsEntryGroupsEntriesError =
@@ -2915,7 +2878,6 @@ export const modifyEntryContactsProjectsLocationsEntryGroupsEntries: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyEntryContactsProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type ModifyEntryOverviewProjectsLocationsEntryGroupsEntriesError =
@@ -2952,7 +2914,6 @@ export const modifyEntryOverviewProjectsLocationsEntryGroupsEntries: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ModifyEntryOverviewProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type PatchProjectsLocationsEntryGroupsError =
@@ -2985,7 +2946,6 @@ export const patchProjectsLocationsEntryGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEntryGroups",
-  iam: { actions: ["datacatalog.entryGroups.update"], roles: ["roles/datacatalog.editor"] },
 }));
 
 export type PatchProjectsLocationsEntryGroupsEntriesError =
@@ -3018,7 +2978,6 @@ export const patchProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type PatchProjectsLocationsEntryGroupsEntriesTagsError =
@@ -3055,7 +3014,6 @@ export const patchProjectsLocationsEntryGroupsEntriesTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEntryGroupsEntriesTags",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type PatchProjectsLocationsEntryGroupsTagsError =
@@ -3088,7 +3046,6 @@ export const patchProjectsLocationsEntryGroupsTags: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEntryGroupsTags",
-  iam: { actions: ["datacatalog.entryGroups.update"], roles: ["roles/datacatalog.editor"] },
 }));
 
 export type PatchProjectsLocationsTagTemplatesError =
@@ -3135,10 +3092,6 @@ export const patchProjectsLocationsTagTemplatesFields: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsTagTemplatesFields",
-  iam: {
-    actions: ["datacatalog.tagTemplates.update"],
-    roles: ["roles/datacatalog.tagTemplateOwner"],
-  },
 }));
 
 export type PatchProjectsLocationsTaxonomiesError =
@@ -3219,7 +3172,6 @@ export const reconcileProjectsLocationsEntryGroupsEntriesTags: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReconcileProjectsLocationsEntryGroupsEntriesTags",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type RenameProjectsLocationsTagTemplatesFieldsError =
@@ -3243,10 +3195,6 @@ export const renameProjectsLocationsTagTemplatesFields: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenameProjectsLocationsTagTemplatesFields",
-  iam: {
-    actions: ["datacatalog.tagTemplates.update"],
-    roles: ["roles/datacatalog.tagTemplateOwner"],
-  },
 }));
 
 export type RenameProjectsLocationsTagTemplatesFieldsEnumValuesError =
@@ -3274,10 +3222,6 @@ export const renameProjectsLocationsTagTemplatesFieldsEnumValues: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenameProjectsLocationsTagTemplatesFieldsEnumValues",
-  iam: {
-    actions: ["datacatalog.tagTemplates.update"],
-    roles: ["roles/datacatalog.tagTemplateOwner"],
-  },
 }));
 
 export type ReplaceProjectsLocationsTaxonomiesError =
@@ -3300,7 +3244,6 @@ export const replaceProjectsLocationsTaxonomies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplaceProjectsLocationsTaxonomies",
-  iam: { actions: ["datacatalog.taxonomies.update"], roles: ["roles/datacatalog.categoryAdmin"] },
 }));
 
 export type SearchCatalogError =
@@ -3324,7 +3267,6 @@ export const searchCatalog: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchCatalog",
-  iam: { actions: ["datacatalog.catalogs.searchAll"], roles: ["roles/datacatalog.viewer"] },
 }));
 
 export type SetConfigOrganizationsLocationsError =
@@ -3495,7 +3437,6 @@ export const starProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StarProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsEntryGroupsError =
@@ -3661,7 +3602,6 @@ export const unstarProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnstarProjectsLocationsEntryGroupsEntries",
-  iam: { actions: ["datacatalog.entries.update"], roles: ["roles/datacatalog.glossaryOwner"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

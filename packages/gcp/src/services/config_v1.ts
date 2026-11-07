@@ -1290,7 +1290,6 @@ export const createProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.create"], roles: ["roles/config.editor"] },
 }));
 
 export type CreateProjectsLocationsPreviewsError =
@@ -1357,7 +1356,6 @@ export const deleteProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.delete"], roles: ["roles/config.editor"] },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -1424,7 +1422,6 @@ export const deleteStateProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteStateProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.deleteState"], roles: ["roles/config.agent"] },
 }));
 
 export type DeprovisionProjectsLocationsDeploymentGroupsError =
@@ -1447,7 +1444,6 @@ export const deprovisionProjectsLocationsDeploymentGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeprovisionProjectsLocationsDeploymentGroups",
-  iam: { actions: ["config.deploymentgroups.deprovision"], roles: ["roles/config.admin"] },
 }));
 
 export type ExportLockProjectsLocationsDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -1465,7 +1461,6 @@ export const exportLockProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportLockProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.update"], roles: ["roles/config.editor"] },
 }));
 
 export type ExportProjectsLocationsPreviewsError =
@@ -1488,7 +1483,6 @@ export const exportProjectsLocationsPreviews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsPreviews",
-  iam: { actions: ["config.previews.export"], roles: ["roles/config.admin"] },
 }));
 
 export type ExportStateProjectsLocationsDeploymentsError =
@@ -1511,7 +1505,6 @@ export const exportStateProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportStateProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.update"], roles: ["roles/config.editor"] },
 }));
 
 export type ExportStateProjectsLocationsDeploymentsRevisionsError =
@@ -1538,7 +1531,6 @@ export const exportStateProjectsLocationsDeploymentsRevisions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportStateProjectsLocationsDeploymentsRevisions",
-  iam: { actions: ["config.deployments.update"], roles: ["roles/config.editor"] },
 }));
 
 export type GetAutoMigrationConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1607,7 +1599,6 @@ export const getProjectsLocationsDeploymentGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeploymentGroups",
-  iam: { actions: ["config.deploymentgroups.get"], roles: ["roles/config.viewer"] },
 }));
 
 export type GetProjectsLocationsDeploymentGroupsRevisionsError = NotFound | Forbidden | GcpOpError;
@@ -1629,7 +1620,6 @@ export const getProjectsLocationsDeploymentGroupsRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeploymentGroupsRevisions",
-  iam: { actions: ["config.revisions.get"], roles: ["roles/config.viewer"] },
 }));
 
 export type GetProjectsLocationsDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -1647,7 +1637,6 @@ export const getProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.get"], roles: ["roles/config.viewer"] },
 }));
 
 export type GetProjectsLocationsDeploymentsRevisionsError = NotFound | Forbidden | GcpOpError;
@@ -1665,7 +1654,6 @@ export const getProjectsLocationsDeploymentsRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeploymentsRevisions",
-  iam: { actions: ["config.revisions.get"], roles: ["roles/config.viewer"] },
 }));
 
 export type GetProjectsLocationsDeploymentsRevisionsResourcesError =
@@ -1690,7 +1678,6 @@ export const getProjectsLocationsDeploymentsRevisionsResources: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeploymentsRevisionsResources",
-  iam: { actions: ["config.resources.get"], roles: ["roles/config.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1725,7 +1712,6 @@ export const getProjectsLocationsPreviews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPreviews",
-  iam: { actions: ["config.previews.get"], roles: ["roles/config.viewer"] },
 }));
 
 export type GetProjectsLocationsPreviewsResourceChangesError = NotFound | Forbidden | GcpOpError;
@@ -1743,7 +1729,6 @@ export const getProjectsLocationsPreviewsResourceChanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPreviewsResourceChanges",
-  iam: { actions: ["config.resourcechanges.get"], roles: ["roles/config.admin"] },
 }));
 
 export type GetProjectsLocationsPreviewsResourceDriftsError = NotFound | Forbidden | GcpOpError;
@@ -1761,7 +1746,6 @@ export const getProjectsLocationsPreviewsResourceDrifts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPreviewsResourceDrifts",
-  iam: { actions: ["config.resourcedrifts.get"], roles: ["roles/config.admin"] },
 }));
 
 export type GetProjectsLocationsTerraformVersionsError = NotFound | Forbidden | GcpOpError;
@@ -1779,7 +1763,6 @@ export const getProjectsLocationsTerraformVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTerraformVersions",
-  iam: { actions: ["config.terraformversions.get"], roles: ["roles/config.viewer"] },
 }));
 
 export type ImportStateProjectsLocationsDeploymentsError =
@@ -1802,7 +1785,6 @@ export const importStateProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportStateProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.update"], roles: ["roles/config.editor"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1840,7 +1822,6 @@ export const listProjectsLocationsDeploymentGroups: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeploymentGroups",
-  iam: { actions: ["config.deploymentgroups.list"], roles: ["roles/config.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1864,7 +1845,6 @@ export const listProjectsLocationsDeploymentGroupsRevisions: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeploymentGroupsRevisions",
-  iam: { actions: ["config.revisions.list"], roles: ["roles/config.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1884,7 +1864,6 @@ export const listProjectsLocationsDeployments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.list"], roles: ["roles/config.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1904,7 +1883,6 @@ export const listProjectsLocationsDeploymentsRevisions: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeploymentsRevisions",
-  iam: { actions: ["config.revisions.list"], roles: ["roles/config.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1931,7 +1909,6 @@ export const listProjectsLocationsDeploymentsRevisionsResources: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeploymentsRevisionsResources",
-  iam: { actions: ["config.resources.list"], roles: ["roles/config.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1970,7 +1947,6 @@ export const listProjectsLocationsPreviews: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPreviews",
-  iam: { actions: ["config.previews.list"], roles: ["roles/config.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1990,7 +1966,6 @@ export const listProjectsLocationsPreviewsResourceChanges: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPreviewsResourceChanges",
-  iam: { actions: ["config.resourcechanges.list"], roles: ["roles/config.admin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2010,7 +1985,6 @@ export const listProjectsLocationsPreviewsResourceDrifts: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPreviewsResourceDrifts",
-  iam: { actions: ["config.resourcedrifts.list"], roles: ["roles/config.admin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2030,7 +2004,6 @@ export const listProjectsLocationsTerraformVersions: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTerraformVersions",
-  iam: { actions: ["config.terraformversions.list"], roles: ["roles/config.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2054,7 +2027,6 @@ export const lockProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LockProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.lock"], roles: ["roles/config.admin"] },
 }));
 
 export type PatchProjectsLocationsDeploymentGroupsError =
@@ -2099,7 +2071,6 @@ export const patchProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.update"], roles: ["roles/config.editor"] },
 }));
 
 export type ProvisionProjectsLocationsDeploymentGroupsError =
@@ -2122,7 +2093,6 @@ export const provisionProjectsLocationsDeploymentGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProvisionProjectsLocationsDeploymentGroups",
-  iam: { actions: ["config.deploymentgroups.provision"], roles: ["roles/config.admin"] },
 }));
 
 export type SetIamPolicyProjectsLocationsDeploymentsError =
@@ -2193,7 +2163,6 @@ export const unlockProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnlockProjectsLocationsDeployments",
-  iam: { actions: ["config.deployments.unlock"], roles: ["roles/config.admin"] },
 }));
 
 export type UpdateAutoMigrationConfigProjectsLocationsError =

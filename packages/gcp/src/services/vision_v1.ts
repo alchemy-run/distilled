@@ -1248,10 +1248,6 @@ export const addProductProjectsLocationsProductSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddProductProjectsLocationsProductSets",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type AnnotateFilesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1303,10 +1299,6 @@ export const annotateProjectsFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnotateProjectsFiles",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type AnnotateProjectsImagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1324,10 +1316,6 @@ export const annotateProjectsImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnotateProjectsImages",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type AnnotateProjectsLocationsFilesError =
@@ -1350,10 +1338,6 @@ export const annotateProjectsLocationsFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnotateProjectsLocationsFiles",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type AnnotateProjectsLocationsImagesError =
@@ -1376,10 +1360,6 @@ export const annotateProjectsLocationsImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnotateProjectsLocationsImages",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type AsyncBatchAnnotateFilesError =
@@ -1446,10 +1426,6 @@ export const asyncBatchAnnotateProjectsFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AsyncBatchAnnotateProjectsFiles",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type AsyncBatchAnnotateProjectsImagesError =
@@ -1472,10 +1448,6 @@ export const asyncBatchAnnotateProjectsImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AsyncBatchAnnotateProjectsImages",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type AsyncBatchAnnotateProjectsLocationsFilesError =
@@ -1498,10 +1470,6 @@ export const asyncBatchAnnotateProjectsLocationsFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AsyncBatchAnnotateProjectsLocationsFiles",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type AsyncBatchAnnotateProjectsLocationsImagesError =
@@ -1524,10 +1492,6 @@ export const asyncBatchAnnotateProjectsLocationsImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AsyncBatchAnnotateProjectsLocationsImages",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1773,10 +1737,6 @@ export const getProjectsLocationsProducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProducts",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type GetProjectsLocationsProductSetsError = NotFound | Forbidden | GcpOpError;
@@ -1794,10 +1754,6 @@ export const getProjectsLocationsProductSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProductSets",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type GetProjectsLocationsProductsReferenceImagesError = NotFound | Forbidden | GcpOpError;
@@ -1815,10 +1771,6 @@ export const getProjectsLocationsProductsReferenceImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProductsReferenceImages",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type GetProjectsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1858,10 +1810,6 @@ export const importProjectsLocationsProductSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsProductSets",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type ListOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1899,10 +1847,6 @@ export const listProjectsLocationsProducts: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProducts",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1922,10 +1866,6 @@ export const listProjectsLocationsProductSets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductSets",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1945,10 +1885,6 @@ export const listProjectsLocationsProductSetsProducts: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductSetsProducts",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1972,10 +1908,6 @@ export const listProjectsLocationsProductsReferenceImages: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsReferenceImages",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2043,10 +1975,6 @@ export const purgeProjectsLocationsProducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsProducts",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type RemoveProductProjectsLocationsProductSetsError =
@@ -2069,10 +1997,6 @@ export const removeProductProjectsLocationsProductSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveProductProjectsLocationsProductSets",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

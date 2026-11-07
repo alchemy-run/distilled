@@ -566,7 +566,6 @@ export const listProjectsLocationsConnections: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnections",
-  iam: { actions: ["bigquery.connections.list"], roles: ["roles/bigquery.connectionUser"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

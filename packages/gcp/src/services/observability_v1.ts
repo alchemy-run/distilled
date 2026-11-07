@@ -666,7 +666,6 @@ export const createProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsBuckets",
-  iam: { actions: ["observability.buckets.create"], roles: ["roles/observability.editor"] },
 }));
 
 export type CreateProjectsLocationsBucketsDatasetsLinksError =
@@ -923,7 +922,6 @@ export const getProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBuckets",
-  iam: { actions: ["observability.buckets.get"], roles: ["roles/observability.viewer"] },
 }));
 
 export type GetProjectsLocationsBucketsDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -941,7 +939,6 @@ export const getProjectsLocationsBucketsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBucketsDatasets",
-  iam: { actions: ["observability.datasets.get"], roles: ["roles/observability.viewer"] },
 }));
 
 export type GetProjectsLocationsBucketsDatasetsLinksError = NotFound | Forbidden | GcpOpError;
@@ -959,7 +956,6 @@ export const getProjectsLocationsBucketsDatasetsLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBucketsDatasetsLinks",
-  iam: { actions: ["observability.links.get"], roles: ["roles/observability.viewer"] },
 }));
 
 export type GetProjectsLocationsBucketsDatasetsViewsError = NotFound | Forbidden | GcpOpError;
@@ -977,7 +973,6 @@ export const getProjectsLocationsBucketsDatasetsViews: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBucketsDatasetsViews",
-  iam: { actions: ["observability.views.get"], roles: ["roles/observability.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1012,7 +1007,6 @@ export const getProjectsLocationsScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsScopes",
-  iam: { actions: ["observability.scopes.get"], roles: ["roles/observability.viewer"] },
 }));
 
 export type GetProjectsLocationsTraceScopesError = NotFound | Forbidden | GcpOpError;
@@ -1030,7 +1024,6 @@ export const getProjectsLocationsTraceScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTraceScopes",
-  iam: { actions: ["observability.traceScopes.get"], roles: ["roles/observability.viewer"] },
 }));
 
 export type GetSettingsFoldersLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1195,7 +1188,6 @@ export const listProjectsLocationsBuckets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBuckets",
-  iam: { actions: ["observability.buckets.list"], roles: ["roles/observability.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1215,7 +1207,6 @@ export const listProjectsLocationsBucketsDatasets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBucketsDatasets",
-  iam: { actions: ["observability.datasets.list"], roles: ["roles/observability.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1235,7 +1226,6 @@ export const listProjectsLocationsBucketsDatasetsLinks: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBucketsDatasetsLinks",
-  iam: { actions: ["observability.links.list"], roles: ["roles/observability.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1255,7 +1245,6 @@ export const listProjectsLocationsBucketsDatasetsViews: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBucketsDatasetsViews",
-  iam: { actions: ["observability.views.list"], roles: ["roles/observability.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1294,7 +1283,6 @@ export const listProjectsLocationsTraceScopes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTraceScopes",
-  iam: { actions: ["observability.traceScopes.list"], roles: ["roles/observability.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1318,7 +1306,6 @@ export const patchProjectsLocationsBuckets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBuckets",
-  iam: { actions: ["observability.buckets.update"], roles: ["roles/observability.editor"] },
 }));
 
 export type PatchProjectsLocationsBucketsDatasetsLinksError =
@@ -1363,7 +1350,6 @@ export const patchProjectsLocationsScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsScopes",
-  iam: { actions: ["observability.scopes.update"], roles: ["roles/observability.scopesEditor"] },
 }));
 
 export type PatchProjectsLocationsTraceScopesError =

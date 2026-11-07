@@ -1963,7 +1963,6 @@ export const cancelProjectsLocationsRepositoriesWorkflowInvocations: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsRepositoriesWorkflowInvocations",
-  iam: { actions: ["dataform.workflowInvocations.cancel"], roles: ["roles/dataform.editor"] },
 }));
 
 export type CommitProjectsLocationsRepositoriesError =
@@ -1986,7 +1985,6 @@ export const commitProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsLocationsRepositories",
-  iam: { actions: ["dataform.repositories.commit"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type CommitProjectsLocationsRepositoriesWorkspacesError =
@@ -2013,7 +2011,6 @@ export const commitProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.commit"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type ComputeAccessTokenStatusProjectsLocationsRepositoriesError =
@@ -2038,10 +2035,6 @@ export const computeAccessTokenStatusProjectsLocationsRepositories: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeAccessTokenStatusProjectsLocationsRepositories",
-  iam: {
-    actions: ["dataform.repositories.computeAccessTokenStatus"],
-    roles: ["roles/dataform.codeViewer"],
-  },
 }));
 
 export type CreateProjectsLocationsFoldersError =
@@ -2112,7 +2105,6 @@ export const createProjectsLocationsRepositoriesCompilationResults: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsRepositoriesCompilationResults",
-  iam: { actions: ["dataform.compilationResults.create"], roles: ["roles/dataform.codeViewer"] },
 }));
 
 export type CreateProjectsLocationsRepositoriesReleaseConfigsError =
@@ -2453,7 +2445,6 @@ export const deleteTreeProjectsLocationsFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTreeProjectsLocationsFolders",
-  iam: { actions: ["dataform.folders.deleteTree"], roles: ["roles/dataform.codeOwner"] },
 }));
 
 export type DeleteTreeProjectsLocationsTeamFoldersError =
@@ -2476,7 +2467,6 @@ export const deleteTreeProjectsLocationsTeamFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTreeProjectsLocationsTeamFolders",
-  iam: { actions: ["dataform.teamFolders.deleteTree"], roles: ["roles/dataform.teamFolderOwner"] },
 }));
 
 export type FetchFileDiffProjectsLocationsRepositoriesWorkspacesError =
@@ -2501,7 +2491,6 @@ export const fetchFileDiffProjectsLocationsRepositoriesWorkspaces: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchFileDiffProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.fetchFileDiff"], roles: ["roles/dataform.codeViewer"] },
 }));
 
 export type FetchFileGitStatusesProjectsLocationsRepositoriesWorkspacesError =
@@ -2526,10 +2515,6 @@ export const fetchFileGitStatusesProjectsLocationsRepositoriesWorkspaces: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchFileGitStatusesProjectsLocationsRepositoriesWorkspaces",
-  iam: {
-    actions: ["dataform.workspaces.fetchFileGitStatuses"],
-    roles: ["roles/dataform.codeViewer"],
-  },
 }));
 
 export type FetchGitAheadBehindProjectsLocationsRepositoriesWorkspacesError =
@@ -2554,10 +2539,6 @@ export const fetchGitAheadBehindProjectsLocationsRepositoriesWorkspaces: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchGitAheadBehindProjectsLocationsRepositoriesWorkspaces",
-  iam: {
-    actions: ["dataform.workspaces.fetchGitAheadBehind"],
-    roles: ["roles/dataform.codeViewer"],
-  },
 }));
 
 export type FetchHistoryProjectsLocationsRepositoriesError = NotFound | Forbidden | GcpOpError;
@@ -2576,7 +2557,6 @@ export const fetchHistoryProjectsLocationsRepositories: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchHistoryProjectsLocationsRepositories",
-  iam: { actions: ["dataform.repositories.fetchHistory"], roles: ["roles/dataform.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2602,10 +2582,6 @@ export const fetchRemoteBranchesProjectsLocationsRepositories: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchRemoteBranchesProjectsLocationsRepositories",
-  iam: {
-    actions: ["dataform.repositories.fetchRemoteBranches"],
-    roles: ["roles/dataform.codeViewer"],
-  },
 }));
 
 export type GetConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2732,7 +2708,6 @@ export const getProjectsLocationsFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFolders",
-  iam: { actions: ["dataform.folders.get"], roles: ["roles/dataform.codeViewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2767,7 +2742,6 @@ export const getProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositories",
-  iam: { actions: ["dataform.repositories.get"], roles: ["roles/dataform.codeViewer"] },
 }));
 
 export type GetProjectsLocationsRepositoriesCompilationResultsError =
@@ -2792,7 +2766,6 @@ export const getProjectsLocationsRepositoriesCompilationResults: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesCompilationResults",
-  iam: { actions: ["dataform.compilationResults.get"], roles: ["roles/dataform.codeViewer"] },
 }));
 
 export type GetProjectsLocationsRepositoriesReleaseConfigsError = NotFound | Forbidden | GcpOpError;
@@ -2814,7 +2787,6 @@ export const getProjectsLocationsRepositoriesReleaseConfigs: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesReleaseConfigs",
-  iam: { actions: ["dataform.releaseConfigs.get"], roles: ["roles/dataform.viewer"] },
 }));
 
 export type GetProjectsLocationsRepositoriesWorkflowConfigsError =
@@ -2839,7 +2811,6 @@ export const getProjectsLocationsRepositoriesWorkflowConfigs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesWorkflowConfigs",
-  iam: { actions: ["dataform.workflowConfigs.get"], roles: ["roles/dataform.viewer"] },
 }));
 
 export type GetProjectsLocationsRepositoriesWorkflowInvocationsError =
@@ -2864,7 +2835,6 @@ export const getProjectsLocationsRepositoriesWorkflowInvocations: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesWorkflowInvocations",
-  iam: { actions: ["dataform.workflowInvocations.get"], roles: ["roles/dataform.viewer"] },
 }));
 
 export type GetProjectsLocationsRepositoriesWorkspacesError = NotFound | Forbidden | GcpOpError;
@@ -2882,7 +2852,6 @@ export const getProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.get"], roles: ["roles/dataform.codeViewer"] },
 }));
 
 export type GetProjectsLocationsTeamFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2900,7 +2869,6 @@ export const getProjectsLocationsTeamFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTeamFolders",
-  iam: { actions: ["dataform.teamFolders.get"], roles: ["roles/dataform.teamFolderViewer"] },
 }));
 
 export type InstallNpmPackagesProjectsLocationsRepositoriesWorkspacesError =
@@ -2927,10 +2895,6 @@ export const installNpmPackagesProjectsLocationsRepositoriesWorkspaces: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InstallNpmPackagesProjectsLocationsRepositoriesWorkspaces",
-  iam: {
-    actions: ["dataform.workspaces.installNpmPackages"],
-    roles: ["roles/dataform.codeEditor"],
-  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2987,7 +2951,6 @@ export const listProjectsLocationsRepositories: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositories",
-  iam: { actions: ["dataform.repositories.list"], roles: ["roles/dataform.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3014,7 +2977,6 @@ export const listProjectsLocationsRepositoriesCompilationResults: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesCompilationResults",
-  iam: { actions: ["dataform.compilationResults.list"], roles: ["roles/dataform.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3041,7 +3003,6 @@ export const listProjectsLocationsRepositoriesReleaseConfigs: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesReleaseConfigs",
-  iam: { actions: ["dataform.releaseConfigs.list"], roles: ["roles/dataform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3068,7 +3029,6 @@ export const listProjectsLocationsRepositoriesWorkflowConfigs: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesWorkflowConfigs",
-  iam: { actions: ["dataform.workflowConfigs.list"], roles: ["roles/dataform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3095,7 +3055,6 @@ export const listProjectsLocationsRepositoriesWorkflowInvocations: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesWorkflowInvocations",
-  iam: { actions: ["dataform.workflowInvocations.list"], roles: ["roles/dataform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3115,7 +3074,6 @@ export const listProjectsLocationsRepositoriesWorkspaces: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.list"], roles: ["roles/dataform.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3143,7 +3101,6 @@ export const makeDirectoryProjectsLocationsRepositoriesWorkspaces: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MakeDirectoryProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.makeDirectory"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type MoveDirectoryProjectsLocationsRepositoriesWorkspacesError =
@@ -3170,7 +3127,6 @@ export const moveDirectoryProjectsLocationsRepositoriesWorkspaces: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveDirectoryProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.moveDirectory"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type MoveFileProjectsLocationsRepositoriesWorkspacesError =
@@ -3197,7 +3153,6 @@ export const moveFileProjectsLocationsRepositoriesWorkspaces: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveFileProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.moveFile"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type MoveProjectsLocationsFoldersError =
@@ -3220,7 +3175,6 @@ export const moveProjectsLocationsFolders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveProjectsLocationsFolders",
-  iam: { actions: ["dataform.folders.move"], roles: ["roles/dataform.codeOwner"] },
 }));
 
 export type MoveProjectsLocationsRepositoriesError =
@@ -3243,7 +3197,6 @@ export const moveProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveProjectsLocationsRepositories",
-  iam: { actions: ["dataform.repositories.move"], roles: ["roles/dataform.codeOwner"] },
 }));
 
 export type PatchProjectsLocationsFoldersError =
@@ -3384,7 +3337,6 @@ export const pullProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PullProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.pull"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type PushProjectsLocationsRepositoriesWorkspacesError =
@@ -3407,7 +3359,6 @@ export const pushProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PushProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.push"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type QueryContentsProjectsLocationsTeamFoldersError = NotFound | Forbidden | GcpOpError;
@@ -3426,7 +3377,6 @@ export const queryContentsProjectsLocationsTeamFolders: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryContentsProjectsLocationsTeamFolders",
-  iam: { actions: ["dataform.teamFolders.get"], roles: ["roles/dataform.teamFolderViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3453,10 +3403,6 @@ export const queryDirectoryContentsProjectsLocationsRepositories: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryDirectoryContentsProjectsLocationsRepositories",
-  iam: {
-    actions: ["dataform.repositories.queryDirectoryContents"],
-    roles: ["roles/dataform.codeViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3483,10 +3429,6 @@ export const queryDirectoryContentsProjectsLocationsRepositoriesWorkspaces: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryDirectoryContentsProjectsLocationsRepositoriesWorkspaces",
-  iam: {
-    actions: ["dataform.workspaces.queryDirectoryContents"],
-    roles: ["roles/dataform.codeViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3506,7 +3448,6 @@ export const queryFolderContentsProjectsLocationsFolders: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryFolderContentsProjectsLocationsFolders",
-  iam: { actions: ["dataform.folders.get"], roles: ["roles/dataform.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3533,7 +3474,6 @@ export const queryProjectsLocationsRepositoriesCompilationResults: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryProjectsLocationsRepositoriesCompilationResults",
-  iam: { actions: ["dataform.compilationResults.query"], roles: ["roles/dataform.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3560,7 +3500,6 @@ export const queryProjectsLocationsRepositoriesWorkflowInvocations: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryProjectsLocationsRepositoriesWorkflowInvocations",
-  iam: { actions: ["dataform.workflowInvocations.query"], roles: ["roles/dataform.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3598,7 +3537,6 @@ export const readFileProjectsLocationsRepositories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadFileProjectsLocationsRepositories",
-  iam: { actions: ["dataform.repositories.readFile"], roles: ["roles/dataform.codeCommenter"] },
 }));
 
 export type ReadFileProjectsLocationsRepositoriesWorkspacesError =
@@ -3623,7 +3561,6 @@ export const readFileProjectsLocationsRepositoriesWorkspaces: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadFileProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.readFile"], roles: ["roles/dataform.codeViewer"] },
 }));
 
 export type RemoveDirectoryProjectsLocationsRepositoriesWorkspacesError =
@@ -3650,7 +3587,6 @@ export const removeDirectoryProjectsLocationsRepositoriesWorkspaces: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveDirectoryProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.removeDirectory"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type RemoveFileProjectsLocationsRepositoriesWorkspacesError =
@@ -3677,7 +3613,6 @@ export const removeFileProjectsLocationsRepositoriesWorkspaces: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveFileProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.removeFile"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type ResetProjectsLocationsRepositoriesWorkspacesError =
@@ -3704,7 +3639,6 @@ export const resetProjectsLocationsRepositoriesWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.reset"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 export type SearchFilesProjectsLocationsRepositoriesWorkspacesError =
@@ -3730,7 +3664,6 @@ export const searchFilesProjectsLocationsRepositoriesWorkspaces: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchFilesProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.searchFiles"], roles: ["roles/dataform.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3750,7 +3683,6 @@ export const searchProjectsLocationsTeamFolders: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsTeamFolders",
-  iam: { actions: ["dataform.teamFolders.get"], roles: ["roles/dataform.teamFolderViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3992,7 +3924,6 @@ export const writeFileProjectsLocationsRepositoriesWorkspaces: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteFileProjectsLocationsRepositoriesWorkspaces",
-  iam: { actions: ["dataform.workspaces.writeFile"], roles: ["roles/dataform.codeEditor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

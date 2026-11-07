@@ -353,10 +353,6 @@ export const computeDiffThreatLists: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeDiffThreatLists",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type CreateProjectsSubmissionsError =
@@ -379,10 +375,6 @@ export const createProjectsSubmissions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsSubmissions",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type DeleteProjectsOperationsError =
@@ -458,10 +450,6 @@ export const searchHashes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchHashes",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type SearchUrisError = NotFound | Forbidden | GcpOpError;
@@ -479,10 +467,6 @@ export const searchUris: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchUris",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

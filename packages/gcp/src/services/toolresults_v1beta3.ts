@@ -1281,7 +1281,6 @@ export const accessibilityClustersProjectsHistoriesExecutionsSteps: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessibilityClustersProjectsHistoriesExecutionsSteps",
-  iam: { actions: ["cloudtoolresults.steps.get"], roles: ["roles/cloudtestservice.testViewer"] },
 }));
 
 export type BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesError =
@@ -1308,7 +1307,6 @@ export const batchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples",
-  iam: { actions: ["cloudtoolresults.steps.create"], roles: ["roles/cloudtestservice.testAdmin"] },
 }));
 
 export type CreateProjectsHistoriesError =
@@ -1331,10 +1329,6 @@ export const createProjectsHistories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsHistories",
-  iam: {
-    actions: ["cloudtoolresults.histories.create"],
-    roles: ["roles/cloudtestservice.testAdmin"],
-  },
 }));
 
 export type CreateProjectsHistoriesExecutionsError =
@@ -1357,10 +1351,6 @@ export const createProjectsHistoriesExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsHistoriesExecutions",
-  iam: {
-    actions: ["cloudtoolresults.executions.create"],
-    roles: ["roles/cloudtestservice.testAdmin"],
-  },
 }));
 
 export type CreateProjectsHistoriesExecutionsStepsError =
@@ -1383,7 +1373,6 @@ export const createProjectsHistoriesExecutionsSteps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsHistoriesExecutionsSteps",
-  iam: { actions: ["cloudtoolresults.steps.create"], roles: ["roles/cloudtestservice.testAdmin"] },
 }));
 
 export type CreateProjectsHistoriesExecutionsStepsPerfMetricsSummaryError =
@@ -1410,7 +1399,6 @@ export const createProjectsHistoriesExecutionsStepsPerfMetricsSummary: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsHistoriesExecutionsStepsPerfMetricsSummary",
-  iam: { actions: ["cloudtoolresults.steps.update"], roles: ["roles/cloudtestservice.testAdmin"] },
 }));
 
 export type CreateProjectsHistoriesExecutionsStepsPerfSampleSeriesError =
@@ -1437,7 +1425,6 @@ export const createProjectsHistoriesExecutionsStepsPerfSampleSeries: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsHistoriesExecutionsStepsPerfSampleSeries",
-  iam: { actions: ["cloudtoolresults.steps.create"], roles: ["roles/cloudtestservice.testAdmin"] },
 }));
 
 export type GetPerfMetricsSummaryProjectsHistoriesExecutionsStepsError =
@@ -1462,7 +1449,6 @@ export const getPerfMetricsSummaryProjectsHistoriesExecutionsSteps: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPerfMetricsSummaryProjectsHistoriesExecutionsSteps",
-  iam: { actions: ["cloudtoolresults.steps.get"], roles: ["roles/cloudtestservice.testViewer"] },
 }));
 
 export type GetProjectsHistoriesError = NotFound | Forbidden | GcpOpError;
@@ -1480,10 +1466,6 @@ export const getProjectsHistories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsHistories",
-  iam: {
-    actions: ["cloudtoolresults.histories.get"],
-    roles: ["roles/cloudtestservice.testViewer"],
-  },
 }));
 
 export type GetProjectsHistoriesExecutionsError = NotFound | Forbidden | GcpOpError;
@@ -1501,10 +1483,6 @@ export const getProjectsHistoriesExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsHistoriesExecutions",
-  iam: {
-    actions: ["cloudtoolresults.executions.get"],
-    roles: ["roles/cloudtestservice.testViewer"],
-  },
 }));
 
 export type GetProjectsHistoriesExecutionsClustersError = NotFound | Forbidden | GcpOpError;
@@ -1522,10 +1500,6 @@ export const getProjectsHistoriesExecutionsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsHistoriesExecutionsClusters",
-  iam: {
-    actions: ["cloudtoolresults.executions.get"],
-    roles: ["roles/cloudtestservice.testViewer"],
-  },
 }));
 
 export type GetProjectsHistoriesExecutionsEnvironmentsError = NotFound | Forbidden | GcpOpError;
@@ -1543,10 +1517,6 @@ export const getProjectsHistoriesExecutionsEnvironments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsHistoriesExecutionsEnvironments",
-  iam: {
-    actions: ["cloudtoolresults.executions.get"],
-    roles: ["roles/cloudtestservice.testViewer"],
-  },
 }));
 
 export type GetProjectsHistoriesExecutionsStepsError = NotFound | Forbidden | GcpOpError;
@@ -1564,7 +1534,6 @@ export const getProjectsHistoriesExecutionsSteps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsHistoriesExecutionsSteps",
-  iam: { actions: ["cloudtoolresults.steps.get"], roles: ["roles/cloudtestservice.testViewer"] },
 }));
 
 export type GetProjectsHistoriesExecutionsStepsPerfSampleSeriesError =
@@ -1589,7 +1558,6 @@ export const getProjectsHistoriesExecutionsStepsPerfSampleSeries: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsHistoriesExecutionsStepsPerfSampleSeries",
-  iam: { actions: ["cloudtoolresults.steps.get"], roles: ["roles/cloudtestservice.testViewer"] },
 }));
 
 export type GetProjectsHistoriesExecutionsStepsTestCasesError = NotFound | Forbidden | GcpOpError;
@@ -1607,7 +1575,6 @@ export const getProjectsHistoriesExecutionsStepsTestCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsHistoriesExecutionsStepsTestCases",
-  iam: { actions: ["cloudtoolresults.steps.get"], roles: ["roles/cloudtestservice.testViewer"] },
 }));
 
 export type GetSettingsProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1625,7 +1592,6 @@ export const getSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSettingsProjects",
-  iam: { actions: ["cloudtoolresults.settings.get"], roles: ["roles/cloudtestservice.testViewer"] },
 }));
 
 export type InitializeSettingsProjectsError =
@@ -1648,10 +1614,6 @@ export const initializeSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InitializeSettingsProjects",
-  iam: {
-    actions: ["cloudtoolresults.settings.create"],
-    roles: ["roles/cloudtestservice.testAdmin"],
-  },
 }));
 
 export type ListProjectsHistoriesError = NotFound | Forbidden | GcpOpError;
@@ -1670,10 +1632,6 @@ export const listProjectsHistories: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistories",
-  iam: {
-    actions: ["cloudtoolresults.histories.list"],
-    roles: ["roles/cloudtestservice.testViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1693,10 +1651,6 @@ export const listProjectsHistoriesExecutions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistoriesExecutions",
-  iam: {
-    actions: ["cloudtoolresults.executions.list"],
-    roles: ["roles/cloudtestservice.testViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1715,10 +1669,6 @@ export const listProjectsHistoriesExecutionsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistoriesExecutionsClusters",
-  iam: {
-    actions: ["cloudtoolresults.executions.list"],
-    roles: ["roles/cloudtestservice.testViewer"],
-  },
 }));
 
 export type ListProjectsHistoriesExecutionsEnvironmentsError = NotFound | Forbidden | GcpOpError;
@@ -1737,10 +1687,6 @@ export const listProjectsHistoriesExecutionsEnvironments: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistoriesExecutionsEnvironments",
-  iam: {
-    actions: ["cloudtoolresults.executions.list"],
-    roles: ["roles/cloudtestservice.testViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1760,7 +1706,6 @@ export const listProjectsHistoriesExecutionsSteps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistoriesExecutionsSteps",
-  iam: { actions: ["cloudtoolresults.steps.list"], roles: ["roles/cloudtestservice.testViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1786,7 +1731,6 @@ export const listProjectsHistoriesExecutionsStepsPerfSampleSeries: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistoriesExecutionsStepsPerfSampleSeries",
-  iam: { actions: ["cloudtoolresults.steps.list"], roles: ["roles/cloudtestservice.testViewer"] },
 }));
 
 export type ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamplesError =
@@ -1812,7 +1756,6 @@ export const listProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples: API.Pa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistoriesExecutionsStepsPerfSampleSeriesSamples",
-  iam: { actions: ["cloudtoolresults.steps.list"], roles: ["roles/cloudtestservice.testViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1836,7 +1779,6 @@ export const listProjectsHistoriesExecutionsStepsTestCases: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistoriesExecutionsStepsTestCases",
-  iam: { actions: ["cloudtoolresults.steps.list"], roles: ["roles/cloudtestservice.testViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1860,7 +1802,6 @@ export const listProjectsHistoriesExecutionsStepsThumbnails: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsHistoriesExecutionsStepsThumbnails",
-  iam: { actions: ["cloudtoolresults.steps.list"], roles: ["roles/cloudtestservice.testViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1932,7 +1873,6 @@ export const publishXunitXmlFilesProjectsHistoriesExecutionsSteps: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishXunitXmlFilesProjectsHistoriesExecutionsSteps",
-  iam: { actions: ["cloudtoolresults.steps.update"], roles: ["roles/cloudtestservice.testAdmin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

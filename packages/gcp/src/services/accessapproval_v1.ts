@@ -534,7 +534,6 @@ export const approveProjectsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApproveProjectsApprovalRequests",
-  iam: { actions: ["accessapproval.requests.approve"], roles: ["roles/accessapproval.approver"] },
 }));
 
 export type DeleteAccessApprovalSettingsFoldersError =
@@ -601,10 +600,6 @@ export const deleteAccessApprovalSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteAccessApprovalSettingsProjects",
-  iam: {
-    actions: ["accessapproval.settings.delete"],
-    roles: ["roles/accessapproval.configEditor"],
-  },
 }));
 
 export type DismissFoldersApprovalRequestsError =
@@ -671,7 +666,6 @@ export const dismissProjectsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DismissProjectsApprovalRequests",
-  iam: { actions: ["accessapproval.requests.dismiss"], roles: ["roles/accessapproval.approver"] },
 }));
 
 export type GetAccessApprovalSettingsFoldersError = NotFound | Forbidden | GcpOpError;
@@ -723,7 +717,6 @@ export const getAccessApprovalSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAccessApprovalSettingsProjects",
-  iam: { actions: ["accessapproval.settings.get"], roles: ["roles/accessapproval.viewer"] },
 }));
 
 export type GetFoldersApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -775,7 +768,6 @@ export const getProjectsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsApprovalRequests",
-  iam: { actions: ["accessapproval.requests.get"], roles: ["roles/accessapproval.viewer"] },
 }));
 
 export type GetServiceAccountFoldersError = NotFound | Forbidden | GcpOpError;
@@ -827,7 +819,6 @@ export const getServiceAccountProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServiceAccountProjects",
-  iam: { actions: ["accessapproval.serviceAccounts.get"], roles: ["roles/accessapproval.viewer"] },
 }));
 
 export type InvalidateFoldersApprovalRequestsError =
@@ -894,10 +885,6 @@ export const invalidateProjectsApprovalRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InvalidateProjectsApprovalRequests",
-  iam: {
-    actions: ["accessapproval.requests.invalidate"],
-    roles: ["roles/accessapproval.invalidator"],
-  },
 }));
 
 export type ListFoldersApprovalRequestsError = NotFound | Forbidden | GcpOpError;
@@ -954,7 +941,6 @@ export const listProjectsApprovalRequests: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsApprovalRequests",
-  iam: { actions: ["accessapproval.requests.list"], roles: ["roles/accessapproval.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1022,10 +1008,6 @@ export const updateAccessApprovalSettingsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAccessApprovalSettingsProjects",
-  iam: {
-    actions: ["accessapproval.settings.update"],
-    roles: ["roles/accessapproval.configEditor"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

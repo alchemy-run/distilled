@@ -983,10 +983,6 @@ export const getOrganizationsLocationsPostureDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsPostureDeployments",
-  iam: {
-    actions: ["securityposture.postureDeployments.get"],
-    roles: ["roles/securityposture.postureDeploymentsViewer"],
-  },
 }));
 
 export type GetOrganizationsLocationsPosturesError = NotFound | Forbidden | GcpOpError;
@@ -1004,10 +1000,6 @@ export const getOrganizationsLocationsPostures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsPostures",
-  iam: {
-    actions: ["securityposture.postures.get"],
-    roles: ["roles/securityposture.postureViewer"],
-  },
 }));
 
 export type GetOrganizationsLocationsPostureTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -1174,10 +1166,6 @@ export const listRevisionsOrganizationsLocationsPostures: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRevisionsOrganizationsLocationsPostures",
-  iam: {
-    actions: ["securityposture.postures.get"],
-    roles: ["roles/securityposture.postureViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

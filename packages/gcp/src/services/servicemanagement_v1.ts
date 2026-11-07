@@ -1611,10 +1611,6 @@ export const generateConfigReportServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateConfigReportServices",
-  iam: {
-    actions: ["servicemanagement.services.update"],
-    roles: ["roles/servicemanagement.configEditor"],
-  },
 }));
 
 export type GetConfigServicesError = NotFound | Forbidden | GcpOpError;
@@ -1776,7 +1772,6 @@ export const listServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
-  iam: { actions: ["servicemanagement.services.list"], roles: ["roles/servicemanagement.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

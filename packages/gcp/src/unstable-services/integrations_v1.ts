@@ -5167,10 +5167,6 @@ export const cancelProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsIntegrationsExecutions",
-  iam: {
-    actions: ["integrations.executions.cancel"],
-    roles: ["roles/integrations.integrationInvoker"],
-  },
 }));
 
 export type ChangeConfigProjectsLocationsClientsError =
@@ -5607,10 +5603,6 @@ export const deleteProjectsLocationsCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsCertificates",
-  iam: {
-    actions: ["integrations.certificates.delete"],
-    roles: ["roles/integrations.apigeeIntegrationAdminRole"],
-  },
 }));
 
 export type DeleteProjectsLocationsIntegrationsError =
@@ -5633,10 +5625,6 @@ export const deleteProjectsLocationsIntegrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.delete"],
-    roles: ["roles/integrations.apigeeIntegrationAdminRole"],
-  },
 }));
 
 export type DeleteProjectsLocationsIntegrationsVersionsError =
@@ -5927,10 +5915,6 @@ export const downloadJsonPackageProjectsLocationsIntegrationsVersions: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadJsonPackageProjectsLocationsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type DownloadProjectsLocationsIntegrationsExecutionsError =
@@ -5959,10 +5943,6 @@ export const downloadProjectsLocationsIntegrationsExecutions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadProjectsLocationsIntegrationsExecutions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type DownloadProjectsLocationsIntegrationsVersionsError = NotFound | Forbidden | GcpOpError;
@@ -5988,10 +5968,6 @@ export const downloadProjectsLocationsIntegrationsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadProjectsLocationsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type DownloadProjectsLocationsIntegrationsVersionsTestCasesError =
@@ -6020,10 +5996,6 @@ export const downloadProjectsLocationsIntegrationsVersionsTestCases: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadProjectsLocationsIntegrationsVersionsTestCases",
-  iam: {
-    actions: ["integrations.testCases.update"],
-    roles: ["roles/integrations.integrationEditor"],
-  },
 }));
 
 export type DownloadProjectsLocationsProductsIntegrationsExecutionsError =
@@ -6052,10 +6024,6 @@ export const downloadProjectsLocationsProductsIntegrationsExecutions: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadProjectsLocationsProductsIntegrationsExecutions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type DownloadProjectsLocationsProductsIntegrationsVersionsError =
@@ -6084,10 +6052,6 @@ export const downloadProjectsLocationsProductsIntegrationsVersions: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadProjectsLocationsProductsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type DownloadProjectsLocationsTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6109,10 +6073,6 @@ export const downloadProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadProjectsLocationsTemplates",
-  iam: {
-    actions: ["integrations.templates.update"],
-    roles: ["roles/integrations.integrationEditor"],
-  },
 }));
 
 export type EnumerateConnectorPlatformRegionsError = NotFound | Forbidden | GcpOpError;
@@ -6160,10 +6120,6 @@ export const executeEventProjectsLocationsIntegrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteEventProjectsLocationsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type ExecuteProjectsLocationsIntegrationsError =
@@ -6190,10 +6146,6 @@ export const executeProjectsLocationsIntegrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteProjectsLocationsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type ExecuteProjectsLocationsIntegrationsVersionsTestCasesError =
@@ -6224,10 +6176,6 @@ export const executeProjectsLocationsIntegrationsVersionsTestCases: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteProjectsLocationsIntegrationsVersionsTestCases",
-  iam: {
-    actions: ["integrations.testCases.update"],
-    roles: ["roles/integrations.integrationEditor"],
-  },
 }));
 
 export type ExecuteProjectsLocationsProductsIntegrationsError =
@@ -6258,10 +6206,6 @@ export const executeProjectsLocationsProductsIntegrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteProjectsLocationsProductsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type ExecuteTestProjectsLocationsIntegrationsVersionsTestCasesError =
@@ -6292,10 +6236,6 @@ export const executeTestProjectsLocationsIntegrationsVersionsTestCases: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteTestProjectsLocationsIntegrationsVersionsTestCases",
-  iam: {
-    actions: ["integrations.testCases.update"],
-    roles: ["roles/integrations.integrationEditor"],
-  },
 }));
 
 export type GenerateOpenApiSpecProjectsLocationsError =
@@ -6426,10 +6366,6 @@ export const getProjectsLocationsAuthConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthConfigs",
-  iam: {
-    actions: ["integrations.authConfigs.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsCertificatesError = NotFound | Forbidden | GcpOpError;
@@ -6447,10 +6383,6 @@ export const getProjectsLocationsCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCertificates",
-  iam: {
-    actions: ["integrations.certificates.get"],
-    roles: ["roles/integrations.certificateViewer"],
-  },
 }));
 
 export type GetProjectsLocationsIntegrationsExecutionsError = NotFound | Forbidden | GcpOpError;
@@ -6468,10 +6400,6 @@ export const getProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIntegrationsExecutions",
-  iam: {
-    actions: ["integrations.executions.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsIntegrationsVersionsError = NotFound | Forbidden | GcpOpError;
@@ -6489,10 +6417,6 @@ export const getProjectsLocationsIntegrationsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsIntegrationsVersionsTestCasesError =
@@ -6517,7 +6441,6 @@ export const getProjectsLocationsIntegrationsVersionsTestCases: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIntegrationsVersionsTestCases",
-  iam: { actions: ["integrations.testCases.get"], roles: ["roles/integrations.integrationViewer"] },
 }));
 
 export type GetProjectsLocationsProductsAuthConfigsError = NotFound | Forbidden | GcpOpError;
@@ -6535,10 +6458,6 @@ export const getProjectsLocationsProductsAuthConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProductsAuthConfigs",
-  iam: {
-    actions: ["integrations.authConfigs.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsProductsCertificatesError = NotFound | Forbidden | GcpOpError;
@@ -6580,10 +6499,6 @@ export const getProjectsLocationsProductsIntegrationsExecutions: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProductsIntegrationsExecutions",
-  iam: {
-    actions: ["integrations.executions.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsProductsIntegrationsVersionsError =
@@ -6608,10 +6523,6 @@ export const getProjectsLocationsProductsIntegrationsVersions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProductsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsProductsSfdcInstancesError = NotFound | Forbidden | GcpOpError;
@@ -6629,10 +6540,6 @@ export const getProjectsLocationsProductsSfdcInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProductsSfdcInstances",
-  iam: {
-    actions: ["integrations.sfdcInstances.get"],
-    roles: ["roles/integrations.sfdcInstanceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsProductsSfdcInstancesSfdcChannelsError =
@@ -6657,10 +6564,6 @@ export const getProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProductsSfdcInstancesSfdcChannels",
-  iam: {
-    actions: ["integrations.sfdcChannels.get"],
-    roles: ["roles/integrations.sfdcInstanceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsSfdcInstancesError = NotFound | Forbidden | GcpOpError;
@@ -6678,10 +6581,6 @@ export const getProjectsLocationsSfdcInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSfdcInstances",
-  iam: {
-    actions: ["integrations.sfdcInstances.get"],
-    roles: ["roles/integrations.sfdcInstanceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsSfdcInstancesSfdcChannelsError = NotFound | Forbidden | GcpOpError;
@@ -6703,10 +6602,6 @@ export const getProjectsLocationsSfdcInstancesSfdcChannels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSfdcInstancesSfdcChannels",
-  iam: {
-    actions: ["integrations.sfdcChannels.get"],
-    roles: ["roles/integrations.sfdcInstanceViewer"],
-  },
 }));
 
 export type GetProjectsLocationsTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -6724,7 +6619,6 @@ export const getProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTemplates",
-  iam: { actions: ["integrations.templates.get"], roles: ["roles/integrations.integrationViewer"] },
 }));
 
 export type ImportProjectsLocationsTemplatesError =
@@ -6751,10 +6645,6 @@ export const importProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsTemplates",
-  iam: {
-    actions: ["integrations.templates.update"],
-    roles: ["roles/integrations.integrationEditor"],
-  },
 }));
 
 export type LiftProjectsLocationsIntegrationsExecutionsSuspensionsError =
@@ -6785,10 +6675,6 @@ export const liftProjectsLocationsIntegrationsExecutionsSuspensions: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LiftProjectsLocationsIntegrationsExecutionsSuspensions",
-  iam: {
-    actions: ["integrations.suspensions.lift"],
-    roles: ["roles/integrations.apigeeSuspensionResolver"],
-  },
 }));
 
 export type LiftProjectsLocationsProductsIntegrationsExecutionsSuspensionsError =
@@ -6819,10 +6705,6 @@ export const liftProjectsLocationsProductsIntegrationsExecutionsSuspensions: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LiftProjectsLocationsProductsIntegrationsExecutionsSuspensions",
-  iam: {
-    actions: ["integrations.suspensions.lift"],
-    roles: ["roles/integrations.apigeeSuspensionResolver"],
-  },
 }));
 
 export type LinkProjectsLocationsAppsScriptProjectsError =
@@ -6871,10 +6753,6 @@ export const listProjectsLocationsAuthConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthConfigs",
-  iam: {
-    actions: ["integrations.authConfigs.list"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6898,10 +6776,6 @@ export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCertificates",
-  iam: {
-    actions: ["integrations.certificates.list"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7008,10 +6882,6 @@ export const listProjectsLocationsIntegrations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.list"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7039,10 +6909,6 @@ export const listProjectsLocationsIntegrationsExecutions: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIntegrationsExecutions",
-  iam: {
-    actions: ["integrations.executions.list"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7073,7 +6939,6 @@ export const listProjectsLocationsIntegrationsExecutionsSuspensions: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIntegrationsExecutionsSuspensions",
-  iam: { actions: ["integrations.suspensions.list"], roles: ["roles/integrations.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7097,10 +6962,6 @@ export const listProjectsLocationsIntegrationsVersions: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7131,10 +6992,6 @@ export const listProjectsLocationsIntegrationsVersionsTestCases: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIntegrationsVersionsTestCases",
-  iam: {
-    actions: ["integrations.testCases.list"],
-    roles: ["roles/integrations.integrationViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7158,10 +7015,6 @@ export const listProjectsLocationsProductsAuthConfigs: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsAuthConfigs",
-  iam: {
-    actions: ["integrations.authConfigs.list"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7185,10 +7038,6 @@ export const listProjectsLocationsProductsCertificates: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsCertificates",
-  iam: {
-    actions: ["integrations.certificates.list"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7212,10 +7061,6 @@ export const listProjectsLocationsProductsIntegrations: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.list"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7246,10 +7091,6 @@ export const listProjectsLocationsProductsIntegrationsExecutions: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsIntegrationsExecutions",
-  iam: {
-    actions: ["integrations.executions.list"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7280,7 +7121,6 @@ export const listProjectsLocationsProductsIntegrationsExecutionsSuspensions: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsIntegrationsExecutionsSuspensions",
-  iam: { actions: ["integrations.suspensions.list"], roles: ["roles/integrations.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7311,10 +7151,6 @@ export const listProjectsLocationsProductsIntegrationsVersions: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7338,10 +7174,6 @@ export const listProjectsLocationsProductsSfdcInstances: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsSfdcInstances",
-  iam: {
-    actions: ["integrations.sfdcInstances.list"],
-    roles: ["roles/integrations.sfdcInstanceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7372,10 +7204,6 @@ export const listProjectsLocationsProductsSfdcInstancesSfdcChannels: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProductsSfdcInstancesSfdcChannels",
-  iam: {
-    actions: ["integrations.sfdcChannels.list"],
-    roles: ["roles/integrations.sfdcInstanceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7399,10 +7227,6 @@ export const listProjectsLocationsSfdcInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSfdcInstances",
-  iam: {
-    actions: ["integrations.sfdcInstances.list"],
-    roles: ["roles/integrations.sfdcInstanceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7430,10 +7254,6 @@ export const listProjectsLocationsSfdcInstancesSfdcChannels: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSfdcInstancesSfdcChannels",
-  iam: {
-    actions: ["integrations.sfdcChannels.list"],
-    roles: ["roles/integrations.sfdcInstanceViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7457,10 +7277,6 @@ export const listProjectsLocationsTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTemplates",
-  iam: {
-    actions: ["integrations.templates.list"],
-    roles: ["roles/integrations.integrationViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7506,10 +7322,6 @@ export const patchProjectsLocationsCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsCertificates",
-  iam: {
-    actions: ["integrations.certificates.update"],
-    roles: ["roles/integrations.apigeeIntegrationAdminRole"],
-  },
 }));
 
 export type PatchProjectsLocationsIntegrationsVersionsError =
@@ -7828,10 +7640,6 @@ export const publishProjectsLocationsIntegrationsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishProjectsLocationsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type PublishProjectsLocationsProductsIntegrationsVersionsError =
@@ -7862,10 +7670,6 @@ export const publishProjectsLocationsProductsIntegrationsVersions: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PublishProjectsLocationsProductsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type ReplaceProjectsLocationsClientsError =
@@ -7918,10 +7722,6 @@ export const replayProjectsLocationsIntegrationsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplayProjectsLocationsIntegrationsExecutions",
-  iam: {
-    actions: ["integrations.executions.replay"],
-    roles: ["roles/integrations.integrationInvoker"],
-  },
 }));
 
 export type ResolveProjectsLocationsIntegrationsExecutionsSuspensionsError =
@@ -7952,10 +7752,6 @@ export const resolveProjectsLocationsIntegrationsExecutionsSuspensions: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResolveProjectsLocationsIntegrationsExecutionsSuspensions",
-  iam: {
-    actions: ["integrations.suspensions.resolve"],
-    roles: ["roles/integrations.apigeeSuspensionResolver"],
-  },
 }));
 
 export type ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensionsError =
@@ -7986,10 +7782,6 @@ export const resolveProjectsLocationsProductsIntegrationsExecutionsSuspensions: 
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResolveProjectsLocationsProductsIntegrationsExecutionsSuspensions",
-  iam: {
-    actions: ["integrations.suspensions.resolve"],
-    roles: ["roles/integrations.apigeeSuspensionResolver"],
-  },
 }));
 
 export type ScheduleProjectsLocationsIntegrationsError =
@@ -8016,10 +7808,6 @@ export const scheduleProjectsLocationsIntegrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ScheduleProjectsLocationsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type ScheduleProjectsLocationsProductsIntegrationsError =
@@ -8050,10 +7838,6 @@ export const scheduleProjectsLocationsProductsIntegrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ScheduleProjectsLocationsProductsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type SearchProjectsLocationsIntegrationsError = NotFound | Forbidden | GcpOpError;
@@ -8076,10 +7860,6 @@ export const searchProjectsLocationsIntegrations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.get"],
-    roles: ["roles/integrations.apigeeIntegrationsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8103,7 +7883,6 @@ export const searchProjectsLocationsTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsTemplates",
-  iam: { actions: ["integrations.templates.get"], roles: ["roles/integrations.integrationViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -8127,7 +7906,6 @@ export const shareProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ShareProjectsLocationsTemplates",
-  iam: { actions: ["integrations.templates.share"], roles: ["roles/integrations.viewer"] },
 }));
 
 export type SwitchProjectsLocationsClientsError =
@@ -8202,10 +7980,6 @@ export const takeoverEditLockProjectsLocationsIntegrationsVersionsTestCases: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TakeoverEditLockProjectsLocationsIntegrationsVersionsTestCases",
-  iam: {
-    actions: ["integrations.testCases.update"],
-    roles: ["roles/integrations.integrationEditor"],
-  },
 }));
 
 export type TakeoverEditLockProjectsLocationsProductsIntegrationsVersionsError =
@@ -8236,10 +8010,6 @@ export const takeoverEditLockProjectsLocationsProductsIntegrationsVersions: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TakeoverEditLockProjectsLocationsProductsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type TestProjectsLocationsIntegrationsError =
@@ -8266,10 +8036,6 @@ export const testProjectsLocationsIntegrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestProjectsLocationsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type TestProjectsLocationsIntegrationsVersionsError =
@@ -8296,10 +8062,6 @@ export const testProjectsLocationsIntegrationsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestProjectsLocationsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type TestProjectsLocationsProductsIntegrationsError =
@@ -8326,10 +8088,6 @@ export const testProjectsLocationsProductsIntegrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestProjectsLocationsProductsIntegrations",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type ToggleHttpProjectsLocationsClientsError =
@@ -8378,10 +8136,6 @@ export const unpublishProjectsLocationsIntegrationsVersions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnpublishProjectsLocationsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type UnpublishProjectsLocationsProductsIntegrationsVersionsError =
@@ -8408,10 +8162,6 @@ export const unpublishProjectsLocationsProductsIntegrationsVersions: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnpublishProjectsLocationsProductsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type UnshareProjectsLocationsTemplatesError =
@@ -8434,7 +8184,6 @@ export const unshareProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnshareProjectsLocationsTemplates",
-  iam: { actions: ["integrations.templates.unshare"], roles: ["roles/integrations.viewer"] },
 }));
 
 export type UploadProjectsLocationsIntegrationsVersionsError =
@@ -8461,10 +8210,6 @@ export const uploadProjectsLocationsIntegrationsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadProjectsLocationsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type UploadProjectsLocationsIntegrationsVersionsTestCasesError =
@@ -8495,10 +8240,6 @@ export const uploadProjectsLocationsIntegrationsVersionsTestCases: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadProjectsLocationsIntegrationsVersionsTestCases",
-  iam: {
-    actions: ["integrations.testCases.update"],
-    roles: ["roles/integrations.integrationEditor"],
-  },
 }));
 
 export type UploadProjectsLocationsProductsIntegrationsVersionsError =
@@ -8529,10 +8270,6 @@ export const uploadProjectsLocationsProductsIntegrationsVersions: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadProjectsLocationsProductsIntegrationsVersions",
-  iam: {
-    actions: ["integrations.integrations.update"],
-    roles: ["roles/integrations.apigeeIntegrationEditorRole"],
-  },
 }));
 
 export type UploadProjectsLocationsTemplatesError =
@@ -8559,10 +8296,6 @@ export const uploadProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadProjectsLocationsTemplates",
-  iam: {
-    actions: ["integrations.templates.update"],
-    roles: ["roles/integrations.integrationEditor"],
-  },
 }));
 
 export type UseProjectsLocationsTemplatesError =
@@ -8589,7 +8322,6 @@ export const useProjectsLocationsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UseProjectsLocationsTemplates",
-  iam: { actions: ["integrations.templates.use"], roles: ["roles/integrations.viewer"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

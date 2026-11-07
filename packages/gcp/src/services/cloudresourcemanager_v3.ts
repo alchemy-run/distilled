@@ -1114,10 +1114,6 @@ export const createFoldersCapabilityConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateFoldersCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.create"],
-    roles: ["roles/resourcemanager.editor"],
-  },
 }));
 
 export type CreateLiensError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1196,10 +1192,6 @@ export const createProjectsCapabilityConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.create"],
-    roles: ["roles/resourcemanager.editor"],
-  },
 }));
 
 export type CreateTagBindingsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1273,10 +1265,6 @@ export const createTagValuesTagHolds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateTagValuesTagHolds",
-  iam: {
-    actions: ["resourcemanager.tagHolds.create"],
-    roles: ["roles/resourcemanager.tagHoldAdmin"],
-  },
 }));
 
 export type DeleteFoldersError =
@@ -1322,10 +1310,6 @@ export const deleteFoldersCapabilityConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteFoldersCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.delete"],
-    roles: ["roles/resourcemanager.editor"],
-  },
 }));
 
 export type DeleteLiensError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1410,10 +1394,6 @@ export const deleteProjectsCapabilityConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.delete"],
-    roles: ["roles/resourcemanager.editor"],
-  },
 }));
 
 export type DeleteTagBindingsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1499,10 +1479,6 @@ export const deleteTagValuesTagHolds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteTagValuesTagHolds",
-  iam: {
-    actions: ["resourcemanager.tagHolds.delete"],
-    roles: ["roles/resourcemanager.tagHoldAdmin"],
-  },
 }));
 
 export type FetchResourceSemanticsV3Error = NotFound | Forbidden | GcpOpError;
@@ -1571,10 +1547,6 @@ export const getFoldersCapabilityConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.get"],
-    roles: ["roles/resourcemanager.viewer"],
-  },
 }));
 
 export type GetIamPolicyFoldersError =
@@ -1747,7 +1719,6 @@ export const getNamespacedTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNamespacedTagKeys",
-  iam: { actions: ["resourcemanager.tagKeys.get"], roles: ["roles/resourcemanager.viewer"] },
 }));
 
 export type GetNamespacedTagValuesError = NotFound | Forbidden | TagValueNotFound | GcpOpError;
@@ -1765,7 +1736,6 @@ export const getNamespacedTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNamespacedTagValues",
-  iam: { actions: ["resourcemanager.tagValues.get"], roles: ["roles/resourcemanager.viewer"] },
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1834,7 +1804,6 @@ export const getProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjects",
-  iam: { actions: ["resourcemanager.projects.get"], roles: ["roles/browser"] },
 }));
 
 export type GetProjectsCapabilityConfigsError = NotFound | Forbidden | GcpOpError;
@@ -1852,10 +1821,6 @@ export const getProjectsCapabilityConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.get"],
-    roles: ["roles/resourcemanager.viewer"],
-  },
 }));
 
 export type GetTagKeysError = NotFound | Forbidden | TagKeyNotFound | GcpOpError;
@@ -1873,7 +1838,6 @@ export const getTagKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTagKeys",
-  iam: { actions: ["resourcemanager.tagKeys.get"], roles: ["roles/resourcemanager.viewer"] },
 }));
 
 export type GetTagValuesError = NotFound | Forbidden | TagValueNotFound | GcpOpError;
@@ -1891,7 +1855,6 @@ export const getTagValues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetTagValues",
-  iam: { actions: ["resourcemanager.tagValues.get"], roles: ["roles/resourcemanager.viewer"] },
 }));
 
 export type ListEffectiveTagsError = NotFound | Forbidden | GcpOpError;
@@ -1948,10 +1911,6 @@ export const listFoldersCapabilityConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListFoldersCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.list"],
-    roles: ["roles/resourcemanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2009,7 +1968,6 @@ export const listProjects: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjects",
-  iam: { actions: ["resourcemanager.projects.list"], roles: ["roles/browser"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2029,10 +1987,6 @@ export const listProjectsCapabilityConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.list"],
-    roles: ["roles/resourcemanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2071,7 +2025,6 @@ export const listTagKeys: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTagKeys",
-  iam: { actions: ["resourcemanager.tagKeys.list"], roles: ["roles/resourcemanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2091,7 +2044,6 @@ export const listTagValues: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTagValues",
-  iam: { actions: ["resourcemanager.tagValues.list"], roles: ["roles/resourcemanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2111,7 +2063,6 @@ export const listTagValuesTagHolds: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTagValuesTagHolds",
-  iam: { actions: ["resourcemanager.tagHolds.list"], roles: ["roles/resourcemanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2159,10 +2110,6 @@ export const moveProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveProjects",
-  iam: {
-    actions: ["resourcemanager.projects.move"],
-    roles: ["roles/resourcemanager.projectMover"],
-  },
 }));
 
 export type PatchFoldersError =
@@ -2230,10 +2177,6 @@ export const patchFoldersCapabilityConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchFoldersCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.update"],
-    roles: ["roles/resourcemanager.editor"],
-  },
 }));
 
 export type PatchLocationsTagBindingCollectionsError =
@@ -2323,10 +2266,6 @@ export const patchProjectsCapabilityConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsCapabilityConfigs",
-  iam: {
-    actions: ["resourcemanager.capabilityConfigs.update"],
-    roles: ["roles/resourcemanager.editor"],
-  },
 }));
 
 export type PatchTagKeysError =
@@ -2429,7 +2368,6 @@ export const searchProjects: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjects",
-  iam: { actions: ["resourcemanager.projects.get"], roles: ["roles/browser"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
