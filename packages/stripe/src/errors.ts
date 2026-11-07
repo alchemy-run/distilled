@@ -86,6 +86,12 @@ export class InvalidRequestError
     param: /*@__PURE__*/ Schema.optional(Schema.String),
     doc_url: /*@__PURE__*/ Schema.optional(Schema.String),
     request_log_url: /*@__PURE__*/ Schema.optional(Schema.String),
+    /**
+     * HTTP status of the response. Some endpoints (billing alerts, tax
+     * registrations) answer a missing object with a 404 that has no
+     * `resource_missing` code, so the status is the only sign it is missing.
+     */
+    status: /*@__PURE__*/ Schema.optional(Schema.Number),
   }).pipe(Category.withBadRequestError) {}
 
 /**
