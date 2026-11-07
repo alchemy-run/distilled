@@ -444,15 +444,6 @@ export const associateGatewayToServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateGatewayToServer",
-  iam: {
-    actions: ["backup-gateway:AssociateGatewayToServer"],
-    resources: {
-      "backup-gateway:AssociateGatewayToServer": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:hypervisor/${HypervisorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateGatewayToServer",
 }));
@@ -473,10 +464,6 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
-  iam: {
-    actions: ["backup-gateway:CreateGateway", "backup-gateway:TagResource"],
-    conditional: { "backup-gateway:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGateway",
 }));
@@ -497,14 +484,6 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
-  iam: {
-    actions: ["backup-gateway:DeleteGateway"],
-    resources: {
-      "backup-gateway:DeleteGateway": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGateway",
 }));
@@ -529,14 +508,6 @@ export const deleteHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHypervisor",
-  iam: {
-    actions: ["backup-gateway:DeleteHypervisor"],
-    resources: {
-      "backup-gateway:DeleteHypervisor": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:hypervisor/${HypervisorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHypervisor",
 }));
@@ -560,14 +531,6 @@ export const disassociateGatewayFromServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGatewayFromServer",
-  iam: {
-    actions: ["backup-gateway:DisassociateGatewayFromServer"],
-    resources: {
-      "backup-gateway:DisassociateGatewayFromServer": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateGatewayFromServer",
 }));
@@ -588,14 +551,6 @@ export const getBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBandwidthRateLimitSchedule",
-  iam: {
-    actions: ["backup-gateway:GetBandwidthRateLimitSchedule"],
-    resources: {
-      "backup-gateway:GetBandwidthRateLimitSchedule": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBandwidthRateLimitSchedule",
 }));
@@ -616,14 +571,6 @@ export const getGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGateway",
-  iam: {
-    actions: ["backup-gateway:GetGateway"],
-    resources: {
-      "backup-gateway:GetGateway": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGateway",
 }));
@@ -644,14 +591,6 @@ export const getHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHypervisor",
-  iam: {
-    actions: ["backup-gateway:GetHypervisor"],
-    resources: {
-      "backup-gateway:GetHypervisor": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:hypervisor/${HypervisorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetHypervisor",
 }));
@@ -672,14 +611,6 @@ export const getHypervisorPropertyMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHypervisorPropertyMappings",
-  iam: {
-    actions: ["backup-gateway:GetHypervisorPropertyMappings"],
-    resources: {
-      "backup-gateway:GetHypervisorPropertyMappings": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:hypervisor/${HypervisorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetHypervisorPropertyMappings",
 }));
@@ -700,14 +631,6 @@ export const getVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVirtualMachine",
-  iam: {
-    actions: ["backup-gateway:GetVirtualMachine"],
-    resources: {
-      "backup-gateway:GetVirtualMachine": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:vm/${VirtualmachineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVirtualMachine",
 }));
@@ -731,10 +654,6 @@ export const importHypervisorConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportHypervisorConfiguration",
-  iam: {
-    actions: ["backup-gateway:ImportHypervisorConfiguration", "backup-gateway:TagResource"],
-    conditional: { "backup-gateway:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportHypervisorConfiguration",
 }));
@@ -762,7 +681,6 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "Gateways",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["backup-gateway:ListGateways"] },
   telemetry: TELEMETRY,
   span: "ListGateways",
 })) as any;
@@ -790,7 +708,6 @@ export const listHypervisors: API.PaginatedOperationMethod<
     items: "Hypervisors",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["backup-gateway:ListHypervisors"] },
   telemetry: TELEMETRY,
   span: "ListHypervisors",
 })) as any;
@@ -811,7 +728,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["backup-gateway:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -839,7 +755,6 @@ export const listVirtualMachines: API.PaginatedOperationMethod<
     items: "VirtualMachines",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["backup-gateway:ListVirtualMachines"] },
   telemetry: TELEMETRY,
   span: "ListVirtualMachines",
 })) as any;
@@ -860,14 +775,6 @@ export const putBandwidthRateLimitSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBandwidthRateLimitSchedule",
-  iam: {
-    actions: ["backup-gateway:PutBandwidthRateLimitSchedule"],
-    resources: {
-      "backup-gateway:PutBandwidthRateLimitSchedule": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutBandwidthRateLimitSchedule",
 }));
@@ -892,15 +799,6 @@ export const putHypervisorPropertyMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutHypervisorPropertyMappings",
-  iam: {
-    actions: ["iam:PassRole", "backup-gateway:PutHypervisorPropertyMappings"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "backup-gateway:PutHypervisorPropertyMappings": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:hypervisor/${HypervisorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutHypervisorPropertyMappings",
 }));
@@ -924,14 +822,6 @@ export const putMaintenanceStartTime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMaintenanceStartTime",
-  iam: {
-    actions: ["backup-gateway:PutMaintenanceStartTime"],
-    resources: {
-      "backup-gateway:PutMaintenanceStartTime": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutMaintenanceStartTime",
 }));
@@ -955,16 +845,6 @@ export const startVirtualMachinesMetadataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVirtualMachinesMetadataSync",
-  iam: {
-    actions: ["iam:PassRole", "backup-gateway:StartVirtualMachinesMetadataSync"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "backup-gateway:StartVirtualMachinesMetadataSync": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:hypervisor/${HypervisorId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "StartVirtualMachinesMetadataSync",
 }));
@@ -985,7 +865,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["backup-gateway:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1009,14 +888,6 @@ export const testHypervisorConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestHypervisorConfiguration",
-  iam: {
-    actions: ["backup-gateway:TestHypervisorConfiguration"],
-    resources: {
-      "backup-gateway:TestHypervisorConfiguration": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TestHypervisorConfiguration",
 }));
@@ -1037,7 +908,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["backup-gateway:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1061,14 +931,6 @@ export const updateGatewayInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayInformation",
-  iam: {
-    actions: ["backup-gateway:UpdateGatewayInformation"],
-    resources: {
-      "backup-gateway:UpdateGatewayInformation": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayInformation",
 }));
@@ -1091,14 +953,6 @@ export const updateGatewaySoftwareNow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewaySoftwareNow",
-  iam: {
-    actions: ["backup-gateway:UpdateGatewaySoftwareNow"],
-    resources: {
-      "backup-gateway:UpdateGatewaySoftwareNow": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGatewaySoftwareNow",
 }));
@@ -1123,14 +977,6 @@ export const updateHypervisor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHypervisor",
-  iam: {
-    actions: ["backup-gateway:UpdateHypervisor"],
-    resources: {
-      "backup-gateway:UpdateHypervisor": [
-        "arn:${Partition}:backup-gateway:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHypervisor",
 }));

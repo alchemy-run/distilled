@@ -635,15 +635,6 @@ export const createLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLandingZone",
-  iam: {
-    actions: [
-      "controltower:CreateLandingZone",
-      "controltower:PerformPreLaunchChecks",
-      "controltower:SetupLandingZone",
-      "controltower:TagResource",
-    ],
-    conditional: { "controltower:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLandingZone",
 }));
@@ -682,14 +673,6 @@ export const deleteLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLandingZone",
-  iam: {
-    actions: ["controltower:DeleteLandingZone"],
-    resources: {
-      "controltower:DeleteLandingZone": [
-        "arn:${Partition}:controltower:${Region}:${Account}:landingzone/${LandingZoneId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLandingZone",
 }));
@@ -728,14 +711,6 @@ export const disableBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableBaseline",
-  iam: {
-    actions: ["controltower:DeregisterOrganizationalUnit", "controltower:DisableBaseline"],
-    resources: {
-      "controltower:DisableBaseline": [
-        "arn:${Partition}:controltower:${Region}:${Account}:enabledbaseline/${EnabledBaselineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableBaseline",
 }));
@@ -772,14 +747,6 @@ export const disableControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableControl",
-  iam: {
-    actions: ["controltower:DisableControl", "controltower:DisableGuardrail"],
-    resources: {
-      "controltower:DisableControl": [
-        "arn:${Partition}:controltower:${Region}:${Account}:enabledcontrol/${EnabledControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableControl",
 }));
@@ -818,14 +785,6 @@ export const enableBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableBaseline",
-  iam: {
-    actions: [
-      "controltower:EnableBaseline",
-      "controltower:ManageOrganizationalUnit",
-      "controltower:TagResource",
-    ],
-    conditional: { "controltower:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "EnableBaseline",
 }));
@@ -862,14 +821,6 @@ export const enableControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableControl",
-  iam: {
-    actions: [
-      "controltower:EnableControl",
-      "controltower:EnableGuardrail",
-      "controltower:TagResource",
-    ],
-    conditional: { "controltower:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "EnableControl",
 }));
@@ -904,14 +855,6 @@ export const getBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaseline",
-  iam: {
-    actions: ["controltower:GetBaseline"],
-    resources: {
-      "controltower:GetBaseline": [
-        "arn:${Partition}:controltower:${Region}::baseline/${BaselineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBaseline",
 }));
@@ -946,7 +889,6 @@ export const getBaselineOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaselineOperation",
-  iam: { actions: ["controltower:GetBaselineOperation"] },
   telemetry: TELEMETRY,
   span: "GetBaselineOperation",
 }));
@@ -979,7 +921,6 @@ export const getControlOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetControlOperation",
-  iam: { actions: ["controltower:GetControlOperation"] },
   telemetry: TELEMETRY,
   span: "GetControlOperation",
 }));
@@ -1014,14 +955,6 @@ export const getEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledBaseline",
-  iam: {
-    actions: ["controltower:GetEnabledBaseline"],
-    resources: {
-      "controltower:GetEnabledBaseline": [
-        "arn:${Partition}:controltower:${Region}:${Account}:enabledbaseline/${EnabledBaselineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnabledBaseline",
 }));
@@ -1054,14 +987,6 @@ export const getEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnabledControl",
-  iam: {
-    actions: ["controltower:GetEnabledControl"],
-    resources: {
-      "controltower:GetEnabledControl": [
-        "arn:${Partition}:controltower:${Region}:${Account}:enabledcontrol/${EnabledControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnabledControl",
 }));
@@ -1096,14 +1021,6 @@ export const getLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLandingZone",
-  iam: {
-    actions: ["controltower:GetLandingZone"],
-    resources: {
-      "controltower:GetLandingZone": [
-        "arn:${Partition}:controltower:${Region}:${Account}:landingzone/${LandingZoneId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLandingZone",
 }));
@@ -1138,7 +1055,6 @@ export const getLandingZoneOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLandingZoneOperation",
-  iam: { actions: ["controltower:GetLandingZoneOperation"] },
   telemetry: TELEMETRY,
   span: "GetLandingZoneOperation",
 }));
@@ -1178,7 +1094,6 @@ export const listBaselines: API.PaginatedOperationMethod<
     items: "baselines",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["controltower:ListBaselines"] },
   telemetry: TELEMETRY,
   span: "ListBaselines",
 })) as any;
@@ -1216,7 +1131,6 @@ export const listControlOperations: API.PaginatedOperationMethod<
     items: "controlOperations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["controltower:ListControlOperations"] },
   telemetry: TELEMETRY,
   span: "ListControlOperations",
 })) as any;
@@ -1256,7 +1170,6 @@ export const listEnabledBaselines: API.PaginatedOperationMethod<
     items: "enabledBaselines",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["controltower:ListEnabledBaselines"] },
   telemetry: TELEMETRY,
   span: "ListEnabledBaselines",
 })) as any;
@@ -1296,7 +1209,6 @@ export const listEnabledControls: API.PaginatedOperationMethod<
     items: "enabledControls",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["controltower:ListEnabledControls"] },
   telemetry: TELEMETRY,
   span: "ListEnabledControls",
 })) as any;
@@ -1336,7 +1248,6 @@ export const listLandingZoneOperations: API.PaginatedOperationMethod<
     items: "landingZoneOperations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["controltower:ListLandingZoneOperations"] },
   telemetry: TELEMETRY,
   span: "ListLandingZoneOperations",
 })) as any;
@@ -1378,7 +1289,6 @@ export const listLandingZones: API.PaginatedOperationMethod<
     items: "landingZones",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["controltower:ListLandingZones"] },
   telemetry: TELEMETRY,
   span: "ListLandingZones",
 })) as any;
@@ -1409,7 +1319,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["controltower:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1448,14 +1357,6 @@ export const resetEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEnabledBaseline",
-  iam: {
-    actions: ["controltower:ResetEnabledBaseline"],
-    resources: {
-      "controltower:ResetEnabledBaseline": [
-        "arn:${Partition}:controltower:${Region}:${Account}:enabledbaseline/${EnabledBaselineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetEnabledBaseline",
 }));
@@ -1492,14 +1393,6 @@ export const resetEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEnabledControl",
-  iam: {
-    actions: ["controltower:ResetEnabledControl"],
-    resources: {
-      "controltower:ResetEnabledControl": [
-        "arn:${Partition}:controltower:${Region}:${Account}:enabledcontrol/${EnabledControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetEnabledControl",
 }));
@@ -1536,14 +1429,6 @@ export const resetLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetLandingZone",
-  iam: {
-    actions: ["controltower:ResetLandingZone"],
-    resources: {
-      "controltower:ResetLandingZone": [
-        "arn:${Partition}:controltower:${Region}:${Account}:landingzone/${LandingZoneId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetLandingZone",
 }));
@@ -1574,7 +1459,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["controltower:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1605,7 +1489,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["controltower:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1644,14 +1527,6 @@ export const updateEnabledBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnabledBaseline",
-  iam: {
-    actions: ["controltower:ManageOrganizationalUnit", "controltower:UpdateEnabledBaseline"],
-    resources: {
-      "controltower:UpdateEnabledBaseline": [
-        "arn:${Partition}:controltower:${Region}:${Account}:enabledbaseline/${EnabledBaselineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnabledBaseline",
 }));
@@ -1694,14 +1569,6 @@ export const updateEnabledControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnabledControl",
-  iam: {
-    actions: ["controltower:UpdateEnabledControl"],
-    resources: {
-      "controltower:UpdateEnabledControl": [
-        "arn:${Partition}:controltower:${Region}:${Account}:enabledcontrol/${EnabledControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnabledControl",
 }));
@@ -1738,14 +1605,6 @@ export const updateLandingZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLandingZone",
-  iam: {
-    actions: ["controltower:SetupLandingZone", "controltower:UpdateLandingZone"],
-    resources: {
-      "controltower:UpdateLandingZone": [
-        "arn:${Partition}:controltower:${Region}:${Account}:landingzone/${LandingZoneId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLandingZone",
 }));

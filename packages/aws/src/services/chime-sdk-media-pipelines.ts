@@ -1072,11 +1072,6 @@ export const createMediaCapturePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaCapturePipeline",
-  iam: {
-    actions: ["chime:CreateMediaCapturePipeline", "iam:PassRole", "chime:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "SinkIamRoleArn", "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMediaCapturePipeline",
 }));
@@ -1113,10 +1108,6 @@ export const createMediaConcatenationPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaConcatenationPipeline",
-  iam: {
-    actions: ["chime:CreateMediaConcatenationPipeline", "chime:TagResource"],
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMediaConcatenationPipeline",
 }));
@@ -1155,15 +1146,6 @@ export const createMediaInsightsPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaInsightsPipeline",
-  iam: {
-    actions: ["chime:CreateMediaInsightsPipeline", "chime:TagResource"],
-    resources: {
-      "chime:CreateMediaInsightsPipeline": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-insights-pipeline-configuration/${ConfigurationName}",
-      ],
-    },
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMediaInsightsPipeline",
 }));
@@ -1203,15 +1185,6 @@ export const createMediaInsightsPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaInsightsPipelineConfiguration",
-  iam: {
-    actions: [
-      "chime:CreateMediaInsightsPipelineConfiguration",
-      "iam:PassRole",
-      "chime:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMediaInsightsPipelineConfiguration",
 }));
@@ -1248,10 +1221,6 @@ export const createMediaLiveConnectorPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaLiveConnectorPipeline",
-  iam: {
-    actions: ["chime:CreateMediaLiveConnectorPipeline", "chime:TagResource"],
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMediaLiveConnectorPipeline",
 }));
@@ -1306,10 +1275,6 @@ export const createMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaPipelineKinesisVideoStreamPool",
-  iam: {
-    actions: ["chime:CreateMediaPipelineKinesisVideoStreamPool", "chime:TagResource"],
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMediaPipelineKinesisVideoStreamPool",
 }));
@@ -1348,15 +1313,6 @@ export const createMediaStreamPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMediaStreamPipeline",
-  iam: {
-    actions: ["chime:CreateMediaStreamPipeline", "chime:TagResource"],
-    resources: {
-      "chime:CreateMediaStreamPipeline": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline-kinesis-video-stream-pool/${PoolName}",
-      ],
-    },
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMediaStreamPipeline",
 }));
@@ -1393,14 +1349,6 @@ export const deleteMediaCapturePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaCapturePipeline",
-  iam: {
-    actions: ["chime:DeleteMediaCapturePipeline"],
-    resources: {
-      "chime:DeleteMediaCapturePipeline": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline/${MediaPipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMediaCapturePipeline",
 }));
@@ -1439,14 +1387,6 @@ export const deleteMediaInsightsPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaInsightsPipelineConfiguration",
-  iam: {
-    actions: ["chime:DeleteMediaInsightsPipelineConfiguration"],
-    resources: {
-      "chime:DeleteMediaInsightsPipelineConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-insights-pipeline-configuration/${ConfigurationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMediaInsightsPipelineConfiguration",
 }));
@@ -1485,14 +1425,6 @@ export const deleteMediaPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaPipeline",
-  iam: {
-    actions: ["chime:DeleteMediaPipeline"],
-    resources: {
-      "chime:DeleteMediaPipeline": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline/${MediaPipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMediaPipeline",
 }));
@@ -1531,14 +1463,6 @@ export const deleteMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMediaPipelineKinesisVideoStreamPool",
-  iam: {
-    actions: ["chime:DeleteMediaPipelineKinesisVideoStreamPool"],
-    resources: {
-      "chime:DeleteMediaPipelineKinesisVideoStreamPool": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline-kinesis-video-stream-pool/${PoolName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMediaPipelineKinesisVideoStreamPool",
 }));
@@ -1575,14 +1499,6 @@ export const getMediaCapturePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaCapturePipeline",
-  iam: {
-    actions: ["chime:GetMediaCapturePipeline"],
-    resources: {
-      "chime:GetMediaCapturePipeline": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline/${MediaPipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMediaCapturePipeline",
 }));
@@ -1619,14 +1535,6 @@ export const getMediaInsightsPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaInsightsPipelineConfiguration",
-  iam: {
-    actions: ["chime:GetMediaInsightsPipelineConfiguration"],
-    resources: {
-      "chime:GetMediaInsightsPipelineConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-insights-pipeline-configuration/${ConfigurationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMediaInsightsPipelineConfiguration",
 }));
@@ -1663,14 +1571,6 @@ export const getMediaPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaPipeline",
-  iam: {
-    actions: ["chime:GetMediaPipeline"],
-    resources: {
-      "chime:GetMediaPipeline": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline/${MediaPipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMediaPipeline",
 }));
@@ -1707,14 +1607,6 @@ export const getMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaPipelineKinesisVideoStreamPool",
-  iam: {
-    actions: ["chime:GetMediaPipelineKinesisVideoStreamPool"],
-    resources: {
-      "chime:GetMediaPipelineKinesisVideoStreamPool": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline-kinesis-video-stream-pool/${PoolName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMediaPipelineKinesisVideoStreamPool",
 }));
@@ -1751,7 +1643,6 @@ export const getSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeakerSearchTask",
-  iam: { actions: ["chime:GetSpeakerSearchTask"] },
   telemetry: TELEMETRY,
   span: "GetSpeakerSearchTask",
 }));
@@ -1788,7 +1679,6 @@ export const getVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceToneAnalysisTask",
-  iam: { actions: ["chime:GetVoiceToneAnalysisTask"] },
   telemetry: TELEMETRY,
   span: "GetVoiceToneAnalysisTask",
 }));
@@ -1831,7 +1721,6 @@ export const listMediaCapturePipelines: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListMediaCapturePipelines"] },
   telemetry: TELEMETRY,
   span: "ListMediaCapturePipelines",
 })) as any;
@@ -1874,7 +1763,6 @@ export const listMediaInsightsPipelineConfigurations: API.PaginatedOperationMeth
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListMediaInsightsPipelineConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListMediaInsightsPipelineConfigurations",
 })) as any;
@@ -1917,7 +1805,6 @@ export const listMediaPipelineKinesisVideoStreamPools: API.PaginatedOperationMet
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListMediaPipelineKinesisVideoStreamPools"] },
   telemetry: TELEMETRY,
   span: "ListMediaPipelineKinesisVideoStreamPools",
 })) as any;
@@ -1960,7 +1847,6 @@ export const listMediaPipelines: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListMediaPipelines"] },
   telemetry: TELEMETRY,
   span: "ListMediaPipelines",
 })) as any;
@@ -1997,7 +1883,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["chime:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2039,7 +1924,6 @@ export const startSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeakerSearchTask",
-  iam: { actions: ["chime:StartSpeakerSearchTask"] },
   telemetry: TELEMETRY,
   span: "StartSpeakerSearchTask",
 }));
@@ -2083,7 +1967,6 @@ export const startVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVoiceToneAnalysisTask",
-  iam: { actions: ["chime:StartVoiceToneAnalysisTask"] },
   telemetry: TELEMETRY,
   span: "StartVoiceToneAnalysisTask",
 }));
@@ -2122,7 +2005,6 @@ export const stopSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSpeakerSearchTask",
-  iam: { actions: ["chime:StopSpeakerSearchTask"] },
   telemetry: TELEMETRY,
   span: "StopSpeakerSearchTask",
 }));
@@ -2161,7 +2043,6 @@ export const stopVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopVoiceToneAnalysisTask",
-  iam: { actions: ["chime:StopVoiceToneAnalysisTask"] },
   telemetry: TELEMETRY,
   span: "StopVoiceToneAnalysisTask",
 }));
@@ -2198,7 +2079,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["chime:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2235,7 +2115,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["chime:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2274,15 +2153,6 @@ export const updateMediaInsightsPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaInsightsPipelineConfiguration",
-  iam: {
-    actions: ["iam:PassRole", "chime:UpdateMediaInsightsPipelineConfiguration"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "chime:UpdateMediaInsightsPipelineConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-insights-pipeline-configuration/${ConfigurationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMediaInsightsPipelineConfiguration",
 }));
@@ -2321,14 +2191,6 @@ export const updateMediaInsightsPipelineStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaInsightsPipelineStatus",
-  iam: {
-    actions: ["chime:UpdateMediaInsightsPipelineStatus"],
-    resources: {
-      "chime:UpdateMediaInsightsPipelineStatus": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline/${MediaPipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMediaInsightsPipelineStatus",
 }));
@@ -2367,14 +2229,6 @@ export const updateMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMediaPipelineKinesisVideoStreamPool",
-  iam: {
-    actions: ["chime:UpdateMediaPipelineKinesisVideoStreamPool"],
-    resources: {
-      "chime:UpdateMediaPipelineKinesisVideoStreamPool": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:media-pipeline-kinesis-video-stream-pool/${PoolName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMediaPipelineKinesisVideoStreamPool",
 }));

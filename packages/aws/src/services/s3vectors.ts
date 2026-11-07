@@ -439,14 +439,6 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
-  iam: {
-    actions: ["s3vectors:CreateIndex"],
-    resources: {
-      "s3vectors:CreateIndex": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateIndex",
 }));
@@ -477,14 +469,6 @@ export const createVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVectorBucket",
-  iam: {
-    actions: ["s3vectors:CreateVectorBucket"],
-    resources: {
-      "s3vectors:CreateVectorBucket": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateVectorBucket",
 }));
@@ -509,14 +493,6 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
-  iam: {
-    actions: ["s3vectors:DeleteIndex"],
-    resources: {
-      "s3vectors:DeleteIndex": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIndex",
 }));
@@ -545,14 +521,6 @@ export const deleteVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorBucket",
-  iam: {
-    actions: ["s3vectors:DeleteVectorBucket"],
-    resources: {
-      "s3vectors:DeleteVectorBucket": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVectorBucket",
 }));
@@ -580,14 +548,6 @@ export const deleteVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorBucketPolicy",
-  iam: {
-    actions: ["s3vectors:DeleteVectorBucketPolicy"],
-    resources: {
-      "s3vectors:DeleteVectorBucketPolicy": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVectorBucketPolicy",
 }));
@@ -628,14 +588,6 @@ export const deleteVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectors",
-  iam: {
-    actions: ["s3vectors:DeleteVectors"],
-    resources: {
-      "s3vectors:DeleteVectors": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVectors",
 }));
@@ -660,14 +612,6 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
-  iam: {
-    actions: ["s3vectors:GetIndex"],
-    resources: {
-      "s3vectors:GetIndex": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIndex",
 }));
@@ -692,14 +636,6 @@ export const getVectorBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorBucket",
-  iam: {
-    actions: ["s3vectors:GetVectorBucket"],
-    resources: {
-      "s3vectors:GetVectorBucket": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVectorBucket",
 }));
@@ -727,14 +663,6 @@ export const getVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorBucketPolicy",
-  iam: {
-    actions: ["s3vectors:GetVectorBucketPolicy"],
-    resources: {
-      "s3vectors:GetVectorBucketPolicy": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVectorBucketPolicy",
 }));
@@ -773,14 +701,6 @@ export const getVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectors",
-  iam: {
-    actions: ["s3vectors:GetVectors"],
-    resources: {
-      "s3vectors:GetVectors": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVectors",
 }));
@@ -812,14 +732,6 @@ export const listIndexes: API.PaginatedOperationMethod<
     items: "indexes",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["s3vectors:ListIndexes"],
-    resources: {
-      "s3vectors:ListIndexes": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIndexes",
 })) as any;
@@ -849,7 +761,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["s3vectors:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -881,7 +792,6 @@ export const listVectorBuckets: API.PaginatedOperationMethod<
     items: "vectorBuckets",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["s3vectors:ListVectorBuckets"] },
   telemetry: TELEMETRY,
   span: "ListVectorBuckets",
 })) as any;
@@ -923,14 +833,6 @@ export const listVectors: API.PaginatedOperationMethod<
     items: "vectors",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["s3vectors:ListVectors"],
-    resources: {
-      "s3vectors:ListVectors": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListVectors",
 })) as any;
@@ -958,14 +860,6 @@ export const putVectorBucketDefaultIndexMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectorBucketDefaultIndexMode",
-  iam: {
-    actions: ["s3vectors:PutVectorBucketDefaultIndexMode"],
-    resources: {
-      "s3vectors:PutVectorBucketDefaultIndexMode": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVectorBucketDefaultIndexMode",
 }));
@@ -993,14 +887,6 @@ export const putVectorBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectorBucketPolicy",
-  iam: {
-    actions: ["s3vectors:PutVectorBucketPolicy"],
-    resources: {
-      "s3vectors:PutVectorBucketPolicy": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVectorBucketPolicy",
 }));
@@ -1047,14 +933,6 @@ export const putVectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVectors",
-  iam: {
-    actions: ["s3vectors:PutVectors"],
-    resources: {
-      "s3vectors:PutVectors": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVectors",
 }));
@@ -1101,14 +979,6 @@ export const queryVectors: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "QueryVectors",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "vectors" } as const,
-  iam: {
-    actions: ["s3vectors:QueryVectors"],
-    resources: {
-      "s3vectors:QueryVectors": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "QueryVectors",
 })) as any;
@@ -1139,7 +1009,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["s3vectors:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1170,7 +1039,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["s3vectors:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1195,14 +1063,6 @@ export const updateIndexMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexMode",
-  iam: {
-    actions: ["s3vectors:UpdateIndexMode"],
-    resources: {
-      "s3vectors:UpdateIndexMode": [
-        "arn:${Partition}:s3vectors:${Region}:${Account}:bucket/${BucketName}/index/${IndexName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIndexMode",
 }));

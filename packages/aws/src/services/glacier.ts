@@ -662,14 +662,6 @@ export const abortMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartUpload",
-  iam: {
-    actions: ["glacier:AbortMultipartUpload"],
-    resources: {
-      "glacier:AbortMultipartUpload": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AbortMultipartUpload",
 }));
@@ -717,14 +709,6 @@ export const abortVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortVaultLock",
-  iam: {
-    actions: ["glacier:AbortVaultLock"],
-    resources: {
-      "glacier:AbortVaultLock": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AbortVaultLock",
 }));
@@ -763,15 +747,6 @@ export const addTagsToVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToVault",
-  iam: {
-    actions: ["glacier:AddTagsToVault"],
-    resources: {
-      "glacier:AddTagsToVault": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-    conditional: { "glacier:AddTagsToVault": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "AddTagsToVault",
 }));
@@ -842,14 +817,6 @@ export const completeMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
-  iam: {
-    actions: ["glacier:CompleteMultipartUpload"],
-    resources: {
-      "glacier:CompleteMultipartUpload": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CompleteMultipartUpload",
 }));
@@ -897,14 +864,6 @@ export const completeVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteVaultLock",
-  iam: {
-    actions: ["glacier:CompleteVaultLock"],
-    resources: {
-      "glacier:CompleteVaultLock": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CompleteVaultLock",
 }));
@@ -958,12 +917,6 @@ export const createVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVault",
-  iam: {
-    actions: ["glacier:CreateVault"],
-    resources: {
-      "glacier:CreateVault": ["arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateVault",
 }));
@@ -1019,14 +972,6 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
-  iam: {
-    actions: ["glacier:DeleteArchive"],
-    resources: {
-      "glacier:DeleteArchive": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteArchive",
 }));
@@ -1079,12 +1024,6 @@ export const deleteVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVault",
-  iam: {
-    actions: ["glacier:DeleteVault"],
-    resources: {
-      "glacier:DeleteVault": ["arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVault",
 }));
@@ -1124,14 +1063,6 @@ export const deleteVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVaultAccessPolicy",
-  iam: {
-    actions: ["glacier:DeleteVaultAccessPolicy"],
-    resources: {
-      "glacier:DeleteVaultAccessPolicy": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVaultAccessPolicy",
 }));
@@ -1177,14 +1108,6 @@ export const deleteVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVaultNotifications",
-  iam: {
-    actions: ["glacier:DeleteVaultNotifications"],
-    resources: {
-      "glacier:DeleteVaultNotifications": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVaultNotifications",
 }));
@@ -1238,12 +1161,6 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
-  iam: {
-    actions: ["glacier:DescribeJob"],
-    resources: {
-      "glacier:DescribeJob": ["arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeJob",
 }));
@@ -1294,14 +1211,6 @@ export const describeVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVault",
-  iam: {
-    actions: ["glacier:DescribeVault"],
-    resources: {
-      "glacier:DescribeVault": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeVault",
 }));
@@ -1334,7 +1243,6 @@ export const getDataRetrievalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataRetrievalPolicy",
-  iam: { actions: ["glacier:GetDataRetrievalPolicy"] },
   telemetry: TELEMETRY,
   span: "GetDataRetrievalPolicy",
 }));
@@ -1406,12 +1314,6 @@ export const getJobOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobOutput",
-  iam: {
-    actions: ["glacier:GetJobOutput"],
-    resources: {
-      "glacier:GetJobOutput": ["arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJobOutput",
 }));
@@ -1449,14 +1351,6 @@ export const getVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultAccessPolicy",
-  iam: {
-    actions: ["glacier:GetVaultAccessPolicy"],
-    resources: {
-      "glacier:GetVaultAccessPolicy": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVaultAccessPolicy",
 }));
@@ -1511,12 +1405,6 @@ export const getVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultLock",
-  iam: {
-    actions: ["glacier:GetVaultLock"],
-    resources: {
-      "glacier:GetVaultLock": ["arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVaultLock",
 }));
@@ -1565,14 +1453,6 @@ export const getVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVaultNotifications",
-  iam: {
-    actions: ["glacier:GetVaultNotifications"],
-    resources: {
-      "glacier:GetVaultNotifications": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVaultNotifications",
 }));
@@ -1612,12 +1492,6 @@ export const initiateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateJob",
-  iam: {
-    actions: ["glacier:InitiateJob"],
-    resources: {
-      "glacier:InitiateJob": ["arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InitiateJob",
 }));
@@ -1682,14 +1556,6 @@ export const initiateMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateMultipartUpload",
-  iam: {
-    actions: ["glacier:InitiateMultipartUpload"],
-    resources: {
-      "glacier:InitiateMultipartUpload": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InitiateMultipartUpload",
 }));
@@ -1753,14 +1619,6 @@ export const initiateVaultLock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateVaultLock",
-  iam: {
-    actions: ["glacier:InitiateVaultLock"],
-    resources: {
-      "glacier:InitiateVaultLock": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InitiateVaultLock",
 }));
@@ -1833,12 +1691,6 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "JobList",
     pageSize: "limit",
   } as const,
-  iam: {
-    actions: ["glacier:ListJobs"],
-    resources: {
-      "glacier:ListJobs": ["arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -1903,14 +1755,6 @@ export const listMultipartUploads: API.PaginatedOperationMethod<
     items: "UploadsList",
     pageSize: "limit",
   } as const,
-  iam: {
-    actions: ["glacier:ListMultipartUploads"],
-    resources: {
-      "glacier:ListMultipartUploads": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMultipartUploads",
 })) as any;
@@ -1972,12 +1816,6 @@ export const listParts: API.PaginatedOperationMethod<
     items: "Parts",
     pageSize: "limit",
   } as const,
-  iam: {
-    actions: ["glacier:ListParts"],
-    resources: {
-      "glacier:ListParts": ["arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListParts",
 })) as any;
@@ -2009,7 +1847,6 @@ export const listProvisionedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedCapacity",
-  iam: { actions: ["glacier:ListProvisionedCapacity"] },
   telemetry: TELEMETRY,
   span: "ListProvisionedCapacity",
 }));
@@ -2044,14 +1881,6 @@ export const listTagsForVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForVault",
-  iam: {
-    actions: ["glacier:ListTagsForVault"],
-    resources: {
-      "glacier:ListTagsForVault": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForVault",
 }));
@@ -2110,7 +1939,6 @@ export const listVaults: API.PaginatedOperationMethod<
     items: "VaultList",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["glacier:ListVaults"] },
   telemetry: TELEMETRY,
   span: "ListVaults",
 })) as any;
@@ -2143,7 +1971,6 @@ export const purchaseProvisionedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseProvisionedCapacity",
-  iam: { actions: ["glacier:PurchaseProvisionedCapacity"] },
   telemetry: TELEMETRY,
   span: "PurchaseProvisionedCapacity",
 }));
@@ -2179,14 +2006,6 @@ export const removeTagsFromVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromVault",
-  iam: {
-    actions: ["glacier:RemoveTagsFromVault"],
-    resources: {
-      "glacier:RemoveTagsFromVault": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromVault",
 }));
@@ -2223,7 +2042,6 @@ export const setDataRetrievalPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDataRetrievalPolicy",
-  iam: { actions: ["glacier:SetDataRetrievalPolicy"] },
   telemetry: TELEMETRY,
   span: "SetDataRetrievalPolicy",
 }));
@@ -2261,14 +2079,6 @@ export const setVaultAccessPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVaultAccessPolicy",
-  iam: {
-    actions: ["glacier:SetVaultAccessPolicy"],
-    resources: {
-      "glacier:SetVaultAccessPolicy": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetVaultAccessPolicy",
 }));
@@ -2331,14 +2141,6 @@ export const setVaultNotifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetVaultNotifications",
-  iam: {
-    actions: ["glacier:SetVaultNotifications"],
-    resources: {
-      "glacier:SetVaultNotifications": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetVaultNotifications",
 }));
@@ -2405,14 +2207,6 @@ export const uploadArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadArchive",
-  iam: {
-    actions: ["glacier:UploadArchive"],
-    resources: {
-      "glacier:UploadArchive": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UploadArchive",
 }));
@@ -2488,14 +2282,6 @@ export const uploadMultipartPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadMultipartPart",
-  iam: {
-    actions: ["glacier:UploadMultipartPart"],
-    resources: {
-      "glacier:UploadMultipartPart": [
-        "arn:${Partition}:glacier:${Region}:${Account}:vaults/${VaultName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UploadMultipartPart",
 }));

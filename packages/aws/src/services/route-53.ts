@@ -1880,10 +1880,6 @@ export const activateKeySigningKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateKeySigningKey",
-  iam: {
-    actions: ["route53:ActivateKeySigningKey"],
-    resources: { "route53:ActivateKeySigningKey": ["arn:${Partition}:route53:::hostedzone/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "ActivateKeySigningKey",
 }));
@@ -1946,7 +1942,6 @@ export const associateVPCWithHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVPCWithHostedZone",
-  iam: { actions: ["route53:AssociateVPCWithHostedZone"] },
   telemetry: TELEMETRY,
   span: "AssociateVPCWithHostedZone",
 }));
@@ -2000,12 +1995,6 @@ export const changeCidrCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeCidrCollection",
-  iam: {
-    actions: ["route53:ChangeCidrCollection"],
-    resources: {
-      "route53:ChangeCidrCollection": ["arn:${Partition}:route53:::cidrcollection/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ChangeCidrCollection",
 }));
@@ -2121,12 +2110,6 @@ export const changeResourceRecordSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeResourceRecordSets",
-  iam: {
-    actions: ["route53:ChangeResourceRecordSets"],
-    resources: {
-      "route53:ChangeResourceRecordSets": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ChangeResourceRecordSets",
 }));
@@ -2162,15 +2145,6 @@ export const changeTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangeTagsForResource",
-  iam: {
-    actions: ["route53:ChangeTagsForResource"],
-    resources: {
-      "route53:ChangeTagsForResource": [
-        "arn:${Partition}:route53:::healthcheck/${Id}",
-        "arn:${Partition}:route53:::hostedzone/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ChangeTagsForResource",
 }));
@@ -2201,7 +2175,6 @@ export const createCidrCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCidrCollection",
-  iam: { actions: ["route53:CreateCidrCollection"] },
   telemetry: TELEMETRY,
   span: "CreateCidrCollection",
 }));
@@ -2256,7 +2229,6 @@ export const createHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHealthCheck",
-  iam: { actions: ["route53:CreateHealthCheck"] },
   telemetry: TELEMETRY,
   span: "CreateHealthCheck",
 }));
@@ -2351,7 +2323,6 @@ export const createHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHostedZone",
-  iam: { actions: ["route53:CreateHostedZone"] },
   telemetry: TELEMETRY,
   span: "CreateHostedZone",
 }));
@@ -2395,10 +2366,6 @@ export const createKeySigningKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKeySigningKey",
-  iam: {
-    actions: ["route53:CreateKeySigningKey"],
-    resources: { "route53:CreateKeySigningKey": ["arn:${Partition}:route53:::hostedzone/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "CreateKeySigningKey",
 }));
@@ -2573,12 +2540,6 @@ export const createQueryLoggingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueryLoggingConfig",
-  iam: {
-    actions: ["route53:CreateQueryLoggingConfig"],
-    resources: {
-      "route53:CreateQueryLoggingConfig": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateQueryLoggingConfig",
 }));
@@ -2662,7 +2623,6 @@ export const createReusableDelegationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReusableDelegationSet",
-  iam: { actions: ["route53:CreateReusableDelegationSet"] },
   telemetry: TELEMETRY,
   span: "CreateReusableDelegationSet",
 }));
@@ -2695,7 +2655,6 @@ export const createTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicy",
-  iam: { actions: ["route53:CreateTrafficPolicy"] },
   telemetry: TELEMETRY,
   span: "CreateTrafficPolicy",
 }));
@@ -2740,15 +2699,6 @@ export const createTrafficPolicyInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicyInstance",
-  iam: {
-    actions: ["route53:CreateTrafficPolicyInstance"],
-    resources: {
-      "route53:CreateTrafficPolicyInstance": [
-        "arn:${Partition}:route53:::hostedzone/${Id}",
-        "arn:${Partition}:route53:::trafficpolicy/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrafficPolicyInstance",
 }));
@@ -2787,12 +2737,6 @@ export const createTrafficPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicyVersion",
-  iam: {
-    actions: ["route53:CreateTrafficPolicyVersion"],
-    resources: {
-      "route53:CreateTrafficPolicyVersion": ["arn:${Partition}:route53:::trafficpolicy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrafficPolicyVersion",
 }));
@@ -2834,12 +2778,6 @@ export const createVPCAssociationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVPCAssociationAuthorization",
-  iam: {
-    actions: ["route53:CreateVPCAssociationAuthorization"],
-    resources: {
-      "route53:CreateVPCAssociationAuthorization": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateVPCAssociationAuthorization",
 }));
@@ -2877,12 +2815,6 @@ export const deactivateKeySigningKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateKeySigningKey",
-  iam: {
-    actions: ["route53:DeactivateKeySigningKey"],
-    resources: {
-      "route53:DeactivateKeySigningKey": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeactivateKeySigningKey",
 }));
@@ -2914,12 +2846,6 @@ export const deleteCidrCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCidrCollection",
-  iam: {
-    actions: ["route53:DeleteCidrCollection"],
-    resources: {
-      "route53:DeleteCidrCollection": ["arn:${Partition}:route53:::cidrcollection/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCidrCollection",
 }));
@@ -2958,10 +2884,6 @@ export const deleteHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHealthCheck",
-  iam: {
-    actions: ["route53:DeleteHealthCheck"],
-    resources: { "route53:DeleteHealthCheck": ["arn:${Partition}:route53:::healthcheck/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHealthCheck",
 }));
@@ -3035,10 +2957,6 @@ export const deleteHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHostedZone",
-  iam: {
-    actions: ["route53:DeleteHostedZone"],
-    resources: { "route53:DeleteHostedZone": ["arn:${Partition}:route53:::hostedzone/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHostedZone",
 }));
@@ -3080,10 +2998,6 @@ export const deleteKeySigningKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKeySigningKey",
-  iam: {
-    actions: ["route53:DeleteKeySigningKey"],
-    resources: { "route53:DeleteKeySigningKey": ["arn:${Partition}:route53:::hostedzone/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKeySigningKey",
 }));
@@ -3112,12 +3026,6 @@ export const deleteQueryLoggingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueryLoggingConfig",
-  iam: {
-    actions: ["route53:DeleteQueryLoggingConfig"],
-    resources: {
-      "route53:DeleteQueryLoggingConfig": ["arn:${Partition}:route53:::queryloggingconfig/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteQueryLoggingConfig",
 }));
@@ -3150,12 +3058,6 @@ export const deleteReusableDelegationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReusableDelegationSet",
-  iam: {
-    actions: ["route53:DeleteReusableDelegationSet"],
-    resources: {
-      "route53:DeleteReusableDelegationSet": ["arn:${Partition}:route53:::delegationset/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReusableDelegationSet",
 }));
@@ -3192,12 +3094,6 @@ export const deleteTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficPolicy",
-  iam: {
-    actions: ["route53:DeleteTrafficPolicy"],
-    resources: {
-      "route53:DeleteTrafficPolicy": ["arn:${Partition}:route53:::trafficpolicy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrafficPolicy",
 }));
@@ -3226,14 +3122,6 @@ export const deleteTrafficPolicyInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficPolicyInstance",
-  iam: {
-    actions: ["route53:DeleteTrafficPolicyInstance"],
-    resources: {
-      "route53:DeleteTrafficPolicyInstance": [
-        "arn:${Partition}:route53:::trafficpolicyinstance/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrafficPolicyInstance",
 }));
@@ -3276,12 +3164,6 @@ export const deleteVPCAssociationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVPCAssociationAuthorization",
-  iam: {
-    actions: ["route53:DeleteVPCAssociationAuthorization"],
-    resources: {
-      "route53:DeleteVPCAssociationAuthorization": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVPCAssociationAuthorization",
 }));
@@ -3321,12 +3203,6 @@ export const disableHostedZoneDNSSEC: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableHostedZoneDNSSEC",
-  iam: {
-    actions: ["route53:DisableHostedZoneDNSSEC"],
-    resources: {
-      "route53:DisableHostedZoneDNSSEC": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableHostedZoneDNSSEC",
 }));
@@ -3395,7 +3271,6 @@ export const disassociateVPCFromHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVPCFromHostedZone",
-  iam: { actions: ["route53:DisassociateVPCFromHostedZone"] },
   telemetry: TELEMETRY,
   span: "DisassociateVPCFromHostedZone",
 }));
@@ -3436,12 +3311,6 @@ export const enableHostedZoneDNSSEC: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableHostedZoneDNSSEC",
-  iam: {
-    actions: ["route53:EnableHostedZoneDNSSEC"],
-    resources: {
-      "route53:EnableHostedZoneDNSSEC": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableHostedZoneDNSSEC",
 }));
@@ -3470,7 +3339,6 @@ export const getAccountLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountLimit",
-  iam: { actions: ["route53:GetAccountLimit"] },
   telemetry: TELEMETRY,
   span: "GetAccountLimit",
 }));
@@ -3499,10 +3367,6 @@ export const getChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChange",
-  iam: {
-    actions: ["route53:GetChange"],
-    resources: { "route53:GetChange": ["arn:${Partition}:route53:::change/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetChange",
 }));
@@ -3530,7 +3394,6 @@ export const getCheckerIpRanges: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCheckerIpRanges",
-  iam: { actions: ["route53:GetCheckerIpRanges"] },
   telemetry: TELEMETRY,
   span: "GetCheckerIpRanges",
 }));
@@ -3552,10 +3415,6 @@ export const getDNSSEC: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDNSSEC",
-  iam: {
-    actions: ["route53:GetDNSSEC"],
-    resources: { "route53:GetDNSSEC": ["arn:${Partition}:route53:::hostedzone/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetDNSSEC",
 }));
@@ -3599,7 +3458,6 @@ export const getGeoLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeoLocation",
-  iam: { actions: ["route53:GetGeoLocation"] },
   telemetry: TELEMETRY,
   span: "GetGeoLocation",
 }));
@@ -3624,10 +3482,6 @@ export const getHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthCheck",
-  iam: {
-    actions: ["route53:GetHealthCheck"],
-    resources: { "route53:GetHealthCheck": ["arn:${Partition}:route53:::healthcheck/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetHealthCheck",
 }));
@@ -3648,7 +3502,6 @@ export const getHealthCheckCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthCheckCount",
-  iam: { actions: ["route53:GetHealthCheckCount"] },
   telemetry: TELEMETRY,
   span: "GetHealthCheckCount",
 }));
@@ -3669,12 +3522,6 @@ export const getHealthCheckLastFailureReason: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthCheckLastFailureReason",
-  iam: {
-    actions: ["route53:GetHealthCheckLastFailureReason"],
-    resources: {
-      "route53:GetHealthCheckLastFailureReason": ["arn:${Partition}:route53:::healthcheck/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetHealthCheckLastFailureReason",
 }));
@@ -3699,10 +3546,6 @@ export const getHealthCheckStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHealthCheckStatus",
-  iam: {
-    actions: ["route53:GetHealthCheckStatus"],
-    resources: { "route53:GetHealthCheckStatus": ["arn:${Partition}:route53:::healthcheck/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetHealthCheckStatus",
 }));
@@ -3727,10 +3570,6 @@ export const getHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedZone",
-  iam: {
-    actions: ["route53:GetHostedZone"],
-    resources: { "route53:GetHostedZone": ["arn:${Partition}:route53:::hostedzone/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetHostedZone",
 }));
@@ -3751,7 +3590,6 @@ export const getHostedZoneCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedZoneCount",
-  iam: { actions: ["route53:GetHostedZoneCount"] },
   telemetry: TELEMETRY,
   span: "GetHostedZoneCount",
 }));
@@ -3781,10 +3619,6 @@ export const getHostedZoneLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedZoneLimit",
-  iam: {
-    actions: ["route53:GetHostedZoneLimit"],
-    resources: { "route53:GetHostedZoneLimit": ["arn:${Partition}:route53:::hostedzone/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetHostedZoneLimit",
 }));
@@ -3808,12 +3642,6 @@ export const getQueryLoggingConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryLoggingConfig",
-  iam: {
-    actions: ["route53:GetQueryLoggingConfig"],
-    resources: {
-      "route53:GetQueryLoggingConfig": ["arn:${Partition}:route53:::queryloggingconfig/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQueryLoggingConfig",
 }));
@@ -3839,12 +3667,6 @@ export const getReusableDelegationSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReusableDelegationSet",
-  iam: {
-    actions: ["route53:GetReusableDelegationSet"],
-    resources: {
-      "route53:GetReusableDelegationSet": ["arn:${Partition}:route53:::delegationset/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReusableDelegationSet",
 }));
@@ -3870,12 +3692,6 @@ export const getReusableDelegationSetLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReusableDelegationSetLimit",
-  iam: {
-    actions: ["route53:GetReusableDelegationSetLimit"],
-    resources: {
-      "route53:GetReusableDelegationSetLimit": ["arn:${Partition}:route53:::delegationset/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReusableDelegationSetLimit",
 }));
@@ -3899,10 +3715,6 @@ export const getTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicy",
-  iam: {
-    actions: ["route53:GetTrafficPolicy"],
-    resources: { "route53:GetTrafficPolicy": ["arn:${Partition}:route53:::trafficpolicy/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetTrafficPolicy",
 }));
@@ -3934,14 +3746,6 @@ export const getTrafficPolicyInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicyInstance",
-  iam: {
-    actions: ["route53:GetTrafficPolicyInstance"],
-    resources: {
-      "route53:GetTrafficPolicyInstance": [
-        "arn:${Partition}:route53:::trafficpolicyinstance/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTrafficPolicyInstance",
 }));
@@ -3963,7 +3767,6 @@ export const getTrafficPolicyInstanceCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicyInstanceCount",
-  iam: { actions: ["route53:GetTrafficPolicyInstanceCount"] },
   telemetry: TELEMETRY,
   span: "GetTrafficPolicyInstanceCount",
 }));
@@ -3995,10 +3798,6 @@ export const listCidrBlocks: API.PaginatedOperationMethod<
     items: "CidrBlocks",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53:ListCidrBlocks"],
-    resources: { "route53:ListCidrBlocks": ["arn:${Partition}:route53:::cidrcollection/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "ListCidrBlocks",
 })) as any;
@@ -4027,7 +3826,6 @@ export const listCidrCollections: API.PaginatedOperationMethod<
     items: "CidrCollections",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53:ListCidrCollections"] },
   telemetry: TELEMETRY,
   span: "ListCidrCollections",
 })) as any;
@@ -4056,10 +3854,6 @@ export const listCidrLocations: API.PaginatedOperationMethod<
     items: "CidrLocations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53:ListCidrLocations"],
-    resources: { "route53:ListCidrLocations": ["arn:${Partition}:route53:::cidrcollection/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "ListCidrLocations",
 })) as any;
@@ -4091,7 +3885,6 @@ export const listGeoLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGeoLocations",
-  iam: { actions: ["route53:ListGeoLocations"] },
   telemetry: TELEMETRY,
   span: "ListGeoLocations",
 }));
@@ -4119,7 +3912,6 @@ export const listHealthChecks: API.PaginatedOperationMethod<
     items: "HealthChecks",
     pageSize: "MaxItems",
   } as const,
-  iam: { actions: ["route53:ListHealthChecks"] },
   telemetry: TELEMETRY,
   span: "ListHealthChecks",
 })) as any;
@@ -4157,7 +3949,6 @@ export const listHostedZones: API.PaginatedOperationMethod<
     items: "HostedZones",
     pageSize: "MaxItems",
   } as const,
-  iam: { actions: ["route53:ListHostedZones"] },
   telemetry: TELEMETRY,
   span: "ListHostedZones",
 })) as any;
@@ -4230,7 +4021,6 @@ export const listHostedZonesByName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHostedZonesByName",
-  iam: { actions: ["route53:ListHostedZonesByName"] },
   telemetry: TELEMETRY,
   span: "ListHostedZonesByName",
 }));
@@ -4282,7 +4072,6 @@ export const listHostedZonesByVPC: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHostedZonesByVPC",
-  iam: { actions: ["route53:ListHostedZonesByVPC", "ec2:DescribeVpcs"] },
   telemetry: TELEMETRY,
   span: "ListHostedZonesByVPC",
 }));
@@ -4320,7 +4109,6 @@ export const listQueryLoggingConfigs: API.PaginatedOperationMethod<
     items: "QueryLoggingConfigs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53:ListQueryLoggingConfigs"] },
   telemetry: TELEMETRY,
   span: "ListQueryLoggingConfigs",
 })) as any;
@@ -4410,12 +4198,6 @@ export const listResourceRecordSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceRecordSets",
-  iam: {
-    actions: ["route53:ListResourceRecordSets"],
-    resources: {
-      "route53:ListResourceRecordSets": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourceRecordSets",
 }));
@@ -4437,7 +4219,6 @@ export const listReusableDelegationSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReusableDelegationSets",
-  iam: { actions: ["route53:ListReusableDelegationSets"] },
   telemetry: TELEMETRY,
   span: "ListReusableDelegationSets",
 }));
@@ -4473,7 +4254,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["route53:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4509,7 +4289,6 @@ export const listTagsForResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResources",
-  iam: { actions: ["route53:ListTagsForResources"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResources",
 }));
@@ -4535,7 +4314,6 @@ export const listTrafficPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicies",
-  iam: { actions: ["route53:ListTrafficPolicies"] },
   telemetry: TELEMETRY,
   span: "ListTrafficPolicies",
 }));
@@ -4569,7 +4347,6 @@ export const listTrafficPolicyInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicyInstances",
-  iam: { actions: ["route53:ListTrafficPolicyInstances"] },
   telemetry: TELEMETRY,
   span: "ListTrafficPolicyInstances",
 }));
@@ -4605,14 +4382,6 @@ export const listTrafficPolicyInstancesByHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicyInstancesByHostedZone",
-  iam: {
-    actions: ["route53:ListTrafficPolicyInstancesByHostedZone"],
-    resources: {
-      "route53:ListTrafficPolicyInstancesByHostedZone": [
-        "arn:${Partition}:route53:::hostedzone/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTrafficPolicyInstancesByHostedZone",
 }));
@@ -4648,14 +4417,6 @@ export const listTrafficPolicyInstancesByPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicyInstancesByPolicy",
-  iam: {
-    actions: ["route53:ListTrafficPolicyInstancesByPolicy"],
-    resources: {
-      "route53:ListTrafficPolicyInstancesByPolicy": [
-        "arn:${Partition}:route53:::trafficpolicy/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTrafficPolicyInstancesByPolicy",
 }));
@@ -4679,12 +4440,6 @@ export const listTrafficPolicyVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTrafficPolicyVersions",
-  iam: {
-    actions: ["route53:ListTrafficPolicyVersions"],
-    resources: {
-      "route53:ListTrafficPolicyVersions": ["arn:${Partition}:route53:::trafficpolicy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTrafficPolicyVersions",
 }));
@@ -4714,12 +4469,6 @@ export const listVPCAssociationAuthorizations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVPCAssociationAuthorizations",
-  iam: {
-    actions: ["route53:ListVPCAssociationAuthorizations"],
-    resources: {
-      "route53:ListVPCAssociationAuthorizations": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListVPCAssociationAuthorizations",
 }));
@@ -4749,7 +4498,6 @@ export const testDNSAnswer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestDNSAnswer",
-  iam: { actions: ["route53:TestDNSAnswer"] },
   telemetry: TELEMETRY,
   span: "TestDNSAnswer",
 }));
@@ -4778,10 +4526,6 @@ export const updateHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHealthCheck",
-  iam: {
-    actions: ["route53:UpdateHealthCheck"],
-    resources: { "route53:UpdateHealthCheck": ["arn:${Partition}:route53:::healthcheck/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHealthCheck",
 }));
@@ -4806,12 +4550,6 @@ export const updateHostedZoneComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHostedZoneComment",
-  iam: {
-    actions: ["route53:UpdateHostedZoneComment"],
-    resources: {
-      "route53:UpdateHostedZoneComment": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHostedZoneComment",
 }));
@@ -4839,12 +4577,6 @@ export const updateHostedZoneFeatures: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHostedZoneFeatures",
-  iam: {
-    actions: ["route53:UpdateHostedZoneFeatures"],
-    resources: {
-      "route53:UpdateHostedZoneFeatures": ["arn:${Partition}:route53:::hostedzone/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHostedZoneFeatures",
 }));
@@ -4869,12 +4601,6 @@ export const updateTrafficPolicyComment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficPolicyComment",
-  iam: {
-    actions: ["route53:UpdateTrafficPolicyComment"],
-    resources: {
-      "route53:UpdateTrafficPolicyComment": ["arn:${Partition}:route53:::trafficpolicy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTrafficPolicyComment",
 }));
@@ -4929,14 +4655,6 @@ export const updateTrafficPolicyInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficPolicyInstance",
-  iam: {
-    actions: ["route53:UpdateTrafficPolicyInstance"],
-    resources: {
-      "route53:UpdateTrafficPolicyInstance": [
-        "arn:${Partition}:route53:::trafficpolicyinstance/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTrafficPolicyInstance",
 }));

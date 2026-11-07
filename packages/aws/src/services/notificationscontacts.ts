@@ -285,14 +285,6 @@ export const activateEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateEmailContact",
-  iam: {
-    actions: ["notifications-contacts:ActivateEmailContact"],
-    resources: {
-      "notifications-contacts:ActivateEmailContact": [
-        "arn:${Partition}:notifications-contacts::${Account}:emailcontact/${EmailContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ActivateEmailContact",
 }));
@@ -327,15 +319,6 @@ export const createEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEmailContact",
-  iam: {
-    actions: ["notifications-contacts:CreateEmailContact", "notifications-contacts:TagResource"],
-    resources: {
-      "notifications-contacts:TagResource": [
-        "arn:${Partition}:notifications-contacts::${Account}:emailcontact/${EmailContactId}",
-      ],
-    },
-    conditional: { "notifications-contacts:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEmailContact",
 }));
@@ -372,14 +355,6 @@ export const deleteEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailContact",
-  iam: {
-    actions: ["notifications-contacts:DeleteEmailContact"],
-    resources: {
-      "notifications-contacts:DeleteEmailContact": [
-        "arn:${Partition}:notifications-contacts::${Account}:emailcontact/${EmailContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEmailContact",
 }));
@@ -412,14 +387,6 @@ export const getEmailContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailContact",
-  iam: {
-    actions: ["notifications-contacts:GetEmailContact"],
-    resources: {
-      "notifications-contacts:GetEmailContact": [
-        "arn:${Partition}:notifications-contacts::${Account}:emailcontact/${EmailContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEmailContact",
 }));
@@ -457,7 +424,6 @@ export const listEmailContacts: API.PaginatedOperationMethod<
     items: "emailContacts",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["notifications-contacts:ListEmailContacts"] },
   telemetry: TELEMETRY,
   span: "ListEmailContacts",
 })) as any;
@@ -490,7 +456,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["notifications-contacts:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -527,14 +492,6 @@ export const sendActivationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendActivationCode",
-  iam: {
-    actions: ["notifications-contacts:SendActivationCode"],
-    resources: {
-      "notifications-contacts:SendActivationCode": [
-        "arn:${Partition}:notifications-contacts::${Account}:emailcontact/${EmailContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendActivationCode",
 }));
@@ -567,14 +524,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["notifications-contacts:TagResource"],
-    resources: {
-      "notifications-contacts:TagResource": [
-        "arn:${Partition}:notifications-contacts::${Account}:emailcontact/${EmailContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -607,14 +556,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["notifications-contacts:UntagResource"],
-    resources: {
-      "notifications-contacts:UntagResource": [
-        "arn:${Partition}:notifications-contacts::${Account}:emailcontact/${EmailContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

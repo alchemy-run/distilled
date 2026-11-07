@@ -631,17 +631,6 @@ export const describeView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeView",
-  iam: {
-    actions: ["connect:DescribeView"],
-    resources: {
-      "connect:DescribeView": [
-        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}",
-        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}",
-        "arn:${Partition}:connect:${Region}:aws:view/${ViewId}:${ViewQualifier}",
-        "arn:${Partition}:connect:${Region}:${Account}:instance/${InstanceId}/view/${ViewId}:${ViewQualifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeView",
 }));

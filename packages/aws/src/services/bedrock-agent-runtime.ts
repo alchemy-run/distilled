@@ -3779,14 +3779,6 @@ export const agenticRetrieveStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AgenticRetrieveStream",
-  iam: {
-    actions: ["bedrock:AgenticRetrieveStream", "bedrock:Retrieve"],
-    resources: {
-      "bedrock:Retrieve": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AgenticRetrieveStream",
 }));
@@ -3819,7 +3811,6 @@ export const checkIngestedDocumentAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckIngestedDocumentAcl",
-  iam: { actions: ["bedrock:CheckIngestedDocumentAcl"] },
   telemetry: TELEMETRY,
   span: "CheckIngestedDocumentAcl",
 }));
@@ -3864,14 +3855,6 @@ export const createInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvocation",
-  iam: {
-    actions: ["bedrock:CreateInvocation"],
-    resources: {
-      "bedrock:CreateInvocation": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateInvocation",
 }));
@@ -3920,10 +3903,6 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
-  iam: {
-    actions: ["bedrock:CreateSession", "bedrock:TagResource"],
-    conditional: { "bedrock:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSession",
 }));
@@ -3964,14 +3943,6 @@ export const deleteAgentMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentMemory",
-  iam: {
-    actions: ["bedrock:DeleteAgentMemory"],
-    resources: {
-      "bedrock:DeleteAgentMemory": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAgentMemory",
 }));
@@ -4006,14 +3977,6 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
-  iam: {
-    actions: ["bedrock:DeleteSession"],
-    resources: {
-      "bedrock:DeleteSession": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSession",
 }));
@@ -4048,12 +4011,6 @@ export const endSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EndSession",
-  iam: {
-    actions: ["bedrock:EndSession"],
-    resources: {
-      "bedrock:EndSession": ["arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EndSession",
 }));
@@ -4094,14 +4051,6 @@ export const generateQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateQuery",
-  iam: {
-    actions: ["bedrock:GenerateQuery", "bedrock:GetKnowledgeBase"],
-    resources: {
-      "bedrock:GetKnowledgeBase": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GenerateQuery",
 }));
@@ -4149,14 +4098,6 @@ export const getAgentMemory: API.PaginatedOperationMethod<
     items: "memoryContents",
     pageSize: "maxItems",
   } as const,
-  iam: {
-    actions: ["bedrock:GetAgentMemory"],
-    resources: {
-      "bedrock:GetAgentMemory": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAgentMemory",
 })) as any;
@@ -4189,14 +4130,6 @@ export const getDocumentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentContent",
-  iam: {
-    actions: ["bedrock:GetDocumentContent", "bedrock:Retrieve"],
-    resources: {
-      "bedrock:Retrieve": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDocumentContent",
 }));
@@ -4231,16 +4164,6 @@ export const getExecutionFlowSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecutionFlowSnapshot",
-  iam: {
-    actions: ["bedrock:GetExecutionFlowSnapshot"],
-    resources: {
-      "bedrock:GetExecutionFlowSnapshot": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExecutionFlowSnapshot",
 }));
@@ -4273,16 +4196,6 @@ export const getFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFlowExecution",
-  iam: {
-    actions: ["bedrock:GetFlowExecution"],
-    resources: {
-      "bedrock:GetFlowExecution": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFlowExecution",
 }));
@@ -4315,7 +4228,6 @@ export const getIngestedDocumentAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestedDocumentAcl",
-  iam: { actions: ["bedrock:GetIngestedDocumentAcl"] },
   telemetry: TELEMETRY,
   span: "GetIngestedDocumentAcl",
 }));
@@ -4348,14 +4260,6 @@ export const getInvocationStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvocationStep",
-  iam: {
-    actions: ["bedrock:GetInvocationStep"],
-    resources: {
-      "bedrock:GetInvocationStep": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetInvocationStep",
 }));
@@ -4388,12 +4292,6 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
-  iam: {
-    actions: ["bedrock:GetSession"],
-    resources: {
-      "bedrock:GetSession": ["arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -4458,14 +4356,6 @@ export const invokeAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeAgent",
-  iam: {
-    actions: ["bedrock:InvokeAgent"],
-    resources: {
-      "bedrock:InvokeAgent": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InvokeAgent",
 }));
@@ -4508,14 +4398,6 @@ export const invokeFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeFlow",
-  iam: {
-    actions: ["bedrock:InvokeFlow"],
-    resources: {
-      "bedrock:InvokeFlow": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InvokeFlow",
 }));
@@ -4566,7 +4448,6 @@ export const invokeInlineAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeInlineAgent",
-  iam: { actions: ["bedrock:InvokeInlineAgent"] },
   telemetry: TELEMETRY,
   span: "InvokeInlineAgent",
 }));
@@ -4608,16 +4489,6 @@ export const listFlowExecutionEvents: API.PaginatedOperationMethod<
     items: "flowExecutionEvents",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock:ListFlowExecutionEvents"],
-    resources: {
-      "bedrock:ListFlowExecutionEvents": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFlowExecutionEvents",
 })) as any;
@@ -4659,7 +4530,6 @@ export const listFlowExecutions: API.PaginatedOperationMethod<
     items: "flowExecutionSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock:ListFlowExecutions"] },
   telemetry: TELEMETRY,
   span: "ListFlowExecutions",
 })) as any;
@@ -4699,14 +4569,6 @@ export const listInvocations: API.PaginatedOperationMethod<
     items: "invocationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock:ListInvocations"],
-    resources: {
-      "bedrock:ListInvocations": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListInvocations",
 })) as any;
@@ -4746,17 +4608,6 @@ export const listInvocationSteps: API.PaginatedOperationMethod<
     items: "invocationStepSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock:ListInvocationSteps", "bedrock:ListInvocations"],
-    resources: {
-      "bedrock:ListInvocationSteps": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-      "bedrock:ListInvocations": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListInvocationSteps",
 })) as any;
@@ -4794,7 +4645,6 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock:ListSessions"] },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -4827,45 +4677,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["bedrock:CallWithBearerToken", "bedrock:ListTagsForResource"],
-    resources: {
-      "bedrock:ListTagsForResource": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent/${AgentId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint-optimization-invocation/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-invocation/${JobId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library-ingestion-job/${IngestionJobId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-copy-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-customization-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-evaluation-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-import-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}:${PromptVersion}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:retrieval-instruction/${RetrievalInstructionId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4900,7 +4711,6 @@ export const optimizePrompt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptimizePrompt",
-  iam: { actions: ["bedrock:OptimizePrompt"] },
   telemetry: TELEMETRY,
   span: "OptimizePrompt",
 }));
@@ -4947,14 +4757,6 @@ export const putInvocationStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInvocationStep",
-  iam: {
-    actions: ["bedrock:PutInvocationStep"],
-    resources: {
-      "bedrock:PutInvocationStep": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutInvocationStep",
 }));
@@ -4997,7 +4799,6 @@ export const rerank: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "Rerank",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "results" } as const,
-  iam: { actions: ["bedrock:Rerank"] },
   telemetry: TELEMETRY,
   span: "Rerank",
 })) as any;
@@ -5044,14 +4845,6 @@ export const retrieve: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "retrievalResults",
   } as const,
-  iam: {
-    actions: ["bedrock:Retrieve"],
-    resources: {
-      "bedrock:Retrieve": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Retrieve",
 })) as any;
@@ -5094,7 +4887,6 @@ export const retrieveAndGenerate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveAndGenerate",
-  iam: { actions: ["bedrock:RetrieveAndGenerate"] },
   telemetry: TELEMETRY,
   span: "RetrieveAndGenerate",
 }));
@@ -5141,7 +4933,6 @@ export const retrieveAndGenerateStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetrieveAndGenerateStream",
-  iam: { actions: ["bedrock:RetrieveAndGenerate"] },
   telemetry: TELEMETRY,
   span: "RetrieveAndGenerateStream",
 }));
@@ -5186,15 +4977,6 @@ export const startFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowExecution",
-  iam: {
-    actions: ["bedrock:StartFlowExecution"],
-    resources: {
-      "bedrock:StartFlowExecution": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartFlowExecution",
 }));
@@ -5233,16 +5015,6 @@ export const stopFlowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFlowExecution",
-  iam: {
-    actions: ["bedrock:StopFlowExecution"],
-    resources: {
-      "bedrock:StopFlowExecution": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}/execution/${FlowExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopFlowExecution",
 }));
@@ -5277,7 +5049,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5310,7 +5081,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5345,14 +5115,6 @@ export const updateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSession",
-  iam: {
-    actions: ["bedrock:UpdateSession"],
-    resources: {
-      "bedrock:UpdateSession": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSession",
 }));

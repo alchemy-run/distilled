@@ -563,14 +563,6 @@ export const batchCreateAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateAttendee",
-  iam: {
-    actions: ["chime:BatchCreateAttendee"],
-    resources: {
-      "chime:BatchCreateAttendee": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchCreateAttendee",
 }));
@@ -638,14 +630,6 @@ export const batchUpdateAttendeeCapabilitiesExcept: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAttendeeCapabilitiesExcept",
-  iam: {
-    actions: ["chime:BatchUpdateAttendeeCapabilitiesExcept"],
-    resources: {
-      "chime:BatchUpdateAttendeeCapabilitiesExcept": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchUpdateAttendeeCapabilitiesExcept",
 }));
@@ -689,15 +673,6 @@ export const createAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttendee",
-  iam: {
-    actions: ["chime:CreateAttendee", "chime:TagAttendee"],
-    resources: {
-      "chime:CreateAttendee": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}",
-      ],
-      "chime:TagAttendee": ["arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAttendee",
 }));
@@ -749,13 +724,6 @@ export const createMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeeting",
-  iam: {
-    actions: ["chime:CreateMeeting", "chime:TagMeeting", "chime:TagResource"],
-    resources: {
-      "chime:TagMeeting": ["arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}"],
-    },
-    conditional: { "chime:TagMeeting": "Tags", "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMeeting",
 }));
@@ -807,10 +775,6 @@ export const createMeetingWithAttendees: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMeetingWithAttendees",
-  iam: {
-    actions: ["chime:CreateMeetingWithAttendees", "chime:TagResource"],
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMeetingWithAttendees",
 }));
@@ -850,14 +814,6 @@ export const deleteAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttendee",
-  iam: {
-    actions: ["chime:DeleteAttendee"],
-    resources: {
-      "chime:DeleteAttendee": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAttendee",
 }));
@@ -897,12 +853,6 @@ export const deleteMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMeeting",
-  iam: {
-    actions: ["chime:DeleteMeeting"],
-    resources: {
-      "chime:DeleteMeeting": ["arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMeeting",
 }));
@@ -941,12 +891,6 @@ export const getAttendee: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttendee",
-  iam: {
-    actions: ["chime:GetAttendee"],
-    resources: {
-      "chime:GetAttendee": ["arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAttendee",
 }));
@@ -985,12 +929,6 @@ export const getMeeting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMeeting",
-  iam: {
-    actions: ["chime:GetMeeting"],
-    resources: {
-      "chime:GetMeeting": ["arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMeeting",
 }));
@@ -1035,12 +973,6 @@ export const listAttendees: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListAttendees"],
-    resources: {
-      "chime:ListAttendees": ["arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAttendees",
 })) as any;
@@ -1079,7 +1011,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["chime:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1134,7 +1065,6 @@ export const startMeetingTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMeetingTranscription",
-  iam: { actions: ["chime:StartMeetingTranscription"] },
   telemetry: TELEMETRY,
   span: "StartMeetingTranscription",
 }));
@@ -1182,7 +1112,6 @@ export const stopMeetingTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMeetingTranscription",
-  iam: { actions: ["chime:StopMeetingTranscription"] },
   telemetry: TELEMETRY,
   span: "StopMeetingTranscription",
 }));
@@ -1223,7 +1152,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["chime:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1277,7 +1205,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["chime:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1345,14 +1272,6 @@ export const updateAttendeeCapabilities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttendeeCapabilities",
-  iam: {
-    actions: ["chime:UpdateAttendeeCapabilities"],
-    resources: {
-      "chime:UpdateAttendeeCapabilities": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:meeting/${MeetingId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAttendeeCapabilities",
 }));

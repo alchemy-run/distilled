@@ -440,24 +440,6 @@ export const associateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateUser",
-  iam: {
-    actions: [
-      "license-manager-user-subscriptions:AssociateUser",
-      "license-manager-user-subscriptions:TagResource",
-    ],
-    resources: {
-      "license-manager-user-subscriptions:AssociateUser": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-      ],
-      "license-manager-user-subscriptions:TagResource": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:instance-user/${InstanceUserId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:license-server-endpoint/${LicenseServerEndpointId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:product-subscription/${ProductSubscriptionId}",
-      ],
-    },
-    conditional: { "license-manager-user-subscriptions:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "AssociateUser",
 }));
@@ -494,24 +476,6 @@ export const createLicenseServerEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLicenseServerEndpoint",
-  iam: {
-    actions: [
-      "license-manager-user-subscriptions:CreateLicenseServerEndpoint",
-      "license-manager-user-subscriptions:TagResource",
-    ],
-    resources: {
-      "license-manager-user-subscriptions:CreateLicenseServerEndpoint": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-      ],
-      "license-manager-user-subscriptions:TagResource": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:instance-user/${InstanceUserId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:license-server-endpoint/${LicenseServerEndpointId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:product-subscription/${ProductSubscriptionId}",
-      ],
-    },
-    conditional: { "license-manager-user-subscriptions:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLicenseServerEndpoint",
 }));
@@ -548,15 +512,6 @@ export const deleteLicenseServerEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLicenseServerEndpoint",
-  iam: {
-    actions: ["license-manager-user-subscriptions:DeleteLicenseServerEndpoint"],
-    resources: {
-      "license-manager-user-subscriptions:DeleteLicenseServerEndpoint": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:license-server-endpoint/${LicenseServerEndpointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLicenseServerEndpoint",
 }));
@@ -593,14 +548,6 @@ export const deregisterIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterIdentityProvider",
-  iam: {
-    actions: ["license-manager-user-subscriptions:DeregisterIdentityProvider"],
-    resources: {
-      "license-manager-user-subscriptions:DeregisterIdentityProvider": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterIdentityProvider",
 }));
@@ -637,15 +584,6 @@ export const disassociateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateUser",
-  iam: {
-    actions: ["license-manager-user-subscriptions:DisassociateUser"],
-    resources: {
-      "license-manager-user-subscriptions:DisassociateUser": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:instance-user/${InstanceUserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateUser",
 }));
@@ -689,7 +627,6 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     items: "IdentityProviderSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["license-manager-user-subscriptions:ListIdentityProviders"] },
   telemetry: TELEMETRY,
   span: "ListIdentityProviders",
 })) as any;
@@ -733,7 +670,6 @@ export const listInstances: API.PaginatedOperationMethod<
     items: "InstanceSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["license-manager-user-subscriptions:ListInstances"] },
   telemetry: TELEMETRY,
   span: "ListInstances",
 })) as any;
@@ -775,7 +711,6 @@ export const listLicenseServerEndpoints: API.PaginatedOperationMethod<
     items: "LicenseServerEndpoints",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["license-manager-user-subscriptions:ListLicenseServerEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListLicenseServerEndpoints",
 })) as any;
@@ -819,14 +754,6 @@ export const listProductSubscriptions: API.PaginatedOperationMethod<
     items: "ProductUserSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["license-manager-user-subscriptions:ListProductSubscriptions"],
-    resources: {
-      "license-manager-user-subscriptions:ListProductSubscriptions": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProductSubscriptions",
 })) as any;
@@ -851,17 +778,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["license-manager-user-subscriptions:ListTagsForResource"],
-    resources: {
-      "license-manager-user-subscriptions:ListTagsForResource": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:instance-user/${InstanceUserId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:license-server-endpoint/${LicenseServerEndpointId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:product-subscription/${ProductSubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -905,14 +821,6 @@ export const listUserAssociations: API.PaginatedOperationMethod<
     items: "InstanceUserSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["license-manager-user-subscriptions:ListUserAssociations"],
-    resources: {
-      "license-manager-user-subscriptions:ListUserAssociations": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUserAssociations",
 })) as any;
@@ -949,21 +857,6 @@ export const registerIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterIdentityProvider",
-  iam: {
-    actions: [
-      "license-manager-user-subscriptions:RegisterIdentityProvider",
-      "license-manager-user-subscriptions:TagResource",
-    ],
-    resources: {
-      "license-manager-user-subscriptions:TagResource": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:instance-user/${InstanceUserId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:license-server-endpoint/${LicenseServerEndpointId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:product-subscription/${ProductSubscriptionId}",
-      ],
-    },
-    conditional: { "license-manager-user-subscriptions:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "RegisterIdentityProvider",
 }));
@@ -1002,24 +895,6 @@ export const startProductSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProductSubscription",
-  iam: {
-    actions: [
-      "license-manager-user-subscriptions:StartProductSubscription",
-      "license-manager-user-subscriptions:TagResource",
-    ],
-    resources: {
-      "license-manager-user-subscriptions:StartProductSubscription": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-      ],
-      "license-manager-user-subscriptions:TagResource": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:instance-user/${InstanceUserId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:license-server-endpoint/${LicenseServerEndpointId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:product-subscription/${ProductSubscriptionId}",
-      ],
-    },
-    conditional: { "license-manager-user-subscriptions:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartProductSubscription",
 }));
@@ -1056,15 +931,6 @@ export const stopProductSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopProductSubscription",
-  iam: {
-    actions: ["license-manager-user-subscriptions:StopProductSubscription"],
-    resources: {
-      "license-manager-user-subscriptions:StopProductSubscription": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:product-subscription/${ProductSubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopProductSubscription",
 }));
@@ -1089,17 +955,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["license-manager-user-subscriptions:TagResource"],
-    resources: {
-      "license-manager-user-subscriptions:TagResource": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:instance-user/${InstanceUserId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:license-server-endpoint/${LicenseServerEndpointId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:product-subscription/${ProductSubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1120,17 +975,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["license-manager-user-subscriptions:UntagResource"],
-    resources: {
-      "license-manager-user-subscriptions:UntagResource": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:instance-user/${InstanceUserId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:license-server-endpoint/${LicenseServerEndpointId}",
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:product-subscription/${ProductSubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1161,14 +1005,6 @@ export const updateIdentityProviderSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityProviderSettings",
-  iam: {
-    actions: ["license-manager-user-subscriptions:UpdateIdentityProviderSettings"],
-    resources: {
-      "license-manager-user-subscriptions:UpdateIdentityProviderSettings": [
-        "arn:${Partition}:license-manager-user-subscriptions:${Region}:${Account}:identity-provider/${IdentityProviderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIdentityProviderSettings",
 }));

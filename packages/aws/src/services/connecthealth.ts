@@ -602,15 +602,6 @@ export const activateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateSubscription",
-  iam: {
-    actions: ["health-agent:ActivateSubscription"],
-    resources: {
-      "health-agent:ActivateSubscription": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/subscription/${SubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ActivateSubscription",
 }));
@@ -631,14 +622,6 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
-  iam: {
-    actions: ["health-agent:CreateDomain", "iam:PassRole", "health-agent:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "webAppSetupConfiguration.ehrRole",
-      "health-agent:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -671,15 +654,6 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
-  iam: {
-    actions: ["health-agent:CreateSubscription"],
-    resources: {
-      "health-agent:CreateSubscription": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/subscription/${SubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSubscription",
 }));
@@ -710,15 +684,6 @@ export const deactivateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateSubscription",
-  iam: {
-    actions: ["health-agent:DeactivateSubscription"],
-    resources: {
-      "health-agent:DeactivateSubscription": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/subscription/${SubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeactivateSubscription",
 }));
@@ -739,14 +704,6 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
-  iam: {
-    actions: ["health-agent:DeleteDomain"],
-    resources: {
-      "health-agent:DeleteDomain": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -767,14 +724,6 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
-  iam: {
-    actions: ["health-agent:GetDomain"],
-    resources: {
-      "health-agent:GetDomain": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDomain",
 }));
@@ -808,15 +757,6 @@ export const getMedicalScribeListeningSession: API.OperationMethod<
   retry: Retry,
   operationName: "GetMedicalScribeListeningSession",
   endpointHostPrefix: "streaming.",
-  iam: {
-    actions: ["health-agent:GetMedicalScribeListeningSession"],
-    resources: {
-      "health-agent:GetMedicalScribeListeningSession": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/subscription/${SubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMedicalScribeListeningSession",
 }));
@@ -850,15 +790,6 @@ export const getPatientInsightsJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetPatientInsightsJob",
   endpointHostPrefix: "runtime.",
-  iam: {
-    actions: ["health-agent:GetPatientInsightsJob"],
-    resources: {
-      "health-agent:GetPatientInsightsJob": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/patient-insights-job/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPatientInsightsJob",
 }));
@@ -889,15 +820,6 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
-  iam: {
-    actions: ["health-agent:GetSubscription"],
-    resources: {
-      "health-agent:GetSubscription": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/subscription/${SubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSubscription",
 }));
@@ -925,7 +847,6 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "domains",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["health-agent:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -963,14 +884,6 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["health-agent:ListSubscriptions"],
-    resources: {
-      "health-agent:ListSubscriptions": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSubscriptions",
 })) as any;
@@ -991,7 +904,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["health-agent:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1027,15 +939,6 @@ export const startMedicalScribeListeningSession: API.OperationMethod<
   retry: Retry,
   operationName: "StartMedicalScribeListeningSession",
   endpointHostPrefix: "streaming.",
-  iam: {
-    actions: ["health-agent:StartMedicalScribeListeningSession"],
-    resources: {
-      "health-agent:StartMedicalScribeListeningSession": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/subscription/${SubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMedicalScribeListeningSession",
 }));
@@ -1071,15 +974,6 @@ export const startPatientInsightsJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartPatientInsightsJob",
   endpointHostPrefix: "runtime.",
-  iam: {
-    actions: ["health-agent:StartPatientInsightsJob"],
-    resources: {
-      "health-agent:StartPatientInsightsJob": [
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:health-agent:${Region}:${Account}:domain/${DomainId}/patient-insights-job/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartPatientInsightsJob",
 }));
@@ -1100,7 +994,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["health-agent:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1121,7 +1014,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["health-agent:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

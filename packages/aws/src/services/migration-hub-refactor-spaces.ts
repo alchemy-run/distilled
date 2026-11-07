@@ -722,10 +722,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["refactor-spaces:CreateApplication", "refactor-spaces:TagResource"],
-    conditional: { "refactor-spaces:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -772,10 +768,6 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
-  iam: {
-    actions: ["refactor-spaces:CreateEnvironment", "refactor-spaces:TagResource"],
-    conditional: { "refactor-spaces:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -879,10 +871,6 @@ export const createRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoute",
-  iam: {
-    actions: ["refactor-spaces:CreateRoute", "refactor-spaces:TagResource"],
-    conditional: { "refactor-spaces:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRoute",
 }));
@@ -927,10 +915,6 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
-  iam: {
-    actions: ["refactor-spaces:CreateService", "refactor-spaces:TagResource"],
-    conditional: { "refactor-spaces:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
@@ -966,14 +950,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["refactor-spaces:DeleteApplication"],
-    resources: {
-      "refactor-spaces:DeleteApplication": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -1009,14 +985,6 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
-  iam: {
-    actions: ["refactor-spaces:DeleteEnvironment"],
-    resources: {
-      "refactor-spaces:DeleteEnvironment": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -1049,7 +1017,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: { actions: ["refactor-spaces:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1084,14 +1051,6 @@ export const deleteRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoute",
-  iam: {
-    actions: ["refactor-spaces:DeleteRoute"],
-    resources: {
-      "refactor-spaces:DeleteRoute": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}/route/${RouteId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRoute",
 }));
@@ -1126,14 +1085,6 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
-  iam: {
-    actions: ["refactor-spaces:DeleteService"],
-    resources: {
-      "refactor-spaces:DeleteService": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}/service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteService",
 }));
@@ -1166,14 +1117,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["refactor-spaces:GetApplication"],
-    resources: {
-      "refactor-spaces:GetApplication": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -1206,14 +1149,6 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
-  iam: {
-    actions: ["refactor-spaces:GetEnvironment"],
-    resources: {
-      "refactor-spaces:GetEnvironment": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -1246,7 +1181,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: { actions: ["refactor-spaces:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -1279,14 +1213,6 @@ export const getRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRoute",
-  iam: {
-    actions: ["refactor-spaces:GetRoute"],
-    resources: {
-      "refactor-spaces:GetRoute": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}/route/${RouteId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRoute",
 }));
@@ -1319,14 +1245,6 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
-  iam: {
-    actions: ["refactor-spaces:GetService"],
-    resources: {
-      "refactor-spaces:GetService": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}/service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetService",
 }));
@@ -1370,14 +1288,6 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "ApplicationSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["refactor-spaces:ListApplications"],
-    resources: {
-      "refactor-spaces:ListApplications": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -1418,7 +1328,6 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "EnvironmentSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["refactor-spaces:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -1459,14 +1368,6 @@ export const listEnvironmentVpcs: API.PaginatedOperationMethod<
     items: "EnvironmentVpcList",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["refactor-spaces:ListEnvironmentVpcs"],
-    resources: {
-      "refactor-spaces:ListEnvironmentVpcs": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEnvironmentVpcs",
 })) as any;
@@ -1510,14 +1411,6 @@ export const listRoutes: API.PaginatedOperationMethod<
     items: "RouteSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["refactor-spaces:ListRoutes"],
-    resources: {
-      "refactor-spaces:ListRoutes": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}/route/${RouteId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRoutes",
 })) as any;
@@ -1561,14 +1454,6 @@ export const listServices: API.PaginatedOperationMethod<
     items: "ServiceSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["refactor-spaces:ListServices"],
-    resources: {
-      "refactor-spaces:ListServices": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -1594,7 +1479,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["refactor-spaces:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1632,7 +1516,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: { actions: ["refactor-spaces:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1662,7 +1545,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["refactor-spaces:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1689,7 +1571,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["refactor-spaces:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1722,14 +1603,6 @@ export const updateRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoute",
-  iam: {
-    actions: ["refactor-spaces:UpdateRoute"],
-    resources: {
-      "refactor-spaces:UpdateRoute": [
-        "arn:${Partition}:refactor-spaces:${Region}:${Account}:environment/${EnvironmentId}/application/${ApplicationId}/route/${RouteId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRoute",
 }));

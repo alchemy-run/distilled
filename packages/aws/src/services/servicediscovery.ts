@@ -734,10 +734,6 @@ export const createHttpNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHttpNamespace",
-  iam: {
-    actions: ["servicediscovery:CreateHttpNamespace", "servicediscovery:TagResource"],
-    conditional: { "servicediscovery:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHttpNamespace",
 }));
@@ -777,10 +773,6 @@ export const createPrivateDnsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateDnsNamespace",
-  iam: {
-    actions: ["servicediscovery:CreatePrivateDnsNamespace", "servicediscovery:TagResource"],
-    conditional: { "servicediscovery:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePrivateDnsNamespace",
 }));
@@ -821,10 +813,6 @@ export const createPublicDnsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicDnsNamespace",
-  iam: {
-    actions: ["servicediscovery:CreatePublicDnsNamespace", "servicediscovery:TagResource"],
-    conditional: { "servicediscovery:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePublicDnsNamespace",
 }));
@@ -879,16 +867,6 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
-  iam: {
-    actions: ["servicediscovery:CreateService", "servicediscovery:TagResource"],
-    resources: {
-      "servicediscovery:CreateService": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:namespace/${NamespaceId}",
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-    conditional: { "servicediscovery:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
@@ -915,14 +893,6 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
-  iam: {
-    actions: ["servicediscovery:DeleteNamespace"],
-    resources: {
-      "servicediscovery:DeleteNamespace": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:namespace/${NamespaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNamespace",
 }));
@@ -944,14 +914,6 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
-  iam: {
-    actions: ["servicediscovery:DeleteService"],
-    resources: {
-      "servicediscovery:DeleteService": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteService",
 }));
@@ -972,14 +934,6 @@ export const deleteServiceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceAttributes",
-  iam: {
-    actions: ["servicediscovery:DeleteServiceAttributes"],
-    resources: {
-      "servicediscovery:DeleteServiceAttributes": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServiceAttributes",
 }));
@@ -1007,14 +961,6 @@ export const deregisterInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterInstance",
-  iam: {
-    actions: ["servicediscovery:DeregisterInstance"],
-    resources: {
-      "servicediscovery:DeregisterInstance": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterInstance",
 }));
@@ -1045,15 +991,6 @@ export const discoverInstances: API.OperationMethod<
   retry: Retry,
   operationName: "DiscoverInstances",
   endpointHostPrefix: "data-",
-  iam: {
-    actions: ["servicediscovery:DiscoverInstances"],
-    resources: {
-      "servicediscovery:DiscoverInstances": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:namespace/${NamespaceId}",
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DiscoverInstances",
 }));
@@ -1080,15 +1017,6 @@ export const discoverInstancesRevision: API.OperationMethod<
   retry: Retry,
   operationName: "DiscoverInstancesRevision",
   endpointHostPrefix: "data-",
-  iam: {
-    actions: ["servicediscovery:DiscoverInstancesRevision"],
-    resources: {
-      "servicediscovery:DiscoverInstancesRevision": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:namespace/${NamespaceId}",
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DiscoverInstancesRevision",
 }));
@@ -1109,14 +1037,6 @@ export const getInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstance",
-  iam: {
-    actions: ["servicediscovery:GetInstance"],
-    resources: {
-      "servicediscovery:GetInstance": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetInstance",
 }));
@@ -1152,14 +1072,6 @@ export const getInstancesHealthStatus: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["servicediscovery:GetInstancesHealthStatus"],
-    resources: {
-      "servicediscovery:GetInstancesHealthStatus": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetInstancesHealthStatus",
 })) as any;
@@ -1180,14 +1092,6 @@ export const getNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespace",
-  iam: {
-    actions: ["servicediscovery:GetNamespace"],
-    resources: {
-      "servicediscovery:GetNamespace": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:namespace/${NamespaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetNamespace",
 }));
@@ -1211,7 +1115,6 @@ export const getOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOperation",
-  iam: { actions: ["servicediscovery:GetOperation"] },
   telemetry: TELEMETRY,
   span: "GetOperation",
 }));
@@ -1232,14 +1135,6 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
-  iam: {
-    actions: ["servicediscovery:GetService"],
-    resources: {
-      "servicediscovery:GetService": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetService",
 }));
@@ -1260,14 +1155,6 @@ export const getServiceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceAttributes",
-  iam: {
-    actions: ["servicediscovery:GetServiceAttributes"],
-    resources: {
-      "servicediscovery:GetServiceAttributes": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetServiceAttributes",
 }));
@@ -1295,14 +1182,6 @@ export const listInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["servicediscovery:ListInstances"],
-    resources: {
-      "servicediscovery:ListInstances": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListInstances",
 })) as any;
@@ -1329,7 +1208,6 @@ export const listNamespaces: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["servicediscovery:ListNamespaces"] },
   telemetry: TELEMETRY,
   span: "ListNamespaces",
 })) as any;
@@ -1356,7 +1234,6 @@ export const listOperations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["servicediscovery:ListOperations"] },
   telemetry: TELEMETRY,
   span: "ListOperations",
 })) as any;
@@ -1384,7 +1261,6 @@ export const listServices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["servicediscovery:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -1405,7 +1281,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["servicediscovery:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1464,14 +1339,6 @@ export const registerInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterInstance",
-  iam: {
-    actions: ["servicediscovery:RegisterInstance"],
-    resources: {
-      "servicediscovery:RegisterInstance": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterInstance",
 }));
@@ -1496,7 +1363,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["servicediscovery:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1517,7 +1383,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["servicediscovery:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1544,14 +1409,6 @@ export const updateHttpNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHttpNamespace",
-  iam: {
-    actions: ["servicediscovery:UpdateHttpNamespace"],
-    resources: {
-      "servicediscovery:UpdateHttpNamespace": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:namespace/${NamespaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHttpNamespace",
 }));
@@ -1585,14 +1442,6 @@ export const updateInstanceCustomHealthStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInstanceCustomHealthStatus",
-  iam: {
-    actions: ["servicediscovery:UpdateInstanceCustomHealthStatus"],
-    resources: {
-      "servicediscovery:UpdateInstanceCustomHealthStatus": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateInstanceCustomHealthStatus",
 }));
@@ -1619,14 +1468,6 @@ export const updatePrivateDnsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivateDnsNamespace",
-  iam: {
-    actions: ["servicediscovery:UpdatePrivateDnsNamespace"],
-    resources: {
-      "servicediscovery:UpdatePrivateDnsNamespace": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:namespace/${NamespaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePrivateDnsNamespace",
 }));
@@ -1652,14 +1493,6 @@ export const updatePublicDnsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePublicDnsNamespace",
-  iam: {
-    actions: ["servicediscovery:UpdatePublicDnsNamespace"],
-    resources: {
-      "servicediscovery:UpdatePublicDnsNamespace": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:namespace/${NamespaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePublicDnsNamespace",
 }));
@@ -1708,14 +1541,6 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
-  iam: {
-    actions: ["servicediscovery:UpdateService"],
-    resources: {
-      "servicediscovery:UpdateService": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateService",
 }));
@@ -1740,14 +1565,6 @@ export const updateServiceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAttributes",
-  iam: {
-    actions: ["servicediscovery:UpdateServiceAttributes"],
-    resources: {
-      "servicediscovery:UpdateServiceAttributes": [
-        "arn:${Partition}:servicediscovery:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceAttributes",
 }));

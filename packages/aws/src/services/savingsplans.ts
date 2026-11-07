@@ -554,15 +554,6 @@ export const createSavingsPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSavingsPlan",
-  iam: {
-    actions: ["savingsplans:CreateSavingsPlan", "savingsplans:TagResource"],
-    resources: {
-      "savingsplans:TagResource": [
-        "arn:${Partition}:savingsplans::${Account}:savingsplan/${ResourceId}",
-      ],
-    },
-    conditional: { "savingsplans:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSavingsPlan",
 }));
@@ -593,14 +584,6 @@ export const deleteQueuedSavingsPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueuedSavingsPlan",
-  iam: {
-    actions: ["savingsplans:DeleteQueuedSavingsPlan"],
-    resources: {
-      "savingsplans:DeleteQueuedSavingsPlan": [
-        "arn:${Partition}:savingsplans::${Account}:savingsplan/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteQueuedSavingsPlan",
 }));
@@ -625,14 +608,6 @@ export const describeSavingsPlanRates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSavingsPlanRates",
-  iam: {
-    actions: ["savingsplans:DescribeSavingsPlanRates"],
-    resources: {
-      "savingsplans:DescribeSavingsPlanRates": [
-        "arn:${Partition}:savingsplans::${Account}:savingsplan/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSavingsPlanRates",
 }));
@@ -656,14 +631,6 @@ export const describeSavingsPlans: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSavingsPlans",
-  iam: {
-    actions: ["savingsplans:DescribeSavingsPlans"],
-    resources: {
-      "savingsplans:DescribeSavingsPlans": [
-        "arn:${Partition}:savingsplans::${Account}:savingsplan/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSavingsPlans",
 }));
@@ -687,7 +654,6 @@ export const describeSavingsPlansOfferingRates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSavingsPlansOfferingRates",
-  iam: { actions: ["savingsplans:DescribeSavingsPlansOfferingRates"] },
   telemetry: TELEMETRY,
   span: "DescribeSavingsPlansOfferingRates",
 }));
@@ -711,7 +677,6 @@ export const describeSavingsPlansOfferings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSavingsPlansOfferings",
-  iam: { actions: ["savingsplans:DescribeSavingsPlansOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeSavingsPlansOfferings",
 }));
@@ -736,14 +701,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["savingsplans:ListTagsForResource"],
-    resources: {
-      "savingsplans:ListTagsForResource": [
-        "arn:${Partition}:savingsplans::${Account}:savingsplan/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -774,14 +731,6 @@ export const returnSavingsPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReturnSavingsPlan",
-  iam: {
-    actions: ["savingsplans:ReturnSavingsPlan"],
-    resources: {
-      "savingsplans:ReturnSavingsPlan": [
-        "arn:${Partition}:savingsplans::${Account}:savingsplan/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReturnSavingsPlan",
 }));
@@ -812,14 +761,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["savingsplans:TagResource"],
-    resources: {
-      "savingsplans:TagResource": [
-        "arn:${Partition}:savingsplans::${Account}:savingsplan/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -844,14 +785,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["savingsplans:UntagResource"],
-    resources: {
-      "savingsplans:UntagResource": [
-        "arn:${Partition}:savingsplans::${Account}:savingsplan/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

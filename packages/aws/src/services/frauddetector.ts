@@ -1302,10 +1302,6 @@ export const batchCreateVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateVariable",
-  iam: {
-    actions: ["frauddetector:BatchCreateVariable", "frauddetector:TagResource"],
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "BatchCreateVariable",
 }));
@@ -1336,14 +1332,6 @@ export const batchGetVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetVariable",
-  iam: {
-    actions: ["frauddetector:BatchGetVariable"],
-    resources: {
-      "frauddetector:BatchGetVariable": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:variable/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetVariable",
 }));
@@ -1376,14 +1364,6 @@ export const cancelBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBatchImportJob",
-  iam: {
-    actions: ["frauddetector:CancelBatchImportJob"],
-    resources: {
-      "frauddetector:CancelBatchImportJob": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:batch-import/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelBatchImportJob",
 }));
@@ -1416,14 +1396,6 @@ export const cancelBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBatchPredictionJob",
-  iam: {
-    actions: ["frauddetector:CancelBatchPredictionJob"],
-    resources: {
-      "frauddetector:CancelBatchPredictionJob": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:batch-prediction/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelBatchPredictionJob",
 }));
@@ -1456,17 +1428,6 @@ export const createBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchImportJob",
-  iam: {
-    actions: ["frauddetector:CreateBatchImportJob", "iam:PassRole", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:CreateBatchImportJob": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:batch-import/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBatchImportJob",
 }));
@@ -1499,23 +1460,6 @@ export const createBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchPredictionJob",
-  iam: {
-    actions: [
-      "frauddetector:CreateBatchPredictionJob",
-      "iam:PassRole",
-      "frauddetector:TagResource",
-    ],
-    resources: {
-      "frauddetector:CreateBatchPredictionJob": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:batch-prediction/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector-version/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBatchPredictionJob",
 }));
@@ -1548,10 +1492,6 @@ export const createDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDetectorVersion",
-  iam: {
-    actions: ["frauddetector:CreateDetectorVersion", "frauddetector:TagResource"],
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDetectorVersion",
 }));
@@ -1585,10 +1525,6 @@ export const createList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateList",
-  iam: {
-    actions: ["frauddetector:CreateList", "frauddetector:TagResource"],
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateList",
 }));
@@ -1619,16 +1555,6 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
-  iam: {
-    actions: ["frauddetector:CreateModel", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:CreateModel": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:model/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateModel",
 }));
@@ -1661,19 +1587,6 @@ export const createModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelVersion",
-  iam: {
-    actions: ["frauddetector:CreateModelVersion", "iam:PassRole", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:CreateModelVersion": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:model/${ResourcePath}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "externalEventsDetail.dataAccessRoleArn",
-      "frauddetector:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelVersion",
 }));
@@ -1704,15 +1617,6 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
-  iam: {
-    actions: ["frauddetector:CreateRule", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:CreateRule": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRule",
 }));
@@ -1743,10 +1647,6 @@ export const createVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVariable",
-  iam: {
-    actions: ["frauddetector:CreateVariable", "frauddetector:TagResource"],
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVariable",
 }));
@@ -1777,14 +1677,6 @@ export const deleteBatchImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchImportJob",
-  iam: {
-    actions: ["frauddetector:DeleteBatchImportJob"],
-    resources: {
-      "frauddetector:DeleteBatchImportJob": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:batch-import/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBatchImportJob",
 }));
@@ -1815,14 +1707,6 @@ export const deleteBatchPredictionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBatchPredictionJob",
-  iam: {
-    actions: ["frauddetector:DeleteBatchPredictionJob"],
-    resources: {
-      "frauddetector:DeleteBatchPredictionJob": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:batch-prediction/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBatchPredictionJob",
 }));
@@ -1857,14 +1741,6 @@ export const deleteDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDetector",
-  iam: {
-    actions: ["frauddetector:DeleteDetector"],
-    resources: {
-      "frauddetector:DeleteDetector": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDetector",
 }));
@@ -1901,14 +1777,6 @@ export const deleteDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDetectorVersion",
-  iam: {
-    actions: ["frauddetector:DeleteDetectorVersion"],
-    resources: {
-      "frauddetector:DeleteDetectorVersion": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector-version/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDetectorVersion",
 }));
@@ -1945,14 +1813,6 @@ export const deleteEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntityType",
-  iam: {
-    actions: ["frauddetector:DeleteEntityType"],
-    resources: {
-      "frauddetector:DeleteEntityType": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:entity-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEntityType",
 }));
@@ -1986,14 +1846,6 @@ export const deleteEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvent",
-  iam: {
-    actions: ["frauddetector:DeleteEvent"],
-    resources: {
-      "frauddetector:DeleteEvent": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEvent",
 }));
@@ -2028,14 +1880,6 @@ export const deleteEventsByEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventsByEventType",
-  iam: {
-    actions: ["frauddetector:DeleteEventsByEventType"],
-    resources: {
-      "frauddetector:DeleteEventsByEventType": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventsByEventType",
 }));
@@ -2072,14 +1916,6 @@ export const deleteEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventType",
-  iam: {
-    actions: ["frauddetector:DeleteEventType"],
-    resources: {
-      "frauddetector:DeleteEventType": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventType",
 }));
@@ -2114,14 +1950,6 @@ export const deleteExternalModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExternalModel",
-  iam: {
-    actions: ["frauddetector:DeleteExternalModel"],
-    resources: {
-      "frauddetector:DeleteExternalModel": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:external-model/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExternalModel",
 }));
@@ -2153,14 +1981,6 @@ export const deleteLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLabel",
-  iam: {
-    actions: ["frauddetector:DeleteLabel"],
-    resources: {
-      "frauddetector:DeleteLabel": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:label/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLabel",
 }));
@@ -2195,14 +2015,6 @@ export const deleteList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteList",
-  iam: {
-    actions: ["frauddetector:DeleteList"],
-    resources: {
-      "frauddetector:DeleteList": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:list/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteList",
 }));
@@ -2239,14 +2051,6 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
-  iam: {
-    actions: ["frauddetector:DeleteModel"],
-    resources: {
-      "frauddetector:DeleteModel": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:model/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModel",
 }));
@@ -2283,14 +2087,6 @@ export const deleteModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelVersion",
-  iam: {
-    actions: ["frauddetector:DeleteModelVersion"],
-    resources: {
-      "frauddetector:DeleteModelVersion": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:model-version/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelVersion",
 }));
@@ -2327,14 +2123,6 @@ export const deleteOutcome: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutcome",
-  iam: {
-    actions: ["frauddetector:DeleteOutcome"],
-    resources: {
-      "frauddetector:DeleteOutcome": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:outcome/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOutcome",
 }));
@@ -2369,14 +2157,6 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
-  iam: {
-    actions: ["frauddetector:DeleteRule"],
-    resources: {
-      "frauddetector:DeleteRule": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:rule/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -2415,14 +2195,6 @@ export const deleteVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVariable",
-  iam: {
-    actions: ["frauddetector:DeleteVariable"],
-    resources: {
-      "frauddetector:DeleteVariable": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:variable/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVariable",
 }));
@@ -2455,14 +2227,6 @@ export const describeDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDetector",
-  iam: {
-    actions: ["frauddetector:DescribeDetector"],
-    resources: {
-      "frauddetector:DescribeDetector": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDetector",
 }));
@@ -2501,7 +2265,6 @@ export const describeModelVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:DescribeModelVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeModelVersions",
 })) as any;
@@ -2543,7 +2306,6 @@ export const getBatchImportJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetBatchImportJobs"] },
   telemetry: TELEMETRY,
   span: "GetBatchImportJobs",
 })) as any;
@@ -2582,7 +2344,6 @@ export const getBatchPredictionJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetBatchPredictionJobs"] },
   telemetry: TELEMETRY,
   span: "GetBatchPredictionJobs",
 })) as any;
@@ -2615,14 +2376,6 @@ export const getDeleteEventsByEventTypeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeleteEventsByEventTypeStatus",
-  iam: {
-    actions: ["frauddetector:GetDeleteEventsByEventTypeStatus"],
-    resources: {
-      "frauddetector:GetDeleteEventsByEventTypeStatus": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeleteEventsByEventTypeStatus",
 }));
@@ -2666,7 +2419,6 @@ export const getDetectors: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetDetectors"] },
   telemetry: TELEMETRY,
   span: "GetDetectors",
 })) as any;
@@ -2699,14 +2451,6 @@ export const getDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDetectorVersion",
-  iam: {
-    actions: ["frauddetector:GetDetectorVersion"],
-    resources: {
-      "frauddetector:GetDetectorVersion": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector-version/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDetectorVersion",
 }));
@@ -2750,7 +2494,6 @@ export const getEntityTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetEntityTypes"] },
   telemetry: TELEMETRY,
   span: "GetEntityTypes",
 })) as any;
@@ -2783,14 +2526,6 @@ export const getEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvent",
-  iam: {
-    actions: ["frauddetector:GetEvent"],
-    resources: {
-      "frauddetector:GetEvent": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEvent",
 }));
@@ -2827,16 +2562,6 @@ export const getEventPrediction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventPrediction",
-  iam: {
-    actions: ["frauddetector:GetEventPrediction"],
-    resources: {
-      "frauddetector:GetEventPrediction": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector-version/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventPrediction",
 }));
@@ -2869,16 +2594,6 @@ export const getEventPredictionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventPredictionMetadata",
-  iam: {
-    actions: ["frauddetector:GetEventPredictionMetadata"],
-    resources: {
-      "frauddetector:GetEventPredictionMetadata": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector-version/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventPredictionMetadata",
 }));
@@ -2922,7 +2637,6 @@ export const getEventTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetEventTypes"] },
   telemetry: TELEMETRY,
   span: "GetEventTypes",
 })) as any;
@@ -2966,7 +2680,6 @@ export const getExternalModels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetExternalModels"] },
   telemetry: TELEMETRY,
   span: "GetExternalModels",
 })) as any;
@@ -2997,7 +2710,6 @@ export const getKMSEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKMSEncryptionKey",
-  iam: { actions: ["frauddetector:GetKMSEncryptionKey"] },
   telemetry: TELEMETRY,
   span: "GetKMSEncryptionKey",
 }));
@@ -3041,7 +2753,6 @@ export const getLabels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetLabels"] },
   telemetry: TELEMETRY,
   span: "GetLabels",
 })) as any;
@@ -3080,14 +2791,6 @@ export const getListElements: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["frauddetector:GetListElements"],
-    resources: {
-      "frauddetector:GetListElements": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:list/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetListElements",
 })) as any;
@@ -3126,7 +2829,6 @@ export const getListsMetadata: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetListsMetadata"] },
   telemetry: TELEMETRY,
   span: "GetListsMetadata",
 })) as any;
@@ -3172,7 +2874,6 @@ export const getModels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetModels"] },
   telemetry: TELEMETRY,
   span: "GetModels",
 })) as any;
@@ -3205,14 +2906,6 @@ export const getModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelVersion",
-  iam: {
-    actions: ["frauddetector:GetModelVersion"],
-    resources: {
-      "frauddetector:GetModelVersion": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:model-version/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetModelVersion",
 }));
@@ -3256,7 +2949,6 @@ export const getOutcomes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetOutcomes"] },
   telemetry: TELEMETRY,
   span: "GetOutcomes",
 })) as any;
@@ -3297,7 +2989,6 @@ export const getRules: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetRules"] },
   telemetry: TELEMETRY,
   span: "GetRules",
 })) as any;
@@ -3341,7 +3032,6 @@ export const getVariables: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:GetVariables"] },
   telemetry: TELEMETRY,
   span: "GetVariables",
 })) as any;
@@ -3389,7 +3079,6 @@ export const listEventPredictions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:ListEventPredictions"] },
   telemetry: TELEMETRY,
   span: "ListEventPredictions",
 })) as any;
@@ -3428,7 +3117,6 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["frauddetector:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -3461,16 +3149,6 @@ export const putDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDetector",
-  iam: {
-    actions: ["frauddetector:PutDetector", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:PutDetector": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutDetector",
 }));
@@ -3503,15 +3181,6 @@ export const putEntityType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEntityType",
-  iam: {
-    actions: ["frauddetector:PutEntityType", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:PutEntityType": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:entity-type/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutEntityType",
 }));
@@ -3544,15 +3213,6 @@ export const putEventType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventType",
-  iam: {
-    actions: ["frauddetector:PutEventType", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:PutEventType": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutEventType",
 }));
@@ -3585,17 +3245,6 @@ export const putExternalModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutExternalModel",
-  iam: {
-    actions: ["iam:PassRole", "frauddetector:PutExternalModel", "frauddetector:TagResource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "frauddetector:PutExternalModel": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-        "arn:${Partition}:frauddetector:${Region}:${Account}:external-model/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutExternalModel",
 }));
@@ -3630,7 +3279,6 @@ export const putKMSEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKMSEncryptionKey",
-  iam: { actions: ["frauddetector:PutKMSEncryptionKey"] },
   telemetry: TELEMETRY,
   span: "PutKMSEncryptionKey",
 }));
@@ -3663,15 +3311,6 @@ export const putLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLabel",
-  iam: {
-    actions: ["frauddetector:PutLabel", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:PutLabel": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:label/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutLabel",
 }));
@@ -3704,15 +3343,6 @@ export const putOutcome: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOutcome",
-  iam: {
-    actions: ["frauddetector:PutOutcome", "frauddetector:TagResource"],
-    resources: {
-      "frauddetector:PutOutcome": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:outcome/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutOutcome",
 }));
@@ -3747,14 +3377,6 @@ export const sendEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendEvent",
-  iam: {
-    actions: ["frauddetector:SendEvent"],
-    resources: {
-      "frauddetector:SendEvent": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendEvent",
 }));
@@ -3785,7 +3407,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["frauddetector:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3816,7 +3437,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["frauddetector:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3851,7 +3471,6 @@ export const updateDetectorVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersion",
-  iam: { actions: ["frauddetector:UpdateDetectorVersion"] },
   telemetry: TELEMETRY,
   span: "UpdateDetectorVersion",
 }));
@@ -3885,14 +3504,6 @@ export const updateDetectorVersionMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersionMetadata",
-  iam: {
-    actions: ["frauddetector:UpdateDetectorVersionMetadata"],
-    resources: {
-      "frauddetector:UpdateDetectorVersionMetadata": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector-version/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDetectorVersionMetadata",
 }));
@@ -3928,14 +3539,6 @@ export const updateDetectorVersionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDetectorVersionStatus",
-  iam: {
-    actions: ["frauddetector:UpdateDetectorVersionStatus"],
-    resources: {
-      "frauddetector:UpdateDetectorVersionStatus": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:detector-version/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDetectorVersionStatus",
 }));
@@ -3970,14 +3573,6 @@ export const updateEventLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventLabel",
-  iam: {
-    actions: ["frauddetector:UpdateEventLabel"],
-    resources: {
-      "frauddetector:UpdateEventLabel": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:event-type/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEventLabel",
 }));
@@ -4012,14 +3607,6 @@ export const updateList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateList",
-  iam: {
-    actions: ["frauddetector:UpdateList"],
-    resources: {
-      "frauddetector:UpdateList": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:list/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateList",
 }));
@@ -4054,14 +3641,6 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
-  iam: {
-    actions: ["frauddetector:UpdateModel"],
-    resources: {
-      "frauddetector:UpdateModel": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:model/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateModel",
 }));
@@ -4096,14 +3675,6 @@ export const updateModelVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelVersion",
-  iam: {
-    actions: ["frauddetector:UpdateModelVersion"],
-    resources: {
-      "frauddetector:UpdateModelVersion": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:model/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateModelVersion",
 }));
@@ -4146,14 +3717,6 @@ export const updateModelVersionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelVersionStatus",
-  iam: {
-    actions: ["frauddetector:UpdateModelVersionStatus"],
-    resources: {
-      "frauddetector:UpdateModelVersionStatus": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:model-version/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateModelVersionStatus",
 }));
@@ -4188,14 +3751,6 @@ export const updateRuleMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleMetadata",
-  iam: {
-    actions: ["frauddetector:UpdateRuleMetadata"],
-    resources: {
-      "frauddetector:UpdateRuleMetadata": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:rule/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRuleMetadata",
 }));
@@ -4230,15 +3785,6 @@ export const updateRuleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleVersion",
-  iam: {
-    actions: ["frauddetector:TagResource", "frauddetector:UpdateRuleVersion"],
-    resources: {
-      "frauddetector:UpdateRuleVersion": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:rule/${ResourcePath}",
-      ],
-    },
-    conditional: { "frauddetector:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRuleVersion",
 }));
@@ -4273,14 +3819,6 @@ export const updateVariable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVariable",
-  iam: {
-    actions: ["frauddetector:UpdateVariable"],
-    resources: {
-      "frauddetector:UpdateVariable": [
-        "arn:${Partition}:frauddetector:${Region}:${Account}:variable/${ResourcePath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVariable",
 }));

@@ -1415,14 +1415,6 @@ export const associatePhoneNumbersWithVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumbersWithVoiceConnector",
-  iam: {
-    actions: ["chime:AssociatePhoneNumbersWithVoiceConnector"],
-    resources: {
-      "chime:AssociatePhoneNumbersWithVoiceConnector": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociatePhoneNumbersWithVoiceConnector",
 }));
@@ -1461,7 +1453,6 @@ export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePhoneNumbersWithVoiceConnectorGroup",
-  iam: { actions: ["chime:AssociatePhoneNumbersWithVoiceConnectorGroup"] },
   telemetry: TELEMETRY,
   span: "AssociatePhoneNumbersWithVoiceConnectorGroup",
 }));
@@ -1502,7 +1493,6 @@ export const batchDeletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePhoneNumber",
-  iam: { actions: ["chime:BatchDeletePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "BatchDeletePhoneNumber",
 }));
@@ -1542,7 +1532,6 @@ export const batchUpdatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdatePhoneNumber",
-  iam: { actions: ["chime:BatchUpdatePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "BatchUpdatePhoneNumber",
 }));
@@ -1581,7 +1570,6 @@ export const createPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePhoneNumberOrder",
-  iam: { actions: ["chime:CreatePhoneNumberOrder"] },
   telemetry: TELEMETRY,
   span: "CreatePhoneNumberOrder",
 }));
@@ -1621,14 +1609,6 @@ export const createProxySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxySession",
-  iam: {
-    actions: ["chime:CreateProxySession"],
-    resources: {
-      "chime:CreateProxySession": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateProxySession",
 }));
@@ -1670,10 +1650,6 @@ export const createSipMediaApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSipMediaApplication",
-  iam: {
-    actions: ["chime:CreateSipMediaApplication", "chime:TagResource"],
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSipMediaApplication",
 }));
@@ -1714,14 +1690,6 @@ export const createSipMediaApplicationCall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSipMediaApplicationCall",
-  iam: {
-    actions: ["chime:CreateSipMediaApplicationCall"],
-    resources: {
-      "chime:CreateSipMediaApplicationCall": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSipMediaApplicationCall",
 }));
@@ -1763,7 +1731,6 @@ export const createSipRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSipRule",
-  iam: { actions: ["chime:CreateSipRule"] },
   telemetry: TELEMETRY,
   span: "CreateSipRule",
 }));
@@ -1805,15 +1772,6 @@ export const createVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceConnector",
-  iam: {
-    actions: [
-      "chime:CreateConnectAnalyticsConnector",
-      "chime:CreateConnectCallTransferConnector",
-      "chime:CreateVoiceConnector",
-      "chime:TagResource",
-    ],
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVoiceConnector",
 }));
@@ -1860,7 +1818,6 @@ export const createVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceConnectorGroup",
-  iam: { actions: ["chime:CreateVoiceConnectorGroup"] },
   telemetry: TELEMETRY,
   span: "CreateVoiceConnectorGroup",
 }));
@@ -1911,7 +1868,6 @@ export const createVoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceProfile",
-  iam: { actions: ["chime:CreateVoiceProfile"] },
   telemetry: TELEMETRY,
   span: "CreateVoiceProfile",
 }));
@@ -1958,10 +1914,6 @@ export const createVoiceProfileDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceProfileDomain",
-  iam: {
-    actions: ["chime:CreateVoiceProfileDomain", "chime:TagResource"],
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVoiceProfileDomain",
 }));
@@ -2005,7 +1957,6 @@ export const deletePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePhoneNumber",
-  iam: { actions: ["chime:DeletePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "DeletePhoneNumber",
 }));
@@ -2045,14 +1996,6 @@ export const deleteProxySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxySession",
-  iam: {
-    actions: ["chime:DeleteProxySession"],
-    resources: {
-      "chime:DeleteProxySession": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProxySession",
 }));
@@ -2091,14 +2034,6 @@ export const deleteSipMediaApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSipMediaApplication",
-  iam: {
-    actions: ["chime:DeleteSipMediaApplication"],
-    resources: {
-      "chime:DeleteSipMediaApplication": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSipMediaApplication",
 }));
@@ -2137,7 +2072,6 @@ export const deleteSipRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSipRule",
-  iam: { actions: ["chime:DeleteSipRule"] },
   telemetry: TELEMETRY,
   span: "DeleteSipRule",
 }));
@@ -2178,14 +2112,6 @@ export const deleteVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnector",
-  iam: {
-    actions: ["chime:DeleteVoiceConnector"],
-    resources: {
-      "chime:DeleteVoiceConnector": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnector",
 }));
@@ -2231,14 +2157,6 @@ export const deleteVoiceConnectorEmergencyCallingConfiguration: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorEmergencyCallingConfiguration",
-  iam: {
-    actions: ["chime:DeleteVoiceConnectorEmergencyCallingConfiguration"],
-    resources: {
-      "chime:DeleteVoiceConnectorEmergencyCallingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnectorEmergencyCallingConfiguration",
 }));
@@ -2283,14 +2201,6 @@ export const deleteVoiceConnectorExternalSystemsConfiguration: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorExternalSystemsConfiguration",
-  iam: {
-    actions: ["chime:DeleteVoiceConnectorExternalSystemsConfiguration"],
-    resources: {
-      "chime:DeleteVoiceConnectorExternalSystemsConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnectorExternalSystemsConfiguration",
 }));
@@ -2331,7 +2241,6 @@ export const deleteVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorGroup",
-  iam: { actions: ["chime:DeleteVoiceConnectorGroup"] },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnectorGroup",
 }));
@@ -2371,14 +2280,6 @@ export const deleteVoiceConnectorOrigination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorOrigination",
-  iam: {
-    actions: ["chime:DeleteVoiceConnectorOrigination"],
-    resources: {
-      "chime:DeleteVoiceConnectorOrigination": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnectorOrigination",
 }));
@@ -2417,14 +2318,6 @@ export const deleteVoiceConnectorProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorProxy",
-  iam: {
-    actions: ["chime:DeleteVoiceConnectorProxy"],
-    resources: {
-      "chime:DeleteVoiceConnectorProxy": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnectorProxy",
 }));
@@ -2461,14 +2354,6 @@ export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorStreamingConfiguration",
-  iam: {
-    actions: ["chime:DeleteVoiceConnectorStreamingConfiguration"],
-    resources: {
-      "chime:DeleteVoiceConnectorStreamingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnectorStreamingConfiguration",
 }));
@@ -2508,14 +2393,6 @@ export const deleteVoiceConnectorTermination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorTermination",
-  iam: {
-    actions: ["chime:DeleteVoiceConnectorTermination"],
-    resources: {
-      "chime:DeleteVoiceConnectorTermination": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnectorTermination",
 }));
@@ -2553,14 +2430,6 @@ export const deleteVoiceConnectorTerminationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceConnectorTerminationCredentials",
-  iam: {
-    actions: ["chime:DeleteVoiceConnectorTerminationCredentials"],
-    resources: {
-      "chime:DeleteVoiceConnectorTerminationCredentials": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceConnectorTerminationCredentials",
 }));
@@ -2601,14 +2470,6 @@ export const deleteVoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceProfile",
-  iam: {
-    actions: ["chime:DeleteVoiceProfile"],
-    resources: {
-      "chime:DeleteVoiceProfile": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:voice-profile/${VoiceProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceProfile",
 }));
@@ -2649,14 +2510,6 @@ export const deleteVoiceProfileDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceProfileDomain",
-  iam: {
-    actions: ["chime:DeleteVoiceProfileDomain"],
-    resources: {
-      "chime:DeleteVoiceProfileDomain": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:voice-profile-domain/${VoiceProfileDomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceProfileDomain",
 }));
@@ -2694,14 +2547,6 @@ export const disassociatePhoneNumbersFromVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumbersFromVoiceConnector",
-  iam: {
-    actions: ["chime:DisassociatePhoneNumbersFromVoiceConnector"],
-    resources: {
-      "chime:DisassociatePhoneNumbersFromVoiceConnector": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociatePhoneNumbersFromVoiceConnector",
 }));
@@ -2747,7 +2592,6 @@ export const disassociatePhoneNumbersFromVoiceConnectorGroup: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePhoneNumbersFromVoiceConnectorGroup",
-  iam: { actions: ["chime:DisassociatePhoneNumbersFromVoiceConnectorGroup"] },
   telemetry: TELEMETRY,
   span: "DisassociatePhoneNumbersFromVoiceConnectorGroup",
 }));
@@ -2782,7 +2626,6 @@ export const getGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalSettings",
-  iam: { actions: ["chime:GetGlobalSettings"] },
   telemetry: TELEMETRY,
   span: "GetGlobalSettings",
 }));
@@ -2820,7 +2663,6 @@ export const getPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumber",
-  iam: { actions: ["chime:GetPhoneNumber"] },
   telemetry: TELEMETRY,
   span: "GetPhoneNumber",
 }));
@@ -2859,7 +2701,6 @@ export const getPhoneNumberOrder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberOrder",
-  iam: { actions: ["chime:GetPhoneNumberOrder"] },
   telemetry: TELEMETRY,
   span: "GetPhoneNumberOrder",
 }));
@@ -2895,7 +2736,6 @@ export const getPhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPhoneNumberSettings",
-  iam: { actions: ["chime:GetPhoneNumberSettings"] },
   telemetry: TELEMETRY,
   span: "GetPhoneNumberSettings",
 }));
@@ -2934,14 +2774,6 @@ export const getProxySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProxySession",
-  iam: {
-    actions: ["chime:GetProxySession"],
-    resources: {
-      "chime:GetProxySession": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProxySession",
 }));
@@ -2979,14 +2811,6 @@ export const getSipMediaApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSipMediaApplication",
-  iam: {
-    actions: ["chime:GetSipMediaApplication"],
-    resources: {
-      "chime:GetSipMediaApplication": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSipMediaApplication",
 }));
@@ -3036,14 +2860,6 @@ export const getSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSipMediaApplicationAlexaSkillConfiguration",
-  iam: {
-    actions: ["chime:GetSipMediaApplicationAlexaSkillConfiguration"],
-    resources: {
-      "chime:GetSipMediaApplicationAlexaSkillConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSipMediaApplicationAlexaSkillConfiguration",
 }));
@@ -3080,14 +2896,6 @@ export const getSipMediaApplicationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSipMediaApplicationLoggingConfiguration",
-  iam: {
-    actions: ["chime:GetSipMediaApplicationLoggingConfiguration"],
-    resources: {
-      "chime:GetSipMediaApplicationLoggingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSipMediaApplicationLoggingConfiguration",
 }));
@@ -3125,7 +2933,6 @@ export const getSipRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSipRule",
-  iam: { actions: ["chime:GetSipRule"] },
   telemetry: TELEMETRY,
   span: "GetSipRule",
 }));
@@ -3166,7 +2973,6 @@ export const getSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeakerSearchTask",
-  iam: { actions: ["chime:GetSpeakerSearchTask"] },
   telemetry: TELEMETRY,
   span: "GetSpeakerSearchTask",
 }));
@@ -3204,14 +3010,6 @@ export const getVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnector",
-  iam: {
-    actions: ["chime:GetVoiceConnector"],
-    resources: {
-      "chime:GetVoiceConnector": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnector",
 }));
@@ -3256,14 +3054,6 @@ export const getVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorEmergencyCallingConfiguration",
-  iam: {
-    actions: ["chime:GetVoiceConnectorEmergencyCallingConfiguration"],
-    resources: {
-      "chime:GetVoiceConnectorEmergencyCallingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorEmergencyCallingConfiguration",
 }));
@@ -3309,14 +3099,6 @@ export const getVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorExternalSystemsConfiguration",
-  iam: {
-    actions: ["chime:GetVoiceConnectorExternalSystemsConfiguration"],
-    resources: {
-      "chime:GetVoiceConnectorExternalSystemsConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorExternalSystemsConfiguration",
 }));
@@ -3354,7 +3136,6 @@ export const getVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorGroup",
-  iam: { actions: ["chime:GetVoiceConnectorGroup"] },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorGroup",
 }));
@@ -3392,14 +3173,6 @@ export const getVoiceConnectorLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorLoggingConfiguration",
-  iam: {
-    actions: ["chime:GetVoiceConnectorLoggingConfiguration"],
-    resources: {
-      "chime:GetVoiceConnectorLoggingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorLoggingConfiguration",
 }));
@@ -3436,14 +3209,6 @@ export const getVoiceConnectorOrigination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorOrigination",
-  iam: {
-    actions: ["chime:GetVoiceConnectorOrigination"],
-    resources: {
-      "chime:GetVoiceConnectorOrigination": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorOrigination",
 }));
@@ -3483,14 +3248,6 @@ export const getVoiceConnectorProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorProxy",
-  iam: {
-    actions: ["chime:GetVoiceConnectorProxy"],
-    resources: {
-      "chime:GetVoiceConnectorProxy": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorProxy",
 }));
@@ -3529,14 +3286,6 @@ export const getVoiceConnectorStreamingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorStreamingConfiguration",
-  iam: {
-    actions: ["chime:GetVoiceConnectorStreamingConfiguration"],
-    resources: {
-      "chime:GetVoiceConnectorStreamingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorStreamingConfiguration",
 }));
@@ -3573,14 +3322,6 @@ export const getVoiceConnectorTermination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorTermination",
-  iam: {
-    actions: ["chime:GetVoiceConnectorTermination"],
-    resources: {
-      "chime:GetVoiceConnectorTermination": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorTermination",
 }));
@@ -3619,14 +3360,6 @@ export const getVoiceConnectorTerminationHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceConnectorTerminationHealth",
-  iam: {
-    actions: ["chime:GetVoiceConnectorTerminationHealth"],
-    resources: {
-      "chime:GetVoiceConnectorTerminationHealth": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceConnectorTerminationHealth",
 }));
@@ -3665,14 +3398,6 @@ export const getVoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceProfile",
-  iam: {
-    actions: ["chime:GetVoiceProfile"],
-    resources: {
-      "chime:GetVoiceProfile": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:voice-profile/${VoiceProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceProfile",
 }));
@@ -3711,14 +3436,6 @@ export const getVoiceProfileDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceProfileDomain",
-  iam: {
-    actions: ["chime:GetVoiceProfileDomain"],
-    resources: {
-      "chime:GetVoiceProfileDomain": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:voice-profile-domain/${VoiceProfileDomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceProfileDomain",
 }));
@@ -3759,7 +3476,6 @@ export const getVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceToneAnalysisTask",
-  iam: { actions: ["chime:GetVoiceToneAnalysisTask"] },
   telemetry: TELEMETRY,
   span: "GetVoiceToneAnalysisTask",
 }));
@@ -3794,7 +3510,6 @@ export const listAvailableVoiceConnectorRegions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAvailableVoiceConnectorRegions",
-  iam: { actions: ["chime:ListAvailableVoiceConnectorRegions"] },
   telemetry: TELEMETRY,
   span: "ListAvailableVoiceConnectorRegions",
 }));
@@ -3835,7 +3550,6 @@ export const listPhoneNumberOrders: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListPhoneNumberOrders"] },
   telemetry: TELEMETRY,
   span: "ListPhoneNumberOrders",
 })) as any;
@@ -3880,7 +3594,6 @@ export const listPhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListPhoneNumbers"] },
   telemetry: TELEMETRY,
   span: "ListPhoneNumbers",
 })) as any;
@@ -3925,14 +3638,6 @@ export const listProxySessions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListProxySessions"],
-    resources: {
-      "chime:ListProxySessions": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProxySessions",
 })) as any;
@@ -3974,7 +3679,6 @@ export const listSipMediaApplications: API.PaginatedOperationMethod<
     items: "SipMediaApplications",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListSipMediaApplications"] },
   telemetry: TELEMETRY,
   span: "ListSipMediaApplications",
 })) as any;
@@ -4018,7 +3722,6 @@ export const listSipRules: API.PaginatedOperationMethod<
     items: "SipRules",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListSipRules"] },
   telemetry: TELEMETRY,
   span: "ListSipRules",
 })) as any;
@@ -4055,7 +3758,6 @@ export const listSupportedPhoneNumberCountries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSupportedPhoneNumberCountries",
-  iam: { actions: ["chime:ListSupportedPhoneNumberCountries"] },
   telemetry: TELEMETRY,
   span: "ListSupportedPhoneNumberCountries",
 }));
@@ -4090,7 +3792,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["chime:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4132,7 +3833,6 @@ export const listVoiceConnectorGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListVoiceConnectorGroups"] },
   telemetry: TELEMETRY,
   span: "ListVoiceConnectorGroups",
 })) as any;
@@ -4174,7 +3874,6 @@ export const listVoiceConnectors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListVoiceConnectors"] },
   telemetry: TELEMETRY,
   span: "ListVoiceConnectors",
 })) as any;
@@ -4211,14 +3910,6 @@ export const listVoiceConnectorTerminationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVoiceConnectorTerminationCredentials",
-  iam: {
-    actions: ["chime:ListVoiceConnectorTerminationCredentials"],
-    resources: {
-      "chime:ListVoiceConnectorTerminationCredentials": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListVoiceConnectorTerminationCredentials",
 }));
@@ -4261,7 +3952,6 @@ export const listVoiceProfileDomains: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:ListVoiceProfileDomains"] },
   telemetry: TELEMETRY,
   span: "ListVoiceProfileDomains",
 })) as any;
@@ -4304,14 +3994,6 @@ export const listVoiceProfiles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListVoiceProfiles"],
-    resources: {
-      "chime:ListVoiceProfiles": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:voice-profile-domain/${VoiceProfileDomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListVoiceProfiles",
 })) as any;
@@ -4361,14 +4043,6 @@ export const putSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSipMediaApplicationAlexaSkillConfiguration",
-  iam: {
-    actions: ["chime:PutSipMediaApplicationAlexaSkillConfiguration"],
-    resources: {
-      "chime:PutSipMediaApplicationAlexaSkillConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutSipMediaApplicationAlexaSkillConfiguration",
 }));
@@ -4405,14 +4079,6 @@ export const putSipMediaApplicationLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSipMediaApplicationLoggingConfiguration",
-  iam: {
-    actions: ["chime:PutSipMediaApplicationLoggingConfiguration"],
-    resources: {
-      "chime:PutSipMediaApplicationLoggingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutSipMediaApplicationLoggingConfiguration",
 }));
@@ -4457,14 +4123,6 @@ export const putVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorEmergencyCallingConfiguration",
-  iam: {
-    actions: ["chime:PutVoiceConnectorEmergencyCallingConfiguration"],
-    resources: {
-      "chime:PutVoiceConnectorEmergencyCallingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVoiceConnectorEmergencyCallingConfiguration",
 }));
@@ -4511,14 +4169,6 @@ export const putVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorExternalSystemsConfiguration",
-  iam: {
-    actions: ["chime:PutVoiceConnectorExternalSystemsConfiguration"],
-    resources: {
-      "chime:PutVoiceConnectorExternalSystemsConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVoiceConnectorExternalSystemsConfiguration",
 }));
@@ -4555,14 +4205,6 @@ export const putVoiceConnectorLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorLoggingConfiguration",
-  iam: {
-    actions: ["chime:PutVoiceConnectorLoggingConfiguration"],
-    resources: {
-      "chime:PutVoiceConnectorLoggingConfiguration": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVoiceConnectorLoggingConfiguration",
 }));
@@ -4601,14 +4243,6 @@ export const putVoiceConnectorOrigination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorOrigination",
-  iam: {
-    actions: ["chime:PutVoiceConnectorOrigination"],
-    resources: {
-      "chime:PutVoiceConnectorOrigination": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVoiceConnectorOrigination",
 }));
@@ -4649,14 +4283,6 @@ export const putVoiceConnectorProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorProxy",
-  iam: {
-    actions: ["chime:PutVoiceConnectorProxy"],
-    resources: {
-      "chime:PutVoiceConnectorProxy": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVoiceConnectorProxy",
 }));
@@ -4693,7 +4319,6 @@ export const putVoiceConnectorStreamingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorStreamingConfiguration",
-  iam: { actions: ["chime:PutVoiceConnectorStreamingConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutVoiceConnectorStreamingConfiguration",
 }));
@@ -4732,14 +4357,6 @@ export const putVoiceConnectorTermination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorTermination",
-  iam: {
-    actions: ["chime:PutVoiceConnectorTermination"],
-    resources: {
-      "chime:PutVoiceConnectorTermination": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVoiceConnectorTermination",
 }));
@@ -4776,14 +4393,6 @@ export const putVoiceConnectorTerminationCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutVoiceConnectorTerminationCredentials",
-  iam: {
-    actions: ["chime:PutVoiceConnectorTerminationCredentials"],
-    resources: {
-      "chime:PutVoiceConnectorTerminationCredentials": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutVoiceConnectorTerminationCredentials",
 }));
@@ -4822,7 +4431,6 @@ export const restorePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestorePhoneNumber",
-  iam: { actions: ["chime:RestorePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "RestorePhoneNumber",
 }));
@@ -4865,7 +4473,6 @@ export const searchAvailablePhoneNumbers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["chime:SearchAvailablePhoneNumbers"] },
   telemetry: TELEMETRY,
   span: "SearchAvailablePhoneNumbers",
 })) as any;
@@ -4915,7 +4522,6 @@ export const startSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeakerSearchTask",
-  iam: { actions: ["chime:StartSpeakerSearchTask"] },
   telemetry: TELEMETRY,
   span: "StartSpeakerSearchTask",
 }));
@@ -4967,7 +4573,6 @@ export const startVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVoiceToneAnalysisTask",
-  iam: { actions: ["chime:StartVoiceToneAnalysisTask"] },
   telemetry: TELEMETRY,
   span: "StartVoiceToneAnalysisTask",
 }));
@@ -5010,7 +4615,6 @@ export const stopSpeakerSearchTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSpeakerSearchTask",
-  iam: { actions: ["chime:StopSpeakerSearchTask"] },
   telemetry: TELEMETRY,
   span: "StopSpeakerSearchTask",
 }));
@@ -5053,7 +4657,6 @@ export const stopVoiceToneAnalysisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopVoiceToneAnalysisTask",
-  iam: { actions: ["chime:StopVoiceToneAnalysisTask"] },
   telemetry: TELEMETRY,
   span: "StopVoiceToneAnalysisTask",
 }));
@@ -5090,7 +4693,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["chime:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5125,7 +4727,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["chime:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5160,7 +4761,6 @@ export const updateGlobalSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalSettings",
-  iam: { actions: ["chime:UpdateGlobalSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateGlobalSettings",
 }));
@@ -5208,7 +4808,6 @@ export const updatePhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumber",
-  iam: { actions: ["chime:UpdatePhoneNumber"] },
   telemetry: TELEMETRY,
   span: "UpdatePhoneNumber",
 }));
@@ -5246,7 +4845,6 @@ export const updatePhoneNumberSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePhoneNumberSettings",
-  iam: { actions: ["chime:UpdatePhoneNumberSettings"] },
   telemetry: TELEMETRY,
   span: "UpdatePhoneNumberSettings",
 }));
@@ -5285,14 +4883,6 @@ export const updateProxySession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxySession",
-  iam: {
-    actions: ["chime:UpdateProxySession"],
-    resources: {
-      "chime:UpdateProxySession": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProxySession",
 }));
@@ -5331,14 +4921,6 @@ export const updateSipMediaApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSipMediaApplication",
-  iam: {
-    actions: ["chime:UpdateSipMediaApplication"],
-    resources: {
-      "chime:UpdateSipMediaApplication": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSipMediaApplication",
 }));
@@ -5379,14 +4961,6 @@ export const updateSipMediaApplicationCall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSipMediaApplicationCall",
-  iam: {
-    actions: ["chime:UpdateSipMediaApplicationCall"],
-    resources: {
-      "chime:UpdateSipMediaApplicationCall": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:sma/${SipMediaApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSipMediaApplicationCall",
 }));
@@ -5427,7 +5001,6 @@ export const updateSipRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSipRule",
-  iam: { actions: ["chime:UpdateSipRule"] },
   telemetry: TELEMETRY,
   span: "UpdateSipRule",
 }));
@@ -5464,14 +5037,6 @@ export const updateVoiceConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceConnector",
-  iam: {
-    actions: ["chime:UpdateVoiceConnector"],
-    resources: {
-      "chime:UpdateVoiceConnector": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:vc/${VoiceConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVoiceConnector",
 }));
@@ -5510,7 +5075,6 @@ export const updateVoiceConnectorGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceConnectorGroup",
-  iam: { actions: ["chime:UpdateVoiceConnectorGroup"] },
   telemetry: TELEMETRY,
   span: "UpdateVoiceConnectorGroup",
 }));
@@ -5562,14 +5126,6 @@ export const updateVoiceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceProfile",
-  iam: {
-    actions: ["chime:UpdateVoiceProfile"],
-    resources: {
-      "chime:UpdateVoiceProfile": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:voice-profile/${VoiceProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVoiceProfile",
 }));
@@ -5608,14 +5164,6 @@ export const updateVoiceProfileDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceProfileDomain",
-  iam: {
-    actions: ["chime:UpdateVoiceProfileDomain"],
-    resources: {
-      "chime:UpdateVoiceProfileDomain": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:voice-profile-domain/${VoiceProfileDomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVoiceProfileDomain",
 }));
@@ -5657,7 +5205,6 @@ export const validateE911Address: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateE911Address",
-  iam: { actions: ["chime:ValidateE911Address"] },
   telemetry: TELEMETRY,
   span: "ValidateE911Address",
 }));

@@ -2249,14 +2249,6 @@ export const acceptEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptEngagementInvitation",
-  iam: {
-    actions: ["partnercentral:AcceptEngagementInvitation"],
-    resources: {
-      "partnercentral:AcceptEngagementInvitation": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement-invitation/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptEngagementInvitation",
 }));
@@ -2291,14 +2283,6 @@ export const assignOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssignOpportunity",
-  iam: {
-    actions: ["partnercentral:AssignOpportunity"],
-    resources: {
-      "partnercentral:AssignOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssignOpportunity",
 }));
@@ -2345,14 +2329,6 @@ export const associateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOpportunity",
-  iam: {
-    actions: ["partnercentral:AssociateOpportunity"],
-    resources: {
-      "partnercentral:AssociateOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateOpportunity",
 }));
@@ -2389,14 +2365,6 @@ export const createEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagement",
-  iam: {
-    actions: ["partnercentral:CreateEngagement"],
-    resources: {
-      "partnercentral:CreateEngagement": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEngagement",
 }));
@@ -2433,17 +2401,6 @@ export const createEngagementContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagementContext",
-  iam: {
-    actions: ["partnercentral:CreateEngagementContext", "partnercentral:GetEngagement"],
-    resources: {
-      "partnercentral:CreateEngagementContext": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-      "partnercentral:GetEngagement": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEngagementContext",
 }));
@@ -2480,17 +2437,6 @@ export const createEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEngagementInvitation",
-  iam: {
-    actions: ["partnercentral:CreateEngagementInvitation", "partnercentral:GetEngagement"],
-    resources: {
-      "partnercentral:CreateEngagementInvitation": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement-invitation/${Identifier}",
-      ],
-      "partnercentral:GetEngagement": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEngagementInvitation",
 }));
@@ -2537,15 +2483,6 @@ export const createOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpportunity",
-  iam: {
-    actions: ["partnercentral:CreateOpportunity", "partnercentral:TagResource"],
-    resources: {
-      "partnercentral:CreateOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-    conditional: { "partnercentral:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOpportunity",
 }));
@@ -2582,24 +2519,6 @@ export const createResourceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSnapshot",
-  iam: {
-    actions: [
-      "partnercentral:CreateResourceSnapshot",
-      "partnercentral:GetAwsOpportunitySummary",
-      "partnercentral:GetOpportunity",
-    ],
-    resources: {
-      "partnercentral:CreateResourceSnapshot": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/engagement/${EngagementIdentifier}/resource/${ResourceType}/${ResourceIdentifier}/template/${TemplateIdentifier}/resource-snapshot/${SnapshotRevision}",
-      ],
-      "partnercentral:GetAwsOpportunitySummary": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-      "partnercentral:GetOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateResourceSnapshot",
 }));
@@ -2636,26 +2555,6 @@ export const createResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSnapshotJob",
-  iam: {
-    actions: [
-      "partnercentral:CreateResourceSnapshot",
-      "partnercentral:CreateResourceSnapshotJob",
-      "partnercentral:GetOpportunity",
-      "partnercentral:TagResource",
-    ],
-    resources: {
-      "partnercentral:CreateResourceSnapshot": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/engagement/${EngagementIdentifier}/resource/${ResourceType}/${ResourceIdentifier}/template/${TemplateIdentifier}/resource-snapshot/${SnapshotRevision}",
-      ],
-      "partnercentral:CreateResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-      "partnercentral:GetOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-    conditional: { "partnercentral:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateResourceSnapshotJob",
 }));
@@ -2690,14 +2589,6 @@ export const deleteResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceSnapshotJob",
-  iam: {
-    actions: ["partnercentral:DeleteResourceSnapshotJob"],
-    resources: {
-      "partnercentral:DeleteResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourceSnapshotJob",
 }));
@@ -2732,14 +2623,6 @@ export const disassociateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOpportunity",
-  iam: {
-    actions: ["partnercentral:DisassociateOpportunity"],
-    resources: {
-      "partnercentral:DisassociateOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateOpportunity",
 }));
@@ -2772,14 +2655,6 @@ export const getAwsOpportunitySummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAwsOpportunitySummary",
-  iam: {
-    actions: ["partnercentral:GetAwsOpportunitySummary"],
-    resources: {
-      "partnercentral:GetAwsOpportunitySummary": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAwsOpportunitySummary",
 }));
@@ -2812,14 +2687,6 @@ export const getEngagement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngagement",
-  iam: {
-    actions: ["partnercentral:GetEngagement"],
-    resources: {
-      "partnercentral:GetEngagement": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEngagement",
 }));
@@ -2852,14 +2719,6 @@ export const getEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEngagementInvitation",
-  iam: {
-    actions: ["partnercentral:GetEngagementInvitation"],
-    resources: {
-      "partnercentral:GetEngagementInvitation": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement-invitation/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEngagementInvitation",
 }));
@@ -2894,14 +2753,6 @@ export const getOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpportunity",
-  iam: {
-    actions: ["partnercentral:GetOpportunity"],
-    resources: {
-      "partnercentral:GetOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOpportunity",
 }));
@@ -2934,14 +2785,6 @@ export const getProspectingFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProspectingFromEngagementTask",
-  iam: {
-    actions: ["partnercentral:GetProspectingFromEngagementTask"],
-    resources: {
-      "partnercentral:GetProspectingFromEngagementTask": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/prospecting-from-engagement-task/${TaskIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProspectingFromEngagementTask",
 }));
@@ -2974,14 +2817,6 @@ export const getResourceSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSnapshot",
-  iam: {
-    actions: ["partnercentral:GetResourceSnapshot"],
-    resources: {
-      "partnercentral:GetResourceSnapshot": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/engagement/${EngagementIdentifier}/resource/${ResourceType}/${ResourceIdentifier}/template/${TemplateIdentifier}/resource-snapshot/${SnapshotRevision}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourceSnapshot",
 }));
@@ -3014,14 +2849,6 @@ export const getResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSnapshotJob",
-  iam: {
-    actions: ["partnercentral:GetResourceSnapshotJob"],
-    resources: {
-      "partnercentral:GetResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourceSnapshotJob",
 }));
@@ -3054,7 +2881,6 @@ export const getSellingSystemSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSellingSystemSettings",
-  iam: { actions: ["partnercentral:GetSellingSystemSettings"] },
   telemetry: TELEMETRY,
   span: "GetSellingSystemSettings",
 }));
@@ -3094,7 +2920,6 @@ export const listEngagementByAcceptingInvitationTasks: API.PaginatedOperationMet
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListEngagementByAcceptingInvitationTasks"] },
   telemetry: TELEMETRY,
   span: "ListEngagementByAcceptingInvitationTasks",
 })) as any;
@@ -3134,7 +2959,6 @@ export const listEngagementFromOpportunityTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListEngagementFromOpportunityTasks"] },
   telemetry: TELEMETRY,
   span: "ListEngagementFromOpportunityTasks",
 })) as any;
@@ -3174,7 +2998,6 @@ export const listEngagementInvitations: API.PaginatedOperationMethod<
     items: "EngagementInvitationSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListEngagementInvitations"] },
   telemetry: TELEMETRY,
   span: "ListEngagementInvitations",
 })) as any;
@@ -3214,14 +3037,6 @@ export const listEngagementMembers: API.PaginatedOperationMethod<
     items: "EngagementMemberList",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListEngagementMembers"],
-    resources: {
-      "partnercentral:ListEngagementMembers": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEngagementMembers",
 })) as any;
@@ -3261,14 +3076,6 @@ export const listEngagementResourceAssociations: API.PaginatedOperationMethod<
     items: "EngagementResourceAssociationSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListEngagementResourceAssociations"],
-    resources: {
-      "partnercentral:ListEngagementResourceAssociations": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/engagement/${EngagementIdentifier}/resource/${ResourceType}/${ResourceIdentifier}/template/${TemplateIdentifier}/resource-snapshot/${SnapshotRevision}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEngagementResourceAssociations",
 })) as any;
@@ -3308,7 +3115,6 @@ export const listEngagements: API.PaginatedOperationMethod<
     items: "EngagementSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListEngagements"] },
   telemetry: TELEMETRY,
   span: "ListEngagements",
 })) as any;
@@ -3358,7 +3164,6 @@ export const listOpportunities: API.PaginatedOperationMethod<
     items: "OpportunitySummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListOpportunities"] },
   telemetry: TELEMETRY,
   span: "ListOpportunities",
 })) as any;
@@ -3398,7 +3203,6 @@ export const listOpportunityFromEngagementTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListOpportunityFromEngagementTasks"] },
   telemetry: TELEMETRY,
   span: "ListOpportunityFromEngagementTasks",
 })) as any;
@@ -3436,7 +3240,6 @@ export const listProspectingFromEngagementTasks: API.PaginatedOperationMethod<
     items: "TaskSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListProspectingFromEngagementTasks"] },
   telemetry: TELEMETRY,
   span: "ListProspectingFromEngagementTasks",
 })) as any;
@@ -3476,7 +3279,6 @@ export const listResourceSnapshotJobs: API.PaginatedOperationMethod<
     items: "ResourceSnapshotJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListResourceSnapshotJobs"] },
   telemetry: TELEMETRY,
   span: "ListResourceSnapshotJobs",
 })) as any;
@@ -3526,14 +3328,6 @@ export const listResourceSnapshots: API.PaginatedOperationMethod<
     items: "ResourceSnapshotSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListResourceSnapshots"],
-    resources: {
-      "partnercentral:ListResourceSnapshots": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/engagement/${EngagementIdentifier}/resource/${ResourceType}/${ResourceIdentifier}/template/${TemplateIdentifier}/resource-snapshot/${SnapshotRevision}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourceSnapshots",
 })) as any;
@@ -3573,7 +3367,6 @@ export const listSolutions: API.PaginatedOperationMethod<
     items: "SolutionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["partnercentral:ListSolutions"] },
   telemetry: TELEMETRY,
   span: "ListSolutions",
 })) as any;
@@ -3606,7 +3399,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["partnercentral:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3639,11 +3431,6 @@ export const putSellingSystemSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSellingSystemSettings",
-  iam: {
-    actions: ["iam:PassRole", "partnercentral:PutSellingSystemSettings"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "PutSellingSystemSettings",
 }));
@@ -3678,14 +3465,6 @@ export const rejectEngagementInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectEngagementInvitation",
-  iam: {
-    actions: ["partnercentral:RejectEngagementInvitation"],
-    resources: {
-      "partnercentral:RejectEngagementInvitation": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement-invitation/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectEngagementInvitation",
 }));
@@ -3722,50 +3501,6 @@ export const startEngagementByAcceptingInvitationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagementByAcceptingInvitationTask",
-  iam: {
-    actions: [
-      "partnercentral:AcceptEngagementInvitation",
-      "partnercentral:CreateOpportunity",
-      "partnercentral:CreateResourceSnapshot",
-      "partnercentral:CreateResourceSnapshotJob",
-      "partnercentral:GetEngagementInvitation",
-      "partnercentral:GetOpportunity",
-      "partnercentral:StartEngagementByAcceptingInvitationTask",
-      "partnercentral:StartResourceSnapshotJob",
-      "partnercentral:SubmitOpportunity",
-      "partnercentral:TagResource",
-    ],
-    resources: {
-      "partnercentral:AcceptEngagementInvitation": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement-invitation/${Identifier}",
-      ],
-      "partnercentral:CreateOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-      "partnercentral:CreateResourceSnapshot": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/engagement/${EngagementIdentifier}/resource/${ResourceType}/${ResourceIdentifier}/template/${TemplateIdentifier}/resource-snapshot/${SnapshotRevision}",
-      ],
-      "partnercentral:CreateResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-      "partnercentral:GetEngagementInvitation": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement-invitation/${Identifier}",
-      ],
-      "partnercentral:GetOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-      "partnercentral:StartEngagementByAcceptingInvitationTask": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement-by-accepting-invitation-task/${TaskId}",
-      ],
-      "partnercentral:StartResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-      "partnercentral:SubmitOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-    conditional: { "partnercentral:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartEngagementByAcceptingInvitationTask",
 }));
@@ -3802,42 +3537,6 @@ export const startEngagementFromOpportunityTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEngagementFromOpportunityTask",
-  iam: {
-    actions: [
-      "partnercentral:CreateEngagement",
-      "partnercentral:CreateResourceSnapshot",
-      "partnercentral:CreateResourceSnapshotJob",
-      "partnercentral:GetOpportunity",
-      "partnercentral:StartEngagementFromOpportunityTask",
-      "partnercentral:StartResourceSnapshotJob",
-      "partnercentral:SubmitOpportunity",
-      "partnercentral:TagResource",
-    ],
-    resources: {
-      "partnercentral:CreateEngagement": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-      "partnercentral:CreateResourceSnapshot": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/engagement/${EngagementIdentifier}/resource/${ResourceType}/${ResourceIdentifier}/template/${TemplateIdentifier}/resource-snapshot/${SnapshotRevision}",
-      ],
-      "partnercentral:CreateResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-      "partnercentral:GetOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-      "partnercentral:StartEngagementFromOpportunityTask": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement-from-opportunity-task/${TaskId}",
-      ],
-      "partnercentral:StartResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-      "partnercentral:SubmitOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-    conditional: { "partnercentral:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartEngagementFromOpportunityTask",
 }));
@@ -3874,42 +3573,6 @@ export const startOpportunityFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOpportunityFromEngagementTask",
-  iam: {
-    actions: [
-      "partnercentral:CreateOpportunity",
-      "partnercentral:CreateResourceSnapshot",
-      "partnercentral:CreateResourceSnapshotJob",
-      "partnercentral:GetEngagement",
-      "partnercentral:GetOpportunity",
-      "partnercentral:StartOpportunityFromEngagementTask",
-      "partnercentral:StartResourceSnapshotJob",
-      "partnercentral:TagResource",
-    ],
-    resources: {
-      "partnercentral:CreateOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-      "partnercentral:CreateResourceSnapshot": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/engagement/${EngagementIdentifier}/resource/${ResourceType}/${ResourceIdentifier}/template/${TemplateIdentifier}/resource-snapshot/${SnapshotRevision}",
-      ],
-      "partnercentral:CreateResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-      "partnercentral:GetEngagement": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-      "partnercentral:GetOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-      "partnercentral:StartOpportunityFromEngagementTask": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/opportunity-from-engagement-task/${TaskId}",
-      ],
-      "partnercentral:StartResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-    },
-    conditional: { "partnercentral:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartOpportunityFromEngagementTask",
 }));
@@ -3944,14 +3607,6 @@ export const startProspectingFromEngagementTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProspectingFromEngagementTask",
-  iam: {
-    actions: ["partnercentral:StartProspectingFromEngagementTask"],
-    resources: {
-      "partnercentral:StartProspectingFromEngagementTask": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartProspectingFromEngagementTask",
 }));
@@ -3984,14 +3639,6 @@ export const startResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceSnapshotJob",
-  iam: {
-    actions: ["partnercentral:StartResourceSnapshotJob"],
-    resources: {
-      "partnercentral:StartResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartResourceSnapshotJob",
 }));
@@ -4024,14 +3671,6 @@ export const stopResourceSnapshotJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopResourceSnapshotJob",
-  iam: {
-    actions: ["partnercentral:StopResourceSnapshotJob"],
-    resources: {
-      "partnercentral:StopResourceSnapshotJob": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/resource-snapshot-job/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopResourceSnapshotJob",
 }));
@@ -4064,14 +3703,6 @@ export const submitOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitOpportunity",
-  iam: {
-    actions: ["partnercentral:SubmitOpportunity"],
-    resources: {
-      "partnercentral:SubmitOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SubmitOpportunity",
 }));
@@ -4106,7 +3737,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["partnercentral:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4141,7 +3771,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["partnercentral:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4178,17 +3807,6 @@ export const updateEngagementContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEngagementContext",
-  iam: {
-    actions: ["partnercentral:GetEngagement", "partnercentral:UpdateEngagementContext"],
-    resources: {
-      "partnercentral:GetEngagement": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-      "partnercentral:UpdateEngagementContext": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/engagement/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEngagementContext",
 }));
@@ -4225,14 +3843,6 @@ export const updateOpportunity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpportunity",
-  iam: {
-    actions: ["partnercentral:UpdateOpportunity"],
-    resources: {
-      "partnercentral:UpdateOpportunity": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOpportunity",
 }));

@@ -1080,15 +1080,6 @@ export const createDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbBackup",
-  iam: {
-    actions: ["timestream-influxdb:CreateDbBackup", "timestream-influxdb:TagResource"],
-    resources: {
-      "timestream-influxdb:CreateDbBackup": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-backup/${DbBackupId}",
-      ],
-    },
-    conditional: { "timestream-influxdb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDbBackup",
 }));
@@ -1125,15 +1116,6 @@ export const createDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbCluster",
-  iam: {
-    actions: [
-      "timestream-influxdb:CreateDbCluster",
-      "timestream-influxdb:CreateDbInstance",
-      "timestream-influxdb:CreateDbParameterGroup",
-      "timestream-influxdb:TagResource",
-    ],
-    conditional: { "timestream-influxdb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDbCluster",
 }));
@@ -1170,10 +1152,6 @@ export const createDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbInstance",
-  iam: {
-    actions: ["timestream-influxdb:CreateDbInstance", "timestream-influxdb:TagResource"],
-    conditional: { "timestream-influxdb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDbInstance",
 }));
@@ -1210,10 +1188,6 @@ export const createDbParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDbParameterGroup",
-  iam: {
-    actions: ["timestream-influxdb:CreateDbParameterGroup", "timestream-influxdb:TagResource"],
-    conditional: { "timestream-influxdb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDbParameterGroup",
 }));
@@ -1248,14 +1222,6 @@ export const deleteDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbBackup",
-  iam: {
-    actions: ["timestream-influxdb:DeleteDbBackup"],
-    resources: {
-      "timestream-influxdb:DeleteDbBackup": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-backup/${DbBackupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDbBackup",
 }));
@@ -1290,17 +1256,6 @@ export const deleteDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbCluster",
-  iam: {
-    actions: ["timestream-influxdb:DeleteDbCluster", "timestream-influxdb:DeleteDbInstance"],
-    resources: {
-      "timestream-influxdb:DeleteDbCluster": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-cluster/${DbClusterId}",
-      ],
-      "timestream-influxdb:DeleteDbInstance": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-instance/${DbInstanceIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDbCluster",
 }));
@@ -1335,14 +1290,6 @@ export const deleteDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDbInstance",
-  iam: {
-    actions: ["timestream-influxdb:DeleteDbInstance"],
-    resources: {
-      "timestream-influxdb:DeleteDbInstance": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-instance/${DbInstanceIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDbInstance",
 }));
@@ -1375,14 +1322,6 @@ export const getDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbBackup",
-  iam: {
-    actions: ["timestream-influxdb:GetDbBackup"],
-    resources: {
-      "timestream-influxdb:GetDbBackup": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-backup/${DbBackupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDbBackup",
 }));
@@ -1415,14 +1354,6 @@ export const getDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbCluster",
-  iam: {
-    actions: ["timestream-influxdb:GetDbCluster"],
-    resources: {
-      "timestream-influxdb:GetDbCluster": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-cluster/${DbClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDbCluster",
 }));
@@ -1455,14 +1386,6 @@ export const getDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbInstance",
-  iam: {
-    actions: ["timestream-influxdb:GetDbInstance"],
-    resources: {
-      "timestream-influxdb:GetDbInstance": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-instance/${DbInstanceIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDbInstance",
 }));
@@ -1495,14 +1418,6 @@ export const getDbParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbParameterGroup",
-  iam: {
-    actions: ["timestream-influxdb:GetDbParameterGroup"],
-    resources: {
-      "timestream-influxdb:GetDbParameterGroup": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-parameter-group/${DbParameterGroupIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDbParameterGroup",
 }));
@@ -1542,7 +1457,6 @@ export const listDbBackups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["timestream-influxdb:ListDbBackups"] },
   telemetry: TELEMETRY,
   span: "ListDbBackups",
 })) as any;
@@ -1582,7 +1496,6 @@ export const listDbClusters: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["timestream-influxdb:ListDbClusters"] },
   telemetry: TELEMETRY,
   span: "ListDbClusters",
 })) as any;
@@ -1622,7 +1535,6 @@ export const listDbInstances: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["timestream-influxdb:ListDbInstances"] },
   telemetry: TELEMETRY,
   span: "ListDbInstances",
 })) as any;
@@ -1662,14 +1574,6 @@ export const listDbInstancesForCluster: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["timestream-influxdb:ListDbInstancesForCluster"],
-    resources: {
-      "timestream-influxdb:ListDbInstancesForCluster": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-cluster/${DbClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDbInstancesForCluster",
 })) as any;
@@ -1709,7 +1613,6 @@ export const listDbParameterGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["timestream-influxdb:ListDbParameterGroups"] },
   telemetry: TELEMETRY,
   span: "ListDbParameterGroups",
 })) as any;
@@ -1730,7 +1633,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["timestream-influxdb:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1765,14 +1667,6 @@ export const rebootDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbCluster",
-  iam: {
-    actions: ["timestream-influxdb:RebootDbCluster", "timestream-influxdb:RebootDbInstance"],
-    resources: {
-      "timestream-influxdb:RebootDbInstance": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-instance/${DbInstanceIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootDbCluster",
 }));
@@ -1807,14 +1701,6 @@ export const rebootDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbInstance",
-  iam: {
-    actions: ["timestream-influxdb:RebootDbInstance"],
-    resources: {
-      "timestream-influxdb:RebootDbInstance": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-instance/${DbInstanceIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootDbInstance",
 }));
@@ -1851,14 +1737,6 @@ export const restoreFromDbBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromDbBackup",
-  iam: {
-    actions: ["timestream-influxdb:RestoreFromDbBackup"],
-    resources: {
-      "timestream-influxdb:RestoreFromDbBackup": [
-        "arn:${Partition}:timestream-influxdb:${Region}:${Account}:db-backup/${DbBackupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RestoreFromDbBackup",
 }));
@@ -1882,7 +1760,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["timestream-influxdb:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1903,7 +1780,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["timestream-influxdb:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1938,7 +1814,6 @@ export const updateDbCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDbCluster",
-  iam: { actions: ["timestream-influxdb:UpdateDbCluster", "timestream-influxdb:UpdateDbInstance"] },
   telemetry: TELEMETRY,
   span: "UpdateDbCluster",
 }));
@@ -1973,7 +1848,6 @@ export const updateDbInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDbInstance",
-  iam: { actions: ["timestream-influxdb:UpdateDbInstance"] },
   telemetry: TELEMETRY,
   span: "UpdateDbInstance",
 }));

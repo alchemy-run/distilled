@@ -742,14 +742,6 @@ export const createMicrovmAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmAuthToken",
-  iam: {
-    actions: ["lambda:CreateMicrovmAuthToken"],
-    resources: {
-      "lambda:CreateMicrovmAuthToken": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMicrovmAuthToken",
 }));
@@ -786,16 +778,6 @@ export const createMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmImage",
-  iam: {
-    actions: [
-      "lambda:CreateMicrovmImage",
-      "lambda:PassNetworkConnector",
-      "iam:PassRole",
-      "lambda:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "lambda:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMicrovmImage",
 }));
@@ -830,14 +812,6 @@ export const createMicrovmShellAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMicrovmShellAuthToken",
-  iam: {
-    actions: ["lambda:CreateMicrovmShellAuthToken"],
-    resources: {
-      "lambda:CreateMicrovmShellAuthToken": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMicrovmShellAuthToken",
 }));
@@ -872,14 +846,6 @@ export const deleteMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrovmImage",
-  iam: {
-    actions: ["lambda:DeleteMicrovmImage"],
-    resources: {
-      "lambda:DeleteMicrovmImage": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMicrovmImage",
 }));
@@ -914,14 +880,6 @@ export const deleteMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMicrovmImageVersion",
-  iam: {
-    actions: ["lambda:DeleteMicrovmImageVersion"],
-    resources: {
-      "lambda:DeleteMicrovmImageVersion": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMicrovmImageVersion",
 }));
@@ -954,14 +912,6 @@ export const getMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovm",
-  iam: {
-    actions: ["lambda:GetMicrovm"],
-    resources: {
-      "lambda:GetMicrovm": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMicrovm",
 }));
@@ -994,14 +944,6 @@ export const getMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImage",
-  iam: {
-    actions: ["lambda:GetMicrovmImage"],
-    resources: {
-      "lambda:GetMicrovmImage": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMicrovmImage",
 }));
@@ -1034,14 +976,6 @@ export const getMicrovmImageBuild: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImageBuild",
-  iam: {
-    actions: ["lambda:GetMicrovmImageBuild"],
-    resources: {
-      "lambda:GetMicrovmImageBuild": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMicrovmImageBuild",
 }));
@@ -1074,14 +1008,6 @@ export const getMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMicrovmImageVersion",
-  iam: {
-    actions: ["lambda:GetMicrovmImageVersion"],
-    resources: {
-      "lambda:GetMicrovmImageVersion": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMicrovmImageVersion",
 }));
@@ -1119,7 +1045,6 @@ export const listManagedMicrovmImages: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["lambda:ListManagedMicrovmImages"] },
   telemetry: TELEMETRY,
   span: "ListManagedMicrovmImages",
 })) as any;
@@ -1159,14 +1084,6 @@ export const listManagedMicrovmImageVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["lambda:ListManagedMicrovmImageVersions"],
-    resources: {
-      "lambda:ListManagedMicrovmImageVersions": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListManagedMicrovmImageVersions",
 })) as any;
@@ -1206,14 +1123,6 @@ export const listMicrovmImageBuilds: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["lambda:ListMicrovmImageBuilds"],
-    resources: {
-      "lambda:ListMicrovmImageBuilds": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMicrovmImageBuilds",
 })) as any;
@@ -1251,7 +1160,6 @@ export const listMicrovmImages: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["lambda:ListMicrovmImages"] },
   telemetry: TELEMETRY,
   span: "ListMicrovmImages",
 })) as any;
@@ -1291,14 +1199,6 @@ export const listMicrovmImageVersions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["lambda:ListMicrovmImageVersions"],
-    resources: {
-      "lambda:ListMicrovmImageVersions": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMicrovmImageVersions",
 })) as any;
@@ -1338,7 +1238,6 @@ export const listMicrovms: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["lambda:ListMicrovms"] },
   telemetry: TELEMETRY,
   span: "ListMicrovms",
 })) as any;
@@ -1369,7 +1268,6 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
-  iam: { actions: ["lambda:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
@@ -1404,14 +1302,6 @@ export const resumeMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeMicrovm",
-  iam: {
-    actions: ["lambda:ResumeMicrovm"],
-    resources: {
-      "lambda:ResumeMicrovm": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResumeMicrovm",
 }));
@@ -1450,16 +1340,6 @@ export const runMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunMicrovm",
-  iam: {
-    actions: ["lambda:PassNetworkConnector", "iam:PassRole", "lambda:RunMicrovm"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "lambda:RunMicrovm": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "executionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "RunMicrovm",
 }));
@@ -1494,14 +1374,6 @@ export const suspendMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendMicrovm",
-  iam: {
-    actions: ["lambda:SuspendMicrovm"],
-    resources: {
-      "lambda:SuspendMicrovm": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SuspendMicrovm",
 }));
@@ -1534,7 +1406,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["lambda:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1569,14 +1440,6 @@ export const terminateMicrovm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateMicrovm",
-  iam: {
-    actions: ["lambda:TerminateMicrovm"],
-    resources: {
-      "lambda:TerminateMicrovm": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateMicrovm",
 }));
@@ -1609,7 +1472,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["lambda:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1646,15 +1508,6 @@ export const updateMicrovmImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrovmImage",
-  iam: {
-    actions: ["lambda:PassNetworkConnector", "iam:PassRole", "lambda:UpdateMicrovmImage"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "lambda:UpdateMicrovmImage": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMicrovmImage",
 }));
@@ -1689,14 +1542,6 @@ export const updateMicrovmImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMicrovmImageVersion",
-  iam: {
-    actions: ["lambda:UpdateMicrovmImageVersion"],
-    resources: {
-      "lambda:UpdateMicrovmImageVersion": [
-        "arn:${Partition}:lambda:${Region}:${Account}:microvm-image:${MicrovmImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMicrovmImageVersion",
 }));

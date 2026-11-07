@@ -270,14 +270,6 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
-  iam: {
-    actions: ["s3-outposts:CreateEndpoint"],
-    resources: {
-      "s3-outposts:CreateEndpoint": [
-        "arn:${Partition}:s3-outposts:${Region}:${Account}:outpost/${OutpostId}/endpoint/${EndpointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEndpoint",
 }));
@@ -320,14 +312,6 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
-  iam: {
-    actions: ["s3-outposts:DeleteEndpoint"],
-    resources: {
-      "s3-outposts:DeleteEndpoint": [
-        "arn:${Partition}:s3-outposts:${Region}:${Account}:outpost/${OutpostId}/endpoint/${EndpointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEndpoint",
 }));
@@ -373,7 +357,6 @@ export const listEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["s3-outposts:ListEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListEndpoints",
 })) as any;
@@ -413,7 +396,6 @@ export const listOutpostsWithS3: API.PaginatedOperationMethod<
     items: "Outposts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["s3-outposts:ListOutpostsWithS3"] },
   telemetry: TELEMETRY,
   span: "ListOutpostsWithS3",
 })) as any;
@@ -459,7 +441,6 @@ export const listSharedEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["s3-outposts:ListSharedEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListSharedEndpoints",
 })) as any;

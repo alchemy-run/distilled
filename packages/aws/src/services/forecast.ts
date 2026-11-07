@@ -1310,11 +1310,6 @@ export const createAutoPredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoPredictor",
-  iam: {
-    actions: ["forecast:CreateAutoPredictor", "iam:PassRole", "forecast:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "EncryptionConfig.RoleArn", "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAutoPredictor",
 }));
@@ -1374,16 +1369,6 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
-  iam: {
-    actions: ["forecast:CreateDataset", "iam:PassRole", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateDataset": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "EncryptionConfig.RoleArn", "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -1426,15 +1411,6 @@ export const createDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetGroup",
-  iam: {
-    actions: ["forecast:CreateDatasetGroup", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateDatasetGroup": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-    },
-    conditional: { "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDatasetGroup",
 }));
@@ -1488,16 +1464,6 @@ export const createDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetImportJob",
-  iam: {
-    actions: ["forecast:CreateDatasetImportJob", "iam:PassRole", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateDatasetImportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-import-job/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDatasetImportJob",
 }));
@@ -1609,15 +1575,6 @@ export const createExplainability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExplainability",
-  iam: {
-    actions: ["forecast:CreateExplainability", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateExplainability": [
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast/${ResourceId}",
-      ],
-    },
-    conditional: { "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExplainability",
 }));
@@ -1658,16 +1615,6 @@ export const createExplainabilityExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExplainabilityExport",
-  iam: {
-    actions: ["forecast:CreateExplainabilityExport", "iam:PassRole", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateExplainabilityExport": [
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExplainabilityExport",
 }));
@@ -1722,15 +1669,6 @@ export const createForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateForecast",
-  iam: {
-    actions: ["forecast:CreateForecast", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateForecast": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-      ],
-    },
-    conditional: { "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateForecast",
 }));
@@ -1780,16 +1718,6 @@ export const createForecastExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateForecastExportJob",
-  iam: {
-    actions: ["forecast:CreateForecastExportJob", "iam:PassRole", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateForecastExportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateForecastExportJob",
 }));
@@ -1823,15 +1751,6 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
-  iam: {
-    actions: ["forecast:CreateMonitor", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateMonitor": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-      ],
-    },
-    conditional: { "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMonitor",
 }));
@@ -1915,16 +1834,6 @@ export const createPredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePredictor",
-  iam: {
-    actions: ["forecast:CreatePredictor", "iam:PassRole", "forecast:TagResource"],
-    resources: {
-      "forecast:CreatePredictor": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "EncryptionConfig.RoleArn", "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePredictor",
 }));
@@ -1972,16 +1881,6 @@ export const createPredictorBacktestExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePredictorBacktestExportJob",
-  iam: {
-    actions: ["forecast:CreatePredictorBacktestExportJob", "iam:PassRole", "forecast:TagResource"],
-    resources: {
-      "forecast:CreatePredictorBacktestExportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePredictorBacktestExportJob",
 }));
@@ -2030,15 +1929,6 @@ export const createWhatIfAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatIfAnalysis",
-  iam: {
-    actions: ["forecast:CreateWhatIfAnalysis", "forecast:TagResource"],
-    resources: {
-      "forecast:CreateWhatIfAnalysis": [
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast/${ResourceId}",
-      ],
-    },
-    conditional: { "forecast:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWhatIfAnalysis",
 }));
@@ -2072,16 +1962,6 @@ export const createWhatIfForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatIfForecast",
-  iam: {
-    actions: ["forecast:CreateWhatIfForecast", "iam:PassRole"],
-    resources: {
-      "forecast:CreateWhatIfForecast": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-analysis/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWhatIfForecast",
 }));
@@ -2132,16 +2012,6 @@ export const createWhatIfForecastExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWhatIfForecastExport",
-  iam: {
-    actions: ["forecast:CreateWhatIfForecastExport", "iam:PassRole"],
-    resources: {
-      "forecast:CreateWhatIfForecastExport": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWhatIfForecastExport",
 }));
@@ -2172,14 +2042,6 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
-  iam: {
-    actions: ["forecast:DeleteDataset"],
-    resources: {
-      "forecast:DeleteDataset": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -2208,14 +2070,6 @@ export const deleteDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetGroup",
-  iam: {
-    actions: ["forecast:DeleteDatasetGroup"],
-    resources: {
-      "forecast:DeleteDatasetGroup": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDatasetGroup",
 }));
@@ -2243,14 +2097,6 @@ export const deleteDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetImportJob",
-  iam: {
-    actions: ["forecast:DeleteDatasetImportJob"],
-    resources: {
-      "forecast:DeleteDatasetImportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-import-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDatasetImportJob",
 }));
@@ -2278,14 +2124,6 @@ export const deleteExplainability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExplainability",
-  iam: {
-    actions: ["forecast:DeleteExplainability"],
-    resources: {
-      "forecast:DeleteExplainability": [
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExplainability",
 }));
@@ -2310,14 +2148,6 @@ export const deleteExplainabilityExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExplainabilityExport",
-  iam: {
-    actions: ["forecast:DeleteExplainabilityExport"],
-    resources: {
-      "forecast:DeleteExplainabilityExport": [
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability-export/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExplainabilityExport",
 }));
@@ -2347,14 +2177,6 @@ export const deleteForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForecast",
-  iam: {
-    actions: ["forecast:DeleteForecast"],
-    resources: {
-      "forecast:DeleteForecast": [
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteForecast",
 }));
@@ -2381,14 +2203,6 @@ export const deleteForecastExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteForecastExportJob",
-  iam: {
-    actions: ["forecast:DeleteForecastExportJob"],
-    resources: {
-      "forecast:DeleteForecastExportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast-export-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteForecastExportJob",
 }));
@@ -2413,14 +2227,6 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
-  iam: {
-    actions: ["forecast:DeleteMonitor"],
-    resources: {
-      "forecast:DeleteMonitor": [
-        "arn:${Partition}:forecast:${Region}:${Account}:monitor/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMonitor",
 }));
@@ -2446,14 +2252,6 @@ export const deletePredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePredictor",
-  iam: {
-    actions: ["forecast:DeletePredictor"],
-    resources: {
-      "forecast:DeletePredictor": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePredictor",
 }));
@@ -2478,14 +2276,6 @@ export const deletePredictorBacktestExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePredictorBacktestExportJob",
-  iam: {
-    actions: ["forecast:DeletePredictorBacktestExportJob"],
-    resources: {
-      "forecast:DeletePredictorBacktestExportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor-backtest-export-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePredictorBacktestExportJob",
 }));
@@ -2530,27 +2320,6 @@ export const deleteResourceTree: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceTree",
-  iam: {
-    actions: ["forecast:DeleteResourceTree"],
-    resources: {
-      "forecast:DeleteResourceTree": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-group/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-import-job/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast-endpoint/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability-export/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast-export-job/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:monitor/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor-backtest-export-job/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-analysis/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast-export/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourceTree",
 }));
@@ -2578,14 +2347,6 @@ export const deleteWhatIfAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatIfAnalysis",
-  iam: {
-    actions: ["forecast:DeleteWhatIfAnalysis"],
-    resources: {
-      "forecast:DeleteWhatIfAnalysis": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-analysis/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWhatIfAnalysis",
 }));
@@ -2613,14 +2374,6 @@ export const deleteWhatIfForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatIfForecast",
-  iam: {
-    actions: ["forecast:DeleteWhatIfForecast"],
-    resources: {
-      "forecast:DeleteWhatIfForecast": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWhatIfForecast",
 }));
@@ -2646,14 +2399,6 @@ export const deleteWhatIfForecastExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWhatIfForecastExport",
-  iam: {
-    actions: ["forecast:DeleteWhatIfForecastExport"],
-    resources: {
-      "forecast:DeleteWhatIfForecastExport": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast-export/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWhatIfForecastExport",
 }));
@@ -2677,14 +2422,6 @@ export const describeAutoPredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoPredictor",
-  iam: {
-    actions: ["forecast:DescribeAutoPredictor"],
-    resources: {
-      "forecast:DescribeAutoPredictor": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAutoPredictor",
 }));
@@ -2714,14 +2451,6 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
-  iam: {
-    actions: ["forecast:DescribeDataset"],
-    resources: {
-      "forecast:DescribeDataset": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDataset",
 }));
@@ -2757,14 +2486,6 @@ export const describeDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetGroup",
-  iam: {
-    actions: ["forecast:DescribeDatasetGroup"],
-    resources: {
-      "forecast:DescribeDatasetGroup": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDatasetGroup",
 }));
@@ -2804,14 +2525,6 @@ export const describeDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetImportJob",
-  iam: {
-    actions: ["forecast:DescribeDatasetImportJob"],
-    resources: {
-      "forecast:DescribeDatasetImportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-import-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDatasetImportJob",
 }));
@@ -2835,14 +2548,6 @@ export const describeExplainability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExplainability",
-  iam: {
-    actions: ["forecast:DescribeExplainability"],
-    resources: {
-      "forecast:DescribeExplainability": [
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeExplainability",
 }));
@@ -2866,14 +2571,6 @@ export const describeExplainabilityExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExplainabilityExport",
-  iam: {
-    actions: ["forecast:DescribeExplainabilityExport"],
-    resources: {
-      "forecast:DescribeExplainabilityExport": [
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability-export/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeExplainabilityExport",
 }));
@@ -2911,14 +2608,6 @@ export const describeForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeForecast",
-  iam: {
-    actions: ["forecast:DescribeForecast"],
-    resources: {
-      "forecast:DescribeForecast": [
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeForecast",
 }));
@@ -2954,14 +2643,6 @@ export const describeForecastExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeForecastExportJob",
-  iam: {
-    actions: ["forecast:DescribeForecastExportJob"],
-    resources: {
-      "forecast:DescribeForecastExportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast-export-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeForecastExportJob",
 }));
@@ -2996,14 +2677,6 @@ export const describeMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMonitor",
-  iam: {
-    actions: ["forecast:DescribeMonitor"],
-    resources: {
-      "forecast:DescribeMonitor": [
-        "arn:${Partition}:forecast:${Region}:${Account}:monitor/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMonitor",
 }));
@@ -3048,14 +2721,6 @@ export const describePredictor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePredictor",
-  iam: {
-    actions: ["forecast:DescribePredictor"],
-    resources: {
-      "forecast:DescribePredictor": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePredictor",
 }));
@@ -3091,14 +2756,6 @@ export const describePredictorBacktestExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePredictorBacktestExportJob",
-  iam: {
-    actions: ["forecast:DescribePredictorBacktestExportJob"],
-    resources: {
-      "forecast:DescribePredictorBacktestExportJob": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor-backtest-export-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePredictorBacktestExportJob",
 }));
@@ -3132,14 +2789,6 @@ export const describeWhatIfAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWhatIfAnalysis",
-  iam: {
-    actions: ["forecast:DescribeWhatIfAnalysis"],
-    resources: {
-      "forecast:DescribeWhatIfAnalysis": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-analysis/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeWhatIfAnalysis",
 }));
@@ -3173,14 +2822,6 @@ export const describeWhatIfForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWhatIfForecast",
-  iam: {
-    actions: ["forecast:DescribeWhatIfForecast"],
-    resources: {
-      "forecast:DescribeWhatIfForecast": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeWhatIfForecast",
 }));
@@ -3214,14 +2855,6 @@ export const describeWhatIfForecastExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWhatIfForecastExport",
-  iam: {
-    actions: ["forecast:DescribeWhatIfForecastExport"],
-    resources: {
-      "forecast:DescribeWhatIfForecastExport": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast-export/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeWhatIfForecastExport",
 }));
@@ -3263,14 +2896,6 @@ export const getAccuracyMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccuracyMetrics",
-  iam: {
-    actions: ["forecast:GetAccuracyMetrics"],
-    resources: {
-      "forecast:GetAccuracyMetrics": [
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAccuracyMetrics",
 }));
@@ -3302,7 +2927,6 @@ export const listDatasetGroups: API.PaginatedOperationMethod<
     items: "DatasetGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListDatasetGroups"] },
   telemetry: TELEMETRY,
   span: "ListDatasetGroups",
 })) as any;
@@ -3337,7 +2961,6 @@ export const listDatasetImportJobs: API.PaginatedOperationMethod<
     items: "DatasetImportJobs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListDatasetImportJobs"] },
   telemetry: TELEMETRY,
   span: "ListDatasetImportJobs",
 })) as any;
@@ -3367,7 +2990,6 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "Datasets",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListDatasets"] },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 })) as any;
@@ -3403,7 +3025,6 @@ export const listExplainabilities: API.PaginatedOperationMethod<
     items: "Explainabilities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListExplainabilities"] },
   telemetry: TELEMETRY,
   span: "ListExplainabilities",
 })) as any;
@@ -3438,7 +3059,6 @@ export const listExplainabilityExports: API.PaginatedOperationMethod<
     items: "ExplainabilityExports",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListExplainabilityExports"] },
   telemetry: TELEMETRY,
   span: "ListExplainabilityExports",
 })) as any;
@@ -3472,7 +3092,6 @@ export const listForecastExportJobs: API.PaginatedOperationMethod<
     items: "ForecastExportJobs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListForecastExportJobs"] },
   telemetry: TELEMETRY,
   span: "ListForecastExportJobs",
 })) as any;
@@ -3504,7 +3123,6 @@ export const listForecasts: API.PaginatedOperationMethod<
     items: "Forecasts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListForecasts"] },
   telemetry: TELEMETRY,
   span: "ListForecasts",
 })) as any;
@@ -3540,14 +3158,6 @@ export const listMonitorEvaluations: API.PaginatedOperationMethod<
     items: "PredictorMonitorEvaluations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["forecast:ListMonitorEvaluations"],
-    resources: {
-      "forecast:ListMonitorEvaluations": [
-        "arn:${Partition}:forecast:${Region}:${Account}:monitor/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMonitorEvaluations",
 })) as any;
@@ -3576,7 +3186,6 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "Monitors",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListMonitors"] },
   telemetry: TELEMETRY,
   span: "ListMonitors",
 })) as any;
@@ -3611,7 +3220,6 @@ export const listPredictorBacktestExportJobs: API.PaginatedOperationMethod<
     items: "PredictorBacktestExportJobs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListPredictorBacktestExportJobs"] },
   telemetry: TELEMETRY,
   span: "ListPredictorBacktestExportJobs",
 })) as any;
@@ -3644,7 +3252,6 @@ export const listPredictors: API.PaginatedOperationMethod<
     items: "Predictors",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListPredictors"] },
   telemetry: TELEMETRY,
   span: "ListPredictors",
 })) as any;
@@ -3668,7 +3275,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["forecast:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3699,7 +3305,6 @@ export const listWhatIfAnalyses: API.PaginatedOperationMethod<
     items: "WhatIfAnalyses",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListWhatIfAnalyses"] },
   telemetry: TELEMETRY,
   span: "ListWhatIfAnalyses",
 })) as any;
@@ -3730,7 +3335,6 @@ export const listWhatIfForecastExports: API.PaginatedOperationMethod<
     items: "WhatIfForecastExports",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListWhatIfForecastExports"] },
   telemetry: TELEMETRY,
   span: "ListWhatIfForecastExports",
 })) as any;
@@ -3761,7 +3365,6 @@ export const listWhatIfForecasts: API.PaginatedOperationMethod<
     items: "WhatIfForecasts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["forecast:ListWhatIfForecasts"] },
   telemetry: TELEMETRY,
   span: "ListWhatIfForecasts",
 })) as any;
@@ -3792,14 +3395,6 @@ export const resumeResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeResource",
-  iam: {
-    actions: ["forecast:ResumeResource"],
-    resources: {
-      "forecast:ResumeResource": [
-        "arn:${Partition}:forecast:${Region}:${Account}:monitor/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResumeResource",
 }));
@@ -3845,25 +3440,6 @@ export const stopResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopResource",
-  iam: {
-    actions: ["forecast:StopResource"],
-    resources: {
-      "forecast:StopResource": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-import-job/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast-endpoint/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:explainability-export/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast-export-job/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:monitor/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:predictor-backtest-export-job/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-analysis/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast-export/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopResource",
 }));
@@ -3891,7 +3467,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["forecast:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3912,7 +3487,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["forecast:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3941,15 +3515,6 @@ export const updateDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetGroup",
-  iam: {
-    actions: ["forecast:UpdateDatasetGroup"],
-    resources: {
-      "forecast:UpdateDatasetGroup": [
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset/${ResourceId}",
-        "arn:${Partition}:forecast:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDatasetGroup",
 }));

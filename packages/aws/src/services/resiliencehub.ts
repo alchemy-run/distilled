@@ -1474,14 +1474,6 @@ export const acceptResourceGroupingRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptResourceGroupingRecommendations",
-  iam: {
-    actions: ["resiliencehub:AcceptResourceGroupingRecommendations"],
-    resources: {
-      "resiliencehub:AcceptResourceGroupingRecommendations": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptResourceGroupingRecommendations",
 }));
@@ -1523,14 +1515,6 @@ export const addDraftAppVersionResourceMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDraftAppVersionResourceMappings",
-  iam: {
-    actions: ["resiliencehub:AddDraftAppVersionResourceMappings"],
-    resources: {
-      "resiliencehub:AddDraftAppVersionResourceMappings": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddDraftAppVersionResourceMappings",
 }));
@@ -1563,14 +1547,6 @@ export const batchUpdateRecommendationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateRecommendationStatus",
-  iam: {
-    actions: ["resiliencehub:BatchUpdateRecommendationStatus"],
-    resources: {
-      "resiliencehub:BatchUpdateRecommendationStatus": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchUpdateRecommendationStatus",
 }));
@@ -1618,19 +1594,6 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
-  iam: {
-    actions: ["resiliencehub:CreateApp", "iam:PassRole", "resiliencehub:TagResource"],
-    resources: {
-      "resiliencehub:CreateApp": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "permissionModel.invokerRoleName",
-      "resiliencehub:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateApp",
 }));
@@ -1671,14 +1634,6 @@ export const createAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppVersionAppComponent",
-  iam: {
-    actions: ["resiliencehub:CreateAppVersionAppComponent"],
-    resources: {
-      "resiliencehub:CreateAppVersionAppComponent": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAppVersionAppComponent",
 }));
@@ -1726,14 +1681,6 @@ export const createAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppVersionResource",
-  iam: {
-    actions: ["resiliencehub:CreateAppVersionResource"],
-    resources: {
-      "resiliencehub:CreateAppVersionResource": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAppVersionResource",
 }));
@@ -1770,15 +1717,6 @@ export const createRecommendationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommendationTemplate",
-  iam: {
-    actions: ["resiliencehub:CreateRecommendationTemplate", "resiliencehub:TagResource"],
-    resources: {
-      "resiliencehub:CreateRecommendationTemplate": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-    conditional: { "resiliencehub:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRecommendationTemplate",
 }));
@@ -1821,15 +1759,6 @@ export const createResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResiliencyPolicy",
-  iam: {
-    actions: ["resiliencehub:CreateResiliencyPolicy", "resiliencehub:TagResource"],
-    resources: {
-      "resiliencehub:CreateResiliencyPolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:resiliency-policy/${ResiliencyPolicyId}",
-      ],
-    },
-    conditional: { "resiliencehub:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateResiliencyPolicy",
 }));
@@ -1863,14 +1792,6 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
-  iam: {
-    actions: ["resiliencehub:DeleteApp"],
-    resources: {
-      "resiliencehub:DeleteApp": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApp",
 }));
@@ -1906,14 +1827,6 @@ export const deleteAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppAssessment",
-  iam: {
-    actions: ["resiliencehub:DeleteAppAssessment"],
-    resources: {
-      "resiliencehub:DeleteAppAssessment": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAppAssessment",
 }));
@@ -1949,14 +1862,6 @@ export const deleteAppInputSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppInputSource",
-  iam: {
-    actions: ["resiliencehub:DeleteAppInputSource"],
-    resources: {
-      "resiliencehub:DeleteAppInputSource": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAppInputSource",
 }));
@@ -1998,14 +1903,6 @@ export const deleteAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppVersionAppComponent",
-  iam: {
-    actions: ["resiliencehub:DeleteAppVersionAppComponent"],
-    resources: {
-      "resiliencehub:DeleteAppVersionAppComponent": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAppVersionAppComponent",
 }));
@@ -2049,14 +1946,6 @@ export const deleteAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppVersionResource",
-  iam: {
-    actions: ["resiliencehub:DeleteAppVersionResource"],
-    resources: {
-      "resiliencehub:DeleteAppVersionResource": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAppVersionResource",
 }));
@@ -2090,14 +1979,6 @@ export const deleteRecommendationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendationTemplate",
-  iam: {
-    actions: ["resiliencehub:DeleteRecommendationTemplate"],
-    resources: {
-      "resiliencehub:DeleteRecommendationTemplate": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecommendationTemplate",
 }));
@@ -2132,14 +2013,6 @@ export const deleteResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResiliencyPolicy",
-  iam: {
-    actions: ["resiliencehub:DeleteResiliencyPolicy"],
-    resources: {
-      "resiliencehub:DeleteResiliencyPolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:resiliency-policy/${ResiliencyPolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResiliencyPolicy",
 }));
@@ -2172,14 +2045,6 @@ export const describeApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApp",
-  iam: {
-    actions: ["resiliencehub:DescribeApp"],
-    resources: {
-      "resiliencehub:DescribeApp": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeApp",
 }));
@@ -2212,14 +2077,6 @@ export const describeAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppAssessment",
-  iam: {
-    actions: ["resiliencehub:DescribeAppAssessment"],
-    resources: {
-      "resiliencehub:DescribeAppAssessment": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAppAssessment",
 }));
@@ -2252,14 +2109,6 @@ export const describeAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersion",
-  iam: {
-    actions: ["resiliencehub:DescribeAppVersion"],
-    resources: {
-      "resiliencehub:DescribeAppVersion": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAppVersion",
 }));
@@ -2294,14 +2143,6 @@ export const describeAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionAppComponent",
-  iam: {
-    actions: ["resiliencehub:DescribeAppVersionAppComponent"],
-    resources: {
-      "resiliencehub:DescribeAppVersionAppComponent": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAppVersionAppComponent",
 }));
@@ -2345,14 +2186,6 @@ export const describeAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionResource",
-  iam: {
-    actions: ["resiliencehub:DescribeAppVersionResource"],
-    resources: {
-      "resiliencehub:DescribeAppVersionResource": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAppVersionResource",
 }));
@@ -2391,14 +2224,6 @@ export const describeAppVersionResourcesResolutionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionResourcesResolutionStatus",
-  iam: {
-    actions: ["resiliencehub:DescribeAppVersionResourcesResolutionStatus"],
-    resources: {
-      "resiliencehub:DescribeAppVersionResourcesResolutionStatus": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAppVersionResourcesResolutionStatus",
 }));
@@ -2431,14 +2256,6 @@ export const describeAppVersionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppVersionTemplate",
-  iam: {
-    actions: ["resiliencehub:DescribeAppVersionTemplate"],
-    resources: {
-      "resiliencehub:DescribeAppVersionTemplate": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAppVersionTemplate",
 }));
@@ -2481,14 +2298,6 @@ export const describeDraftAppVersionResourcesImportStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDraftAppVersionResourcesImportStatus",
-  iam: {
-    actions: ["resiliencehub:DescribeDraftAppVersionResourcesImportStatus"],
-    resources: {
-      "resiliencehub:DescribeDraftAppVersionResourcesImportStatus": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDraftAppVersionResourcesImportStatus",
 }));
@@ -2521,7 +2330,6 @@ export const describeMetricsExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricsExport",
-  iam: { actions: ["resiliencehub:DescribeMetricsExport"] },
   telemetry: TELEMETRY,
   span: "DescribeMetricsExport",
 }));
@@ -2556,14 +2364,6 @@ export const describeResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResiliencyPolicy",
-  iam: {
-    actions: ["resiliencehub:DescribeResiliencyPolicy"],
-    resources: {
-      "resiliencehub:DescribeResiliencyPolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:resiliency-policy/${ResiliencyPolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeResiliencyPolicy",
 }));
@@ -2596,14 +2396,6 @@ export const describeResourceGroupingRecommendationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceGroupingRecommendationTask",
-  iam: {
-    actions: ["resiliencehub:DescribeResourceGroupingRecommendationTask"],
-    resources: {
-      "resiliencehub:DescribeResourceGroupingRecommendationTask": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeResourceGroupingRecommendationTask",
 }));
@@ -2642,14 +2434,6 @@ export const importResourcesToDraftAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportResourcesToDraftAppVersion",
-  iam: {
-    actions: ["resiliencehub:ImportResourcesToDraftAppVersion"],
-    resources: {
-      "resiliencehub:ImportResourcesToDraftAppVersion": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportResourcesToDraftAppVersion",
 }));
@@ -2688,14 +2472,6 @@ export const listAlarmRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAlarmRecommendations"],
-    resources: {
-      "resiliencehub:ListAlarmRecommendations": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAlarmRecommendations",
 })) as any;
@@ -2733,14 +2509,6 @@ export const listAppAssessmentComplianceDrifts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppAssessmentComplianceDrifts"],
-    resources: {
-      "resiliencehub:ListAppAssessmentComplianceDrifts": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppAssessmentComplianceDrifts",
 })) as any;
@@ -2779,14 +2547,6 @@ export const listAppAssessmentResourceDrifts: API.PaginatedOperationMethod<
     items: "resourceDrifts",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppAssessmentResourceDrifts"],
-    resources: {
-      "resiliencehub:ListAppAssessmentResourceDrifts": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppAssessmentResourceDrifts",
 })) as any;
@@ -2826,7 +2586,6 @@ export const listAppAssessments: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListAppAssessments"] },
   telemetry: TELEMETRY,
   span: "ListAppAssessments",
 })) as any;
@@ -2865,14 +2624,6 @@ export const listAppComponentCompliances: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppComponentCompliances"],
-    resources: {
-      "resiliencehub:ListAppComponentCompliances": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppComponentCompliances",
 })) as any;
@@ -2911,14 +2662,6 @@ export const listAppComponentRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppComponentRecommendations"],
-    resources: {
-      "resiliencehub:ListAppComponentRecommendations": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppComponentRecommendations",
 })) as any;
@@ -2959,14 +2702,6 @@ export const listAppInputSources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppInputSources"],
-    resources: {
-      "resiliencehub:ListAppInputSources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppInputSources",
 })) as any;
@@ -3010,7 +2745,6 @@ export const listApps: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListApps"] },
   telemetry: TELEMETRY,
   span: "ListApps",
 })) as any;
@@ -3051,14 +2785,6 @@ export const listAppVersionAppComponents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppVersionAppComponents"],
-    resources: {
-      "resiliencehub:ListAppVersionAppComponents": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppVersionAppComponents",
 })) as any;
@@ -3099,14 +2825,6 @@ export const listAppVersionResourceMappings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppVersionResourceMappings"],
-    resources: {
-      "resiliencehub:ListAppVersionResourceMappings": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppVersionResourceMappings",
 })) as any;
@@ -3147,14 +2865,6 @@ export const listAppVersionResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppVersionResources"],
-    resources: {
-      "resiliencehub:ListAppVersionResources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppVersionResources",
 })) as any;
@@ -3191,14 +2901,6 @@ export const listAppVersions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAppVersions"],
-    resources: {
-      "resiliencehub:ListAppVersions": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAppVersions",
 })) as any;
@@ -3236,7 +2938,6 @@ export const listMetrics: API.PaginatedOperationMethod<
     items: "rows",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListMetrics"] },
   telemetry: TELEMETRY,
   span: "ListMetrics",
 })) as any;
@@ -3273,14 +2974,6 @@ export const listRecommendationTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListRecommendationTemplates"],
-    resources: {
-      "resiliencehub:ListRecommendationTemplates": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRecommendationTemplates",
 })) as any;
@@ -3319,7 +3012,6 @@ export const listResiliencyPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListResiliencyPolicies"] },
   telemetry: TELEMETRY,
   span: "ListResiliencyPolicies",
 })) as any;
@@ -3359,14 +3051,6 @@ export const listResourceGroupingRecommendations: API.PaginatedOperationMethod<
     items: "groupingRecommendations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListResourceGroupingRecommendations"],
-    resources: {
-      "resiliencehub:ListResourceGroupingRecommendations": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourceGroupingRecommendations",
 })) as any;
@@ -3407,14 +3091,6 @@ export const listSopRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListSopRecommendations"],
-    resources: {
-      "resiliencehub:ListSopRecommendations": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSopRecommendations",
 })) as any;
@@ -3454,7 +3130,6 @@ export const listSuggestedResiliencyPolicies: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListSuggestedResiliencyPolicies"] },
   telemetry: TELEMETRY,
   span: "ListSuggestedResiliencyPolicies",
 })) as any;
@@ -3487,7 +3162,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["resiliencehub:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3528,14 +3202,6 @@ export const listTestRecommendations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListTestRecommendations"],
-    resources: {
-      "resiliencehub:ListTestRecommendations": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTestRecommendations",
 })) as any;
@@ -3578,14 +3244,6 @@ export const listUnsupportedAppVersionResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListUnsupportedAppVersionResources"],
-    resources: {
-      "resiliencehub:ListUnsupportedAppVersionResources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUnsupportedAppVersionResources",
 })) as any;
@@ -3620,14 +3278,6 @@ export const publishAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PublishAppVersion",
-  iam: {
-    actions: ["resiliencehub:PublishAppVersion"],
-    resources: {
-      "resiliencehub:PublishAppVersion": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PublishAppVersion",
 }));
@@ -3663,14 +3313,6 @@ export const putDraftAppVersionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDraftAppVersionTemplate",
-  iam: {
-    actions: ["resiliencehub:PutDraftAppVersionTemplate"],
-    resources: {
-      "resiliencehub:PutDraftAppVersionTemplate": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutDraftAppVersionTemplate",
 }));
@@ -3703,14 +3345,6 @@ export const rejectResourceGroupingRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectResourceGroupingRecommendations",
-  iam: {
-    actions: ["resiliencehub:RejectResourceGroupingRecommendations"],
-    resources: {
-      "resiliencehub:RejectResourceGroupingRecommendations": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectResourceGroupingRecommendations",
 }));
@@ -3745,14 +3379,6 @@ export const removeDraftAppVersionResourceMappings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveDraftAppVersionResourceMappings",
-  iam: {
-    actions: ["resiliencehub:RemoveDraftAppVersionResourceMappings"],
-    resources: {
-      "resiliencehub:RemoveDraftAppVersionResourceMappings": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveDraftAppVersionResourceMappings",
 }));
@@ -3787,14 +3413,6 @@ export const resolveAppVersionResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResolveAppVersionResources",
-  iam: {
-    actions: ["resiliencehub:ResolveAppVersionResources"],
-    resources: {
-      "resiliencehub:ResolveAppVersionResources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResolveAppVersionResources",
 }));
@@ -3831,15 +3449,6 @@ export const startAppAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAppAssessment",
-  iam: {
-    actions: ["resiliencehub:StartAppAssessment", "resiliencehub:TagResource"],
-    resources: {
-      "resiliencehub:StartAppAssessment": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-    conditional: { "resiliencehub:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartAppAssessment",
 }));
@@ -3874,7 +3483,6 @@ export const startMetricsExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetricsExport",
-  iam: { actions: ["resiliencehub:StartMetricsExport"] },
   telemetry: TELEMETRY,
   span: "StartMetricsExport",
 }));
@@ -3909,14 +3517,6 @@ export const startResourceGroupingRecommendationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceGroupingRecommendationTask",
-  iam: {
-    actions: ["resiliencehub:StartResourceGroupingRecommendationTask"],
-    resources: {
-      "resiliencehub:StartResourceGroupingRecommendationTask": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartResourceGroupingRecommendationTask",
 }));
@@ -3949,7 +3549,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["resiliencehub:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3982,7 +3581,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["resiliencehub:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4017,16 +3615,6 @@ export const updateApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApp",
-  iam: {
-    actions: ["iam:PassRole", "resiliencehub:UpdateApp"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "resiliencehub:UpdateApp": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "permissionModel.invokerRoleName" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApp",
 }));
@@ -4065,14 +3653,6 @@ export const updateAppVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersion",
-  iam: {
-    actions: ["resiliencehub:UpdateAppVersion"],
-    resources: {
-      "resiliencehub:UpdateAppVersion": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAppVersion",
 }));
@@ -4111,14 +3691,6 @@ export const updateAppVersionAppComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersionAppComponent",
-  iam: {
-    actions: ["resiliencehub:UpdateAppVersionAppComponent"],
-    resources: {
-      "resiliencehub:UpdateAppVersionAppComponent": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAppVersionAppComponent",
 }));
@@ -4164,14 +3736,6 @@ export const updateAppVersionResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppVersionResource",
-  iam: {
-    actions: ["resiliencehub:UpdateAppVersionResource"],
-    resources: {
-      "resiliencehub:UpdateAppVersionResource": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAppVersionResource",
 }));
@@ -4214,14 +3778,6 @@ export const updateResiliencyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResiliencyPolicy",
-  iam: {
-    actions: ["resiliencehub:UpdateResiliencyPolicy"],
-    resources: {
-      "resiliencehub:UpdateResiliencyPolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:resiliency-policy/${ResiliencyPolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateResiliencyPolicy",
 }));

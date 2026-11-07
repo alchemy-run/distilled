@@ -500,14 +500,6 @@ export const createIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityPool",
-  iam: {
-    actions: ["cognito-identity:CreateIdentityPool", "cognito-identity:TagResource"],
-    resources: {
-      "cognito-identity:TagResource": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateIdentityPool",
 }));
@@ -536,7 +528,6 @@ export const deleteIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentities",
-  iam: { actions: ["cognito-identity:DeleteIdentities"] },
   telemetry: TELEMETRY,
   span: "DeleteIdentities",
 }));
@@ -573,14 +564,6 @@ export const deleteIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityPool",
-  iam: {
-    actions: ["cognito-identity:DeleteIdentityPool"],
-    resources: {
-      "cognito-identity:DeleteIdentityPool": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIdentityPool",
 }));
@@ -617,7 +600,6 @@ export const describeIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentity",
-  iam: { actions: ["cognito-identity:DescribeIdentity"] },
   telemetry: TELEMETRY,
   span: "DescribeIdentity",
 }));
@@ -654,14 +636,6 @@ export const describeIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityPool",
-  iam: {
-    actions: ["cognito-identity:DescribeIdentityPool"],
-    resources: {
-      "cognito-identity:DescribeIdentityPool": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeIdentityPool",
 }));
@@ -704,7 +678,6 @@ export const getCredentialsForIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentialsForIdentity",
-  iam: { actions: ["cognito-identity:GetCredentialsForIdentity"] },
   telemetry: TELEMETRY,
   span: "GetCredentialsForIdentity",
 }));
@@ -746,7 +719,6 @@ export const getId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetId",
-  iam: { actions: ["cognito-identity:GetId"] },
   telemetry: TELEMETRY,
   span: "GetId",
 }));
@@ -784,14 +756,6 @@ export const getIdentityPoolRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityPoolRoles",
-  iam: {
-    actions: ["cognito-identity:GetIdentityPoolRoles"],
-    resources: {
-      "cognito-identity:GetIdentityPoolRoles": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIdentityPoolRoles",
 }));
@@ -834,7 +798,6 @@ export const getOpenIdToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIdToken",
-  iam: { actions: ["cognito-identity:GetOpenIdToken"] },
   telemetry: TELEMETRY,
   span: "GetOpenIdToken",
 }));
@@ -886,14 +849,6 @@ export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpenIdTokenForDeveloperIdentity",
-  iam: {
-    actions: ["cognito-identity:GetOpenIdTokenForDeveloperIdentity"],
-    resources: {
-      "cognito-identity:GetOpenIdTokenForDeveloperIdentity": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOpenIdTokenForDeveloperIdentity",
 }));
@@ -927,14 +882,6 @@ export const getPrincipalTagAttributeMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrincipalTagAttributeMap",
-  iam: {
-    actions: ["cognito-identity:GetPrincipalTagAttributeMap"],
-    resources: {
-      "cognito-identity:GetPrincipalTagAttributeMap": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPrincipalTagAttributeMap",
 }));
@@ -970,14 +917,6 @@ export const listIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListIdentities",
-  iam: {
-    actions: ["cognito-identity:ListIdentities"],
-    resources: {
-      "cognito-identity:ListIdentities": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIdentities",
 }));
@@ -1020,7 +959,6 @@ export const listIdentityPools: API.PaginatedOperationMethod<
     items: "IdentityPools",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cognito-identity:ListIdentityPools"] },
   telemetry: TELEMETRY,
   span: "ListIdentityPools",
 })) as any;
@@ -1058,7 +996,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["cognito-identity:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1111,14 +1048,6 @@ export const lookupDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LookupDeveloperIdentity",
-  iam: {
-    actions: ["cognito-identity:LookupDeveloperIdentity"],
-    resources: {
-      "cognito-identity:LookupDeveloperIdentity": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "LookupDeveloperIdentity",
 }));
@@ -1168,14 +1097,6 @@ export const mergeDeveloperIdentities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MergeDeveloperIdentities",
-  iam: {
-    actions: ["cognito-identity:MergeDeveloperIdentities"],
-    resources: {
-      "cognito-identity:MergeDeveloperIdentities": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "MergeDeveloperIdentities",
 }));
@@ -1215,11 +1136,6 @@ export const setIdentityPoolRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIdentityPoolRoles",
-  iam: {
-    actions: ["iam:PassRole", "cognito-identity:SetIdentityPoolRoles"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "SetIdentityPoolRoles",
 }));
@@ -1253,7 +1169,6 @@ export const setPrincipalTagAttributeMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetPrincipalTagAttributeMap",
-  iam: { actions: ["cognito-identity:SetPrincipalTagAttributeMap"] },
   telemetry: TELEMETRY,
   span: "SetPrincipalTagAttributeMap",
 }));
@@ -1303,14 +1218,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["cognito-identity:TagResource"],
-    resources: {
-      "cognito-identity:TagResource": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1351,14 +1258,6 @@ export const unlinkDeveloperIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlinkDeveloperIdentity",
-  iam: {
-    actions: ["cognito-identity:UnlinkDeveloperIdentity"],
-    resources: {
-      "cognito-identity:UnlinkDeveloperIdentity": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UnlinkDeveloperIdentity",
 }));
@@ -1399,7 +1298,6 @@ export const unlinkIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlinkIdentity",
-  iam: { actions: ["cognito-identity:UnlinkIdentity"] },
   telemetry: TELEMETRY,
   span: "UnlinkIdentity",
 }));
@@ -1433,14 +1331,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["cognito-identity:UntagResource"],
-    resources: {
-      "cognito-identity:UntagResource": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1484,24 +1374,6 @@ export const updateIdentityPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityPool",
-  iam: {
-    actions: [
-      "cognito-identity:TagResource",
-      "cognito-identity:UntagResource",
-      "cognito-identity:UpdateIdentityPool",
-    ],
-    resources: {
-      "cognito-identity:TagResource": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-      "cognito-identity:UntagResource": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-      "cognito-identity:UpdateIdentityPool": [
-        "arn:${Partition}:cognito-identity:${Region}:${Account}:identitypool/${IdentityPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIdentityPool",
 }));

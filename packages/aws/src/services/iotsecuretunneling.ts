@@ -265,12 +265,6 @@ export const closeTunnel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloseTunnel",
-  iam: {
-    actions: ["iot:CloseTunnel"],
-    resources: {
-      "iot:CloseTunnel": ["arn:${Partition}:iot:${Region}:${Account}:tunnel/${TunnelId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CloseTunnel",
 }));
@@ -293,12 +287,6 @@ export const describeTunnel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTunnel",
-  iam: {
-    actions: ["iot:DescribeTunnel"],
-    resources: {
-      "iot:DescribeTunnel": ["arn:${Partition}:iot:${Region}:${Account}:tunnel/${TunnelId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTunnel",
 }));
@@ -319,7 +307,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["iot:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -349,7 +336,6 @@ export const listTunnels: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iot:ListTunnels"] },
   telemetry: TELEMETRY,
   span: "ListTunnels",
 })) as any;
@@ -373,10 +359,6 @@ export const openTunnel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OpenTunnel",
-  iam: {
-    actions: ["iot:OpenTunnel", "iot:TagResource"],
-    conditional: { "iot:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "OpenTunnel",
 }));
@@ -405,14 +387,6 @@ export const rotateTunnelAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateTunnelAccessToken",
-  iam: {
-    actions: ["iot:RotateTunnelAccessToken"],
-    resources: {
-      "iot:RotateTunnelAccessToken": [
-        "arn:${Partition}:iot:${Region}:${Account}:tunnel/${TunnelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RotateTunnelAccessToken",
 }));
@@ -433,7 +407,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["iot:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -454,7 +427,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["iot:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

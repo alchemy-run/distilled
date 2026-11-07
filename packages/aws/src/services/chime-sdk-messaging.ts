@@ -988,17 +988,6 @@ export const associateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateChannelFlow",
-  iam: {
-    actions: ["chime:AssociateChannelFlow"],
-    resources: {
-      "chime:AssociateChannelFlow": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel-flow/${ChannelFlowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateChannelFlow",
 }));
@@ -1037,16 +1026,6 @@ export const batchCreateChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateChannelMembership",
-  iam: {
-    actions: ["chime:BatchCreateChannelMembership"],
-    resources: {
-      "chime:BatchCreateChannelMembership": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchCreateChannelMembership",
 }));
@@ -1091,14 +1070,6 @@ export const channelFlowCallback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChannelFlowCallback",
-  iam: {
-    actions: ["chime:ChannelFlowCallback"],
-    resources: {
-      "chime:ChannelFlowCallback": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ChannelFlowCallback",
 }));
@@ -1144,36 +1115,6 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
-  iam: {
-    actions: [
-      "chime:CreateChannel",
-      "chime:CreateChannelMembership",
-      "chime:CreateChannelModerator",
-      "chime:PutChannelExpirationSettings",
-      "chime:TagResource",
-    ],
-    resources: {
-      "chime:CreateChannel": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-      ],
-      "chime:CreateChannelMembership": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-      "chime:CreateChannelModerator": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-      "chime:PutChannelExpirationSettings": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -1222,16 +1163,6 @@ export const createChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelBan",
-  iam: {
-    actions: ["chime:CreateChannelBan"],
-    resources: {
-      "chime:CreateChannelBan": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannelBan",
 }));
@@ -1284,15 +1215,6 @@ export const createChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelFlow",
-  iam: {
-    actions: ["chime:CreateChannelFlow", "chime:TagResource"],
-    resources: {
-      "chime:CreateChannelFlow": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
-      ],
-    },
-    conditional: { "chime:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannelFlow",
 }));
@@ -1355,16 +1277,6 @@ export const createChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelMembership",
-  iam: {
-    actions: ["chime:CreateChannelMembership"],
-    resources: {
-      "chime:CreateChannelMembership": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannelMembership",
 }));
@@ -1417,16 +1329,6 @@ export const createChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelModerator",
-  iam: {
-    actions: ["chime:CreateChannelModerator"],
-    resources: {
-      "chime:CreateChannelModerator": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannelModerator",
 }));
@@ -1468,16 +1370,6 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
-  iam: {
-    actions: ["chime:DeleteChannel"],
-    resources: {
-      "chime:DeleteChannel": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -1516,16 +1408,6 @@ export const deleteChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelBan",
-  iam: {
-    actions: ["chime:DeleteChannelBan"],
-    resources: {
-      "chime:DeleteChannelBan": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelBan",
 }));
@@ -1565,14 +1447,6 @@ export const deleteChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelFlow",
-  iam: {
-    actions: ["chime:DeleteChannelFlow"],
-    resources: {
-      "chime:DeleteChannelFlow": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelFlow",
 }));
@@ -1613,16 +1487,6 @@ export const deleteChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelMembership",
-  iam: {
-    actions: ["chime:DeleteChannelMembership"],
-    resources: {
-      "chime:DeleteChannelMembership": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelMembership",
 }));
@@ -1663,16 +1527,6 @@ export const deleteChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelMessage",
-  iam: {
-    actions: ["chime:DeleteChannelMessage"],
-    resources: {
-      "chime:DeleteChannelMessage": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelMessage",
 }));
@@ -1711,16 +1565,6 @@ export const deleteChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelModerator",
-  iam: {
-    actions: ["chime:DeleteChannelModerator"],
-    resources: {
-      "chime:DeleteChannelModerator": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelModerator",
 }));
@@ -1756,14 +1600,6 @@ export const deleteMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMessagingStreamingConfigurations",
-  iam: {
-    actions: ["chime:DeleteMessagingStreamingConfigurations"],
-    resources: {
-      "chime:DeleteMessagingStreamingConfigurations": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMessagingStreamingConfigurations",
 }));
@@ -1803,16 +1639,6 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
-  iam: {
-    actions: ["chime:DescribeChannel"],
-    resources: {
-      "chime:DescribeChannel": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannel",
 }));
@@ -1853,16 +1679,6 @@ export const describeChannelBan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelBan",
-  iam: {
-    actions: ["chime:DescribeChannelBan"],
-    resources: {
-      "chime:DescribeChannelBan": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannelBan",
 }));
@@ -1897,14 +1713,6 @@ export const describeChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelFlow",
-  iam: {
-    actions: ["chime:DescribeChannelFlow"],
-    resources: {
-      "chime:DescribeChannelFlow": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel-flow/${ChannelFlowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannelFlow",
 }));
@@ -1945,16 +1753,6 @@ export const describeChannelMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelMembership",
-  iam: {
-    actions: ["chime:DescribeChannelMembership"],
-    resources: {
-      "chime:DescribeChannelMembership": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannelMembership",
 }));
@@ -1998,16 +1796,6 @@ export const describeChannelMembershipForAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelMembershipForAppInstanceUser",
-  iam: {
-    actions: ["chime:DescribeChannelMembershipForAppInstanceUser"],
-    resources: {
-      "chime:DescribeChannelMembershipForAppInstanceUser": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannelMembershipForAppInstanceUser",
 }));
@@ -2047,16 +1835,6 @@ export const describeChannelModeratedByAppInstanceUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelModeratedByAppInstanceUser",
-  iam: {
-    actions: ["chime:DescribeChannelModeratedByAppInstanceUser"],
-    resources: {
-      "chime:DescribeChannelModeratedByAppInstanceUser": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannelModeratedByAppInstanceUser",
 }));
@@ -2097,16 +1875,6 @@ export const describeChannelModerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelModerator",
-  iam: {
-    actions: ["chime:DescribeChannelModerator"],
-    resources: {
-      "chime:DescribeChannelModerator": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannelModerator",
 }));
@@ -2152,17 +1920,6 @@ export const disassociateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateChannelFlow",
-  iam: {
-    actions: ["chime:DisassociateChannelFlow"],
-    resources: {
-      "chime:DisassociateChannelFlow": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel-flow/${ChannelFlowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateChannelFlow",
 }));
@@ -2205,16 +1962,6 @@ export const getChannelMembershipPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMembershipPreferences",
-  iam: {
-    actions: ["chime:GetChannelMembershipPreferences"],
-    resources: {
-      "chime:GetChannelMembershipPreferences": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannelMembershipPreferences",
 }));
@@ -2255,16 +2002,6 @@ export const getChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMessage",
-  iam: {
-    actions: ["chime:GetChannelMessage"],
-    resources: {
-      "chime:GetChannelMessage": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannelMessage",
 }));
@@ -2326,16 +2063,6 @@ export const getChannelMessageStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelMessageStatus",
-  iam: {
-    actions: ["chime:GetChannelMessageStatus"],
-    resources: {
-      "chime:GetChannelMessageStatus": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannelMessageStatus",
 }));
@@ -2368,7 +2095,6 @@ export const getMessagingSessionEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessagingSessionEndpoint",
-  iam: { actions: ["chime:GetMessagingSessionEndpoint"] },
   telemetry: TELEMETRY,
   span: "GetMessagingSessionEndpoint",
 }));
@@ -2406,14 +2132,6 @@ export const getMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMessagingStreamingConfigurations",
-  iam: {
-    actions: ["chime:GetMessagingStreamingConfigurations"],
-    resources: {
-      "chime:GetMessagingStreamingConfigurations": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMessagingStreamingConfigurations",
 }));
@@ -2458,16 +2176,6 @@ export const listChannelBans: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannelBans"],
-    resources: {
-      "chime:ListChannelBans": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelBans",
 })) as any;
@@ -2508,14 +2216,6 @@ export const listChannelFlows: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannelFlows"],
-    resources: {
-      "chime:ListChannelFlows": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel-flow/${ChannelFlowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelFlows",
 })) as any;
@@ -2563,16 +2263,6 @@ export const listChannelMemberships: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannelMemberships"],
-    resources: {
-      "chime:ListChannelMemberships": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelMemberships",
 })) as any;
@@ -2618,15 +2308,6 @@ export const listChannelMembershipsForAppInstanceUser: API.PaginatedOperationMet
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannelMembershipsForAppInstanceUser"],
-    resources: {
-      "chime:ListChannelMembershipsForAppInstanceUser": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelMembershipsForAppInstanceUser",
 })) as any;
@@ -2677,16 +2358,6 @@ export const listChannelMessages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannelMessages"],
-    resources: {
-      "chime:ListChannelMessages": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelMessages",
 })) as any;
@@ -2731,16 +2402,6 @@ export const listChannelModerators: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannelModerators"],
-    resources: {
-      "chime:ListChannelModerators": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelModerators",
 })) as any;
@@ -2794,15 +2455,6 @@ export const listChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannels"],
-    resources: {
-      "chime:ListChannels": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -2843,14 +2495,6 @@ export const listChannelsAssociatedWithChannelFlow: API.PaginatedOperationMethod
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannelsAssociatedWithChannelFlow"],
-    resources: {
-      "chime:ListChannelsAssociatedWithChannelFlow": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel-flow/${ChannelFlowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelsAssociatedWithChannelFlow",
 })) as any;
@@ -2895,15 +2539,6 @@ export const listChannelsModeratedByAppInstanceUser: API.PaginatedOperationMetho
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListChannelsModeratedByAppInstanceUser"],
-    resources: {
-      "chime:ListChannelsModeratedByAppInstanceUser": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelsModeratedByAppInstanceUser",
 })) as any;
@@ -2944,16 +2579,6 @@ export const listSubChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:ListSubChannels"],
-    resources: {
-      "chime:ListSubChannels": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSubChannels",
 })) as any;
@@ -2988,7 +2613,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["chime:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3035,15 +2659,6 @@ export const putChannelExpirationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelExpirationSettings",
-  iam: {
-    actions: ["chime:PutChannelExpirationSettings"],
-    resources: {
-      "chime:PutChannelExpirationSettings": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutChannelExpirationSettings",
 }));
@@ -3088,16 +2703,6 @@ export const putChannelMembershipPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelMembershipPreferences",
-  iam: {
-    actions: ["chime:PutChannelMembershipPreferences"],
-    resources: {
-      "chime:PutChannelMembershipPreferences": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutChannelMembershipPreferences",
 }));
@@ -3137,14 +2742,6 @@ export const putMessagingStreamingConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMessagingStreamingConfigurations",
-  iam: {
-    actions: ["chime:PutMessagingStreamingConfigurations"],
-    resources: {
-      "chime:PutMessagingStreamingConfigurations": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutMessagingStreamingConfigurations",
 }));
@@ -3186,16 +2783,6 @@ export const redactChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedactChannelMessage",
-  iam: {
-    actions: ["chime:RedactChannelMessage"],
-    resources: {
-      "chime:RedactChannelMessage": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RedactChannelMessage",
 }));
@@ -3244,15 +2831,6 @@ export const searchChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["chime:SearchChannels"],
-    resources: {
-      "chime:SearchChannels": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchChannels",
 })) as any;
@@ -3298,16 +2876,6 @@ export const sendChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendChannelMessage",
-  iam: {
-    actions: ["chime:SendChannelMessage"],
-    resources: {
-      "chime:SendChannelMessage": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendChannelMessage",
 }));
@@ -3344,7 +2912,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["chime:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3379,7 +2946,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["chime:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3422,16 +2988,6 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
-  iam: {
-    actions: ["chime:UpdateChannel"],
-    resources: {
-      "chime:UpdateChannel": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -3468,14 +3024,6 @@ export const updateChannelFlow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelFlow",
-  iam: {
-    actions: ["chime:UpdateChannelFlow"],
-    resources: {
-      "chime:UpdateChannelFlow": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel-flow/${ChannelFlowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannelFlow",
 }));
@@ -3516,16 +3064,6 @@ export const updateChannelMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelMessage",
-  iam: {
-    actions: ["chime:UpdateChannelMessage"],
-    resources: {
-      "chime:UpdateChannelMessage": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannelMessage",
 }));
@@ -3566,16 +3104,6 @@ export const updateChannelReadMarker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelReadMarker",
-  iam: {
-    actions: ["chime:UpdateChannelReadMarker"],
-    resources: {
-      "chime:UpdateChannelReadMarker": [
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/bot/${AppInstanceBotId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/user/${AppInstanceUserId}",
-        "arn:${Partition}:chime:${Region}:${AccountId}:app-instance/${AppInstanceId}/channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannelReadMarker",
 }));

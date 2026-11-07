@@ -1531,14 +1531,6 @@ export const acceptEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptEnvironmentAccountConnection",
-  iam: {
-    actions: ["proton:AcceptEnvironmentAccountConnection"],
-    resources: {
-      "proton:AcceptEnvironmentAccountConnection": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-account-connection/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptEnvironmentAccountConnection",
 }));
@@ -1577,14 +1569,6 @@ export const cancelComponentDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelComponentDeployment",
-  iam: {
-    actions: ["proton:CancelComponentDeployment"],
-    resources: {
-      "proton:CancelComponentDeployment": [
-        "arn:${Partition}:proton:${Region}:${Account}:component/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelComponentDeployment",
 }));
@@ -1630,14 +1614,6 @@ export const cancelEnvironmentDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelEnvironmentDeployment",
-  iam: {
-    actions: ["proton:CancelEnvironmentDeployment"],
-    resources: {
-      "proton:CancelEnvironmentDeployment": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelEnvironmentDeployment",
 }));
@@ -1686,14 +1662,6 @@ export const cancelServiceInstanceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServiceInstanceDeployment",
-  iam: {
-    actions: ["proton:CancelServiceInstanceDeployment"],
-    resources: {
-      "proton:CancelServiceInstanceDeployment": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${ServiceName}/service-instance/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelServiceInstanceDeployment",
 }));
@@ -1742,14 +1710,6 @@ export const cancelServicePipelineDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServicePipelineDeployment",
-  iam: {
-    actions: ["proton:CancelServicePipelineDeployment"],
-    resources: {
-      "proton:CancelServicePipelineDeployment": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelServicePipelineDeployment",
 }));
@@ -1790,13 +1750,6 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
-  iam: {
-    actions: ["proton:CreateComponent", "proton:TagResource"],
-    resources: {
-      "proton:CreateComponent": ["arn:${Partition}:proton:${Region}:${Account}:component/${Id}"],
-    },
-    conditional: { "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateComponent",
 }));
@@ -1844,16 +1797,6 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
-  iam: {
-    actions: ["proton:CreateEnvironment", "iam:PassRole", "proton:TagResource"],
-    resources: {
-      "proton:CreateEnvironment": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment/${Name}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "protonServiceRoleArn", "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -1893,11 +1836,6 @@ export const createEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentAccountConnection",
-  iam: {
-    actions: ["proton:CreateEnvironmentAccountConnection", "iam:PassRole", "proton:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "roleArn", "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentAccountConnection",
 }));
@@ -1943,15 +1881,6 @@ export const createEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentTemplate",
-  iam: {
-    actions: ["proton:CreateEnvironmentTemplate", "proton:TagResource"],
-    resources: {
-      "proton:CreateEnvironmentTemplate": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-    conditional: { "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentTemplate",
 }));
@@ -1990,15 +1919,6 @@ export const createEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentTemplateVersion",
-  iam: {
-    actions: ["proton:CreateEnvironmentTemplateVersion", "proton:TagResource"],
-    resources: {
-      "proton:CreateEnvironmentTemplateVersion": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-    conditional: { "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentTemplateVersion",
 }));
@@ -2039,22 +1959,6 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
-  iam: {
-    actions: [
-      "proton:CreateRepository",
-      "codestar-connections:PassConnection",
-      "proton:TagResource",
-    ],
-    resources: {
-      "proton:CreateRepository": [
-        "arn:${Partition}:proton:${Region}:${Account}:repository/${Provider}:${Name}",
-      ],
-      "codestar-connections:PassConnection": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
-      ],
-    },
-    conditional: { "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRepository",
 }));
@@ -2094,16 +1998,6 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
-  iam: {
-    actions: ["proton:CreateService", "codestar-connections:PassConnection", "proton:TagResource"],
-    resources: {
-      "proton:CreateService": ["arn:${Partition}:proton:${Region}:${Account}:service/${Name}"],
-      "codestar-connections:PassConnection": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
-      ],
-    },
-    conditional: { "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
@@ -2138,15 +2032,6 @@ export const createServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceInstance",
-  iam: {
-    actions: ["proton:CreateServiceInstance", "proton:TagResource"],
-    resources: {
-      "proton:CreateServiceInstance": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${ServiceName}/service-instance/${Name}",
-      ],
-    },
-    conditional: { "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceInstance",
 }));
@@ -2181,7 +2066,6 @@ export const createServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceSyncConfig",
-  iam: { actions: ["proton:CreateServiceSyncConfig"] },
   telemetry: TELEMETRY,
   span: "CreateServiceSyncConfig",
 }));
@@ -2221,15 +2105,6 @@ export const createServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceTemplate",
-  iam: {
-    actions: ["proton:CreateServiceTemplate", "proton:TagResource"],
-    resources: {
-      "proton:CreateServiceTemplate": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-    conditional: { "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceTemplate",
 }));
@@ -2268,15 +2143,6 @@ export const createServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceTemplateVersion",
-  iam: {
-    actions: ["proton:CreateServiceTemplateVersion", "proton:TagResource"],
-    resources: {
-      "proton:CreateServiceTemplateVersion": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-    conditional: { "proton:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceTemplateVersion",
 }));
@@ -2316,7 +2182,6 @@ export const createTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateSyncConfig",
-  iam: { actions: ["proton:CreateTemplateSyncConfig"] },
   telemetry: TELEMETRY,
   span: "CreateTemplateSyncConfig",
 }));
@@ -2355,12 +2220,6 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
-  iam: {
-    actions: ["proton:DeleteComponent"],
-    resources: {
-      "proton:DeleteComponent": ["arn:${Partition}:proton:${Region}:${Account}:component/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteComponent",
 }));
@@ -2393,12 +2252,6 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
-  iam: {
-    actions: ["proton:DeleteDeployment"],
-    resources: {
-      "proton:DeleteDeployment": ["arn:${Partition}:proton:${Region}:${Account}:deployment/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDeployment",
 }));
@@ -2433,14 +2286,6 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
-  iam: {
-    actions: ["proton:DeleteEnvironment"],
-    resources: {
-      "proton:DeleteEnvironment": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -2482,14 +2327,6 @@ export const deleteEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentAccountConnection",
-  iam: {
-    actions: ["proton:DeleteEnvironmentAccountConnection"],
-    resources: {
-      "proton:DeleteEnvironmentAccountConnection": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-account-connection/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentAccountConnection",
 }));
@@ -2524,14 +2361,6 @@ export const deleteEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentTemplate",
-  iam: {
-    actions: ["proton:DeleteEnvironmentTemplate"],
-    resources: {
-      "proton:DeleteEnvironmentTemplate": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentTemplate",
 }));
@@ -2572,14 +2401,6 @@ export const deleteEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentTemplateVersion",
-  iam: {
-    actions: ["proton:DeleteEnvironmentTemplateVersion"],
-    resources: {
-      "proton:DeleteEnvironmentTemplateVersion": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentTemplateVersion",
 }));
@@ -2614,14 +2435,6 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
-  iam: {
-    actions: ["proton:DeleteRepository"],
-    resources: {
-      "proton:DeleteRepository": [
-        "arn:${Partition}:proton:${Region}:${Account}:repository/${Provider}:${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRepository",
 }));
@@ -2663,12 +2476,6 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
-  iam: {
-    actions: ["proton:DeleteService"],
-    resources: {
-      "proton:DeleteService": ["arn:${Partition}:proton:${Region}:${Account}:service/${Name}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteService",
 }));
@@ -2703,7 +2510,6 @@ export const deleteServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceSyncConfig",
-  iam: { actions: ["proton:DeleteServiceSyncConfig"] },
   telemetry: TELEMETRY,
   span: "DeleteServiceSyncConfig",
 }));
@@ -2739,14 +2545,6 @@ export const deleteServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceTemplate",
-  iam: {
-    actions: ["proton:DeleteServiceTemplate"],
-    resources: {
-      "proton:DeleteServiceTemplate": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServiceTemplate",
 }));
@@ -2790,14 +2588,6 @@ export const deleteServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceTemplateVersion",
-  iam: {
-    actions: ["proton:DeleteServiceTemplateVersion"],
-    resources: {
-      "proton:DeleteServiceTemplateVersion": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServiceTemplateVersion",
 }));
@@ -2832,7 +2622,6 @@ export const deleteTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateSyncConfig",
-  iam: { actions: ["proton:DeleteTemplateSyncConfig"] },
   telemetry: TELEMETRY,
   span: "DeleteTemplateSyncConfig",
 }));
@@ -2865,7 +2654,6 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
-  iam: { actions: ["proton:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -2902,12 +2690,6 @@ export const getComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComponent",
-  iam: {
-    actions: ["proton:GetComponent"],
-    resources: {
-      "proton:GetComponent": ["arn:${Partition}:proton:${Region}:${Account}:component/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetComponent",
 }));
@@ -2940,24 +2722,6 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
-  iam: {
-    actions: [
-      "proton:GetComponent",
-      "proton:GetDeployment",
-      "proton:GetEnvironment",
-      "proton:GetService",
-      "proton:GetServiceInstance",
-    ],
-    resources: {
-      "proton:GetComponent": ["arn:${Partition}:proton:${Region}:${Account}:component/${Id}"],
-      "proton:GetDeployment": ["arn:${Partition}:proton:${Region}:${Account}:deployment/${Id}"],
-      "proton:GetEnvironment": ["arn:${Partition}:proton:${Region}:${Account}:environment/${Name}"],
-      "proton:GetService": ["arn:${Partition}:proton:${Region}:${Account}:service/${Name}"],
-      "proton:GetServiceInstance": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${ServiceName}/service-instance/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
@@ -2990,12 +2754,6 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
-  iam: {
-    actions: ["proton:GetEnvironment"],
-    resources: {
-      "proton:GetEnvironment": ["arn:${Partition}:proton:${Region}:${Account}:environment/${Name}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -3031,14 +2789,6 @@ export const getEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentAccountConnection",
-  iam: {
-    actions: ["proton:GetEnvironmentAccountConnection"],
-    resources: {
-      "proton:GetEnvironmentAccountConnection": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-account-connection/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironmentAccountConnection",
 }));
@@ -3071,14 +2821,6 @@ export const getEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentTemplate",
-  iam: {
-    actions: ["proton:GetEnvironmentTemplate"],
-    resources: {
-      "proton:GetEnvironmentTemplate": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironmentTemplate",
 }));
@@ -3111,14 +2853,6 @@ export const getEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironmentTemplateVersion",
-  iam: {
-    actions: ["proton:GetEnvironmentTemplateVersion"],
-    resources: {
-      "proton:GetEnvironmentTemplateVersion": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironmentTemplateVersion",
 }));
@@ -3151,14 +2885,6 @@ export const getRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepository",
-  iam: {
-    actions: ["proton:GetRepository"],
-    resources: {
-      "proton:GetRepository": [
-        "arn:${Partition}:proton:${Region}:${Account}:repository/${Provider}:${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRepository",
 }));
@@ -3198,7 +2924,6 @@ export const getRepositorySyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositorySyncStatus",
-  iam: { actions: ["proton:GetRepositorySyncStatus"] },
   telemetry: TELEMETRY,
   span: "GetRepositorySyncStatus",
 }));
@@ -3242,7 +2967,6 @@ export const getResourcesSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcesSummary",
-  iam: { actions: ["proton:GetResourcesSummary"] },
   telemetry: TELEMETRY,
   span: "GetResourcesSummary",
 }));
@@ -3275,12 +2999,6 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
-  iam: {
-    actions: ["proton:GetService"],
-    resources: {
-      "proton:GetService": ["arn:${Partition}:proton:${Region}:${Account}:service/${Name}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetService",
 }));
@@ -3314,14 +3032,6 @@ export const getServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceInstance",
-  iam: {
-    actions: ["proton:GetServiceInstance"],
-    resources: {
-      "proton:GetServiceInstance": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${ServiceName}/service-instance/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetServiceInstance",
 }));
@@ -3354,7 +3064,6 @@ export const getServiceInstanceSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceInstanceSyncStatus",
-  iam: { actions: ["proton:GetServiceInstanceSyncStatus"] },
   telemetry: TELEMETRY,
   span: "GetServiceInstanceSyncStatus",
 }));
@@ -3387,7 +3096,6 @@ export const getServiceSyncBlockerSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSyncBlockerSummary",
-  iam: { actions: ["proton:GetServiceSyncBlockerSummary"] },
   telemetry: TELEMETRY,
   span: "GetServiceSyncBlockerSummary",
 }));
@@ -3420,7 +3128,6 @@ export const getServiceSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSyncConfig",
-  iam: { actions: ["proton:GetServiceSyncConfig"] },
   telemetry: TELEMETRY,
   span: "GetServiceSyncConfig",
 }));
@@ -3453,14 +3160,6 @@ export const getServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceTemplate",
-  iam: {
-    actions: ["proton:GetServiceTemplate"],
-    resources: {
-      "proton:GetServiceTemplate": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetServiceTemplate",
 }));
@@ -3493,14 +3192,6 @@ export const getServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceTemplateVersion",
-  iam: {
-    actions: ["proton:GetServiceTemplateVersion"],
-    resources: {
-      "proton:GetServiceTemplateVersion": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetServiceTemplateVersion",
 }));
@@ -3533,7 +3224,6 @@ export const getTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateSyncConfig",
-  iam: { actions: ["proton:GetTemplateSyncConfig"] },
   telemetry: TELEMETRY,
   span: "GetTemplateSyncConfig",
 }));
@@ -3566,7 +3256,6 @@ export const getTemplateSyncStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateSyncStatus",
-  iam: { actions: ["proton:GetTemplateSyncStatus"] },
   telemetry: TELEMETRY,
   span: "GetTemplateSyncStatus",
 }));
@@ -3605,7 +3294,6 @@ export const listComponentOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListComponentOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
-  iam: { actions: ["proton:ListComponentOutputs"] },
   telemetry: TELEMETRY,
   span: "ListComponentOutputs",
 })) as any;
@@ -3648,14 +3336,6 @@ export const listComponentProvisionedResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
-  iam: {
-    actions: ["proton:ListComponentProvisionedResources"],
-    resources: {
-      "proton:ListComponentProvisionedResources": [
-        "arn:${Partition}:proton:${Region}:${Account}:component/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListComponentProvisionedResources",
 })) as any;
@@ -3697,7 +3377,6 @@ export const listComponents: API.PaginatedOperationMethod<
     items: "components",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListComponents"] },
   telemetry: TELEMETRY,
   span: "ListComponents",
 })) as any;
@@ -3737,7 +3416,6 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListDeployments"] },
   telemetry: TELEMETRY,
   span: "ListDeployments",
 })) as any;
@@ -3778,7 +3456,6 @@ export const listEnvironmentAccountConnections: API.PaginatedOperationMethod<
     items: "environmentAccountConnections",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListEnvironmentAccountConnections"] },
   telemetry: TELEMETRY,
   span: "ListEnvironmentAccountConnections",
 })) as any;
@@ -3813,7 +3490,6 @@ export const listEnvironmentOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEnvironmentOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
-  iam: { actions: ["proton:ListEnvironmentOutputs"] },
   telemetry: TELEMETRY,
   span: "ListEnvironmentOutputs",
 })) as any;
@@ -3852,14 +3528,6 @@ export const listEnvironmentProvisionedResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
-  iam: {
-    actions: ["proton:ListEnvironmentProvisionedResources"],
-    resources: {
-      "proton:ListEnvironmentProvisionedResources": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEnvironmentProvisionedResources",
 })) as any;
@@ -3899,7 +3567,6 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -3937,7 +3604,6 @@ export const listEnvironmentTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListEnvironmentTemplates"] },
   telemetry: TELEMETRY,
   span: "ListEnvironmentTemplates",
 })) as any;
@@ -3977,14 +3643,6 @@ export const listEnvironmentTemplateVersions: API.PaginatedOperationMethod<
     items: "templateVersions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["proton:ListEnvironmentTemplateVersions"],
-    resources: {
-      "proton:ListEnvironmentTemplateVersions": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEnvironmentTemplateVersions",
 })) as any;
@@ -4024,7 +3682,6 @@ export const listRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListRepositories"] },
   telemetry: TELEMETRY,
   span: "ListRepositories",
 })) as any;
@@ -4061,7 +3718,6 @@ export const listRepositorySyncDefinitions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "syncDefinitions",
   } as const,
-  iam: { actions: ["proton:ListRepositorySyncDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListRepositorySyncDefinitions",
 })) as any;
@@ -4096,7 +3752,6 @@ export const listServiceInstanceOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListServiceInstanceOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
-  iam: { actions: ["proton:ListServiceInstanceOutputs"] },
   telemetry: TELEMETRY,
   span: "ListServiceInstanceOutputs",
 })) as any;
@@ -4135,15 +3790,6 @@ export const listServiceInstanceProvisionedResources: API.PaginatedOperationMeth
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
-  iam: {
-    actions: ["proton:ListServiceInstanceProvisionedResources"],
-    resources: {
-      "proton:ListServiceInstanceProvisionedResources": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${Name}",
-        "arn:${Partition}:proton:${Region}:${Account}:service/${ServiceName}/service-instance/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServiceInstanceProvisionedResources",
 })) as any;
@@ -4184,7 +3830,6 @@ export const listServiceInstances: API.PaginatedOperationMethod<
     items: "serviceInstances",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListServiceInstances"] },
   telemetry: TELEMETRY,
   span: "ListServiceInstances",
 })) as any;
@@ -4219,7 +3864,6 @@ export const listServicePipelineOutputs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListServicePipelineOutputs",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "outputs" } as const,
-  iam: { actions: ["proton:ListServicePipelineOutputs"] },
   telemetry: TELEMETRY,
   span: "ListServicePipelineOutputs",
 })) as any;
@@ -4258,14 +3902,6 @@ export const listServicePipelineProvisionedResources: API.PaginatedOperationMeth
     outputToken: "nextToken",
     items: "provisionedResources",
   } as const,
-  iam: {
-    actions: ["proton:ListServicePipelineProvisionedResources"],
-    resources: {
-      "proton:ListServicePipelineProvisionedResources": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServicePipelineProvisionedResources",
 })) as any;
@@ -4303,7 +3939,6 @@ export const listServices: API.PaginatedOperationMethod<
     items: "services",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -4341,7 +3976,6 @@ export const listServiceTemplates: API.PaginatedOperationMethod<
     items: "templates",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListServiceTemplates"] },
   telemetry: TELEMETRY,
   span: "ListServiceTemplates",
 })) as any;
@@ -4381,14 +4015,6 @@ export const listServiceTemplateVersions: API.PaginatedOperationMethod<
     items: "templateVersions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["proton:ListServiceTemplateVersions"],
-    resources: {
-      "proton:ListServiceTemplateVersions": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServiceTemplateVersions",
 })) as any;
@@ -4429,7 +4055,6 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "tags",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["proton:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -4468,7 +4093,6 @@ export const notifyResourceDeploymentStatusChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyResourceDeploymentStatusChange",
-  iam: { actions: ["proton:NotifyResourceDeploymentStatusChange"] },
   telemetry: TELEMETRY,
   span: "NotifyResourceDeploymentStatusChange",
 }));
@@ -4511,14 +4135,6 @@ export const rejectEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectEnvironmentAccountConnection",
-  iam: {
-    actions: ["proton:RejectEnvironmentAccountConnection"],
-    resources: {
-      "proton:RejectEnvironmentAccountConnection": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-account-connection/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectEnvironmentAccountConnection",
 }));
@@ -4556,7 +4172,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["proton:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4594,7 +4209,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["proton:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4627,11 +4241,6 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
-  iam: {
-    actions: ["iam:PassRole", "proton:UpdateAccountSettings"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "pipelineServiceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAccountSettings",
 }));
@@ -4677,12 +4286,6 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
-  iam: {
-    actions: ["proton:UpdateComponent"],
-    resources: {
-      "proton:UpdateComponent": ["arn:${Partition}:proton:${Region}:${Account}:component/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateComponent",
 }));
@@ -4759,16 +4362,6 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
-  iam: {
-    actions: ["iam:PassRole", "proton:UpdateEnvironment"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "proton:UpdateEnvironment": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment/${Name}",
-      ],
-    },
-    conditional: { "iam:PassRole": "protonServiceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
@@ -4806,16 +4399,6 @@ export const updateEnvironmentAccountConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentAccountConnection",
-  iam: {
-    actions: ["iam:PassRole", "proton:UpdateEnvironmentAccountConnection"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "proton:UpdateEnvironmentAccountConnection": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-account-connection/${Id}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentAccountConnection",
 }));
@@ -4850,14 +4433,6 @@ export const updateEnvironmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentTemplate",
-  iam: {
-    actions: ["proton:UpdateEnvironmentTemplate"],
-    resources: {
-      "proton:UpdateEnvironmentTemplate": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentTemplate",
 }));
@@ -4892,14 +4467,6 @@ export const updateEnvironmentTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentTemplateVersion",
-  iam: {
-    actions: ["proton:UpdateEnvironmentTemplateVersion"],
-    resources: {
-      "proton:UpdateEnvironmentTemplateVersion": [
-        "arn:${Partition}:proton:${Region}:${Account}:environment-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentTemplateVersion",
 }));
@@ -4950,12 +4517,6 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
-  iam: {
-    actions: ["proton:UpdateService"],
-    resources: {
-      "proton:UpdateService": ["arn:${Partition}:proton:${Region}:${Account}:service/${Name}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateService",
 }));
@@ -5000,14 +4561,6 @@ export const updateServiceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceInstance",
-  iam: {
-    actions: ["proton:UpdateServiceInstance"],
-    resources: {
-      "proton:UpdateServiceInstance": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${ServiceName}/service-instance/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceInstance",
 }));
@@ -5069,14 +4622,6 @@ export const updateServicePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServicePipeline",
-  iam: {
-    actions: ["proton:UpdateServicePipeline"],
-    resources: {
-      "proton:UpdateServicePipeline": [
-        "arn:${Partition}:proton:${Region}:${Account}:service/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServicePipeline",
 }));
@@ -5111,7 +4656,6 @@ export const updateServiceSyncBlocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSyncBlocker",
-  iam: { actions: ["proton:UpdateServiceSyncBlocker"] },
   telemetry: TELEMETRY,
   span: "UpdateServiceSyncBlocker",
 }));
@@ -5180,14 +4724,6 @@ export const updateServiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceTemplate",
-  iam: {
-    actions: ["proton:UpdateServiceTemplate"],
-    resources: {
-      "proton:UpdateServiceTemplate": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceTemplate",
 }));
@@ -5222,14 +4758,6 @@ export const updateServiceTemplateVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceTemplateVersion",
-  iam: {
-    actions: ["proton:UpdateServiceTemplateVersion"],
-    resources: {
-      "proton:UpdateServiceTemplateVersion": [
-        "arn:${Partition}:proton:${Region}:${Account}:service-template/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceTemplateVersion",
 }));
@@ -5266,7 +4794,6 @@ export const updateTemplateSyncConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateSyncConfig",
-  iam: { actions: ["proton:UpdateTemplateSyncConfig"] },
   telemetry: TELEMETRY,
   span: "UpdateTemplateSyncConfig",
 }));

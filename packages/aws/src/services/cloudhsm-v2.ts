@@ -439,15 +439,6 @@ export const copyBackupToRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyBackupToRegion",
-  iam: {
-    actions: ["cloudhsm:CopyBackupToRegion", "cloudhsm:TagResource", "cloudhsm:UntagResource"],
-    resources: {
-      "cloudhsm:CopyBackupToRegion": [
-        "arn:${Partition}:cloudhsm:${Region}:${Account}:backup/${CloudHsmBackupInstanceName}",
-      ],
-    },
-    conditional: { "cloudhsm:TagResource": "TagList", "cloudhsm:UntagResource": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "CopyBackupToRegion",
 }));
@@ -485,24 +476,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: [
-      "ec2:AuthorizeSecurityGroupEgress",
-      "ec2:AuthorizeSecurityGroupIngress",
-      "cloudhsm:CreateCluster",
-      "ec2:CreateSecurityGroup",
-      "ec2:DescribeSecurityGroups",
-      "ec2:DescribeSubnets",
-      "ec2:RevokeSecurityGroupEgress",
-      "cloudhsm:TagResource",
-    ],
-    resources: {
-      "ec2:RevokeSecurityGroupEgress": [
-        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
-      ],
-    },
-    conditional: { "cloudhsm:TagResource": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -538,31 +511,6 @@ export const createHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsm",
-  iam: {
-    actions: [
-      "ec2:AuthorizeSecurityGroupEgress",
-      "ec2:AuthorizeSecurityGroupIngress",
-      "cloudhsm:CreateHsm",
-      "ec2:CreateNetworkInterface",
-      "ec2:CreateSecurityGroup",
-      "ec2:DeleteNetworkInterface",
-      "ec2:DescribeNetworkInterfaces",
-      "ec2:DescribeSecurityGroups",
-      "ec2:DescribeSubnets",
-      "ec2:RevokeSecurityGroupEgress",
-    ],
-    resources: {
-      "cloudhsm:CreateHsm": [
-        "arn:${Partition}:cloudhsm:${Region}:${Account}:cluster/${CloudHsmClusterInstanceName}",
-      ],
-      "ec2:DeleteNetworkInterface": [
-        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
-      ],
-      "ec2:RevokeSecurityGroupEgress": [
-        "arn:${Partition}:ec2:${Region}:${Account}:security-group/${SecurityGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateHsm",
 }));
@@ -599,14 +547,6 @@ export const deleteBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackup",
-  iam: {
-    actions: ["cloudhsm:DeleteBackup"],
-    resources: {
-      "cloudhsm:DeleteBackup": [
-        "arn:${Partition}:cloudhsm:${Region}:${Account}:backup/${CloudHsmBackupInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBackup",
 }));
@@ -644,14 +584,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["cloudhsm:DeleteCluster"],
-    resources: {
-      "cloudhsm:DeleteCluster": [
-        "arn:${Partition}:cloudhsm:${Region}:${Account}:cluster/${CloudHsmClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -688,14 +620,6 @@ export const deleteHsm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsm",
-  iam: {
-    actions: ["cloudhsm:DeleteHsm", "ec2:DeleteNetworkInterface"],
-    resources: {
-      "ec2:DeleteNetworkInterface": [
-        "arn:${Partition}:ec2:${Region}:${Account}:network-interface/${NetworkInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHsm",
 }));
@@ -732,7 +656,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: { actions: ["cloudhsm:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -781,7 +704,6 @@ export const describeBackups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudhsm:DescribeBackups"] },
   telemetry: TELEMETRY,
   span: "DescribeBackups",
 })) as any;
@@ -828,7 +750,6 @@ export const describeClusters: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudhsm:DescribeClusters"] },
   telemetry: TELEMETRY,
   span: "DescribeClusters",
 })) as any;
@@ -863,7 +784,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: { actions: ["cloudhsm:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -901,14 +821,6 @@ export const initializeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeCluster",
-  iam: {
-    actions: ["cloudhsm:InitializeCluster"],
-    resources: {
-      "cloudhsm:InitializeCluster": [
-        "arn:${Partition}:cloudhsm:${Region}:${Account}:cluster/${CloudHsmClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InitializeCluster",
 }));
@@ -957,7 +869,6 @@ export const listTags: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudhsm:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 })) as any;
@@ -992,14 +903,6 @@ export const modifyBackupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyBackupAttributes",
-  iam: {
-    actions: ["cloudhsm:ModifyBackupAttributes"],
-    resources: {
-      "cloudhsm:ModifyBackupAttributes": [
-        "arn:${Partition}:cloudhsm:${Region}:${Account}:backup/${CloudHsmBackupInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyBackupAttributes",
 }));
@@ -1034,14 +937,6 @@ export const modifyCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCluster",
-  iam: {
-    actions: ["cloudhsm:ModifyCluster"],
-    resources: {
-      "cloudhsm:ModifyCluster": [
-        "arn:${Partition}:cloudhsm:${Region}:${Account}:cluster/${CloudHsmClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyCluster",
 }));
@@ -1090,7 +985,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: { actions: ["cloudhsm:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1127,14 +1021,6 @@ export const restoreBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreBackup",
-  iam: {
-    actions: ["cloudhsm:RestoreBackup"],
-    resources: {
-      "cloudhsm:RestoreBackup": [
-        "arn:${Partition}:cloudhsm:${Region}:${Account}:backup/${CloudHsmBackupInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RestoreBackup",
 }));
@@ -1173,7 +1059,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["cloudhsm:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1210,7 +1095,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["cloudhsm:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

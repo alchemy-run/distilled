@@ -330,14 +330,6 @@ export const batchDeleteAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteAttributes",
-  iam: {
-    actions: ["sdb:BatchDeleteAttributes"],
-    resources: {
-      "sdb:BatchDeleteAttributes": [
-        "arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
 }));
 
 export type BatchPutAttributesError =
@@ -376,12 +368,6 @@ export const batchPutAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutAttributes",
-  iam: {
-    actions: ["sdb:BatchPutAttributes"],
-    resources: {
-      "sdb:BatchPutAttributes": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
 }));
 
 export type CreateDomainError =
@@ -404,12 +390,6 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
-  iam: {
-    actions: ["sdb:CreateDomain"],
-    resources: {
-      "sdb:CreateDomain": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
 }));
 
 export type DeleteAttributesError =
@@ -433,12 +413,6 @@ export const deleteAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributes",
-  iam: {
-    actions: ["sdb:DeleteAttributes"],
-    resources: {
-      "sdb:DeleteAttributes": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
 }));
 
 export type DeleteDomainError = MissingParameter | CommonErrors;
@@ -457,12 +431,6 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
-  iam: {
-    actions: ["sdb:DeleteDomain"],
-    resources: {
-      "sdb:DeleteDomain": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
 }));
 
 export type DomainMetadataError = MissingParameter | NoSuchDomain | CommonErrors;
@@ -481,12 +449,6 @@ export const domainMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DomainMetadata",
-  iam: {
-    actions: ["sdb:DomainMetadata"],
-    resources: {
-      "sdb:DomainMetadata": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
 }));
 
 export type GetAttributesError =
@@ -509,12 +471,6 @@ export const getAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttributes",
-  iam: {
-    actions: ["sdb:GetAttributes"],
-    resources: {
-      "sdb:GetAttributes": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
 }));
 
 export type ListDomainsError = InvalidNextToken | InvalidParameterValue | CommonErrors;
@@ -540,7 +496,6 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "DomainNames",
     pageSize: "MaxNumberOfDomains",
   } as const,
-  iam: { actions: ["sdb:ListDomains"] },
 })) as any;
 
 export type PutAttributesError =
@@ -575,12 +530,6 @@ export const putAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributes",
-  iam: {
-    actions: ["sdb:PutAttributes"],
-    resources: {
-      "sdb:PutAttributes": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
 }));
 
 export type SelectError =
@@ -621,10 +570,6 @@ export const select: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "Select",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Items" } as const,
-  iam: {
-    actions: ["sdb:Select"],
-    resources: { "sdb:Select": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"] },
-  },
 })) as any;
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

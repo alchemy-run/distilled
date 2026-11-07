@@ -457,15 +457,6 @@ export const createSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchedule",
-  iam: {
-    actions: ["scheduler:CreateSchedule", "iam:PassRole"],
-    resources: {
-      "scheduler:CreateSchedule": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule/${GroupName}/${ScheduleName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSchedule",
 }));
@@ -498,18 +489,6 @@ export const createScheduleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduleGroup",
-  iam: {
-    actions: ["scheduler:CreateScheduleGroup", "scheduler:TagResource"],
-    resources: {
-      "scheduler:CreateScheduleGroup": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule-group/${GroupName}",
-      ],
-      "scheduler:TagResource": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule-group/${GroupName}",
-      ],
-    },
-    conditional: { "scheduler:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateScheduleGroup",
 }));
@@ -542,14 +521,6 @@ export const deleteSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
-  iam: {
-    actions: ["scheduler:DeleteSchedule"],
-    resources: {
-      "scheduler:DeleteSchedule": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule/${GroupName}/${ScheduleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSchedule",
 }));
@@ -587,17 +558,6 @@ export const deleteScheduleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduleGroup",
-  iam: {
-    actions: ["scheduler:DeleteSchedule", "scheduler:DeleteScheduleGroup"],
-    resources: {
-      "scheduler:DeleteSchedule": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule/${GroupName}/${ScheduleName}",
-      ],
-      "scheduler:DeleteScheduleGroup": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule-group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteScheduleGroup",
 }));
@@ -628,14 +588,6 @@ export const getSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchedule",
-  iam: {
-    actions: ["scheduler:GetSchedule"],
-    resources: {
-      "scheduler:GetSchedule": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule/${GroupName}/${ScheduleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSchedule",
 }));
@@ -666,14 +618,6 @@ export const getScheduleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScheduleGroup",
-  iam: {
-    actions: ["scheduler:GetScheduleGroup"],
-    resources: {
-      "scheduler:GetScheduleGroup": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule-group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetScheduleGroup",
 }));
@@ -705,7 +649,6 @@ export const listScheduleGroups: API.PaginatedOperationMethod<
     items: "ScheduleGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["scheduler:ListScheduleGroups"] },
   telemetry: TELEMETRY,
   span: "ListScheduleGroups",
 })) as any;
@@ -743,7 +686,6 @@ export const listSchedules: API.PaginatedOperationMethod<
     items: "Schedules",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["scheduler:ListSchedules"] },
   telemetry: TELEMETRY,
   span: "ListSchedules",
 })) as any;
@@ -774,7 +716,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["scheduler:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -807,14 +748,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["scheduler:TagResource"],
-    resources: {
-      "scheduler:TagResource": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule-group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -847,14 +780,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["scheduler:UntagResource"],
-    resources: {
-      "scheduler:UntagResource": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule-group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -894,15 +819,6 @@ export const updateSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchedule",
-  iam: {
-    actions: ["iam:PassRole", "scheduler:UpdateSchedule"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "scheduler:UpdateSchedule": [
-        "arn:${Partition}:scheduler:${Region}:${Account}:schedule/${GroupName}/${ScheduleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSchedule",
 }));

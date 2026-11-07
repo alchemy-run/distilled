@@ -1645,14 +1645,6 @@ export const addTagsToOnPremisesInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToOnPremisesInstances",
-  iam: {
-    actions: ["codedeploy:AddTagsToOnPremisesInstances"],
-    resources: {
-      "codedeploy:AddTagsToOnPremisesInstances": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:instance:${InstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddTagsToOnPremisesInstances",
 }));
@@ -1688,14 +1680,6 @@ export const batchGetApplicationRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetApplicationRevisions",
-  iam: {
-    actions: ["codedeploy:BatchGetApplicationRevisions"],
-    resources: {
-      "codedeploy:BatchGetApplicationRevisions": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetApplicationRevisions",
 }));
@@ -1727,14 +1711,6 @@ export const batchGetApplications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetApplications",
-  iam: {
-    actions: ["codedeploy:BatchGetApplications"],
-    resources: {
-      "codedeploy:BatchGetApplications": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetApplications",
 }));
@@ -1771,14 +1747,6 @@ export const batchGetDeploymentGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDeploymentGroups",
-  iam: {
-    actions: ["codedeploy:BatchGetDeploymentGroups"],
-    resources: {
-      "codedeploy:BatchGetDeploymentGroups": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetDeploymentGroups",
 }));
@@ -1821,14 +1789,6 @@ export const batchGetDeploymentInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDeploymentInstances",
-  iam: {
-    actions: ["codedeploy:BatchGetDeploymentInstances"],
-    resources: {
-      "codedeploy:BatchGetDeploymentInstances": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetDeploymentInstances",
 }));
@@ -1858,14 +1818,6 @@ export const batchGetDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDeployments",
-  iam: {
-    actions: ["codedeploy:BatchGetDeployments"],
-    resources: {
-      "codedeploy:BatchGetDeployments": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetDeployments",
 }));
@@ -1923,7 +1875,6 @@ export const batchGetDeploymentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDeploymentTargets",
-  iam: { actions: ["codedeploy:BatchGetDeploymentTargets"] },
   telemetry: TELEMETRY,
   span: "BatchGetDeploymentTargets",
 }));
@@ -1953,14 +1904,6 @@ export const batchGetOnPremisesInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetOnPremisesInstances",
-  iam: {
-    actions: ["codedeploy:BatchGetOnPremisesInstances"],
-    resources: {
-      "codedeploy:BatchGetOnPremisesInstances": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:instance:${InstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetOnPremisesInstances",
 }));
@@ -2003,7 +1946,6 @@ export const continueDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContinueDeployment",
-  iam: { actions: ["codedeploy:ContinueDeployment", "codedeploy:CreateCloudFormationDeployment"] },
   telemetry: TELEMETRY,
   span: "ContinueDeployment",
 }));
@@ -2040,15 +1982,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["codedeploy:CreateApplication", "codedeploy:TagResource"],
-    resources: {
-      "codedeploy:CreateApplication": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-    conditional: { "codedeploy:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -2131,32 +2064,6 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
-  iam: {
-    actions: [
-      "codedeploy:CreateDeployment",
-      "codedeploy:GetApplicationRevision",
-      "codedeploy:GetDeploymentConfig",
-      "codedeploy:RegisterApplicationRevision",
-      "codedeploy:UpdateDeploymentGroup",
-    ],
-    resources: {
-      "codedeploy:CreateDeployment": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-      "codedeploy:GetApplicationRevision": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-      "codedeploy:GetDeploymentConfig": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentconfig:${DeploymentConfigurationName}",
-      ],
-      "codedeploy:RegisterApplicationRevision": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-      "codedeploy:UpdateDeploymentGroup": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDeployment",
 }));
@@ -2195,14 +2102,6 @@ export const createDeploymentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentConfig",
-  iam: {
-    actions: ["codedeploy:CreateDeploymentConfig"],
-    resources: {
-      "codedeploy:CreateDeploymentConfig": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentconfig:${DeploymentConfigurationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDeploymentConfig",
 }));
@@ -2293,16 +2192,6 @@ export const createDeploymentGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeploymentGroup",
-  iam: {
-    actions: ["codedeploy:CreateDeploymentGroup", "iam:PassRole", "codedeploy:TagResource"],
-    resources: {
-      "codedeploy:CreateDeploymentGroup": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "codedeploy:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDeploymentGroup",
 }));
@@ -2327,14 +2216,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["codedeploy:DeleteApplication"],
-    resources: {
-      "codedeploy:DeleteApplication": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -2368,14 +2249,6 @@ export const deleteDeploymentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentConfig",
-  iam: {
-    actions: ["codedeploy:DeleteDeploymentConfig"],
-    resources: {
-      "codedeploy:DeleteDeploymentConfig": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentconfig:${DeploymentConfigurationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDeploymentConfig",
 }));
@@ -2408,14 +2281,6 @@ export const deleteDeploymentGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeploymentGroup",
-  iam: {
-    actions: ["codedeploy:DeleteDeploymentGroup"],
-    resources: {
-      "codedeploy:DeleteDeploymentGroup": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDeploymentGroup",
 }));
@@ -2448,7 +2313,6 @@ export const deleteGitHubAccountToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGitHubAccountToken",
-  iam: { actions: ["codedeploy:DeleteGitHubAccountToken"] },
   telemetry: TELEMETRY,
   span: "DeleteGitHubAccountToken",
 }));
@@ -2475,7 +2339,6 @@ export const deleteResourcesByExternalId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcesByExternalId",
-  iam: { actions: ["codedeploy:DeleteResourcesByExternalId"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcesByExternalId",
 }));
@@ -2499,14 +2362,6 @@ export const deregisterOnPremisesInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterOnPremisesInstance",
-  iam: {
-    actions: ["codedeploy:DeregisterOnPremisesInstance"],
-    resources: {
-      "codedeploy:DeregisterOnPremisesInstance": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:instance:${InstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterOnPremisesInstance",
 }));
@@ -2535,14 +2390,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["codedeploy:GetApplication"],
-    resources: {
-      "codedeploy:GetApplication": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -2577,14 +2424,6 @@ export const getApplicationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationRevision",
-  iam: {
-    actions: ["codedeploy:GetApplicationRevision"],
-    resources: {
-      "codedeploy:GetApplicationRevision": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplicationRevision",
 }));
@@ -2618,14 +2457,6 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
-  iam: {
-    actions: ["codedeploy:GetDeployment"],
-    resources: {
-      "codedeploy:GetDeployment": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
@@ -2656,14 +2487,6 @@ export const getDeploymentConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentConfig",
-  iam: {
-    actions: ["codedeploy:GetDeploymentConfig"],
-    resources: {
-      "codedeploy:GetDeploymentConfig": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentconfig:${DeploymentConfigurationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeploymentConfig",
 }));
@@ -2700,14 +2523,6 @@ export const getDeploymentGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentGroup",
-  iam: {
-    actions: ["codedeploy:GetDeploymentGroup"],
-    resources: {
-      "codedeploy:GetDeploymentGroup": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeploymentGroup",
 }));
@@ -2744,14 +2559,6 @@ export const getDeploymentInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentInstance",
-  iam: {
-    actions: ["codedeploy:GetDeploymentInstance"],
-    resources: {
-      "codedeploy:GetDeploymentInstance": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeploymentInstance",
 }));
@@ -2790,7 +2597,6 @@ export const getDeploymentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentTarget",
-  iam: { actions: ["codedeploy:GetDeploymentTarget"] },
   telemetry: TELEMETRY,
   span: "GetDeploymentTarget",
 }));
@@ -2819,14 +2625,6 @@ export const getOnPremisesInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnPremisesInstance",
-  iam: {
-    actions: ["codedeploy:GetOnPremisesInstance"],
-    resources: {
-      "codedeploy:GetOnPremisesInstance": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:instance:${InstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOnPremisesInstance",
 }));
@@ -2871,14 +2669,6 @@ export const listApplicationRevisions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationRevisions",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "revisions" } as const,
-  iam: {
-    actions: ["codedeploy:ListApplicationRevisions"],
-    resources: {
-      "codedeploy:ListApplicationRevisions": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplicationRevisions",
 })) as any;
@@ -2901,7 +2691,6 @@ export const listApplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplications",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "applications" } as const,
-  iam: { actions: ["codedeploy:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -2928,7 +2717,6 @@ export const listDeploymentConfigs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "deploymentConfigsList",
   } as const,
-  iam: { actions: ["codedeploy:ListDeploymentConfigs"] },
   telemetry: TELEMETRY,
   span: "ListDeploymentConfigs",
 })) as any;
@@ -2966,14 +2754,6 @@ export const listDeploymentGroups: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "deploymentGroups",
   } as const,
-  iam: {
-    actions: ["codedeploy:ListDeploymentGroups"],
-    resources: {
-      "codedeploy:ListDeploymentGroups": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDeploymentGroups",
 })) as any;
@@ -3031,14 +2811,6 @@ export const listDeploymentInstances: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "instancesList",
   } as const,
-  iam: {
-    actions: ["codedeploy:ListDeploymentInstances"],
-    resources: {
-      "codedeploy:ListDeploymentInstances": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDeploymentInstances",
 })) as any;
@@ -3086,14 +2858,6 @@ export const listDeployments: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListDeployments",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "deployments" } as const,
-  iam: {
-    actions: ["codedeploy:ListDeployments"],
-    resources: {
-      "codedeploy:ListDeployments": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDeployments",
 })) as any;
@@ -3138,7 +2902,6 @@ export const listDeploymentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeploymentTargets",
-  iam: { actions: ["codedeploy:ListDeploymentTargets"] },
   telemetry: TELEMETRY,
   span: "ListDeploymentTargets",
 }));
@@ -3163,7 +2926,6 @@ export const listGitHubAccountTokenNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGitHubAccountTokenNames",
-  iam: { actions: ["codedeploy:ListGitHubAccountTokenNames"] },
   telemetry: TELEMETRY,
   span: "ListGitHubAccountTokenNames",
 }));
@@ -3196,7 +2958,6 @@ export const listOnPremisesInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListOnPremisesInstances",
-  iam: { actions: ["codedeploy:ListOnPremisesInstances"] },
   telemetry: TELEMETRY,
   span: "ListOnPremisesInstances",
 }));
@@ -3222,7 +2983,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["codedeploy:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3267,12 +3027,6 @@ export const putLifecycleEventHookExecutionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleEventHookExecutionStatus",
-  iam: {
-    actions: [
-      "codedeploy:CreateCloudFormationDeployment",
-      "codedeploy:PutLifecycleEventHookExecutionStatus",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "PutLifecycleEventHookExecutionStatus",
 }));
@@ -3307,14 +3061,6 @@ export const registerApplicationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterApplicationRevision",
-  iam: {
-    actions: ["codedeploy:RegisterApplicationRevision"],
-    resources: {
-      "codedeploy:RegisterApplicationRevision": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterApplicationRevision",
 }));
@@ -3359,14 +3105,6 @@ export const registerOnPremisesInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOnPremisesInstance",
-  iam: {
-    actions: ["codedeploy:RegisterOnPremisesInstance"],
-    resources: {
-      "codedeploy:RegisterOnPremisesInstance": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:instance:${InstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterOnPremisesInstance",
 }));
@@ -3403,14 +3141,6 @@ export const removeTagsFromOnPremisesInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromOnPremisesInstances",
-  iam: {
-    actions: ["codedeploy:RemoveTagsFromOnPremisesInstances"],
-    resources: {
-      "codedeploy:RemoveTagsFromOnPremisesInstances": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:instance:${InstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromOnPremisesInstances",
 }));
@@ -3446,12 +3176,6 @@ export const skipWaitTimeForInstanceTermination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SkipWaitTimeForInstanceTermination",
-  iam: {
-    actions: [
-      "codedeploy:CreateCloudFormationDeployment",
-      "codedeploy:SkipWaitTimeForInstanceTermination",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "SkipWaitTimeForInstanceTermination",
 }));
@@ -3486,7 +3210,6 @@ export const stopDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDeployment",
-  iam: { actions: ["codedeploy:CreateCloudFormationDeployment", "codedeploy:StopDeployment"] },
   telemetry: TELEMETRY,
   span: "StopDeployment",
 }));
@@ -3526,7 +3249,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["codedeploy:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3567,7 +3289,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["codedeploy:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3598,14 +3319,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: {
-    actions: ["codedeploy:UpdateApplication"],
-    resources: {
-      "codedeploy:UpdateApplication": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:application:${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -3692,16 +3405,6 @@ export const updateDeploymentGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeploymentGroup",
-  iam: {
-    actions: ["iam:PassRole", "codedeploy:UpdateDeploymentGroup"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "codedeploy:UpdateDeploymentGroup": [
-        "arn:${Partition}:codedeploy:${Region}:${Account}:deploymentgroup:${ApplicationName}/${DeploymentGroupName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "serviceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDeploymentGroup",
 }));

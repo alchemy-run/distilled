@@ -364,15 +364,6 @@ export const createChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChallenge",
-  iam: {
-    actions: ["pca-connector-scep:CreateChallenge", "pca-connector-scep:TagResource"],
-    resources: {
-      "pca-connector-scep:CreateChallenge": [
-        "arn:${Partition}:pca-connector-scep:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-    conditional: { "pca-connector-scep:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChallenge",
 }));
@@ -409,10 +400,6 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
-  iam: {
-    actions: ["pca-connector-scep:CreateConnector", "pca-connector-scep:TagResource"],
-    conditional: { "pca-connector-scep:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -447,14 +434,6 @@ export const deleteChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChallenge",
-  iam: {
-    actions: ["pca-connector-scep:DeleteChallenge"],
-    resources: {
-      "pca-connector-scep:DeleteChallenge": [
-        "arn:${Partition}:pca-connector-scep:${Region}:${Account}:connector/${ConnectorId}/challenge/${ChallengeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChallenge",
 }));
@@ -489,14 +468,6 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
-  iam: {
-    actions: ["pca-connector-scep:DeleteConnector"],
-    resources: {
-      "pca-connector-scep:DeleteConnector": [
-        "arn:${Partition}:pca-connector-scep:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -529,14 +500,6 @@ export const getChallengeMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChallengeMetadata",
-  iam: {
-    actions: ["pca-connector-scep:GetChallengeMetadata"],
-    resources: {
-      "pca-connector-scep:GetChallengeMetadata": [
-        "arn:${Partition}:pca-connector-scep:${Region}:${Account}:connector/${ConnectorId}/challenge/${ChallengeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChallengeMetadata",
 }));
@@ -569,14 +532,6 @@ export const getChallengePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChallengePassword",
-  iam: {
-    actions: ["pca-connector-scep:GetChallengePassword"],
-    resources: {
-      "pca-connector-scep:GetChallengePassword": [
-        "arn:${Partition}:pca-connector-scep:${Region}:${Account}:connector/${ConnectorId}/challenge/${ChallengeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChallengePassword",
 }));
@@ -609,14 +564,6 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
-  iam: {
-    actions: ["pca-connector-scep:GetConnector"],
-    resources: {
-      "pca-connector-scep:GetConnector": [
-        "arn:${Partition}:pca-connector-scep:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConnector",
 }));
@@ -656,7 +603,6 @@ export const listChallengeMetadata: API.PaginatedOperationMethod<
     items: "Challenges",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["pca-connector-scep:ListChallengeMetadata"] },
   telemetry: TELEMETRY,
   span: "ListChallengeMetadata",
 })) as any;
@@ -694,7 +640,6 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "Connectors",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["pca-connector-scep:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -727,7 +672,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["pca-connector-scep:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -760,7 +704,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["pca-connector-scep:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -793,7 +736,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["pca-connector-scep:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

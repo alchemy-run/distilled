@@ -217,14 +217,6 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
-  iam: {
-    actions: ["sdb:GetExport"],
-    resources: {
-      "sdb:GetExport": [
-        "arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}/export/${ExportUUID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExport",
 }));
@@ -256,7 +248,6 @@ export const listExports: API.PaginatedOperationMethod<
     items: "exportSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["sdb:ListExports"] },
   telemetry: TELEMETRY,
   span: "ListExports",
 })) as any;
@@ -289,12 +280,6 @@ export const startDomainExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainExport",
-  iam: {
-    actions: ["sdb:StartDomainExport"],
-    resources: {
-      "sdb:StartDomainExport": ["arn:${Partition}:sdb:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDomainExport",
 }));

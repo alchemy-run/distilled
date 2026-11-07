@@ -2230,10 +2230,6 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
-  iam: {
-    actions: ["batch:CancelJob"],
-    resources: { "batch:CancelJob": ["arn:${Partition}:batch:${Region}:${Account}:job/${JobId}"] },
-  },
   telemetry: TELEMETRY,
   span: "CancelJob",
 }));
@@ -2280,10 +2276,6 @@ export const cancelJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJobs",
-  iam: {
-    actions: ["batch:CancelJob"],
-    resources: { "batch:CancelJob": ["arn:${Partition}:batch:${Region}:${Account}:job/${JobId}"] },
-  },
   telemetry: TELEMETRY,
   span: "CancelJobs",
 }));
@@ -2329,24 +2321,6 @@ export const createComputeEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputeEnvironment",
-  iam: {
-    actions: [
-      "batch:CreateComputeEnvironment",
-      "iam:PassRole",
-      "batch:SetCapacityTags",
-      "batch:TagResource",
-    ],
-    resources: {
-      "batch:CreateComputeEnvironment": [
-        "arn:${Partition}:batch:${Region}:${Account}:compute-environment/${ComputeEnvironmentName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "batch:SetCapacityTags": [
-        "arn:${Partition}:batch:${Region}:${Account}:compute-environment/${ComputeEnvironmentName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "serviceRole", "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateComputeEnvironment",
 }));
@@ -2367,15 +2341,6 @@ export const createConsumableResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConsumableResource",
-  iam: {
-    actions: ["batch:CreateConsumableResource", "batch:TagResource"],
-    resources: {
-      "batch:CreateConsumableResource": [
-        "arn:${Partition}:batch:${Region}:${Account}:consumable-resource/${ConsumableResourceName}",
-      ],
-    },
-    conditional: { "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConsumableResource",
 }));
@@ -2408,10 +2373,6 @@ export const createJobQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJobQueue",
-  iam: {
-    actions: ["batch:CreateJobQueue", "batch:TagResource"],
-    conditional: { "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateJobQueue",
 }));
@@ -2432,16 +2393,6 @@ export const createQuotaShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuotaShare",
-  iam: {
-    actions: ["batch:CreateQuotaShare", "batch:TagResource"],
-    resources: {
-      "batch:CreateQuotaShare": [
-        "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}",
-        "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}/quota-share/${QuotaShareName}",
-      ],
-    },
-    conditional: { "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateQuotaShare",
 }));
@@ -2462,15 +2413,6 @@ export const createSchedulingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchedulingPolicy",
-  iam: {
-    actions: ["batch:CreateSchedulingPolicy", "batch:TagResource"],
-    resources: {
-      "batch:CreateSchedulingPolicy": [
-        "arn:${Partition}:batch:${Region}:${Account}:scheduling-policy/${SchedulingPolicyName}",
-      ],
-    },
-    conditional: { "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSchedulingPolicy",
 }));
@@ -2491,15 +2433,6 @@ export const createServiceEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceEnvironment",
-  iam: {
-    actions: ["batch:CreateServiceEnvironment", "batch:TagResource"],
-    resources: {
-      "batch:CreateServiceEnvironment": [
-        "arn:${Partition}:batch:${Region}:${Account}:service-environment/${ServiceEnvironmentName}",
-      ],
-    },
-    conditional: { "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceEnvironment",
 }));
@@ -2539,14 +2472,6 @@ export const deleteComputeEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComputeEnvironment",
-  iam: {
-    actions: ["batch:DeleteComputeEnvironment"],
-    resources: {
-      "batch:DeleteComputeEnvironment": [
-        "arn:${Partition}:batch:${Region}:${Account}:compute-environment/${ComputeEnvironmentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteComputeEnvironment",
 }));
@@ -2567,14 +2492,6 @@ export const deleteConsumableResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsumableResource",
-  iam: {
-    actions: ["batch:DeleteConsumableResource"],
-    resources: {
-      "batch:DeleteConsumableResource": [
-        "arn:${Partition}:batch:${Region}:${Account}:consumable-resource/${ConsumableResourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConsumableResource",
 }));
@@ -2605,14 +2522,6 @@ export const deleteJobQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJobQueue",
-  iam: {
-    actions: ["batch:DeleteJobQueue"],
-    resources: {
-      "batch:DeleteJobQueue": [
-        "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteJobQueue",
 }));
@@ -2635,14 +2544,6 @@ export const deleteQuotaShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuotaShare",
-  iam: {
-    actions: ["batch:DeleteQuotaShare"],
-    resources: {
-      "batch:DeleteQuotaShare": [
-        "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}/quota-share/${QuotaShareName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteQuotaShare",
 }));
@@ -2665,14 +2566,6 @@ export const deleteSchedulingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedulingPolicy",
-  iam: {
-    actions: ["batch:DeleteSchedulingPolicy"],
-    resources: {
-      "batch:DeleteSchedulingPolicy": [
-        "arn:${Partition}:batch:${Region}:${Account}:scheduling-policy/${SchedulingPolicyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSchedulingPolicy",
 }));
@@ -2693,14 +2586,6 @@ export const deleteServiceEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceEnvironment",
-  iam: {
-    actions: ["batch:DeleteServiceEnvironment"],
-    resources: {
-      "batch:DeleteServiceEnvironment": [
-        "arn:${Partition}:batch:${Region}:${Account}:service-environment/${ServiceEnvironmentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServiceEnvironment",
 }));
@@ -2722,14 +2607,6 @@ export const deregisterJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterJobDefinition",
-  iam: {
-    actions: ["batch:DeregisterJobDefinition"],
-    resources: {
-      "batch:DeregisterJobDefinition": [
-        "arn:${Partition}:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterJobDefinition",
 }));
@@ -2761,7 +2638,6 @@ export const describeComputeEnvironments: API.PaginatedOperationMethod<
     items: "computeEnvironments",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["batch:DescribeComputeEnvironments"] },
   telemetry: TELEMETRY,
   span: "DescribeComputeEnvironments",
 })) as any;
@@ -2782,14 +2658,6 @@ export const describeConsumableResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConsumableResource",
-  iam: {
-    actions: ["batch:DescribeConsumableResource"],
-    resources: {
-      "batch:DescribeConsumableResource": [
-        "arn:${Partition}:batch:${Region}:${Account}:consumable-resource/${ConsumableResourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeConsumableResource",
 }));
@@ -2818,7 +2686,6 @@ export const describeJobDefinitions: API.PaginatedOperationMethod<
     items: "jobDefinitions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["batch:DescribeJobDefinitions"] },
   telemetry: TELEMETRY,
   span: "DescribeJobDefinitions",
 })) as any;
@@ -2846,7 +2713,6 @@ export const describeJobQueues: API.PaginatedOperationMethod<
     items: "jobQueues",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["batch:DescribeJobQueues"] },
   telemetry: TELEMETRY,
   span: "DescribeJobQueues",
 })) as any;
@@ -2867,7 +2733,6 @@ export const describeJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobs",
-  iam: { actions: ["batch:DescribeJobs"] },
   telemetry: TELEMETRY,
   span: "DescribeJobs",
 }));
@@ -2888,14 +2753,6 @@ export const describeQuotaShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuotaShare",
-  iam: {
-    actions: ["batch:DescribeQuotaShare"],
-    resources: {
-      "batch:DescribeQuotaShare": [
-        "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}/quota-share/${QuotaShareName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeQuotaShare",
 }));
@@ -2916,7 +2773,6 @@ export const describeSchedulingPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchedulingPolicies",
-  iam: { actions: ["batch:DescribeSchedulingPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeSchedulingPolicies",
 }));
@@ -2944,7 +2800,6 @@ export const describeServiceEnvironments: API.PaginatedOperationMethod<
     items: "serviceEnvironments",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["batch:DescribeServiceEnvironments"] },
   telemetry: TELEMETRY,
   span: "DescribeServiceEnvironments",
 })) as any;
@@ -2965,7 +2820,6 @@ export const describeServiceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceJob",
-  iam: { actions: ["batch:DescribeServiceJob"] },
   telemetry: TELEMETRY,
   span: "DescribeServiceJob",
 }));
@@ -2989,14 +2843,6 @@ export const getJobQueueSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobQueueSnapshot",
-  iam: {
-    actions: ["batch:GetJobQueueSnapshot"],
-    resources: {
-      "batch:GetJobQueueSnapshot": [
-        "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJobQueueSnapshot",
 }));
@@ -3024,7 +2870,6 @@ export const listConsumableResources: API.PaginatedOperationMethod<
     items: "consumableResources",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["batch:ListConsumableResources"] },
   telemetry: TELEMETRY,
   span: "ListConsumableResources",
 })) as any;
@@ -3060,7 +2905,6 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobSummaryList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["batch:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -3088,14 +2932,6 @@ export const listJobsByConsumableResource: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["batch:ListJobsByConsumableResource"],
-    resources: {
-      "batch:ListJobsByConsumableResource": [
-        "arn:${Partition}:batch:${Region}:${Account}:consumable-resource/${ConsumableResourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListJobsByConsumableResource",
 })) as any;
@@ -3123,14 +2959,6 @@ export const listQuotaShares: API.PaginatedOperationMethod<
     items: "quotaShares",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["batch:ListQuotaShares"],
-    resources: {
-      "batch:ListQuotaShares": [
-        "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListQuotaShares",
 })) as any;
@@ -3158,7 +2986,6 @@ export const listSchedulingPolicies: API.PaginatedOperationMethod<
     items: "schedulingPolicies",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["batch:ListSchedulingPolicies"] },
   telemetry: TELEMETRY,
   span: "ListSchedulingPolicies",
 })) as any;
@@ -3186,7 +3013,6 @@ export const listServiceJobs: API.PaginatedOperationMethod<
     items: "jobSummaryList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["batch:ListServiceJobs"] },
   telemetry: TELEMETRY,
   span: "ListServiceJobs",
 })) as any;
@@ -3208,7 +3034,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["batch:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3229,11 +3054,6 @@ export const registerJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterJobDefinition",
-  iam: {
-    actions: ["iam:PassRole", "batch:RegisterJobDefinition", "batch:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "containerProperties.jobRoleArn", "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "RegisterJobDefinition",
 }));
@@ -3266,10 +3086,6 @@ export const submitJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitJob",
-  iam: {
-    actions: ["batch:SubmitJob", "batch:TagResource"],
-    conditional: { "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "SubmitJob",
 }));
@@ -3290,11 +3106,6 @@ export const submitServiceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitServiceJob",
-  iam: {
-    actions: ["iam:PassRole", "batch:SubmitServiceJob", "batch:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "batch:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "SubmitServiceJob",
 }));
@@ -3319,7 +3130,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["batch:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3343,12 +3153,6 @@ export const terminateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateJob",
-  iam: {
-    actions: ["batch:TerminateJob"],
-    resources: {
-      "batch:TerminateJob": ["arn:${Partition}:batch:${Region}:${Account}:job/${JobId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateJob",
 }));
@@ -3384,12 +3188,6 @@ export const terminateJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateJobs",
-  iam: {
-    actions: ["batch:TerminateJob"],
-    resources: {
-      "batch:TerminateJob": ["arn:${Partition}:batch:${Region}:${Account}:job/${JobId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateJobs",
 }));
@@ -3410,14 +3208,6 @@ export const terminateServiceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateServiceJob",
-  iam: {
-    actions: ["batch:TerminateServiceJob"],
-    resources: {
-      "batch:TerminateServiceJob": [
-        "arn:${Partition}:batch:${Region}:${Account}:service-job/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateServiceJob",
 }));
@@ -3445,14 +3235,6 @@ export const terminateServiceJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateServiceJobs",
-  iam: {
-    actions: ["batch:TerminateServiceJob"],
-    resources: {
-      "batch:TerminateServiceJob": [
-        "arn:${Partition}:batch:${Region}:${Account}:service-job/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateServiceJobs",
 }));
@@ -3473,7 +3255,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["batch:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3504,19 +3285,6 @@ export const updateComputeEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComputeEnvironment",
-  iam: {
-    actions: ["iam:PassRole", "batch:SetCapacityTags", "batch:UpdateComputeEnvironment"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "batch:SetCapacityTags": [
-        "arn:${Partition}:batch:${Region}:${Account}:compute-environment/${ComputeEnvironmentName}",
-      ],
-      "batch:UpdateComputeEnvironment": [
-        "arn:${Partition}:batch:${Region}:${Account}:compute-environment/${ComputeEnvironmentName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "serviceRole" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateComputeEnvironment",
 }));
@@ -3537,14 +3305,6 @@ export const updateConsumableResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConsumableResource",
-  iam: {
-    actions: ["batch:UpdateConsumableResource"],
-    resources: {
-      "batch:UpdateConsumableResource": [
-        "arn:${Partition}:batch:${Region}:${Account}:consumable-resource/${ConsumableResourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConsumableResource",
 }));
@@ -3570,7 +3330,6 @@ export const updateJobQueue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobQueue",
-  iam: { actions: ["batch:UpdateJobQueue"] },
   telemetry: TELEMETRY,
   span: "UpdateJobQueue",
 }));
@@ -3591,14 +3350,6 @@ export const updateQuotaShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuotaShare",
-  iam: {
-    actions: ["batch:UpdateQuotaShare"],
-    resources: {
-      "batch:UpdateQuotaShare": [
-        "arn:${Partition}:batch:${Region}:${Account}:job-queue/${JobQueueName}/quota-share/${QuotaShareName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateQuotaShare",
 }));
@@ -3619,14 +3370,6 @@ export const updateSchedulingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSchedulingPolicy",
-  iam: {
-    actions: ["batch:UpdateSchedulingPolicy"],
-    resources: {
-      "batch:UpdateSchedulingPolicy": [
-        "arn:${Partition}:batch:${Region}:${Account}:scheduling-policy/${SchedulingPolicyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSchedulingPolicy",
 }));
@@ -3647,14 +3390,6 @@ export const updateServiceEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceEnvironment",
-  iam: {
-    actions: ["batch:UpdateServiceEnvironment"],
-    resources: {
-      "batch:UpdateServiceEnvironment": [
-        "arn:${Partition}:batch:${Region}:${Account}:service-environment/${ServiceEnvironmentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceEnvironment",
 }));
@@ -3675,14 +3410,6 @@ export const updateServiceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceJob",
-  iam: {
-    actions: ["batch:UpdateServiceJob"],
-    resources: {
-      "batch:UpdateServiceJob": [
-        "arn:${Partition}:batch:${Region}:${Account}:service-job/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceJob",
 }));

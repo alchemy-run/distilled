@@ -1261,15 +1261,6 @@ export const batchGetCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCaseRule",
-  iam: {
-    actions: ["cases:BatchGetCaseRule"],
-    resources: {
-      "cases:BatchGetCaseRule": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case-rule/${CaseRuleId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetCaseRule",
 }));
@@ -1302,15 +1293,6 @@ export const batchGetField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetField",
-  iam: {
-    actions: ["cases:BatchGetField"],
-    resources: {
-      "cases:BatchGetField": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetField",
 }));
@@ -1345,15 +1327,6 @@ export const batchPutFieldOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutFieldOptions",
-  iam: {
-    actions: ["cases:BatchPutFieldOptions"],
-    resources: {
-      "cases:BatchPutFieldOptions": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchPutFieldOptions",
 }));
@@ -1398,18 +1371,6 @@ export const createCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCase",
-  iam: {
-    actions: ["cases:CreateCase", "cases:TagResource"],
-    resources: {
-      "cases:CreateCase": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/template/${TemplateId}",
-      ],
-    },
-    conditional: { "cases:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCase",
 }));
@@ -1446,15 +1407,6 @@ export const createCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCaseRule",
-  iam: {
-    actions: ["cases:CreateCaseRule"],
-    resources: {
-      "cases:CreateCaseRule": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case-rule/${CaseRuleId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCaseRule",
 }));
@@ -1491,7 +1443,6 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
-  iam: { actions: ["cases:CreateDomain"] },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -1528,15 +1479,6 @@ export const createField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateField",
-  iam: {
-    actions: ["cases:CreateField"],
-    resources: {
-      "cases:CreateField": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateField",
 }));
@@ -1579,15 +1521,6 @@ export const createLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLayout",
-  iam: {
-    actions: ["cases:CreateLayout"],
-    resources: {
-      "cases:CreateLayout": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/layout/${LayoutId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateLayout",
 }));
@@ -1652,16 +1585,6 @@ export const createRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelatedItem",
-  iam: {
-    actions: ["cases:CreateRelatedItem"],
-    resources: {
-      "cases:CreateRelatedItem": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}/related-item/${RelatedItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateRelatedItem",
 }));
@@ -1708,16 +1631,6 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
-  iam: {
-    actions: ["cases:CreateTemplate"],
-    resources: {
-      "cases:CreateTemplate": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/layout/${LayoutId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateTemplate",
 }));
@@ -1758,15 +1671,6 @@ export const deleteCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCase",
-  iam: {
-    actions: ["cases:DeleteCase"],
-    resources: {
-      "cases:DeleteCase": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCase",
 }));
@@ -1799,15 +1703,6 @@ export const deleteCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCaseRule",
-  iam: {
-    actions: ["cases:DeleteCaseRule"],
-    resources: {
-      "cases:DeleteCaseRule": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case-rule/${CaseRuleId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCaseRule",
 }));
@@ -1844,12 +1739,6 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
-  iam: {
-    actions: ["cases:DeleteDomain"],
-    resources: {
-      "cases:DeleteDomain": ["arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -1912,15 +1801,6 @@ export const deleteField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteField",
-  iam: {
-    actions: ["cases:DeleteField"],
-    resources: {
-      "cases:DeleteField": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteField",
 }));
@@ -1963,15 +1843,6 @@ export const deleteLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLayout",
-  iam: {
-    actions: ["cases:DeleteLayout"],
-    resources: {
-      "cases:DeleteLayout": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/layout/${LayoutId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLayout",
 }));
@@ -2006,16 +1877,6 @@ export const deleteRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelatedItem",
-  iam: {
-    actions: ["cases:DeleteRelatedItem"],
-    resources: {
-      "cases:DeleteRelatedItem": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}/related-item/${RelatedItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRelatedItem",
 }));
@@ -2060,15 +1921,6 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
-  iam: {
-    actions: ["cases:DeleteTemplate"],
-    resources: {
-      "cases:DeleteTemplate": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTemplate",
 }));
@@ -2103,16 +1955,6 @@ export const getCase: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetCase",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  iam: {
-    actions: ["cases:GetCase"],
-    resources: {
-      "cases:GetCase": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCase",
 })) as any;
@@ -2151,15 +1993,6 @@ export const getCaseAuditEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:GetCaseAuditEvents"],
-    resources: {
-      "cases:GetCaseAuditEvents": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCaseAuditEvents",
 })) as any;
@@ -2192,14 +2025,6 @@ export const getCaseEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCaseEventConfiguration",
-  iam: {
-    actions: ["cases:GetCaseEventConfiguration"],
-    resources: {
-      "cases:GetCaseEventConfiguration": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCaseEventConfiguration",
 }));
@@ -2232,12 +2057,6 @@ export const getDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomain",
-  iam: {
-    actions: ["cases:GetDomain"],
-    resources: {
-      "cases:GetDomain": ["arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDomain",
 }));
@@ -2270,15 +2089,6 @@ export const getLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLayout",
-  iam: {
-    actions: ["cases:GetLayout"],
-    resources: {
-      "cases:GetLayout": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/layout/${LayoutId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLayout",
 }));
@@ -2319,15 +2129,6 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
-  iam: {
-    actions: ["cases:GetTemplate"],
-    resources: {
-      "cases:GetTemplate": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTemplate",
 }));
@@ -2367,12 +2168,6 @@ export const listCaseRules: API.PaginatedOperationMethod<
     items: "caseRules",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:ListCaseRules"],
-    resources: {
-      "cases:ListCaseRules": ["arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCaseRules",
 })) as any;
@@ -2411,14 +2206,6 @@ export const listCasesForContact: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:ListCasesForContact"],
-    resources: {
-      "cases:ListCasesForContact": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCasesForContact",
 })) as any;
@@ -2455,7 +2242,6 @@ export const listDomains: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["cases:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -2494,15 +2280,6 @@ export const listFieldOptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:ListFieldOptions"],
-    resources: {
-      "cases:ListFieldOptions": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFieldOptions",
 })) as any;
@@ -2541,12 +2318,6 @@ export const listFields: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:ListFields"],
-    resources: {
-      "cases:ListFields": ["arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFields",
 })) as any;
@@ -2585,12 +2356,6 @@ export const listLayouts: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:ListLayouts"],
-    resources: {
-      "cases:ListLayouts": ["arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListLayouts",
 })) as any;
@@ -2623,7 +2388,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["cases:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2672,12 +2436,6 @@ export const listTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:ListTemplates"],
-    resources: {
-      "cases:ListTemplates": ["arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTemplates",
 })) as any;
@@ -2712,14 +2470,6 @@ export const putCaseEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutCaseEventConfiguration",
-  iam: {
-    actions: ["cases:PutCaseEventConfiguration"],
-    resources: {
-      "cases:PutCaseEventConfiguration": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutCaseEventConfiguration",
 }));
@@ -2777,14 +2527,6 @@ export const searchAllRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:SearchAllRelatedItems"],
-    resources: {
-      "cases:SearchAllRelatedItems": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchAllRelatedItems",
 })) as any;
@@ -2826,12 +2568,6 @@ export const searchCases: API.PaginatedOperationMethod<
     items: "cases",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:SearchCases"],
-    resources: {
-      "cases:SearchCases": ["arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchCases",
 })) as any;
@@ -2873,15 +2609,6 @@ export const searchRelatedItems: API.PaginatedOperationMethod<
     items: "relatedItems",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cases:SearchRelatedItems"],
-    resources: {
-      "cases:SearchRelatedItems": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchRelatedItems",
 })) as any;
@@ -2914,7 +2641,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["cases:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2947,7 +2673,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["cases:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2984,16 +2709,6 @@ export const updateCase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCase",
-  iam: {
-    actions: ["cases:UpdateCase"],
-    resources: {
-      "cases:UpdateCase": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCase",
 }));
@@ -3030,15 +2745,6 @@ export const updateCaseRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCaseRule",
-  iam: {
-    actions: ["cases:UpdateCaseRule"],
-    resources: {
-      "cases:UpdateCaseRule": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case-rule/${CaseRuleId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCaseRule",
 }));
@@ -3073,15 +2779,6 @@ export const updateField: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateField",
-  iam: {
-    actions: ["cases:UpdateField"],
-    resources: {
-      "cases:UpdateField": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/field/${FieldId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateField",
 }));
@@ -3124,15 +2821,6 @@ export const updateLayout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLayout",
-  iam: {
-    actions: ["cases:UpdateLayout"],
-    resources: {
-      "cases:UpdateLayout": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/layout/${LayoutId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLayout",
 }));
@@ -3181,16 +2869,6 @@ export const updateRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelatedItem",
-  iam: {
-    actions: ["cases:UpdateRelatedItem"],
-    resources: {
-      "cases:UpdateRelatedItem": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/case/${CaseId}/related-item/${RelatedItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRelatedItem",
 }));
@@ -3237,15 +2915,6 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
-  iam: {
-    actions: ["cases:UpdateTemplate"],
-    resources: {
-      "cases:UpdateTemplate": [
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}",
-        "arn:${Partition}:cases:${Region}:${Account}:domain/${DomainId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTemplate",
 }));

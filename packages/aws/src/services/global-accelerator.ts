@@ -932,14 +932,6 @@ export const addCustomRoutingEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCustomRoutingEndpoints",
-  iam: {
-    actions: ["globalaccelerator:AddCustomRoutingEndpoints"],
-    resources: {
-      "globalaccelerator:AddCustomRoutingEndpoints": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddCustomRoutingEndpoints",
 }));
@@ -991,17 +983,6 @@ export const addEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddEndpoints",
-  iam: {
-    actions: ["globalaccelerator:AddEndpoints", "globalaccelerator:UpdateEndpointGroup"],
-    resources: {
-      "globalaccelerator:AddEndpoints": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-      "globalaccelerator:UpdateEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddEndpoints",
 }));
@@ -1042,7 +1023,6 @@ export const advertiseByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdvertiseByoipCidr",
-  iam: { actions: ["globalaccelerator:AdvertiseByoipCidr"] },
   telemetry: TELEMETRY,
   span: "AdvertiseByoipCidr",
 }));
@@ -1073,14 +1053,6 @@ export const allowCustomRoutingTraffic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllowCustomRoutingTraffic",
-  iam: {
-    actions: ["globalaccelerator:AllowCustomRoutingTraffic"],
-    resources: {
-      "globalaccelerator:AllowCustomRoutingTraffic": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AllowCustomRoutingTraffic",
 }));
@@ -1118,10 +1090,6 @@ export const createAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccelerator",
-  iam: {
-    actions: ["globalaccelerator:CreateAccelerator", "globalaccelerator:TagResource"],
-    conditional: { "globalaccelerator:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAccelerator",
 }));
@@ -1173,10 +1141,6 @@ export const createCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCrossAccountAttachment",
-  iam: {
-    actions: ["globalaccelerator:CreateCrossAccountAttachment", "globalaccelerator:TagResource"],
-    conditional: { "globalaccelerator:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCrossAccountAttachment",
 }));
@@ -1219,10 +1183,6 @@ export const createCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingAccelerator",
-  iam: {
-    actions: ["globalaccelerator:CreateCustomRoutingAccelerator", "globalaccelerator:TagResource"],
-    conditional: { "globalaccelerator:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCustomRoutingAccelerator",
 }));
@@ -1263,14 +1223,6 @@ export const createCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingEndpointGroup",
-  iam: {
-    actions: ["globalaccelerator:CreateCustomRoutingEndpointGroup"],
-    resources: {
-      "globalaccelerator:CreateCustomRoutingEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCustomRoutingEndpointGroup",
 }));
@@ -1304,14 +1256,6 @@ export const createCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomRoutingListener",
-  iam: {
-    actions: ["globalaccelerator:CreateCustomRoutingListener"],
-    resources: {
-      "globalaccelerator:CreateCustomRoutingListener": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCustomRoutingListener",
 }));
@@ -1353,14 +1297,6 @@ export const createEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointGroup",
-  iam: {
-    actions: ["globalaccelerator:CreateEndpointGroup"],
-    resources: {
-      "globalaccelerator:CreateEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEndpointGroup",
 }));
@@ -1394,14 +1330,6 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
-  iam: {
-    actions: ["globalaccelerator:CreateListener"],
-    resources: {
-      "globalaccelerator:CreateListener": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateListener",
 }));
@@ -1448,14 +1376,6 @@ export const deleteAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccelerator",
-  iam: {
-    actions: ["globalaccelerator:DeleteAccelerator"],
-    resources: {
-      "globalaccelerator:DeleteAccelerator": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAccelerator",
 }));
@@ -1494,14 +1414,6 @@ export const deleteCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrossAccountAttachment",
-  iam: {
-    actions: ["globalaccelerator:DeleteCrossAccountAttachment"],
-    resources: {
-      "globalaccelerator:DeleteCrossAccountAttachment": [
-        "arn:${Partition}:globalaccelerator::${Account}:attachment/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCrossAccountAttachment",
 }));
@@ -1548,14 +1460,6 @@ export const deleteCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingAccelerator",
-  iam: {
-    actions: ["globalaccelerator:DeleteCustomRoutingAccelerator"],
-    resources: {
-      "globalaccelerator:DeleteCustomRoutingAccelerator": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCustomRoutingAccelerator",
 }));
@@ -1580,14 +1484,6 @@ export const deleteCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingEndpointGroup",
-  iam: {
-    actions: ["globalaccelerator:DeleteCustomRoutingEndpointGroup"],
-    resources: {
-      "globalaccelerator:DeleteCustomRoutingEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCustomRoutingEndpointGroup",
 }));
@@ -1618,14 +1514,6 @@ export const deleteCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomRoutingListener",
-  iam: {
-    actions: ["globalaccelerator:DeleteCustomRoutingListener"],
-    resources: {
-      "globalaccelerator:DeleteCustomRoutingListener": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCustomRoutingListener",
 }));
@@ -1650,14 +1538,6 @@ export const deleteEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointGroup",
-  iam: {
-    actions: ["globalaccelerator:DeleteEndpointGroup"],
-    resources: {
-      "globalaccelerator:DeleteEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEndpointGroup",
 }));
@@ -1688,14 +1568,6 @@ export const deleteListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
-  iam: {
-    actions: ["globalaccelerator:DeleteListener"],
-    resources: {
-      "globalaccelerator:DeleteListener": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteListener",
 }));
@@ -1726,14 +1598,6 @@ export const denyCustomRoutingTraffic: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DenyCustomRoutingTraffic",
-  iam: {
-    actions: ["globalaccelerator:DenyCustomRoutingTraffic"],
-    resources: {
-      "globalaccelerator:DenyCustomRoutingTraffic": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DenyCustomRoutingTraffic",
 }));
@@ -1773,7 +1637,6 @@ export const deprovisionByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeprovisionByoipCidr",
-  iam: { actions: ["globalaccelerator:DeprovisionByoipCidr"] },
   telemetry: TELEMETRY,
   span: "DeprovisionByoipCidr",
 }));
@@ -1798,14 +1661,6 @@ export const describeAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccelerator",
-  iam: {
-    actions: ["globalaccelerator:DescribeAccelerator"],
-    resources: {
-      "globalaccelerator:DescribeAccelerator": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAccelerator",
 }));
@@ -1830,14 +1685,6 @@ export const describeAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAcceleratorAttributes",
-  iam: {
-    actions: ["globalaccelerator:DescribeAcceleratorAttributes"],
-    resources: {
-      "globalaccelerator:DescribeAcceleratorAttributes": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAcceleratorAttributes",
 }));
@@ -1868,14 +1715,6 @@ export const describeCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCrossAccountAttachment",
-  iam: {
-    actions: ["globalaccelerator:DescribeCrossAccountAttachment"],
-    resources: {
-      "globalaccelerator:DescribeCrossAccountAttachment": [
-        "arn:${Partition}:globalaccelerator::${Account}:attachment/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCrossAccountAttachment",
 }));
@@ -1900,14 +1739,6 @@ export const describeCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingAccelerator",
-  iam: {
-    actions: ["globalaccelerator:DescribeCustomRoutingAccelerator"],
-    resources: {
-      "globalaccelerator:DescribeCustomRoutingAccelerator": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCustomRoutingAccelerator",
 }));
@@ -1932,14 +1763,6 @@ export const describeCustomRoutingAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingAcceleratorAttributes",
-  iam: {
-    actions: ["globalaccelerator:DescribeCustomRoutingAcceleratorAttributes"],
-    resources: {
-      "globalaccelerator:DescribeCustomRoutingAcceleratorAttributes": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCustomRoutingAcceleratorAttributes",
 }));
@@ -1964,14 +1787,6 @@ export const describeCustomRoutingEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingEndpointGroup",
-  iam: {
-    actions: ["globalaccelerator:DescribeCustomRoutingEndpointGroup"],
-    resources: {
-      "globalaccelerator:DescribeCustomRoutingEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCustomRoutingEndpointGroup",
 }));
@@ -1996,14 +1811,6 @@ export const describeCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomRoutingListener",
-  iam: {
-    actions: ["globalaccelerator:DescribeCustomRoutingListener"],
-    resources: {
-      "globalaccelerator:DescribeCustomRoutingListener": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCustomRoutingListener",
 }));
@@ -2028,14 +1835,6 @@ export const describeEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpointGroup",
-  iam: {
-    actions: ["globalaccelerator:DescribeEndpointGroup"],
-    resources: {
-      "globalaccelerator:DescribeEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEndpointGroup",
 }));
@@ -2060,14 +1859,6 @@ export const describeListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListener",
-  iam: {
-    actions: ["globalaccelerator:DescribeListener"],
-    resources: {
-      "globalaccelerator:DescribeListener": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeListener",
 }));
@@ -2099,7 +1890,6 @@ export const listAccelerators: API.PaginatedOperationMethod<
     items: "Accelerators",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["globalaccelerator:ListAccelerators"] },
   telemetry: TELEMETRY,
   span: "ListAccelerators",
 })) as any;
@@ -2138,7 +1928,6 @@ export const listByoipCidrs: API.PaginatedOperationMethod<
     items: "ByoipCidrs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["globalaccelerator:ListByoipCidrs"] },
   telemetry: TELEMETRY,
   span: "ListByoipCidrs",
 })) as any;
@@ -2176,7 +1965,6 @@ export const listCrossAccountAttachments: API.PaginatedOperationMethod<
     items: "CrossAccountAttachments",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["globalaccelerator:ListCrossAccountAttachments"] },
   telemetry: TELEMETRY,
   span: "ListCrossAccountAttachments",
 })) as any;
@@ -2204,7 +1992,6 @@ export const listCrossAccountResourceAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCrossAccountResourceAccounts",
-  iam: { actions: ["globalaccelerator:ListCrossAccountResourceAccounts"] },
   telemetry: TELEMETRY,
   span: "ListCrossAccountResourceAccounts",
 }));
@@ -2244,7 +2031,6 @@ export const listCrossAccountResources: API.PaginatedOperationMethod<
     items: "CrossAccountResources",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["globalaccelerator:ListCrossAccountResources"] },
   telemetry: TELEMETRY,
   span: "ListCrossAccountResources",
 })) as any;
@@ -2276,7 +2062,6 @@ export const listCustomRoutingAccelerators: API.PaginatedOperationMethod<
     items: "Accelerators",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["globalaccelerator:ListCustomRoutingAccelerators"] },
   telemetry: TELEMETRY,
   span: "ListCustomRoutingAccelerators",
 })) as any;
@@ -2314,14 +2099,6 @@ export const listCustomRoutingEndpointGroups: API.PaginatedOperationMethod<
     items: "EndpointGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["globalaccelerator:ListCustomRoutingEndpointGroups"],
-    resources: {
-      "globalaccelerator:ListCustomRoutingEndpointGroups": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCustomRoutingEndpointGroups",
 })) as any;
@@ -2359,14 +2136,6 @@ export const listCustomRoutingListeners: API.PaginatedOperationMethod<
     items: "Listeners",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["globalaccelerator:ListCustomRoutingListeners"],
-    resources: {
-      "globalaccelerator:ListCustomRoutingListeners": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCustomRoutingListeners",
 })) as any;
@@ -2416,14 +2185,6 @@ export const listCustomRoutingPortMappings: API.PaginatedOperationMethod<
     items: "PortMappings",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["globalaccelerator:ListCustomRoutingPortMappings"],
-    resources: {
-      "globalaccelerator:ListCustomRoutingPortMappings": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCustomRoutingPortMappings",
 })) as any;
@@ -2464,7 +2225,6 @@ export const listCustomRoutingPortMappingsByDestination: API.PaginatedOperationM
     items: "DestinationPortMappings",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["globalaccelerator:ListCustomRoutingPortMappingsByDestination"] },
   telemetry: TELEMETRY,
   span: "ListCustomRoutingPortMappingsByDestination",
 })) as any;
@@ -2502,14 +2262,6 @@ export const listEndpointGroups: API.PaginatedOperationMethod<
     items: "EndpointGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["globalaccelerator:ListEndpointGroups"],
-    resources: {
-      "globalaccelerator:ListEndpointGroups": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEndpointGroups",
 })) as any;
@@ -2547,14 +2299,6 @@ export const listListeners: API.PaginatedOperationMethod<
     items: "Listeners",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["globalaccelerator:ListListeners"],
-    resources: {
-      "globalaccelerator:ListListeners": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListListeners",
 })) as any;
@@ -2592,7 +2336,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["globalaccelerator:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2631,7 +2374,6 @@ export const provisionByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionByoipCidr",
-  iam: { actions: ["globalaccelerator:ProvisionByoipCidr"] },
   telemetry: TELEMETRY,
   span: "ProvisionByoipCidr",
 }));
@@ -2666,14 +2408,6 @@ export const removeCustomRoutingEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveCustomRoutingEndpoints",
-  iam: {
-    actions: ["globalaccelerator:RemoveCustomRoutingEndpoints"],
-    resources: {
-      "globalaccelerator:RemoveCustomRoutingEndpoints": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveCustomRoutingEndpoints",
 }));
@@ -2719,17 +2453,6 @@ export const removeEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveEndpoints",
-  iam: {
-    actions: ["globalaccelerator:RemoveEndpoints", "globalaccelerator:UpdateEndpointGroup"],
-    resources: {
-      "globalaccelerator:RemoveEndpoints": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-      "globalaccelerator:UpdateEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveEndpoints",
 }));
@@ -2757,7 +2480,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["globalaccelerator:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2786,7 +2508,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["globalaccelerator:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2837,14 +2558,6 @@ export const updateAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccelerator",
-  iam: {
-    actions: ["globalaccelerator:UpdateAccelerator"],
-    resources: {
-      "globalaccelerator:UpdateAccelerator": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAccelerator",
 }));
@@ -2877,14 +2590,6 @@ export const updateAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAcceleratorAttributes",
-  iam: {
-    actions: ["globalaccelerator:UpdateAcceleratorAttributes"],
-    resources: {
-      "globalaccelerator:UpdateAcceleratorAttributes": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAcceleratorAttributes",
 }));
@@ -2925,14 +2630,6 @@ export const updateCrossAccountAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrossAccountAttachment",
-  iam: {
-    actions: ["globalaccelerator:UpdateCrossAccountAttachment"],
-    resources: {
-      "globalaccelerator:UpdateCrossAccountAttachment": [
-        "arn:${Partition}:globalaccelerator::${Account}:attachment/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCrossAccountAttachment",
 }));
@@ -2965,14 +2662,6 @@ export const updateCustomRoutingAccelerator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingAccelerator",
-  iam: {
-    actions: ["globalaccelerator:UpdateCustomRoutingAccelerator"],
-    resources: {
-      "globalaccelerator:UpdateCustomRoutingAccelerator": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCustomRoutingAccelerator",
 }));
@@ -3005,14 +2694,6 @@ export const updateCustomRoutingAcceleratorAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingAcceleratorAttributes",
-  iam: {
-    actions: ["globalaccelerator:UpdateCustomRoutingAcceleratorAttributes"],
-    resources: {
-      "globalaccelerator:UpdateCustomRoutingAcceleratorAttributes": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCustomRoutingAcceleratorAttributes",
 }));
@@ -3045,14 +2726,6 @@ export const updateCustomRoutingListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomRoutingListener",
-  iam: {
-    actions: ["globalaccelerator:UpdateCustomRoutingListener"],
-    resources: {
-      "globalaccelerator:UpdateCustomRoutingListener": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCustomRoutingListener",
 }));
@@ -3085,14 +2758,6 @@ export const updateEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointGroup",
-  iam: {
-    actions: ["globalaccelerator:UpdateEndpointGroup"],
-    resources: {
-      "globalaccelerator:UpdateEndpointGroup": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}/endpoint-group/${EndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEndpointGroup",
 }));
@@ -3125,14 +2790,6 @@ export const updateListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateListener",
-  iam: {
-    actions: ["globalaccelerator:UpdateListener"],
-    resources: {
-      "globalaccelerator:UpdateListener": [
-        "arn:${Partition}:globalaccelerator::${Account}:accelerator/${ResourceId}/listener/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateListener",
 }));
@@ -3173,7 +2830,6 @@ export const withdrawByoipCidr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "WithdrawByoipCidr",
-  iam: { actions: ["globalaccelerator:WithdrawByoipCidr"] },
   telemetry: TELEMETRY,
   span: "WithdrawByoipCidr",
 }));

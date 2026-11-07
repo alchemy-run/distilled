@@ -1453,14 +1453,6 @@ export const batchUpdateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateCluster",
-  iam: {
-    actions: ["memorydb:BatchUpdateCluster"],
-    resources: {
-      "memorydb:BatchUpdateCluster": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchUpdateCluster",
 }));
@@ -1499,15 +1491,6 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
-  iam: {
-    actions: ["memorydb:CopySnapshot", "memorydb:TagResource"],
-    resources: {
-      "memorydb:CopySnapshot": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:snapshot/${SnapshotName}",
-      ],
-    },
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CopySnapshot",
 }));
@@ -1544,13 +1527,6 @@ export const createACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateACL",
-  iam: {
-    actions: ["memorydb:CreateAcl", "memorydb:TagResource"],
-    resources: {
-      "memorydb:CreateAcl": ["arn:${Partition}:memorydb:${Region}:${Account}:user/${UserName}"],
-    },
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateACL",
 }));
@@ -1609,10 +1585,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: ["memorydb:CreateCluster", "memorydb:TagResource"],
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -1647,15 +1619,6 @@ export const createMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiRegionCluster",
-  iam: {
-    actions: ["memorydb:CreateMultiRegionCluster", "memorydb:TagResource"],
-    resources: {
-      "memorydb:CreateMultiRegionCluster": [
-        "arn:${Partition}:memorydb::${Account}:multiregionparametergroup/${MultiRegionParameterGroupName}",
-      ],
-    },
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMultiRegionCluster",
 }));
@@ -1693,10 +1656,6 @@ export const createParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParameterGroup",
-  iam: {
-    actions: ["memorydb:CreateParameterGroup", "memorydb:TagResource"],
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateParameterGroup",
 }));
@@ -1735,15 +1694,6 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
-  iam: {
-    actions: ["memorydb:CreateSnapshot", "memorydb:TagResource"],
-    resources: {
-      "memorydb:CreateSnapshot": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
 }));
@@ -1783,10 +1733,6 @@ export const createSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubnetGroup",
-  iam: {
-    actions: ["memorydb:CreateSubnetGroup", "memorydb:TagResource"],
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSubnetGroup",
 }));
@@ -1821,10 +1767,6 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
-  iam: {
-    actions: ["memorydb:CreateUser", "memorydb:TagResource"],
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -1849,12 +1791,6 @@ export const deleteACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteACL",
-  iam: {
-    actions: ["memorydb:DeleteAcl"],
-    resources: {
-      "memorydb:DeleteAcl": ["arn:${Partition}:memorydb:${Region}:${Account}:acl/${AclName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteACL",
 }));
@@ -1892,14 +1828,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["memorydb:CreateSnapshot", "memorydb:DeleteCluster"],
-    resources: {
-      "memorydb:CreateSnapshot": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -1928,14 +1856,6 @@ export const deleteMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiRegionCluster",
-  iam: {
-    actions: ["memorydb:DeleteMultiRegionCluster"],
-    resources: {
-      "memorydb:DeleteMultiRegionCluster": [
-        "arn:${Partition}:memorydb::${Account}:multiregioncluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMultiRegionCluster",
 }));
@@ -1969,14 +1889,6 @@ export const deleteParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameterGroup",
-  iam: {
-    actions: ["memorydb:DeleteParameterGroup"],
-    resources: {
-      "memorydb:DeleteParameterGroup": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:parametergroup/${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteParameterGroup",
 }));
@@ -2009,14 +1921,6 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
-  iam: {
-    actions: ["memorydb:DeleteSnapshot"],
-    resources: {
-      "memorydb:DeleteSnapshot": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:snapshot/${SnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshot",
 }));
@@ -2041,14 +1945,6 @@ export const deleteSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubnetGroup",
-  iam: {
-    actions: ["memorydb:DeleteSubnetGroup"],
-    resources: {
-      "memorydb:DeleteSubnetGroup": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:subnetgroup/${SubnetGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSubnetGroup",
 }));
@@ -2073,12 +1969,6 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-  iam: {
-    actions: ["memorydb:DeleteUser"],
-    resources: {
-      "memorydb:DeleteUser": ["arn:${Partition}:memorydb:${Region}:${Account}:user/${UserName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -2109,12 +1999,6 @@ export const describeACLs: API.PaginatedOperationMethod<
     items: "ACLs",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeAcls"],
-    resources: {
-      "memorydb:DescribeAcls": ["arn:${Partition}:memorydb:${Region}:${Account}:acl/${AclName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeACLs",
 })) as any;
@@ -2152,14 +2036,6 @@ export const describeClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeClusters"],
-    resources: {
-      "memorydb:DescribeClusters": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeClusters",
 })) as any;
@@ -2195,7 +2071,6 @@ export const describeEngineVersions: API.PaginatedOperationMethod<
     items: "EngineVersions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["memorydb:DescribeEngineVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeEngineVersions",
 })) as any;
@@ -2233,7 +2108,6 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["memorydb:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 })) as any;
@@ -2271,14 +2145,6 @@ export const describeMultiRegionClusters: API.PaginatedOperationMethod<
     items: "MultiRegionClusters",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeMultiRegionClusters"],
-    resources: {
-      "memorydb:DescribeMultiRegionClusters": [
-        "arn:${Partition}:memorydb::${Account}:multiregioncluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMultiRegionClusters",
 })) as any;
@@ -2309,14 +2175,6 @@ export const describeMultiRegionParameterGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiRegionParameterGroups",
-  iam: {
-    actions: ["memorydb:DescribeMultiRegionParameterGroups"],
-    resources: {
-      "memorydb:DescribeMultiRegionParameterGroups": [
-        "arn:${Partition}:memorydb::${Account}:multiregionparametergroup/${MultiRegionParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMultiRegionParameterGroups",
 }));
@@ -2347,14 +2205,6 @@ export const describeMultiRegionParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiRegionParameters",
-  iam: {
-    actions: ["memorydb:DescribeMultiRegionParameters"],
-    resources: {
-      "memorydb:DescribeMultiRegionParameters": [
-        "arn:${Partition}:memorydb::${Account}:multiregionparametergroup/${MultiRegionParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMultiRegionParameters",
 }));
@@ -2392,14 +2242,6 @@ export const describeParameterGroups: API.PaginatedOperationMethod<
     items: "ParameterGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeParameterGroups"],
-    resources: {
-      "memorydb:DescribeParameterGroups": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:parametergroup/${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeParameterGroups",
 })) as any;
@@ -2437,14 +2279,6 @@ export const describeParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeParameters"],
-    resources: {
-      "memorydb:DescribeParameters": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:parametergroup/${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeParameters",
 })) as any;
@@ -2482,14 +2316,6 @@ export const describeReservedNodes: API.PaginatedOperationMethod<
     items: "ReservedNodes",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeReservedNodes"],
-    resources: {
-      "memorydb:DescribeReservedNodes": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:reservednode/${ReservationID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeReservedNodes",
 })) as any;
@@ -2527,7 +2353,6 @@ export const describeReservedNodesOfferings: API.PaginatedOperationMethod<
     items: "ReservedNodesOfferings",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["memorydb:DescribeReservedNodesOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedNodesOfferings",
 })) as any;
@@ -2558,7 +2383,6 @@ export const describeServiceUpdates: API.PaginatedOperationMethod<
     items: "ServiceUpdates",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["memorydb:DescribeServiceUpdates"] },
   telemetry: TELEMETRY,
   span: "DescribeServiceUpdates",
 })) as any;
@@ -2597,14 +2421,6 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeSnapshots"],
-    resources: {
-      "memorydb:DescribeSnapshots": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:snapshot/${SnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSnapshots",
 })) as any;
@@ -2635,14 +2451,6 @@ export const describeSubnetGroups: API.PaginatedOperationMethod<
     items: "SubnetGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeSubnetGroups"],
-    resources: {
-      "memorydb:DescribeSubnetGroups": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:subnetgroup/${SubnetGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSubnetGroups",
 })) as any;
@@ -2673,12 +2481,6 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["memorydb:DescribeUsers"],
-    resources: {
-      "memorydb:DescribeUsers": ["arn:${Partition}:memorydb:${Region}:${Account}:user/${UserName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUsers",
 })) as any;
@@ -2718,14 +2520,6 @@ export const failoverShard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverShard",
-  iam: {
-    actions: ["memorydb:FailoverShard"],
-    resources: {
-      "memorydb:FailoverShard": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "FailoverShard",
 }));
@@ -2754,14 +2548,6 @@ export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedMultiRegionClusterUpdates",
-  iam: {
-    actions: ["memorydb:ListAllowedMultiRegionClusterUpdates"],
-    resources: {
-      "memorydb:ListAllowedMultiRegionClusterUpdates": [
-        "arn:${Partition}:memorydb::${Account}:multiregioncluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAllowedMultiRegionClusterUpdates",
 }));
@@ -2794,14 +2580,6 @@ export const listAllowedNodeTypeUpdates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedNodeTypeUpdates",
-  iam: {
-    actions: ["memorydb:ListAllowedNodeTypeUpdates"],
-    resources: {
-      "memorydb:ListAllowedNodeTypeUpdates": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAllowedNodeTypeUpdates",
 }));
@@ -2848,7 +2626,6 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
-  iam: { actions: ["memorydb:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
@@ -2885,15 +2662,6 @@ export const purchaseReservedNodesOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedNodesOffering",
-  iam: {
-    actions: ["memorydb:PurchaseReservedNodesOffering", "memorydb:TagResource"],
-    resources: {
-      "memorydb:PurchaseReservedNodesOffering": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:reservednode/${ReservationID}",
-      ],
-    },
-    conditional: { "memorydb:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "PurchaseReservedNodesOffering",
 }));
@@ -2926,14 +2694,6 @@ export const resetParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetParameterGroup",
-  iam: {
-    actions: ["memorydb:ResetParameterGroup"],
-    resources: {
-      "memorydb:ResetParameterGroup": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:parametergroup/${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetParameterGroup",
 }));
@@ -2990,7 +2750,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["memorydb:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3047,7 +2806,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["memorydb:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3084,15 +2842,6 @@ export const updateACL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateACL",
-  iam: {
-    actions: ["memorydb:UpdateAcl"],
-    resources: {
-      "memorydb:UpdateAcl": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:acl/${AclName}",
-        "arn:${Partition}:memorydb:${Region}:${Account}:user/${UserName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateACL",
 }));
@@ -3147,7 +2896,6 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-  iam: { actions: ["memorydb:UpdateCluster"] },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -3180,7 +2928,6 @@ export const updateMultiRegionCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiRegionCluster",
-  iam: { actions: ["memorydb:UpdateMultiRegionCluster"] },
   telemetry: TELEMETRY,
   span: "UpdateMultiRegionCluster",
 }));
@@ -3213,14 +2960,6 @@ export const updateParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParameterGroup",
-  iam: {
-    actions: ["memorydb:UpdateParameterGroup"],
-    resources: {
-      "memorydb:UpdateParameterGroup": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:parametergroup/${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateParameterGroup",
 }));
@@ -3255,14 +2994,6 @@ export const updateSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetGroup",
-  iam: {
-    actions: ["memorydb:UpdateSubnetGroup"],
-    resources: {
-      "memorydb:UpdateSubnetGroup": [
-        "arn:${Partition}:memorydb:${Region}:${Account}:subnetgroup/${SubnetGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSubnetGroup",
 }));
@@ -3293,12 +3024,6 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
-  iam: {
-    actions: ["memorydb:UpdateUser"],
-    resources: {
-      "memorydb:UpdateUser": ["arn:${Partition}:memorydb:${Region}:${Account}:user/${UserName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));

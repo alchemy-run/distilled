@@ -2536,7 +2536,6 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
-  iam: { actions: ["elasticache:AddTagsToResource"] },
   telemetry: TELEMETRY,
   span: "AddTagsToResource",
 }));
@@ -2574,14 +2573,6 @@ export const authorizeCacheSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeCacheSecurityGroupIngress",
-  iam: {
-    actions: ["elasticache:AuthorizeCacheSecurityGroupIngress"],
-    resources: {
-      "elasticache:AuthorizeCacheSecurityGroupIngress": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:securitygroup:${CacheSecurityGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AuthorizeCacheSecurityGroupIngress",
 }));
@@ -2607,7 +2598,6 @@ export const batchApplyUpdateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchApplyUpdateAction",
-  iam: { actions: ["elasticache:BatchApplyUpdateAction"] },
   telemetry: TELEMETRY,
   span: "BatchApplyUpdateAction",
 }));
@@ -2633,7 +2623,6 @@ export const batchStopUpdateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStopUpdateAction",
-  iam: { actions: ["elasticache:BatchStopUpdateAction"] },
   telemetry: TELEMETRY,
   span: "BatchStopUpdateAction",
 }));
@@ -2676,7 +2665,6 @@ export const completeMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMigration",
-  iam: { actions: ["elasticache:CompleteMigration"] },
   telemetry: TELEMETRY,
   span: "CompleteMigration",
 }));
@@ -2715,15 +2703,6 @@ export const copyServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyServerlessCacheSnapshot",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CopyServerlessCacheSnapshot"],
-    resources: {
-      "elasticache:CopyServerlessCacheSnapshot": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:serverlesscachesnapshot:${ServerlessCacheSnapshotName}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CopyServerlessCacheSnapshot",
 }));
@@ -2830,15 +2809,6 @@ export const copySnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshot",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CopySnapshot"],
-    resources: {
-      "elasticache:CopySnapshot": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:snapshot:${SnapshotName}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CopySnapshot",
 }));
@@ -2892,10 +2862,6 @@ export const createCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheCluster",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateCacheCluster"],
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCacheCluster",
 }));
@@ -2942,15 +2908,6 @@ export const createCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheParameterGroup",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateCacheParameterGroup"],
-    resources: {
-      "elasticache:CreateCacheParameterGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:parametergroup:${CacheParameterGroupName}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCacheParameterGroup",
 }));
@@ -2988,15 +2945,6 @@ export const createCacheSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheSecurityGroup",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateCacheSecurityGroup"],
-    resources: {
-      "elasticache:CreateCacheSecurityGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:securitygroup:${CacheSecurityGroupName}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCacheSecurityGroup",
 }));
@@ -3034,15 +2982,6 @@ export const createCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCacheSubnetGroup",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateCacheSubnetGroup"],
-    resources: {
-      "elasticache:CreateCacheSubnetGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:subnetgroup:${CacheSubnetGroupName}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCacheSubnetGroup",
 }));
@@ -3088,16 +3027,6 @@ export const createGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalReplicationGroup",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateGlobalReplicationGroup"],
-    resources: {
-      "elasticache:CreateGlobalReplicationGroup": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-        "arn:${Partition}:elasticache:${Region}:${Account}:replicationgroup:${ReplicationGroupId}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGlobalReplicationGroup",
 }));
@@ -3192,10 +3121,6 @@ export const createReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationGroup",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateReplicationGroup"],
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateReplicationGroup",
 }));
@@ -3240,10 +3165,6 @@ export const createServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServerlessCache",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateServerlessCache"],
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateServerlessCache",
 }));
@@ -3282,16 +3203,6 @@ export const createServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServerlessCacheSnapshot",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateServerlessCacheSnapshot"],
-    resources: {
-      "elasticache:CreateServerlessCacheSnapshot": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:serverlesscache:${ServerlessCacheName}",
-        "arn:${Partition}:elasticache:${Region}:${Account}:serverlesscachesnapshot:${ServerlessCacheSnapshotName}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateServerlessCacheSnapshot",
 }));
@@ -3337,10 +3248,6 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateSnapshot"],
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
 }));
@@ -3378,15 +3285,6 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateUser"],
-    resources: {
-      "elasticache:CreateUser": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:user:${UserId}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -3426,16 +3324,6 @@ export const createUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserGroup",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:CreateUserGroup"],
-    resources: {
-      "elasticache:CreateUserGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:user:${UserId}",
-        "arn:${Partition}:elasticache:${Region}:${Account}:usergroup:${UserGroupId}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateUserGroup",
 }));
@@ -3466,14 +3354,6 @@ export const decreaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseNodeGroupsInGlobalReplicationGroup",
-  iam: {
-    actions: ["elasticache:DecreaseNodeGroupsInGlobalReplicationGroup"],
-    resources: {
-      "elasticache:DecreaseNodeGroupsInGlobalReplicationGroup": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DecreaseNodeGroupsInGlobalReplicationGroup",
 }));
@@ -3523,14 +3403,6 @@ export const decreaseReplicaCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DecreaseReplicaCount",
-  iam: {
-    actions: ["elasticache:DecreaseReplicaCount"],
-    resources: {
-      "elasticache:DecreaseReplicaCount": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:replicationgroup:${ReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DecreaseReplicaCount",
 }));
@@ -3586,7 +3458,6 @@ export const deleteCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheCluster",
-  iam: { actions: ["elasticache:CreateSnapshot", "elasticache:DeleteCacheCluster"] },
   telemetry: TELEMETRY,
   span: "DeleteCacheCluster",
 }));
@@ -3619,14 +3490,6 @@ export const deleteCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheParameterGroup",
-  iam: {
-    actions: ["elasticache:DeleteCacheParameterGroup"],
-    resources: {
-      "elasticache:DeleteCacheParameterGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:parametergroup:${CacheParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCacheParameterGroup",
 }));
@@ -3660,14 +3523,6 @@ export const deleteCacheSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheSecurityGroup",
-  iam: {
-    actions: ["elasticache:DeleteCacheSecurityGroup"],
-    resources: {
-      "elasticache:DeleteCacheSecurityGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:securitygroup:${CacheSecurityGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCacheSecurityGroup",
 }));
@@ -3694,14 +3549,6 @@ export const deleteCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCacheSubnetGroup",
-  iam: {
-    actions: ["elasticache:DeleteCacheSubnetGroup"],
-    resources: {
-      "elasticache:DeleteCacheSubnetGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:subnetgroup:${CacheSubnetGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCacheSubnetGroup",
 }));
@@ -3748,14 +3595,6 @@ export const deleteGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalReplicationGroup",
-  iam: {
-    actions: ["elasticache:DeleteGlobalReplicationGroup"],
-    resources: {
-      "elasticache:DeleteGlobalReplicationGroup": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGlobalReplicationGroup",
 }));
@@ -3805,7 +3644,6 @@ export const deleteReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationGroup",
-  iam: { actions: ["elasticache:CreateSnapshot", "elasticache:DeleteReplicationGroup"] },
   telemetry: TELEMETRY,
   span: "DeleteReplicationGroup",
 }));
@@ -3845,15 +3683,6 @@ export const deleteServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerlessCache",
-  iam: {
-    actions: ["elasticache:CreateServerlessCacheSnapshot", "elasticache:DeleteServerlessCache"],
-    resources: {
-      "elasticache:CreateServerlessCacheSnapshot": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:serverlesscache:${ServerlessCacheName}",
-        "arn:${Partition}:elasticache:${Region}:${Account}:serverlesscachesnapshot:${ServerlessCacheSnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServerlessCache",
 }));
@@ -3884,14 +3713,6 @@ export const deleteServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServerlessCacheSnapshot",
-  iam: {
-    actions: ["elasticache:DeleteServerlessCacheSnapshot"],
-    resources: {
-      "elasticache:DeleteServerlessCacheSnapshot": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:serverlesscachesnapshot:${ServerlessCacheSnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServerlessCacheSnapshot",
 }));
@@ -3926,14 +3747,6 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
-  iam: {
-    actions: ["elasticache:DeleteSnapshot"],
-    resources: {
-      "elasticache:DeleteSnapshot": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:snapshot:${SnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshot",
 }));
@@ -3968,14 +3781,6 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-  iam: {
-    actions: ["elasticache:DeleteUser"],
-    resources: {
-      "elasticache:DeleteUser": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:user:${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -4008,14 +3813,6 @@ export const deleteUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserGroup",
-  iam: {
-    actions: ["elasticache:DeleteUserGroup"],
-    resources: {
-      "elasticache:DeleteUserGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:usergroup:${UserGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserGroup",
 }));
@@ -4071,14 +3868,6 @@ export const describeCacheClusters: API.PaginatedOperationMethod<
     items: "CacheClusters",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeCacheClusters"],
-    resources: {
-      "elasticache:DescribeCacheClusters": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:cluster:${CacheClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCacheClusters",
 })) as any;
@@ -4106,7 +3895,6 @@ export const describeCacheEngineVersions: API.PaginatedOperationMethod<
     items: "CacheEngineVersions",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["elasticache:DescribeCacheEngineVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeCacheEngineVersions",
 })) as any;
@@ -4143,14 +3931,6 @@ export const describeCacheParameterGroups: API.PaginatedOperationMethod<
     items: "CacheParameterGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeCacheParameterGroups"],
-    resources: {
-      "elasticache:DescribeCacheParameterGroups": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:parametergroup:${CacheParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCacheParameterGroups",
 })) as any;
@@ -4186,14 +3966,6 @@ export const describeCacheParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeCacheParameters"],
-    resources: {
-      "elasticache:DescribeCacheParameters": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:parametergroup:${CacheParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCacheParameters",
 })) as any;
@@ -4231,14 +4003,6 @@ export const describeCacheSecurityGroups: API.PaginatedOperationMethod<
     items: "CacheSecurityGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeCacheSecurityGroups"],
-    resources: {
-      "elasticache:DescribeCacheSecurityGroups": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:securitygroup:${CacheSecurityGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCacheSecurityGroups",
 })) as any;
@@ -4269,14 +4033,6 @@ export const describeCacheSubnetGroups: API.PaginatedOperationMethod<
     items: "CacheSubnetGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeCacheSubnetGroups"],
-    resources: {
-      "elasticache:DescribeCacheSubnetGroups": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:subnetgroup:${CacheSubnetGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCacheSubnetGroups",
 })) as any;
@@ -4308,7 +4064,6 @@ export const describeEngineDefaultParameters: API.PaginatedOperationMethod<
     items: "EngineDefaults.Parameters",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["elasticache:DescribeEngineDefaultParameters"] },
   telemetry: TELEMETRY,
   span: "DescribeEngineDefaultParameters",
 })) as any;
@@ -4344,7 +4099,6 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["elasticache:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 })) as any;
@@ -4381,14 +4135,6 @@ export const describeGlobalReplicationGroups: API.PaginatedOperationMethod<
     items: "GlobalReplicationGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeGlobalReplicationGroups"],
-    resources: {
-      "elasticache:DescribeGlobalReplicationGroups": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeGlobalReplicationGroups",
 })) as any;
@@ -4428,14 +4174,6 @@ export const describeReplicationGroups: API.PaginatedOperationMethod<
     items: "ReplicationGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeReplicationGroups"],
-    resources: {
-      "elasticache:DescribeReplicationGroups": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:replicationgroup:${ReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeReplicationGroups",
 })) as any;
@@ -4472,14 +4210,6 @@ export const describeReservedCacheNodes: API.PaginatedOperationMethod<
     items: "ReservedCacheNodes",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeReservedCacheNodes"],
-    resources: {
-      "elasticache:DescribeReservedCacheNodes": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:reserved-instance:${ReservedCacheNodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeReservedCacheNodes",
 })) as any;
@@ -4515,7 +4245,6 @@ export const describeReservedCacheNodesOfferings: API.PaginatedOperationMethod<
     items: "ReservedCacheNodesOfferings",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["elasticache:DescribeReservedCacheNodesOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedCacheNodesOfferings",
 })) as any;
@@ -4553,14 +4282,6 @@ export const describeServerlessCaches: API.PaginatedOperationMethod<
     items: "ServerlessCaches",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeServerlessCaches"],
-    resources: {
-      "elasticache:DescribeServerlessCaches": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:serverlesscache:${ServerlessCacheName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeServerlessCaches",
 })) as any;
@@ -4601,7 +4322,6 @@ export const describeServerlessCacheSnapshots: API.PaginatedOperationMethod<
     items: "ServerlessCacheSnapshots",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["elasticache:DescribeServerlessCacheSnapshots"] },
   telemetry: TELEMETRY,
   span: "DescribeServerlessCacheSnapshots",
 })) as any;
@@ -4637,7 +4357,6 @@ export const describeServiceUpdates: API.PaginatedOperationMethod<
     items: "ServiceUpdates",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["elasticache:DescribeServiceUpdates"] },
   telemetry: TELEMETRY,
   span: "DescribeServiceUpdates",
 })) as any;
@@ -4680,14 +4399,6 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeSnapshots"],
-    resources: {
-      "elasticache:DescribeSnapshots": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:snapshot:${SnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSnapshots",
 })) as any;
@@ -4718,7 +4429,6 @@ export const describeUpdateActions: API.PaginatedOperationMethod<
     items: "UpdateActions",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["elasticache:DescribeUpdateActions"] },
   telemetry: TELEMETRY,
   span: "DescribeUpdateActions",
 })) as any;
@@ -4754,14 +4464,6 @@ export const describeUserGroups: API.PaginatedOperationMethod<
     items: "UserGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeUserGroups"],
-    resources: {
-      "elasticache:DescribeUserGroups": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:usergroup:${UserGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUserGroups",
 })) as any;
@@ -4793,14 +4495,6 @@ export const describeUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["elasticache:DescribeUsers"],
-    resources: {
-      "elasticache:DescribeUsers": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:user:${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUsers",
 })) as any;
@@ -4833,14 +4527,6 @@ export const disassociateGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGlobalReplicationGroup",
-  iam: {
-    actions: ["elasticache:DisassociateGlobalReplicationGroup"],
-    resources: {
-      "elasticache:DisassociateGlobalReplicationGroup": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateGlobalReplicationGroup",
 }));
@@ -4871,14 +4557,6 @@ export const exportServerlessCacheSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportServerlessCacheSnapshot",
-  iam: {
-    actions: ["elasticache:ExportServerlessCacheSnapshot"],
-    resources: {
-      "elasticache:ExportServerlessCacheSnapshot": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:serverlesscachesnapshot:${ServerlessCacheSnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExportServerlessCacheSnapshot",
 }));
@@ -4910,14 +4588,6 @@ export const failoverGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverGlobalReplicationGroup",
-  iam: {
-    actions: ["elasticache:FailoverGlobalReplicationGroup"],
-    resources: {
-      "elasticache:FailoverGlobalReplicationGroup": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "FailoverGlobalReplicationGroup",
 }));
@@ -4946,14 +4616,6 @@ export const increaseNodeGroupsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseNodeGroupsInGlobalReplicationGroup",
-  iam: {
-    actions: ["elasticache:IncreaseNodeGroupsInGlobalReplicationGroup"],
-    resources: {
-      "elasticache:IncreaseNodeGroupsInGlobalReplicationGroup": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "IncreaseNodeGroupsInGlobalReplicationGroup",
 }));
@@ -5003,14 +4665,6 @@ export const increaseReplicaCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IncreaseReplicaCount",
-  iam: {
-    actions: ["elasticache:IncreaseReplicaCount"],
-    resources: {
-      "elasticache:IncreaseReplicaCount": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:replicationgroup:${ReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "IncreaseReplicaCount",
 }));
@@ -5047,7 +4701,6 @@ export const listAllowedNodeTypeModifications: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAllowedNodeTypeModifications",
-  iam: { actions: ["elasticache:ListAllowedNodeTypeModifications"] },
   telemetry: TELEMETRY,
   span: "ListAllowedNodeTypeModifications",
 }));
@@ -5113,7 +4766,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["elasticache:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5159,7 +4811,6 @@ export const modifyCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheCluster",
-  iam: { actions: ["elasticache:ModifyCacheCluster"] },
   telemetry: TELEMETRY,
   span: "ModifyCacheCluster",
 }));
@@ -5193,14 +4844,6 @@ export const modifyCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheParameterGroup",
-  iam: {
-    actions: ["elasticache:ModifyCacheParameterGroup"],
-    resources: {
-      "elasticache:ModifyCacheParameterGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:parametergroup:${CacheParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyCacheParameterGroup",
 }));
@@ -5233,14 +4876,6 @@ export const modifyCacheSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCacheSubnetGroup",
-  iam: {
-    actions: ["elasticache:ModifyCacheSubnetGroup"],
-    resources: {
-      "elasticache:ModifyCacheSubnetGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:subnetgroup:${CacheSubnetGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyCacheSubnetGroup",
 }));
@@ -5269,14 +4904,6 @@ export const modifyGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyGlobalReplicationGroup",
-  iam: {
-    actions: ["elasticache:ModifyGlobalReplicationGroup"],
-    resources: {
-      "elasticache:ModifyGlobalReplicationGroup": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyGlobalReplicationGroup",
 }));
@@ -5339,7 +4966,6 @@ export const modifyReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationGroup",
-  iam: { actions: ["elasticache:ModifyReplicationGroup"] },
   telemetry: TELEMETRY,
   span: "ModifyReplicationGroup",
 }));
@@ -5383,14 +5009,6 @@ export const modifyReplicationGroupShardConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationGroupShardConfiguration",
-  iam: {
-    actions: ["elasticache:ModifyReplicationGroupShardConfiguration"],
-    resources: {
-      "elasticache:ModifyReplicationGroupShardConfiguration": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:replicationgroup:${ReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyReplicationGroupShardConfiguration",
 }));
@@ -5429,7 +5047,6 @@ export const modifyServerlessCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyServerlessCache",
-  iam: { actions: ["elasticache:ModifyServerlessCache"] },
   telemetry: TELEMETRY,
   span: "ModifyServerlessCache",
 }));
@@ -5462,14 +5079,6 @@ export const modifyUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUser",
-  iam: {
-    actions: ["elasticache:ModifyUser"],
-    resources: {
-      "elasticache:ModifyUser": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:user:${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyUser",
 }));
@@ -5508,15 +5117,6 @@ export const modifyUserGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUserGroup",
-  iam: {
-    actions: ["elasticache:ModifyUserGroup"],
-    resources: {
-      "elasticache:ModifyUserGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:user:${UserId}",
-        "arn:${Partition}:elasticache:${Region}:${Account}:usergroup:${UserGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyUserGroup",
 }));
@@ -5582,15 +5182,6 @@ export const purchaseReservedCacheNodesOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedCacheNodesOffering",
-  iam: {
-    actions: ["elasticache:AddTagsToResource", "elasticache:PurchaseReservedCacheNodesOffering"],
-    resources: {
-      "elasticache:PurchaseReservedCacheNodesOffering": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:reserved-instance:${ReservedCacheNodeId}",
-      ],
-    },
-    conditional: { "elasticache:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "PurchaseReservedCacheNodesOffering",
 }));
@@ -5620,14 +5211,6 @@ export const rebalanceSlotsInGlobalReplicationGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebalanceSlotsInGlobalReplicationGroup",
-  iam: {
-    actions: ["elasticache:RebalanceSlotsInGlobalReplicationGroup"],
-    resources: {
-      "elasticache:RebalanceSlotsInGlobalReplicationGroup": [
-        "arn:${Partition}:elasticache::${Account}:globalreplicationgroup:${GlobalReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebalanceSlotsInGlobalReplicationGroup",
 }));
@@ -5666,14 +5249,6 @@ export const rebootCacheCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootCacheCluster",
-  iam: {
-    actions: ["elasticache:RebootCacheCluster"],
-    resources: {
-      "elasticache:RebootCacheCluster": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:cluster:${CacheClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootCacheCluster",
 }));
@@ -5736,7 +5311,6 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
-  iam: { actions: ["elasticache:RemoveTagsFromResource"] },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromResource",
 }));
@@ -5772,14 +5346,6 @@ export const resetCacheParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetCacheParameterGroup",
-  iam: {
-    actions: ["elasticache:ResetCacheParameterGroup"],
-    resources: {
-      "elasticache:ResetCacheParameterGroup": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:parametergroup:${CacheParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetCacheParameterGroup",
 }));
@@ -5813,14 +5379,6 @@ export const revokeCacheSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCacheSecurityGroupIngress",
-  iam: {
-    actions: ["elasticache:RevokeCacheSecurityGroupIngress"],
-    resources: {
-      "elasticache:RevokeCacheSecurityGroupIngress": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:securitygroup:${CacheSecurityGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RevokeCacheSecurityGroupIngress",
 }));
@@ -5863,14 +5421,6 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
-  iam: {
-    actions: ["elasticache:StartMigration"],
-    resources: {
-      "elasticache:StartMigration": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:replicationgroup:${ReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMigration",
 }));
@@ -5994,14 +5544,6 @@ export const testFailover: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestFailover",
-  iam: {
-    actions: ["elasticache:TestFailover"],
-    resources: {
-      "elasticache:TestFailover": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:replicationgroup:${ReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TestFailover",
 }));
@@ -6036,14 +5578,6 @@ export const testMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestMigration",
-  iam: {
-    actions: ["elasticache:TestMigration"],
-    resources: {
-      "elasticache:TestMigration": [
-        "arn:${Partition}:elasticache:${Region}:${Account}:replicationgroup:${ReplicationGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TestMigration",
 }));

@@ -2370,17 +2370,6 @@ export const associatePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePermission",
-  iam: {
-    actions: ["qbusiness:AssociatePermission", "qbusiness:PutResourcePolicy"],
-    resources: {
-      "qbusiness:AssociatePermission": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-      "qbusiness:PutResourcePolicy": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociatePermission",
 }));
@@ -2417,15 +2406,6 @@ export const batchDeleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDocument",
-  iam: {
-    actions: ["qbusiness:BatchDeleteDocument"],
-    resources: {
-      "qbusiness:BatchDeleteDocument": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteDocument",
 }));
@@ -2472,17 +2452,6 @@ export const batchPutDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutDocument",
-  iam: {
-    actions: ["qbusiness:BatchPutDocument", "iam:PassRole"],
-    resources: {
-      "qbusiness:BatchPutDocument": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "BatchPutDocument",
 }));
@@ -2515,15 +2484,6 @@ export const cancelSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
-  iam: {
-    actions: ["qbusiness:CancelSubscription"],
-    resources: {
-      "qbusiness:CancelSubscription": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/subscription/${SubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelSubscription",
 }));
@@ -2562,14 +2522,6 @@ export const chat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Chat",
-  iam: {
-    actions: ["qbusiness:Chat"],
-    resources: {
-      "qbusiness:Chat": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Chat",
 }));
@@ -2608,14 +2560,6 @@ export const chatSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChatSync",
-  iam: {
-    actions: ["qbusiness:ChatSync"],
-    resources: {
-      "qbusiness:ChatSync": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ChatSync",
 }));
@@ -2648,15 +2592,6 @@ export const checkDocumentAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckDocumentAccess",
-  iam: {
-    actions: ["qbusiness:CheckDocumentAccess"],
-    resources: {
-      "qbusiness:CheckDocumentAccess": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CheckDocumentAccess",
 }));
@@ -2691,15 +2626,6 @@ export const createAnonymousWebExperienceUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnonymousWebExperienceUrl",
-  iam: {
-    actions: ["qbusiness:CreateAnonymousWebExperienceUrl"],
-    resources: {
-      "qbusiness:CreateAnonymousWebExperienceUrl": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/web-experience/${WebExperienceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAnonymousWebExperienceUrl",
 }));
@@ -2742,11 +2668,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["qbusiness:CreateApplication", "iam:PassRole", "qbusiness:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "roleArn", "qbusiness:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -2783,15 +2704,6 @@ export const createChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChatResponseConfiguration",
-  iam: {
-    actions: ["qbusiness:CreateChatResponseConfiguration", "qbusiness:TagResource"],
-    resources: {
-      "qbusiness:CreateChatResponseConfiguration": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-    conditional: { "qbusiness:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChatResponseConfiguration",
 }));
@@ -2828,22 +2740,6 @@ export const createDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAccessor",
-  iam: {
-    actions: [
-      "qbusiness:CreateDataAccessor",
-      "qbusiness:CreateDataAccessorWithTti",
-      "qbusiness:TagResource",
-    ],
-    resources: {
-      "qbusiness:CreateDataAccessor": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-      "qbusiness:CreateDataAccessorWithTti": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-    conditional: { "qbusiness:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataAccessor",
 }));
@@ -2882,25 +2778,6 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
-  iam: {
-    actions: [
-      "qbusiness:CreateDataSource",
-      "qbusiness:DisableAclOnDataSource",
-      "iam:PassRole",
-      "qbusiness:TagResource",
-    ],
-    resources: {
-      "qbusiness:CreateDataSource": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-      "qbusiness:DisableAclOnDataSource": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "roleArn", "qbusiness:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataSource",
 }));
@@ -2941,15 +2818,6 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
-  iam: {
-    actions: ["qbusiness:CreateIndex", "qbusiness:TagResource"],
-    resources: {
-      "qbusiness:CreateIndex": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-    conditional: { "qbusiness:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIndex",
 }));
@@ -2986,16 +2854,6 @@ export const createPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePlugin",
-  iam: {
-    actions: ["qbusiness:CreatePlugin", "iam:PassRole", "qbusiness:TagResource"],
-    resources: {
-      "qbusiness:CreatePlugin": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "qbusiness:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePlugin",
 }));
@@ -3032,16 +2890,6 @@ export const createRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRetriever",
-  iam: {
-    actions: ["qbusiness:CreateRetriever", "iam:PassRole", "qbusiness:TagResource"],
-    resources: {
-      "qbusiness:CreateRetriever": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "roleArn", "qbusiness:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRetriever",
 }));
@@ -3080,14 +2928,6 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
-  iam: {
-    actions: ["qbusiness:CreateSubscription"],
-    resources: {
-      "qbusiness:CreateSubscription": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSubscription",
 }));
@@ -3124,14 +2964,6 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
-  iam: {
-    actions: ["qbusiness:CreateUser"],
-    resources: {
-      "qbusiness:CreateUser": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -3168,16 +3000,6 @@ export const createWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWebExperience",
-  iam: {
-    actions: ["qbusiness:CreateWebExperience", "iam:PassRole", "qbusiness:TagResource"],
-    resources: {
-      "qbusiness:CreateWebExperience": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "roleArn", "qbusiness:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWebExperience",
 }));
@@ -3212,14 +3034,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["qbusiness:DeleteApplication"],
-    resources: {
-      "qbusiness:DeleteApplication": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -3254,14 +3068,6 @@ export const deleteAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttachment",
-  iam: {
-    actions: ["qbusiness:DeleteAttachment"],
-    resources: {
-      "qbusiness:DeleteAttachment": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAttachment",
 }));
@@ -3294,14 +3100,6 @@ export const deleteChatControlsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChatControlsConfiguration",
-  iam: {
-    actions: ["qbusiness:DeleteChatControlsConfiguration"],
-    resources: {
-      "qbusiness:DeleteChatControlsConfiguration": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChatControlsConfiguration",
 }));
@@ -3336,15 +3134,6 @@ export const deleteChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChatResponseConfiguration",
-  iam: {
-    actions: ["qbusiness:DeleteChatResponseConfiguration"],
-    resources: {
-      "qbusiness:DeleteChatResponseConfiguration": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/chat-response-configuration/${ChatResponseConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChatResponseConfiguration",
 }));
@@ -3381,14 +3170,6 @@ export const deleteConversation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConversation",
-  iam: {
-    actions: ["qbusiness:DeleteConversation"],
-    resources: {
-      "qbusiness:DeleteConversation": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConversation",
 }));
@@ -3423,15 +3204,6 @@ export const deleteDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAccessor",
-  iam: {
-    actions: ["qbusiness:DeleteDataAccessor"],
-    resources: {
-      "qbusiness:DeleteDataAccessor": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/data-accessor/${DataAccessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataAccessor",
 }));
@@ -3466,16 +3238,6 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
-  iam: {
-    actions: ["qbusiness:DeleteDataSource"],
-    resources: {
-      "qbusiness:DeleteDataSource": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataSource",
 }));
@@ -3512,15 +3274,6 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-  iam: {
-    actions: ["qbusiness:DeleteGroup"],
-    resources: {
-      "qbusiness:DeleteGroup": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -3555,15 +3308,6 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
-  iam: {
-    actions: ["qbusiness:DeleteIndex"],
-    resources: {
-      "qbusiness:DeleteIndex": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIndex",
 }));
@@ -3598,15 +3342,6 @@ export const deletePlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlugin",
-  iam: {
-    actions: ["qbusiness:DeletePlugin"],
-    resources: {
-      "qbusiness:DeletePlugin": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/plugin/${PluginId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePlugin",
 }));
@@ -3641,15 +3376,6 @@ export const deleteRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetriever",
-  iam: {
-    actions: ["qbusiness:DeleteRetriever"],
-    resources: {
-      "qbusiness:DeleteRetriever": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/retriever/${RetrieverId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRetriever",
 }));
@@ -3684,14 +3410,6 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-  iam: {
-    actions: ["qbusiness:DeleteUser"],
-    resources: {
-      "qbusiness:DeleteUser": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -3726,15 +3444,6 @@ export const deleteWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWebExperience",
-  iam: {
-    actions: ["qbusiness:DeleteWebExperience"],
-    resources: {
-      "qbusiness:DeleteWebExperience": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/web-experience/${WebExperienceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWebExperience",
 }));
@@ -3769,17 +3478,6 @@ export const disassociatePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePermission",
-  iam: {
-    actions: ["qbusiness:DisassociatePermission", "qbusiness:PutResourcePolicy"],
-    resources: {
-      "qbusiness:DisassociatePermission": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-      "qbusiness:PutResourcePolicy": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociatePermission",
 }));
@@ -3812,14 +3510,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["qbusiness:GetApplication"],
-    resources: {
-      "qbusiness:GetApplication": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -3859,14 +3549,6 @@ export const getChatControlsConfiguration: API.PaginatedOperationMethod<
     items: "topicConfigurations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:GetChatControlsConfiguration"],
-    resources: {
-      "qbusiness:GetChatControlsConfiguration": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChatControlsConfiguration",
 })) as any;
@@ -3899,15 +3581,6 @@ export const getChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChatResponseConfiguration",
-  iam: {
-    actions: ["qbusiness:GetChatResponseConfiguration"],
-    resources: {
-      "qbusiness:GetChatResponseConfiguration": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/chat-response-configuration/${ChatResponseConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChatResponseConfiguration",
 }));
@@ -3940,15 +3613,6 @@ export const getDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAccessor",
-  iam: {
-    actions: ["qbusiness:GetDataAccessor"],
-    resources: {
-      "qbusiness:GetDataAccessor": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/data-accessor/${DataAccessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataAccessor",
 }));
@@ -3981,16 +3645,6 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
-  iam: {
-    actions: ["qbusiness:GetDataSource"],
-    resources: {
-      "qbusiness:GetDataSource": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataSource",
 }));
@@ -4023,15 +3677,6 @@ export const getDocumentContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentContent",
-  iam: {
-    actions: ["qbusiness:GetDocumentContent"],
-    resources: {
-      "qbusiness:GetDocumentContent": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDocumentContent",
 }));
@@ -4066,15 +3711,6 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
-  iam: {
-    actions: ["qbusiness:GetGroup"],
-    resources: {
-      "qbusiness:GetGroup": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroup",
 }));
@@ -4107,15 +3743,6 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
-  iam: {
-    actions: ["qbusiness:GetIndex"],
-    resources: {
-      "qbusiness:GetIndex": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIndex",
 }));
@@ -4154,14 +3781,6 @@ export const getMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedia",
-  iam: {
-    actions: ["qbusiness:GetMedia"],
-    resources: {
-      "qbusiness:GetMedia": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMedia",
 }));
@@ -4194,15 +3813,6 @@ export const getPlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlugin",
-  iam: {
-    actions: ["qbusiness:GetPlugin"],
-    resources: {
-      "qbusiness:GetPlugin": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/plugin/${PluginId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPlugin",
 }));
@@ -4235,14 +3845,6 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
-  iam: {
-    actions: ["qbusiness:GetPolicy"],
-    resources: {
-      "qbusiness:GetPolicy": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -4275,15 +3877,6 @@ export const getRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetriever",
-  iam: {
-    actions: ["qbusiness:GetRetriever"],
-    resources: {
-      "qbusiness:GetRetriever": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/retriever/${RetrieverId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRetriever",
 }));
@@ -4318,14 +3911,6 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
-  iam: {
-    actions: ["qbusiness:GetUser"],
-    resources: {
-      "qbusiness:GetUser": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUser",
 }));
@@ -4358,15 +3943,6 @@ export const getWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWebExperience",
-  iam: {
-    actions: ["qbusiness:GetWebExperience"],
-    resources: {
-      "qbusiness:GetWebExperience": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/web-experience/${WebExperienceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetWebExperience",
 }));
@@ -4406,7 +3982,6 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["qbusiness:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -4448,14 +4023,6 @@ export const listAttachments: API.PaginatedOperationMethod<
     items: "attachments",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListAttachments"],
-    resources: {
-      "qbusiness:ListAttachments": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAttachments",
 })) as any;
@@ -4495,14 +4062,6 @@ export const listChatResponseConfigurations: API.PaginatedOperationMethod<
     items: "chatResponseConfigurations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListChatResponseConfigurations"],
-    resources: {
-      "qbusiness:ListChatResponseConfigurations": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChatResponseConfigurations",
 })) as any;
@@ -4544,14 +4103,6 @@ export const listConversations: API.PaginatedOperationMethod<
     items: "conversations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListConversations"],
-    resources: {
-      "qbusiness:ListConversations": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListConversations",
 })) as any;
@@ -4591,14 +4142,6 @@ export const listDataAccessors: API.PaginatedOperationMethod<
     items: "dataAccessors",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListDataAccessors"],
-    resources: {
-      "qbusiness:ListDataAccessors": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataAccessors",
 })) as any;
@@ -4638,15 +4181,6 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "dataSources",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListDataSources"],
-    resources: {
-      "qbusiness:ListDataSources": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSources",
 })) as any;
@@ -4688,16 +4222,6 @@ export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
     items: "history",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListDataSourceSyncJobs"],
-    resources: {
-      "qbusiness:ListDataSourceSyncJobs": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSourceSyncJobs",
 })) as any;
@@ -4737,15 +4261,6 @@ export const listDocuments: API.PaginatedOperationMethod<
     items: "documentDetailList",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListDocuments"],
-    resources: {
-      "qbusiness:ListDocuments": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDocuments",
 })) as any;
@@ -4787,15 +4302,6 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListGroups"],
-    resources: {
-      "qbusiness:ListGroups": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -4835,14 +4341,6 @@ export const listIndices: API.PaginatedOperationMethod<
     items: "indices",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListIndices"],
-    resources: {
-      "qbusiness:ListIndices": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIndices",
 })) as any;
@@ -4884,14 +4382,6 @@ export const listMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListMessages"],
-    resources: {
-      "qbusiness:ListMessages": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMessages",
 })) as any;
@@ -4931,15 +4421,6 @@ export const listPluginActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListPluginActions"],
-    resources: {
-      "qbusiness:ListPluginActions": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/plugin/${PluginId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPluginActions",
 })) as any;
@@ -4979,14 +4460,6 @@ export const listPlugins: API.PaginatedOperationMethod<
     items: "plugins",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListPlugins"],
-    resources: {
-      "qbusiness:ListPlugins": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPlugins",
 })) as any;
@@ -5024,7 +4497,6 @@ export const listPluginTypeActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["qbusiness:ListPluginTypeActions"] },
   telemetry: TELEMETRY,
   span: "ListPluginTypeActions",
 })) as any;
@@ -5062,7 +4534,6 @@ export const listPluginTypeMetadata: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["qbusiness:ListPluginTypeMetadata"] },
   telemetry: TELEMETRY,
   span: "ListPluginTypeMetadata",
 })) as any;
@@ -5102,14 +4573,6 @@ export const listRetrievers: API.PaginatedOperationMethod<
     items: "retrievers",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListRetrievers"],
-    resources: {
-      "qbusiness:ListRetrievers": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRetrievers",
 })) as any;
@@ -5151,14 +4614,6 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     items: "subscriptions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListSubscriptions"],
-    resources: {
-      "qbusiness:ListSubscriptions": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSubscriptions",
 })) as any;
@@ -5191,7 +4646,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["qbusiness:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5231,14 +4685,6 @@ export const listWebExperiences: API.PaginatedOperationMethod<
     items: "webExperiences",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:ListWebExperiences"],
-    resources: {
-      "qbusiness:ListWebExperiences": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListWebExperiences",
 })) as any;
@@ -5271,14 +4717,6 @@ export const putFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedback",
-  iam: {
-    actions: ["qbusiness:PutFeedback"],
-    resources: {
-      "qbusiness:PutFeedback": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutFeedback",
 }));
@@ -5319,17 +4757,6 @@ export const putGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroup",
-  iam: {
-    actions: ["iam:PassRole", "qbusiness:PutGroup"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "qbusiness:PutGroup": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "PutGroup",
 }));
@@ -5371,14 +4798,6 @@ export const searchRelevantContent: API.PaginatedOperationMethod<
     items: "relevantContent",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["qbusiness:SearchRelevantContent"],
-    resources: {
-      "qbusiness:SearchRelevantContent": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchRelevantContent",
 })) as any;
@@ -5415,16 +4834,6 @@ export const startDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceSyncJob",
-  iam: {
-    actions: ["qbusiness:StartDataSourceSyncJob"],
-    resources: {
-      "qbusiness:StartDataSourceSyncJob": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDataSourceSyncJob",
 }));
@@ -5459,16 +4868,6 @@ export const stopDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataSourceSyncJob",
-  iam: {
-    actions: ["qbusiness:StopDataSourceSyncJob"],
-    resources: {
-      "qbusiness:StopDataSourceSyncJob": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopDataSourceSyncJob",
 }));
@@ -5503,7 +4902,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["qbusiness:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5536,7 +4934,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["qbusiness:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5575,16 +4972,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: {
-    actions: ["iam:PassRole", "qbusiness:UpdateApplication"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "qbusiness:UpdateApplication": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -5621,14 +5008,6 @@ export const updateChatControlsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChatControlsConfiguration",
-  iam: {
-    actions: ["qbusiness:UpdateChatControlsConfiguration"],
-    resources: {
-      "qbusiness:UpdateChatControlsConfiguration": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChatControlsConfiguration",
 }));
@@ -5663,15 +5042,6 @@ export const updateChatResponseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChatResponseConfiguration",
-  iam: {
-    actions: ["qbusiness:UpdateChatResponseConfiguration"],
-    resources: {
-      "qbusiness:UpdateChatResponseConfiguration": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/chat-response-configuration/${ChatResponseConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChatResponseConfiguration",
 }));
@@ -5706,15 +5076,6 @@ export const updateDataAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAccessor",
-  iam: {
-    actions: ["qbusiness:UpdateDataAccessor"],
-    resources: {
-      "qbusiness:UpdateDataAccessor": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/data-accessor/${DataAccessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataAccessor",
 }));
@@ -5749,18 +5110,6 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
-  iam: {
-    actions: ["iam:PassRole", "qbusiness:UpdateDataSource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "qbusiness:UpdateDataSource": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataSource",
 }));
@@ -5797,15 +5146,6 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
-  iam: {
-    actions: ["qbusiness:UpdateIndex"],
-    resources: {
-      "qbusiness:UpdateIndex": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIndex",
 }));
@@ -5842,17 +5182,6 @@ export const updatePlugin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePlugin",
-  iam: {
-    actions: ["iam:PassRole", "qbusiness:UpdatePlugin"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "qbusiness:UpdatePlugin": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/plugin/${PluginId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePlugin",
 }));
@@ -5889,17 +5218,6 @@ export const updateRetriever: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRetriever",
-  iam: {
-    actions: ["iam:PassRole", "qbusiness:UpdateRetriever"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "qbusiness:UpdateRetriever": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/retriever/${RetrieverId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRetriever",
 }));
@@ -5934,15 +5252,6 @@ export const updateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscription",
-  iam: {
-    actions: ["qbusiness:UpdateSubscription"],
-    resources: {
-      "qbusiness:UpdateSubscription": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/subscription/${SubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSubscription",
 }));
@@ -5979,14 +5288,6 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
-  iam: {
-    actions: ["qbusiness:UpdateUser"],
-    resources: {
-      "qbusiness:UpdateUser": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));
@@ -6021,17 +5322,6 @@ export const updateWebExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWebExperience",
-  iam: {
-    actions: ["iam:PassRole", "qbusiness:UpdateWebExperience"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "qbusiness:UpdateWebExperience": [
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}",
-        "arn:${Partition}:qbusiness:${Region}:${Account}:application/${ApplicationId}/web-experience/${WebExperienceId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWebExperience",
 }));

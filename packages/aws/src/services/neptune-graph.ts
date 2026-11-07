@@ -935,14 +935,6 @@ export const cancelExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelExportTask",
-  iam: {
-    actions: ["neptune-graph:CancelExportTask"],
-    resources: {
-      "neptune-graph:CancelExportTask": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:export-task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelExportTask",
 }));
@@ -975,14 +967,6 @@ export const cancelImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelImportTask",
-  iam: {
-    actions: ["neptune-graph:CancelImportTask"],
-    resources: {
-      "neptune-graph:CancelImportTask": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:import-task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelImportTask",
 }));
@@ -1016,14 +1000,6 @@ export const cancelQuery: API.OperationMethod<
   retry: Retry,
   operationName: "CancelQuery",
   endpointHostPrefix: "{graphIdentifier}.",
-  iam: {
-    actions: ["neptune-graph:CancelQuery"],
-    resources: {
-      "neptune-graph:CancelQuery": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelQuery",
 }));
@@ -1056,15 +1032,6 @@ export const createGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraph",
-  iam: {
-    actions: ["neptune-graph:CreateGraph", "neptune-graph:TagResource"],
-    resources: {
-      "neptune-graph:CreateGraph": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-    conditional: { "neptune-graph:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGraph",
 }));
@@ -1099,16 +1066,6 @@ export const createGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphSnapshot",
-  iam: {
-    actions: ["neptune-graph:CreateGraphSnapshot", "neptune-graph:TagResource"],
-    resources: {
-      "neptune-graph:CreateGraphSnapshot": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph-snapshot/${ResourceId}",
-      ],
-    },
-    conditional: { "neptune-graph:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGraphSnapshot",
 }));
@@ -1143,21 +1100,6 @@ export const createGraphUsingImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphUsingImportTask",
-  iam: {
-    actions: [
-      "neptune-graph:CreateGraphUsingImportTask",
-      "iam:PassRole",
-      "neptune-graph:TagResource",
-    ],
-    resources: {
-      "neptune-graph:CreateGraphUsingImportTask": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:import-task/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "neptune-graph:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGraphUsingImportTask",
 }));
@@ -1194,14 +1136,6 @@ export const createPrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateGraphEndpoint",
-  iam: {
-    actions: ["neptune-graph:CreatePrivateGraphEndpoint"],
-    resources: {
-      "neptune-graph:CreatePrivateGraphEndpoint": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePrivateGraphEndpoint",
 }));
@@ -1234,14 +1168,6 @@ export const deleteGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraph",
-  iam: {
-    actions: ["neptune-graph:DeleteGraph"],
-    resources: {
-      "neptune-graph:DeleteGraph": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGraph",
 }));
@@ -1274,14 +1200,6 @@ export const deleteGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraphSnapshot",
-  iam: {
-    actions: ["neptune-graph:DeleteGraphSnapshot"],
-    resources: {
-      "neptune-graph:DeleteGraphSnapshot": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph-snapshot/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGraphSnapshot",
 }));
@@ -1314,14 +1232,6 @@ export const deletePrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivateGraphEndpoint",
-  iam: {
-    actions: ["neptune-graph:DeletePrivateGraphEndpoint"],
-    resources: {
-      "neptune-graph:DeletePrivateGraphEndpoint": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePrivateGraphEndpoint",
 }));
@@ -1395,14 +1305,6 @@ export const getExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportTask",
-  iam: {
-    actions: ["neptune-graph:GetExportTask"],
-    resources: {
-      "neptune-graph:GetExportTask": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:export-task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExportTask",
 }));
@@ -1433,14 +1335,6 @@ export const getGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraph",
-  iam: {
-    actions: ["neptune-graph:GetGraph"],
-    resources: {
-      "neptune-graph:GetGraph": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGraph",
 }));
@@ -1471,14 +1365,6 @@ export const getGraphSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphSnapshot",
-  iam: {
-    actions: ["neptune-graph:GetGraphSnapshot"],
-    resources: {
-      "neptune-graph:GetGraphSnapshot": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph-snapshot/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGraphSnapshot",
 }));
@@ -1512,14 +1398,6 @@ export const getGraphSummary: API.OperationMethod<
   retry: Retry,
   operationName: "GetGraphSummary",
   endpointHostPrefix: "{graphIdentifier}.",
-  iam: {
-    actions: ["neptune-graph:GetGraphSummary"],
-    resources: {
-      "neptune-graph:GetGraphSummary": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGraphSummary",
 }));
@@ -1550,14 +1428,6 @@ export const getImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportTask",
-  iam: {
-    actions: ["neptune-graph:GetImportTask"],
-    resources: {
-      "neptune-graph:GetImportTask": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:import-task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetImportTask",
 }));
@@ -1588,14 +1458,6 @@ export const getPrivateGraphEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivateGraphEndpoint",
-  iam: {
-    actions: ["neptune-graph:GetPrivateGraphEndpoint"],
-    resources: {
-      "neptune-graph:GetPrivateGraphEndpoint": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPrivateGraphEndpoint",
 }));
@@ -1631,14 +1493,6 @@ export const getQuery: API.OperationMethod<
   retry: Retry,
   operationName: "GetQuery",
   endpointHostPrefix: "{graphIdentifier}.",
-  iam: {
-    actions: ["neptune-graph:GetQueryStatus"],
-    resources: {
-      "neptune-graph:GetQueryStatus": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQuery",
 }));
@@ -1676,14 +1530,6 @@ export const listExportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["neptune-graph:ListExportTasks"],
-    resources: {
-      "neptune-graph:ListExportTasks": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:export-task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListExportTasks",
 })) as any;
@@ -1715,14 +1561,6 @@ export const listGraphs: API.PaginatedOperationMethod<
     items: "graphs",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["neptune-graph:ListGraphs"],
-    resources: {
-      "neptune-graph:ListGraphs": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGraphs",
 })) as any;
@@ -1760,14 +1598,6 @@ export const listGraphSnapshots: API.PaginatedOperationMethod<
     items: "graphSnapshots",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["neptune-graph:ListGraphSnapshots"],
-    resources: {
-      "neptune-graph:ListGraphSnapshots": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph-snapshot/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGraphSnapshots",
 })) as any;
@@ -1805,14 +1635,6 @@ export const listImportTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["neptune-graph:ListImportTasks"],
-    resources: {
-      "neptune-graph:ListImportTasks": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:import-task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListImportTasks",
 })) as any;
@@ -1850,14 +1672,6 @@ export const listPrivateGraphEndpoints: API.PaginatedOperationMethod<
     items: "privateGraphEndpoints",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["neptune-graph:ListPrivateGraphEndpoints"],
-    resources: {
-      "neptune-graph:ListPrivateGraphEndpoints": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPrivateGraphEndpoints",
 })) as any;
@@ -1889,14 +1703,6 @@ export const listQueries: API.OperationMethod<
   retry: Retry,
   operationName: "ListQueries",
   endpointHostPrefix: "{graphIdentifier}.",
-  iam: {
-    actions: ["neptune-graph:ListQueries"],
-    resources: {
-      "neptune-graph:ListQueries": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListQueries",
 }));
@@ -1927,7 +1733,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["neptune-graph:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1960,14 +1765,6 @@ export const resetGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetGraph",
-  iam: {
-    actions: ["neptune-graph:ResetGraph"],
-    resources: {
-      "neptune-graph:ResetGraph": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetGraph",
 }));
@@ -2002,16 +1799,6 @@ export const restoreGraphFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreGraphFromSnapshot",
-  iam: {
-    actions: ["neptune-graph:RestoreGraphFromSnapshot", "neptune-graph:TagResource"],
-    resources: {
-      "neptune-graph:RestoreGraphFromSnapshot": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph-snapshot/${ResourceId}",
-      ],
-    },
-    conditional: { "neptune-graph:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "RestoreGraphFromSnapshot",
 }));
@@ -2044,17 +1831,6 @@ export const startExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExportTask",
-  iam: {
-    actions: ["iam:PassRole", "neptune-graph:StartExportTask", "neptune-graph:TagResource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "neptune-graph:StartExportTask": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:export-task/${ResourceId}",
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-    conditional: { "neptune-graph:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartExportTask",
 }));
@@ -2087,14 +1863,6 @@ export const startGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartGraph",
-  iam: {
-    actions: ["neptune-graph:StartGraph"],
-    resources: {
-      "neptune-graph:StartGraph": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartGraph",
 }));
@@ -2127,16 +1895,6 @@ export const startImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportTask",
-  iam: {
-    actions: ["iam:PassRole", "neptune-graph:StartImportTask"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "neptune-graph:StartImportTask": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:import-task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartImportTask",
 }));
@@ -2169,14 +1927,6 @@ export const stopGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopGraph",
-  iam: {
-    actions: ["neptune-graph:StopGraph"],
-    resources: {
-      "neptune-graph:StopGraph": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopGraph",
 }));
@@ -2207,7 +1957,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["neptune-graph:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2238,7 +1987,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["neptune-graph:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2271,14 +2019,6 @@ export const updateGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGraph",
-  iam: {
-    actions: ["neptune-graph:UpdateGraph"],
-    resources: {
-      "neptune-graph:UpdateGraph": [
-        "arn:${Partition}:neptune-graph:${Region}:${Account}:graph/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGraph",
 }));

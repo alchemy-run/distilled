@@ -1316,14 +1316,6 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
-  iam: {
-    actions: ["finspace:CreateEnvironment"],
-    resources: {
-      "finspace:CreateEnvironment": [
-        "arn:${Partition}:finspace:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -1360,14 +1352,6 @@ export const createKxChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxChangeset",
-  iam: {
-    actions: ["finspace:CreateKxChangeset"],
-    resources: {
-      "finspace:CreateKxChangeset": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateKxChangeset",
 }));
@@ -1404,14 +1388,6 @@ export const createKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxCluster",
-  iam: {
-    actions: ["finspace:CreateKxCluster"],
-    resources: {
-      "finspace:CreateKxCluster": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateKxCluster",
 }));
@@ -1450,14 +1426,6 @@ export const createKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxDatabase",
-  iam: {
-    actions: ["finspace:CreateKxDatabase"],
-    resources: {
-      "finspace:CreateKxDatabase": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateKxDatabase",
 }));
@@ -1496,14 +1464,6 @@ export const createKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxDataview",
-  iam: {
-    actions: ["finspace:CreateKxDataview"],
-    resources: {
-      "finspace:CreateKxDataview": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}/kxDataview/${KxDataview}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateKxDataview",
 }));
@@ -1540,7 +1500,6 @@ export const createKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxEnvironment",
-  iam: { actions: ["finspace:CreateKxEnvironment"] },
   telemetry: TELEMETRY,
   span: "CreateKxEnvironment",
 }));
@@ -1577,14 +1536,6 @@ export const createKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxScalingGroup",
-  iam: {
-    actions: ["finspace:CreateKxScalingGroup"],
-    resources: {
-      "finspace:CreateKxScalingGroup": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxScalingGroup/${KxScalingGroup}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateKxScalingGroup",
 }));
@@ -1623,14 +1574,6 @@ export const createKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxUser",
-  iam: {
-    actions: ["finspace:CreateKxUser"],
-    resources: {
-      "finspace:CreateKxUser": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateKxUser",
 }));
@@ -1669,14 +1612,6 @@ export const createKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKxVolume",
-  iam: {
-    actions: ["finspace:CreateKxVolume"],
-    resources: {
-      "finspace:CreateKxVolume": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxVolume/${KxVolume}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateKxVolume",
 }));
@@ -1709,14 +1644,6 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
-  iam: {
-    actions: ["finspace:DeleteEnvironment"],
-    resources: {
-      "finspace:DeleteEnvironment": [
-        "arn:${Partition}:finspace:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -1753,14 +1680,6 @@ export const deleteKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxCluster",
-  iam: {
-    actions: ["finspace:DeleteKxCluster"],
-    resources: {
-      "finspace:DeleteKxCluster": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKxCluster",
 }));
@@ -1793,14 +1712,6 @@ export const deleteKxClusterNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxClusterNode",
-  iam: {
-    actions: ["finspace:DeleteKxClusterNode"],
-    resources: {
-      "finspace:DeleteKxClusterNode": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKxClusterNode",
 }));
@@ -1835,14 +1746,6 @@ export const deleteKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxDatabase",
-  iam: {
-    actions: ["finspace:DeleteKxDatabase"],
-    resources: {
-      "finspace:DeleteKxDatabase": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKxDatabase",
 }));
@@ -1877,14 +1780,6 @@ export const deleteKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxDataview",
-  iam: {
-    actions: ["finspace:DeleteKxDataview"],
-    resources: {
-      "finspace:DeleteKxDataview": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}/kxDataview/${KxDataview}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKxDataview",
 }));
@@ -1919,14 +1814,6 @@ export const deleteKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxEnvironment",
-  iam: {
-    actions: ["finspace:DeleteKxEnvironment"],
-    resources: {
-      "finspace:DeleteKxEnvironment": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKxEnvironment",
 }));
@@ -1963,14 +1850,6 @@ export const deleteKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxScalingGroup",
-  iam: {
-    actions: ["finspace:DeleteKxScalingGroup"],
-    resources: {
-      "finspace:DeleteKxScalingGroup": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxScalingGroup/${KxScalingGroup}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKxScalingGroup",
 }));
@@ -2005,14 +1884,6 @@ export const deleteKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxUser",
-  iam: {
-    actions: ["finspace:DeleteKxUser"],
-    resources: {
-      "finspace:DeleteKxUser": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxUser/${UserName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKxUser",
 }));
@@ -2049,14 +1920,6 @@ export const deleteKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKxVolume",
-  iam: {
-    actions: ["finspace:DeleteKxVolume"],
-    resources: {
-      "finspace:DeleteKxVolume": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxVolume/${KxVolume}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKxVolume",
 }));
@@ -2087,14 +1950,6 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
-  iam: {
-    actions: ["finspace:GetEnvironment"],
-    resources: {
-      "finspace:GetEnvironment": [
-        "arn:${Partition}:finspace:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -2127,14 +1982,6 @@ export const getKxChangeset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxChangeset",
-  iam: {
-    actions: ["finspace:GetKxChangeset"],
-    resources: {
-      "finspace:GetKxChangeset": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxChangeset",
 }));
@@ -2171,14 +2018,6 @@ export const getKxCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxCluster",
-  iam: {
-    actions: ["finspace:GetKxCluster"],
-    resources: {
-      "finspace:GetKxCluster": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxCluster",
 }));
@@ -2211,14 +2050,6 @@ export const getKxConnectionString: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxConnectionString",
-  iam: {
-    actions: ["finspace:GetKxConnectionString"],
-    resources: {
-      "finspace:GetKxConnectionString": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxConnectionString",
 }));
@@ -2251,14 +2082,6 @@ export const getKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxDatabase",
-  iam: {
-    actions: ["finspace:GetKxDatabase"],
-    resources: {
-      "finspace:GetKxDatabase": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxDatabase",
 }));
@@ -2291,14 +2114,6 @@ export const getKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxDataview",
-  iam: {
-    actions: ["finspace:GetKxDataview"],
-    resources: {
-      "finspace:GetKxDataview": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}/kxDataview/${KxDataview}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxDataview",
 }));
@@ -2331,14 +2146,6 @@ export const getKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxEnvironment",
-  iam: {
-    actions: ["finspace:GetKxEnvironment"],
-    resources: {
-      "finspace:GetKxEnvironment": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxEnvironment",
 }));
@@ -2375,14 +2182,6 @@ export const getKxScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxScalingGroup",
-  iam: {
-    actions: ["finspace:GetKxScalingGroup"],
-    resources: {
-      "finspace:GetKxScalingGroup": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxScalingGroup/${KxScalingGroup}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxScalingGroup",
 }));
@@ -2415,14 +2214,6 @@ export const getKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxUser",
-  iam: {
-    actions: ["finspace:GetKxUser"],
-    resources: {
-      "finspace:GetKxUser": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxUser/${UserName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxUser",
 }));
@@ -2459,14 +2250,6 @@ export const getKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKxVolume",
-  iam: {
-    actions: ["finspace:GetKxVolume"],
-    resources: {
-      "finspace:GetKxVolume": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxVolume/${KxVolume}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKxVolume",
 }));
@@ -2491,14 +2274,6 @@ export const listEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEnvironments",
-  iam: {
-    actions: ["finspace:ListEnvironments"],
-    resources: {
-      "finspace:ListEnvironments": [
-        "arn:${Partition}:finspace:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 }));
@@ -2537,14 +2312,6 @@ export const listKxChangesets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["finspace:ListKxChangesets"],
-    resources: {
-      "finspace:ListKxChangesets": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKxChangesets",
 })) as any;
@@ -2585,14 +2352,6 @@ export const listKxClusterNodes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["finspace:ListKxClusterNodes"],
-    resources: {
-      "finspace:ListKxClusterNodes": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKxClusterNodes",
 })) as any;
@@ -2629,14 +2388,6 @@ export const listKxClusters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxClusters",
-  iam: {
-    actions: ["finspace:ListKxClusters"],
-    resources: {
-      "finspace:ListKxClusters": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKxClusters",
 }));
@@ -2675,14 +2426,6 @@ export const listKxDatabases: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["finspace:ListKxDatabases"],
-    resources: {
-      "finspace:ListKxDatabases": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKxDatabases",
 })) as any;
@@ -2721,14 +2464,6 @@ export const listKxDataviews: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["finspace:ListKxDataviews"],
-    resources: {
-      "finspace:ListKxDataviews": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKxDataviews",
 })) as any;
@@ -2760,7 +2495,6 @@ export const listKxEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["finspace:ListKxEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListKxEnvironments",
 })) as any;
@@ -2803,14 +2537,6 @@ export const listKxScalingGroups: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["finspace:ListKxScalingGroups"],
-    resources: {
-      "finspace:ListKxScalingGroups": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKxScalingGroups",
 })) as any;
@@ -2843,14 +2569,6 @@ export const listKxUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxUsers",
-  iam: {
-    actions: ["finspace:ListKxUsers"],
-    resources: {
-      "finspace:ListKxUsers": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKxUsers",
 }));
@@ -2887,14 +2605,6 @@ export const listKxVolumes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListKxVolumes",
-  iam: {
-    actions: ["finspace:ListKxVolumes"],
-    resources: {
-      "finspace:ListKxVolumes": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKxVolumes",
 }));
@@ -2919,21 +2629,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["finspace:ListTagsForResource"],
-    resources: {
-      "finspace:ListTagsForResource": [
-        "arn:${Partition}:finspace:${Region}:${Account}:environment/${EnvironmentId}",
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}/kxDataview/${KxDataview}",
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxScalingGroup/${KxScalingGroup}",
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxUser/${UserName}",
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxVolume/${KxVolume}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2958,7 +2653,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["finspace:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2983,7 +2677,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["finspace:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3016,14 +2709,6 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
-  iam: {
-    actions: ["finspace:UpdateEnvironment"],
-    resources: {
-      "finspace:UpdateEnvironment": [
-        "arn:${Partition}:finspace:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
@@ -3061,14 +2746,6 @@ export const updateKxClusterCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxClusterCodeConfiguration",
-  iam: {
-    actions: ["finspace:UpdateKxClusterCodeConfiguration"],
-    resources: {
-      "finspace:UpdateKxClusterCodeConfiguration": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKxClusterCodeConfiguration",
 }));
@@ -3107,14 +2784,6 @@ export const updateKxClusterDatabases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxClusterDatabases",
-  iam: {
-    actions: ["finspace:UpdateKxClusterDatabases"],
-    resources: {
-      "finspace:UpdateKxClusterDatabases": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxCluster/${KxCluster}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKxClusterDatabases",
 }));
@@ -3149,14 +2818,6 @@ export const updateKxDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxDatabase",
-  iam: {
-    actions: ["finspace:UpdateKxDatabase"],
-    resources: {
-      "finspace:UpdateKxDatabase": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKxDatabase",
 }));
@@ -3193,14 +2854,6 @@ export const updateKxDataview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxDataview",
-  iam: {
-    actions: ["finspace:UpdateKxDataview"],
-    resources: {
-      "finspace:UpdateKxDataview": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxDatabase/${KxDatabase}/kxDataview/${KxDataview}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKxDataview",
 }));
@@ -3235,14 +2888,6 @@ export const updateKxEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxEnvironment",
-  iam: {
-    actions: ["finspace:UpdateKxEnvironment"],
-    resources: {
-      "finspace:UpdateKxEnvironment": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKxEnvironment",
 }));
@@ -3279,14 +2924,6 @@ export const updateKxEnvironmentNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxEnvironmentNetwork",
-  iam: {
-    actions: ["finspace:UpdateKxEnvironmentNetwork"],
-    resources: {
-      "finspace:UpdateKxEnvironmentNetwork": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKxEnvironmentNetwork",
 }));
@@ -3323,14 +2960,6 @@ export const updateKxUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxUser",
-  iam: {
-    actions: ["finspace:UpdateKxUser"],
-    resources: {
-      "finspace:UpdateKxUser": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxUser/${UserName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKxUser",
 }));
@@ -3368,14 +2997,6 @@ export const updateKxVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKxVolume",
-  iam: {
-    actions: ["finspace:UpdateKxVolume"],
-    resources: {
-      "finspace:UpdateKxVolume": [
-        "arn:${Partition}:finspace:${Region}:${Account}:kxEnvironment/${EnvironmentId}/kxVolume/${KxVolume}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKxVolume",
 }));

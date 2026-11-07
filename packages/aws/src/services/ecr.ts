@@ -1804,14 +1804,6 @@ export const batchCheckLayerAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCheckLayerAvailability",
-  iam: {
-    actions: ["ecr:BatchCheckLayerAvailability"],
-    resources: {
-      "ecr:BatchCheckLayerAvailability": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchCheckLayerAvailability",
 }));
@@ -1843,14 +1835,6 @@ export const batchDeleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteImage",
-  iam: {
-    actions: ["ecr:BatchDeleteImage"],
-    resources: {
-      "ecr:BatchDeleteImage": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteImage",
 }));
@@ -1887,26 +1871,6 @@ export const batchGetImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetImage",
-  iam: {
-    actions: [
-      "ecr:BatchGetImage",
-      "ecr:BatchImportUpstreamImage",
-      "ecr:CreateRepository",
-      "ecr:TagResource",
-    ],
-    resources: {
-      "ecr:BatchGetImage": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:BatchImportUpstreamImage": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:CreateRepository": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:TagResource": ["arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetImage",
 }));
@@ -1937,14 +1901,6 @@ export const batchGetRepositoryScanningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRepositoryScanningConfiguration",
-  iam: {
-    actions: ["ecr:BatchGetRepositoryScanningConfiguration"],
-    resources: {
-      "ecr:BatchGetRepositoryScanningConfiguration": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetRepositoryScanningConfiguration",
 }));
@@ -1993,14 +1949,6 @@ export const completeLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLayerUpload",
-  iam: {
-    actions: ["ecr:CompleteLayerUpload"],
-    resources: {
-      "ecr:CompleteLayerUpload": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CompleteLayerUpload",
 }));
@@ -2044,11 +1992,6 @@ export const createPullThroughCacheRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePullThroughCacheRule",
-  iam: {
-    actions: ["ecr:CreatePullThroughCacheRule", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "customRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePullThroughCacheRule",
 }));
@@ -2086,16 +2029,6 @@ export const createRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepository",
-  iam: {
-    actions: ["ecr:CreateRepository", "ecr:TagResource"],
-    resources: {
-      "ecr:CreateRepository": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:TagResource": ["arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}"],
-    },
-    conditional: { "ecr:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRepository",
 }));
@@ -2132,28 +2065,6 @@ export const createRepositoryCreationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRepositoryCreationTemplate",
-  iam: {
-    actions: [
-      "ecr:CreateRepository",
-      "ecr:CreateRepositoryCreationTemplate",
-      "iam:PassRole",
-      "ecr:PutLifecyclePolicy",
-      "ecr:SetRepositoryPolicy",
-    ],
-    resources: {
-      "ecr:CreateRepository": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecr:PutLifecyclePolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:SetRepositoryPolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "customRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRepositoryCreationTemplate",
 }));
@@ -2186,14 +2097,6 @@ export const deleteLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecyclePolicy",
-  iam: {
-    actions: ["ecr:DeleteLifecyclePolicy"],
-    resources: {
-      "ecr:DeleteLifecyclePolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLifecyclePolicy",
 }));
@@ -2224,7 +2127,6 @@ export const deletePullThroughCacheRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePullThroughCacheRule",
-  iam: { actions: ["ecr:DeletePullThroughCacheRule"] },
   telemetry: TELEMETRY,
   span: "DeletePullThroughCacheRule",
 }));
@@ -2255,7 +2157,6 @@ export const deleteRegistryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistryPolicy",
-  iam: { actions: ["ecr:DeleteRegistryPolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteRegistryPolicy",
 }));
@@ -2290,14 +2191,6 @@ export const deleteRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepository",
-  iam: {
-    actions: ["ecr:DeleteRepository"],
-    resources: {
-      "ecr:DeleteRepository": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRepository",
 }));
@@ -2328,7 +2221,6 @@ export const deleteRepositoryCreationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryCreationTemplate",
-  iam: { actions: ["ecr:DeleteRepositoryCreationTemplate"] },
   telemetry: TELEMETRY,
   span: "DeleteRepositoryCreationTemplate",
 }));
@@ -2359,14 +2251,6 @@ export const deleteRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRepositoryPolicy",
-  iam: {
-    actions: ["ecr:DeleteRepositoryPolicy"],
-    resources: {
-      "ecr:DeleteRepositoryPolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRepositoryPolicy",
 }));
@@ -2397,7 +2281,6 @@ export const deleteSigningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSigningConfiguration",
-  iam: { actions: ["ecr:DeleteSigningConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteSigningConfiguration",
 }));
@@ -2430,7 +2313,6 @@ export const deregisterPullTimeUpdateExclusion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterPullTimeUpdateExclusion",
-  iam: { actions: ["ecr:DeregisterPullTimeUpdateExclusion"] },
   telemetry: TELEMETRY,
   span: "DeregisterPullTimeUpdateExclusion",
 }));
@@ -2463,14 +2345,6 @@ export const describeImageReplicationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageReplicationStatus",
-  iam: {
-    actions: ["ecr:DescribeImageReplicationStatus"],
-    resources: {
-      "ecr:DescribeImageReplicationStatus": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeImageReplicationStatus",
 }));
@@ -2519,14 +2393,6 @@ export const describeImages: API.PaginatedOperationMethod<
     items: "imageDetails",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecr:DescribeImages"],
-    resources: {
-      "ecr:DescribeImages": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeImages",
 })) as any;
@@ -2567,14 +2433,6 @@ export const describeImageScanFindings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecr:DescribeImageScanFindings"],
-    resources: {
-      "ecr:DescribeImageScanFindings": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeImageScanFindings",
 })) as any;
@@ -2612,14 +2470,6 @@ export const describeImageSigningStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageSigningStatus",
-  iam: {
-    actions: ["ecr:DescribeImageSigningStatus"],
-    resources: {
-      "ecr:DescribeImageSigningStatus": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeImageSigningStatus",
 }));
@@ -2657,7 +2507,6 @@ export const describePullThroughCacheRules: API.PaginatedOperationMethod<
     items: "pullThroughCacheRules",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecr:DescribePullThroughCacheRules"] },
   telemetry: TELEMETRY,
   span: "DescribePullThroughCacheRules",
 })) as any;
@@ -2684,7 +2533,6 @@ export const describeRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRegistry",
-  iam: { actions: ["ecr:DescribeRegistry"] },
   telemetry: TELEMETRY,
   span: "DescribeRegistry",
 }));
@@ -2727,7 +2575,6 @@ export const describeReplicationBackfillResults: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecr:DescribeReplicationBackfillResults"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationBackfillResults",
 })) as any;
@@ -2759,14 +2606,6 @@ export const describeRepositories: API.PaginatedOperationMethod<
     items: "repositories",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecr:DescribeRepositories"],
-    resources: {
-      "ecr:DescribeRepositories": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRepositories",
 })) as any;
@@ -2800,7 +2639,6 @@ export const describeRepositoryCreationTemplates: API.PaginatedOperationMethod<
     items: "repositoryCreationTemplates",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecr:DescribeRepositoryCreationTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeRepositoryCreationTemplates",
 })) as any;
@@ -2825,7 +2663,6 @@ export const getAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSetting",
-  iam: { actions: ["ecr:GetAccountSetting"] },
   telemetry: TELEMETRY,
   span: "GetAccountSetting",
 }));
@@ -2854,7 +2691,6 @@ export const getAuthorizationToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizationToken",
-  iam: { actions: ["ecr:GetAuthorizationToken"] },
   telemetry: TELEMETRY,
   span: "GetAuthorizationToken",
 }));
@@ -2896,17 +2732,6 @@ export const getDownloadUrlForLayer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDownloadUrlForLayer",
-  iam: {
-    actions: ["ecr:BatchImportUpstreamImage", "ecr:GetDownloadUrlForLayer"],
-    resources: {
-      "ecr:BatchImportUpstreamImage": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:GetDownloadUrlForLayer": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDownloadUrlForLayer",
 }));
@@ -2939,14 +2764,6 @@ export const getLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLifecyclePolicy",
-  iam: {
-    actions: ["ecr:GetLifecyclePolicy"],
-    resources: {
-      "ecr:GetLifecyclePolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLifecyclePolicy",
 }));
@@ -2987,14 +2804,6 @@ export const getLifecyclePolicyPreview: API.PaginatedOperationMethod<
     items: "previewResults",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecr:GetLifecyclePolicyPreview"],
-    resources: {
-      "ecr:GetLifecyclePolicyPreview": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLifecyclePolicyPreview",
 })) as any;
@@ -3025,7 +2834,6 @@ export const getRegistryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryPolicy",
-  iam: { actions: ["ecr:GetRegistryPolicy"] },
   telemetry: TELEMETRY,
   span: "GetRegistryPolicy",
 }));
@@ -3050,7 +2858,6 @@ export const getRegistryScanningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryScanningConfiguration",
-  iam: { actions: ["ecr:GetRegistryScanningConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetRegistryScanningConfiguration",
 }));
@@ -3081,14 +2888,6 @@ export const getRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRepositoryPolicy",
-  iam: {
-    actions: ["ecr:GetRepositoryPolicy"],
-    resources: {
-      "ecr:GetRepositoryPolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRepositoryPolicy",
 }));
@@ -3123,7 +2922,6 @@ export const getSigningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningConfiguration",
-  iam: { actions: ["ecr:GetSigningConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetSigningConfiguration",
 }));
@@ -3156,14 +2954,6 @@ export const initiateLayerUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateLayerUpload",
-  iam: {
-    actions: ["ecr:InitiateLayerUpload"],
-    resources: {
-      "ecr:InitiateLayerUpload": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InitiateLayerUpload",
 }));
@@ -3198,20 +2988,6 @@ export const listImageReferrers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListImageReferrers",
-  iam: {
-    actions: ["ecr:BatchGetImage", "ecr:BatchImportUpstreamImage", "ecr:CreateRepository"],
-    resources: {
-      "ecr:BatchGetImage": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:BatchImportUpstreamImage": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:CreateRepository": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListImageReferrers",
 }));
@@ -3250,12 +3026,6 @@ export const listImages: API.PaginatedOperationMethod<
     items: "imageIds",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecr:ListImages"],
-    resources: {
-      "ecr:ListImages": ["arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListImages",
 })) as any;
@@ -3281,7 +3051,6 @@ export const listPullTimeUpdateExclusions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPullTimeUpdateExclusions",
-  iam: { actions: ["ecr:ListPullTimeUpdateExclusions"] },
   telemetry: TELEMETRY,
   span: "ListPullTimeUpdateExclusions",
 }));
@@ -3317,7 +3086,6 @@ export const listReplicationBackfills: API.PaginatedOperationMethod<
     items: "backfills",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecr:ListReplicationBackfills"] },
   telemetry: TELEMETRY,
   span: "ListReplicationBackfills",
 })) as any;
@@ -3342,14 +3110,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["ecr:ListTagsForResource"],
-    resources: {
-      "ecr:ListTagsForResource": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3375,7 +3135,6 @@ export const putAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSetting",
-  iam: { actions: ["ecr:PutAccountSetting"] },
   telemetry: TELEMETRY,
   span: "PutAccountSetting",
 }));
@@ -3425,12 +3184,6 @@ export const putImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImage",
-  iam: {
-    actions: ["ecr:PutImage"],
-    resources: {
-      "ecr:PutImage": ["arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutImage",
 }));
@@ -3465,14 +3218,6 @@ export const putImageScanningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImageScanningConfiguration",
-  iam: {
-    actions: ["ecr:PutImageScanningConfiguration"],
-    resources: {
-      "ecr:PutImageScanningConfiguration": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutImageScanningConfiguration",
 }));
@@ -3499,14 +3244,6 @@ export const putImageTagMutability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutImageTagMutability",
-  iam: {
-    actions: ["ecr:PutImageTagMutability"],
-    resources: {
-      "ecr:PutImageTagMutability": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutImageTagMutability",
 }));
@@ -3539,14 +3276,6 @@ export const putLifecyclePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecyclePolicy",
-  iam: {
-    actions: ["ecr:PutLifecyclePolicy"],
-    resources: {
-      "ecr:PutLifecyclePolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutLifecyclePolicy",
 }));
@@ -3574,7 +3303,6 @@ export const putRegistryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistryPolicy",
-  iam: { actions: ["ecr:PutRegistryPolicy"] },
   telemetry: TELEMETRY,
   span: "PutRegistryPolicy",
 }));
@@ -3605,7 +3333,6 @@ export const putRegistryScanningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRegistryScanningConfiguration",
-  iam: { actions: ["ecr:PutRegistryScanningConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutRegistryScanningConfiguration",
 }));
@@ -3639,7 +3366,6 @@ export const putReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutReplicationConfiguration",
-  iam: { actions: ["ecr:PutReplicationConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutReplicationConfiguration",
 }));
@@ -3672,7 +3398,6 @@ export const putSigningConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSigningConfiguration",
-  iam: { actions: ["ecr:PutSigningConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutSigningConfiguration",
 }));
@@ -3705,7 +3430,6 @@ export const registerPullTimeUpdateExclusion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPullTimeUpdateExclusion",
-  iam: { actions: ["ecr:RegisterPullTimeUpdateExclusion"] },
   telemetry: TELEMETRY,
   span: "RegisterPullTimeUpdateExclusion",
 }));
@@ -3732,14 +3456,6 @@ export const setRepositoryPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRepositoryPolicy",
-  iam: {
-    actions: ["ecr:SetRepositoryPolicy"],
-    resources: {
-      "ecr:SetRepositoryPolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetRepositoryPolicy",
 }));
@@ -3783,14 +3499,6 @@ export const startImageScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImageScan",
-  iam: {
-    actions: ["ecr:StartImageScan"],
-    resources: {
-      "ecr:StartImageScan": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartImageScan",
 }));
@@ -3826,14 +3534,6 @@ export const startLifecyclePolicyPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLifecyclePolicyPreview",
-  iam: {
-    actions: ["ecr:StartLifecyclePolicyPreview"],
-    resources: {
-      "ecr:StartLifecyclePolicyPreview": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartLifecyclePolicyPreview",
 }));
@@ -3880,7 +3580,6 @@ export const startReplicationBackfill: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplicationBackfill",
-  iam: { actions: ["ecr:StartReplicationBackfill"] },
   telemetry: TELEMETRY,
   span: "StartReplicationBackfill",
 }));
@@ -3917,7 +3616,6 @@ export const stopReplicationBackfill: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplicationBackfill",
-  iam: { actions: ["ecr:StopReplicationBackfill"] },
   telemetry: TELEMETRY,
   span: "StopReplicationBackfill",
 }));
@@ -3951,12 +3649,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["ecr:TagResource"],
-    resources: {
-      "ecr:TagResource": ["arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3989,14 +3681,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["ecr:UntagResource"],
-    resources: {
-      "ecr:UntagResource": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4031,14 +3715,6 @@ export const updateImageStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImageStorageClass",
-  iam: {
-    actions: ["ecr:UpdateImageStorageClass"],
-    resources: {
-      "ecr:UpdateImageStorageClass": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateImageStorageClass",
 }));
@@ -4075,11 +3751,6 @@ export const updatePullThroughCacheRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePullThroughCacheRule",
-  iam: {
-    actions: ["iam:PassRole", "ecr:UpdatePullThroughCacheRule"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "customRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePullThroughCacheRule",
 }));
@@ -4110,28 +3781,6 @@ export const updateRepositoryCreationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRepositoryCreationTemplate",
-  iam: {
-    actions: [
-      "ecr:CreateRepository",
-      "iam:PassRole",
-      "ecr:PutLifecyclePolicy",
-      "ecr:SetRepositoryPolicy",
-      "ecr:UpdateRepositoryCreationTemplate",
-    ],
-    resources: {
-      "ecr:CreateRepository": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecr:PutLifecyclePolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-      "ecr:SetRepositoryPolicy": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "customRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRepositoryCreationTemplate",
 }));
@@ -4175,14 +3824,6 @@ export const uploadLayerPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadLayerPart",
-  iam: {
-    actions: ["ecr:UploadLayerPart"],
-    resources: {
-      "ecr:UploadLayerPart": [
-        "arn:${Partition}:ecr:${Region}:${Account}:repository/${RepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UploadLayerPart",
 }));
@@ -4216,7 +3857,6 @@ export const validatePullThroughCacheRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidatePullThroughCacheRule",
-  iam: { actions: ["ecr:ValidatePullThroughCacheRule"] },
   telemetry: TELEMETRY,
   span: "ValidatePullThroughCacheRule",
 }));

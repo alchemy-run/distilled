@@ -1554,12 +1554,6 @@ export const cancelKeyDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelKeyDeletion",
-  iam: {
-    actions: ["kms:CancelKeyDeletion"],
-    resources: {
-      "kms:CancelKeyDeletion": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelKeyDeletion",
 }));
@@ -1673,7 +1667,6 @@ export const connectCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConnectCustomKeyStore",
-  iam: { actions: ["kms:ConnectCustomKeyStore"] },
   telemetry: TELEMETRY,
   span: "ConnectCustomKeyStore",
 }));
@@ -1754,15 +1747,6 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
-  iam: {
-    actions: ["kms:CreateAlias"],
-    resources: {
-      "kms:CreateAlias": [
-        "arn:${Partition}:kms:${Region}:${Account}:alias/${Alias}",
-        "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAlias",
 }));
@@ -1891,7 +1875,6 @@ export const createCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomKeyStore",
-  iam: { actions: ["kms:CreateCustomKeyStore"] },
   telemetry: TELEMETRY,
   span: "CreateCustomKeyStore",
 }));
@@ -1987,10 +1970,6 @@ export const createGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGrant",
-  iam: {
-    actions: ["kms:CreateGrant"],
-    resources: { "kms:CreateGrant": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "CreateGrant",
 }));
@@ -2203,14 +2182,6 @@ export const createKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKey",
-  iam: {
-    actions: ["kms:CreateKey", "kms:PutKeyPolicy", "kms:TagResource"],
-    resources: {
-      "kms:PutKeyPolicy": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-      "kms:TagResource": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-    conditional: { "kms:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateKey",
 }));
@@ -2295,10 +2266,6 @@ export const decapsulate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Decapsulate",
-  iam: {
-    actions: ["kms:Decapsulate"],
-    resources: { "kms:Decapsulate": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "Decapsulate",
 }));
@@ -2414,10 +2381,6 @@ export const decrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Decrypt",
-  iam: {
-    actions: ["kms:Decrypt"],
-    resources: { "kms:Decrypt": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "Decrypt",
 }));
@@ -2481,15 +2444,6 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
-  iam: {
-    actions: ["kms:DeleteAlias"],
-    resources: {
-      "kms:DeleteAlias": [
-        "arn:${Partition}:kms:${Region}:${Account}:alias/${Alias}",
-        "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAlias",
 }));
@@ -2568,7 +2522,6 @@ export const deleteCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomKeyStore",
-  iam: { actions: ["kms:DeleteCustomKeyStore"] },
   telemetry: TELEMETRY,
   span: "DeleteCustomKeyStore",
 }));
@@ -2637,12 +2590,6 @@ export const deleteImportedKeyMaterial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportedKeyMaterial",
-  iam: {
-    actions: ["kms:DeleteImportedKeyMaterial"],
-    resources: {
-      "kms:DeleteImportedKeyMaterial": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteImportedKeyMaterial",
 }));
@@ -2756,12 +2703,6 @@ export const deriveSharedSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeriveSharedSecret",
-  iam: {
-    actions: ["kms:DeriveSharedSecret"],
-    resources: {
-      "kms:DeriveSharedSecret": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeriveSharedSecret",
 }));
@@ -2841,7 +2782,6 @@ export const describeCustomKeyStores: API.PaginatedOperationMethod<
     items: "CustomKeyStores",
     pageSize: "Limit",
   } as const,
-  iam: { actions: ["kms:DescribeCustomKeyStores"] },
   telemetry: TELEMETRY,
   span: "DescribeCustomKeyStores",
 })) as any;
@@ -2928,10 +2868,6 @@ export const describeKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeKey",
-  iam: {
-    actions: ["kms:DescribeKey"],
-    resources: { "kms:DescribeKey": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "DescribeKey",
 }));
@@ -2980,10 +2916,6 @@ export const disableKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableKey",
-  iam: {
-    actions: ["kms:DisableKey"],
-    resources: { "kms:DisableKey": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "DisableKey",
 }));
@@ -3052,12 +2984,6 @@ export const disableKeyRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableKeyRotation",
-  iam: {
-    actions: ["kms:DisableKeyRotation"],
-    resources: {
-      "kms:DisableKeyRotation": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableKeyRotation",
 }));
@@ -3125,7 +3051,6 @@ export const disconnectCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectCustomKeyStore",
-  iam: { actions: ["kms:DisconnectCustomKeyStore"] },
   telemetry: TELEMETRY,
   span: "DisconnectCustomKeyStore",
 }));
@@ -3173,10 +3098,6 @@ export const enableKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableKey",
-  iam: {
-    actions: ["kms:EnableKey"],
-    resources: { "kms:EnableKey": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "EnableKey",
 }));
@@ -3265,12 +3186,6 @@ export const enableKeyRotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableKeyRotation",
-  iam: {
-    actions: ["kms:EnableKeyRotation"],
-    resources: {
-      "kms:EnableKeyRotation": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableKeyRotation",
 }));
@@ -3342,10 +3257,6 @@ export const encapsulate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Encapsulate",
-  iam: {
-    actions: ["kms:Encapsulate"],
-    resources: { "kms:Encapsulate": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "Encapsulate",
 }));
@@ -3454,10 +3365,6 @@ export const encrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Encrypt",
-  iam: {
-    actions: ["kms:Encrypt"],
-    resources: { "kms:Encrypt": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "Encrypt",
 }));
@@ -3584,12 +3491,6 @@ export const generateDataKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKey",
-  iam: {
-    actions: ["kms:GenerateDataKey"],
-    resources: {
-      "kms:GenerateDataKey": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GenerateDataKey",
 }));
@@ -3708,12 +3609,6 @@ export const generateDataKeyPair: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyPair",
-  iam: {
-    actions: ["kms:GenerateDataKeyPair"],
-    resources: {
-      "kms:GenerateDataKeyPair": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GenerateDataKeyPair",
 }));
@@ -3813,14 +3708,6 @@ export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyPairWithoutPlaintext",
-  iam: {
-    actions: ["kms:GenerateDataKeyPairWithoutPlaintext"],
-    resources: {
-      "kms:GenerateDataKeyPairWithoutPlaintext": [
-        "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GenerateDataKeyPairWithoutPlaintext",
 }));
@@ -3927,14 +3814,6 @@ export const generateDataKeyWithoutPlaintext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataKeyWithoutPlaintext",
-  iam: {
-    actions: ["kms:GenerateDataKeyWithoutPlaintext"],
-    resources: {
-      "kms:GenerateDataKeyWithoutPlaintext": [
-        "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GenerateDataKeyWithoutPlaintext",
 }));
@@ -4004,10 +3883,6 @@ export const generateMac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateMac",
-  iam: {
-    actions: ["kms:GenerateMac"],
-    resources: { "kms:GenerateMac": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "GenerateMac",
 }));
@@ -4065,7 +3940,6 @@ export const generateRandom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateRandom",
-  iam: { actions: ["kms:GenerateRandom"] },
   telemetry: TELEMETRY,
   span: "GenerateRandom",
 }));
@@ -4149,12 +4023,6 @@ export const getKeyLastUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyLastUsage",
-  iam: {
-    actions: ["kms:GetKeyLastUsage"],
-    resources: {
-      "kms:GetKeyLastUsage": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKeyLastUsage",
 }));
@@ -4196,10 +4064,6 @@ export const getKeyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyPolicy",
-  iam: {
-    actions: ["kms:GetKeyPolicy"],
-    resources: { "kms:GetKeyPolicy": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetKeyPolicy",
 }));
@@ -4286,12 +4150,6 @@ export const getKeyRotationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKeyRotationStatus",
-  iam: {
-    actions: ["kms:GetKeyRotationStatus"],
-    resources: {
-      "kms:GetKeyRotationStatus": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKeyRotationStatus",
 }));
@@ -4390,12 +4248,6 @@ export const getParametersForImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParametersForImport",
-  iam: {
-    actions: ["kms:GetParametersForImport"],
-    resources: {
-      "kms:GetParametersForImport": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetParametersForImport",
 }));
@@ -4485,10 +4337,6 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
-  iam: {
-    actions: ["kms:GetPublicKey"],
-    resources: { "kms:GetPublicKey": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetPublicKey",
 }));
@@ -4644,12 +4492,6 @@ export const importKeyMaterial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportKeyMaterial",
-  iam: {
-    actions: ["kms:ImportKeyMaterial"],
-    resources: {
-      "kms:ImportKeyMaterial": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportKeyMaterial",
 }));
@@ -4723,7 +4565,6 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "Aliases",
     pageSize: "Limit",
   } as const,
-  iam: { actions: ["kms:ListAliases"] },
   telemetry: TELEMETRY,
   span: "ListAliases",
 })) as any;
@@ -4803,10 +4644,6 @@ export const listGrants: API.PaginatedOperationMethod<
     items: "Grants",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["kms:ListGrants"],
-    resources: { "kms:ListGrants": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "ListGrants",
 })) as any;
@@ -4861,12 +4698,6 @@ export const listKeyPolicies: API.PaginatedOperationMethod<
     items: "PolicyNames",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["kms:ListKeyPolicies"],
-    resources: {
-      "kms:ListKeyPolicies": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKeyPolicies",
 })) as any;
@@ -4937,12 +4768,6 @@ export const listKeyRotations: API.PaginatedOperationMethod<
     items: "Rotations",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["kms:ListKeyRotations"],
-    resources: {
-      "kms:ListKeyRotations": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListKeyRotations",
 })) as any;
@@ -4991,7 +4816,6 @@ export const listKeys: API.PaginatedOperationMethod<
     items: "Keys",
     pageSize: "Limit",
   } as const,
-  iam: { actions: ["kms:ListKeys"] },
   telemetry: TELEMETRY,
   span: "ListKeys",
 })) as any;
@@ -5046,12 +4870,6 @@ export const listResourceTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["kms:ListResourceTags"],
-    resources: {
-      "kms:ListResourceTags": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourceTags",
 })) as any;
@@ -5135,7 +4953,6 @@ export const listRetirableGrants: API.PaginatedOperationMethod<
     items: "Grants",
     pageSize: "Limit",
   } as const,
-  iam: { actions: ["kms:ListRetirableGrants"] },
   telemetry: TELEMETRY,
   span: "ListRetirableGrants",
 })) as any;
@@ -5190,10 +5007,6 @@ export const putKeyPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutKeyPolicy",
-  iam: {
-    actions: ["kms:PutKeyPolicy"],
-    resources: { "kms:PutKeyPolicy": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutKeyPolicy",
 }));
@@ -5317,13 +5130,6 @@ export const reEncrypt: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReEncrypt",
-  iam: {
-    actions: ["kms:ReEncryptFrom", "kms:ReEncryptTo"],
-    resources: {
-      "kms:ReEncryptFrom": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-      "kms:ReEncryptTo": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReEncrypt",
 }));
@@ -5436,10 +5242,6 @@ export const replicateKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReplicateKey",
-  iam: {
-    actions: ["kms:ReplicateKey"],
-    resources: { "kms:ReplicateKey": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "ReplicateKey",
 }));
@@ -5512,10 +5314,6 @@ export const retireGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetireGrant",
-  iam: {
-    actions: ["kms:RetireGrant"],
-    resources: { "kms:RetireGrant": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "RetireGrant",
 }));
@@ -5585,10 +5383,6 @@ export const revokeGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeGrant",
-  iam: {
-    actions: ["kms:RevokeGrant"],
-    resources: { "kms:RevokeGrant": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "RevokeGrant",
 }));
@@ -5683,12 +5477,6 @@ export const rotateKeyOnDemand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateKeyOnDemand",
-  iam: {
-    actions: ["kms:RotateKeyOnDemand"],
-    resources: {
-      "kms:RotateKeyOnDemand": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RotateKeyOnDemand",
 }));
@@ -5774,12 +5562,6 @@ export const scheduleKeyDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScheduleKeyDeletion",
-  iam: {
-    actions: ["kms:ScheduleKeyDeletion"],
-    resources: {
-      "kms:ScheduleKeyDeletion": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ScheduleKeyDeletion",
 }));
@@ -5870,10 +5652,6 @@ export const sign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Sign",
-  iam: {
-    actions: ["kms:Sign"],
-    resources: { "kms:Sign": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "Sign",
 }));
@@ -5945,10 +5723,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["kms:TagResource"],
-    resources: { "kms:TagResource": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6012,10 +5786,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["kms:UntagResource"],
-    resources: { "kms:UntagResource": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6096,15 +5866,6 @@ export const updateAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAlias",
-  iam: {
-    actions: ["kms:UpdateAlias"],
-    resources: {
-      "kms:UpdateAlias": [
-        "arn:${Partition}:kms:${Region}:${Account}:alias/${Alias}",
-        "arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAlias",
 }));
@@ -6245,7 +6006,6 @@ export const updateCustomKeyStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomKeyStore",
-  iam: { actions: ["kms:UpdateCustomKeyStore"] },
   telemetry: TELEMETRY,
   span: "UpdateCustomKeyStore",
 }));
@@ -6294,12 +6054,6 @@ export const updateKeyDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKeyDescription",
-  iam: {
-    actions: ["kms:UpdateKeyDescription"],
-    resources: {
-      "kms:UpdateKeyDescription": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKeyDescription",
 }));
@@ -6394,12 +6148,6 @@ export const updatePrimaryRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrimaryRegion",
-  iam: {
-    actions: ["kms:UpdatePrimaryRegion"],
-    resources: {
-      "kms:UpdatePrimaryRegion": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePrimaryRegion",
 }));
@@ -6483,10 +6231,6 @@ export const verify: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Verify",
-  iam: {
-    actions: ["kms:Verify"],
-    resources: { "kms:Verify": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "Verify",
 }));
@@ -6552,10 +6296,6 @@ export const verifyMac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyMac",
-  iam: {
-    actions: ["kms:VerifyMac"],
-    resources: { "kms:VerifyMac": ["arn:${Partition}:kms:${Region}:${Account}:key/${KeyId}"] },
-  },
   telemetry: TELEMETRY,
   span: "VerifyMac",
 }));

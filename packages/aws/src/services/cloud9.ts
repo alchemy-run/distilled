@@ -357,15 +357,6 @@ export const createEnvironmentEC2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentEC2",
-  iam: {
-    actions: ["cloud9:CreateEnvironmentEC2", "cloud9:TagResource"],
-    resources: {
-      "cloud9:TagResource": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-    conditional: { "cloud9:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentEC2",
 }));
@@ -406,14 +397,6 @@ export const createEnvironmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironmentMembership",
-  iam: {
-    actions: ["cloud9:CreateEnvironmentMembership"],
-    resources: {
-      "cloud9:CreateEnvironmentMembership": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironmentMembership",
 }));
@@ -455,14 +438,6 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
-  iam: {
-    actions: ["cloud9:DeleteEnvironment"],
-    resources: {
-      "cloud9:DeleteEnvironment": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -503,14 +478,6 @@ export const deleteEnvironmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironmentMembership",
-  iam: {
-    actions: ["cloud9:DeleteEnvironmentMembership"],
-    resources: {
-      "cloud9:DeleteEnvironmentMembership": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironmentMembership",
 }));
@@ -557,14 +524,6 @@ export const describeEnvironmentMemberships: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cloud9:DescribeEnvironmentMemberships"],
-    resources: {
-      "cloud9:DescribeEnvironmentMemberships": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEnvironmentMemberships",
 })) as any;
@@ -605,14 +564,6 @@ export const describeEnvironments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironments",
-  iam: {
-    actions: ["cloud9:DescribeEnvironments"],
-    resources: {
-      "cloud9:DescribeEnvironments": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEnvironments",
 }));
@@ -653,14 +604,6 @@ export const describeEnvironmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEnvironmentStatus",
-  iam: {
-    actions: ["cloud9:DescribeEnvironmentStatus"],
-    resources: {
-      "cloud9:DescribeEnvironmentStatus": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEnvironmentStatus",
 }));
@@ -711,7 +654,6 @@ export const listEnvironments: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["cloud9:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -740,14 +682,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["cloud9:ListTagsForResource"],
-    resources: {
-      "cloud9:ListTagsForResource": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -785,14 +719,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["cloud9:TagResource"],
-    resources: {
-      "cloud9:TagResource": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -827,14 +753,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["cloud9:UntagResource"],
-    resources: {
-      "cloud9:UntagResource": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -875,14 +793,6 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
-  iam: {
-    actions: ["cloud9:UpdateEnvironment"],
-    resources: {
-      "cloud9:UpdateEnvironment": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
@@ -924,14 +834,6 @@ export const updateEnvironmentMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironmentMembership",
-  iam: {
-    actions: ["cloud9:UpdateEnvironmentMembership"],
-    resources: {
-      "cloud9:UpdateEnvironmentMembership": [
-        "arn:${Partition}:cloud9:${Region}:${Account}:environment:${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironmentMembership",
 }));

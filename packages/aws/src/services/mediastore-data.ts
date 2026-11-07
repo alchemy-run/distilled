@@ -211,14 +211,6 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
-  iam: {
-    actions: ["mediastore:DeleteObject"],
-    resources: {
-      "mediastore:DeleteObject": [
-        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}/${ObjectPath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteObject",
 }));
@@ -243,14 +235,6 @@ export const describeObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObject",
-  iam: {
-    actions: ["mediastore:DescribeObject"],
-    resources: {
-      "mediastore:DescribeObject": [
-        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}/${ObjectPath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeObject",
 }));
@@ -281,14 +265,6 @@ export const getObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObject",
-  iam: {
-    actions: ["mediastore:GetObject"],
-    resources: {
-      "mediastore:GetObject": [
-        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}/${ObjectPath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetObject",
 }));
@@ -316,7 +292,6 @@ export const listItems: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediastore:ListItems"] },
   telemetry: TELEMETRY,
   span: "ListItems",
 })) as any;
@@ -337,14 +312,6 @@ export const putObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObject",
-  iam: {
-    actions: ["mediastore:PutObject"],
-    resources: {
-      "mediastore:PutObject": [
-        "arn:${Partition}:mediastore:${Region}:${Account}:container/${ContainerName}/${ObjectPath}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutObject",
 }));

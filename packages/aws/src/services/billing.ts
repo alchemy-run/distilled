@@ -1021,12 +1021,6 @@ export const associateContract: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateContract",
-  iam: {
-    actions: ["billing:AssociateContract"],
-    resources: {
-      "billing:AssociateContract": ["arn:${Partition}:billing::${Account}:contract/${ContractId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateContract",
 }));
@@ -1065,14 +1059,6 @@ export const associateSourceViews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceViews",
-  iam: {
-    actions: ["billing:AssociateSourceViews", "billing:UseSourceView"],
-    resources: {
-      "billing:AssociateSourceViews": [
-        "arn:${Partition}:billing::${Account}:billingview/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateSourceViews",
 }));
@@ -1107,14 +1093,6 @@ export const cancelContractualInvestmentAttestation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelContractualInvestmentAttestation",
-  iam: {
-    actions: ["billing:CancelContractualInvestmentAttestation"],
-    resources: {
-      "billing:CancelContractualInvestmentAttestation": [
-        "arn:${Partition}:billing::${Account}:contract/${ContractId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelContractualInvestmentAttestation",
 }));
@@ -1153,16 +1131,6 @@ export const createBillingView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillingView",
-  iam: {
-    actions: ["billing:CreateBillingView", "billing:TagResource", "billing:UseSourceView"],
-    resources: {
-      "billing:CreateBillingView": [
-        "arn:${Partition}:billing::${Account}:billingview/${ResourceId}",
-      ],
-      "billing:TagResource": ["arn:${Partition}:billing::${Account}:billingview/${ResourceId}"],
-    },
-    conditional: { "billing:TagResource": "resourceTags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBillingView",
 }));
@@ -1197,14 +1165,6 @@ export const createContractualInvestmentAttestation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContractualInvestmentAttestation",
-  iam: {
-    actions: ["billing:CreateContractualInvestmentAttestation"],
-    resources: {
-      "billing:CreateContractualInvestmentAttestation": [
-        "arn:${Partition}:billing::${Account}:contract/${ContractId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateContractualInvestmentAttestation",
 }));
@@ -1237,14 +1197,6 @@ export const deleteBillingView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillingView",
-  iam: {
-    actions: ["billing:DeleteBillingView"],
-    resources: {
-      "billing:DeleteBillingView": [
-        "arn:${Partition}:billing::${Account}:billingview/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBillingView",
 }));
@@ -1277,14 +1229,6 @@ export const disassociateContract: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateContract",
-  iam: {
-    actions: ["billing:DisassociateContract"],
-    resources: {
-      "billing:DisassociateContract": [
-        "arn:${Partition}:billing::${Account}:contract/${ContractId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateContract",
 }));
@@ -1321,14 +1265,6 @@ export const disassociateSourceViews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceViews",
-  iam: {
-    actions: ["billing:DisassociateSourceViews"],
-    resources: {
-      "billing:DisassociateSourceViews": [
-        "arn:${Partition}:billing::${Account}:billingview/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateSourceViews",
 }));
@@ -1359,7 +1295,6 @@ export const getBillingPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillingPreferences",
-  iam: { actions: ["billing:GetBillingPreferences", "aws-portal:ViewBilling"] },
   telemetry: TELEMETRY,
   span: "GetBillingPreferences",
 }));
@@ -1392,12 +1327,6 @@ export const getBillingView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillingView",
-  iam: {
-    actions: ["billing:GetBillingView"],
-    resources: {
-      "billing:GetBillingView": ["arn:${Partition}:billing::${Account}:billingview/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBillingView",
 }));
@@ -1430,7 +1359,6 @@ export const getContractInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContractInformation",
-  iam: { actions: ["billing:GetContractInformation"] },
   telemetry: TELEMETRY,
   span: "GetContractInformation",
 }));
@@ -1468,7 +1396,6 @@ export const getCreditAllocationHistory: API.PaginatedOperationMethod<
     items: "creditAllocationHistoryList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["billing:GetCreditAllocationHistory"] },
   telemetry: TELEMETRY,
   span: "GetCreditAllocationHistory",
 })) as any;
@@ -1501,7 +1428,6 @@ export const getCredits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredits",
-  iam: { actions: ["billing:GetCredits", "aws-portal:ViewBilling"] },
   telemetry: TELEMETRY,
   span: "GetCredits",
 }));
@@ -1534,7 +1460,6 @@ export const getEnterpriseSupportChargeSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnterpriseSupportChargeSummary",
-  iam: { actions: ["billing:GetEnterpriseSupportChargeSummary"] },
   telemetry: TELEMETRY,
   span: "GetEnterpriseSupportChargeSummary",
 }));
@@ -1567,7 +1492,6 @@ export const getEnterpriseSupportContractDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnterpriseSupportContractDetails",
-  iam: { actions: ["billing:GetEnterpriseSupportContractDetails"] },
   telemetry: TELEMETRY,
   span: "GetEnterpriseSupportContractDetails",
 }));
@@ -1600,14 +1524,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: {
-    actions: ["billing:GetResourcePolicy"],
-    resources: {
-      "billing:GetResourcePolicy": [
-        "arn:${Partition}:billing::${Account}:billingview/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -1647,7 +1563,6 @@ export const listBillingViews: API.PaginatedOperationMethod<
     items: "billingViews",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["billing:ListBillingViews"] },
   telemetry: TELEMETRY,
   span: { op: "ListBillingViews", attributes: { "url.template": "/" } },
 })) as any;
@@ -1693,7 +1608,6 @@ export const listBillingViewSegments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["billing:ListBillingViewSegments"] },
   telemetry: TELEMETRY,
   span: "ListBillingViewSegments",
 })) as any;
@@ -1733,7 +1647,6 @@ export const listBusinessSupportAccountCharges: API.PaginatedOperationMethod<
     items: "accountCharges",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["billing:ListBusinessSupportAccountCharges"] },
   telemetry: TELEMETRY,
   span: "ListBusinessSupportAccountCharges",
 })) as any;
@@ -1773,7 +1686,6 @@ export const listBusinessSupportSubscriptionHistory: API.PaginatedOperationMetho
     items: "subscriptionContracts",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["billing:ListBusinessSupportSubscriptionHistory"] },
   telemetry: TELEMETRY,
   span: "ListBusinessSupportSubscriptionHistory",
 })) as any;
@@ -1811,7 +1723,6 @@ export const listContracts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["billing:ListContracts"] },
   telemetry: TELEMETRY,
   span: "ListContracts",
 })) as any;
@@ -1851,14 +1762,6 @@ export const listContractualInvestmentAttestations: API.PaginatedOperationMethod
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["billing:ListContractualInvestmentAttestations"],
-    resources: {
-      "billing:ListContractualInvestmentAttestations": [
-        "arn:${Partition}:billing::${Account}:contract/${ContractId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListContractualInvestmentAttestations",
 })) as any;
@@ -1898,14 +1801,6 @@ export const listContractualInvestments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["billing:ListContractualInvestments"],
-    resources: {
-      "billing:ListContractualInvestments": [
-        "arn:${Partition}:billing::${Account}:contract/${ContractId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListContractualInvestments",
 })) as any;
@@ -1945,14 +1840,6 @@ export const listContractualInvestmentSummaries: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["billing:ListContractualInvestmentSummaries"],
-    resources: {
-      "billing:ListContractualInvestmentSummaries": [
-        "arn:${Partition}:billing::${Account}:contract/${ContractId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListContractualInvestmentSummaries",
 })) as any;
@@ -1992,7 +1879,6 @@ export const listEnterpriseSupportLinkedAccountCharges: API.PaginatedOperationMe
     items: "linkedAccount",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["billing:ListEnterpriseSupportLinkedAccountCharges"] },
   telemetry: TELEMETRY,
   span: "ListEnterpriseSupportLinkedAccountCharges",
 })) as any;
@@ -2032,14 +1918,6 @@ export const listSourceViewsForBillingView: API.PaginatedOperationMethod<
     items: "sourceViews",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["billing:ListSourceViewsForBillingView"],
-    resources: {
-      "billing:ListSourceViewsForBillingView": [
-        "arn:${Partition}:billing::${Account}:billingview/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSourceViewsForBillingView",
 })) as any;
@@ -2072,14 +1950,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["billing:ListTagsForResource"],
-    resources: {
-      "billing:ListTagsForResource": [
-        "arn:${Partition}:billing::${Account}:billingview/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2110,7 +1980,6 @@ export const redeemCredits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RedeemCredits",
-  iam: { actions: ["aws-portal:ModifyBilling", "billing:RedeemCredits"] },
   telemetry: TELEMETRY,
   span: "RedeemCredits",
 }));
@@ -2143,12 +2012,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["billing:TagResource"],
-    resources: {
-      "billing:TagResource": ["arn:${Partition}:billing::${Account}:billingview/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2181,12 +2044,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["billing:UntagResource"],
-    resources: {
-      "billing:UntagResource": ["arn:${Partition}:billing::${Account}:billingview/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2219,7 +2076,6 @@ export const updateBillingPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingPreferences",
-  iam: { actions: ["aws-portal:ModifyBilling", "billing:UpdateBillingPreferences"] },
   telemetry: TELEMETRY,
   span: "UpdateBillingPreferences",
 }));
@@ -2258,14 +2114,6 @@ export const updateBillingView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingView",
-  iam: {
-    actions: ["billing:UpdateBillingView"],
-    resources: {
-      "billing:UpdateBillingView": [
-        "arn:${Partition}:billing::${Account}:billingview/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBillingView",
 }));

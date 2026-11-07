@@ -973,7 +973,6 @@ export const getMedicalScribeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalScribeStream",
-  iam: { actions: ["transcribe:GetMedicalScribeStream"] },
   telemetry: TELEMETRY,
   span: "GetMedicalScribeStream",
 }));
@@ -1018,7 +1017,6 @@ export const startCallAnalyticsStreamTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCallAnalyticsStreamTranscription",
-  iam: { actions: ["transcribe:StartCallAnalyticsStreamTranscription"] },
   telemetry: TELEMETRY,
   span: "StartCallAnalyticsStreamTranscription",
 }));
@@ -1079,7 +1077,6 @@ export const startMedicalScribeStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalScribeStream",
-  iam: { actions: ["transcribe:StartMedicalScribeStream"] },
   telemetry: TELEMETRY,
   span: "StartMedicalScribeStream",
 }));
@@ -1126,7 +1123,6 @@ export const startMedicalStreamTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalStreamTranscription",
-  iam: { actions: ["transcribe:StartMedicalStreamTranscription"] },
   telemetry: TELEMETRY,
   span: "StartMedicalStreamTranscription",
 }));
@@ -1170,7 +1166,6 @@ export const startStreamTranscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamTranscription",
-  iam: { actions: ["transcribe:StartStreamTranscription"] },
   telemetry: TELEMETRY,
   span: "StartStreamTranscription",
 }));

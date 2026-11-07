@@ -1287,14 +1287,6 @@ export const associateAssessmentReportEvidenceFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAssessmentReportEvidenceFolder",
-  iam: {
-    actions: ["auditmanager:AssociateAssessmentReportEvidenceFolder"],
-    resources: {
-      "auditmanager:AssociateAssessmentReportEvidenceFolder": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateAssessmentReportEvidenceFolder",
 }));
@@ -1326,14 +1318,6 @@ export const batchAssociateAssessmentReportEvidence: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateAssessmentReportEvidence",
-  iam: {
-    actions: ["auditmanager:BatchAssociateAssessmentReportEvidence"],
-    resources: {
-      "auditmanager:BatchAssociateAssessmentReportEvidence": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchAssociateAssessmentReportEvidence",
 }));
@@ -1364,15 +1348,6 @@ export const batchCreateDelegationByAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateDelegationByAssessment",
-  iam: {
-    actions: ["auditmanager:BatchCreateDelegationByAssessment"],
-    resources: {
-      "auditmanager:BatchCreateDelegationByAssessment": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchCreateDelegationByAssessment",
 }));
@@ -1403,15 +1378,6 @@ export const batchDeleteDelegationByAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDelegationByAssessment",
-  iam: {
-    actions: ["auditmanager:BatchDeleteDelegationByAssessment"],
-    resources: {
-      "auditmanager:BatchDeleteDelegationByAssessment": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteDelegationByAssessment",
 }));
@@ -1442,14 +1408,6 @@ export const batchDisassociateAssessmentReportEvidence: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateAssessmentReportEvidence",
-  iam: {
-    actions: ["auditmanager:BatchDisassociateAssessmentReportEvidence"],
-    resources: {
-      "auditmanager:BatchDisassociateAssessmentReportEvidence": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateAssessmentReportEvidence",
 }));
@@ -1501,14 +1459,6 @@ export const batchImportEvidenceToAssessmentControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchImportEvidenceToAssessmentControl",
-  iam: {
-    actions: ["auditmanager:BatchImportEvidenceToAssessmentControl"],
-    resources: {
-      "auditmanager:BatchImportEvidenceToAssessmentControl": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchImportEvidenceToAssessmentControl",
 }));
@@ -1543,10 +1493,6 @@ export const createAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessment",
-  iam: {
-    actions: ["auditmanager:CreateAssessment", "auditmanager:TagResource"],
-    conditional: { "auditmanager:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAssessment",
 }));
@@ -1579,16 +1525,6 @@ export const createAssessmentFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentFramework",
-  iam: {
-    actions: ["auditmanager:CreateAssessmentFramework", "auditmanager:TagResource"],
-    resources: {
-      "auditmanager:CreateAssessmentFramework": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessmentFramework/${AssessmentFrameworkId}",
-        "arn:${Partition}:auditmanager:${Region}:${Account}:control/${ControlId}",
-      ],
-    },
-    conditional: { "auditmanager:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAssessmentFramework",
 }));
@@ -1619,14 +1555,6 @@ export const createAssessmentReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentReport",
-  iam: {
-    actions: ["auditmanager:CreateAssessmentReport"],
-    resources: {
-      "auditmanager:CreateAssessmentReport": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAssessmentReport",
 }));
@@ -1659,10 +1587,6 @@ export const createControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateControl",
-  iam: {
-    actions: ["auditmanager:CreateControl", "auditmanager:TagResource"],
-    conditional: { "auditmanager:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateControl",
 }));
@@ -1693,14 +1617,6 @@ export const deleteAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessment",
-  iam: {
-    actions: ["auditmanager:DeleteAssessment"],
-    resources: {
-      "auditmanager:DeleteAssessment": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAssessment",
 }));
@@ -1731,14 +1647,6 @@ export const deleteAssessmentFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentFramework",
-  iam: {
-    actions: ["auditmanager:DeleteAssessmentFramework"],
-    resources: {
-      "auditmanager:DeleteAssessmentFramework": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessmentFramework/${AssessmentFrameworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAssessmentFramework",
 }));
@@ -1769,7 +1677,6 @@ export const deleteAssessmentFrameworkShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentFrameworkShare",
-  iam: { actions: ["auditmanager:DeleteAssessmentFrameworkShare"] },
   telemetry: TELEMETRY,
   span: "DeleteAssessmentFrameworkShare",
 }));
@@ -1820,14 +1727,6 @@ export const deleteAssessmentReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentReport",
-  iam: {
-    actions: ["auditmanager:DeleteAssessmentReport"],
-    resources: {
-      "auditmanager:DeleteAssessmentReport": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAssessmentReport",
 }));
@@ -1863,14 +1762,6 @@ export const deleteControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteControl",
-  iam: {
-    actions: ["auditmanager:DeleteControl"],
-    resources: {
-      "auditmanager:DeleteControl": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:control/${ControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteControl",
 }));
@@ -1909,7 +1800,6 @@ export const deregisterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAccount",
-  iam: { actions: ["auditmanager:DeregisterAccount"] },
   telemetry: TELEMETRY,
   span: "DeregisterAccount",
 }));
@@ -1992,7 +1882,6 @@ export const deregisterOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterOrganizationAdminAccount",
-  iam: { actions: ["auditmanager:DeregisterOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DeregisterOrganizationAdminAccount",
 }));
@@ -2027,14 +1916,6 @@ export const disassociateAssessmentReportEvidenceFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAssessmentReportEvidenceFolder",
-  iam: {
-    actions: ["auditmanager:DisassociateAssessmentReportEvidenceFolder"],
-    resources: {
-      "auditmanager:DisassociateAssessmentReportEvidenceFolder": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateAssessmentReportEvidenceFolder",
 }));
@@ -2055,7 +1936,6 @@ export const getAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountStatus",
-  iam: { actions: ["auditmanager:GetAccountStatus"] },
   telemetry: TELEMETRY,
   span: "GetAccountStatus",
 }));
@@ -2086,14 +1966,6 @@ export const getAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessment",
-  iam: {
-    actions: ["auditmanager:GetAssessment"],
-    resources: {
-      "auditmanager:GetAssessment": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAssessment",
 }));
@@ -2124,14 +1996,6 @@ export const getAssessmentFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessmentFramework",
-  iam: {
-    actions: ["auditmanager:GetAssessmentFramework"],
-    resources: {
-      "auditmanager:GetAssessmentFramework": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessmentFramework/${AssessmentFrameworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAssessmentFramework",
 }));
@@ -2162,14 +2026,6 @@ export const getAssessmentReportUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessmentReportUrl",
-  iam: {
-    actions: ["auditmanager:GetAssessmentReportUrl"],
-    resources: {
-      "auditmanager:GetAssessmentReportUrl": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAssessmentReportUrl",
 }));
@@ -2206,14 +2062,6 @@ export const getChangeLogs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["auditmanager:GetChangeLogs"],
-    resources: {
-      "auditmanager:GetChangeLogs": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChangeLogs",
 })) as any;
@@ -2244,14 +2092,6 @@ export const getControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetControl",
-  iam: {
-    actions: ["auditmanager:GetControl"],
-    resources: {
-      "auditmanager:GetControl": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:control/${ControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetControl",
 }));
@@ -2282,7 +2122,6 @@ export const getDelegations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:GetDelegations"] },
   telemetry: TELEMETRY,
   span: "GetDelegations",
 })) as any;
@@ -2313,14 +2152,6 @@ export const getEvidence: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvidence",
-  iam: {
-    actions: ["auditmanager:GetEvidence"],
-    resources: {
-      "auditmanager:GetEvidence": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEvidence",
 }));
@@ -2357,14 +2188,6 @@ export const getEvidenceByEvidenceFolder: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["auditmanager:GetEvidenceByEvidenceFolder"],
-    resources: {
-      "auditmanager:GetEvidenceByEvidenceFolder": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEvidenceByEvidenceFolder",
 })) as any;
@@ -2408,7 +2231,6 @@ export const getEvidenceFileUploadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvidenceFileUploadUrl",
-  iam: { actions: ["auditmanager:GetEvidenceFileUploadUrl"] },
   telemetry: TELEMETRY,
   span: "GetEvidenceFileUploadUrl",
 }));
@@ -2439,14 +2261,6 @@ export const getEvidenceFolder: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvidenceFolder",
-  iam: {
-    actions: ["auditmanager:GetEvidenceFolder"],
-    resources: {
-      "auditmanager:GetEvidenceFolder": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEvidenceFolder",
 }));
@@ -2483,14 +2297,6 @@ export const getEvidenceFoldersByAssessment: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["auditmanager:GetEvidenceFoldersByAssessment"],
-    resources: {
-      "auditmanager:GetEvidenceFoldersByAssessment": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEvidenceFoldersByAssessment",
 })) as any;
@@ -2528,14 +2334,6 @@ export const getEvidenceFoldersByAssessmentControl: API.PaginatedOperationMethod
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["auditmanager:GetEvidenceFoldersByAssessmentControl"],
-    resources: {
-      "auditmanager:GetEvidenceFoldersByAssessmentControl": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEvidenceFoldersByAssessmentControl",
 })) as any;
@@ -2556,7 +2354,6 @@ export const getInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsights",
-  iam: { actions: ["auditmanager:GetInsights"] },
   telemetry: TELEMETRY,
   span: "GetInsights",
 }));
@@ -2587,7 +2384,6 @@ export const getInsightsByAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightsByAssessment",
-  iam: { actions: ["auditmanager:GetInsightsByAssessment"] },
   telemetry: TELEMETRY,
   span: "GetInsightsByAssessment",
 }));
@@ -2619,7 +2415,6 @@ export const getOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationAdminAccount",
-  iam: { actions: ["auditmanager:GetOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "GetOrganizationAdminAccount",
 }));
@@ -2655,7 +2450,6 @@ export const getServicesInScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServicesInScope",
-  iam: { actions: ["auditmanager:GetServicesInScope"] },
   telemetry: TELEMETRY,
   span: "GetServicesInScope",
 }));
@@ -2676,7 +2470,6 @@ export const getSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSettings",
-  iam: { actions: ["auditmanager:GetSettings"] },
   telemetry: TELEMETRY,
   span: "GetSettings",
 }));
@@ -2723,7 +2516,6 @@ export const listAssessmentControlInsightsByControlDomain: API.PaginatedOperatio
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListAssessmentControlInsightsByControlDomain"] },
   telemetry: TELEMETRY,
   span: "ListAssessmentControlInsightsByControlDomain",
 })) as any;
@@ -2755,7 +2547,6 @@ export const listAssessmentFrameworks: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListAssessmentFrameworks"] },
   telemetry: TELEMETRY,
   span: "ListAssessmentFrameworks",
 })) as any;
@@ -2786,7 +2577,6 @@ export const listAssessmentFrameworkShareRequests: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListAssessmentFrameworkShareRequests"] },
   telemetry: TELEMETRY,
   span: "ListAssessmentFrameworkShareRequests",
 })) as any;
@@ -2817,7 +2607,6 @@ export const listAssessmentReports: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListAssessmentReports"] },
   telemetry: TELEMETRY,
   span: "ListAssessmentReports",
 })) as any;
@@ -2848,7 +2637,6 @@ export const listAssessments: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListAssessments"] },
   telemetry: TELEMETRY,
   span: "ListAssessments",
 })) as any;
@@ -2898,7 +2686,6 @@ export const listControlDomainInsights: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListControlDomainInsights"] },
   telemetry: TELEMETRY,
   span: "ListControlDomainInsights",
 })) as any;
@@ -2947,7 +2734,6 @@ export const listControlDomainInsightsByAssessment: API.PaginatedOperationMethod
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListControlDomainInsightsByAssessment"] },
   telemetry: TELEMETRY,
   span: "ListControlDomainInsightsByAssessment",
 })) as any;
@@ -2990,7 +2776,6 @@ export const listControlInsightsByControlDomain: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListControlInsightsByControlDomain"] },
   telemetry: TELEMETRY,
   span: "ListControlInsightsByControlDomain",
 })) as any;
@@ -3021,7 +2806,6 @@ export const listControls: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListControls"] },
   telemetry: TELEMETRY,
   span: "ListControls",
 })) as any;
@@ -3053,7 +2837,6 @@ export const listKeywordsForDataSource: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListKeywordsForDataSource"] },
   telemetry: TELEMETRY,
   span: "ListKeywordsForDataSource",
 })) as any;
@@ -3084,7 +2867,6 @@ export const listNotifications: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["auditmanager:ListNotifications"] },
   telemetry: TELEMETRY,
   span: "ListNotifications",
 })) as any;
@@ -3109,7 +2891,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["auditmanager:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3144,7 +2925,6 @@ export const registerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAccount",
-  iam: { actions: ["auditmanager:RegisterAccount"] },
   telemetry: TELEMETRY,
   span: "RegisterAccount",
 }));
@@ -3178,7 +2958,6 @@ export const registerOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOrganizationAdminAccount",
-  iam: { actions: ["auditmanager:RegisterOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "RegisterOrganizationAdminAccount",
 }));
@@ -3243,14 +3022,6 @@ export const startAssessmentFrameworkShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssessmentFrameworkShare",
-  iam: {
-    actions: ["auditmanager:StartAssessmentFrameworkShare"],
-    resources: {
-      "auditmanager:StartAssessmentFrameworkShare": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessmentFramework/${AssessmentFrameworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartAssessmentFrameworkShare",
 }));
@@ -3275,7 +3046,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["auditmanager:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3300,7 +3070,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["auditmanager:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3335,14 +3104,6 @@ export const updateAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessment",
-  iam: {
-    actions: ["auditmanager:UpdateAssessment"],
-    resources: {
-      "auditmanager:UpdateAssessment": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAssessment",
 }));
@@ -3373,14 +3134,6 @@ export const updateAssessmentControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentControl",
-  iam: {
-    actions: ["auditmanager:UpdateAssessmentControl"],
-    resources: {
-      "auditmanager:UpdateAssessmentControl": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAssessmentControl",
 }));
@@ -3411,14 +3164,6 @@ export const updateAssessmentControlSetStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentControlSetStatus",
-  iam: {
-    actions: ["auditmanager:UpdateAssessmentControlSetStatus"],
-    resources: {
-      "auditmanager:UpdateAssessmentControlSetStatus": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}/controlSet/${ControlSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAssessmentControlSetStatus",
 }));
@@ -3451,15 +3196,6 @@ export const updateAssessmentFramework: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentFramework",
-  iam: {
-    actions: ["auditmanager:UpdateAssessmentFramework"],
-    resources: {
-      "auditmanager:UpdateAssessmentFramework": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessmentFramework/${AssessmentFrameworkId}",
-        "arn:${Partition}:auditmanager:${Region}:${Account}:control/${ControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAssessmentFramework",
 }));
@@ -3492,14 +3228,6 @@ export const updateAssessmentFrameworkShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentFrameworkShare",
-  iam: {
-    actions: ["auditmanager:UpdateAssessmentFrameworkShare"],
-    resources: {
-      "auditmanager:UpdateAssessmentFrameworkShare": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessmentFramework/${AssessmentFrameworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAssessmentFrameworkShare",
 }));
@@ -3532,14 +3260,6 @@ export const updateAssessmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentStatus",
-  iam: {
-    actions: ["auditmanager:UpdateAssessmentStatus"],
-    resources: {
-      "auditmanager:UpdateAssessmentStatus": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:assessment/${AssessmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAssessmentStatus",
 }));
@@ -3570,14 +3290,6 @@ export const updateControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateControl",
-  iam: {
-    actions: ["auditmanager:UpdateControl"],
-    resources: {
-      "auditmanager:UpdateControl": [
-        "arn:${Partition}:auditmanager:${Region}:${Account}:control/${ControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateControl",
 }));
@@ -3602,7 +3314,6 @@ export const updateSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSettings",
-  iam: { actions: ["auditmanager:UpdateSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateSettings",
 }));
@@ -3633,7 +3344,6 @@ export const validateAssessmentReportIntegrity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateAssessmentReportIntegrity",
-  iam: { actions: ["auditmanager:ValidateAssessmentReportIntegrity"] },
   telemetry: TELEMETRY,
   span: "ValidateAssessmentReportIntegrity",
 }));

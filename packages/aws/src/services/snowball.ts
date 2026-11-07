@@ -703,7 +703,6 @@ export const cancelCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCluster",
-  iam: { actions: ["snowball:CancelCluster"] },
   telemetry: TELEMETRY,
   span: "CancelCluster",
 }));
@@ -731,7 +730,6 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
-  iam: { actions: ["snowball:CancelJob"] },
   telemetry: TELEMETRY,
   span: "CancelJob",
 }));
@@ -758,7 +756,6 @@ export const createAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddress",
-  iam: { actions: ["snowball:CreateAddress"] },
   telemetry: TELEMETRY,
   span: "CreateAddress",
 }));
@@ -790,11 +787,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: ["snowball:CreateCluster", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "RoleARN" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -906,11 +898,6 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
-  iam: {
-    actions: ["snowball:CreateJob", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "RoleARN" },
-  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -932,7 +919,6 @@ export const createLongTermPricing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLongTermPricing",
-  iam: { actions: ["snowball:CreateLongTermPricing"] },
   telemetry: TELEMETRY,
   span: "CreateLongTermPricing",
 }));
@@ -965,7 +951,6 @@ export const createReturnShippingLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReturnShippingLabel",
-  iam: { actions: ["snowball:CreateReturnShippingLabel"] },
   telemetry: TELEMETRY,
   span: "CreateReturnShippingLabel",
 }));
@@ -987,7 +972,6 @@ export const describeAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAddress",
-  iam: { actions: ["snowball:DescribeAddress"] },
   telemetry: TELEMETRY,
   span: "DescribeAddress",
 }));
@@ -1020,7 +1004,6 @@ export const describeAddresses: API.PaginatedOperationMethod<
     items: "Addresses",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["snowball:DescribeAddresses"] },
   telemetry: TELEMETRY,
   span: "DescribeAddresses",
 })) as any;
@@ -1042,7 +1025,6 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
-  iam: { actions: ["snowball:DescribeCluster"] },
   telemetry: TELEMETRY,
   span: "DescribeCluster",
 }));
@@ -1064,7 +1046,6 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
-  iam: { actions: ["snowball:DescribeJob"] },
   telemetry: TELEMETRY,
   span: "DescribeJob",
 }));
@@ -1089,7 +1070,6 @@ export const describeReturnShippingLabel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReturnShippingLabel",
-  iam: { actions: ["snowball:DescribeReturnShippingLabel"] },
   telemetry: TELEMETRY,
   span: "DescribeReturnShippingLabel",
 }));
@@ -1131,7 +1111,6 @@ export const getJobManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobManifest",
-  iam: { actions: ["snowball:GetJobManifest"] },
   telemetry: TELEMETRY,
   span: "GetJobManifest",
 }));
@@ -1169,7 +1148,6 @@ export const getJobUnlockCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJobUnlockCode",
-  iam: { actions: ["snowball:GetJobUnlockCode"] },
   telemetry: TELEMETRY,
   span: "GetJobUnlockCode",
 }));
@@ -1194,7 +1172,6 @@ export const getSnowballUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSnowballUsage",
-  iam: { actions: ["snowball:GetSnowballUsage"] },
   telemetry: TELEMETRY,
   span: "GetSnowballUsage",
 }));
@@ -1219,7 +1196,6 @@ export const getSoftwareUpdates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSoftwareUpdates",
-  iam: { actions: ["snowball:GetSoftwareUpdates"] },
   telemetry: TELEMETRY,
   span: "GetSoftwareUpdates",
 }));
@@ -1252,7 +1228,6 @@ export const listClusterJobs: API.PaginatedOperationMethod<
     items: "JobListEntries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["snowball:ListClusterJobs"] },
   telemetry: TELEMETRY,
   span: "ListClusterJobs",
 })) as any;
@@ -1282,7 +1257,6 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "ClusterListEntries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["snowball:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -1316,7 +1290,6 @@ export const listCompatibleImages: API.PaginatedOperationMethod<
     items: "CompatibleImages",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["snowball:ListCompatibleImages"] },
   telemetry: TELEMETRY,
   span: "ListCompatibleImages",
 })) as any;
@@ -1348,7 +1321,6 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "JobListEntries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["snowball:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -1379,7 +1351,6 @@ export const listLongTermPricing: API.PaginatedOperationMethod<
     items: "LongTermPricingEntries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["snowball:ListLongTermPricing"] },
   telemetry: TELEMETRY,
   span: "ListLongTermPricing",
 })) as any;
@@ -1406,7 +1377,6 @@ export const listPickupLocations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["snowball:ListPickupLocations"] },
   telemetry: TELEMETRY,
   span: "ListPickupLocations",
 })) as any;
@@ -1431,7 +1401,6 @@ export const listServiceVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceVersions",
-  iam: { actions: ["snowball:ListServiceVersions"] },
   telemetry: TELEMETRY,
   span: "ListServiceVersions",
 }));
@@ -1467,11 +1436,6 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-  iam: {
-    actions: ["iam:PassRole", "snowball:UpdateCluster"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "RoleARN" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -1508,11 +1472,6 @@ export const updateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJob",
-  iam: {
-    actions: ["iam:PassRole", "snowball:UpdateJob"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "RoleARN" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateJob",
 }));
@@ -1536,7 +1495,6 @@ export const updateJobShipmentState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobShipmentState",
-  iam: { actions: ["snowball:UpdateJobShipmentState"] },
   telemetry: TELEMETRY,
   span: "UpdateJobShipmentState",
 }));
@@ -1557,7 +1515,6 @@ export const updateLongTermPricing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLongTermPricing",
-  iam: { actions: ["snowball:UpdateLongTermPricing"] },
   telemetry: TELEMETRY,
   span: "UpdateLongTermPricing",
 }));

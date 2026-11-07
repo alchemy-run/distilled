@@ -1246,14 +1246,6 @@ export const getListing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetListing",
-  iam: {
-    actions: ["aws-marketplace:GetListing"],
-    resources: {
-      "aws-marketplace:GetListing": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/listing/${ListingId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetListing",
 }));
@@ -1274,14 +1266,6 @@ export const getOffer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOffer",
-  iam: {
-    actions: ["aws-marketplace:GetOffer"],
-    resources: {
-      "aws-marketplace:GetOffer": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/offer/${OfferId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOffer",
 }));
@@ -1302,14 +1286,6 @@ export const getOfferSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOfferSet",
-  iam: {
-    actions: ["aws-marketplace:GetOfferSet"],
-    resources: {
-      "aws-marketplace:GetOfferSet": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/offerSet/${OfferSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOfferSet",
 }));
@@ -1337,14 +1313,6 @@ export const getOfferTerms: API.PaginatedOperationMethod<
     items: "offerTerms",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["aws-marketplace:GetOfferTerms"],
-    resources: {
-      "aws-marketplace:GetOfferTerms": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/offer/${OfferId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOfferTerms",
 })) as any;
@@ -1365,14 +1333,6 @@ export const getProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProduct",
-  iam: {
-    actions: ["aws-marketplace:GetProduct"],
-    resources: {
-      "aws-marketplace:GetProduct": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProduct",
 }));
@@ -1400,14 +1360,6 @@ export const listFulfillmentOptions: API.PaginatedOperationMethod<
     items: "fulfillmentOptions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["aws-marketplace:ListFulfillmentOptions"],
-    resources: {
-      "aws-marketplace:ListFulfillmentOptions": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFulfillmentOptions",
 })) as any;
@@ -1436,14 +1388,6 @@ export const listPurchaseOptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "purchaseOptions",
   } as const,
-  iam: {
-    actions: ["aws-marketplace:ListPrivateListings", "aws-marketplace:ListPurchaseOptions"],
-    resources: {
-      "aws-marketplace:ListPurchaseOptions": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/purchaseOption/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPurchaseOptions",
 })) as any;
@@ -1470,14 +1414,6 @@ export const searchFacets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "listingFacets",
   } as const,
-  iam: {
-    actions: ["aws-marketplace:SearchFacets"],
-    resources: {
-      "aws-marketplace:SearchFacets": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/listing/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchFacets",
 })) as any;
@@ -1505,14 +1441,6 @@ export const searchListings: API.PaginatedOperationMethod<
     items: "listingSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["aws-marketplace:SearchListings"],
-    resources: {
-      "aws-marketplace:SearchListings": [
-        "arn:${Partition}:aws-marketplace:::catalog/${CatalogName}/listing/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchListings",
 })) as any;

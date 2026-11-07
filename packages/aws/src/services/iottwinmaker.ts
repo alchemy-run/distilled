@@ -1165,7 +1165,6 @@ export const batchPutPropertyValues: API.OperationMethod<
   retry: Retry,
   operationName: "BatchPutPropertyValues",
   endpointHostPrefix: "data.",
-  iam: { actions: ["iottwinmaker:BatchPutPropertyValues"] },
   telemetry: TELEMETRY,
   span: "BatchPutPropertyValues",
 }));
@@ -1201,14 +1200,6 @@ export const cancelMetadataTransferJob: API.OperationMethod<
   retry: Retry,
   operationName: "CancelMetadataTransferJob",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:CancelMetadataTransferJob"],
-    resources: {
-      "iottwinmaker:CancelMetadataTransferJob": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:metadata-transfer-job/${MetadataTransferJobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelMetadataTransferJob",
 }));
@@ -1244,15 +1235,6 @@ export const createComponentType: API.OperationMethod<
   retry: Retry,
   operationName: "CreateComponentType",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:CreateComponentType", "iottwinmaker:TagResource"],
-    resources: {
-      "iottwinmaker:CreateComponentType": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-    conditional: { "iottwinmaker:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateComponentType",
 }));
@@ -1288,15 +1270,6 @@ export const createEntity: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEntity",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:CreateEntity", "iottwinmaker:TagResource"],
-    resources: {
-      "iottwinmaker:CreateEntity": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-    conditional: { "iottwinmaker:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEntity",
 }));
@@ -1334,7 +1307,6 @@ export const createMetadataTransferJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateMetadataTransferJob",
   endpointHostPrefix: "api.",
-  iam: { actions: ["iottwinmaker:CreateMetadataTransferJob"] },
   telemetry: TELEMETRY,
   span: "CreateMetadataTransferJob",
 }));
@@ -1370,15 +1342,6 @@ export const createScene: API.OperationMethod<
   retry: Retry,
   operationName: "CreateScene",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:CreateScene", "iottwinmaker:TagResource"],
-    resources: {
-      "iottwinmaker:CreateScene": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-    conditional: { "iottwinmaker:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateScene",
 }));
@@ -1414,16 +1377,6 @@ export const createSyncJob: API.OperationMethod<
   retry: Retry,
   operationName: "CreateSyncJob",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:CreateSyncJob", "iam:PassRole", "iottwinmaker:TagResource"],
-    resources: {
-      "iottwinmaker:CreateSyncJob": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iottwinmaker:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSyncJob",
 }));
@@ -1459,11 +1412,6 @@ export const createWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWorkspace",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:CreateWorkspace", "iam:PassRole", "iottwinmaker:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "role", "iottwinmaker:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkspace",
 }));
@@ -1497,15 +1445,6 @@ export const deleteComponentType: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteComponentType",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:DeleteComponentType"],
-    resources: {
-      "iottwinmaker:DeleteComponentType": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/component-type/${ComponentTypeId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteComponentType",
 }));
@@ -1539,15 +1478,6 @@ export const deleteEntity: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteEntity",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:DeleteEntity"],
-    resources: {
-      "iottwinmaker:DeleteEntity": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/entity/${EntityId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEntity",
 }));
@@ -1581,15 +1511,6 @@ export const deleteScene: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteScene",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:DeleteScene"],
-    resources: {
-      "iottwinmaker:DeleteScene": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/scene/${SceneId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteScene",
 }));
@@ -1625,15 +1546,6 @@ export const deleteSyncJob: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteSyncJob",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:DeleteSyncJob"],
-    resources: {
-      "iottwinmaker:DeleteSyncJob": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/sync-job/${SyncJobId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSyncJob",
 }));
@@ -1667,14 +1579,6 @@ export const deleteWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteWorkspace",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:DeleteWorkspace"],
-    resources: {
-      "iottwinmaker:DeleteWorkspace": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspace",
 }));
@@ -1720,14 +1624,6 @@ export const executeQuery: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iottwinmaker:ExecuteQuery"],
-    resources: {
-      "iottwinmaker:ExecuteQuery": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExecuteQuery",
 })) as any;
@@ -1761,15 +1657,6 @@ export const getComponentType: API.OperationMethod<
   retry: Retry,
   operationName: "GetComponentType",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:GetComponentType"],
-    resources: {
-      "iottwinmaker:GetComponentType": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/component-type/${ComponentTypeId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetComponentType",
 }));
@@ -1803,15 +1690,6 @@ export const getEntity: API.OperationMethod<
   retry: Retry,
   operationName: "GetEntity",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:GetEntity"],
-    resources: {
-      "iottwinmaker:GetEntity": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/entity/${EntityId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEntity",
 }));
@@ -1845,14 +1723,6 @@ export const getMetadataTransferJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetMetadataTransferJob",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:GetMetadataTransferJob"],
-    resources: {
-      "iottwinmaker:GetMetadataTransferJob": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:metadata-transfer-job/${MetadataTransferJobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMetadataTransferJob",
 }));
@@ -1884,7 +1754,6 @@ export const getPricingPlan: API.OperationMethod<
   retry: Retry,
   operationName: "GetPricingPlan",
   endpointHostPrefix: "api.",
-  iam: { actions: ["iottwinmaker:GetPricingPlan"] },
   telemetry: TELEMETRY,
   span: "GetPricingPlan",
 }));
@@ -1931,7 +1800,6 @@ export const getPropertyValue: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iottwinmaker:GetPropertyValue"] },
   telemetry: TELEMETRY,
   span: "GetPropertyValue",
 })) as any;
@@ -1980,7 +1848,6 @@ export const getPropertyValueHistory: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iottwinmaker:GetPropertyValueHistory"] },
   telemetry: TELEMETRY,
   span: "GetPropertyValueHistory",
 })) as any;
@@ -2014,15 +1881,6 @@ export const getScene: API.OperationMethod<
   retry: Retry,
   operationName: "GetScene",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:GetScene"],
-    resources: {
-      "iottwinmaker:GetScene": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/scene/${SceneId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetScene",
 }));
@@ -2058,15 +1916,6 @@ export const getSyncJob: API.OperationMethod<
   retry: Retry,
   operationName: "GetSyncJob",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:GetSyncJob"],
-    resources: {
-      "iottwinmaker:GetSyncJob": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/sync-job/${SyncJobId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSyncJob",
 }));
@@ -2100,14 +1949,6 @@ export const getWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "GetWorkspace",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:GetWorkspace"],
-    resources: {
-      "iottwinmaker:GetWorkspace": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetWorkspace",
 }));
@@ -2147,15 +1988,6 @@ export const listComponents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iottwinmaker:ListComponents"],
-    resources: {
-      "iottwinmaker:ListComponents": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/entity/${EntityId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListComponents",
 })) as any;
@@ -2193,14 +2025,6 @@ export const listComponentTypes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iottwinmaker:ListComponentTypes"],
-    resources: {
-      "iottwinmaker:ListComponentTypes": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListComponentTypes",
 })) as any;
@@ -2238,14 +2062,6 @@ export const listEntities: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iottwinmaker:ListEntities"],
-    resources: {
-      "iottwinmaker:ListEntities": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEntities",
 })) as any;
@@ -2283,7 +2099,6 @@ export const listMetadataTransferJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iottwinmaker:ListMetadataTransferJobs"] },
   telemetry: TELEMETRY,
   span: "ListMetadataTransferJobs",
 })) as any;
@@ -2323,15 +2138,6 @@ export const listProperties: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iottwinmaker:ListProperties"],
-    resources: {
-      "iottwinmaker:ListProperties": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/entity/${EntityId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProperties",
 })) as any;
@@ -2369,14 +2175,6 @@ export const listScenes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iottwinmaker:ListScenes"],
-    resources: {
-      "iottwinmaker:ListScenes": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListScenes",
 })) as any;
@@ -2416,14 +2214,6 @@ export const listSyncJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iottwinmaker:ListSyncJobs"],
-    resources: {
-      "iottwinmaker:ListSyncJobs": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSyncJobs",
 })) as any;
@@ -2463,15 +2253,6 @@ export const listSyncResources: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iottwinmaker:ListSyncResources"],
-    resources: {
-      "iottwinmaker:ListSyncResources": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/sync-job/${SyncJobId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSyncResources",
 })) as any;
@@ -2496,7 +2277,6 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["iottwinmaker:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2534,7 +2314,6 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iottwinmaker:ListWorkspaces"] },
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
 })) as any;
@@ -2560,7 +2339,6 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["iottwinmaker:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2582,7 +2360,6 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["iottwinmaker:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2618,15 +2395,6 @@ export const updateComponentType: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateComponentType",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:UpdateComponentType"],
-    resources: {
-      "iottwinmaker:UpdateComponentType": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/component-type/${ComponentTypeId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateComponentType",
 }));
@@ -2664,15 +2432,6 @@ export const updateEntity: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateEntity",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:UpdateEntity"],
-    resources: {
-      "iottwinmaker:UpdateEntity": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/entity/${EntityId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEntity",
 }));
@@ -2704,7 +2463,6 @@ export const updatePricingPlan: API.OperationMethod<
   retry: Retry,
   operationName: "UpdatePricingPlan",
   endpointHostPrefix: "api.",
-  iam: { actions: ["iottwinmaker:UpdatePricingPlan"] },
   telemetry: TELEMETRY,
   span: "UpdatePricingPlan",
 }));
@@ -2738,15 +2496,6 @@ export const updateScene: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateScene",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iottwinmaker:UpdateScene"],
-    resources: {
-      "iottwinmaker:UpdateScene": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}/scene/${SceneId}",
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateScene",
 }));
@@ -2782,16 +2531,6 @@ export const updateWorkspace: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateWorkspace",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iam:PassRole", "iottwinmaker:UpdateWorkspace"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "iottwinmaker:UpdateWorkspace": [
-        "arn:${Partition}:iottwinmaker:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "role" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspace",
 }));

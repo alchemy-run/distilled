@@ -582,14 +582,6 @@ export const addProfilePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddProfilePermission",
-  iam: {
-    actions: ["signer:AddProfilePermission"],
-    resources: {
-      "signer:AddProfilePermission": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddProfilePermission",
 }));
@@ -622,14 +614,6 @@ export const cancelSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSigningProfile",
-  iam: {
-    actions: ["signer:CancelSigningProfile"],
-    resources: {
-      "signer:CancelSigningProfile": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelSigningProfile",
 }));
@@ -662,14 +646,6 @@ export const describeSigningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSigningJob",
-  iam: {
-    actions: ["signer:DescribeSigningJob"],
-    resources: {
-      "signer:DescribeSigningJob": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-jobs/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSigningJob",
 }));
@@ -702,15 +678,6 @@ export const getRevocationStatus: API.OperationMethod<
   retry: Retry,
   operationName: "GetRevocationStatus",
   endpointHostPrefix: "data-",
-  iam: {
-    actions: ["signer:GetRevocationStatus"],
-    resources: {
-      "signer:GetRevocationStatus": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-jobs/${JobId}",
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRevocationStatus",
 }));
@@ -741,7 +708,6 @@ export const getSigningPlatform: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningPlatform",
-  iam: { actions: ["signer:GetSigningPlatform"] },
   telemetry: TELEMETRY,
   span: "GetSigningPlatform",
 }));
@@ -772,14 +738,6 @@ export const getSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningProfile",
-  iam: {
-    actions: ["signer:GetSigningProfile"],
-    resources: {
-      "signer:GetSigningProfile": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSigningProfile",
 }));
@@ -812,14 +770,6 @@ export const listProfilePermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProfilePermissions",
-  iam: {
-    actions: ["signer:ListProfilePermissions"],
-    resources: {
-      "signer:ListProfilePermissions": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProfilePermissions",
 }));
@@ -862,7 +812,6 @@ export const listSigningJobs: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["signer:ListSigningJobs"] },
   telemetry: TELEMETRY,
   span: "ListSigningJobs",
 })) as any;
@@ -905,7 +854,6 @@ export const listSigningPlatforms: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["signer:ListSigningPlatforms"] },
   telemetry: TELEMETRY,
   span: "ListSigningPlatforms",
 })) as any;
@@ -943,7 +891,6 @@ export const listSigningProfiles: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["signer:ListSigningProfiles"] },
   telemetry: TELEMETRY,
   span: "ListSigningProfiles",
 })) as any;
@@ -974,14 +921,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["signer:ListTagsForResource"],
-    resources: {
-      "signer:ListTagsForResource": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1017,15 +956,6 @@ export const putSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSigningProfile",
-  iam: {
-    actions: ["signer:PutSigningProfile", "signer:TagResource"],
-    resources: {
-      "signer:TagResource": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-    conditional: { "signer:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutSigningProfile",
 }));
@@ -1060,14 +990,6 @@ export const removeProfilePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveProfilePermission",
-  iam: {
-    actions: ["signer:RemoveProfilePermission"],
-    resources: {
-      "signer:RemoveProfilePermission": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveProfilePermission",
 }));
@@ -1101,14 +1023,6 @@ export const revokeSignature: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSignature",
-  iam: {
-    actions: ["signer:RevokeSignature"],
-    resources: {
-      "signer:RevokeSignature": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-jobs/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RevokeSignature",
 }));
@@ -1145,14 +1059,6 @@ export const revokeSigningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSigningProfile",
-  iam: {
-    actions: ["signer:RevokeSigningProfile"],
-    resources: {
-      "signer:RevokeSigningProfile": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RevokeSigningProfile",
 }));
@@ -1185,14 +1091,6 @@ export const signPayload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignPayload",
-  iam: {
-    actions: ["signer:SignPayload"],
-    resources: {
-      "signer:SignPayload": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SignPayload",
 }));
@@ -1248,14 +1146,6 @@ export const startSigningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSigningJob",
-  iam: {
-    actions: ["signer:StartSigningJob"],
-    resources: {
-      "signer:StartSigningJob": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartSigningJob",
 }));
@@ -1289,14 +1179,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["signer:TagResource"],
-    resources: {
-      "signer:TagResource": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1328,14 +1210,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["signer:UntagResource"],
-    resources: {
-      "signer:UntagResource": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

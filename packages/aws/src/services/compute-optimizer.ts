@@ -2101,7 +2101,6 @@ export const deleteRecommendationPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommendationPreferences",
-  iam: { actions: ["compute-optimizer:DeleteRecommendationPreferences"] },
   telemetry: TELEMETRY,
   span: "DeleteRecommendationPreferences",
 }));
@@ -2151,7 +2150,6 @@ export const describeRecommendationExportJobs: API.PaginatedOperationMethod<
     items: "recommendationExportJobs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["compute-optimizer:DescribeRecommendationExportJobs"] },
   telemetry: TELEMETRY,
   span: "DescribeRecommendationExportJobs",
 })) as any;
@@ -2197,13 +2195,6 @@ export const exportAutoScalingGroupRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportAutoScalingGroupRecommendations",
-  iam: {
-    actions: [
-      "autoscaling:DescribeAutoScalingGroups",
-      "compute-optimizer:ExportAutoScalingGroupRecommendations",
-      "compute-optimizer:GetAutoScalingGroupRecommendations",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ExportAutoScalingGroupRecommendations",
 }));
@@ -2249,13 +2240,6 @@ export const exportEBSVolumeRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportEBSVolumeRecommendations",
-  iam: {
-    actions: [
-      "ec2:DescribeVolumes",
-      "compute-optimizer:ExportEBSVolumeRecommendations",
-      "compute-optimizer:GetEBSVolumeRecommendations",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ExportEBSVolumeRecommendations",
 }));
@@ -2301,13 +2285,6 @@ export const exportEC2InstanceRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportEC2InstanceRecommendations",
-  iam: {
-    actions: [
-      "ec2:DescribeInstances",
-      "compute-optimizer:ExportEC2InstanceRecommendations",
-      "compute-optimizer:GetEC2InstanceRecommendations",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ExportEC2InstanceRecommendations",
 }));
@@ -2353,14 +2330,6 @@ export const exportECSServiceRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportECSServiceRecommendations",
-  iam: {
-    actions: [
-      "compute-optimizer:ExportECSServiceRecommendations",
-      "compute-optimizer:GetECSServiceRecommendations",
-      "ecs:ListClusters",
-      "ecs:ListServices",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ExportECSServiceRecommendations",
 }));
@@ -2406,12 +2375,6 @@ export const exportIdleRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportIdleRecommendations",
-  iam: {
-    actions: [
-      "compute-optimizer:ExportIdleRecommendations",
-      "compute-optimizer:GetIdleRecommendations",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ExportIdleRecommendations",
 }));
@@ -2457,19 +2420,6 @@ export const exportLambdaFunctionRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportLambdaFunctionRecommendations",
-  iam: {
-    actions: [
-      "compute-optimizer:ExportLambdaFunctionRecommendations",
-      "compute-optimizer:GetLambdaFunctionRecommendations",
-      "lambda:ListFunctions",
-      "lambda:ListProvisionedConcurrencyConfigs",
-    ],
-    resources: {
-      "lambda:ListProvisionedConcurrencyConfigs": [
-        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExportLambdaFunctionRecommendations",
 }));
@@ -2515,13 +2465,6 @@ export const exportLicenseRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportLicenseRecommendations",
-  iam: {
-    actions: [
-      "ec2:DescribeInstances",
-      "compute-optimizer:ExportLicenseRecommendations",
-      "compute-optimizer:GetLicenseRecommendations",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ExportLicenseRecommendations",
 }));
@@ -2567,14 +2510,6 @@ export const exportRDSDatabaseRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportRDSDatabaseRecommendations",
-  iam: {
-    actions: [
-      "rds:DescribeDBClusters",
-      "rds:DescribeDBInstances",
-      "compute-optimizer:ExportRDSDatabaseRecommendations",
-      "compute-optimizer:GetRDSDatabaseRecommendations",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ExportRDSDatabaseRecommendations",
 }));
@@ -2618,12 +2553,6 @@ export const getAutoScalingGroupRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutoScalingGroupRecommendations",
-  iam: {
-    actions: [
-      "autoscaling:DescribeAutoScalingGroups",
-      "compute-optimizer:GetAutoScalingGroupRecommendations",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "GetAutoScalingGroupRecommendations",
 }));
@@ -2667,7 +2596,6 @@ export const getEBSVolumeRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEBSVolumeRecommendations",
-  iam: { actions: ["ec2:DescribeVolumes", "compute-optimizer:GetEBSVolumeRecommendations"] },
   telemetry: TELEMETRY,
   span: "GetEBSVolumeRecommendations",
 }));
@@ -2711,7 +2639,6 @@ export const getEC2InstanceRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEC2InstanceRecommendations",
-  iam: { actions: ["ec2:DescribeInstances", "compute-optimizer:GetEC2InstanceRecommendations"] },
   telemetry: TELEMETRY,
   span: "GetEC2InstanceRecommendations",
 }));
@@ -2756,9 +2683,6 @@ export const getEC2RecommendationProjectedMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEC2RecommendationProjectedMetrics",
-  iam: {
-    actions: ["ec2:DescribeInstances", "compute-optimizer:GetEC2RecommendationProjectedMetrics"],
-  },
   telemetry: TELEMETRY,
   span: "GetEC2RecommendationProjectedMetrics",
 }));
@@ -2801,7 +2725,6 @@ export const getECSServiceRecommendationProjectedMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetECSServiceRecommendationProjectedMetrics",
-  iam: { actions: ["compute-optimizer:GetECSServiceRecommendationProjectedMetrics"] },
   telemetry: TELEMETRY,
   span: "GetECSServiceRecommendationProjectedMetrics",
 }));
@@ -2846,13 +2769,6 @@ export const getECSServiceRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetECSServiceRecommendations",
-  iam: {
-    actions: [
-      "compute-optimizer:GetECSServiceRecommendations",
-      "ecs:ListClusters",
-      "ecs:ListServices",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "GetECSServiceRecommendations",
 }));
@@ -2897,14 +2813,6 @@ export const getEffectiveRecommendationPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEffectiveRecommendationPreferences",
-  iam: {
-    actions: [
-      "autoscaling:DescribeAutoScalingGroups",
-      "autoscaling:DescribeAutoScalingInstances",
-      "ec2:DescribeInstances",
-      "compute-optimizer:GetEffectiveRecommendationPreferences",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "GetEffectiveRecommendationPreferences",
 }));
@@ -2944,7 +2852,6 @@ export const getEnrollmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnrollmentStatus",
-  iam: { actions: ["compute-optimizer:GetEnrollmentStatus"] },
   telemetry: TELEMETRY,
   span: "GetEnrollmentStatus",
 }));
@@ -2989,12 +2896,6 @@ export const getEnrollmentStatusesForOrganization: API.PaginatedOperationMethod<
     items: "accountEnrollmentStatuses",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: [
-      "compute-optimizer:GetEnrollmentStatusesForOrganization",
-      "organizations:ListAccounts",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "GetEnrollmentStatusesForOrganization",
 })) as any;
@@ -3036,7 +2937,6 @@ export const getIdleRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdleRecommendations",
-  iam: { actions: ["compute-optimizer:GetIdleRecommendations"] },
   telemetry: TELEMETRY,
   span: "GetIdleRecommendations",
 }));
@@ -3087,18 +2987,6 @@ export const getLambdaFunctionRecommendations: API.PaginatedOperationMethod<
     items: "lambdaFunctionRecommendations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: [
-      "compute-optimizer:GetLambdaFunctionRecommendations",
-      "lambda:ListFunctions",
-      "lambda:ListProvisionedConcurrencyConfigs",
-    ],
-    resources: {
-      "lambda:ListProvisionedConcurrencyConfigs": [
-        "arn:${Partition}:lambda:${Region}:${Account}:function:${FunctionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLambdaFunctionRecommendations",
 })) as any;
@@ -3142,7 +3030,6 @@ export const getLicenseRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLicenseRecommendations",
-  iam: { actions: ["ec2:DescribeInstances", "compute-optimizer:GetLicenseRecommendations"] },
   telemetry: TELEMETRY,
   span: "GetLicenseRecommendations",
 }));
@@ -3185,12 +3072,6 @@ export const getRDSDatabaseRecommendationProjectedMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRDSDatabaseRecommendationProjectedMetrics",
-  iam: {
-    actions: [
-      "rds:DescribeDBInstances",
-      "compute-optimizer:GetRDSDatabaseRecommendationProjectedMetrics",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "GetRDSDatabaseRecommendationProjectedMetrics",
 }));
@@ -3235,13 +3116,6 @@ export const getRDSDatabaseRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRDSDatabaseRecommendations",
-  iam: {
-    actions: [
-      "rds:DescribeDBClusters",
-      "rds:DescribeDBInstances",
-      "compute-optimizer:GetRDSDatabaseRecommendations",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "GetRDSDatabaseRecommendations",
 }));
@@ -3296,7 +3170,6 @@ export const getRecommendationPreferences: API.PaginatedOperationMethod<
     items: "recommendationPreferencesDetails",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["compute-optimizer:GetRecommendationPreferences"] },
   telemetry: TELEMETRY,
   span: "GetRecommendationPreferences",
 })) as any;
@@ -3364,7 +3237,6 @@ export const getRecommendationSummaries: API.PaginatedOperationMethod<
     items: "recommendationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["compute-optimizer:GetRecommendationSummaries"] },
   telemetry: TELEMETRY,
   span: "GetRecommendationSummaries",
 })) as any;
@@ -3408,7 +3280,6 @@ export const putRecommendationPreferences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecommendationPreferences",
-  iam: { actions: ["compute-optimizer:PutRecommendationPreferences"] },
   telemetry: TELEMETRY,
   span: "PutRecommendationPreferences",
 }));
@@ -3453,7 +3324,6 @@ export const updateEnrollmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnrollmentStatus",
-  iam: { actions: ["compute-optimizer:UpdateEnrollmentStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateEnrollmentStatus",
 }));

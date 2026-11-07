@@ -1935,7 +1935,6 @@ export const acceptInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInvitation",
-  iam: { actions: ["macie2:AcceptInvitation"] },
   telemetry: TELEMETRY,
   span: "AcceptInvitation",
 }));
@@ -1972,14 +1971,6 @@ export const batchGetCustomDataIdentifiers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCustomDataIdentifiers",
-  iam: {
-    actions: ["macie2:BatchGetCustomDataIdentifiers"],
-    resources: {
-      "macie2:BatchGetCustomDataIdentifiers": [
-        "arn:${Partition}:macie2:${Region}:${Account}:custom-data-identifier/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetCustomDataIdentifiers",
 }));
@@ -2012,7 +2003,6 @@ export const batchUpdateAutomatedDiscoveryAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateAutomatedDiscoveryAccounts",
-  iam: { actions: ["macie2:BatchUpdateAutomatedDiscoveryAccounts"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateAutomatedDiscoveryAccounts",
 }));
@@ -2051,10 +2041,6 @@ export const createAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAllowList",
-  iam: {
-    actions: ["macie2:CreateAllowList", "macie2:TagResource"],
-    conditional: { "macie2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAllowList",
 }));
@@ -2093,15 +2079,6 @@ export const createClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClassificationJob",
-  iam: {
-    actions: ["macie2:CreateClassificationJob", "macie2:TagResource"],
-    resources: {
-      "macie2:CreateClassificationJob": [
-        "arn:${Partition}:macie2:${Region}:${Account}:classification-job/${ResourceId}",
-      ],
-    },
-    conditional: { "macie2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateClassificationJob",
 }));
@@ -2140,15 +2117,6 @@ export const createCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDataIdentifier",
-  iam: {
-    actions: ["macie2:CreateCustomDataIdentifier", "macie2:TagResource"],
-    resources: {
-      "macie2:CreateCustomDataIdentifier": [
-        "arn:${Partition}:macie2:${Region}:${Account}:custom-data-identifier/${ResourceId}",
-      ],
-    },
-    conditional: { "macie2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCustomDataIdentifier",
 }));
@@ -2187,15 +2155,6 @@ export const createFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingsFilter",
-  iam: {
-    actions: ["macie2:CreateFindingsFilter", "macie2:TagResource"],
-    resources: {
-      "macie2:CreateFindingsFilter": [
-        "arn:${Partition}:macie2:${Region}:${Account}:findings-filter/${ResourceId}",
-      ],
-    },
-    conditional: { "macie2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFindingsFilter",
 }));
@@ -2232,7 +2191,6 @@ export const createInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInvitations",
-  iam: { actions: ["macie2:CreateInvitations"] },
   telemetry: TELEMETRY,
   span: "CreateInvitations",
 }));
@@ -2269,13 +2227,6 @@ export const createMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMember",
-  iam: {
-    actions: ["macie2:CreateMember", "macie2:TagResource"],
-    resources: {
-      "macie2:CreateMember": ["arn:${Partition}:macie2:${Region}:${Account}:member/${ResourceId}"],
-    },
-    conditional: { "macie2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMember",
 }));
@@ -2312,7 +2263,6 @@ export const createSampleFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSampleFindings",
-  iam: { actions: ["macie2:CreateSampleFindings"] },
   telemetry: TELEMETRY,
   span: "CreateSampleFindings",
 }));
@@ -2349,7 +2299,6 @@ export const declineInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeclineInvitations",
-  iam: { actions: ["macie2:DeclineInvitations"] },
   telemetry: TELEMETRY,
   span: "DeclineInvitations",
 }));
@@ -2382,14 +2331,6 @@ export const deleteAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAllowList",
-  iam: {
-    actions: ["macie2:DeleteAllowList"],
-    resources: {
-      "macie2:DeleteAllowList": [
-        "arn:${Partition}:macie2:${Region}:${Account}:allow-list/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAllowList",
 }));
@@ -2426,14 +2367,6 @@ export const deleteCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDataIdentifier",
-  iam: {
-    actions: ["macie2:DeleteCustomDataIdentifier"],
-    resources: {
-      "macie2:DeleteCustomDataIdentifier": [
-        "arn:${Partition}:macie2:${Region}:${Account}:custom-data-identifier/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCustomDataIdentifier",
 }));
@@ -2470,14 +2403,6 @@ export const deleteFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFindingsFilter",
-  iam: {
-    actions: ["macie2:DeleteFindingsFilter"],
-    resources: {
-      "macie2:DeleteFindingsFilter": [
-        "arn:${Partition}:macie2:${Region}:${Account}:findings-filter/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFindingsFilter",
 }));
@@ -2514,7 +2439,6 @@ export const deleteInvitations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInvitations",
-  iam: { actions: ["macie2:DeleteInvitations"] },
   telemetry: TELEMETRY,
   span: "DeleteInvitations",
 }));
@@ -2551,12 +2475,6 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
-  iam: {
-    actions: ["macie2:DeleteMember"],
-    resources: {
-      "macie2:DeleteMember": ["arn:${Partition}:macie2:${Region}:${Account}:member/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMember",
 }));
@@ -2600,7 +2518,6 @@ export const describeBuckets: API.PaginatedOperationMethod<
     items: "buckets",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:DescribeBuckets"] },
   telemetry: TELEMETRY,
   span: "DescribeBuckets",
 })) as any;
@@ -2637,14 +2554,6 @@ export const describeClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClassificationJob",
-  iam: {
-    actions: ["macie2:DescribeClassificationJob"],
-    resources: {
-      "macie2:DescribeClassificationJob": [
-        "arn:${Partition}:macie2:${Region}:${Account}:classification-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeClassificationJob",
 }));
@@ -2681,7 +2590,6 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
-  iam: { actions: ["macie2:DescribeOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConfiguration",
 }));
@@ -2718,7 +2626,6 @@ export const disableMacie: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableMacie",
-  iam: { actions: ["macie2:DisableMacie"] },
   telemetry: TELEMETRY,
   span: "DisableMacie",
 }));
@@ -2755,7 +2662,6 @@ export const disableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableOrganizationAdminAccount",
-  iam: { actions: ["macie2:DisableOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DisableOrganizationAdminAccount",
 }));
@@ -2792,7 +2698,6 @@ export const disassociateFromAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromAdministratorAccount",
-  iam: { actions: ["macie2:DisassociateFromAdministratorAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateFromAdministratorAccount",
 }));
@@ -2829,7 +2734,6 @@ export const disassociateFromMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFromMasterAccount",
-  iam: { actions: ["macie2:DisassociateFromMasterAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateFromMasterAccount",
 }));
@@ -2866,14 +2770,6 @@ export const disassociateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMember",
-  iam: {
-    actions: ["macie2:DisassociateMember"],
-    resources: {
-      "macie2:DisassociateMember": [
-        "arn:${Partition}:macie2:${Region}:${Account}:member/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateMember",
 }));
@@ -2910,7 +2806,6 @@ export const enableMacie: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMacie",
-  iam: { actions: ["macie2:EnableMacie"] },
   telemetry: TELEMETRY,
   span: "EnableMacie",
 }));
@@ -2947,7 +2842,6 @@ export const enableOrganizationAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableOrganizationAdminAccount",
-  iam: { actions: ["macie2:EnableOrganizationAdminAccount"] },
   telemetry: TELEMETRY,
   span: "EnableOrganizationAdminAccount",
 }));
@@ -2984,7 +2878,6 @@ export const getAdministratorAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdministratorAccount",
-  iam: { actions: ["macie2:GetAdministratorAccount"] },
   telemetry: TELEMETRY,
   span: "GetAdministratorAccount",
 }));
@@ -3017,14 +2910,6 @@ export const getAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAllowList",
-  iam: {
-    actions: ["macie2:GetAllowList"],
-    resources: {
-      "macie2:GetAllowList": [
-        "arn:${Partition}:macie2:${Region}:${Account}:allow-list/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAllowList",
 }));
@@ -3055,7 +2940,6 @@ export const getAutomatedDiscoveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomatedDiscoveryConfiguration",
-  iam: { actions: ["macie2:GetAutomatedDiscoveryConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetAutomatedDiscoveryConfiguration",
 }));
@@ -3092,7 +2976,6 @@ export const getBucketStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketStatistics",
-  iam: { actions: ["macie2:GetBucketStatistics"] },
   telemetry: TELEMETRY,
   span: "GetBucketStatistics",
 }));
@@ -3129,7 +3012,6 @@ export const getClassificationExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClassificationExportConfiguration",
-  iam: { actions: ["macie2:GetClassificationExportConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetClassificationExportConfiguration",
 }));
@@ -3162,7 +3044,6 @@ export const getClassificationScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClassificationScope",
-  iam: { actions: ["macie2:GetClassificationScope"] },
   telemetry: TELEMETRY,
   span: "GetClassificationScope",
 }));
@@ -3199,14 +3080,6 @@ export const getCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomDataIdentifier",
-  iam: {
-    actions: ["macie2:GetCustomDataIdentifier"],
-    resources: {
-      "macie2:GetCustomDataIdentifier": [
-        "arn:${Partition}:macie2:${Region}:${Account}:custom-data-identifier/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCustomDataIdentifier",
 }));
@@ -3243,7 +3116,6 @@ export const getFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindings",
-  iam: { actions: ["macie2:GetFindings"] },
   telemetry: TELEMETRY,
   span: "GetFindings",
 }));
@@ -3280,14 +3152,6 @@ export const getFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsFilter",
-  iam: {
-    actions: ["macie2:GetFindingsFilter"],
-    resources: {
-      "macie2:GetFindingsFilter": [
-        "arn:${Partition}:macie2:${Region}:${Account}:findings-filter/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFindingsFilter",
 }));
@@ -3324,7 +3188,6 @@ export const getFindingsPublicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsPublicationConfiguration",
-  iam: { actions: ["macie2:GetFindingsPublicationConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetFindingsPublicationConfiguration",
 }));
@@ -3361,7 +3224,6 @@ export const getFindingStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingStatistics",
-  iam: { actions: ["macie2:GetFindingStatistics"] },
   telemetry: TELEMETRY,
   span: "GetFindingStatistics",
 }));
@@ -3398,7 +3260,6 @@ export const getInvitationsCount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInvitationsCount",
-  iam: { actions: ["macie2:GetInvitationsCount"] },
   telemetry: TELEMETRY,
   span: "GetInvitationsCount",
 }));
@@ -3435,7 +3296,6 @@ export const getMacieSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMacieSession",
-  iam: { actions: ["macie2:GetMacieSession"] },
   telemetry: TELEMETRY,
   span: "GetMacieSession",
 }));
@@ -3472,7 +3332,6 @@ export const getMasterAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMasterAccount",
-  iam: { actions: ["macie2:GetMasterAccount"] },
   telemetry: TELEMETRY,
   span: "GetMasterAccount",
 }));
@@ -3509,12 +3368,6 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
-  iam: {
-    actions: ["macie2:GetMember"],
-    resources: {
-      "macie2:GetMember": ["arn:${Partition}:macie2:${Region}:${Account}:member/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMember",
 }));
@@ -3549,7 +3402,6 @@ export const getResourceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceProfile",
-  iam: { actions: ["macie2:GetResourceProfile"] },
   telemetry: TELEMETRY,
   span: "GetResourceProfile",
 }));
@@ -3580,7 +3432,6 @@ export const getRevealConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevealConfiguration",
-  iam: { actions: ["macie2:GetRevealConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetRevealConfiguration",
 }));
@@ -3615,7 +3466,6 @@ export const getSensitiveDataOccurrences: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitiveDataOccurrences",
-  iam: { actions: ["macie2:GetSensitiveDataOccurrences"] },
   telemetry: TELEMETRY,
   span: "GetSensitiveDataOccurrences",
 }));
@@ -3646,7 +3496,6 @@ export const getSensitiveDataOccurrencesAvailability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitiveDataOccurrencesAvailability",
-  iam: { actions: ["macie2:GetSensitiveDataOccurrencesAvailability"] },
   telemetry: TELEMETRY,
   span: "GetSensitiveDataOccurrencesAvailability",
 }));
@@ -3679,7 +3528,6 @@ export const getSensitivityInspectionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSensitivityInspectionTemplate",
-  iam: { actions: ["macie2:GetSensitivityInspectionTemplate"] },
   telemetry: TELEMETRY,
   span: "GetSensitivityInspectionTemplate",
 }));
@@ -3723,7 +3571,6 @@ export const getUsageStatistics: API.PaginatedOperationMethod<
     items: "records",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:GetUsageStatistics"] },
   telemetry: TELEMETRY,
   span: "GetUsageStatistics",
 })) as any;
@@ -3760,7 +3607,6 @@ export const getUsageTotals: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsageTotals",
-  iam: { actions: ["macie2:GetUsageTotals"] },
   telemetry: TELEMETRY,
   span: "GetUsageTotals",
 }));
@@ -3798,7 +3644,6 @@ export const listAllowLists: API.PaginatedOperationMethod<
     items: "allowLists",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListAllowLists"] },
   telemetry: TELEMETRY,
   span: "ListAllowLists",
 })) as any;
@@ -3838,7 +3683,6 @@ export const listAutomatedDiscoveryAccounts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListAutomatedDiscoveryAccounts"] },
   telemetry: TELEMETRY,
   span: "ListAutomatedDiscoveryAccounts",
 })) as any;
@@ -3882,7 +3726,6 @@ export const listClassificationJobs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListClassificationJobs"] },
   telemetry: TELEMETRY,
   span: "ListClassificationJobs",
 })) as any;
@@ -3919,7 +3762,6 @@ export const listClassificationScopes: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "classificationScopes",
   } as const,
-  iam: { actions: ["macie2:ListClassificationScopes"] },
   telemetry: TELEMETRY,
   span: "ListClassificationScopes",
 })) as any;
@@ -3963,7 +3805,6 @@ export const listCustomDataIdentifiers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListCustomDataIdentifiers"] },
   telemetry: TELEMETRY,
   span: "ListCustomDataIdentifiers",
 })) as any;
@@ -4007,7 +3848,6 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findingIds",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListFindings"] },
   telemetry: TELEMETRY,
   span: "ListFindings",
 })) as any;
@@ -4051,7 +3891,6 @@ export const listFindingsFilters: API.PaginatedOperationMethod<
     items: "findingsFilterListItems",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListFindingsFilters"] },
   telemetry: TELEMETRY,
   span: "ListFindingsFilters",
 })) as any;
@@ -4095,7 +3934,6 @@ export const listInvitations: API.PaginatedOperationMethod<
     items: "invitations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListInvitations"] },
   telemetry: TELEMETRY,
   span: "ListInvitations",
 })) as any;
@@ -4118,7 +3956,6 @@ export const listManagedDataIdentifiers: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListManagedDataIdentifiers",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "items" } as const,
-  iam: { actions: ["macie2:ListManagedDataIdentifiers"] },
   telemetry: TELEMETRY,
   span: "ListManagedDataIdentifiers",
 })) as any;
@@ -4162,7 +3999,6 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListMembers"] },
   telemetry: TELEMETRY,
   span: "ListMembers",
 })) as any;
@@ -4206,7 +4042,6 @@ export const listOrganizationAdminAccounts: API.PaginatedOperationMethod<
     items: "adminAccounts",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListOrganizationAdminAccounts"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationAdminAccounts",
 })) as any;
@@ -4241,7 +4076,6 @@ export const listResourceProfileArtifacts: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListResourceProfileArtifacts",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "artifacts" } as const,
-  iam: { actions: ["macie2:ListResourceProfileArtifacts"] },
   telemetry: TELEMETRY,
   span: "ListResourceProfileArtifacts",
 })) as any;
@@ -4283,7 +4117,6 @@ export const listResourceProfileDetections: API.PaginatedOperationMethod<
     items: "detections",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListResourceProfileDetections"] },
   telemetry: TELEMETRY,
   span: "ListResourceProfileDetections",
 })) as any;
@@ -4323,7 +4156,6 @@ export const listSensitivityInspectionTemplates: API.PaginatedOperationMethod<
     items: "sensitivityInspectionTemplates",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:ListSensitivityInspectionTemplates"] },
   telemetry: TELEMETRY,
   span: "ListSensitivityInspectionTemplates",
 })) as any;
@@ -4344,7 +4176,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["macie2:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4381,7 +4212,6 @@ export const putClassificationExportConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClassificationExportConfiguration",
-  iam: { actions: ["macie2:PutClassificationExportConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutClassificationExportConfiguration",
 }));
@@ -4418,7 +4248,6 @@ export const putFindingsPublicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFindingsPublicationConfiguration",
-  iam: { actions: ["macie2:PutFindingsPublicationConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutFindingsPublicationConfiguration",
 }));
@@ -4462,7 +4291,6 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "matchingResources",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["macie2:SearchResources"] },
   telemetry: TELEMETRY,
   span: "SearchResources",
 })) as any;
@@ -4483,7 +4311,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["macie2:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4520,7 +4347,6 @@ export const testCustomDataIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestCustomDataIdentifier",
-  iam: { actions: ["macie2:TestCustomDataIdentifier"] },
   telemetry: TELEMETRY,
   span: "TestCustomDataIdentifier",
 }));
@@ -4541,7 +4367,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["macie2:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4574,14 +4399,6 @@ export const updateAllowList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAllowList",
-  iam: {
-    actions: ["macie2:UpdateAllowList"],
-    resources: {
-      "macie2:UpdateAllowList": [
-        "arn:${Partition}:macie2:${Region}:${Account}:allow-list/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAllowList",
 }));
@@ -4612,7 +4429,6 @@ export const updateAutomatedDiscoveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutomatedDiscoveryConfiguration",
-  iam: { actions: ["macie2:UpdateAutomatedDiscoveryConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateAutomatedDiscoveryConfiguration",
 }));
@@ -4649,14 +4465,6 @@ export const updateClassificationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClassificationJob",
-  iam: {
-    actions: ["macie2:UpdateClassificationJob"],
-    resources: {
-      "macie2:UpdateClassificationJob": [
-        "arn:${Partition}:macie2:${Region}:${Account}:classification-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateClassificationJob",
 }));
@@ -4689,7 +4497,6 @@ export const updateClassificationScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClassificationScope",
-  iam: { actions: ["macie2:UpdateClassificationScope"] },
   telemetry: TELEMETRY,
   span: "UpdateClassificationScope",
 }));
@@ -4726,14 +4533,6 @@ export const updateFindingsFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindingsFilter",
-  iam: {
-    actions: ["macie2:UpdateFindingsFilter"],
-    resources: {
-      "macie2:UpdateFindingsFilter": [
-        "arn:${Partition}:macie2:${Region}:${Account}:findings-filter/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFindingsFilter",
 }));
@@ -4770,7 +4569,6 @@ export const updateMacieSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMacieSession",
-  iam: { actions: ["macie2:UpdateMacieSession"] },
   telemetry: TELEMETRY,
   span: "UpdateMacieSession",
 }));
@@ -4807,7 +4605,6 @@ export const updateMemberSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMemberSession",
-  iam: { actions: ["macie2:UpdateMemberSession"] },
   telemetry: TELEMETRY,
   span: "UpdateMemberSession",
 }));
@@ -4844,7 +4641,6 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
-  iam: { actions: ["macie2:UpdateOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateOrganizationConfiguration",
 }));
@@ -4879,7 +4675,6 @@ export const updateResourceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceProfile",
-  iam: { actions: ["macie2:UpdateResourceProfile"] },
   telemetry: TELEMETRY,
   span: "UpdateResourceProfile",
 }));
@@ -4914,7 +4709,6 @@ export const updateResourceProfileDetections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceProfileDetections",
-  iam: { actions: ["macie2:UpdateResourceProfileDetections"] },
   telemetry: TELEMETRY,
   span: "UpdateResourceProfileDetections",
 }));
@@ -4945,11 +4739,6 @@ export const updateRevealConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRevealConfiguration",
-  iam: {
-    actions: ["iam:PassRole", "macie2:UpdateRevealConfiguration"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "retrievalConfiguration.roleName" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRevealConfiguration",
 }));
@@ -4982,7 +4771,6 @@ export const updateSensitivityInspectionTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSensitivityInspectionTemplate",
-  iam: { actions: ["macie2:UpdateSensitivityInspectionTemplate"] },
   telemetry: TELEMETRY,
   span: "UpdateSensitivityInspectionTemplate",
 }));

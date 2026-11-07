@@ -584,15 +584,6 @@ export const createMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitor",
-  iam: {
-    actions: ["networkflowmonitor:CreateMonitor", "networkflowmonitor:TagResource"],
-    resources: {
-      "networkflowmonitor:CreateMonitor": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}",
-      ],
-    },
-    conditional: { "networkflowmonitor:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMonitor",
 }));
@@ -637,10 +628,6 @@ export const createScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScope",
-  iam: {
-    actions: ["networkflowmonitor:CreateScope", "networkflowmonitor:TagResource"],
-    conditional: { "networkflowmonitor:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateScope",
 }));
@@ -675,14 +662,6 @@ export const deleteMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitor",
-  iam: {
-    actions: ["networkflowmonitor:DeleteMonitor"],
-    resources: {
-      "networkflowmonitor:DeleteMonitor": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMonitor",
 }));
@@ -719,14 +698,6 @@ export const deleteScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScope",
-  iam: {
-    actions: ["networkflowmonitor:DeleteScope"],
-    resources: {
-      "networkflowmonitor:DeleteScope": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteScope",
 }));
@@ -759,14 +730,6 @@ export const getMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMonitor",
-  iam: {
-    actions: ["networkflowmonitor:GetMonitor"],
-    resources: {
-      "networkflowmonitor:GetMonitor": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMonitor",
 }));
@@ -812,14 +775,6 @@ export const getQueryResultsMonitorTopContributors: API.PaginatedOperationMethod
     items: "topContributors",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["networkflowmonitor:GetQueryResultsMonitorTopContributors"],
-    resources: {
-      "networkflowmonitor:GetQueryResultsMonitorTopContributors": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQueryResultsMonitorTopContributors",
 })) as any;
@@ -867,14 +822,6 @@ export const getQueryResultsWorkloadInsightsTopContributors: API.PaginatedOperat
     items: "topContributors",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["networkflowmonitor:GetQueryResultsWorkloadInsightsTopContributors"],
-    resources: {
-      "networkflowmonitor:GetQueryResultsWorkloadInsightsTopContributors": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQueryResultsWorkloadInsightsTopContributors",
 })) as any;
@@ -932,14 +879,6 @@ export const getQueryResultsWorkloadInsightsTopContributorsData: API.PaginatedOp
     items: "datapoints",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["networkflowmonitor:GetQueryResultsWorkloadInsightsTopContributorsData"],
-    resources: {
-      "networkflowmonitor:GetQueryResultsWorkloadInsightsTopContributorsData": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQueryResultsWorkloadInsightsTopContributorsData",
 })) as any;
@@ -976,14 +915,6 @@ export const getQueryStatusMonitorTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusMonitorTopContributors",
-  iam: {
-    actions: ["networkflowmonitor:GetQueryStatusMonitorTopContributors"],
-    resources: {
-      "networkflowmonitor:GetQueryStatusMonitorTopContributors": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQueryStatusMonitorTopContributors",
 }));
@@ -1020,14 +951,6 @@ export const getQueryStatusWorkloadInsightsTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusWorkloadInsightsTopContributors",
-  iam: {
-    actions: ["networkflowmonitor:GetQueryStatusWorkloadInsightsTopContributors"],
-    resources: {
-      "networkflowmonitor:GetQueryStatusWorkloadInsightsTopContributors": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQueryStatusWorkloadInsightsTopContributors",
 }));
@@ -1074,14 +997,6 @@ export const getQueryStatusWorkloadInsightsTopContributorsData: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQueryStatusWorkloadInsightsTopContributorsData",
-  iam: {
-    actions: ["networkflowmonitor:GetQueryStatusWorkloadInsightsTopContributorsData"],
-    resources: {
-      "networkflowmonitor:GetQueryStatusWorkloadInsightsTopContributorsData": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQueryStatusWorkloadInsightsTopContributorsData",
 }));
@@ -1116,14 +1031,6 @@ export const getScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScope",
-  iam: {
-    actions: ["networkflowmonitor:GetScope"],
-    resources: {
-      "networkflowmonitor:GetScope": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetScope",
 }));
@@ -1161,7 +1068,6 @@ export const listMonitors: API.PaginatedOperationMethod<
     items: "monitors",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["networkflowmonitor:ListMonitors"] },
   telemetry: TELEMETRY,
   span: "ListMonitors",
 })) as any;
@@ -1201,7 +1107,6 @@ export const listScopes: API.PaginatedOperationMethod<
     items: "scopes",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["networkflowmonitor:ListScopes"] },
   telemetry: TELEMETRY,
   span: "ListScopes",
 })) as any;
@@ -1236,7 +1141,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["networkflowmonitor:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1273,14 +1177,6 @@ export const startQueryMonitorTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryMonitorTopContributors",
-  iam: {
-    actions: ["networkflowmonitor:StartQueryMonitorTopContributors"],
-    resources: {
-      "networkflowmonitor:StartQueryMonitorTopContributors": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartQueryMonitorTopContributors",
 }));
@@ -1317,14 +1213,6 @@ export const startQueryWorkloadInsightsTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryWorkloadInsightsTopContributors",
-  iam: {
-    actions: ["networkflowmonitor:StartQueryWorkloadInsightsTopContributors"],
-    resources: {
-      "networkflowmonitor:StartQueryWorkloadInsightsTopContributors": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartQueryWorkloadInsightsTopContributors",
 }));
@@ -1365,14 +1253,6 @@ export const startQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQueryWorkloadInsightsTopContributorsData",
-  iam: {
-    actions: ["networkflowmonitor:StartQueryWorkloadInsightsTopContributorsData"],
-    resources: {
-      "networkflowmonitor:StartQueryWorkloadInsightsTopContributorsData": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartQueryWorkloadInsightsTopContributorsData",
 }));
@@ -1407,14 +1287,6 @@ export const stopQueryMonitorTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryMonitorTopContributors",
-  iam: {
-    actions: ["networkflowmonitor:StopQueryMonitorTopContributors"],
-    resources: {
-      "networkflowmonitor:StopQueryMonitorTopContributors": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopQueryMonitorTopContributors",
 }));
@@ -1449,14 +1321,6 @@ export const stopQueryWorkloadInsightsTopContributors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryWorkloadInsightsTopContributors",
-  iam: {
-    actions: ["networkflowmonitor:StopQueryWorkloadInsightsTopContributors"],
-    resources: {
-      "networkflowmonitor:StopQueryWorkloadInsightsTopContributors": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopQueryWorkloadInsightsTopContributors",
 }));
@@ -1491,14 +1355,6 @@ export const stopQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopQueryWorkloadInsightsTopContributorsData",
-  iam: {
-    actions: ["networkflowmonitor:StopQueryWorkloadInsightsTopContributorsData"],
-    resources: {
-      "networkflowmonitor:StopQueryWorkloadInsightsTopContributorsData": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopQueryWorkloadInsightsTopContributorsData",
 }));
@@ -1533,7 +1389,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["networkflowmonitor:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1568,7 +1423,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["networkflowmonitor:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1601,14 +1455,6 @@ export const updateMonitor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitor",
-  iam: {
-    actions: ["networkflowmonitor:UpdateMonitor"],
-    resources: {
-      "networkflowmonitor:UpdateMonitor": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:monitor/${MonitorName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMonitor",
 }));
@@ -1645,14 +1491,6 @@ export const updateScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScope",
-  iam: {
-    actions: ["networkflowmonitor:UpdateScope"],
-    resources: {
-      "networkflowmonitor:UpdateScope": [
-        "arn:${Partition}:networkflowmonitor:${Region}:${Account}:scope/${ScopeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateScope",
 }));

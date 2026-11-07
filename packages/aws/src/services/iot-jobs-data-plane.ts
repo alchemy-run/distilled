@@ -325,14 +325,6 @@ export const describeJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobExecution",
-  iam: {
-    actions: ["iotjobsdata:DescribeJobExecution"],
-    resources: {
-      "iotjobsdata:DescribeJobExecution": [
-        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeJobExecution",
 }));
@@ -367,14 +359,6 @@ export const getPendingJobExecutions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPendingJobExecutions",
-  iam: {
-    actions: ["iotjobsdata:GetPendingJobExecutions"],
-    resources: {
-      "iotjobsdata:GetPendingJobExecutions": [
-        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPendingJobExecutions",
 }));
@@ -410,7 +394,6 @@ export const startCommandExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCommandExecution",
-  iam: { actions: ["iot:StartCommandExecution"] },
   telemetry: TELEMETRY,
   span: "StartCommandExecution",
 }));
@@ -446,14 +429,6 @@ export const startNextPendingJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNextPendingJobExecution",
-  iam: {
-    actions: ["iotjobsdata:StartNextPendingJobExecution"],
-    resources: {
-      "iotjobsdata:StartNextPendingJobExecution": [
-        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartNextPendingJobExecution",
 }));
@@ -490,14 +465,6 @@ export const updateJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJobExecution",
-  iam: {
-    actions: ["iotjobsdata:UpdateJobExecution"],
-    resources: {
-      "iotjobsdata:UpdateJobExecution": [
-        "arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateJobExecution",
 }));

@@ -1194,14 +1194,6 @@ export const cancelTaskExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTaskExecution",
-  iam: {
-    actions: ["datasync:CancelTaskExecution"],
-    resources: {
-      "datasync:CancelTaskExecution": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:task/${TaskId}/execution/${ExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelTaskExecution",
 }));
@@ -1226,10 +1218,6 @@ export const createAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgent",
-  iam: {
-    actions: ["datasync:CreateAgent", "datasync:TagResource"],
-    conditional: { "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAgent",
 }));
@@ -1258,14 +1246,6 @@ export const createLocationAzureBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationAzureBlob",
-  iam: {
-    actions: ["datasync:CreateLocationAzureBlob", "iam:PassRole", "datasync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn",
-      "datasync:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationAzureBlob",
 }));
@@ -1302,11 +1282,6 @@ export const createLocationEfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationEfs",
-  iam: {
-    actions: ["datasync:CreateLocationEfs", "iam:PassRole", "datasync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "FileSystemAccessRoleArn", "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationEfs",
 }));
@@ -1335,10 +1310,6 @@ export const createLocationFsxLustre: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationFsxLustre",
-  iam: {
-    actions: ["datasync:CreateLocationFsxLustre", "datasync:TagResource"],
-    conditional: { "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationFsxLustre",
 }));
@@ -1367,11 +1338,6 @@ export const createLocationFsxOntap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationFsxOntap",
-  iam: {
-    actions: ["datasync:CreateLocationFsxOntap", "iam:PassRole", "datasync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationFsxOntap",
 }));
@@ -1404,10 +1370,6 @@ export const createLocationFsxOpenZfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationFsxOpenZfs",
-  iam: {
-    actions: ["datasync:CreateLocationFsxOpenZfs", "datasync:TagResource"],
-    conditional: { "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationFsxOpenZfs",
 }));
@@ -1437,14 +1399,6 @@ export const createLocationFsxWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationFsxWindows",
-  iam: {
-    actions: ["datasync:CreateLocationFsxWindows", "iam:PassRole", "datasync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn",
-      "datasync:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationFsxWindows",
 }));
@@ -1471,19 +1425,6 @@ export const createLocationHdfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationHdfs",
-  iam: {
-    actions: ["datasync:CreateLocationHdfs", "iam:PassRole", "datasync:TagResource"],
-    resources: {
-      "datasync:CreateLocationHdfs": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:agent/${AgentId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn",
-      "datasync:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationHdfs",
 }));
@@ -1510,15 +1451,6 @@ export const createLocationNfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationNfs",
-  iam: {
-    actions: ["datasync:CreateLocationNfs", "datasync:TagResource"],
-    resources: {
-      "datasync:CreateLocationNfs": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:agent/${AgentId}",
-      ],
-    },
-    conditional: { "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationNfs",
 }));
@@ -1546,14 +1478,6 @@ export const createLocationObjectStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationObjectStorage",
-  iam: {
-    actions: ["datasync:CreateLocationObjectStorage", "iam:PassRole", "datasync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn",
-      "datasync:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationObjectStorage",
 }));
@@ -1596,11 +1520,6 @@ export const createLocationS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationS3",
-  iam: {
-    actions: ["datasync:CreateLocationS3", "iam:PassRole", "datasync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationS3",
 }));
@@ -1626,19 +1545,6 @@ export const createLocationSmb: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLocationSmb",
-  iam: {
-    actions: ["datasync:CreateLocationSmb", "iam:PassRole", "datasync:TagResource"],
-    resources: {
-      "datasync:CreateLocationSmb": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:agent/${AgentId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn",
-      "datasync:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateLocationSmb",
 }));
@@ -1672,11 +1578,6 @@ export const createTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTask",
-  iam: {
-    actions: ["datasync:CreateTask", "iam:PassRole", "datasync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTask",
 }));
@@ -1702,12 +1603,6 @@ export const deleteAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgent",
-  iam: {
-    actions: ["datasync:DeleteAgent"],
-    resources: {
-      "datasync:DeleteAgent": ["arn:${Partition}:datasync:${Region}:${AccountId}:agent/${AgentId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAgent",
 }));
@@ -1732,14 +1627,6 @@ export const deleteLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLocation",
-  iam: {
-    actions: ["datasync:DeleteLocation"],
-    resources: {
-      "datasync:DeleteLocation": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLocation",
 }));
@@ -1764,12 +1651,6 @@ export const deleteTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTask",
-  iam: {
-    actions: ["datasync:DeleteTask"],
-    resources: {
-      "datasync:DeleteTask": ["arn:${Partition}:datasync:${Region}:${AccountId}:task/${TaskId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTask",
 }));
@@ -1791,14 +1672,6 @@ export const describeAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAgent",
-  iam: {
-    actions: ["datasync:DescribeAgent"],
-    resources: {
-      "datasync:DescribeAgent": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:agent/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAgent",
 }));
@@ -1823,14 +1696,6 @@ export const describeLocationAzureBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationAzureBlob",
-  iam: {
-    actions: ["datasync:DescribeLocationAzureBlob"],
-    resources: {
-      "datasync:DescribeLocationAzureBlob": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationAzureBlob",
 }));
@@ -1855,14 +1720,6 @@ export const describeLocationEfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationEfs",
-  iam: {
-    actions: ["datasync:DescribeLocationEfs"],
-    resources: {
-      "datasync:DescribeLocationEfs": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationEfs",
 }));
@@ -1886,14 +1743,6 @@ export const describeLocationFsxLustre: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationFsxLustre",
-  iam: {
-    actions: ["datasync:DescribeLocationFsxLustre"],
-    resources: {
-      "datasync:DescribeLocationFsxLustre": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationFsxLustre",
 }));
@@ -1920,14 +1769,6 @@ export const describeLocationFsxOntap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationFsxOntap",
-  iam: {
-    actions: ["datasync:DescribeLocationFsxOntap"],
-    resources: {
-      "datasync:DescribeLocationFsxOntap": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationFsxOntap",
 }));
@@ -1954,14 +1795,6 @@ export const describeLocationFsxOpenZfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationFsxOpenZfs",
-  iam: {
-    actions: ["datasync:DescribeLocationFsxOpenZfs"],
-    resources: {
-      "datasync:DescribeLocationFsxOpenZfs": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationFsxOpenZfs",
 }));
@@ -1985,14 +1818,6 @@ export const describeLocationFsxWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationFsxWindows",
-  iam: {
-    actions: ["datasync:DescribeLocationFsxWindows"],
-    resources: {
-      "datasync:DescribeLocationFsxWindows": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationFsxWindows",
 }));
@@ -2014,14 +1839,6 @@ export const describeLocationHdfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationHdfs",
-  iam: {
-    actions: ["datasync:DescribeLocationHdfs"],
-    resources: {
-      "datasync:DescribeLocationHdfs": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationHdfs",
 }));
@@ -2043,14 +1860,6 @@ export const describeLocationNfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationNfs",
-  iam: {
-    actions: ["datasync:DescribeLocationNfs"],
-    resources: {
-      "datasync:DescribeLocationNfs": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationNfs",
 }));
@@ -2075,14 +1884,6 @@ export const describeLocationObjectStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationObjectStorage",
-  iam: {
-    actions: ["datasync:DescribeLocationObjectStorage"],
-    resources: {
-      "datasync:DescribeLocationObjectStorage": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationObjectStorage",
 }));
@@ -2108,14 +1909,6 @@ export const describeLocationS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationS3",
-  iam: {
-    actions: ["datasync:DescribeLocationS3"],
-    resources: {
-      "datasync:DescribeLocationS3": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationS3",
 }));
@@ -2137,14 +1930,6 @@ export const describeLocationSmb: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocationSmb",
-  iam: {
-    actions: ["datasync:DescribeLocationSmb"],
-    resources: {
-      "datasync:DescribeLocationSmb": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLocationSmb",
 }));
@@ -2170,12 +1955,6 @@ export const describeTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTask",
-  iam: {
-    actions: ["datasync:DescribeTask"],
-    resources: {
-      "datasync:DescribeTask": ["arn:${Partition}:datasync:${Region}:${AccountId}:task/${TaskId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTask",
 }));
@@ -2202,14 +1981,6 @@ export const describeTaskExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTaskExecution",
-  iam: {
-    actions: ["datasync:DescribeTaskExecution"],
-    resources: {
-      "datasync:DescribeTaskExecution": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:task/${TaskId}/execution/${ExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTaskExecution",
 }));
@@ -2248,7 +2019,6 @@ export const listAgents: API.PaginatedOperationMethod<
     items: "Agents",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["datasync:ListAgents"] },
   telemetry: TELEMETRY,
   span: "ListAgents",
 })) as any;
@@ -2280,7 +2050,6 @@ export const listLocations: API.PaginatedOperationMethod<
     items: "Locations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["datasync:ListLocations"] },
   telemetry: TELEMETRY,
   span: "ListLocations",
 })) as any;
@@ -2308,7 +2077,6 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["datasync:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -2336,7 +2104,6 @@ export const listTaskExecutions: API.PaginatedOperationMethod<
     items: "TaskExecutions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["datasync:ListTaskExecutions"] },
   telemetry: TELEMETRY,
   span: "ListTaskExecutions",
 })) as any;
@@ -2364,7 +2131,6 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "Tasks",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["datasync:ListTasks"] },
   telemetry: TELEMETRY,
   span: "ListTasks",
 })) as any;
@@ -2397,16 +2163,6 @@ export const startTaskExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTaskExecution",
-  iam: {
-    actions: ["iam:PassRole", "datasync:StartTaskExecution", "datasync:TagResource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "datasync:StartTaskExecution": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:task/${TaskId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "datasync:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartTaskExecution",
 }));
@@ -2431,7 +2187,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["datasync:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2452,7 +2207,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["datasync:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2473,12 +2227,6 @@ export const updateAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgent",
-  iam: {
-    actions: ["datasync:UpdateAgent"],
-    resources: {
-      "datasync:UpdateAgent": ["arn:${Partition}:datasync:${Region}:${AccountId}:agent/${AgentId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAgent",
 }));
@@ -2505,11 +2253,6 @@ export const updateLocationAzureBlob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationAzureBlob",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateLocationAzureBlob"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationAzureBlob",
 }));
@@ -2534,16 +2277,6 @@ export const updateLocationEfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationEfs",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateLocationEfs"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "datasync:UpdateLocationEfs": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "FileSystemAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationEfs",
 }));
@@ -2571,14 +2304,6 @@ export const updateLocationFsxLustre: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationFsxLustre",
-  iam: {
-    actions: ["datasync:UpdateLocationFsxLustre"],
-    resources: {
-      "datasync:UpdateLocationFsxLustre": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationFsxLustre",
 }));
@@ -2606,16 +2331,6 @@ export const updateLocationFsxOntap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationFsxOntap",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateLocationFsxOntap"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "datasync:UpdateLocationFsxOntap": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationFsxOntap",
 }));
@@ -2646,14 +2361,6 @@ export const updateLocationFsxOpenZfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationFsxOpenZfs",
-  iam: {
-    actions: ["datasync:UpdateLocationFsxOpenZfs"],
-    resources: {
-      "datasync:UpdateLocationFsxOpenZfs": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationFsxOpenZfs",
 }));
@@ -2681,16 +2388,6 @@ export const updateLocationFsxWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationFsxWindows",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateLocationFsxWindows"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "datasync:UpdateLocationFsxWindows": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationFsxWindows",
 }));
@@ -2715,11 +2412,6 @@ export const updateLocationHdfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationHdfs",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateLocationHdfs"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationHdfs",
 }));
@@ -2744,7 +2436,6 @@ export const updateLocationNfs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationNfs",
-  iam: { actions: ["datasync:UpdateLocationNfs"] },
   telemetry: TELEMETRY,
   span: "UpdateLocationNfs",
 }));
@@ -2772,11 +2463,6 @@ export const updateLocationObjectStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationObjectStorage",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateLocationObjectStorage"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationObjectStorage",
 }));
@@ -2805,16 +2491,6 @@ export const updateLocationS3: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationS3",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateLocationS3"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "datasync:UpdateLocationS3": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:location/${LocationId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "S3Config.BucketAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationS3",
 }));
@@ -2839,11 +2515,6 @@ export const updateLocationSmb: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLocationSmb",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateLocationSmb"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "CustomSecretConfig.SecretAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLocationSmb",
 }));
@@ -2869,14 +2540,6 @@ export const updateTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTask",
-  iam: {
-    actions: ["iam:PassRole", "datasync:UpdateTask"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "datasync:UpdateTask": ["arn:${Partition}:datasync:${Region}:${AccountId}:task/${TaskId}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTask",
 }));
@@ -2903,14 +2566,6 @@ export const updateTaskExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTaskExecution",
-  iam: {
-    actions: ["datasync:UpdateTaskExecution"],
-    resources: {
-      "datasync:UpdateTaskExecution": [
-        "arn:${Partition}:datasync:${Region}:${AccountId}:task/${TaskId}/execution/${ExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTaskExecution",
 }));

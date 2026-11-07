@@ -300,14 +300,6 @@ export const getDataAutomationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationStatus",
-  iam: {
-    actions: ["bedrock:GetDataAutomationStatus"],
-    resources: {
-      "bedrock:GetDataAutomationStatus": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-invocation/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataAutomationStatus",
 }));
@@ -340,16 +332,6 @@ export const invokeDataAutomation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeDataAutomation",
-  iam: {
-    actions: ["bedrock:InvokeDataAutomation"],
-    resources: {
-      "bedrock:InvokeDataAutomation": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-profile/${ProfileId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InvokeDataAutomation",
 }));
@@ -382,17 +364,6 @@ export const invokeDataAutomationAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeDataAutomationAsync",
-  iam: {
-    actions: ["bedrock:InvokeDataAutomationAsync", "bedrock:TagResource"],
-    resources: {
-      "bedrock:InvokeDataAutomationAsync": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-profile/${ProfileId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
-      ],
-    },
-    conditional: { "bedrock:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "InvokeDataAutomationAsync",
 }));
@@ -425,45 +396,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["bedrock:CallWithBearerToken", "bedrock:ListTagsForResource"],
-    resources: {
-      "bedrock:ListTagsForResource": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent/${AgentId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint-optimization-invocation/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-invocation/${JobId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library-ingestion-job/${IngestionJobId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-copy-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-customization-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-evaluation-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-import-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}:${PromptVersion}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:retrieval-instruction/${RetrievalInstructionId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -498,7 +430,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -531,7 +462,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

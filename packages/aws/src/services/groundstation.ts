@@ -1261,14 +1261,6 @@ export const cancelContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelContact",
-  iam: {
-    actions: ["groundstation:CancelContact"],
-    resources: {
-      "groundstation:CancelContact": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:contact/${ContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelContact",
 }));
@@ -1301,14 +1293,6 @@ export const createConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfig",
-  iam: {
-    actions: ["groundstation:CreateConfig", "iam:PassRole", "groundstation:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "a role the request names",
-      "groundstation:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateConfig",
 }));
@@ -1337,18 +1321,6 @@ export const createDataflowEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataflowEndpointGroup",
-  iam: {
-    actions: [
-      "groundstation:CreateDataflowEndpointGroup",
-      "iam:PassRole",
-      "groundstation:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "a role the request names",
-      "groundstation:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataflowEndpointGroup",
 }));
@@ -1383,10 +1355,6 @@ export const createDataflowEndpointGroupV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataflowEndpointGroupV2",
-  iam: {
-    actions: ["groundstation:CreateDataflowEndpointGroupV2", "groundstation:TagResource"],
-    conditional: { "groundstation:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataflowEndpointGroupV2",
 }));
@@ -1411,10 +1379,6 @@ export const createEphemeris: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEphemeris",
-  iam: {
-    actions: ["groundstation:CreateEphemeris", "groundstation:TagResource"],
-    conditional: { "groundstation:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEphemeris",
 }));
@@ -1441,11 +1405,6 @@ export const createMissionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMissionProfile",
-  iam: {
-    actions: ["groundstation:CreateMissionProfile", "iam:PassRole", "groundstation:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "streamsKmsRole", "groundstation:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMissionProfile",
 }));
@@ -1470,14 +1429,6 @@ export const deleteConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfig",
-  iam: {
-    actions: ["groundstation:DeleteConfig"],
-    resources: {
-      "groundstation:DeleteConfig": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:config/${ConfigType}/${ConfigId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConfig",
 }));
@@ -1502,14 +1453,6 @@ export const deleteDataflowEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataflowEndpointGroup",
-  iam: {
-    actions: ["groundstation:DeleteDataflowEndpointGroup"],
-    resources: {
-      "groundstation:DeleteDataflowEndpointGroup": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:dataflow-endpoint-group/${DataflowEndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataflowEndpointGroup",
 }));
@@ -1540,14 +1483,6 @@ export const deleteEphemeris: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEphemeris",
-  iam: {
-    actions: ["groundstation:DeleteEphemeris"],
-    resources: {
-      "groundstation:DeleteEphemeris": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:ephemeris/${EphemerisId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEphemeris",
 }));
@@ -1572,14 +1507,6 @@ export const deleteMissionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMissionProfile",
-  iam: {
-    actions: ["groundstation:DeleteMissionProfile"],
-    resources: {
-      "groundstation:DeleteMissionProfile": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:mission-profile/${MissionProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMissionProfile",
 }));
@@ -1604,14 +1531,6 @@ export const describeContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContact",
-  iam: {
-    actions: ["groundstation:DescribeContact"],
-    resources: {
-      "groundstation:DescribeContact": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:contact/${ContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeContact",
 }));
@@ -1636,14 +1555,6 @@ export const describeContactVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContactVersion",
-  iam: {
-    actions: ["groundstation:DescribeContactVersion"],
-    resources: {
-      "groundstation:DescribeContactVersion": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:contact/${ContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeContactVersion",
 }));
@@ -1668,14 +1579,6 @@ export const describeEphemeris: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEphemeris",
-  iam: {
-    actions: ["groundstation:DescribeEphemeris"],
-    resources: {
-      "groundstation:DescribeEphemeris": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:ephemeris/${EphemerisId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEphemeris",
 }));
@@ -1702,14 +1605,6 @@ export const getAgentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentConfiguration",
-  iam: {
-    actions: ["groundstation:GetAgentConfiguration"],
-    resources: {
-      "groundstation:GetAgentConfiguration": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:agent/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAgentConfiguration",
 }));
@@ -1736,14 +1631,6 @@ export const getAgentTaskResponseUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentTaskResponseUrl",
-  iam: {
-    actions: ["groundstation:GetAgentTaskResponseUrl"],
-    resources: {
-      "groundstation:GetAgentTaskResponseUrl": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:agent/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAgentTaskResponseUrl",
 }));
@@ -1770,14 +1657,6 @@ export const getConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfig",
-  iam: {
-    actions: ["groundstation:GetConfig"],
-    resources: {
-      "groundstation:GetConfig": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:config/${ConfigType}/${ConfigId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConfig",
 }));
@@ -1802,14 +1681,6 @@ export const getDataflowEndpointGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataflowEndpointGroup",
-  iam: {
-    actions: ["groundstation:GetDataflowEndpointGroup"],
-    resources: {
-      "groundstation:GetDataflowEndpointGroup": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:dataflow-endpoint-group/${DataflowEndpointGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataflowEndpointGroup",
 }));
@@ -1834,7 +1705,6 @@ export const getMinuteUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMinuteUsage",
-  iam: { actions: ["groundstation:GetMinuteUsage"] },
   telemetry: TELEMETRY,
   span: "GetMinuteUsage",
 }));
@@ -1859,14 +1729,6 @@ export const getMissionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMissionProfile",
-  iam: {
-    actions: ["groundstation:GetMissionProfile"],
-    resources: {
-      "groundstation:GetMissionProfile": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:mission-profile/${MissionProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMissionProfile",
 }));
@@ -1891,14 +1753,6 @@ export const getSatellite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSatellite",
-  iam: {
-    actions: ["groundstation:GetSatellite"],
-    resources: {
-      "groundstation:GetSatellite": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:satellite/${SatelliteId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSatellite",
 }));
@@ -1926,14 +1780,6 @@ export const listAntennas: API.PaginatedOperationMethod<
     items: "antennaList",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["groundstation:ListAntennas"],
-    resources: {
-      "groundstation:ListAntennas": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:groundstation:${GroundStationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAntennas",
 })) as any;
@@ -1965,7 +1811,6 @@ export const listConfigs: API.PaginatedOperationMethod<
     items: "configList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["groundstation:ListConfigs"] },
   telemetry: TELEMETRY,
   span: "ListConfigs",
 })) as any;
@@ -1999,7 +1844,6 @@ export const listContacts: API.PaginatedOperationMethod<
     items: "contactList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["groundstation:ListContacts"] },
   telemetry: TELEMETRY,
   span: "ListContacts",
 })) as any;
@@ -2031,14 +1875,6 @@ export const listContactVersions: API.PaginatedOperationMethod<
     items: "contactVersionsList",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["groundstation:ListContactVersions"],
-    resources: {
-      "groundstation:ListContactVersions": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:contact/${ContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListContactVersions",
 })) as any;
@@ -2070,7 +1906,6 @@ export const listDataflowEndpointGroups: API.PaginatedOperationMethod<
     items: "dataflowEndpointGroupList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["groundstation:ListDataflowEndpointGroups"] },
   telemetry: TELEMETRY,
   span: "ListDataflowEndpointGroups",
 })) as any;
@@ -2102,7 +1937,6 @@ export const listEphemerides: API.PaginatedOperationMethod<
     items: "ephemerides",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["groundstation:ListEphemerides"] },
   telemetry: TELEMETRY,
   span: "ListEphemerides",
 })) as any;
@@ -2133,14 +1967,6 @@ export const listGroundStationReservations: API.PaginatedOperationMethod<
     items: "reservationList",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["groundstation:ListGroundStationReservations"],
-    resources: {
-      "groundstation:ListGroundStationReservations": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:groundstation:${GroundStationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroundStationReservations",
 })) as any;
@@ -2172,7 +1998,6 @@ export const listGroundStations: API.PaginatedOperationMethod<
     items: "groundStationList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["groundstation:ListGroundStations"] },
   telemetry: TELEMETRY,
   span: "ListGroundStations",
 })) as any;
@@ -2204,7 +2029,6 @@ export const listMissionProfiles: API.PaginatedOperationMethod<
     items: "missionProfileList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["groundstation:ListMissionProfiles"] },
   telemetry: TELEMETRY,
   span: "ListMissionProfiles",
 })) as any;
@@ -2236,7 +2060,6 @@ export const listSatellites: API.PaginatedOperationMethod<
     items: "satellites",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["groundstation:ListSatellites"] },
   telemetry: TELEMETRY,
   span: "ListSatellites",
 })) as any;
@@ -2261,7 +2084,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["groundstation:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2288,10 +2110,6 @@ export const registerAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAgent",
-  iam: {
-    actions: ["groundstation:RegisterAgent", "groundstation:TagResource"],
-    conditional: { "groundstation:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "RegisterAgent",
 }));
@@ -2322,10 +2140,6 @@ export const reserveContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReserveContact",
-  iam: {
-    actions: ["groundstation:ReserveContact", "groundstation:TagResource"],
-    conditional: { "groundstation:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "ReserveContact",
 }));
@@ -2350,7 +2164,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["groundstation:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2375,7 +2188,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["groundstation:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2402,14 +2214,6 @@ export const updateAgentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentStatus",
-  iam: {
-    actions: ["groundstation:UpdateAgentStatus"],
-    resources: {
-      "groundstation:UpdateAgentStatus": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:agent/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAgentStatus",
 }));
@@ -2436,16 +2240,6 @@ export const updateConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfig",
-  iam: {
-    actions: ["iam:PassRole", "groundstation:UpdateConfig"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "groundstation:UpdateConfig": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:config/${ConfigType}/${ConfigId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConfig",
 }));
@@ -2476,14 +2270,6 @@ export const updateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContact",
-  iam: {
-    actions: ["groundstation:UpdateContact"],
-    resources: {
-      "groundstation:UpdateContact": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:contact/${ContactId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateContact",
 }));
@@ -2508,14 +2294,6 @@ export const updateEphemeris: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEphemeris",
-  iam: {
-    actions: ["groundstation:UpdateEphemeris"],
-    resources: {
-      "groundstation:UpdateEphemeris": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:ephemeris/${EphemerisId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEphemeris",
 }));
@@ -2542,16 +2320,6 @@ export const updateMissionProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMissionProfile",
-  iam: {
-    actions: ["iam:PassRole", "groundstation:UpdateMissionProfile"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "groundstation:UpdateMissionProfile": [
-        "arn:${Partition}:groundstation:${Region}:${Account}:mission-profile/${MissionProfileId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "streamsKmsRole" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMissionProfile",
 }));

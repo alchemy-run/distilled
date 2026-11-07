@@ -305,7 +305,6 @@ export const describeReportCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReportCreation",
-  iam: { actions: ["tag:DescribeReportCreation"] },
   telemetry: TELEMETRY,
   span: "DescribeReportCreation",
 }));
@@ -357,7 +356,6 @@ export const getComplianceSummary: API.PaginatedOperationMethod<
     items: "SummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["tag:GetComplianceSummary"] },
   telemetry: TELEMETRY,
   span: "GetComplianceSummary",
 })) as any;
@@ -419,7 +417,6 @@ export const getResources: API.PaginatedOperationMethod<
     items: "ResourceTagMappingList",
     pageSize: "ResourcesPerPage",
   } as const,
-  iam: { actions: ["tag:GetResources"] },
   telemetry: TELEMETRY,
   span: "GetResources",
 })) as any;
@@ -464,7 +461,6 @@ export const getTagKeys: API.PaginatedOperationMethod<
     outputToken: "PaginationToken",
     items: "TagKeys",
   } as const,
-  iam: { actions: ["tag:GetTagKeys"] },
   telemetry: TELEMETRY,
   span: "GetTagKeys",
 })) as any;
@@ -509,7 +505,6 @@ export const getTagValues: API.PaginatedOperationMethod<
     outputToken: "PaginationToken",
     items: "TagValues",
   } as const,
-  iam: { actions: ["tag:GetTagValues"] },
   telemetry: TELEMETRY,
   span: "GetTagValues",
 })) as any;
@@ -547,7 +542,6 @@ export const listRequiredTags: API.PaginatedOperationMethod<
     items: "RequiredTags",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["tag:ListRequiredTags"] },
   telemetry: TELEMETRY,
   span: "ListRequiredTags",
 })) as any;
@@ -600,7 +594,6 @@ export const startReportCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReportCreation",
-  iam: { actions: ["tag:StartReportCreation"] },
   telemetry: TELEMETRY,
   span: "StartReportCreation",
 }));
@@ -674,7 +667,6 @@ export const tagResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResources",
-  iam: { actions: ["tag:TagResources"] },
   telemetry: TELEMETRY,
   span: "TagResources",
 }));
@@ -728,7 +720,6 @@ export const untagResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResources",
-  iam: { actions: ["tag:UntagResources"] },
   telemetry: TELEMETRY,
   span: "UntagResources",
 }));

@@ -320,7 +320,6 @@ export const getAccountActivity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountActivity",
-  iam: { actions: ["freetier:GetAccountActivity"] },
   telemetry: TELEMETRY,
   span: "GetAccountActivity",
 }));
@@ -353,7 +352,6 @@ export const getAccountPlanState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountPlanState",
-  iam: { actions: ["freetier:GetAccountPlanState"] },
   telemetry: TELEMETRY,
   span: "GetAccountPlanState",
 }));
@@ -385,7 +383,6 @@ export const getFreeTierUsage: API.PaginatedOperationMethod<
     items: "freeTierUsages",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["freetier:GetFreeTierUsage", "aws-portal:ViewBilling"] },
   telemetry: TELEMETRY,
   span: "GetFreeTierUsage",
 })) as any;
@@ -417,7 +414,6 @@ export const listAccountActivities: API.PaginatedOperationMethod<
     items: "activities",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["freetier:ListAccountActivities"] },
   telemetry: TELEMETRY,
   span: "ListAccountActivities",
 })) as any;
@@ -450,7 +446,6 @@ export const upgradeAccountPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeAccountPlan",
-  iam: { actions: ["freetier:UpgradeAccountPlan"] },
   telemetry: TELEMETRY,
   span: "UpgradeAccountPlan",
 }));

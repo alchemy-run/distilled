@@ -513,10 +513,6 @@ export const createEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEnvironment",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:CreateEnvironment", "thinclient:TagResource"],
-    conditional: { "thinclient:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -552,14 +548,6 @@ export const deleteDevice: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDevice",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:DeleteDevice"],
-    resources: {
-      "thinclient:DeleteDevice": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:device/${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDevice",
 }));
@@ -595,14 +583,6 @@ export const deleteEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteEnvironment",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:DeleteEnvironment"],
-    resources: {
-      "thinclient:DeleteEnvironment": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -638,14 +618,6 @@ export const deregisterDevice: API.OperationMethod<
   retry: Retry,
   operationName: "DeregisterDevice",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:DeregisterDevice"],
-    resources: {
-      "thinclient:DeregisterDevice": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:device/${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterDevice",
 }));
@@ -679,14 +651,6 @@ export const getDevice: API.OperationMethod<
   retry: Retry,
   operationName: "GetDevice",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:GetDevice"],
-    resources: {
-      "thinclient:GetDevice": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:device/${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDevice",
 }));
@@ -720,14 +684,6 @@ export const getEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "GetEnvironment",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:GetEnvironment"],
-    resources: {
-      "thinclient:GetEnvironment": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -761,14 +717,6 @@ export const getSoftwareSet: API.OperationMethod<
   retry: Retry,
   operationName: "GetSoftwareSet",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:GetSoftwareSet"],
-    resources: {
-      "thinclient:GetSoftwareSet": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:softwareset/${SoftwareSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSoftwareSet",
 }));
@@ -807,7 +755,6 @@ export const listDevices: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["thinclient:ListDevices"] },
   telemetry: TELEMETRY,
   span: "ListDevices",
 })) as any;
@@ -846,7 +793,6 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["thinclient:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -885,7 +831,6 @@ export const listSoftwareSets: API.PaginatedOperationMethod<
     items: "softwareSets",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["thinclient:ListSoftwareSets"] },
   telemetry: TELEMETRY,
   span: "ListSoftwareSets",
 })) as any;
@@ -919,7 +864,6 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["thinclient:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -955,7 +899,6 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["thinclient:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -991,7 +934,6 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["thinclient:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1025,14 +967,6 @@ export const updateDevice: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDevice",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:UpdateDevice"],
-    resources: {
-      "thinclient:UpdateDevice": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:device/${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDevice",
 }));
@@ -1068,14 +1002,6 @@ export const updateEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateEnvironment",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:TagResource", "thinclient:UpdateEnvironment"],
-    resources: {
-      "thinclient:UpdateEnvironment": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:environment/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
@@ -1109,14 +1035,6 @@ export const updateSoftwareSet: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateSoftwareSet",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["thinclient:UpdateSoftwareSet"],
-    resources: {
-      "thinclient:UpdateSoftwareSet": [
-        "arn:${Partition}:thinclient:${Region}:${Account}:softwareset/${SoftwareSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSoftwareSet",
 }));

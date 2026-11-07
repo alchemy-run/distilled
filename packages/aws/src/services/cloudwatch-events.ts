@@ -1146,14 +1146,6 @@ export const activateEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivateEventSource",
-  iam: {
-    actions: ["events:ActivateEventSource"],
-    resources: {
-      "events:ActivateEventSource": [
-        "arn:${Partition}:events:${Region}::event-source/${EventSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ActivateEventSource",
 }));
@@ -1184,12 +1176,6 @@ export const cancelReplay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelReplay",
-  iam: {
-    actions: ["events:CancelReplay"],
-    resources: {
-      "events:CancelReplay": ["arn:${Partition}:events:${Region}:${Account}:replay/${ReplayName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelReplay",
 }));
@@ -1221,15 +1207,6 @@ export const createApiDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiDestination",
-  iam: {
-    actions: ["events:CreateApiDestination"],
-    resources: {
-      "events:CreateApiDestination": [
-        "arn:${Partition}:events:${Region}:${Account}:api-destination/${ApiDestinationName}",
-        "arn:${Partition}:events:${Region}:${Account}:connection/${ConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateApiDestination",
 }));
@@ -1268,7 +1245,6 @@ export const createArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchive",
-  iam: { actions: ["events:CreateArchive"] },
   telemetry: TELEMETRY,
   span: "CreateArchive",
 }));
@@ -1294,14 +1270,6 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
-  iam: {
-    actions: ["events:CreateConnection"],
-    resources: {
-      "events:CreateConnection": [
-        "arn:${Partition}:events:${Region}:${Account}:connection/${ConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateConnection",
 }));
@@ -1340,10 +1308,6 @@ export const createEventBus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBus",
-  iam: {
-    actions: ["events:CreateEventBus", "events:TagResource"],
-    conditional: { "events:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEventBus",
 }));
@@ -1400,14 +1364,6 @@ export const createPartnerEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerEventSource",
-  iam: {
-    actions: ["events:CreatePartnerEventSource"],
-    resources: {
-      "events:CreatePartnerEventSource": [
-        "arn:${Partition}:events:${Region}::event-source/${EventSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePartnerEventSource",
 }));
@@ -1446,14 +1402,6 @@ export const deactivateEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivateEventSource",
-  iam: {
-    actions: ["events:DeactivateEventSource"],
-    resources: {
-      "events:DeactivateEventSource": [
-        "arn:${Partition}:events:${Region}::event-source/${EventSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeactivateEventSource",
 }));
@@ -1479,14 +1427,6 @@ export const deauthorizeConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeauthorizeConnection",
-  iam: {
-    actions: ["events:DeauthorizeConnection"],
-    resources: {
-      "events:DeauthorizeConnection": [
-        "arn:${Partition}:events:${Region}:${Account}:connection/${ConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeauthorizeConnection",
 }));
@@ -1511,14 +1451,6 @@ export const deleteApiDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiDestination",
-  iam: {
-    actions: ["events:DeleteApiDestination"],
-    resources: {
-      "events:DeleteApiDestination": [
-        "arn:${Partition}:events:${Region}:${Account}:api-destination/${ApiDestinationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApiDestination",
 }));
@@ -1543,14 +1475,6 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
-  iam: {
-    actions: ["events:DeleteArchive"],
-    resources: {
-      "events:DeleteArchive": [
-        "arn:${Partition}:events:${Region}:${Account}:archive/${ArchiveName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteArchive",
 }));
@@ -1575,14 +1499,6 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
-  iam: {
-    actions: ["events:DeleteConnection"],
-    resources: {
-      "events:DeleteConnection": [
-        "arn:${Partition}:events:${Region}:${Account}:connection/${ConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -1607,7 +1523,6 @@ export const deleteEventBus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBus",
-  iam: { actions: ["events:DeleteEventBus"] },
   telemetry: TELEMETRY,
   span: "DeleteEventBus",
 }));
@@ -1636,14 +1551,6 @@ export const deletePartnerEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartnerEventSource",
-  iam: {
-    actions: ["events:DeletePartnerEventSource"],
-    resources: {
-      "events:DeletePartnerEventSource": [
-        "arn:${Partition}:events:${Region}::event-source/${EventSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePartnerEventSource",
 }));
@@ -1688,7 +1595,6 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
-  iam: { actions: ["events:DeleteRule"] },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -1712,15 +1618,6 @@ export const describeApiDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApiDestination",
-  iam: {
-    actions: ["events:DescribeApiDestination"],
-    resources: {
-      "events:DescribeApiDestination": [
-        "arn:${Partition}:events:${Region}:${Account}:api-destination/${ApiDestinationName}",
-        "arn:${Partition}:events:${Region}:${Account}:connection/${ConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeApiDestination",
 }));
@@ -1745,14 +1642,6 @@ export const describeArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeArchive",
-  iam: {
-    actions: ["events:DescribeArchive"],
-    resources: {
-      "events:DescribeArchive": [
-        "arn:${Partition}:events:${Region}:${Account}:archive/${ArchiveName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeArchive",
 }));
@@ -1773,14 +1662,6 @@ export const describeConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnection",
-  iam: {
-    actions: ["events:DescribeConnection"],
-    resources: {
-      "events:DescribeConnection": [
-        "arn:${Partition}:events:${Region}:${Account}:connection/${ConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeConnection",
 }));
@@ -1809,7 +1690,6 @@ export const describeEventBus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventBus",
-  iam: { actions: ["events:DescribeEventBus"] },
   telemetry: TELEMETRY,
   span: "DescribeEventBus",
 }));
@@ -1835,7 +1715,6 @@ export const describeEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventSource",
-  iam: { actions: ["events:DescribeEventSource"] },
   telemetry: TELEMETRY,
   span: "DescribeEventSource",
 }));
@@ -1863,14 +1742,6 @@ export const describePartnerEventSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePartnerEventSource",
-  iam: {
-    actions: ["events:DescribePartnerEventSource"],
-    resources: {
-      "events:DescribePartnerEventSource": [
-        "arn:${Partition}:events:${Region}::event-source/${EventSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePartnerEventSource",
 }));
@@ -1899,14 +1770,6 @@ export const describeReplay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReplay",
-  iam: {
-    actions: ["events:DescribeReplay"],
-    resources: {
-      "events:DescribeReplay": [
-        "arn:${Partition}:events:${Region}:${Account}:replay/${ReplayName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeReplay",
 }));
@@ -1930,7 +1793,6 @@ export const describeRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRule",
-  iam: { actions: ["events:DescribeRule"] },
   telemetry: TELEMETRY,
   span: "DescribeRule",
 }));
@@ -1965,7 +1827,6 @@ export const disableRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableRule",
-  iam: { actions: ["events:DisableRule"] },
   telemetry: TELEMETRY,
   span: "DisableRule",
 }));
@@ -1999,7 +1860,6 @@ export const enableRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableRule",
-  iam: { actions: ["events:EnableRule"] },
   telemetry: TELEMETRY,
   span: "EnableRule",
 }));
@@ -2020,7 +1880,6 @@ export const listApiDestinations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListApiDestinations",
-  iam: { actions: ["events:ListApiDestinations"] },
   telemetry: TELEMETRY,
   span: "ListApiDestinations",
 }));
@@ -2042,7 +1901,6 @@ export const listArchives: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListArchives",
-  iam: { actions: ["events:ListArchives"] },
   telemetry: TELEMETRY,
   span: "ListArchives",
 }));
@@ -2063,7 +1921,6 @@ export const listConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnections",
-  iam: { actions: ["events:ListConnections"] },
   telemetry: TELEMETRY,
   span: "ListConnections",
 }));
@@ -2085,7 +1942,6 @@ export const listEventBuses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventBuses",
-  iam: { actions: ["events:ListEventBuses"] },
   telemetry: TELEMETRY,
   span: "ListEventBuses",
 }));
@@ -2107,7 +1963,6 @@ export const listEventSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListEventSources",
-  iam: { actions: ["events:ListEventSources"] },
   telemetry: TELEMETRY,
   span: "ListEventSources",
 }));
@@ -2134,14 +1989,6 @@ export const listPartnerEventSourceAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPartnerEventSourceAccounts",
-  iam: {
-    actions: ["events:ListPartnerEventSourceAccounts"],
-    resources: {
-      "events:ListPartnerEventSourceAccounts": [
-        "arn:${Partition}:events:${Region}::event-source/${EventSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPartnerEventSourceAccounts",
 }));
@@ -2166,7 +2013,6 @@ export const listPartnerEventSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListPartnerEventSources",
-  iam: { actions: ["events:ListPartnerEventSources"] },
   telemetry: TELEMETRY,
   span: "ListPartnerEventSources",
 }));
@@ -2188,7 +2034,6 @@ export const listReplays: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListReplays",
-  iam: { actions: ["events:ListReplays"] },
   telemetry: TELEMETRY,
   span: "ListReplays",
 }));
@@ -2213,7 +2058,6 @@ export const listRuleNamesByTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRuleNamesByTarget",
-  iam: { actions: ["events:ListRuleNamesByTarget"] },
   telemetry: TELEMETRY,
   span: "ListRuleNamesByTarget",
 }));
@@ -2238,7 +2082,6 @@ export const listRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRules",
-  iam: { actions: ["events:ListRules"] },
   telemetry: TELEMETRY,
   span: "ListRules",
 }));
@@ -2260,7 +2103,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["events:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2281,7 +2123,6 @@ export const listTargetsByRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTargetsByRule",
-  iam: { actions: ["events:ListTargetsByRule"] },
   telemetry: TELEMETRY,
   span: "ListTargetsByRule",
 }));
@@ -2302,7 +2143,6 @@ export const putEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
-  iam: { actions: ["events:PutEvents"] },
   telemetry: TELEMETRY,
   span: {
     op: "PutEvents",
@@ -2330,7 +2170,6 @@ export const putPartnerEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPartnerEvents",
-  iam: { actions: ["events:PutPartnerEvents"] },
   telemetry: TELEMETRY,
   span: "PutPartnerEvents",
 }));
@@ -2383,7 +2222,6 @@ export const putPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPermission",
-  iam: { actions: ["events:PutPermission"] },
   telemetry: TELEMETRY,
   span: "PutPermission",
 }));
@@ -2467,11 +2305,6 @@ export const putRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRule",
-  iam: {
-    actions: ["iam:PassRole", "events:PutRule", "events:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "RoleArn", "events:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutRule",
 }));
@@ -2632,11 +2465,6 @@ export const putTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTargets",
-  iam: {
-    actions: ["iam:PassRole", "events:PutTargets"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "PutTargets",
 }));
@@ -2670,7 +2498,6 @@ export const removePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemovePermission",
-  iam: { actions: ["events:RemovePermission"] },
   telemetry: TELEMETRY,
   span: "RemovePermission",
 }));
@@ -2709,7 +2536,6 @@ export const removeTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTargets",
-  iam: { actions: ["events:RemoveTargets"] },
   telemetry: TELEMETRY,
   span: "RemoveTargets",
 }));
@@ -2750,16 +2576,6 @@ export const startReplay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplay",
-  iam: {
-    actions: ["events:StartReplay"],
-    resources: {
-      "events:StartReplay": [
-        "arn:${Partition}:events:${Region}:${Account}:archive/${ArchiveName}",
-        "arn:${Partition}:events:${Region}:${Account}:event-bus/${EventBusName}",
-        "arn:${Partition}:events:${Region}:${Account}:replay/${ReplayName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartReplay",
 }));
@@ -2803,7 +2619,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["events:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2829,7 +2644,6 @@ export const testEventPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestEventPattern",
-  iam: { actions: ["events:TestEventPattern"] },
   telemetry: TELEMETRY,
   span: "TestEventPattern",
 }));
@@ -2861,7 +2675,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["events:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2892,14 +2705,6 @@ export const updateApiDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiDestination",
-  iam: {
-    actions: ["events:UpdateApiDestination"],
-    resources: {
-      "events:UpdateApiDestination": [
-        "arn:${Partition}:events:${Region}:${Account}:api-destination/${ApiDestinationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApiDestination",
 }));
@@ -2932,7 +2737,6 @@ export const updateArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchive",
-  iam: { actions: ["events:UpdateArchive"] },
   telemetry: TELEMETRY,
   span: "UpdateArchive",
 }));
@@ -2963,14 +2767,6 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
-  iam: {
-    actions: ["events:UpdateConnection"],
-    resources: {
-      "events:UpdateConnection": [
-        "arn:${Partition}:events:${Region}:${Account}:connection/${ConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConnection",
 }));

@@ -546,20 +546,6 @@ export const createWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflow",
-  iam: {
-    actions: [
-      "airflow-serverless:CreateWorkflow",
-      "iam:PassRole",
-      "airflow-serverless:TagResource",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "airflow-serverless:TagResource": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-    conditional: { "airflow-serverless:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkflow",
 }));
@@ -594,14 +580,6 @@ export const deleteWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflow",
-  iam: {
-    actions: ["airflow-serverless:DeleteWorkflow"],
-    resources: {
-      "airflow-serverless:DeleteWorkflow": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflow",
 }));
@@ -636,14 +614,6 @@ export const getTaskInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaskInstance",
-  iam: {
-    actions: ["airflow-serverless:GetTaskInstance"],
-    resources: {
-      "airflow-serverless:GetTaskInstance": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTaskInstance",
 }));
@@ -678,14 +648,6 @@ export const getWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflow",
-  iam: {
-    actions: ["airflow-serverless:GetWorkflow"],
-    resources: {
-      "airflow-serverless:GetWorkflow": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetWorkflow",
 }));
@@ -720,14 +682,6 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
-  iam: {
-    actions: ["airflow-serverless:GetWorkflowRun"],
-    resources: {
-      "airflow-serverless:GetWorkflowRun": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetWorkflowRun",
 }));
@@ -762,14 +716,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["airflow-serverless:ListTagsForResource"],
-    resources: {
-      "airflow-serverless:ListTagsForResource": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -809,14 +755,6 @@ export const listTaskInstances: API.PaginatedOperationMethod<
     items: "TaskInstances",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["airflow-serverless:ListTaskInstances"],
-    resources: {
-      "airflow-serverless:ListTaskInstances": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTaskInstances",
 })) as any;
@@ -856,14 +794,6 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "WorkflowRuns",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["airflow-serverless:ListWorkflowRuns"],
-    resources: {
-      "airflow-serverless:ListWorkflowRuns": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListWorkflowRuns",
 })) as any;
@@ -903,7 +833,6 @@ export const listWorkflows: API.PaginatedOperationMethod<
     items: "Workflows",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["airflow-serverless:ListWorkflows"] },
   telemetry: TELEMETRY,
   span: "ListWorkflows",
 })) as any;
@@ -943,14 +872,6 @@ export const listWorkflowVersions: API.PaginatedOperationMethod<
     items: "WorkflowVersions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["airflow-serverless:ListWorkflowVersions"],
-    resources: {
-      "airflow-serverless:ListWorkflowVersions": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListWorkflowVersions",
 })) as any;
@@ -989,14 +910,6 @@ export const startWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartWorkflowRun",
-  iam: {
-    actions: ["airflow-serverless:StartWorkflowRun"],
-    resources: {
-      "airflow-serverless:StartWorkflowRun": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartWorkflowRun",
 }));
@@ -1031,14 +944,6 @@ export const stopWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopWorkflowRun",
-  iam: {
-    actions: ["airflow-serverless:StopWorkflowRun"],
-    resources: {
-      "airflow-serverless:StopWorkflowRun": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopWorkflowRun",
 }));
@@ -1073,14 +978,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["airflow-serverless:TagResource"],
-    resources: {
-      "airflow-serverless:TagResource": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1115,14 +1012,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["airflow-serverless:UntagResource"],
-    resources: {
-      "airflow-serverless:UntagResource": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1161,15 +1050,6 @@ export const updateWorkflow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflow",
-  iam: {
-    actions: ["iam:PassRole", "airflow-serverless:UpdateWorkflow"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "airflow-serverless:UpdateWorkflow": [
-        "arn:${Partition}:airflow-serverless:${Region}:${Account}:workflow/${WorkflowId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflow",
 }));

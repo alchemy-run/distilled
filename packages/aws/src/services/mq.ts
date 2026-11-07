@@ -830,11 +830,6 @@ export const createBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBroker",
-  iam: {
-    actions: ["mq:CreateBroker", "mq:CreateTags", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "LdapServerMetadata.RoleName", "mq:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBroker",
 }));
@@ -865,10 +860,6 @@ export const createConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguration",
-  iam: {
-    actions: ["mq:CreateConfiguration", "mq:CreateTags"],
-    conditional: { "mq:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConfiguration",
 }));
@@ -899,7 +890,6 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
-  iam: { actions: ["mq:CreateTags"], conditional: { "mq:CreateTags": "Tags" } },
   telemetry: TELEMETRY,
   span: "CreateTags",
 }));
@@ -934,14 +924,6 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
-  iam: {
-    actions: ["mq:CreateUser"],
-    resources: {
-      "mq:CreateUser": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -972,14 +954,6 @@ export const deleteBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBroker",
-  iam: {
-    actions: ["mq:DeleteBroker"],
-    resources: {
-      "mq:DeleteBroker": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBroker",
 }));
@@ -1012,14 +986,6 @@ export const deleteConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguration",
-  iam: {
-    actions: ["mq:DeleteConfiguration"],
-    resources: {
-      "mq:DeleteConfiguration": [
-        "arn:${Partition}:mq:${Region}:${Account}:configuration:${ConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguration",
 }));
@@ -1050,7 +1016,6 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
-  iam: { actions: ["mq:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -1081,14 +1046,6 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-  iam: {
-    actions: ["mq:DeleteUser"],
-    resources: {
-      "mq:DeleteUser": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -1119,14 +1076,6 @@ export const describeBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBroker",
-  iam: {
-    actions: ["mq:DescribeBroker"],
-    resources: {
-      "mq:DescribeBroker": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeBroker",
 }));
@@ -1151,7 +1100,6 @@ export const describeBrokerEngineTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrokerEngineTypes",
-  iam: { actions: ["mq:DescribeBrokerEngineTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeBrokerEngineTypes",
 }));
@@ -1176,7 +1124,6 @@ export const describeBrokerInstanceOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBrokerInstanceOptions",
-  iam: { actions: ["mq:DescribeBrokerInstanceOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeBrokerInstanceOptions",
 }));
@@ -1207,14 +1154,6 @@ export const describeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfiguration",
-  iam: {
-    actions: ["mq:DescribeConfiguration"],
-    resources: {
-      "mq:DescribeConfiguration": [
-        "arn:${Partition}:mq:${Region}:${Account}:configuration:${ConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeConfiguration",
 }));
@@ -1245,14 +1184,6 @@ export const describeConfigurationRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConfigurationRevision",
-  iam: {
-    actions: ["mq:DescribeConfigurationRevision"],
-    resources: {
-      "mq:DescribeConfigurationRevision": [
-        "arn:${Partition}:mq:${Region}:${Account}:configuration:${ConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeConfigurationRevision",
 }));
@@ -1290,14 +1221,6 @@ export const describeSharedResources: API.PaginatedOperationMethod<
     items: "SharedResources",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["mq:DescribeSharedResources"],
-    resources: {
-      "mq:DescribeSharedResources": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSharedResources",
 })) as any;
@@ -1328,14 +1251,6 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
-  iam: {
-    actions: ["mq:DescribeUser"],
-    resources: {
-      "mq:DescribeUser": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUser",
 }));
@@ -1367,7 +1282,6 @@ export const listBrokers: API.PaginatedOperationMethod<
     items: "BrokerSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mq:ListBrokers"] },
   telemetry: TELEMETRY,
   span: "ListBrokers",
 })) as any;
@@ -1398,14 +1312,6 @@ export const listConfigurationRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurationRevisions",
-  iam: {
-    actions: ["mq:ListConfigurationRevisions"],
-    resources: {
-      "mq:ListConfigurationRevisions": [
-        "arn:${Partition}:mq:${Region}:${Account}:configuration:${ConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListConfigurationRevisions",
 }));
@@ -1430,7 +1336,6 @@ export const listConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConfigurations",
-  iam: { actions: ["mq:ListConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListConfigurations",
 }));
@@ -1461,7 +1366,6 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
-  iam: { actions: ["mq:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
@@ -1492,12 +1396,6 @@ export const listUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUsers",
-  iam: {
-    actions: ["mq:ListUsers"],
-    resources: {
-      "mq:ListUsers": ["arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 }));
@@ -1528,12 +1426,6 @@ export const promote: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Promote",
-  iam: {
-    actions: ["mq:Promote"],
-    resources: {
-      "mq:Promote": ["arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Promote",
 }));
@@ -1564,14 +1456,6 @@ export const rebootBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootBroker",
-  iam: {
-    actions: ["mq:RebootBroker"],
-    resources: {
-      "mq:RebootBroker": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootBroker",
 }));
@@ -1604,19 +1488,6 @@ export const updateBroker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBroker",
-  iam: {
-    actions: ["iam:PassRole", "mq:UpdateBroker", "mq:UpdateBrokerAccessConfiguration"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "mq:UpdateBroker": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-      "mq:UpdateBrokerAccessConfiguration": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "LdapServerMetadata.RoleName" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBroker",
 }));
@@ -1649,14 +1520,6 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
-  iam: {
-    actions: ["mq:UpdateConfiguration"],
-    resources: {
-      "mq:UpdateConfiguration": [
-        "arn:${Partition}:mq:${Region}:${Account}:configuration:${ConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguration",
 }));
@@ -1689,14 +1552,6 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
-  iam: {
-    actions: ["mq:UpdateUser"],
-    resources: {
-      "mq:UpdateUser": [
-        "arn:${Partition}:mq:${Region}:${Account}:broker:${BrokerName}:${BrokerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));

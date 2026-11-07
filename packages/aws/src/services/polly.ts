@@ -762,12 +762,6 @@ export const deleteLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLexicon",
-  iam: {
-    actions: ["polly:DeleteLexicon"],
-    resources: {
-      "polly:DeleteLexicon": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLexicon",
 }));
@@ -810,7 +804,6 @@ export const describeVoices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVoices",
-  iam: { actions: ["polly:DescribeVoices"] },
   telemetry: TELEMETRY,
   span: "DescribeVoices",
 }));
@@ -832,12 +825,6 @@ export const getLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLexicon",
-  iam: {
-    actions: ["polly:GetLexicon"],
-    resources: {
-      "polly:GetLexicon": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLexicon",
 }));
@@ -865,7 +852,6 @@ export const getSpeechSynthesisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSpeechSynthesisTask",
-  iam: { actions: ["polly:GetSpeechSynthesisTask"] },
   telemetry: TELEMETRY,
   span: "GetSpeechSynthesisTask",
 }));
@@ -886,7 +872,6 @@ export const listLexicons: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLexicons",
-  iam: { actions: ["polly:ListLexicons"] },
   telemetry: TELEMETRY,
   span: "ListLexicons",
 }));
@@ -918,7 +903,6 @@ export const listSpeechSynthesisTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["polly:ListSpeechSynthesisTasks"] },
   telemetry: TELEMETRY,
   span: "ListSpeechSynthesisTasks",
 })) as any;
@@ -951,14 +935,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["polly:ListTagsForResource"],
-    resources: {
-      "polly:ListTagsForResource": [
-        "arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1013,14 +989,6 @@ export const putLexicon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLexicon",
-  iam: {
-    actions: ["polly:PutLexicon", "polly:TagResource"],
-    resources: {
-      "polly:PutLexicon": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
-      "polly:TagResource": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
-    },
-    conditional: { "polly:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutLexicon",
 }));
@@ -1057,7 +1025,6 @@ export const startSpeechSynthesisStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisStream",
-  iam: { actions: ["polly:StartSpeechSynthesisStream"] },
   telemetry: TELEMETRY,
   span: "StartSpeechSynthesisStream",
 }));
@@ -1113,7 +1080,6 @@ export const startSpeechSynthesisTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeechSynthesisTask",
-  iam: { actions: ["polly:StartSpeechSynthesisTask"] },
   telemetry: TELEMETRY,
   span: "StartSpeechSynthesisTask",
 }));
@@ -1158,7 +1124,6 @@ export const synthesizeSpeech: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SynthesizeSpeech",
-  iam: { actions: ["polly:SynthesizeSpeech"] },
   telemetry: TELEMETRY,
   span: "SynthesizeSpeech",
 }));
@@ -1196,12 +1161,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["polly:TagResource"],
-    resources: {
-      "polly:TagResource": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1234,12 +1193,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["polly:UntagResource"],
-    resources: {
-      "polly:UntagResource": ["arn:${Partition}:polly:${Region}:${Account}:lexicon/${LexiconName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

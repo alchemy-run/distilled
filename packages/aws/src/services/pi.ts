@@ -442,18 +442,6 @@ export const createPerformanceAnalysisReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePerformanceAnalysisReport",
-  iam: {
-    actions: ["pi:CreatePerformanceAnalysisReport", "pi:TagResource"],
-    resources: {
-      "pi:CreatePerformanceAnalysisReport": [
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-      "pi:TagResource": [
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-    },
-    conditional: { "pi:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePerformanceAnalysisReport",
 }));
@@ -478,14 +466,6 @@ export const deletePerformanceAnalysisReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePerformanceAnalysisReport",
-  iam: {
-    actions: ["pi:DeletePerformanceAnalysisReport"],
-    resources: {
-      "pi:DeletePerformanceAnalysisReport": [
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePerformanceAnalysisReport",
 }));
@@ -519,14 +499,6 @@ export const describeDimensionKeys: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["pi:DescribeDimensionKeys"],
-    resources: {
-      "pi:DescribeDimensionKeys": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDimensionKeys",
 })) as any;
@@ -554,14 +526,6 @@ export const getDimensionKeyDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDimensionKeyDetails",
-  iam: {
-    actions: ["pi:GetDimensionKeyDetails"],
-    resources: {
-      "pi:GetDimensionKeyDetails": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDimensionKeyDetails",
 }));
@@ -589,14 +553,6 @@ export const getPerformanceAnalysisReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPerformanceAnalysisReport",
-  iam: {
-    actions: ["pi:GetPerformanceAnalysisReport"],
-    resources: {
-      "pi:GetPerformanceAnalysisReport": [
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPerformanceAnalysisReport",
 }));
@@ -622,14 +578,6 @@ export const getResourceMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceMetadata",
-  iam: {
-    actions: ["pi:GetResourceMetadata"],
-    resources: {
-      "pi:GetResourceMetadata": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourceMetadata",
 }));
@@ -665,14 +613,6 @@ export const getResourceMetrics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["pi:GetResourceMetrics"],
-    resources: {
-      "pi:GetResourceMetrics": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourceMetrics",
 })) as any;
@@ -703,28 +643,6 @@ export const listAvailableResourceDimensions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: [
-      "pi:DescribeDimensionKeys",
-      "pi:GetDimensionKeyDetails",
-      "pi:GetResourceMetrics",
-      "pi:ListAvailableResourceDimensions",
-    ],
-    resources: {
-      "pi:DescribeDimensionKeys": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-      "pi:GetDimensionKeyDetails": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-      "pi:GetResourceMetrics": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-      "pi:ListAvailableResourceDimensions": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAvailableResourceDimensions",
 })) as any;
@@ -755,14 +673,6 @@ export const listAvailableResourceMetrics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["pi:ListAvailableResourceMetrics"],
-    resources: {
-      "pi:ListAvailableResourceMetrics": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAvailableResourceMetrics",
 })) as any;
@@ -794,14 +704,6 @@ export const listPerformanceAnalysisReportRecommendations: API.PaginatedOperatio
     items: "Recommendations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["pi:ListPerformanceAnalysisReportRecommendations"],
-    resources: {
-      "pi:ListPerformanceAnalysisReportRecommendations": [
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPerformanceAnalysisReportRecommendations",
 })) as any;
@@ -832,18 +734,6 @@ export const listPerformanceAnalysisReports: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["pi:ListPerformanceAnalysisReports", "pi:ListTagsForResource"],
-    resources: {
-      "pi:ListPerformanceAnalysisReports": [
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-      "pi:ListTagsForResource": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPerformanceAnalysisReports",
 })) as any;
@@ -868,15 +758,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["pi:ListTagsForResource"],
-    resources: {
-      "pi:ListTagsForResource": [
-        "arn:${Partition}:pi:${Region}:${Account}:metrics/${ServiceType}/${Identifier}",
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -901,14 +782,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["pi:TagResource"],
-    resources: {
-      "pi:TagResource": [
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -933,14 +806,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["pi:UntagResource"],
-    resources: {
-      "pi:UntagResource": [
-        "arn:${Partition}:pi:${Region}:${Account}:perf-reports/${ServiceType}/${Identifier}/${ReportId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

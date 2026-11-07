@@ -654,15 +654,6 @@ export const createCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateAuthority",
-  iam: {
-    actions: ["acm-pca:CreateCertificateAuthority", "acm-pca:TagCertificateAuthority"],
-    resources: {
-      "acm-pca:TagCertificateAuthority": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-    conditional: { "acm-pca:TagCertificateAuthority": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCertificateAuthority",
 }));
@@ -703,14 +694,6 @@ export const createCertificateAuthorityAuditReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCertificateAuthorityAuditReport",
-  iam: {
-    actions: ["acm-pca:CreateCertificateAuthorityAuditReport"],
-    resources: {
-      "acm-pca:CreateCertificateAuthorityAuditReport": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCertificateAuthorityAuditReport",
 }));
@@ -754,14 +737,6 @@ export const createPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePermission",
-  iam: {
-    actions: ["acm-pca:CreatePermission"],
-    resources: {
-      "acm-pca:CreatePermission": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePermission",
 }));
@@ -802,14 +777,6 @@ export const deleteCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificateAuthority",
-  iam: {
-    actions: ["acm-pca:DeleteCertificateAuthority"],
-    resources: {
-      "acm-pca:DeleteCertificateAuthority": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCertificateAuthority",
 }));
@@ -851,14 +818,6 @@ export const deletePermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePermission",
-  iam: {
-    actions: ["acm-pca:DeletePermission"],
-    resources: {
-      "acm-pca:DeletePermission": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePermission",
 }));
@@ -908,14 +867,6 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
-  iam: {
-    actions: ["acm-pca:DeletePolicy"],
-    resources: {
-      "acm-pca:DeletePolicy": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -953,14 +904,6 @@ export const describeCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthority",
-  iam: {
-    actions: ["acm-pca:DescribeCertificateAuthority"],
-    resources: {
-      "acm-pca:DescribeCertificateAuthority": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCertificateAuthority",
 }));
@@ -985,14 +928,6 @@ export const describeCertificateAuthorityAuditReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCertificateAuthorityAuditReport",
-  iam: {
-    actions: ["acm-pca:DescribeCertificateAuthorityAuditReport"],
-    resources: {
-      "acm-pca:DescribeCertificateAuthorityAuditReport": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCertificateAuthorityAuditReport",
 }));
@@ -1025,14 +960,6 @@ export const getCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificate",
-  iam: {
-    actions: ["acm-pca:GetCertificate"],
-    resources: {
-      "acm-pca:GetCertificate": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCertificate",
 }));
@@ -1057,14 +984,6 @@ export const getCertificateAuthorityCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAuthorityCertificate",
-  iam: {
-    actions: ["acm-pca:GetCertificateAuthorityCertificate"],
-    resources: {
-      "acm-pca:GetCertificateAuthorityCertificate": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCertificateAuthorityCertificate",
 }));
@@ -1097,14 +1016,6 @@ export const getCertificateAuthorityCsr: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCertificateAuthorityCsr",
-  iam: {
-    actions: ["acm-pca:GetCertificateAuthorityCsr"],
-    resources: {
-      "acm-pca:GetCertificateAuthorityCsr": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCertificateAuthorityCsr",
 }));
@@ -1146,14 +1057,6 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
-  iam: {
-    actions: ["acm-pca:GetPolicy"],
-    resources: {
-      "acm-pca:GetPolicy": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -1268,14 +1171,6 @@ export const importCertificateAuthorityCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificateAuthorityCertificate",
-  iam: {
-    actions: ["acm-pca:ImportCertificateAuthorityCertificate"],
-    resources: {
-      "acm-pca:ImportCertificateAuthorityCertificate": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportCertificateAuthorityCertificate",
 }));
@@ -1312,14 +1207,6 @@ export const issueCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IssueCertificate",
-  iam: {
-    actions: ["acm-pca:IssueCertificate"],
-    resources: {
-      "acm-pca:IssueCertificate": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "IssueCertificate",
 }));
@@ -1347,7 +1234,6 @@ export const listCertificateAuthorities: API.PaginatedOperationMethod<
     items: "CertificateAuthorities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["acm-pca:ListCertificateAuthorities"] },
   telemetry: TELEMETRY,
   span: "ListCertificateAuthorities",
 })) as any;
@@ -1398,14 +1284,6 @@ export const listPermissions: API.PaginatedOperationMethod<
     items: "Permissions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["acm-pca:ListPermissions"],
-    resources: {
-      "acm-pca:ListPermissions": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPermissions",
 })) as any;
@@ -1443,14 +1321,6 @@ export const listTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["acm-pca:ListTags"],
-    resources: {
-      "acm-pca:ListTags": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTags",
 })) as any;
@@ -1500,14 +1370,6 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
-  iam: {
-    actions: ["acm-pca:PutPolicy"],
-    resources: {
-      "acm-pca:PutPolicy": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutPolicy",
 }));
@@ -1532,14 +1394,6 @@ export const restoreCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreCertificateAuthority",
-  iam: {
-    actions: ["acm-pca:RestoreCertificateAuthority"],
-    resources: {
-      "acm-pca:RestoreCertificateAuthority": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RestoreCertificateAuthority",
 }));
@@ -1586,14 +1440,6 @@ export const revokeCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeCertificate",
-  iam: {
-    actions: ["acm-pca:RevokeCertificate"],
-    resources: {
-      "acm-pca:RevokeCertificate": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RevokeCertificate",
 }));
@@ -1628,14 +1474,6 @@ export const tagCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagCertificateAuthority",
-  iam: {
-    actions: ["acm-pca:TagCertificateAuthority"],
-    resources: {
-      "acm-pca:TagCertificateAuthority": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagCertificateAuthority",
 }));
@@ -1666,14 +1504,6 @@ export const untagCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagCertificateAuthority",
-  iam: {
-    actions: ["acm-pca:UntagCertificateAuthority"],
-    resources: {
-      "acm-pca:UntagCertificateAuthority": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagCertificateAuthority",
 }));
@@ -1710,14 +1540,6 @@ export const updateCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCertificateAuthority",
-  iam: {
-    actions: ["acm-pca:UpdateCertificateAuthority"],
-    resources: {
-      "acm-pca:UpdateCertificateAuthority": [
-        "arn:${Partition}:acm-pca:${Region}:${Account}:certificate-authority/${CertificateAuthorityId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCertificateAuthority",
 }));

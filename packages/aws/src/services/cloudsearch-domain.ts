@@ -249,7 +249,6 @@ export const search: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Search",
-  iam: { actions: ["cloudsearch:Search"] },
   telemetry: TELEMETRY,
   span: "Search",
 }));
@@ -274,7 +273,6 @@ export const suggest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Suggest",
-  iam: { actions: ["cloudsearch:Suggest"] },
   telemetry: TELEMETRY,
   span: "Suggest",
 }));

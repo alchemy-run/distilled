@@ -247,7 +247,6 @@ export const approvePaidSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApprovePaidSubscription",
-  iam: { actions: ["pricingplanmanager:ApprovePaidSubscription"] },
   telemetry: TELEMETRY,
   span: "ApprovePaidSubscription",
 }));
@@ -284,7 +283,6 @@ export const associateResourcesToSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResourcesToSubscription",
-  iam: { actions: ["pricingplanmanager:AssociateResourcesToSubscription"] },
   telemetry: TELEMETRY,
   span: "AssociateResourcesToSubscription",
 }));
@@ -323,7 +321,6 @@ export const cancelSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscription",
-  iam: { actions: ["pricingplanmanager:CancelSubscription"] },
   telemetry: TELEMETRY,
   span: "CancelSubscription",
 }));
@@ -360,7 +357,6 @@ export const cancelSubscriptionChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSubscriptionChange",
-  iam: { actions: ["pricingplanmanager:CancelSubscriptionChange"] },
   telemetry: TELEMETRY,
   span: "CancelSubscriptionChange",
 }));
@@ -401,12 +397,6 @@ export const createSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscription",
-  iam: {
-    actions: [
-      "pricingplanmanager:ApprovePaidSubscription",
-      "pricingplanmanager:CreateSubscription",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "CreateSubscription",
 }));
@@ -443,7 +433,6 @@ export const disassociateResourcesFromSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResourcesFromSubscription",
-  iam: { actions: ["pricingplanmanager:DisassociateResourcesFromSubscription"] },
   telemetry: TELEMETRY,
   span: "DisassociateResourcesFromSubscription",
 }));
@@ -476,7 +465,6 @@ export const getSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscription",
-  iam: { actions: ["pricingplanmanager:GetSubscription"] },
   telemetry: TELEMETRY,
   span: "GetSubscription",
 }));
@@ -515,7 +503,6 @@ export const listSubscriptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "subscriptionSummaries",
   } as const,
-  iam: { actions: ["pricingplanmanager:ListSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListSubscriptions",
 })) as any;
@@ -556,7 +543,6 @@ export const updateSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscription",
-  iam: { actions: ["pricingplanmanager:UpdateSubscription"] },
   telemetry: TELEMETRY,
   span: "UpdateSubscription",
 }));

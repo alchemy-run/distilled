@@ -832,10 +832,6 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
-  iam: {
-    actions: ["pca-connector-ad:CreateConnector", "pca-connector-ad:TagResource"],
-    conditional: { "pca-connector-ad:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -871,10 +867,6 @@ export const createDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectoryRegistration",
-  iam: {
-    actions: ["pca-connector-ad:CreateDirectoryRegistration", "pca-connector-ad:TagResource"],
-    conditional: { "pca-connector-ad:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDirectoryRegistration",
 }));
@@ -911,14 +903,6 @@ export const createServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServicePrincipalName",
-  iam: {
-    actions: ["pca-connector-ad:CreateServicePrincipalName"],
-    resources: {
-      "pca-connector-ad:CreateServicePrincipalName": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:directory-registration/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateServicePrincipalName",
 }));
@@ -956,15 +940,6 @@ export const createTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplate",
-  iam: {
-    actions: ["pca-connector-ad:CreateTemplate", "pca-connector-ad:TagResource"],
-    resources: {
-      "pca-connector-ad:CreateTemplate": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-    conditional: { "pca-connector-ad:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTemplate",
 }));
@@ -1002,14 +977,6 @@ export const createTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTemplateGroupAccessControlEntry",
-  iam: {
-    actions: ["pca-connector-ad:CreateTemplateGroupAccessControlEntry"],
-    resources: {
-      "pca-connector-ad:CreateTemplateGroupAccessControlEntry": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateTemplateGroupAccessControlEntry",
 }));
@@ -1048,14 +1015,6 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
-  iam: {
-    actions: ["pca-connector-ad:DeleteConnector"],
-    resources: {
-      "pca-connector-ad:DeleteConnector": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -1089,14 +1048,6 @@ export const deleteDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectoryRegistration",
-  iam: {
-    actions: ["pca-connector-ad:DeleteDirectoryRegistration"],
-    resources: {
-      "pca-connector-ad:DeleteDirectoryRegistration": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:directory-registration/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDirectoryRegistration",
 }));
@@ -1130,14 +1081,6 @@ export const deleteServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServicePrincipalName",
-  iam: {
-    actions: ["pca-connector-ad:DeleteServicePrincipalName"],
-    resources: {
-      "pca-connector-ad:DeleteServicePrincipalName": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:directory-registration/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServicePrincipalName",
 }));
@@ -1173,14 +1116,6 @@ export const deleteTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplate",
-  iam: {
-    actions: ["pca-connector-ad:DeleteTemplate"],
-    resources: {
-      "pca-connector-ad:DeleteTemplate": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTemplate",
 }));
@@ -1215,14 +1150,6 @@ export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTemplateGroupAccessControlEntry",
-  iam: {
-    actions: ["pca-connector-ad:DeleteTemplateGroupAccessControlEntry"],
-    resources: {
-      "pca-connector-ad:DeleteTemplateGroupAccessControlEntry": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTemplateGroupAccessControlEntry",
 }));
@@ -1256,14 +1183,6 @@ export const getConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnector",
-  iam: {
-    actions: ["pca-connector-ad:GetConnector"],
-    resources: {
-      "pca-connector-ad:GetConnector": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConnector",
 }));
@@ -1296,14 +1215,6 @@ export const getDirectoryRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectoryRegistration",
-  iam: {
-    actions: ["pca-connector-ad:GetDirectoryRegistration"],
-    resources: {
-      "pca-connector-ad:GetDirectoryRegistration": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:directory-registration/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDirectoryRegistration",
 }));
@@ -1337,14 +1248,6 @@ export const getServicePrincipalName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServicePrincipalName",
-  iam: {
-    actions: ["pca-connector-ad:GetServicePrincipalName"],
-    resources: {
-      "pca-connector-ad:GetServicePrincipalName": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:directory-registration/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetServicePrincipalName",
 }));
@@ -1378,14 +1281,6 @@ export const getTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplate",
-  iam: {
-    actions: ["pca-connector-ad:GetTemplate"],
-    resources: {
-      "pca-connector-ad:GetTemplate": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTemplate",
 }));
@@ -1418,14 +1313,6 @@ export const getTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTemplateGroupAccessControlEntry",
-  iam: {
-    actions: ["pca-connector-ad:GetTemplateGroupAccessControlEntry"],
-    resources: {
-      "pca-connector-ad:GetTemplateGroupAccessControlEntry": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTemplateGroupAccessControlEntry",
 }));
@@ -1463,7 +1350,6 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "Connectors",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["pca-connector-ad:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -1502,7 +1388,6 @@ export const listDirectoryRegistrations: API.PaginatedOperationMethod<
     items: "DirectoryRegistrations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["pca-connector-ad:ListDirectoryRegistrations"] },
   telemetry: TELEMETRY,
   span: "ListDirectoryRegistrations",
 })) as any;
@@ -1543,14 +1428,6 @@ export const listServicePrincipalNames: API.PaginatedOperationMethod<
     items: "ServicePrincipalNames",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["pca-connector-ad:ListServicePrincipalNames"],
-    resources: {
-      "pca-connector-ad:ListServicePrincipalNames": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:directory-registration/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServicePrincipalNames",
 })) as any;
@@ -1583,7 +1460,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["pca-connector-ad:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1623,14 +1499,6 @@ export const listTemplateGroupAccessControlEntries: API.PaginatedOperationMethod
     items: "AccessControlEntries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["pca-connector-ad:ListTemplateGroupAccessControlEntries"],
-    resources: {
-      "pca-connector-ad:ListTemplateGroupAccessControlEntries": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTemplateGroupAccessControlEntries",
 })) as any;
@@ -1670,14 +1538,6 @@ export const listTemplates: API.PaginatedOperationMethod<
     items: "Templates",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["pca-connector-ad:ListTemplates"],
-    resources: {
-      "pca-connector-ad:ListTemplates": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTemplates",
 })) as any;
@@ -1710,7 +1570,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["pca-connector-ad:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1743,7 +1602,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["pca-connector-ad:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1778,14 +1636,6 @@ export const updateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplate",
-  iam: {
-    actions: ["pca-connector-ad:UpdateTemplate"],
-    resources: {
-      "pca-connector-ad:UpdateTemplate": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTemplate",
 }));
@@ -1820,14 +1670,6 @@ export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateGroupAccessControlEntry",
-  iam: {
-    actions: ["pca-connector-ad:UpdateTemplateGroupAccessControlEntry"],
-    resources: {
-      "pca-connector-ad:UpdateTemplateGroupAccessControlEntry": [
-        "arn:${Partition}:pca-connector-ad:${Region}:${Account}:connector/${ConnectorId}/template/${TemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTemplateGroupAccessControlEntry",
 }));

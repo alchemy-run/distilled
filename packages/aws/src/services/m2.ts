@@ -938,14 +938,6 @@ export const cancelBatchJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBatchJobExecution",
-  iam: {
-    actions: ["m2:CancelBatchJobExecution"],
-    resources: {
-      "m2:CancelBatchJobExecution": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelBatchJobExecution",
 }));
@@ -981,11 +973,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["m2:CreateApplication", "iam:PassRole", "m2:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "roleArn", "m2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -1022,14 +1009,6 @@ export const createDataSetExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSetExportTask",
-  iam: {
-    actions: ["m2:CreateDataSetExportTask"],
-    resources: {
-      "m2:CreateDataSetExportTask": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataSetExportTask",
 }));
@@ -1066,14 +1045,6 @@ export const createDataSetImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSetImportTask",
-  iam: {
-    actions: ["m2:CreateDataSetImportTask"],
-    resources: {
-      "m2:CreateDataSetImportTask": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataSetImportTask",
 }));
@@ -1111,7 +1082,6 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
-  iam: { actions: ["m2:CreateDeployment"] },
   telemetry: TELEMETRY,
   span: "CreateDeployment",
 }));
@@ -1146,10 +1116,6 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
-  iam: {
-    actions: ["m2:CreateEnvironment", "m2:TagResource"],
-    conditional: { "m2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -1182,12 +1148,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["m2:DeleteApplication"],
-    resources: {
-      "m2:DeleteApplication": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -1225,14 +1185,6 @@ export const deleteApplicationFromEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationFromEnvironment",
-  iam: {
-    actions: ["m2:DeleteApplicationFromEnvironment"],
-    resources: {
-      "m2:DeleteApplicationFromEnvironment": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationFromEnvironment",
 }));
@@ -1267,12 +1219,6 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
-  iam: {
-    actions: ["m2:DeleteEnvironment"],
-    resources: {
-      "m2:DeleteEnvironment": ["arn:${Partition}:m2:${Region}:${Account}:env/${EnvironmentId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -1305,12 +1251,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["m2:GetApplication"],
-    resources: {
-      "m2:GetApplication": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -1343,12 +1283,6 @@ export const getApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationVersion",
-  iam: {
-    actions: ["m2:GetApplicationVersion"],
-    resources: {
-      "m2:GetApplicationVersion": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplicationVersion",
 }));
@@ -1381,12 +1315,6 @@ export const getBatchJobExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBatchJobExecution",
-  iam: {
-    actions: ["m2:GetBatchJobExecution"],
-    resources: {
-      "m2:GetBatchJobExecution": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBatchJobExecution",
 }));
@@ -1425,12 +1353,6 @@ export const getDataSetDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSetDetails",
-  iam: {
-    actions: ["m2:GetDataSetDetails"],
-    resources: {
-      "m2:GetDataSetDetails": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataSetDetails",
 }));
@@ -1463,12 +1385,6 @@ export const getDataSetExportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSetExportTask",
-  iam: {
-    actions: ["m2:GetDataSetExportTask"],
-    resources: {
-      "m2:GetDataSetExportTask": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataSetExportTask",
 }));
@@ -1501,12 +1417,6 @@ export const getDataSetImportTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSetImportTask",
-  iam: {
-    actions: ["m2:GetDataSetImportTask"],
-    resources: {
-      "m2:GetDataSetImportTask": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataSetImportTask",
 }));
@@ -1539,12 +1449,6 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
-  iam: {
-    actions: ["m2:GetDeployment"],
-    resources: {
-      "m2:GetDeployment": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
@@ -1577,12 +1481,6 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
-  iam: {
-    actions: ["m2:GetEnvironment"],
-    resources: {
-      "m2:GetEnvironment": ["arn:${Partition}:m2:${Region}:${Account}:env/${EnvironmentId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -1607,7 +1505,6 @@ export const getSignedBluinsightsUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignedBluinsightsUrl",
-  iam: { actions: ["m2:GetSignedBluinsightsUrl"] },
   telemetry: TELEMETRY,
   span: "GetSignedBluinsightsUrl",
 }));
@@ -1647,7 +1544,6 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["m2:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -1687,14 +1583,6 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
     items: "applicationVersions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["m2:ListApplicationVersions"],
-    resources: {
-      "m2:ListApplicationVersions": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplicationVersions",
 })) as any;
@@ -1736,14 +1624,6 @@ export const listBatchJobDefinitions: API.PaginatedOperationMethod<
     items: "batchJobDefinitions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["m2:ListBatchJobDefinitions"],
-    resources: {
-      "m2:ListBatchJobDefinitions": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBatchJobDefinitions",
 })) as any;
@@ -1784,14 +1664,6 @@ export const listBatchJobExecutions: API.PaginatedOperationMethod<
     items: "batchJobExecutions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["m2:ListBatchJobExecutions"],
-    resources: {
-      "m2:ListBatchJobExecutions": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBatchJobExecutions",
 })) as any;
@@ -1826,14 +1698,6 @@ export const listBatchJobRestartPoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBatchJobRestartPoints",
-  iam: {
-    actions: ["m2:ListBatchJobRestartPoints"],
-    resources: {
-      "m2:ListBatchJobRestartPoints": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBatchJobRestartPoints",
 }));
@@ -1873,14 +1737,6 @@ export const listDataSetExportHistory: API.PaginatedOperationMethod<
     items: "dataSetExportTasks",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["m2:ListDataSetExportHistory"],
-    resources: {
-      "m2:ListDataSetExportHistory": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSetExportHistory",
 })) as any;
@@ -1920,14 +1776,6 @@ export const listDataSetImportHistory: API.PaginatedOperationMethod<
     items: "dataSetImportTasks",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["m2:ListDataSetImportHistory"],
-    resources: {
-      "m2:ListDataSetImportHistory": [
-        "arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSetImportHistory",
 })) as any;
@@ -1975,12 +1823,6 @@ export const listDataSets: API.PaginatedOperationMethod<
     items: "dataSets",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["m2:ListDataSets"],
-    resources: {
-      "m2:ListDataSets": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSets",
 })) as any;
@@ -2022,12 +1864,6 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["m2:ListDeployments"],
-    resources: {
-      "m2:ListDeployments": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDeployments",
 })) as any;
@@ -2065,7 +1901,6 @@ export const listEngineVersions: API.PaginatedOperationMethod<
     items: "engineVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["m2:ListEngineVersions"] },
   telemetry: TELEMETRY,
   span: "ListEngineVersions",
 })) as any;
@@ -2103,7 +1938,6 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "environments",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["m2:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -2136,7 +1970,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["m2:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2171,12 +2004,6 @@ export const startApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
-  iam: {
-    actions: ["m2:StartApplication"],
-    resources: {
-      "m2:StartApplication": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartApplication",
 }));
@@ -2212,12 +2039,6 @@ export const startBatchJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBatchJob",
-  iam: {
-    actions: ["m2:StartBatchJob"],
-    resources: {
-      "m2:StartBatchJob": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartBatchJob",
 }));
@@ -2252,12 +2073,6 @@ export const stopApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
-  iam: {
-    actions: ["m2:StopApplication"],
-    resources: {
-      "m2:StopApplication": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopApplication",
 }));
@@ -2292,7 +2107,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["m2:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2325,7 +2139,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["m2:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2360,12 +2173,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: {
-    actions: ["m2:UpdateApplication"],
-    resources: {
-      "m2:UpdateApplication": ["arn:${Partition}:m2:${Region}:${Account}:app/${ApplicationId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -2402,12 +2209,6 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
-  iam: {
-    actions: ["m2:UpdateEnvironment"],
-    resources: {
-      "m2:UpdateEnvironment": ["arn:${Partition}:m2:${Region}:${Account}:env/${EnvironmentId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));

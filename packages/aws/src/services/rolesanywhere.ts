@@ -419,14 +419,6 @@ export const createProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProfile",
-  iam: {
-    actions: ["rolesanywhere:CreateProfile", "iam:PassRole", "rolesanywhere:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "a role the request names",
-      "rolesanywhere:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateProfile",
 }));
@@ -453,10 +445,6 @@ export const createTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustAnchor",
-  iam: {
-    actions: ["rolesanywhere:CreateTrustAnchor", "rolesanywhere:TagResource"],
-    conditional: { "rolesanywhere:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrustAnchor",
 }));
@@ -487,14 +475,6 @@ export const deleteAttributeMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeMapping",
-  iam: {
-    actions: ["rolesanywhere:DeleteAttributeMapping"],
-    resources: {
-      "rolesanywhere:DeleteAttributeMapping": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAttributeMapping",
 }));
@@ -521,14 +501,6 @@ export const deleteCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrl",
-  iam: {
-    actions: ["rolesanywhere:DeleteCrl"],
-    resources: {
-      "rolesanywhere:DeleteCrl": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCrl",
 }));
@@ -555,14 +527,6 @@ export const deleteProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProfile",
-  iam: {
-    actions: ["rolesanywhere:DeleteProfile"],
-    resources: {
-      "rolesanywhere:DeleteProfile": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProfile",
 }));
@@ -589,14 +553,6 @@ export const deleteTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustAnchor",
-  iam: {
-    actions: ["rolesanywhere:DeleteTrustAnchor"],
-    resources: {
-      "rolesanywhere:DeleteTrustAnchor": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrustAnchor",
 }));
@@ -627,14 +583,6 @@ export const disableCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableCrl",
-  iam: {
-    actions: ["rolesanywhere:DisableCrl"],
-    resources: {
-      "rolesanywhere:DisableCrl": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableCrl",
 }));
@@ -665,14 +613,6 @@ export const disableProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableProfile",
-  iam: {
-    actions: ["rolesanywhere:DisableProfile"],
-    resources: {
-      "rolesanywhere:DisableProfile": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableProfile",
 }));
@@ -705,14 +645,6 @@ export const disableTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableTrustAnchor",
-  iam: {
-    actions: ["rolesanywhere:DisableTrustAnchor"],
-    resources: {
-      "rolesanywhere:DisableTrustAnchor": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableTrustAnchor",
 }));
@@ -743,14 +675,6 @@ export const enableCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableCrl",
-  iam: {
-    actions: ["rolesanywhere:EnableCrl"],
-    resources: {
-      "rolesanywhere:EnableCrl": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableCrl",
 }));
@@ -781,16 +705,6 @@ export const enableProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableProfile",
-  iam: {
-    actions: ["rolesanywhere:EnableProfile", "iam:PassRole"],
-    resources: {
-      "rolesanywhere:EnableProfile": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "EnableProfile",
 }));
@@ -823,14 +737,6 @@ export const enableTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableTrustAnchor",
-  iam: {
-    actions: ["rolesanywhere:EnableTrustAnchor"],
-    resources: {
-      "rolesanywhere:EnableTrustAnchor": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableTrustAnchor",
 }));
@@ -857,12 +763,6 @@ export const getCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCrl",
-  iam: {
-    actions: ["rolesanywhere:GetCrl"],
-    resources: {
-      "rolesanywhere:GetCrl": ["arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCrl",
 }));
@@ -893,14 +793,6 @@ export const getProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProfile",
-  iam: {
-    actions: ["rolesanywhere:GetProfile"],
-    resources: {
-      "rolesanywhere:GetProfile": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProfile",
 }));
@@ -927,14 +819,6 @@ export const getSubject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubject",
-  iam: {
-    actions: ["rolesanywhere:GetSubject"],
-    resources: {
-      "rolesanywhere:GetSubject": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:subject/${SubjectId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSubject",
 }));
@@ -971,14 +855,6 @@ export const getTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustAnchor",
-  iam: {
-    actions: ["rolesanywhere:GetTrustAnchor"],
-    resources: {
-      "rolesanywhere:GetTrustAnchor": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTrustAnchor",
 }));
@@ -1005,10 +881,6 @@ export const importCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCrl",
-  iam: {
-    actions: ["rolesanywhere:ImportCrl", "rolesanywhere:TagResource"],
-    conditional: { "rolesanywhere:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportCrl",
 }));
@@ -1037,7 +909,6 @@ export const listCrls: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListCrls",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "crls" } as const,
-  iam: { actions: ["rolesanywhere:ListCrls"] },
   telemetry: TELEMETRY,
   span: "ListCrls",
 })) as any;
@@ -1070,7 +941,6 @@ export const listProfiles: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListProfiles",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "profiles" } as const,
-  iam: { actions: ["rolesanywhere:ListProfiles"] },
   telemetry: TELEMETRY,
   span: "ListProfiles",
 })) as any;
@@ -1103,7 +973,6 @@ export const listSubjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSubjects",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "subjects" } as const,
-  iam: { actions: ["rolesanywhere:ListSubjects"] },
   telemetry: TELEMETRY,
   span: "ListSubjects",
 })) as any;
@@ -1136,7 +1005,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["rolesanywhere:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1169,7 +1037,6 @@ export const listTrustAnchors: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTrustAnchors",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "trustAnchors" } as const,
-  iam: { actions: ["rolesanywhere:ListTrustAnchors"] },
   telemetry: TELEMETRY,
   span: "ListTrustAnchors",
 })) as any;
@@ -1200,14 +1067,6 @@ export const putAttributeMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributeMapping",
-  iam: {
-    actions: ["rolesanywhere:PutAttributeMapping"],
-    resources: {
-      "rolesanywhere:PutAttributeMapping": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutAttributeMapping",
 }));
@@ -1242,14 +1101,6 @@ export const putNotificationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationSettings",
-  iam: {
-    actions: ["rolesanywhere:PutNotificationSettings"],
-    resources: {
-      "rolesanywhere:PutNotificationSettings": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutNotificationSettings",
 }));
@@ -1282,14 +1133,6 @@ export const resetNotificationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetNotificationSettings",
-  iam: {
-    actions: ["rolesanywhere:ResetNotificationSettings"],
-    resources: {
-      "rolesanywhere:ResetNotificationSettings": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetNotificationSettings",
 }));
@@ -1324,7 +1167,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["rolesanywhere:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1357,7 +1199,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["rolesanywhere:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1390,14 +1231,6 @@ export const updateCrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCrl",
-  iam: {
-    actions: ["rolesanywhere:UpdateCrl"],
-    resources: {
-      "rolesanywhere:UpdateCrl": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:crl/${CrlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCrl",
 }));
@@ -1430,16 +1263,6 @@ export const updateProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProfile",
-  iam: {
-    actions: ["iam:PassRole", "rolesanywhere:UpdateProfile"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "rolesanywhere:UpdateProfile": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:profile/${ProfileId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProfile",
 }));
@@ -1472,14 +1295,6 @@ export const updateTrustAnchor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrustAnchor",
-  iam: {
-    actions: ["rolesanywhere:UpdateTrustAnchor"],
-    resources: {
-      "rolesanywhere:UpdateTrustAnchor": [
-        "arn:${Partition}:rolesanywhere:${Region}:${Account}:trust-anchor/${TrustAnchorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTrustAnchor",
 }));

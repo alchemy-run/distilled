@@ -855,10 +855,6 @@ export const createDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "CreateDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
-  iam: {
-    actions: ["healthlake:CreateDataTransformationProfile", "healthlake:TagResource"],
-    conditional: { "healthlake:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "CreateDataTransformationProfile",
@@ -892,10 +888,6 @@ export const createFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFHIRDatastore",
-  iam: {
-    actions: ["healthlake:CreateFHIRDatastore", "healthlake:TagResource"],
-    conditional: { "healthlake:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFHIRDatastore",
 }));
@@ -929,14 +921,6 @@ export const deleteDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
-  iam: {
-    actions: ["healthlake:DeleteDataTransformationProfile"],
-    resources: {
-      "healthlake:DeleteDataTransformationProfile": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:dataTransformationProfile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "DeleteDataTransformationProfile",
@@ -974,14 +958,6 @@ export const deleteFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFHIRDatastore",
-  iam: {
-    actions: ["healthlake:DeleteFHIRDatastore"],
-    resources: {
-      "healthlake:DeleteFHIRDatastore": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFHIRDatastore",
 }));
@@ -1015,7 +991,6 @@ export const describeDataTransformationJob: API.OperationMethod<
   retry: Retry,
   operationName: "DescribeDataTransformationJob",
   endpointHostPrefix: "datatransformation.",
-  iam: { actions: ["healthlake:DescribeDataTransformationJob"] },
   telemetry: TELEMETRY,
   span: {
     op: "DescribeDataTransformationJob",
@@ -1049,14 +1024,6 @@ export const describeFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRDatastore",
-  iam: {
-    actions: ["healthlake:DescribeFHIRDatastore"],
-    resources: {
-      "healthlake:DescribeFHIRDatastore": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFHIRDatastore",
 }));
@@ -1087,14 +1054,6 @@ export const describeFHIRExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRExportJob",
-  iam: {
-    actions: ["healthlake:DescribeFHIRExportJob"],
-    resources: {
-      "healthlake:DescribeFHIRExportJob": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFHIRExportJob",
 }));
@@ -1125,14 +1084,6 @@ export const describeFHIRImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFHIRImportJob",
-  iam: {
-    actions: ["healthlake:DescribeFHIRImportJob"],
-    resources: {
-      "healthlake:DescribeFHIRImportJob": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFHIRImportJob",
 }));
@@ -1166,14 +1117,6 @@ export const getDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "GetDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
-  iam: {
-    actions: ["healthlake:GetDataTransformationProfile"],
-    resources: {
-      "healthlake:GetDataTransformationProfile": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:dataTransformationProfile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "GetDataTransformationProfile",
@@ -1215,7 +1158,6 @@ export const listDataTransformationJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["healthlake:ListDataTransformationJobs"] },
   telemetry: TELEMETRY,
   span: {
     op: "ListDataTransformationJobs",
@@ -1257,7 +1199,6 @@ export const listDataTransformationProfiles: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["healthlake:ListDataTransformationProfiles"] },
   telemetry: TELEMETRY,
   span: {
     op: "ListDataTransformationProfiles",
@@ -1301,14 +1242,6 @@ export const listDataTransformationProfileVersions: API.PaginatedOperationMethod
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["healthlake:ListDataTransformationProfileVersions"],
-    resources: {
-      "healthlake:ListDataTransformationProfileVersions": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:dataTransformationProfile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "ListDataTransformationProfileVersions",
@@ -1342,7 +1275,6 @@ export const listFHIRDatastores: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["healthlake:ListFHIRDatastores"] },
   telemetry: TELEMETRY,
   span: "ListFHIRDatastores",
 })) as any;
@@ -1381,14 +1313,6 @@ export const listFHIRExportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["healthlake:ListFHIRExportJobs"],
-    resources: {
-      "healthlake:ListFHIRExportJobs": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFHIRExportJobs",
 })) as any;
@@ -1427,14 +1351,6 @@ export const listFHIRImportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["healthlake:ListFHIRImportJobs"],
-    resources: {
-      "healthlake:ListFHIRImportJobs": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFHIRImportJobs",
 })) as any;
@@ -1458,7 +1374,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["healthlake:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1494,14 +1409,6 @@ export const publishDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "PublishDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
-  iam: {
-    actions: ["healthlake:PublishDataTransformationProfile"],
-    resources: {
-      "healthlake:PublishDataTransformationProfile": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:dataTransformationProfile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "PublishDataTransformationProfile",
@@ -1539,15 +1446,6 @@ export const restoreFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFHIRDatastore",
-  iam: {
-    actions: ["healthlake:RestoreFHIRDatastore", "healthlake:TagResource"],
-    resources: {
-      "healthlake:RestoreFHIRDatastore": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-    conditional: { "healthlake:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "RestoreFHIRDatastore",
 }));
@@ -1581,15 +1479,6 @@ export const startDataTransformationJob: API.OperationMethod<
   retry: Retry,
   operationName: "StartDataTransformationJob",
   endpointHostPrefix: "datatransformation.",
-  iam: {
-    actions: ["iam:PassRole", "healthlake:StartDataTransformationJob"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "healthlake:StartDataTransformationJob": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:dataTransformationProfile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "StartDataTransformationJob",
@@ -1627,15 +1516,6 @@ export const startFHIRExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFHIRExportJob",
-  iam: {
-    actions: ["iam:PassRole", "healthlake:StartFHIRExportJob"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "healthlake:StartFHIRExportJob": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartFHIRExportJob",
 }));
@@ -1670,15 +1550,6 @@ export const startFHIRImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFHIRImportJob",
-  iam: {
-    actions: ["iam:PassRole", "healthlake:StartFHIRImportJob"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "healthlake:StartFHIRImportJob": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartFHIRImportJob",
 }));
@@ -1699,7 +1570,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["healthlake:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1720,7 +1590,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["healthlake:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1754,14 +1623,6 @@ export const updateDataTransformationProfile: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateDataTransformationProfile",
   endpointHostPrefix: "datatransformation.",
-  iam: {
-    actions: ["healthlake:UpdateDataTransformationProfile"],
-    resources: {
-      "healthlake:UpdateDataTransformationProfile": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:dataTransformationProfile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateDataTransformationProfile",
@@ -1799,14 +1660,6 @@ export const updateFHIRDatastore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFHIRDatastore",
-  iam: {
-    actions: ["healthlake:UpdateFHIRDatastore"],
-    resources: {
-      "healthlake:UpdateFHIRDatastore": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:datastore/fhir/${DatastoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFHIRDatastore",
 }));
@@ -1840,14 +1693,6 @@ export const updateProfileWithAgent: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateProfileWithAgent",
   endpointHostPrefix: "datatransformation.",
-  iam: {
-    actions: ["healthlake:UpdateProfileWithAgent"],
-    resources: {
-      "healthlake:UpdateProfileWithAgent": [
-        "arn:${Partition}:healthlake:${Region}:${Account}:dataTransformationProfile/${ProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "UpdateProfileWithAgent",

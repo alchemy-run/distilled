@@ -5341,7 +5341,6 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
-  iam: { actions: ["ssm:AddTagsToResource"] },
   telemetry: TELEMETRY,
   span: "AddTagsToResource",
 }));
@@ -5378,14 +5377,6 @@ export const associateOpsItemRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOpsItemRelatedItem",
-  iam: {
-    actions: ["ssm:AssociateOpsItemRelatedItem"],
-    resources: {
-      "ssm:AssociateOpsItemRelatedItem": [
-        "arn:${Partition}:ssm:${Region}:${Account}:opsitem/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateOpsItemRelatedItem",
 }));
@@ -5412,7 +5403,6 @@ export const cancelCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelCommand",
-  iam: { actions: ["ssm:CancelCommand"] },
   telemetry: TELEMETRY,
   span: "CancelCommand",
 }));
@@ -5438,14 +5428,6 @@ export const cancelMaintenanceWindowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMaintenanceWindowExecution",
-  iam: {
-    actions: ["ssm:CancelMaintenanceWindowExecution"],
-    resources: {
-      "ssm:CancelMaintenanceWindowExecution": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelMaintenanceWindowExecution",
 }));
@@ -5474,11 +5456,6 @@ export const createActivation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateActivation",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:CreateActivation", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateActivation",
 }));
@@ -5536,14 +5513,6 @@ export const createAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssociation",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:CreateAssociation", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "AssociationDispatchAssumeRole",
-      "ssm:AddTagsToResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAssociation",
 }));
@@ -5598,11 +5567,6 @@ export const createAssociationBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssociationBatch",
-  iam: {
-    actions: ["ssm:CreateAssociation", "ssm:CreateAssociationBatch", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "AssociationDispatchAssumeRole" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAssociationBatch",
 }));
@@ -5628,16 +5592,6 @@ export const createCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudConnector",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:CreateCloudConnector", "iam:PassRole"],
-    resources: {
-      "ssm:CreateCloudConnector": [
-        "arn:${Partition}:ssm:${Region}:${Account}:cloud-connector/${CloudConnectorId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCloudConnector",
 }));
@@ -5679,15 +5633,6 @@ export const createDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocument",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:CreateDocument", "ssm:GetDocument", "iam:PassRole"],
-    resources: {
-      "ssm:CreateDocument": ["arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}"],
-      "ssm:GetDocument": ["arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDocument",
 }));
@@ -5719,10 +5664,6 @@ export const createMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMaintenanceWindow",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:CreateMaintenanceWindow"],
-    conditional: { "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMaintenanceWindow",
 }));
@@ -5761,10 +5702,6 @@ export const createOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpsItem",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:CreateOpsItem"],
-    conditional: { "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOpsItem",
 }));
@@ -5798,10 +5735,6 @@ export const createOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOpsMetadata",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:CreateOpsMetadata"],
-    conditional: { "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOpsMetadata",
 }));
@@ -5829,10 +5762,6 @@ export const createPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePatchBaseline",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:CreatePatchBaseline"],
-    conditional: { "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePatchBaseline",
 }));
@@ -5885,14 +5814,6 @@ export const createResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDataSync",
-  iam: {
-    actions: ["ssm:CreateResourceDataSync"],
-    resources: {
-      "ssm:CreateResourceDataSync": [
-        "arn:${Partition}:ssm:${Region}:${Account}:resource-data-sync/${SyncName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateResourceDataSync",
 }));
@@ -5920,7 +5841,6 @@ export const deleteActivation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteActivation",
-  iam: { actions: ["ssm:DeleteActivation"] },
   telemetry: TELEMETRY,
   span: "DeleteActivation",
 }));
@@ -5960,14 +5880,6 @@ export const deleteAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssociation",
-  iam: {
-    actions: ["ssm:DeleteAssociation"],
-    resources: {
-      "ssm:DeleteAssociation": [
-        "arn:${Partition}:ssm:${Region}:${Account}:association/${AssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAssociation",
 }));
@@ -5992,14 +5904,6 @@ export const deleteCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudConnector",
-  iam: {
-    actions: ["ssm:DeleteCloudConnector"],
-    resources: {
-      "ssm:DeleteCloudConnector": [
-        "arn:${Partition}:ssm:${Region}:${Account}:cloud-connector/${CloudConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCloudConnector",
 }));
@@ -6035,12 +5939,6 @@ export const deleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocument",
-  iam: {
-    actions: ["ssm:DeleteDocument"],
-    resources: {
-      "ssm:DeleteDocument": ["arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDocument",
 }));
@@ -6074,7 +5972,6 @@ export const deleteInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInventory",
-  iam: { actions: ["ssm:DeleteInventory"] },
   telemetry: TELEMETRY,
   span: "DeleteInventory",
 }));
@@ -6095,14 +5992,6 @@ export const deleteMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMaintenanceWindow",
-  iam: {
-    actions: ["ssm:DeleteMaintenanceWindow"],
-    resources: {
-      "ssm:DeleteMaintenanceWindow": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMaintenanceWindow",
 }));
@@ -6146,12 +6035,6 @@ export const deleteOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpsItem",
-  iam: {
-    actions: ["ssm:DeleteOpsItem"],
-    resources: {
-      "ssm:DeleteOpsItem": ["arn:${Partition}:ssm:${Region}:${Account}:opsitem/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOpsItem",
 }));
@@ -6176,14 +6059,6 @@ export const deleteOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOpsMetadata",
-  iam: {
-    actions: ["ssm:DeleteOpsMetadata"],
-    resources: {
-      "ssm:DeleteOpsMetadata": [
-        "arn:${Partition}:ssm:${Region}:${Account}:opsmetadata/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOpsMetadata",
 }));
@@ -6205,14 +6080,6 @@ export const deleteParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameter",
-  iam: {
-    actions: ["ssm:DeleteParameter"],
-    resources: {
-      "ssm:DeleteParameter": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteParameter",
 }));
@@ -6234,14 +6101,6 @@ export const deleteParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParameters",
-  iam: {
-    actions: ["ssm:DeleteParameters"],
-    resources: {
-      "ssm:DeleteParameters": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteParameters",
 }));
@@ -6262,14 +6121,6 @@ export const deletePatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePatchBaseline",
-  iam: {
-    actions: ["ssm:DeletePatchBaseline"],
-    resources: {
-      "ssm:DeletePatchBaseline": [
-        "arn:${Partition}:ssm:${Region}:${Account}:patchbaseline/${PatchBaselineIdResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePatchBaseline",
 }));
@@ -6300,14 +6151,6 @@ export const deleteResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceDataSync",
-  iam: {
-    actions: ["ssm:DeleteResourceDataSync"],
-    resources: {
-      "ssm:DeleteResourceDataSync": [
-        "arn:${Partition}:ssm:${Region}:${Account}:resource-data-sync/${SyncName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourceDataSync",
 }));
@@ -6354,7 +6197,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: { actions: ["ssm:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -6382,14 +6224,6 @@ export const deregisterManagedInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterManagedInstance",
-  iam: {
-    actions: ["ssm:DeregisterManagedInstance"],
-    resources: {
-      "ssm:DeregisterManagedInstance": [
-        "arn:${Partition}:ssm:${Region}:${Account}:managed-instance/${InstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterManagedInstance",
 }));
@@ -6413,14 +6247,6 @@ export const deregisterPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterPatchBaselineForPatchGroup",
-  iam: {
-    actions: ["ssm:DeregisterPatchBaselineForPatchGroup"],
-    resources: {
-      "ssm:DeregisterPatchBaselineForPatchGroup": [
-        "arn:${Partition}:ssm:${Region}:${Account}:patchbaseline/${PatchBaselineIdResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterPatchBaselineForPatchGroup",
 }));
@@ -6445,15 +6271,6 @@ export const deregisterTargetFromMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargetFromMaintenanceWindow",
-  iam: {
-    actions: ["ssm:DeregisterTargetFromMaintenanceWindow"],
-    resources: {
-      "ssm:DeregisterTargetFromMaintenanceWindow": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-        "arn:${Partition}:ssm:${Region}:${Account}:windowtarget/${WindowTargetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterTargetFromMaintenanceWindow",
 }));
@@ -6477,15 +6294,6 @@ export const deregisterTaskFromMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTaskFromMaintenanceWindow",
-  iam: {
-    actions: ["ssm:DeregisterTaskFromMaintenanceWindow"],
-    resources: {
-      "ssm:DeregisterTaskFromMaintenanceWindow": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-        "arn:${Partition}:ssm:${Region}:${Account}:windowtask/${WindowTaskId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterTaskFromMaintenanceWindow",
 }));
@@ -6520,7 +6328,6 @@ export const describeActivations: API.PaginatedOperationMethod<
     items: "ActivationList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeActivations"] },
   telemetry: TELEMETRY,
   span: "DescribeActivations",
 })) as any;
@@ -6555,14 +6362,6 @@ export const describeAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssociation",
-  iam: {
-    actions: ["ssm:DescribeAssociation"],
-    resources: {
-      "ssm:DescribeAssociation": [
-        "arn:${Partition}:ssm:${Region}:${Account}:association/${AssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAssociation",
 }));
@@ -6594,14 +6393,6 @@ export const describeAssociationExecutions: API.PaginatedOperationMethod<
     items: "AssociationExecutions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeAssociationExecutions"],
-    resources: {
-      "ssm:DescribeAssociationExecutions": [
-        "arn:${Partition}:ssm:${Region}:${Account}:association/${AssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAssociationExecutions",
 })) as any;
@@ -6639,14 +6430,6 @@ export const describeAssociationExecutionTargets: API.PaginatedOperationMethod<
     items: "AssociationExecutionTargets",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeAssociationExecutionTargets"],
-    resources: {
-      "ssm:DescribeAssociationExecutionTargets": [
-        "arn:${Partition}:ssm:${Region}:${Account}:association/${AssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAssociationExecutionTargets",
 })) as any;
@@ -6679,7 +6462,6 @@ export const describeAutomationExecutions: API.PaginatedOperationMethod<
     items: "AutomationExecutionMetadataList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeAutomationExecutions"] },
   telemetry: TELEMETRY,
   span: "DescribeAutomationExecutions",
 })) as any;
@@ -6720,16 +6502,6 @@ export const describeAutomationStepExecutions: API.PaginatedOperationMethod<
     items: "StepExecutions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeAutomationStepExecutions", "iam:PassRole"],
-    resources: {
-      "ssm:DescribeAutomationStepExecutions": [
-        "arn:${Partition}:ssm:${Region}:${Account}:automation-execution/${AutomationExecutionId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAutomationStepExecutions",
 })) as any;
@@ -6760,7 +6532,6 @@ export const describeAvailablePatches: API.PaginatedOperationMethod<
     items: "Patches",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeAvailablePatches"] },
   telemetry: TELEMETRY,
   span: "DescribeAvailablePatches",
 })) as any;
@@ -6785,14 +6556,6 @@ export const describeDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocument",
-  iam: {
-    actions: ["ssm:DescribeDocument"],
-    resources: {
-      "ssm:DescribeDocument": [
-        "arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDocument",
 }));
@@ -6827,14 +6590,6 @@ export const describeDocumentPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDocumentPermission",
-  iam: {
-    actions: ["ssm:DescribeDocumentPermission"],
-    resources: {
-      "ssm:DescribeDocumentPermission": [
-        "arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDocumentPermission",
 }));
@@ -6866,15 +6621,6 @@ export const describeEffectiveInstanceAssociations: API.PaginatedOperationMethod
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeEffectiveInstanceAssociations"],
-    resources: {
-      "ssm:DescribeEffectiveInstanceAssociations": [
-        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
-        "arn:${Partition}:ssm:${Region}:${Account}:managed-instance/${InstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEffectiveInstanceAssociations",
 })) as any;
@@ -6913,14 +6659,6 @@ export const describeEffectivePatchesForPatchBaseline: API.PaginatedOperationMet
     items: "EffectivePatches",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeEffectivePatchesForPatchBaseline"],
-    resources: {
-      "ssm:DescribeEffectivePatchesForPatchBaseline": [
-        "arn:${Partition}:ssm:${Region}:${Account}:patchbaseline/${PatchBaselineIdResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEffectivePatchesForPatchBaseline",
 })) as any;
@@ -6952,15 +6690,6 @@ export const describeInstanceAssociationsStatus: API.PaginatedOperationMethod<
     items: "InstanceAssociationStatusInfos",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeInstanceAssociationsStatus"],
-    resources: {
-      "ssm:DescribeInstanceAssociationsStatus": [
-        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
-        "arn:${Partition}:ssm:${Region}:${Account}:managed-instance/${InstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInstanceAssociationsStatus",
 })) as any;
@@ -7010,7 +6739,6 @@ export const describeInstanceInformation: API.PaginatedOperationMethod<
     items: "InstanceInformationList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeInstanceInformation"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceInformation",
 })) as any;
@@ -7044,15 +6772,6 @@ export const describeInstancePatches: API.PaginatedOperationMethod<
     items: "Patches",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeInstancePatches"],
-    resources: {
-      "ssm:DescribeInstancePatches": [
-        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
-        "arn:${Partition}:ssm:${Region}:${Account}:managed-instance/${InstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInstancePatches",
 })) as any;
@@ -7083,15 +6802,6 @@ export const describeInstancePatchStates: API.PaginatedOperationMethod<
     items: "InstancePatchStates",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeInstancePatchStates"],
-    resources: {
-      "ssm:DescribeInstancePatchStates": [
-        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
-        "arn:${Partition}:ssm:${Region}:${Account}:managed-instance/${InstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInstancePatchStates",
 })) as any;
@@ -7124,7 +6834,6 @@ export const describeInstancePatchStatesForPatchGroup: API.PaginatedOperationMet
     items: "InstancePatchStates",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeInstancePatchStatesForPatchGroup"] },
   telemetry: TELEMETRY,
   span: "DescribeInstancePatchStatesForPatchGroup",
 })) as any;
@@ -7169,7 +6878,6 @@ export const describeInstanceProperties: API.PaginatedOperationMethod<
     items: "InstanceProperties",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeInstanceProperties"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceProperties",
 })) as any;
@@ -7201,7 +6909,6 @@ export const describeInventoryDeletions: API.PaginatedOperationMethod<
     items: "InventoryDeletions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeInventoryDeletions"] },
   telemetry: TELEMETRY,
   span: "DescribeInventoryDeletions",
 })) as any;
@@ -7231,14 +6938,6 @@ export const describeMaintenanceWindowExecutions: API.PaginatedOperationMethod<
     items: "WindowExecutions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeMaintenanceWindowExecutions"],
-    resources: {
-      "ssm:DescribeMaintenanceWindowExecutions": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindowExecutions",
 })) as any;
@@ -7278,7 +6977,6 @@ export const describeMaintenanceWindowExecutionTaskInvocations: API.PaginatedOpe
     items: "WindowExecutionTaskInvocationIdentities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeMaintenanceWindowExecutionTaskInvocations"] },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindowExecutionTaskInvocations",
 })) as any;
@@ -7309,7 +7007,6 @@ export const describeMaintenanceWindowExecutionTasks: API.PaginatedOperationMeth
     items: "WindowExecutionTaskIdentities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeMaintenanceWindowExecutionTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindowExecutionTasks",
 })) as any;
@@ -7337,7 +7034,6 @@ export const describeMaintenanceWindows: API.PaginatedOperationMethod<
     items: "WindowIdentities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeMaintenanceWindows"] },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindows",
 })) as any;
@@ -7368,7 +7064,6 @@ export const describeMaintenanceWindowSchedule: API.PaginatedOperationMethod<
     items: "ScheduledWindowExecutions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeMaintenanceWindowSchedule"] },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindowSchedule",
 })) as any;
@@ -7397,7 +7092,6 @@ export const describeMaintenanceWindowsForTarget: API.PaginatedOperationMethod<
     items: "WindowIdentities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeMaintenanceWindowsForTarget"] },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindowsForTarget",
 })) as any;
@@ -7428,14 +7122,6 @@ export const describeMaintenanceWindowTargets: API.PaginatedOperationMethod<
     items: "Targets",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeMaintenanceWindowTargets"],
-    resources: {
-      "ssm:DescribeMaintenanceWindowTargets": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindowTargets",
 })) as any;
@@ -7471,14 +7157,6 @@ export const describeMaintenanceWindowTasks: API.PaginatedOperationMethod<
     items: "Tasks",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:DescribeMaintenanceWindowTasks"],
-    resources: {
-      "ssm:DescribeMaintenanceWindowTasks": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMaintenanceWindowTasks",
 })) as any;
@@ -7512,7 +7190,6 @@ export const describeOpsItems: API.PaginatedOperationMethod<
     items: "OpsItemSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeOpsItems"] },
   telemetry: TELEMETRY,
   span: "DescribeOpsItems",
 })) as any;
@@ -7568,7 +7245,6 @@ export const describeParameters: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeParameters"] },
   telemetry: TELEMETRY,
   span: "DescribeParameters",
 })) as any;
@@ -7596,7 +7272,6 @@ export const describePatchBaselines: API.PaginatedOperationMethod<
     items: "BaselineIdentities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribePatchBaselines"] },
   telemetry: TELEMETRY,
   span: "DescribePatchBaselines",
 })) as any;
@@ -7624,7 +7299,6 @@ export const describePatchGroups: API.PaginatedOperationMethod<
     items: "Mappings",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribePatchGroups"] },
   telemetry: TELEMETRY,
   span: "DescribePatchGroups",
 })) as any;
@@ -7645,7 +7319,6 @@ export const describePatchGroupState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePatchGroupState",
-  iam: { actions: ["ssm:DescribePatchGroupState"] },
   telemetry: TELEMETRY,
   span: "DescribePatchGroupState",
 }));
@@ -7730,7 +7403,6 @@ export const describePatchProperties: API.PaginatedOperationMethod<
     items: "Properties",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribePatchProperties"] },
   telemetry: TELEMETRY,
   span: "DescribePatchProperties",
 })) as any;
@@ -7763,7 +7435,6 @@ export const describeSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:DescribeSessions"] },
   telemetry: TELEMETRY,
   span: "DescribeSessions",
 })) as any;
@@ -7798,14 +7469,6 @@ export const disassociateOpsItemRelatedItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOpsItemRelatedItem",
-  iam: {
-    actions: ["ssm:DisassociateOpsItemRelatedItem"],
-    resources: {
-      "ssm:DisassociateOpsItemRelatedItem": [
-        "arn:${Partition}:ssm:${Region}:${Account}:opsitem/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateOpsItemRelatedItem",
 }));
@@ -7838,12 +7501,6 @@ export const getAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
-  iam: {
-    actions: ["ssm:GetAccessToken"],
-    resources: {
-      "ssm:GetAccessToken": ["arn:${Partition}:ssm:${Region}:${Account}:opsitem/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAccessToken",
 }));
@@ -7867,16 +7524,6 @@ export const getAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutomationExecution",
-  iam: {
-    actions: ["ssm:GetAutomationExecution", "iam:PassRole"],
-    resources: {
-      "ssm:GetAutomationExecution": [
-        "arn:${Partition}:ssm:${Region}:${Account}:automation-execution/${AutomationExecutionId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "GetAutomationExecution",
 }));
@@ -7912,14 +7559,6 @@ export const getCalendarState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCalendarState",
-  iam: {
-    actions: ["ssm:GetCalendarState"],
-    resources: {
-      "ssm:GetCalendarState": [
-        "arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCalendarState",
 }));
@@ -7940,14 +7579,6 @@ export const getCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudConnector",
-  iam: {
-    actions: ["ssm:GetCloudConnector"],
-    resources: {
-      "ssm:GetCloudConnector": [
-        "arn:${Partition}:ssm:${Region}:${Account}:cloud-connector/${CloudConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCloudConnector",
 }));
@@ -7989,7 +7620,6 @@ export const getCommandInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCommandInvocation",
-  iam: { actions: ["ssm:GetCommandInvocation"] },
   telemetry: TELEMETRY,
   span: "GetCommandInvocation",
 }));
@@ -8011,7 +7641,6 @@ export const getConnectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectionStatus",
-  iam: { actions: ["ssm:GetConnectionStatus"] },
   telemetry: TELEMETRY,
   span: "GetConnectionStatus",
 }));
@@ -8036,14 +7665,6 @@ export const getDefaultPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultPatchBaseline",
-  iam: {
-    actions: ["ssm:GetDefaultPatchBaseline"],
-    resources: {
-      "ssm:GetDefaultPatchBaseline": [
-        "arn:${Partition}:ssm:${Region}:${Account}:patchbaseline/${PatchBaselineIdResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDefaultPatchBaseline",
 }));
@@ -8075,7 +7696,6 @@ export const getDeployablePatchSnapshotForInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployablePatchSnapshotForInstance",
-  iam: { actions: ["ssm:GetDeployablePatchSnapshotForInstance"] },
   telemetry: TELEMETRY,
   span: "GetDeployablePatchSnapshotForInstance",
 }));
@@ -8100,12 +7720,6 @@ export const getDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocument",
-  iam: {
-    actions: ["ssm:GetDocument"],
-    resources: {
-      "ssm:GetDocument": ["arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDocument",
 }));
@@ -8130,7 +7744,6 @@ export const getExecutionPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecutionPreview",
-  iam: { actions: ["ssm:GetExecutionPreview"] },
   telemetry: TELEMETRY,
   span: "GetExecutionPreview",
 }));
@@ -8175,7 +7788,6 @@ export const getInventory: API.PaginatedOperationMethod<
     items: "Entities",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:GetInventory"] },
   telemetry: TELEMETRY,
   span: "GetInventory",
 })) as any;
@@ -8208,7 +7820,6 @@ export const getInventorySchema: API.PaginatedOperationMethod<
     items: "Schemas",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:GetInventorySchema"] },
   telemetry: TELEMETRY,
   span: "GetInventorySchema",
 })) as any;
@@ -8229,14 +7840,6 @@ export const getMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindow",
-  iam: {
-    actions: ["ssm:GetMaintenanceWindow"],
-    resources: {
-      "ssm:GetMaintenanceWindow": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMaintenanceWindow",
 }));
@@ -8260,7 +7863,6 @@ export const getMaintenanceWindowExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecution",
-  iam: { actions: ["ssm:GetMaintenanceWindowExecution"] },
   telemetry: TELEMETRY,
   span: "GetMaintenanceWindowExecution",
 }));
@@ -8285,7 +7887,6 @@ export const getMaintenanceWindowExecutionTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecutionTask",
-  iam: { actions: ["ssm:GetMaintenanceWindowExecutionTask"] },
   telemetry: TELEMETRY,
   span: "GetMaintenanceWindowExecutionTask",
 }));
@@ -8317,7 +7918,6 @@ export const getMaintenanceWindowExecutionTaskInvocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowExecutionTaskInvocation",
-  iam: { actions: ["ssm:GetMaintenanceWindowExecutionTaskInvocation"] },
   telemetry: TELEMETRY,
   span: "GetMaintenanceWindowExecutionTaskInvocation",
 }));
@@ -8348,14 +7948,6 @@ export const getMaintenanceWindowTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMaintenanceWindowTask",
-  iam: {
-    actions: ["ssm:GetMaintenanceWindowTask"],
-    resources: {
-      "ssm:GetMaintenanceWindowTask": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMaintenanceWindowTask",
 }));
@@ -8387,12 +7979,6 @@ export const getOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsItem",
-  iam: {
-    actions: ["ssm:GetOpsItem"],
-    resources: {
-      "ssm:GetOpsItem": ["arn:${Partition}:ssm:${Region}:${Account}:opsitem/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOpsItem",
 }));
@@ -8417,12 +8003,6 @@ export const getOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOpsMetadata",
-  iam: {
-    actions: ["ssm:GetOpsMetadata"],
-    resources: {
-      "ssm:GetOpsMetadata": ["arn:${Partition}:ssm:${Region}:${Account}:opsmetadata/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOpsMetadata",
 }));
@@ -8467,14 +8047,6 @@ export const getOpsSummary: API.PaginatedOperationMethod<
     items: "Entities",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:GetOpsSummary"],
-    resources: {
-      "ssm:GetOpsSummary": [
-        "arn:${Partition}:ssm:${Region}:${Account}:resource-data-sync/${SyncName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOpsSummary",
 })) as any;
@@ -8520,14 +8092,6 @@ export const getParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameter",
-  iam: {
-    actions: ["ssm:GetParameter"],
-    resources: {
-      "ssm:GetParameter": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetParameter",
 }));
@@ -8568,14 +8132,6 @@ export const getParameterHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:GetParameterHistory"],
-    resources: {
-      "ssm:GetParameterHistory": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetParameterHistory",
 })) as any;
@@ -8617,14 +8173,6 @@ export const getParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParameters",
-  iam: {
-    actions: ["ssm:GetParameters"],
-    resources: {
-      "ssm:GetParameters": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetParameters",
 }));
@@ -8676,14 +8224,6 @@ export const getParametersByPath: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:GetParametersByPath"],
-    resources: {
-      "ssm:GetParametersByPath": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetParametersByPath",
 })) as any;
@@ -8708,14 +8248,6 @@ export const getPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPatchBaseline",
-  iam: {
-    actions: ["ssm:GetPatchBaseline"],
-    resources: {
-      "ssm:GetPatchBaseline": [
-        "arn:${Partition}:ssm:${Region}:${Account}:patchbaseline/${PatchBaselineIdResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPatchBaseline",
 }));
@@ -8736,7 +8268,6 @@ export const getPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPatchBaselineForPatchGroup",
-  iam: { actions: ["ssm:GetPatchBaselineForPatchGroup"] },
   telemetry: TELEMETRY,
   span: "GetPatchBaselineForPatchGroup",
 }));
@@ -8768,7 +8299,6 @@ export const getResourcePolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:GetResourcePolicies"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicies",
 })) as any;
@@ -8803,14 +8333,6 @@ export const getServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceSetting",
-  iam: {
-    actions: ["ssm:GetServiceSetting"],
-    resources: {
-      "ssm:GetServiceSetting": [
-        "arn:${Partition}:ssm:${Region}:${Account}:servicesetting/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetServiceSetting",
 }));
@@ -8874,14 +8396,6 @@ export const labelParameterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LabelParameterVersion",
-  iam: {
-    actions: ["ssm:LabelParameterVersion"],
-    resources: {
-      "ssm:LabelParameterVersion": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "LabelParameterVersion",
 }));
@@ -8911,7 +8425,6 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListAssociations"] },
   telemetry: TELEMETRY,
   span: "ListAssociations",
 })) as any;
@@ -8943,14 +8456,6 @@ export const listAssociationVersions: API.PaginatedOperationMethod<
     items: "AssociationVersions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:ListAssociationVersions"],
-    resources: {
-      "ssm:ListAssociationVersions": [
-        "arn:${Partition}:ssm:${Region}:${Account}:association/${AssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAssociationVersions",
 })) as any;
@@ -8978,7 +8483,6 @@ export const listCloudConnectors: API.PaginatedOperationMethod<
     items: "CloudConnectors",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListCloudConnectors"] },
   telemetry: TELEMETRY,
   span: "ListCloudConnectors",
 })) as any;
@@ -9022,7 +8526,6 @@ export const listCommandInvocations: API.PaginatedOperationMethod<
     items: "CommandInvocations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListCommandInvocations"] },
   telemetry: TELEMETRY,
   span: "ListCommandInvocations",
 })) as any;
@@ -9062,7 +8565,6 @@ export const listCommands: API.PaginatedOperationMethod<
     items: "Commands",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListCommands"] },
   telemetry: TELEMETRY,
   span: "ListCommands",
 })) as any;
@@ -9104,7 +8606,6 @@ export const listComplianceItems: API.PaginatedOperationMethod<
     items: "ComplianceItems",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListComplianceItems"] },
   telemetry: TELEMETRY,
   span: "ListComplianceItems",
 })) as any;
@@ -9138,7 +8639,6 @@ export const listComplianceSummaries: API.PaginatedOperationMethod<
     items: "ComplianceSummaryItems",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListComplianceSummaries"] },
   telemetry: TELEMETRY,
   span: "ListComplianceSummaries",
 })) as any;
@@ -9168,14 +8668,6 @@ export const listDocumentMetadataHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDocumentMetadataHistory",
-  iam: {
-    actions: ["ssm:ListDocumentMetadataHistory"],
-    resources: {
-      "ssm:ListDocumentMetadataHistory": [
-        "arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDocumentMetadataHistory",
 }));
@@ -9208,7 +8700,6 @@ export const listDocuments: API.PaginatedOperationMethod<
     items: "DocumentIdentifiers",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListDocuments"] },
   telemetry: TELEMETRY,
   span: "ListDocuments",
 })) as any;
@@ -9240,14 +8731,6 @@ export const listDocumentVersions: API.PaginatedOperationMethod<
     items: "DocumentVersions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:ListDocumentVersions"],
-    resources: {
-      "ssm:ListDocumentVersions": [
-        "arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDocumentVersions",
 })) as any;
@@ -9280,7 +8763,6 @@ export const listInventoryEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInventoryEntries",
-  iam: { actions: ["ssm:ListInventoryEntries"] },
   telemetry: TELEMETRY,
   span: "ListInventoryEntries",
 }));
@@ -9320,12 +8802,6 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "Nodes",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:ListNodes"],
-    resources: {
-      "ssm:ListNodes": ["arn:${Partition}:ssm:${Region}:${Account}:resource-data-sync/${SyncName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListNodes",
 })) as any;
@@ -9368,14 +8844,6 @@ export const listNodesSummary: API.PaginatedOperationMethod<
     items: "Summary",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:ListNodesSummary"],
-    resources: {
-      "ssm:ListNodesSummary": [
-        "arn:${Partition}:ssm:${Region}:${Account}:resource-data-sync/${SyncName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListNodesSummary",
 })) as any;
@@ -9414,7 +8882,6 @@ export const listOpsItemEvents: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListOpsItemEvents"] },
   telemetry: TELEMETRY,
   span: "ListOpsItemEvents",
 })) as any;
@@ -9446,7 +8913,6 @@ export const listOpsItemRelatedItems: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListOpsItemRelatedItems"] },
   telemetry: TELEMETRY,
   span: "ListOpsItemRelatedItems",
 })) as any;
@@ -9478,7 +8944,6 @@ export const listOpsMetadata: API.PaginatedOperationMethod<
     items: "OpsMetadataList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListOpsMetadata"] },
   telemetry: TELEMETRY,
   span: "ListOpsMetadata",
 })) as any;
@@ -9512,7 +8977,6 @@ export const listResourceComplianceSummaries: API.PaginatedOperationMethod<
     items: "ResourceComplianceSummaryItems",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListResourceComplianceSummaries"] },
   telemetry: TELEMETRY,
   span: "ListResourceComplianceSummaries",
 })) as any;
@@ -9553,7 +9017,6 @@ export const listResourceDataSync: API.PaginatedOperationMethod<
     items: "ResourceDataSyncItems",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["ssm:ListResourceDataSync"] },
   telemetry: TELEMETRY,
   span: "ListResourceDataSync",
 })) as any;
@@ -9580,7 +9043,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["ssm:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -9616,14 +9078,6 @@ export const modifyDocumentPermission: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDocumentPermission",
-  iam: {
-    actions: ["ssm:ModifyDocumentPermission"],
-    resources: {
-      "ssm:ModifyDocumentPermission": [
-        "arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyDocumentPermission",
 }));
@@ -9706,7 +9160,6 @@ export const putComplianceItems: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComplianceItems",
-  iam: { actions: ["ssm:PutComplianceItems"] },
   telemetry: TELEMETRY,
   span: "PutComplianceItems",
 }));
@@ -9755,7 +9208,6 @@ export const putInventory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInventory",
-  iam: { actions: ["ssm:PutInventory"] },
   telemetry: TELEMETRY,
   span: "PutInventory",
 }));
@@ -9822,15 +9274,6 @@ export const putParameter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutParameter",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:PutParameter"],
-    resources: {
-      "ssm:PutParameter": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-    conditional: { "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutParameter",
 }));
@@ -9902,7 +9345,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: { actions: ["ssm:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -9932,14 +9374,6 @@ export const registerDefaultPatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDefaultPatchBaseline",
-  iam: {
-    actions: ["ssm:RegisterDefaultPatchBaseline"],
-    resources: {
-      "ssm:RegisterDefaultPatchBaseline": [
-        "arn:${Partition}:ssm:${Region}:${Account}:patchbaseline/${PatchBaselineIdResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterDefaultPatchBaseline",
 }));
@@ -9972,14 +9406,6 @@ export const registerPatchBaselineForPatchGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterPatchBaselineForPatchGroup",
-  iam: {
-    actions: ["ssm:RegisterPatchBaselineForPatchGroup"],
-    resources: {
-      "ssm:RegisterPatchBaselineForPatchGroup": [
-        "arn:${Partition}:ssm:${Region}:${Account}:patchbaseline/${PatchBaselineIdResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterPatchBaselineForPatchGroup",
 }));
@@ -10010,14 +9436,6 @@ export const registerTargetWithMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargetWithMaintenanceWindow",
-  iam: {
-    actions: ["ssm:RegisterTargetWithMaintenanceWindow"],
-    resources: {
-      "ssm:RegisterTargetWithMaintenanceWindow": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterTargetWithMaintenanceWindow",
 }));
@@ -10050,16 +9468,6 @@ export const registerTaskWithMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTaskWithMaintenanceWindow",
-  iam: {
-    actions: ["iam:PassRole", "ssm:RegisterTaskWithMaintenanceWindow"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ssm:RegisterTaskWithMaintenanceWindow": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "ServiceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "RegisterTaskWithMaintenanceWindow",
 }));
@@ -10085,7 +9493,6 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
-  iam: { actions: ["ssm:RemoveTagsFromResource"] },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromResource",
 }));
@@ -10125,14 +9532,6 @@ export const resetServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetServiceSetting",
-  iam: {
-    actions: ["ssm:ResetServiceSetting"],
-    resources: {
-      "ssm:ResetServiceSetting": [
-        "arn:${Partition}:ssm:${Region}:${Account}:servicesetting/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetServiceSetting",
 }));
@@ -10157,12 +9556,6 @@ export const resumeSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeSession",
-  iam: {
-    actions: ["ssm:ResumeSession"],
-    resources: {
-      "ssm:ResumeSession": ["arn:${Partition}:ssm:${Region}:${Account}:session/${SessionId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResumeSession",
 }));
@@ -10194,14 +9587,6 @@ export const sendAutomationSignal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendAutomationSignal",
-  iam: {
-    actions: ["ssm:SendAutomationSignal"],
-    resources: {
-      "ssm:SendAutomationSignal": [
-        "arn:${Partition}:ssm:${Region}:${Account}:automation-execution/${AutomationExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendAutomationSignal",
 }));
@@ -10246,11 +9631,6 @@ export const sendCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCommand",
-  iam: {
-    actions: ["iam:PassRole", "ssm:SendCommand"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "ServiceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "SendCommand",
 }));
@@ -10285,10 +9665,6 @@ export const startAccessRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccessRequest",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "ssm:StartAccessRequest"],
-    conditional: { "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartAccessRequest",
 }));
@@ -10313,14 +9689,6 @@ export const startAssociationsOnce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssociationsOnce",
-  iam: {
-    actions: ["ssm:StartAssociationsOnce"],
-    resources: {
-      "ssm:StartAssociationsOnce": [
-        "arn:${Partition}:ssm:${Region}:${Account}:association/${AssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartAssociationsOnce",
 }));
@@ -10357,11 +9725,6 @@ export const startAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutomationExecution",
-  iam: {
-    actions: ["ssm:AddTagsToResource", "iam:PassRole", "ssm:StartAutomationExecution"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "ssm:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartAutomationExecution",
 }));
@@ -10406,11 +9769,6 @@ export const startChangeRequestExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChangeRequestExecution",
-  iam: {
-    actions: ["iam:PassRole", "ssm:StartChangeRequestExecution"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "StartChangeRequestExecution",
 }));
@@ -10432,7 +9790,6 @@ export const startExecutionPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExecutionPreview",
-  iam: { actions: ["ssm:StartExecutionPreview"] },
   telemetry: TELEMETRY,
   span: "StartExecutionPreview",
 }));
@@ -10466,7 +9823,6 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
-  iam: { actions: ["ssm:StartSession"] },
   telemetry: TELEMETRY,
   span: "StartSession",
 }));
@@ -10495,14 +9851,6 @@ export const stopAutomationExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutomationExecution",
-  iam: {
-    actions: ["ssm:StopAutomationExecution"],
-    resources: {
-      "ssm:StopAutomationExecution": [
-        "arn:${Partition}:ssm:${Region}:${Account}:automation-execution/${AutomationExecutionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopAutomationExecution",
 }));
@@ -10524,12 +9872,6 @@ export const terminateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateSession",
-  iam: {
-    actions: ["ssm:TerminateSession"],
-    resources: {
-      "ssm:TerminateSession": ["arn:${Partition}:ssm:${Region}:${Account}:session/${SessionId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateSession",
 }));
@@ -10559,14 +9901,6 @@ export const unlabelParameterVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnlabelParameterVersion",
-  iam: {
-    actions: ["ssm:UnlabelParameterVersion"],
-    resources: {
-      "ssm:UnlabelParameterVersion": [
-        "arn:${Partition}:ssm:${Region}:${Account}:parameter/${ParameterNameWithoutLeadingSlash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UnlabelParameterVersion",
 }));
@@ -10632,11 +9966,6 @@ export const updateAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociation",
-  iam: {
-    actions: ["iam:PassRole", "ssm:UpdateAssociation"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "AssociationDispatchAssumeRole" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAssociation",
 }));
@@ -10676,7 +10005,6 @@ export const updateAssociationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssociationStatus",
-  iam: { actions: ["ssm:UpdateAssociationStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateAssociationStatus",
 }));
@@ -10701,14 +10029,6 @@ export const updateCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudConnector",
-  iam: {
-    actions: ["ssm:UpdateCloudConnector"],
-    resources: {
-      "ssm:UpdateCloudConnector": [
-        "arn:${Partition}:ssm:${Region}:${Account}:cloud-connector/${CloudConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCloudConnector",
 }));
@@ -10751,15 +10071,6 @@ export const updateDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocument",
-  iam: {
-    actions: ["ssm:GetDocument", "iam:PassRole", "ssm:UpdateDocument"],
-    resources: {
-      "ssm:GetDocument": ["arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ssm:UpdateDocument": ["arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDocument",
 }));
@@ -10794,14 +10105,6 @@ export const updateDocumentDefaultVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentDefaultVersion",
-  iam: {
-    actions: ["ssm:UpdateDocumentDefaultVersion"],
-    resources: {
-      "ssm:UpdateDocumentDefaultVersion": [
-        "arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDocumentDefaultVersion",
 }));
@@ -10839,14 +10142,6 @@ export const updateDocumentMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentMetadata",
-  iam: {
-    actions: ["ssm:UpdateDocumentMetadata"],
-    resources: {
-      "ssm:UpdateDocumentMetadata": [
-        "arn:${Partition}:ssm:${Region}:${Account}:document/${DocumentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDocumentMetadata",
 }));
@@ -10877,14 +10172,6 @@ export const updateMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindow",
-  iam: {
-    actions: ["ssm:UpdateMaintenanceWindow"],
-    resources: {
-      "ssm:UpdateMaintenanceWindow": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMaintenanceWindow",
 }));
@@ -10924,15 +10211,6 @@ export const updateMaintenanceWindowTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindowTarget",
-  iam: {
-    actions: ["ssm:UpdateMaintenanceWindowTarget"],
-    resources: {
-      "ssm:UpdateMaintenanceWindowTarget": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-        "arn:${Partition}:ssm:${Region}:${Account}:windowtarget/${WindowTargetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMaintenanceWindowTarget",
 }));
@@ -10991,17 +10269,6 @@ export const updateMaintenanceWindowTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMaintenanceWindowTask",
-  iam: {
-    actions: ["iam:PassRole", "ssm:UpdateMaintenanceWindowTask"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ssm:UpdateMaintenanceWindowTask": [
-        "arn:${Partition}:ssm:${Region}:${Account}:maintenancewindow/${ResourceId}",
-        "arn:${Partition}:ssm:${Region}:${Account}:windowtask/${WindowTaskId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "ServiceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMaintenanceWindowTask",
 }));
@@ -11024,16 +10291,6 @@ export const updateManagedInstanceRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedInstanceRole",
-  iam: {
-    actions: ["iam:PassRole", "ssm:UpdateManagedInstanceRole"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ssm:UpdateManagedInstanceRole": [
-        "arn:${Partition}:iam::${Account}:role/${RoleName}",
-        "arn:${Partition}:ssm:${Region}:${Account}:managed-instance/${InstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateManagedInstanceRole",
 }));
@@ -11076,12 +10333,6 @@ export const updateOpsItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpsItem",
-  iam: {
-    actions: ["ssm:UpdateOpsItem"],
-    resources: {
-      "ssm:UpdateOpsItem": ["arn:${Partition}:ssm:${Region}:${Account}:opsitem/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOpsItem",
 }));
@@ -11114,14 +10365,6 @@ export const updateOpsMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOpsMetadata",
-  iam: {
-    actions: ["ssm:UpdateOpsMetadata"],
-    resources: {
-      "ssm:UpdateOpsMetadata": [
-        "arn:${Partition}:ssm:${Region}:${Account}:opsmetadata/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOpsMetadata",
 }));
@@ -11146,14 +10389,6 @@ export const updatePatchBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePatchBaseline",
-  iam: {
-    actions: ["ssm:UpdatePatchBaseline"],
-    resources: {
-      "ssm:UpdatePatchBaseline": [
-        "arn:${Partition}:ssm:${Region}:${Account}:patchbaseline/${PatchBaselineIdResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePatchBaseline",
 }));
@@ -11192,14 +10427,6 @@ export const updateResourceDataSync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceDataSync",
-  iam: {
-    actions: ["ssm:UpdateResourceDataSync"],
-    resources: {
-      "ssm:UpdateResourceDataSync": [
-        "arn:${Partition}:ssm:${Region}:${Account}:resource-data-sync/${SyncName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateResourceDataSync",
 }));
@@ -11238,16 +10465,6 @@ export const updateServiceSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceSetting",
-  iam: {
-    actions: ["iam:PassRole", "ssm:UpdateServiceSetting"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ssm:UpdateServiceSetting": [
-        "arn:${Partition}:ssm:${Region}:${Account}:servicesetting/${ResourceId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceSetting",
 }));
@@ -11278,14 +10495,6 @@ export const validateCloudConnector: API.PaginatedOperationMethod<
     items: "ValidationFindings",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["ssm:ValidateCloudConnector"],
-    resources: {
-      "ssm:ValidateCloudConnector": [
-        "arn:${Partition}:ssm:${Region}:${Account}:cloud-connector/${CloudConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ValidateCloudConnector",
 })) as any;

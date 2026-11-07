@@ -201,14 +201,6 @@ export const queryForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "QueryForecast",
-  iam: {
-    actions: ["forecast:QueryForecast"],
-    resources: {
-      "forecast:QueryForecast": [
-        "arn:${Partition}:forecast:${Region}:${Account}:forecast/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "QueryForecast",
 }));
@@ -241,14 +233,6 @@ export const queryWhatIfForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "QueryWhatIfForecast",
-  iam: {
-    actions: ["forecast:QueryWhatIfForecast"],
-    resources: {
-      "forecast:QueryWhatIfForecast": [
-        "arn:${Partition}:forecast:${Region}:${Account}:what-if-forecast/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "QueryWhatIfForecast",
 }));

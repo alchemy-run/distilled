@@ -5965,14 +5965,6 @@ export const abortMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AbortMultipartUpload",
-  iam: {
-    actions: ["s3:AbortMultipartUpload", "s3-object-lambda:AbortMultipartUpload"],
-    resources: {
-      "s3-object-lambda:AbortMultipartUpload": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: { op: "AbortMultipartUpload", input: { UploadId: [{ name: "aws.s3.upload_id" }] } },
 }));
@@ -6103,14 +6095,6 @@ export const completeMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteMultipartUpload",
-  iam: {
-    actions: ["s3:PutObject", "s3-object-lambda:PutObject"],
-    resources: {
-      "s3-object-lambda:PutObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: { op: "CompleteMultipartUpload", input: { UploadId: [{ name: "aws.s3.upload_id" }] } },
 }));
@@ -6309,23 +6293,6 @@ export const copyObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyObject",
-  iam: {
-    actions: [
-      "s3:GetObject",
-      "s3:GetObjectVersion",
-      "s3:PutObject",
-      "s3-object-lambda:PutObject",
-      "s3:PutObjectAcl",
-      "s3:PutObjectLegalHold",
-      "s3:PutObjectRetention",
-      "s3:PutObjectTagging",
-    ],
-    resources: {
-      "s3-object-lambda:PutObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: { op: "CopyObject", input: { CopySource: [{ name: "aws.s3.copy_source" }] } },
 }));
@@ -6477,22 +6444,6 @@ export const createBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucket",
-  iam: {
-    actions: [
-      "s3:CreateBucket",
-      "s3:PutBucketAcl",
-      "s3:PutBucketObjectLockConfiguration",
-      "s3:PutBucketOwnershipControls",
-      "s3:PutBucketVersioning",
-    ],
-    resources: {
-      "s3:CreateBucket": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3:PutBucketAcl": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3:PutBucketObjectLockConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3:PutBucketOwnershipControls": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3:PutBucketVersioning": ["arn:${Partition}:s3:::${BucketName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBucket",
 }));
@@ -6578,38 +6529,6 @@ export const createBucketMetadataConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketMetadataConfiguration",
-  iam: {
-    actions: [
-      "s3:CreateBucketMetadataTableConfiguration",
-      "s3tables:CreateNamespace",
-      "s3tables:CreateTable",
-      "s3tables:CreateTableBucket",
-      "s3tables:GetTable",
-      "s3tables:PutTableEncryption",
-      "s3tables:PutTablePolicy",
-    ],
-    resources: {
-      "s3:CreateBucketMetadataTableConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3tables:CreateNamespace": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:CreateTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:CreateTableBucket": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:GetTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-      "s3tables:PutTableEncryption": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-      "s3tables:PutTablePolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBucketMetadataConfiguration",
 }));
@@ -6675,30 +6594,6 @@ export const createBucketMetadataTableConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBucketMetadataTableConfiguration",
-  iam: {
-    actions: [
-      "s3:CreateBucketMetadataTableConfiguration",
-      "s3tables:CreateNamespace",
-      "s3tables:CreateTable",
-      "s3tables:GetTable",
-      "s3tables:PutTablePolicy",
-    ],
-    resources: {
-      "s3:CreateBucketMetadataTableConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3tables:CreateNamespace": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:CreateTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:GetTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-      "s3tables:PutTablePolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBucketMetadataTableConfiguration",
 }));
@@ -6896,21 +6791,6 @@ export const createMultipartUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultipartUpload",
-  iam: {
-    actions: [
-      "s3:PutObject",
-      "s3-object-lambda:PutObject",
-      "s3:PutObjectAcl",
-      "s3:PutObjectLegalHold",
-      "s3:PutObjectRetention",
-      "s3:PutObjectTagging",
-    ],
-    resources: {
-      "s3-object-lambda:PutObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMultipartUpload",
 }));
@@ -7091,10 +6971,6 @@ export const deleteBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucket",
-  iam: {
-    actions: ["s3:DeleteBucket"],
-    resources: { "s3:DeleteBucket": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucket",
 }));
@@ -7141,10 +7017,6 @@ export const deleteBucketAnalyticsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketAnalyticsConfiguration",
-  iam: {
-    actions: ["s3:PutAnalyticsConfiguration"],
-    resources: { "s3:PutAnalyticsConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketAnalyticsConfiguration",
 }));
@@ -7186,10 +7058,6 @@ export const deleteBucketCors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketCors",
-  iam: {
-    actions: ["s3:PutBucketCORS"],
-    resources: { "s3:PutBucketCORS": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketCors",
 }));
@@ -7250,10 +7118,6 @@ export const deleteBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketEncryption",
-  iam: {
-    actions: ["s3:PutEncryptionConfiguration"],
-    resources: { "s3:PutEncryptionConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketEncryption",
 }));
@@ -7301,10 +7165,6 @@ export const deleteBucketIntelligentTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketIntelligentTieringConfiguration",
-  iam: {
-    actions: ["s3:PutIntelligentTieringConfiguration"],
-    resources: { "s3:PutIntelligentTieringConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketIntelligentTieringConfiguration",
 }));
@@ -7372,10 +7232,6 @@ export const deleteBucketInventoryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketInventoryConfiguration",
-  iam: {
-    actions: ["s3:PutInventoryConfiguration"],
-    resources: { "s3:PutInventoryConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketInventoryConfiguration",
 }));
@@ -7447,10 +7303,6 @@ export const deleteBucketLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketLifecycle",
-  iam: {
-    actions: ["s3:PutLifecycleConfiguration"],
-    resources: { "s3:PutLifecycleConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketLifecycle",
 }));
@@ -7504,12 +7356,6 @@ export const deleteBucketMetadataConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetadataConfiguration",
-  iam: {
-    actions: ["s3:DeleteBucketMetadataTableConfiguration"],
-    resources: {
-      "s3:DeleteBucketMetadataTableConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketMetadataConfiguration",
 }));
@@ -7569,12 +7415,6 @@ export const deleteBucketMetadataTableConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetadataTableConfiguration",
-  iam: {
-    actions: ["s3:DeleteBucketMetadataTableConfiguration"],
-    resources: {
-      "s3:DeleteBucketMetadataTableConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketMetadataTableConfiguration",
 }));
@@ -7643,10 +7483,6 @@ export const deleteBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketMetricsConfiguration",
-  iam: {
-    actions: ["s3:PutMetricsConfiguration"],
-    resources: { "s3:PutMetricsConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketMetricsConfiguration",
 }));
@@ -7687,10 +7523,6 @@ export const deleteBucketOwnershipControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketOwnershipControls",
-  iam: {
-    actions: ["s3:PutBucketOwnershipControls"],
-    resources: { "s3:PutBucketOwnershipControls": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketOwnershipControls",
 }));
@@ -7771,10 +7603,6 @@ export const deleteBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketPolicy",
-  iam: {
-    actions: ["s3:DeleteBucketPolicy"],
-    resources: { "s3:DeleteBucketPolicy": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketPolicy",
 }));
@@ -7820,10 +7648,6 @@ export const deleteBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketReplication",
-  iam: {
-    actions: ["s3:PutReplicationConfiguration"],
-    resources: { "s3:PutReplicationConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketReplication",
 }));
@@ -7862,10 +7686,6 @@ export const deleteBucketTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketTagging",
-  iam: {
-    actions: ["s3:PutBucketTagging"],
-    resources: { "s3:PutBucketTagging": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketTagging",
 }));
@@ -7912,10 +7732,6 @@ export const deleteBucketWebsite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBucketWebsite",
-  iam: {
-    actions: ["s3:DeleteBucketWebsite"],
-    resources: { "s3:DeleteBucketWebsite": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBucketWebsite",
 }));
@@ -8037,19 +7853,6 @@ export const deleteObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObject",
-  iam: {
-    actions: [
-      "s3:BypassGovernanceRetention",
-      "s3:DeleteObject",
-      "s3-object-lambda:DeleteObject",
-      "s3:DeleteObjectVersion",
-    ],
-    resources: {
-      "s3-object-lambda:DeleteObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteObject",
 }));
@@ -8095,7 +7898,6 @@ export const deleteObjectAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectAnnotation",
-  iam: { actions: ["s3:DeleteObjectAnnotation"] },
   telemetry: TELEMETRY,
   span: "DeleteObjectAnnotation",
 }));
@@ -8211,7 +8013,6 @@ export const deleteObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjects",
-  iam: { actions: ["s3:BypassGovernanceRetention", "s3:DeleteObject", "s3:DeleteObjectVersion"] },
   telemetry: TELEMETRY,
   span: "DeleteObjects",
 }));
@@ -8266,18 +8067,6 @@ export const deleteObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteObjectTagging",
-  iam: {
-    actions: [
-      "s3:DeleteObjectTagging",
-      "s3-object-lambda:DeleteObjectTagging",
-      "s3:DeleteObjectVersionTagging",
-    ],
-    resources: {
-      "s3-object-lambda:DeleteObjectTagging": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteObjectTagging",
 }));
@@ -8323,10 +8112,6 @@ export const deletePublicAccessBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicAccessBlock",
-  iam: {
-    actions: ["s3:PutBucketPublicAccessBlock"],
-    resources: { "s3:PutBucketPublicAccessBlock": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeletePublicAccessBlock",
 }));
@@ -8352,10 +8137,6 @@ export const getBucketAbac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAbac",
-  iam: {
-    actions: ["s3:GetBucketAbac"],
-    resources: { "s3:GetBucketAbac": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketAbac",
 }));
@@ -8408,10 +8189,6 @@ export const getBucketAccelerateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAccelerateConfiguration",
-  iam: {
-    actions: ["s3:GetAccelerateConfiguration"],
-    resources: { "s3:GetAccelerateConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketAccelerateConfiguration",
 }));
@@ -8462,7 +8239,6 @@ export const getBucketAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAcl",
-  iam: { actions: ["s3:GetBucketAcl"] },
   telemetry: TELEMETRY,
   span: "GetBucketAcl",
 }));
@@ -8510,10 +8286,6 @@ export const getBucketAnalyticsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketAnalyticsConfiguration",
-  iam: {
-    actions: ["s3:GetAnalyticsConfiguration"],
-    resources: { "s3:GetAnalyticsConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketAnalyticsConfiguration",
 }));
@@ -8571,7 +8343,6 @@ export const getBucketCors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketCors",
-  iam: { actions: ["s3:GetBucketCORS"] },
   telemetry: TELEMETRY,
   span: "GetBucketCors",
 }));
@@ -8641,10 +8412,6 @@ export const getBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketEncryption",
-  iam: {
-    actions: ["s3:GetEncryptionConfiguration"],
-    resources: { "s3:GetEncryptionConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketEncryption",
 }));
@@ -8689,10 +8456,6 @@ export const getBucketIntelligentTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketIntelligentTieringConfiguration",
-  iam: {
-    actions: ["s3:GetIntelligentTieringConfiguration"],
-    resources: { "s3:GetIntelligentTieringConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketIntelligentTieringConfiguration",
 }));
@@ -8759,10 +8522,6 @@ export const getBucketInventoryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketInventoryConfiguration",
-  iam: {
-    actions: ["s3:GetInventoryConfiguration"],
-    resources: { "s3:GetInventoryConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketInventoryConfiguration",
 }));
@@ -8860,15 +8619,6 @@ export const getBucketLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLifecycleConfiguration",
-  iam: {
-    actions: ["s3:GetLifecycleConfiguration", "s3express:GetLifecycleConfiguration"],
-    resources: {
-      "s3:GetLifecycleConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3express:GetLifecycleConfiguration": [
-        "arn:${Partition}:s3express:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketLifecycleConfiguration",
 }));
@@ -8926,7 +8676,6 @@ export const getBucketLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLocation",
-  iam: { actions: ["s3:GetBucketLocation"] },
   telemetry: TELEMETRY,
   span: "GetBucketLocation",
 }));
@@ -8964,10 +8713,6 @@ export const getBucketLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketLogging",
-  iam: {
-    actions: ["s3:GetBucketLogging"],
-    resources: { "s3:GetBucketLogging": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketLogging",
 }));
@@ -9020,12 +8765,6 @@ export const getBucketMetadataConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetadataConfiguration",
-  iam: {
-    actions: ["s3:GetBucketMetadataTableConfiguration"],
-    resources: {
-      "s3:GetBucketMetadataTableConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketMetadataConfiguration",
 }));
@@ -9084,12 +8823,6 @@ export const getBucketMetadataTableConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetadataTableConfiguration",
-  iam: {
-    actions: ["s3:GetBucketMetadataTableConfiguration"],
-    resources: {
-      "s3:GetBucketMetadataTableConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketMetadataTableConfiguration",
 }));
@@ -9160,10 +8893,6 @@ export const getBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketMetricsConfiguration",
-  iam: {
-    actions: ["s3:GetMetricsConfiguration"],
-    resources: { "s3:GetMetricsConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketMetricsConfiguration",
 }));
@@ -9215,7 +8944,6 @@ export const getBucketNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketNotificationConfiguration",
-  iam: { actions: ["s3:GetBucketNotification"] },
   telemetry: TELEMETRY,
   span: "GetBucketNotificationConfiguration",
 }));
@@ -9273,10 +9001,6 @@ export const getBucketOwnershipControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketOwnershipControls",
-  iam: {
-    actions: ["s3:GetBucketOwnershipControls"],
-    resources: { "s3:GetBucketOwnershipControls": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketOwnershipControls",
 }));
@@ -9365,7 +9089,6 @@ export const getBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketPolicy",
-  iam: { actions: ["s3:GetBucketPolicy"] },
   telemetry: TELEMETRY,
   span: "GetBucketPolicy",
 }));
@@ -9411,10 +9134,6 @@ export const getBucketPolicyStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketPolicyStatus",
-  iam: {
-    actions: ["s3:GetBucketPolicyStatus"],
-    resources: { "s3:GetBucketPolicyStatus": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketPolicyStatus",
 }));
@@ -9474,10 +9193,6 @@ export const getBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketReplication",
-  iam: {
-    actions: ["s3:GetReplicationConfiguration"],
-    resources: { "s3:GetReplicationConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketReplication",
 }));
@@ -9513,10 +9228,6 @@ export const getBucketRequestPayment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketRequestPayment",
-  iam: {
-    actions: ["s3:GetBucketRequestPayment"],
-    resources: { "s3:GetBucketRequestPayment": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketRequestPayment",
 }));
@@ -9570,10 +9281,6 @@ export const getBucketTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketTagging",
-  iam: {
-    actions: ["s3:GetBucketTagging"],
-    resources: { "s3:GetBucketTagging": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketTagging",
 }));
@@ -9618,10 +9325,6 @@ export const getBucketVersioning: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketVersioning",
-  iam: {
-    actions: ["s3:GetBucketVersioning"],
-    resources: { "s3:GetBucketVersioning": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketVersioning",
 }));
@@ -9672,10 +9375,6 @@ export const getBucketWebsite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBucketWebsite",
-  iam: {
-    actions: ["s3:GetBucketWebsite"],
-    resources: { "s3:GetBucketWebsite": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetBucketWebsite",
 }));
@@ -9845,21 +9544,6 @@ export const getObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObject",
-  iam: {
-    actions: [
-      "s3:GetObject",
-      "s3-object-lambda:GetObject",
-      "s3:GetObjectLegalHold",
-      "s3:GetObjectRetention",
-      "s3:GetObjectTagging",
-      "s3:GetObjectVersion",
-    ],
-    resources: {
-      "s3-object-lambda:GetObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: { op: "GetObject", input: { PartNumber: [{ name: "aws.s3.part_number" }] } },
 }));
@@ -9921,14 +9605,6 @@ export const getObjectAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAcl",
-  iam: {
-    actions: ["s3:GetObjectAcl", "s3-object-lambda:GetObjectAcl", "s3:GetObjectVersionAcl"],
-    resources: {
-      "s3-object-lambda:GetObjectAcl": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetObjectAcl",
 }));
@@ -9970,7 +9646,6 @@ export const getObjectAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAnnotation",
-  iam: { actions: ["s3:GetObjectAnnotation"] },
   telemetry: TELEMETRY,
   span: "GetObjectAnnotation",
 }));
@@ -10133,7 +9808,6 @@ export const getObjectAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectAttributes",
-  iam: { actions: ["s3:GetObject", "s3:GetObjectVersion"] },
   telemetry: TELEMETRY,
   span: "GetObjectAttributes",
 }));
@@ -10180,14 +9854,6 @@ export const getObjectLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectLegalHold",
-  iam: {
-    actions: ["s3:GetObjectLegalHold", "s3-object-lambda:GetObjectLegalHold"],
-    resources: {
-      "s3-object-lambda:GetObjectLegalHold": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetObjectLegalHold",
 }));
@@ -10232,10 +9898,6 @@ export const getObjectLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectLockConfiguration",
-  iam: {
-    actions: ["s3:GetBucketObjectLockConfiguration"],
-    resources: { "s3:GetBucketObjectLockConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetObjectLockConfiguration",
 }));
@@ -10282,14 +9944,6 @@ export const getObjectRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectRetention",
-  iam: {
-    actions: ["s3:GetObjectRetention", "s3-object-lambda:GetObjectRetention"],
-    resources: {
-      "s3-object-lambda:GetObjectRetention": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetObjectRetention",
 }));
@@ -10351,18 +10005,6 @@ export const getObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTagging",
-  iam: {
-    actions: [
-      "s3:GetObjectTagging",
-      "s3-object-lambda:GetObjectTagging",
-      "s3:GetObjectVersionTagging",
-    ],
-    resources: {
-      "s3-object-lambda:GetObjectTagging": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetObjectTagging",
 }));
@@ -10399,7 +10041,6 @@ export const getObjectTorrent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetObjectTorrent",
-  iam: { actions: ["s3:GetObject"] },
   telemetry: TELEMETRY,
   span: "GetObjectTorrent",
 }));
@@ -10464,10 +10105,6 @@ export const getPublicAccessBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicAccessBlock",
-  iam: {
-    actions: ["s3:GetBucketPublicAccessBlock"],
-    resources: { "s3:GetBucketPublicAccessBlock": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetPublicAccessBlock",
 }));
@@ -10555,7 +10192,6 @@ export const headBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadBucket",
-  iam: { actions: ["s3:ListBucket"] },
   telemetry: TELEMETRY,
   span: "HeadBucket",
 }));
@@ -10697,19 +10333,6 @@ export const headObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "HeadObject",
-  iam: {
-    actions: [
-      "s3:GetObject",
-      "s3-object-lambda:GetObject",
-      "s3:GetObjectLegalHold",
-      "s3:GetObjectRetention",
-    ],
-    resources: {
-      "s3-object-lambda:GetObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: { op: "HeadObject", input: { PartNumber: [{ name: "aws.s3.part_number" }] } },
 }));
@@ -10764,10 +10387,6 @@ export const listBucketAnalyticsConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketAnalyticsConfigurations",
-  iam: {
-    actions: ["s3:GetAnalyticsConfiguration"],
-    resources: { "s3:GetAnalyticsConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "ListBucketAnalyticsConfigurations",
 }));
@@ -10811,10 +10430,6 @@ export const listBucketIntelligentTieringConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketIntelligentTieringConfigurations",
-  iam: {
-    actions: ["s3:GetIntelligentTieringConfiguration"],
-    resources: { "s3:GetIntelligentTieringConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "ListBucketIntelligentTieringConfigurations",
 }));
@@ -10887,10 +10502,6 @@ export const listBucketInventoryConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketInventoryConfigurations",
-  iam: {
-    actions: ["s3:GetInventoryConfiguration"],
-    resources: { "s3:GetInventoryConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "ListBucketInventoryConfigurations",
 }));
@@ -10965,10 +10576,6 @@ export const listBucketMetricsConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBucketMetricsConfigurations",
-  iam: {
-    actions: ["s3:GetMetricsConfiguration"],
-    resources: { "s3:GetMetricsConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "ListBucketMetricsConfigurations",
 }));
@@ -11016,7 +10623,6 @@ export const listBuckets: API.PaginatedOperationMethod<
     items: "Buckets",
     pageSize: "MaxBuckets",
   } as const,
-  iam: { actions: ["s3:ListAllMyBuckets"] },
   telemetry: TELEMETRY,
   span: "ListBuckets",
 })) as any;
@@ -11178,15 +10784,6 @@ export const listMultipartUploads: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMultipartUploads",
-  iam: {
-    actions: ["s3:ListBucketMultipartUploads", "s3-object-lambda:ListBucketMultipartUploads"],
-    resources: {
-      "s3:ListBucketMultipartUploads": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3-object-lambda:ListBucketMultipartUploads": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMultipartUploads",
 }));
@@ -11235,7 +10832,6 @@ export const listObjectAnnotations: API.PaginatedOperationMethod<
     items: "Annotations",
     pageSize: "MaxAnnotationResults",
   } as const,
-  iam: { actions: ["s3:ListObjectAnnotations"] },
   telemetry: TELEMETRY,
   span: "ListObjectAnnotations",
 })) as any;
@@ -11285,14 +10881,6 @@ export const listObjects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjects",
-  iam: {
-    actions: ["s3:GetObjectAcl", "s3:ListBucket", "s3-object-lambda:ListBucket"],
-    resources: {
-      "s3-object-lambda:ListBucket": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListObjects",
 }));
@@ -11388,14 +10976,6 @@ export const listObjectsV2: API.PaginatedOperationMethod<
     outputToken: "NextContinuationToken",
     pageSize: "MaxKeys",
   } as const,
-  iam: {
-    actions: ["s3:GetObjectAcl", "s3:ListBucket", "s3-object-lambda:ListBucket"],
-    resources: {
-      "s3-object-lambda:ListBucket": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListObjectsV2",
 })) as any;
@@ -11445,7 +11025,6 @@ export const listObjectVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListObjectVersions",
-  iam: { actions: ["s3:ListBucketVersions"] },
   telemetry: TELEMETRY,
   span: "ListObjectVersions",
 }));
@@ -11538,14 +11117,6 @@ export const listParts: API.PaginatedOperationMethod<
     items: "Parts",
     pageSize: "MaxParts",
   } as const,
-  iam: {
-    actions: ["s3:ListMultipartUploadParts", "s3-object-lambda:ListMultipartUploadParts"],
-    resources: {
-      "s3-object-lambda:ListMultipartUploadParts": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: { op: "ListParts", input: { UploadId: [{ name: "aws.s3.upload_id" }] } },
 })) as any;
@@ -11566,10 +11137,6 @@ export const putBucketAbac: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAbac",
-  iam: {
-    actions: ["s3:PutBucketAbac"],
-    resources: { "s3:PutBucketAbac": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketAbac",
 }));
@@ -11629,10 +11196,6 @@ export const putBucketAccelerateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAccelerateConfiguration",
-  iam: {
-    actions: ["s3:PutAccelerateConfiguration"],
-    resources: { "s3:PutAccelerateConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketAccelerateConfiguration",
 }));
@@ -11801,10 +11364,6 @@ export const putBucketAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAcl",
-  iam: {
-    actions: ["s3:PutBucketAcl"],
-    resources: { "s3:PutBucketAcl": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketAcl",
 }));
@@ -11885,10 +11444,6 @@ export const putBucketAnalyticsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketAnalyticsConfiguration",
-  iam: {
-    actions: ["s3:PutAnalyticsConfiguration"],
-    resources: { "s3:PutAnalyticsConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketAnalyticsConfiguration",
 }));
@@ -11958,10 +11513,6 @@ export const putBucketCors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketCors",
-  iam: {
-    actions: ["s3:PutBucketCORS"],
-    resources: { "s3:PutBucketCORS": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketCors",
 }));
@@ -12070,10 +11621,6 @@ export const putBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketEncryption",
-  iam: {
-    actions: ["s3:PutEncryptionConfiguration"],
-    resources: { "s3:PutEncryptionConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketEncryption",
 }));
@@ -12143,10 +11690,6 @@ export const putBucketIntelligentTieringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketIntelligentTieringConfiguration",
-  iam: {
-    actions: ["s3:PutIntelligentTieringConfiguration"],
-    resources: { "s3:PutIntelligentTieringConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketIntelligentTieringConfiguration",
 }));
@@ -12259,10 +11802,6 @@ export const putBucketInventoryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketInventoryConfiguration",
-  iam: {
-    actions: ["s3:PutInventoryConfiguration"],
-    resources: { "s3:PutInventoryConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketInventoryConfiguration",
 }));
@@ -12392,15 +11931,6 @@ export const putBucketLifecycleConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketLifecycleConfiguration",
-  iam: {
-    actions: ["s3:PutLifecycleConfiguration", "s3express:PutLifecycleConfiguration"],
-    resources: {
-      "s3:PutLifecycleConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-      "s3express:PutLifecycleConfiguration": [
-        "arn:${Partition}:s3express:${Region}:${Account}:bucket/${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketLifecycleConfiguration",
 }));
@@ -12492,10 +12022,6 @@ export const putBucketLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketLogging",
-  iam: {
-    actions: ["s3:PutBucketLogging"],
-    resources: { "s3:PutBucketLogging": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketLogging",
 }));
@@ -12573,10 +12099,6 @@ export const putBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketMetricsConfiguration",
-  iam: {
-    actions: ["s3:PutMetricsConfiguration"],
-    resources: { "s3:PutMetricsConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketMetricsConfiguration",
 }));
@@ -12652,10 +12174,6 @@ export const putBucketNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketNotificationConfiguration",
-  iam: {
-    actions: ["s3:PutBucketNotification"],
-    resources: { "s3:PutBucketNotification": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketNotificationConfiguration",
 }));
@@ -12695,10 +12213,6 @@ export const putBucketOwnershipControls: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketOwnershipControls",
-  iam: {
-    actions: ["s3:PutBucketOwnershipControls"],
-    resources: { "s3:PutBucketOwnershipControls": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketOwnershipControls",
 }));
@@ -12797,10 +12311,6 @@ export const putBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketPolicy",
-  iam: {
-    actions: ["s3:PutBucketPolicy"],
-    resources: { "s3:PutBucketPolicy": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketPolicy",
 }));
@@ -12885,13 +12395,6 @@ export const putBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketReplication",
-  iam: {
-    actions: ["iam:PassRole", "s3:PutReplicationConfiguration"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "s3:PutReplicationConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketReplication",
 }));
@@ -12931,10 +12434,6 @@ export const putBucketRequestPayment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketRequestPayment",
-  iam: {
-    actions: ["s3:PutBucketRequestPayment"],
-    resources: { "s3:PutBucketRequestPayment": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketRequestPayment",
 }));
@@ -13000,10 +12499,6 @@ export const putBucketTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketTagging",
-  iam: {
-    actions: ["s3:PutBucketTagging"],
-    resources: { "s3:PutBucketTagging": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketTagging",
 }));
@@ -13070,10 +12565,6 @@ export const putBucketVersioning: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketVersioning",
-  iam: {
-    actions: ["s3:PutBucketVersioning"],
-    resources: { "s3:PutBucketVersioning": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketVersioning",
 }));
@@ -13168,10 +12659,6 @@ export const putBucketWebsite: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutBucketWebsite",
-  iam: {
-    actions: ["s3:PutBucketWebsite"],
-    resources: { "s3:PutBucketWebsite": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutBucketWebsite",
 }));
@@ -13336,21 +12823,6 @@ export const putObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObject",
-  iam: {
-    actions: [
-      "s3:PutObject",
-      "s3-object-lambda:PutObject",
-      "s3:PutObjectAcl",
-      "s3:PutObjectLegalHold",
-      "s3:PutObjectRetention",
-      "s3:PutObjectTagging",
-    ],
-    resources: {
-      "s3-object-lambda:PutObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutObject",
 }));
@@ -13517,14 +12989,6 @@ export const putObjectAcl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectAcl",
-  iam: {
-    actions: ["s3:PutObjectAcl", "s3-object-lambda:PutObjectAcl", "s3:PutObjectVersionAcl"],
-    resources: {
-      "s3-object-lambda:PutObjectAcl": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutObjectAcl",
 }));
@@ -13587,7 +13051,6 @@ export const putObjectAnnotation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectAnnotation",
-  iam: { actions: ["s3:PutObjectAnnotation"] },
   telemetry: TELEMETRY,
   span: "PutObjectAnnotation",
 }));
@@ -13632,14 +13095,6 @@ export const putObjectLegalHold: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectLegalHold",
-  iam: {
-    actions: ["s3:PutObjectLegalHold", "s3-object-lambda:PutObjectLegalHold"],
-    resources: {
-      "s3-object-lambda:PutObjectLegalHold": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutObjectLegalHold",
 }));
@@ -13690,10 +13145,6 @@ export const putObjectLockConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectLockConfiguration",
-  iam: {
-    actions: ["s3:PutBucketObjectLockConfiguration"],
-    resources: { "s3:PutBucketObjectLockConfiguration": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutObjectLockConfiguration",
 }));
@@ -13739,18 +13190,6 @@ export const putObjectRetention: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectRetention",
-  iam: {
-    actions: [
-      "s3:BypassGovernanceRetention",
-      "s3:PutObjectRetention",
-      "s3-object-lambda:PutObjectRetention",
-    ],
-    resources: {
-      "s3-object-lambda:PutObjectRetention": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutObjectRetention",
 }));
@@ -13824,18 +13263,6 @@ export const putObjectTagging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutObjectTagging",
-  iam: {
-    actions: [
-      "s3:PutObjectTagging",
-      "s3-object-lambda:PutObjectTagging",
-      "s3:PutObjectVersionTagging",
-    ],
-    resources: {
-      "s3-object-lambda:PutObjectTagging": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutObjectTagging",
 }));
@@ -13889,10 +13316,6 @@ export const putPublicAccessBlock: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPublicAccessBlock",
-  iam: {
-    actions: ["s3:PutBucketPublicAccessBlock"],
-    resources: { "s3:PutBucketPublicAccessBlock": ["arn:${Partition}:s3:::${BucketName}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutPublicAccessBlock",
 }));
@@ -14132,14 +13555,6 @@ export const restoreObject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreObject",
-  iam: {
-    actions: ["s3:RestoreObject", "s3-object-lambda:RestoreObject"],
-    resources: {
-      "s3-object-lambda:RestoreObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RestoreObject",
 }));
@@ -14253,7 +13668,6 @@ export const selectObjectContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SelectObjectContent",
-  iam: { actions: ["s3:GetObject"] },
   telemetry: TELEMETRY,
   span: "SelectObjectContent",
 }));
@@ -14305,14 +13719,6 @@ export const updateBucketMetadataAnnotationTableConfiguration: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataAnnotationTableConfiguration",
-  iam: {
-    actions: ["s3:UpdateBucketMetadataAnnotationTableConfiguration"],
-    resources: {
-      "s3:UpdateBucketMetadataAnnotationTableConfiguration": [
-        "arn:${Partition}:s3:::${BucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBucketMetadataAnnotationTableConfiguration",
 }));
@@ -14386,38 +13792,6 @@ export const updateBucketMetadataInventoryTableConfiguration: API.OperationMetho
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataInventoryTableConfiguration",
-  iam: {
-    actions: [
-      "s3tables:CreateNamespace",
-      "s3tables:CreateTable",
-      "s3tables:CreateTableBucket",
-      "s3tables:GetTable",
-      "s3tables:PutTableEncryption",
-      "s3tables:PutTablePolicy",
-      "s3:UpdateBucketMetadataInventoryTableConfiguration",
-    ],
-    resources: {
-      "s3tables:CreateNamespace": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:CreateTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:CreateTableBucket": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:GetTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-      "s3tables:PutTableEncryption": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-      "s3tables:PutTablePolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-      "s3:UpdateBucketMetadataInventoryTableConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBucketMetadataInventoryTableConfiguration",
 }));
@@ -14467,12 +13841,6 @@ export const updateBucketMetadataJournalTableConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBucketMetadataJournalTableConfiguration",
-  iam: {
-    actions: ["s3:UpdateBucketMetadataJournalTableConfiguration"],
-    resources: {
-      "s3:UpdateBucketMetadataJournalTableConfiguration": ["arn:${Partition}:s3:::${BucketName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBucketMetadataJournalTableConfiguration",
 }));
@@ -14604,7 +13972,6 @@ export const updateObjectEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateObjectEncryption",
-  iam: { actions: ["s3:UpdateObjectEncryption"] },
   telemetry: TELEMETRY,
   span: "UpdateObjectEncryption",
 }));
@@ -14776,14 +14143,6 @@ export const uploadPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPart",
-  iam: {
-    actions: ["s3:PutObject", "s3-object-lambda:PutObject"],
-    resources: {
-      "s3-object-lambda:PutObject": [
-        "arn:${Partition}:s3-object-lambda:${Region}:${Account}:accesspoint/${AccessPointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: {
     op: "UploadPart",
@@ -14986,7 +14345,6 @@ export const uploadPartCopy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UploadPartCopy",
-  iam: { actions: ["s3:GetObject", "s3:GetObjectVersion", "s3:PutObject"] },
   telemetry: TELEMETRY,
   span: {
     op: "UploadPartCopy",

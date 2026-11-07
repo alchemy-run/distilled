@@ -504,15 +504,6 @@ export const createAct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAct",
-  iam: {
-    actions: ["nova-act:CreateAct"],
-    resources: {
-      "nova-act:CreateAct": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}/workflow-run/${WorkflowRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAct",
 }));
@@ -549,15 +540,6 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
-  iam: {
-    actions: ["nova-act:CreateSession"],
-    resources: {
-      "nova-act:CreateSession": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}/workflow-run/${WorkflowRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSession",
 }));
@@ -592,14 +574,6 @@ export const createWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowDefinition",
-  iam: {
-    actions: ["nova-act:CreateWorkflowDefinition"],
-    resources: {
-      "nova-act:CreateWorkflowDefinition": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkflowDefinition",
 }));
@@ -634,14 +608,6 @@ export const createWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkflowRun",
-  iam: {
-    actions: ["nova-act:CreateWorkflowRun"],
-    resources: {
-      "nova-act:CreateWorkflowRun": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkflowRun",
 }));
@@ -676,14 +642,6 @@ export const deleteWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowDefinition",
-  iam: {
-    actions: ["nova-act:DeleteWorkflowDefinition"],
-    resources: {
-      "nova-act:DeleteWorkflowDefinition": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflowDefinition",
 }));
@@ -718,15 +676,6 @@ export const deleteWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkflowRun",
-  iam: {
-    actions: ["nova-act:DeleteWorkflowRun"],
-    resources: {
-      "nova-act:DeleteWorkflowRun": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}/workflow-run/${WorkflowRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkflowRun",
 }));
@@ -759,14 +708,6 @@ export const getWorkflowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowDefinition",
-  iam: {
-    actions: ["nova-act:GetWorkflowDefinition"],
-    resources: {
-      "nova-act:GetWorkflowDefinition": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetWorkflowDefinition",
 }));
@@ -801,15 +742,6 @@ export const getWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkflowRun",
-  iam: {
-    actions: ["nova-act:GetWorkflowRun"],
-    resources: {
-      "nova-act:GetWorkflowRun": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}/workflow-run/${WorkflowRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetWorkflowRun",
 }));
@@ -846,15 +778,6 @@ export const invokeActStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeActStep",
-  iam: {
-    actions: ["nova-act:InvokeActStep"],
-    resources: {
-      "nova-act:InvokeActStep": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}/workflow-run/${WorkflowRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InvokeActStep",
 }));
@@ -896,14 +819,6 @@ export const listActs: API.PaginatedOperationMethod<
     items: "actSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["nova-act:ListActs"],
-    resources: {
-      "nova-act:ListActs": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListActs",
 })) as any;
@@ -928,7 +843,6 @@ export const listModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListModels",
-  iam: { actions: ["nova-act:ListModels"] },
   telemetry: TELEMETRY,
   span: "ListModels",
 }));
@@ -970,15 +884,6 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["nova-act:ListSessions"],
-    resources: {
-      "nova-act:ListSessions": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}/workflow-run/${WorkflowRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -1016,7 +921,6 @@ export const listWorkflowDefinitions: API.PaginatedOperationMethod<
     items: "workflowDefinitionSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["nova-act:ListWorkflowDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListWorkflowDefinitions",
 })) as any;
@@ -1058,14 +962,6 @@ export const listWorkflowRuns: API.PaginatedOperationMethod<
     items: "workflowRunSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["nova-act:ListWorkflowRuns"],
-    resources: {
-      "nova-act:ListWorkflowRuns": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListWorkflowRuns",
 })) as any;
@@ -1100,15 +996,6 @@ export const updateAct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAct",
-  iam: {
-    actions: ["nova-act:UpdateAct"],
-    resources: {
-      "nova-act:UpdateAct": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}/workflow-run/${WorkflowRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAct",
 }));
@@ -1143,15 +1030,6 @@ export const updateWorkflowRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkflowRun",
-  iam: {
-    actions: ["nova-act:UpdateWorkflowRun"],
-    resources: {
-      "nova-act:UpdateWorkflowRun": [
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}",
-        "arn:${Partition}:nova-act:${Region}:${Account}:workflow-definition/${WorkflowDefinitionName}/workflow-run/${WorkflowRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWorkflowRun",
 }));

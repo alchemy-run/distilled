@@ -2826,7 +2826,6 @@ export const addTagsToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTagsToResource",
-  iam: { actions: ["dms:AddTagsToResource"] },
   telemetry: TELEMETRY,
   span: "AddTagsToResource",
 }));
@@ -2848,12 +2847,6 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
-  iam: {
-    actions: ["dms:ApplyPendingMaintenanceAction"],
-    resources: {
-      "dms:ApplyPendingMaintenanceAction": ["arn:${Partition}:dms:${Region}:${Account}:rep:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ApplyPendingMaintenanceAction",
 }));
@@ -2886,7 +2879,6 @@ export const batchStartRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStartRecommendations",
-  iam: { actions: ["dms:BatchStartRecommendations"] },
   telemetry: TELEMETRY,
   span: "BatchStartRecommendations",
 }));
@@ -2915,14 +2907,6 @@ export const cancelMetadataModelConversion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMetadataModelConversion",
-  iam: {
-    actions: ["dms:CancelMetadataModelConversion"],
-    resources: {
-      "dms:CancelMetadataModelConversion": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelMetadataModelConversion",
 }));
@@ -2951,14 +2935,6 @@ export const cancelMetadataModelCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMetadataModelCreation",
-  iam: {
-    actions: ["dms:CancelMetadataModelCreation"],
-    resources: {
-      "dms:CancelMetadataModelCreation": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelMetadataModelCreation",
 }));
@@ -2987,14 +2963,6 @@ export const cancelReplicationTaskAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelReplicationTaskAssessmentRun",
-  iam: {
-    actions: ["dms:CancelReplicationTaskAssessmentRun"],
-    resources: {
-      "dms:CancelReplicationTaskAssessmentRun": [
-        "arn:${Partition}:dms:${Region}:${Account}:assessment-run:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelReplicationTaskAssessmentRun",
 }));
@@ -3027,14 +2995,6 @@ export const createDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataMigration",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateDataMigration", "iam:PassRole"],
-    resources: {
-      "dms:CreateDataMigration": ["arn:${Partition}:dms:${Region}:${Account}:migration-project:*"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataMigration",
 }));
@@ -3070,11 +3030,6 @@ export const createDataProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataProvider",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateDataProvider", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataProvider",
 }));
@@ -3118,11 +3073,6 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateEndpoint", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "ServiceAccessRoleArn", "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEndpoint",
 }));
@@ -3180,13 +3130,6 @@ export const createEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSubscription",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateEventSubscription"],
-    resources: {
-      "dms:CreateEventSubscription": ["arn:${Partition}:dms:${Region}:${Account}:es:*"],
-    },
-    conditional: { "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEventSubscription",
 }));
@@ -3221,10 +3164,6 @@ export const createFleetAdvisorCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleetAdvisorCollector",
-  iam: {
-    actions: ["dms:CreateFleetAdvisorCollector", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "CreateFleetAdvisorCollector",
 }));
@@ -3269,11 +3208,6 @@ export const createInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstanceProfile",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateInstanceProfile", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateInstanceProfile",
 }));
@@ -3317,20 +3251,6 @@ export const createMigrationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMigrationProject",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateMigrationProject", "iam:PassRole"],
-    resources: {
-      "dms:CreateMigrationProject": [
-        "arn:${Partition}:dms:${Region}:${Account}:data-provider:*",
-        "arn:${Partition}:dms:${Region}:${Account}:instance-profile:*",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "SchemaConversionApplicationAttributes.S3BucketRoleArn",
-      "dms:AddTagsToResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMigrationProject",
 }));
@@ -3371,13 +3291,6 @@ export const createReplicationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfig",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateReplicationConfig"],
-    resources: {
-      "dms:CreateReplicationConfig": ["arn:${Partition}:dms:${Region}:${Account}:endpoint:*"],
-    },
-    conditional: { "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateReplicationConfig",
 }));
@@ -3433,11 +3346,6 @@ export const createReplicationInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationInstance",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateReplicationInstance", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateReplicationInstance",
 }));
@@ -3482,13 +3390,6 @@ export const createReplicationSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationSubnetGroup",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateReplicationSubnetGroup"],
-    resources: {
-      "dms:CreateReplicationSubnetGroup": ["arn:${Partition}:dms:${Region}:${Account}:subgrp:*"],
-    },
-    conditional: { "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateReplicationSubnetGroup",
 }));
@@ -3523,16 +3424,6 @@ export const createReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationTask",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:CreateReplicationTask"],
-    resources: {
-      "dms:CreateReplicationTask": [
-        "arn:${Partition}:dms:${Region}:${Account}:endpoint:*",
-        "arn:${Partition}:dms:${Region}:${Account}:rep:*",
-      ],
-    },
-    conditional: { "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateReplicationTask",
 }));
@@ -3556,10 +3447,6 @@ export const deleteCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCertificate",
-  iam: {
-    actions: ["dms:DeleteCertificate"],
-    resources: { "dms:DeleteCertificate": ["arn:${Partition}:dms:${Region}:${Account}:cert:*"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCertificate",
 }));
@@ -3584,15 +3471,6 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
-  iam: {
-    actions: ["dms:DeleteConnection"],
-    resources: {
-      "dms:DeleteConnection": [
-        "arn:${Partition}:dms:${Region}:${Account}:endpoint:*",
-        "arn:${Partition}:dms:${Region}:${Account}:rep:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -3617,12 +3495,6 @@ export const deleteDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataMigration",
-  iam: {
-    actions: ["dms:DeleteDataMigration"],
-    resources: {
-      "dms:DeleteDataMigration": ["arn:${Partition}:dms:${Region}:${Account}:data-migration:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataMigration",
 }));
@@ -3660,12 +3532,6 @@ export const deleteDataProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataProvider",
-  iam: {
-    actions: ["dms:DeleteDataProvider"],
-    resources: {
-      "dms:DeleteDataProvider": ["arn:${Partition}:dms:${Region}:${Account}:data-provider:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataProvider",
 }));
@@ -3689,10 +3555,6 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
-  iam: {
-    actions: ["dms:DeleteEndpoint"],
-    resources: { "dms:DeleteEndpoint": ["arn:${Partition}:dms:${Region}:${Account}:endpoint:*"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEndpoint",
 }));
@@ -3717,12 +3579,6 @@ export const deleteEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSubscription",
-  iam: {
-    actions: ["dms:DeleteEventSubscription"],
-    resources: {
-      "dms:DeleteEventSubscription": ["arn:${Partition}:dms:${Region}:${Account}:es:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventSubscription",
 }));
@@ -3749,7 +3605,6 @@ export const deleteFleetAdvisorCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleetAdvisorCollector",
-  iam: { actions: ["dms:DeleteFleetAdvisorCollector"] },
   telemetry: TELEMETRY,
   span: "DeleteFleetAdvisorCollector",
 }));
@@ -3776,7 +3631,6 @@ export const deleteFleetAdvisorDatabases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleetAdvisorDatabases",
-  iam: { actions: ["dms:DeleteFleetAdvisorDatabases"] },
   telemetry: TELEMETRY,
   span: "DeleteFleetAdvisorDatabases",
 }));
@@ -3814,12 +3668,6 @@ export const deleteInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstanceProfile",
-  iam: {
-    actions: ["dms:DeleteInstanceProfile"],
-    resources: {
-      "dms:DeleteInstanceProfile": ["arn:${Partition}:dms:${Region}:${Account}:instance-profile:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInstanceProfile",
 }));
@@ -3856,14 +3704,6 @@ export const deleteMigrationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMigrationProject",
-  iam: {
-    actions: ["dms:DeleteMigrationProject"],
-    resources: {
-      "dms:DeleteMigrationProject": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMigrationProject",
 }));
@@ -3891,14 +3731,6 @@ export const deleteReplicationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfig",
-  iam: {
-    actions: ["dms:DeleteReplicationConfig"],
-    resources: {
-      "dms:DeleteReplicationConfig": [
-        "arn:${Partition}:dms:${Region}:${Account}:replication-config:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationConfig",
 }));
@@ -3925,12 +3757,6 @@ export const deleteReplicationInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationInstance",
-  iam: {
-    actions: ["dms:DeleteReplicationInstance"],
-    resources: {
-      "dms:DeleteReplicationInstance": ["arn:${Partition}:dms:${Region}:${Account}:rep:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationInstance",
 }));
@@ -3955,12 +3781,6 @@ export const deleteReplicationSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationSubnetGroup",
-  iam: {
-    actions: ["dms:DeleteReplicationSubnetGroup"],
-    resources: {
-      "dms:DeleteReplicationSubnetGroup": ["arn:${Partition}:dms:${Region}:${Account}:subgrp:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationSubnetGroup",
 }));
@@ -3984,12 +3804,6 @@ export const deleteReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationTask",
-  iam: {
-    actions: ["dms:DeleteReplicationTask"],
-    resources: {
-      "dms:DeleteReplicationTask": ["arn:${Partition}:dms:${Region}:${Account}:task:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationTask",
 }));
@@ -4018,14 +3832,6 @@ export const deleteReplicationTaskAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationTaskAssessmentRun",
-  iam: {
-    actions: ["dms:DeleteReplicationTaskAssessmentRun"],
-    resources: {
-      "dms:DeleteReplicationTaskAssessmentRun": [
-        "arn:${Partition}:dms:${Region}:${Account}:assessment-run:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationTaskAssessmentRun",
 }));
@@ -4053,7 +3859,6 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
-  iam: { actions: ["dms:DescribeAccountAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountAttributes",
 }));
@@ -4098,7 +3903,6 @@ export const describeApplicableIndividualAssessments: API.PaginatedOperationMeth
   retry: Retry,
   operationName: "DescribeApplicableIndividualAssessments",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeApplicableIndividualAssessments"] },
   telemetry: TELEMETRY,
   span: "DescribeApplicableIndividualAssessments",
 })) as any;
@@ -4121,7 +3925,6 @@ export const describeCertificates: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeCertificates",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeCertificates"] },
   telemetry: TELEMETRY,
   span: "DescribeCertificates",
 })) as any;
@@ -4145,7 +3948,6 @@ export const describeConnections: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeConnections",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeConnections"] },
   telemetry: TELEMETRY,
   span: "DescribeConnections",
 })) as any;
@@ -4170,14 +3972,6 @@ export const describeConversionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConversionConfiguration",
-  iam: {
-    actions: ["dms:DescribeConversionConfiguration"],
-    resources: {
-      "dms:DescribeConversionConfiguration": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeConversionConfiguration",
 }));
@@ -4209,7 +4003,6 @@ export const describeDataMigrations: API.PaginatedOperationMethod<
     items: "DataMigrations",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["dms:DescribeDataMigrations"] },
   telemetry: TELEMETRY,
   span: "DescribeDataMigrations",
 })) as any;
@@ -4241,7 +4034,6 @@ export const describeDataProviders: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeDataProviders",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:ListDataProviders"] },
   telemetry: TELEMETRY,
   span: "DescribeDataProviders",
 })) as any;
@@ -4264,7 +4056,6 @@ export const describeEndpoints: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEndpoints",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpoints",
 })) as any;
@@ -4288,7 +4079,6 @@ export const describeEndpointSettings: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEndpointSettings",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeEndpointSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpointSettings",
 })) as any;
@@ -4311,7 +4101,6 @@ export const describeEndpointTypes: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEndpointTypes",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeEndpointTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpointTypes",
 })) as any;
@@ -4334,7 +4123,6 @@ export const describeEngineVersions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEngineVersions",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeEngineVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeEngineVersions",
 })) as any;
@@ -4357,7 +4145,6 @@ export const describeEventCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventCategories",
-  iam: { actions: ["dms:DescribeEventCategories"] },
   telemetry: TELEMETRY,
   span: "DescribeEventCategories",
 }));
@@ -4382,7 +4169,6 @@ export const describeEvents: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEvents",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 })) as any;
@@ -4411,7 +4197,6 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeEventSubscriptions",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeEventSubscriptions"] },
   telemetry: TELEMETRY,
   span: "DescribeEventSubscriptions",
 })) as any;
@@ -4440,12 +4225,6 @@ export const describeExtensionPackAssociations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeExtensionPackAssociations",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:ListExtensionPacks"],
-    resources: {
-      "dms:ListExtensionPacks": ["arn:${Partition}:dms:${Region}:${Account}:migration-project:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeExtensionPackAssociations",
 })) as any;
@@ -4474,7 +4253,6 @@ export const describeFleetAdvisorCollectors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["dms:DescribeFleetAdvisorCollectors"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetAdvisorCollectors",
 })) as any;
@@ -4503,7 +4281,6 @@ export const describeFleetAdvisorDatabases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["dms:DescribeFleetAdvisorDatabases"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetAdvisorDatabases",
 })) as any;
@@ -4533,7 +4310,6 @@ export const describeFleetAdvisorLsaAnalysis: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["dms:DescribeFleetAdvisorLsaAnalysis"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetAdvisorLsaAnalysis",
 })) as any;
@@ -4563,7 +4339,6 @@ export const describeFleetAdvisorSchemaObjectSummary: API.PaginatedOperationMeth
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["dms:DescribeFleetAdvisorSchemaObjectSummary"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetAdvisorSchemaObjectSummary",
 })) as any;
@@ -4592,7 +4367,6 @@ export const describeFleetAdvisorSchemas: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["dms:DescribeFleetAdvisorSchemas"] },
   telemetry: TELEMETRY,
   span: "DescribeFleetAdvisorSchemas",
 })) as any;
@@ -4624,7 +4398,6 @@ export const describeInstanceProfiles: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeInstanceProfiles",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:ListInstanceProfiles"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceProfiles",
 })) as any;
@@ -4649,14 +4422,6 @@ export const describeMetadataModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetadataModel",
-  iam: {
-    actions: ["dms:DescribeMetadataModel"],
-    resources: {
-      "dms:DescribeMetadataModel": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetadataModel",
 }));
@@ -4685,14 +4450,6 @@ export const describeMetadataModelAssessments: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelAssessments",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:ListMetadataModelAssessments"],
-    resources: {
-      "dms:ListMetadataModelAssessments": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetadataModelAssessments",
 })) as any;
@@ -4727,14 +4484,6 @@ export const describeMetadataModelChildren: API.PaginatedOperationMethod<
     items: "MetadataModelChildren",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["dms:DescribeMetadataModelChildren"],
-    resources: {
-      "dms:DescribeMetadataModelChildren": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetadataModelChildren",
 })) as any;
@@ -4766,14 +4515,6 @@ export const describeMetadataModelConversions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelConversions",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:ListMetadataModelConversions"],
-    resources: {
-      "dms:ListMetadataModelConversions": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetadataModelConversions",
 })) as any;
@@ -4813,14 +4554,6 @@ export const describeMetadataModelCreations: API.PaginatedOperationMethod<
     items: "Requests",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["dms:DescribeMetadataModelCreations"],
-    resources: {
-      "dms:DescribeMetadataModelCreations": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetadataModelCreations",
 })) as any;
@@ -4849,14 +4582,6 @@ export const describeMetadataModelExportsAsScript: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelExportsAsScript",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:ListMetadataModelExports"],
-    resources: {
-      "dms:ListMetadataModelExports": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetadataModelExportsAsScript",
 })) as any;
@@ -4885,14 +4610,6 @@ export const describeMetadataModelExportsToTarget: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelExportsToTarget",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:ListMetadataModelExports"],
-    resources: {
-      "dms:ListMetadataModelExports": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetadataModelExportsToTarget",
 })) as any;
@@ -4921,14 +4638,6 @@ export const describeMetadataModelImports: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMetadataModelImports",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:DescribeMetadataModelImports"],
-    resources: {
-      "dms:DescribeMetadataModelImports": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetadataModelImports",
 })) as any;
@@ -4960,7 +4669,6 @@ export const describeMigrationProjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeMigrationProjects",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:ListMigrationProjects"] },
   telemetry: TELEMETRY,
   span: "DescribeMigrationProjects",
 })) as any;
@@ -4984,7 +4692,6 @@ export const describeOrderableReplicationInstances: API.PaginatedOperationMethod
   retry: Retry,
   operationName: "DescribeOrderableReplicationInstances",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeOrderableReplicationInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeOrderableReplicationInstances",
 })) as any;
@@ -5008,7 +4715,6 @@ export const describePendingMaintenanceActions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribePendingMaintenanceActions",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribePendingMaintenanceActions"] },
   telemetry: TELEMETRY,
   span: "DescribePendingMaintenanceActions",
 })) as any;
@@ -5041,7 +4747,6 @@ export const describeRecommendationLimitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["dms:DescribeRecommendationLimitations"] },
   telemetry: TELEMETRY,
   span: "DescribeRecommendationLimitations",
 })) as any;
@@ -5074,7 +4779,6 @@ export const describeRecommendations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["dms:DescribeRecommendations"] },
   telemetry: TELEMETRY,
   span: "DescribeRecommendations",
 })) as any;
@@ -5098,12 +4802,6 @@ export const describeRefreshSchemasStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRefreshSchemasStatus",
-  iam: {
-    actions: ["dms:DescribeRefreshSchemasStatus"],
-    resources: {
-      "dms:DescribeRefreshSchemasStatus": ["arn:${Partition}:dms:${Region}:${Account}:endpoint:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRefreshSchemasStatus",
 }));
@@ -5127,7 +4825,6 @@ export const describeReplicationConfigs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationConfigs",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeReplicationConfigs"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationConfigs",
 })) as any;
@@ -5151,7 +4848,6 @@ export const describeReplicationInstances: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationInstances",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeReplicationInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationInstances",
 })) as any;
@@ -5177,14 +4873,6 @@ export const describeReplicationInstanceTaskLogs: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationInstanceTaskLogs",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:DescribeReplicationInstanceTaskLogs"],
-    resources: {
-      "dms:DescribeReplicationInstanceTaskLogs": [
-        "arn:${Partition}:dms:${Region}:${Account}:rep:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeReplicationInstanceTaskLogs",
 })) as any;
@@ -5208,7 +4896,6 @@ export const describeReplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplications",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeReplications"] },
   telemetry: TELEMETRY,
   span: "DescribeReplications",
 })) as any;
@@ -5231,7 +4918,6 @@ export const describeReplicationSubnetGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationSubnetGroups",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeReplicationSubnetGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationSubnetGroups",
 })) as any;
@@ -5258,14 +4944,6 @@ export const describeReplicationTableStatistics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationTableStatistics",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:DescribeReplicationTableStatistics"],
-    resources: {
-      "dms:DescribeReplicationTableStatistics": [
-        "arn:${Partition}:dms:${Region}:${Account}:replication-config:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeReplicationTableStatistics",
 })) as any;
@@ -5292,7 +4970,6 @@ export const describeReplicationTaskAssessmentResults: API.PaginatedOperationMet
   retry: Retry,
   operationName: "DescribeReplicationTaskAssessmentResults",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeReplicationTaskAssessmentResults"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationTaskAssessmentResults",
 })) as any;
@@ -5323,7 +5000,6 @@ export const describeReplicationTaskAssessmentRuns: API.PaginatedOperationMethod
   retry: Retry,
   operationName: "DescribeReplicationTaskAssessmentRuns",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeReplicationTaskAssessmentRuns"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationTaskAssessmentRuns",
 })) as any;
@@ -5355,7 +5031,6 @@ export const describeReplicationTaskIndividualAssessments: API.PaginatedOperatio
   retry: Retry,
   operationName: "DescribeReplicationTaskIndividualAssessments",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeReplicationTaskIndividualAssessments"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationTaskIndividualAssessments",
 })) as any;
@@ -5379,7 +5054,6 @@ export const describeReplicationTasks: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeReplicationTasks",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: { actions: ["dms:DescribeReplicationTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationTasks",
 })) as any;
@@ -5402,10 +5076,6 @@ export const describeSchemas: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeSchemas",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:DescribeSchemas"],
-    resources: { "dms:DescribeSchemas": ["arn:${Partition}:dms:${Region}:${Account}:endpoint:*"] },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSchemas",
 })) as any;
@@ -5437,12 +5107,6 @@ export const describeTableStatistics: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeTableStatistics",
   pagination: { inputToken: "Marker", outputToken: "Marker", pageSize: "MaxRecords" } as const,
-  iam: {
-    actions: ["dms:DescribeTableStatistics"],
-    resources: {
-      "dms:DescribeTableStatistics": ["arn:${Partition}:dms:${Region}:${Account}:task:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTableStatistics",
 })) as any;
@@ -5468,14 +5132,6 @@ export const exportMetadataModelAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportMetadataModelAssessment",
-  iam: {
-    actions: ["dms:ExportMetadataModelAssessment"],
-    resources: {
-      "dms:ExportMetadataModelAssessment": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExportMetadataModelAssessment",
 }));
@@ -5504,14 +5160,6 @@ export const getTargetSelectionRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTargetSelectionRules",
-  iam: {
-    actions: ["dms:GetTargetSelectionRules"],
-    resources: {
-      "dms:GetTargetSelectionRules": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTargetSelectionRules",
 }));
@@ -5542,11 +5190,6 @@ export const importCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportCertificate",
-  iam: {
-    actions: ["dms:AddTagsToResource", "dms:ImportCertificate"],
-    resources: { "dms:ImportCertificate": ["arn:${Partition}:dms:${Region}:${Account}:cert:*"] },
-    conditional: { "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportCertificate",
 }));
@@ -5574,7 +5217,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["dms:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5602,14 +5244,6 @@ export const modifyConversionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyConversionConfiguration",
-  iam: {
-    actions: ["dms:UpdateConversionConfiguration"],
-    resources: {
-      "dms:UpdateConversionConfiguration": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyConversionConfiguration",
 }));
@@ -5634,14 +5268,6 @@ export const modifyDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDataMigration",
-  iam: {
-    actions: ["dms:ModifyDataMigration", "iam:PassRole"],
-    resources: {
-      "dms:ModifyDataMigration": ["arn:${Partition}:dms:${Region}:${Account}:data-migration:*"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "ServiceAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyDataMigration",
 }));
@@ -5679,14 +5305,6 @@ export const modifyDataProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyDataProvider",
-  iam: {
-    actions: ["iam:PassRole", "dms:UpdateDataProvider"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "dms:UpdateDataProvider": ["arn:${Partition}:dms:${Region}:${Account}:data-provider:*"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyDataProvider",
 }));
@@ -5726,11 +5344,6 @@ export const modifyEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEndpoint",
-  iam: {
-    actions: ["dms:ModifyEndpoint", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "ServiceAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyEndpoint",
 }));
@@ -5773,12 +5386,6 @@ export const modifyEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEventSubscription",
-  iam: {
-    actions: ["dms:ModifyEventSubscription"],
-    resources: {
-      "dms:ModifyEventSubscription": ["arn:${Partition}:dms:${Region}:${Account}:es:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyEventSubscription",
 }));
@@ -5822,14 +5429,6 @@ export const modifyInstanceProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyInstanceProfile",
-  iam: {
-    actions: ["iam:PassRole", "dms:UpdateInstanceProfile"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "dms:UpdateInstanceProfile": ["arn:${Partition}:dms:${Region}:${Account}:instance-profile:*"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyInstanceProfile",
 }));
@@ -5870,16 +5469,6 @@ export const modifyMigrationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyMigrationProject",
-  iam: {
-    actions: ["iam:PassRole", "dms:UpdateMigrationProject"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "dms:UpdateMigrationProject": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-    conditional: { "iam:PassRole": "SchemaConversionApplicationAttributes.S3BucketRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyMigrationProject",
 }));
@@ -5922,14 +5511,6 @@ export const modifyReplicationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationConfig",
-  iam: {
-    actions: ["dms:ModifyReplicationConfig"],
-    resources: {
-      "dms:ModifyReplicationConfig": [
-        "arn:${Partition}:dms:${Region}:${Account}:replication-config:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyReplicationConfig",
 }));
@@ -5973,14 +5554,6 @@ export const modifyReplicationInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationInstance",
-  iam: {
-    actions: ["dms:ModifyReplicationInstance", "iam:PassRole"],
-    resources: {
-      "dms:ModifyReplicationInstance": ["arn:${Partition}:dms:${Region}:${Account}:rep:*"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyReplicationInstance",
 }));
@@ -6015,12 +5588,6 @@ export const modifyReplicationSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationSubnetGroup",
-  iam: {
-    actions: ["dms:ModifyReplicationSubnetGroup"],
-    resources: {
-      "dms:ModifyReplicationSubnetGroup": ["arn:${Partition}:dms:${Region}:${Account}:subgrp:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyReplicationSubnetGroup",
 }));
@@ -6056,12 +5623,6 @@ export const modifyReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReplicationTask",
-  iam: {
-    actions: ["dms:ModifyReplicationTask"],
-    resources: {
-      "dms:ModifyReplicationTask": ["arn:${Partition}:dms:${Region}:${Account}:task:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyReplicationTask",
 }));
@@ -6096,15 +5657,6 @@ export const moveReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "MoveReplicationTask",
-  iam: {
-    actions: ["dms:MoveReplicationTask"],
-    resources: {
-      "dms:MoveReplicationTask": [
-        "arn:${Partition}:dms:${Region}:${Account}:rep:*",
-        "arn:${Partition}:dms:${Region}:${Account}:task:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "MoveReplicationTask",
 }));
@@ -6129,12 +5681,6 @@ export const rebootReplicationInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootReplicationInstance",
-  iam: {
-    actions: ["dms:RebootReplicationInstance"],
-    resources: {
-      "dms:RebootReplicationInstance": ["arn:${Partition}:dms:${Region}:${Account}:rep:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootReplicationInstance",
 }));
@@ -6167,15 +5713,6 @@ export const refreshSchemas: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RefreshSchemas",
-  iam: {
-    actions: ["dms:RefreshSchemas"],
-    resources: {
-      "dms:RefreshSchemas": [
-        "arn:${Partition}:dms:${Region}:${Account}:endpoint:*",
-        "arn:${Partition}:dms:${Region}:${Account}:rep:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RefreshSchemas",
 }));
@@ -6203,14 +5740,6 @@ export const reloadReplicationTables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReloadReplicationTables",
-  iam: {
-    actions: ["dms:ReloadReplicationTables"],
-    resources: {
-      "dms:ReloadReplicationTables": [
-        "arn:${Partition}:dms:${Region}:${Account}:replication-config:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReloadReplicationTables",
 }));
@@ -6234,10 +5763,6 @@ export const reloadTables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReloadTables",
-  iam: {
-    actions: ["dms:ReloadTables"],
-    resources: { "dms:ReloadTables": ["arn:${Partition}:dms:${Region}:${Account}:task:*"] },
-  },
   telemetry: TELEMETRY,
   span: "ReloadTables",
 }));
@@ -6265,7 +5790,6 @@ export const removeTagsFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTagsFromResource",
-  iam: { actions: ["dms:RemoveTagsFromResource"] },
   telemetry: TELEMETRY,
   span: "RemoveTagsFromResource",
 }));
@@ -6291,7 +5815,6 @@ export const runFleetAdvisorLsaAnalysis: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunFleetAdvisorLsaAnalysis",
-  iam: { actions: ["dms:RunFleetAdvisorLsaAnalysis"] },
   telemetry: TELEMETRY,
   span: "RunFleetAdvisorLsaAnalysis",
 }));
@@ -6324,12 +5847,6 @@ export const startDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataMigration",
-  iam: {
-    actions: ["dms:StartDataMigration"],
-    resources: {
-      "dms:StartDataMigration": ["arn:${Partition}:dms:${Region}:${Account}:data-migration:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDataMigration",
 }));
@@ -6384,14 +5901,6 @@ export const startExtensionPackAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartExtensionPackAssociation",
-  iam: {
-    actions: ["dms:AssociateExtensionPack"],
-    resources: {
-      "dms:AssociateExtensionPack": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartExtensionPackAssociation",
 }));
@@ -6449,14 +5958,6 @@ export const startMetadataModelAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelAssessment",
-  iam: {
-    actions: ["dms:StartMetadataModelAssessment"],
-    resources: {
-      "dms:StartMetadataModelAssessment": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMetadataModelAssessment",
 }));
@@ -6536,14 +6037,6 @@ export const startMetadataModelConversion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelConversion",
-  iam: {
-    actions: ["dms:StartMetadataModelConversion"],
-    resources: {
-      "dms:StartMetadataModelConversion": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMetadataModelConversion",
 }));
@@ -6603,14 +6096,6 @@ export const startMetadataModelCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelCreation",
-  iam: {
-    actions: ["dms:StartMetadataModelCreation"],
-    resources: {
-      "dms:StartMetadataModelCreation": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMetadataModelCreation",
 }));
@@ -6665,14 +6150,6 @@ export const startMetadataModelExportAsScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelExportAsScript",
-  iam: {
-    actions: ["dms:StartMetadataModelExportAsScripts"],
-    resources: {
-      "dms:StartMetadataModelExportAsScripts": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMetadataModelExportAsScript",
 }));
@@ -6733,14 +6210,6 @@ export const startMetadataModelExportToTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelExportToTarget",
-  iam: {
-    actions: ["dms:StartMetadataModelExportToTarget"],
-    resources: {
-      "dms:StartMetadataModelExportToTarget": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMetadataModelExportToTarget",
 }));
@@ -6790,14 +6259,6 @@ export const startMetadataModelImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMetadataModelImport",
-  iam: {
-    actions: ["dms:StartMetadataModelImport"],
-    resources: {
-      "dms:StartMetadataModelImport": [
-        "arn:${Partition}:dms:${Region}:${Account}:migration-project:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMetadataModelImport",
 }));
@@ -6827,7 +6288,6 @@ export const startRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommendations",
-  iam: { actions: ["dms:StartRecommendations"] },
   telemetry: TELEMETRY,
   span: "StartRecommendations",
 }));
@@ -6856,12 +6316,6 @@ export const startReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplication",
-  iam: {
-    actions: ["dms:StartReplication"],
-    resources: {
-      "dms:StartReplication": ["arn:${Partition}:dms:${Region}:${Account}:replication-config:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartReplication",
 }));
@@ -6889,10 +6343,6 @@ export const startReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplicationTask",
-  iam: {
-    actions: ["dms:StartReplicationTask"],
-    resources: { "dms:StartReplicationTask": ["arn:${Partition}:dms:${Region}:${Account}:task:*"] },
-  },
   telemetry: TELEMETRY,
   span: "StartReplicationTask",
 }));
@@ -6929,12 +6379,6 @@ export const startReplicationTaskAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplicationTaskAssessment",
-  iam: {
-    actions: ["dms:StartReplicationTaskAssessment"],
-    resources: {
-      "dms:StartReplicationTaskAssessment": ["arn:${Partition}:dms:${Region}:${Account}:task:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartReplicationTaskAssessment",
 }));
@@ -6988,14 +6432,6 @@ export const startReplicationTaskAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplicationTaskAssessmentRun",
-  iam: {
-    actions: ["dms:AddTagsToResource", "iam:PassRole", "dms:StartReplicationTaskAssessmentRun"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "dms:StartReplicationTaskAssessmentRun": ["arn:${Partition}:dms:${Region}:${Account}:task:*"],
-    },
-    conditional: { "dms:AddTagsToResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartReplicationTaskAssessmentRun",
 }));
@@ -7020,12 +6456,6 @@ export const stopDataMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataMigration",
-  iam: {
-    actions: ["dms:StopDataMigration"],
-    resources: {
-      "dms:StopDataMigration": ["arn:${Partition}:dms:${Region}:${Account}:data-migration:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopDataMigration",
 }));
@@ -7052,12 +6482,6 @@ export const stopReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplication",
-  iam: {
-    actions: ["dms:StopReplication"],
-    resources: {
-      "dms:StopReplication": ["arn:${Partition}:dms:${Region}:${Account}:replication-config:*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopReplication",
 }));
@@ -7081,10 +6505,6 @@ export const stopReplicationTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplicationTask",
-  iam: {
-    actions: ["dms:StopReplicationTask"],
-    resources: { "dms:StopReplicationTask": ["arn:${Partition}:dms:${Region}:${Account}:task:*"] },
-  },
   telemetry: TELEMETRY,
   span: "StopReplicationTask",
 }));
@@ -7117,15 +6537,6 @@ export const testConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestConnection",
-  iam: {
-    actions: ["dms:TestConnection"],
-    resources: {
-      "dms:TestConnection": [
-        "arn:${Partition}:dms:${Region}:${Account}:endpoint:*",
-        "arn:${Partition}:dms:${Region}:${Account}:rep:*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TestConnection",
 }));
@@ -7160,7 +6571,6 @@ export const updateSubscriptionsToEventBridge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionsToEventBridge",
-  iam: { actions: ["dms:UpdateSubscriptionsToEventBridge"] },
   telemetry: TELEMETRY,
   span: "UpdateSubscriptionsToEventBridge",
 }));

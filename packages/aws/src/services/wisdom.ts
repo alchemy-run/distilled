@@ -915,10 +915,6 @@ export const createAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistant",
-  iam: {
-    actions: ["wisdom:CreateAssistant", "wisdom:TagResource"],
-    conditional: { "wisdom:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAssistant",
 }));
@@ -953,11 +949,6 @@ export const createAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssistantAssociation",
-  iam: {
-    actions: ["wisdom:CreateAssistantAssociation", "iam:PassRole", "wisdom:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "wisdom:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAssistantAssociation",
 }));
@@ -991,15 +982,6 @@ export const createContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContent",
-  iam: {
-    actions: ["wisdom:CreateContent", "wisdom:TagResource"],
-    resources: {
-      "wisdom:CreateContent": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-    conditional: { "wisdom:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateContent",
 }));
@@ -1047,10 +1029,6 @@ export const createKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateKnowledgeBase",
-  iam: {
-    actions: ["wisdom:CreateKnowledgeBase", "wisdom:TagResource"],
-    conditional: { "wisdom:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateKnowledgeBase",
 }));
@@ -1083,10 +1061,6 @@ export const createQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuickResponse",
-  iam: {
-    actions: ["wisdom:CreateQuickResponse", "wisdom:TagResource"],
-    conditional: { "wisdom:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateQuickResponse",
 }));
@@ -1113,10 +1087,6 @@ export const createSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSession",
-  iam: {
-    actions: ["wisdom:CreateSession", "wisdom:TagResource"],
-    conditional: { "wisdom:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSession",
 }));
@@ -1141,14 +1111,6 @@ export const deleteAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistant",
-  iam: {
-    actions: ["wisdom:DeleteAssistant"],
-    resources: {
-      "wisdom:DeleteAssistant": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAssistant",
 }));
@@ -1173,14 +1135,6 @@ export const deleteAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssistantAssociation",
-  iam: {
-    actions: ["wisdom:DeleteAssistantAssociation"],
-    resources: {
-      "wisdom:DeleteAssistantAssociation": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:association/${AssistantId}/${AssistantAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAssistantAssociation",
 }));
@@ -1205,14 +1159,6 @@ export const deleteContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContent",
-  iam: {
-    actions: ["wisdom:DeleteContent"],
-    resources: {
-      "wisdom:DeleteContent": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteContent",
 }));
@@ -1243,14 +1189,6 @@ export const deleteImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImportJob",
-  iam: {
-    actions: ["wisdom:DeleteImportJob"],
-    resources: {
-      "wisdom:DeleteImportJob": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteImportJob",
 }));
@@ -1288,14 +1226,6 @@ export const deleteKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteKnowledgeBase",
-  iam: {
-    actions: ["wisdom:DeleteKnowledgeBase"],
-    resources: {
-      "wisdom:DeleteKnowledgeBase": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteKnowledgeBase",
 }));
@@ -1320,14 +1250,6 @@ export const deleteQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuickResponse",
-  iam: {
-    actions: ["wisdom:DeleteQuickResponse"],
-    resources: {
-      "wisdom:DeleteQuickResponse": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:quick-response/${KnowledgeBaseId}/${QuickResponseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteQuickResponse",
 }));
@@ -1352,14 +1274,6 @@ export const getAssistant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistant",
-  iam: {
-    actions: ["wisdom:GetAssistant"],
-    resources: {
-      "wisdom:GetAssistant": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAssistant",
 }));
@@ -1384,14 +1298,6 @@ export const getAssistantAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssistantAssociation",
-  iam: {
-    actions: ["wisdom:GetAssistantAssociation"],
-    resources: {
-      "wisdom:GetAssistantAssociation": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:association/${AssistantId}/${AssistantAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAssistantAssociation",
 }));
@@ -1416,14 +1322,6 @@ export const getContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContent",
-  iam: {
-    actions: ["wisdom:GetContent"],
-    resources: {
-      "wisdom:GetContent": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetContent",
 }));
@@ -1448,14 +1346,6 @@ export const getContentSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContentSummary",
-  iam: {
-    actions: ["wisdom:GetContentSummary"],
-    resources: {
-      "wisdom:GetContentSummary": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetContentSummary",
 }));
@@ -1480,14 +1370,6 @@ export const getImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
-  iam: {
-    actions: ["wisdom:GetImportJob"],
-    resources: {
-      "wisdom:GetImportJob": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetImportJob",
 }));
@@ -1512,14 +1394,6 @@ export const getKnowledgeBase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetKnowledgeBase",
-  iam: {
-    actions: ["wisdom:GetKnowledgeBase"],
-    resources: {
-      "wisdom:GetKnowledgeBase": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetKnowledgeBase",
 }));
@@ -1544,14 +1418,6 @@ export const getQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuickResponse",
-  iam: {
-    actions: ["wisdom:GetQuickResponse"],
-    resources: {
-      "wisdom:GetQuickResponse": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:quick-response/${KnowledgeBaseId}/${QuickResponseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQuickResponse",
 }));
@@ -1579,14 +1445,6 @@ export const getRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendations",
-  iam: {
-    actions: ["wisdom:GetRecommendations"],
-    resources: {
-      "wisdom:GetRecommendations": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecommendations",
 }));
@@ -1611,14 +1469,6 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
-  iam: {
-    actions: ["wisdom:GetSession"],
-    resources: {
-      "wisdom:GetSession": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -1650,7 +1500,6 @@ export const listAssistantAssociations: API.PaginatedOperationMethod<
     items: "assistantAssociationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["wisdom:ListAssistantAssociations"] },
   telemetry: TELEMETRY,
   span: "ListAssistantAssociations",
 })) as any;
@@ -1678,7 +1527,6 @@ export const listAssistants: API.PaginatedOperationMethod<
     items: "assistantSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["wisdom:ListAssistants"] },
   telemetry: TELEMETRY,
   span: "ListAssistants",
 })) as any;
@@ -1710,14 +1558,6 @@ export const listContents: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["wisdom:ListContents"],
-    resources: {
-      "wisdom:ListContents": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListContents",
 })) as any;
@@ -1745,14 +1585,6 @@ export const listImportJobs: API.PaginatedOperationMethod<
     items: "importJobSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["wisdom:ListImportJobs"],
-    resources: {
-      "wisdom:ListImportJobs": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListImportJobs",
 })) as any;
@@ -1780,7 +1612,6 @@ export const listKnowledgeBases: API.PaginatedOperationMethod<
     items: "knowledgeBaseSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["wisdom:ListKnowledgeBases"] },
   telemetry: TELEMETRY,
   span: "ListKnowledgeBases",
 })) as any;
@@ -1812,14 +1643,6 @@ export const listQuickResponses: API.PaginatedOperationMethod<
     items: "quickResponseSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["wisdom:ListQuickResponses"],
-    resources: {
-      "wisdom:ListQuickResponses": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListQuickResponses",
 })) as any;
@@ -1840,7 +1663,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["wisdom:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1867,14 +1689,6 @@ export const notifyRecommendationsReceived: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyRecommendationsReceived",
-  iam: {
-    actions: ["wisdom:NotifyRecommendationsReceived"],
-    resources: {
-      "wisdom:NotifyRecommendationsReceived": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:session/${AssistantId}/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "NotifyRecommendationsReceived",
 }));
@@ -1913,14 +1727,6 @@ export const queryAssistant: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["wisdom:QueryAssistant"],
-    resources: {
-      "wisdom:QueryAssistant": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:assistant/${AssistantId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "QueryAssistant",
 })) as any;
@@ -1945,14 +1751,6 @@ export const removeKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveKnowledgeBaseTemplateUri",
-  iam: {
-    actions: ["wisdom:RemoveKnowledgeBaseTemplateUri"],
-    resources: {
-      "wisdom:RemoveKnowledgeBaseTemplateUri": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveKnowledgeBaseTemplateUri",
 }));
@@ -1985,14 +1783,6 @@ export const searchContent: API.PaginatedOperationMethod<
     items: "contentSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["wisdom:SearchContent"],
-    resources: {
-      "wisdom:SearchContent": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchContent",
 })) as any;
@@ -2030,17 +1820,6 @@ export const searchQuickResponses: API.PaginatedOperationMethod<
     items: "results",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["wisdom:GetQuickResponse", "wisdom:SearchQuickResponses"],
-    resources: {
-      "wisdom:GetQuickResponse": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:quick-response/${KnowledgeBaseId}/${QuickResponseId}",
-      ],
-      "wisdom:SearchQuickResponses": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchQuickResponses",
 })) as any;
@@ -2072,7 +1851,6 @@ export const searchSessions: API.PaginatedOperationMethod<
     items: "sessionSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["wisdom:SearchSessions"] },
   telemetry: TELEMETRY,
   span: "SearchSessions",
 })) as any;
@@ -2100,14 +1878,6 @@ export const startContentUpload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentUpload",
-  iam: {
-    actions: ["wisdom:StartContentUpload"],
-    resources: {
-      "wisdom:StartContentUpload": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartContentUpload",
 }));
@@ -2143,14 +1913,6 @@ export const startImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImportJob",
-  iam: {
-    actions: ["wisdom:StartImportJob"],
-    resources: {
-      "wisdom:StartImportJob": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartImportJob",
 }));
@@ -2171,7 +1933,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["wisdom:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2192,7 +1953,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["wisdom:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2223,14 +1983,6 @@ export const updateContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContent",
-  iam: {
-    actions: ["wisdom:UpdateContent"],
-    resources: {
-      "wisdom:UpdateContent": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:content/${KnowledgeBaseId}/${ContentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateContent",
 }));
@@ -2259,14 +2011,6 @@ export const updateKnowledgeBaseTemplateUri: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateKnowledgeBaseTemplateUri",
-  iam: {
-    actions: ["wisdom:UpdateKnowledgeBaseTemplateUri"],
-    resources: {
-      "wisdom:UpdateKnowledgeBaseTemplateUri": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateKnowledgeBaseTemplateUri",
 }));
@@ -2299,14 +2043,6 @@ export const updateQuickResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuickResponse",
-  iam: {
-    actions: ["wisdom:UpdateQuickResponse"],
-    resources: {
-      "wisdom:UpdateQuickResponse": [
-        "arn:${Partition}:wisdom:${Region}:${Account}:quick-response/${KnowledgeBaseId}/${QuickResponseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateQuickResponse",
 }));

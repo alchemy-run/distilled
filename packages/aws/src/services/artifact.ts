@@ -536,18 +536,6 @@ export const createComplianceInquiry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComplianceInquiry",
-  iam: {
-    actions: ["artifact:CreateComplianceInquiry", "artifact:TagResource"],
-    resources: {
-      "artifact:CreateComplianceInquiry": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-      "artifact:TagResource": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-    },
-    conditional: { "artifact:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateComplianceInquiry",
 }));
@@ -580,14 +568,6 @@ export const exportComplianceInquiry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportComplianceInquiry",
-  iam: {
-    actions: ["artifact:ExportComplianceInquiry"],
-    resources: {
-      "artifact:ExportComplianceInquiry": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExportComplianceInquiry",
 }));
@@ -624,7 +604,6 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
-  iam: { actions: ["artifact:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -657,14 +636,6 @@ export const getComplianceInquiryMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceInquiryMetadata",
-  iam: {
-    actions: ["artifact:GetComplianceInquiryMetadata"],
-    resources: {
-      "artifact:GetComplianceInquiryMetadata": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetComplianceInquiryMetadata",
 }));
@@ -701,12 +672,6 @@ export const getReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReport",
-  iam: {
-    actions: ["artifact:GetReport"],
-    resources: {
-      "artifact:GetReport": ["arn:${Partition}:artifact:${Region}::report/${ReportId}:${Version}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReport",
 }));
@@ -741,14 +706,6 @@ export const getReportMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReportMetadata",
-  iam: {
-    actions: ["artifact:GetReportMetadata"],
-    resources: {
-      "artifact:GetReportMetadata": [
-        "arn:${Partition}:artifact:${Region}::report/${ReportId}:${Version}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReportMetadata",
 }));
@@ -785,14 +742,6 @@ export const getTermForReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTermForReport",
-  iam: {
-    actions: ["artifact:GetTermForReport"],
-    resources: {
-      "artifact:GetTermForReport": [
-        "arn:${Partition}:artifact:${Region}::report/${ReportId}:${Version}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTermForReport",
 }));
@@ -832,7 +781,6 @@ export const listComplianceInquiries: API.PaginatedOperationMethod<
     items: "complianceInquiries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["artifact:ListComplianceInquiries"] },
   telemetry: TELEMETRY,
   span: "ListComplianceInquiries",
 })) as any;
@@ -872,14 +820,6 @@ export const listComplianceInquiryQueries: API.PaginatedOperationMethod<
     items: "queries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["artifact:ListComplianceInquiryQueries"],
-    resources: {
-      "artifact:ListComplianceInquiryQueries": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListComplianceInquiryQueries",
 })) as any;
@@ -917,7 +857,6 @@ export const listCustomerAgreements: API.PaginatedOperationMethod<
     items: "customerAgreements",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["artifact:ListCustomerAgreements"] },
   telemetry: TELEMETRY,
   span: "ListCustomerAgreements",
 })) as any;
@@ -959,7 +898,6 @@ export const listReports: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["artifact:ListReports"] },
   telemetry: TELEMETRY,
   span: "ListReports",
 })) as any;
@@ -1001,7 +939,6 @@ export const listReportVersions: API.PaginatedOperationMethod<
     items: "reports",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["artifact:ListReportVersions"] },
   telemetry: TELEMETRY,
   span: "ListReportVersions",
 })) as any;
@@ -1034,14 +971,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["artifact:ListTagsForResource"],
-    resources: {
-      "artifact:ListTagsForResource": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1078,7 +1007,6 @@ export const putAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSettings",
-  iam: { actions: ["artifact:PutAccountSettings"] },
   telemetry: TELEMETRY,
   span: "PutAccountSettings",
 }));
@@ -1113,14 +1041,6 @@ export const putComplianceInquiryFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutComplianceInquiryFeedback",
-  iam: {
-    actions: ["artifact:PutComplianceInquiryFeedback"],
-    resources: {
-      "artifact:PutComplianceInquiryFeedback": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutComplianceInquiryFeedback",
 }));
@@ -1153,14 +1073,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["artifact:TagResource"],
-    resources: {
-      "artifact:TagResource": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1193,14 +1105,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["artifact:UntagResource"],
-    resources: {
-      "artifact:UntagResource": [
-        "arn:${Partition}:artifact:${Region}:${Account}:compliance-inquiry/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

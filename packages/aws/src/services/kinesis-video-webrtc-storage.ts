@@ -195,14 +195,6 @@ export const joinStorageSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "JoinStorageSession",
-  iam: {
-    actions: ["kinesisvideo:JoinStorageSession"],
-    resources: {
-      "kinesisvideo:JoinStorageSession": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "JoinStorageSession",
 }));
@@ -249,14 +241,6 @@ export const joinStorageSessionAsViewer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "JoinStorageSessionAsViewer",
-  iam: {
-    actions: ["kinesisvideo:JoinStorageSessionAsViewer"],
-    resources: {
-      "kinesisvideo:JoinStorageSessionAsViewer": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:channel/${ChannelName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "JoinStorageSessionAsViewer",
 }));

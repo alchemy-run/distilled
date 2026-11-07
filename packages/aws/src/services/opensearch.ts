@@ -2667,7 +2667,6 @@ export const acceptInboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInboundConnection",
-  iam: { actions: ["es:AcceptInboundConnection", "es:AcceptInboundCrossClusterSearchConnection"] },
   telemetry: TELEMETRY,
   span: "AcceptInboundConnection",
 }));
@@ -2706,14 +2705,6 @@ export const addDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDataSource",
-  iam: {
-    actions: ["es:AddDataSource", "iam:PassRole"],
-    resources: {
-      "es:AddDataSource": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "AddDataSource",
 }));
@@ -2749,21 +2740,6 @@ export const addDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDirectQueryDataSource",
-  iam: {
-    actions: ["es:AddDirectQueryDataSource", "es:AddTags", "iam:PassRole"],
-    resources: {
-      "es:AddDirectQueryDataSource": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-      ],
-      "es:AddTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "es:AddTags": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "AddDirectQueryDataSource",
 }));
@@ -2801,12 +2777,6 @@ export const addReplicationPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddReplicationPeer",
-  iam: {
-    actions: ["es:AddReplicationPeer"],
-    resources: {
-      "es:AddReplicationPeer": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddReplicationPeer",
 }));
@@ -2836,16 +2806,6 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-  iam: {
-    actions: ["es:AddTags"],
-    resources: {
-      "es:AddTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -2882,14 +2842,6 @@ export const associatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackage",
-  iam: {
-    actions: ["es:AssociatePackage", "iam:PassRole"],
-    resources: {
-      "es:AssociatePackage": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "AssociatePackage",
 }));
@@ -2925,12 +2877,6 @@ export const associatePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackages",
-  iam: {
-    actions: ["es:AssociatePackages"],
-    resources: {
-      "es:AssociatePackages": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociatePackages",
 }));
@@ -2965,14 +2911,6 @@ export const attachDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachDataSource",
-  iam: {
-    actions: ["es:AttachDataSource"],
-    resources: {
-      "es:AttachDataSource": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AttachDataSource",
 }));
@@ -3008,7 +2946,6 @@ export const authorizeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeVpcEndpointAccess",
-  iam: { actions: ["es:AuthorizeVpcEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "AuthorizeVpcEndpointAccess",
 }));
@@ -3041,14 +2978,6 @@ export const cancelDomainConfigChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDomainConfigChange",
-  iam: {
-    actions: ["es:CancelDomainConfigChange"],
-    resources: {
-      "es:CancelDomainConfigChange": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelDomainConfigChange",
 }));
@@ -3078,14 +3007,6 @@ export const cancelServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelServiceSoftwareUpdate",
-  iam: {
-    actions: ["es:CancelServiceSoftwareUpdate"],
-    resources: {
-      "es:CancelServiceSoftwareUpdate": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelServiceSoftwareUpdate",
 }));
@@ -3122,14 +3043,6 @@ export const compareDomainConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompareDomainConfiguration",
-  iam: {
-    actions: ["es:CompareDomainConfiguration"],
-    resources: {
-      "es:CompareDomainConfiguration": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CompareDomainConfiguration",
 }));
@@ -3164,18 +3077,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["es:AddTags", "es:CreateApplication", "iam:PassRole"],
-    resources: {
-      "es:AddTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "es:AddTags": "tagList" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -3213,18 +3114,6 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
-  iam: {
-    actions: ["es:AddTags", "es:CreateDomain", "iam:PassRole"],
-    resources: {
-      "es:AddTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "CognitoOptions.RoleArn", "es:AddTags": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -3263,12 +3152,6 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
-  iam: {
-    actions: ["es:CreateIndex"],
-    resources: {
-      "es:CreateIndex": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateIndex",
 }));
@@ -3301,17 +3184,6 @@ export const createOutboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundConnection",
-  iam: {
-    actions: ["es:CreateOutboundConnection", "es:CreateOutboundCrossClusterSearchConnection"],
-    resources: {
-      "es:CreateOutboundConnection": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "es:CreateOutboundCrossClusterSearchConnection": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateOutboundConnection",
 }));
@@ -3350,7 +3222,6 @@ export const createPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackage",
-  iam: { actions: ["es:CreatePackage"] },
   telemetry: TELEMETRY,
   span: "CreatePackage",
 }));
@@ -3385,7 +3256,6 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
-  iam: { actions: ["es:CreateVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "CreateVpcEndpoint",
 }));
@@ -3422,14 +3292,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["es:DeleteApplication"],
-    resources: {
-      "es:DeleteApplication": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -3465,12 +3327,6 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
-  iam: {
-    actions: ["es:DeleteDataSource"],
-    resources: {
-      "es:DeleteDataSource": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataSource",
 }));
@@ -3504,14 +3360,6 @@ export const deleteDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectQueryDataSource",
-  iam: {
-    actions: ["es:DeleteDirectQueryDataSource"],
-    resources: {
-      "es:DeleteDirectQueryDataSource": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDirectQueryDataSource",
 }));
@@ -3538,12 +3386,6 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
-  iam: {
-    actions: ["es:DeleteDomain"],
-    resources: {
-      "es:DeleteDomain": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -3568,7 +3410,6 @@ export const deleteInboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundConnection",
-  iam: { actions: ["es:DeleteInboundConnection"] },
   telemetry: TELEMETRY,
   span: "DeleteInboundConnection",
 }));
@@ -3605,12 +3446,6 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
-  iam: {
-    actions: ["es:DeleteIndex"],
-    resources: {
-      "es:DeleteIndex": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIndex",
 }));
@@ -3635,9 +3470,6 @@ export const deleteOutboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundConnection",
-  iam: {
-    actions: ["es:DeleteOutboundConnection", "es:DeleteOutboundCrossClusterSearchConnection"],
-  },
   telemetry: TELEMETRY,
   span: "DeleteOutboundConnection",
 }));
@@ -3673,7 +3505,6 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
-  iam: { actions: ["es:DeletePackage"] },
   telemetry: TELEMETRY,
   span: "DeletePackage",
 }));
@@ -3699,7 +3530,6 @@ export const deleteVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
-  iam: { actions: ["es:DeleteVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "DeleteVpcEndpoint",
 }));
@@ -3734,14 +3564,6 @@ export const deregisterCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterCapability",
-  iam: {
-    actions: ["es:DeregisterCapability"],
-    resources: {
-      "es:DeregisterCapability": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterCapability",
 }));
@@ -3774,14 +3596,6 @@ export const describeDataSourceAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSourceAttachment",
-  iam: {
-    actions: ["es:DescribeDataSourceAttachment"],
-    resources: {
-      "es:DescribeDataSourceAttachment": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDataSourceAttachment",
 }));
@@ -3808,12 +3622,6 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
-  iam: {
-    actions: ["es:DescribeDomain"],
-    resources: {
-      "es:DescribeDomain": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomain",
 }));
@@ -3847,14 +3655,6 @@ export const describeDomainAutoTunes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:DescribeDomainAutoTunes"],
-    resources: {
-      "es:DescribeDomainAutoTunes": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomainAutoTunes",
 })) as any;
@@ -3881,14 +3681,6 @@ export const describeDomainChangeProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainChangeProgress",
-  iam: {
-    actions: ["es:DescribeDomainChangeProgress"],
-    resources: {
-      "es:DescribeDomainChangeProgress": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomainChangeProgress",
 }));
@@ -3914,12 +3706,6 @@ export const describeDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainConfig",
-  iam: {
-    actions: ["es:DescribeDomainConfig"],
-    resources: {
-      "es:DescribeDomainConfig": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomainConfig",
 }));
@@ -3953,12 +3739,6 @@ export const describeDomainHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainHealth",
-  iam: {
-    actions: ["es:DescribeDomainHealth"],
-    resources: {
-      "es:DescribeDomainHealth": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomainHealth",
 }));
@@ -3995,12 +3775,6 @@ export const describeDomainNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainNodes",
-  iam: {
-    actions: ["es:DescribeDomainNodes"],
-    resources: {
-      "es:DescribeDomainNodes": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomainNodes",
 }));
@@ -4036,14 +3810,6 @@ export const describeDomainReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainReplication",
-  iam: {
-    actions: ["es:DescribeDomainReplication"],
-    resources: {
-      "es:DescribeDomainReplication": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomainReplication",
 }));
@@ -4069,12 +3835,6 @@ export const describeDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomains",
-  iam: {
-    actions: ["es:DescribeDomains"],
-    resources: {
-      "es:DescribeDomains": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomains",
 }));
@@ -4108,14 +3868,6 @@ export const describeDryRunProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDryRunProgress",
-  iam: {
-    actions: ["es:DescribeDryRunProgress"],
-    resources: {
-      "es:DescribeDryRunProgress": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDryRunProgress",
 }));
@@ -4146,9 +3898,6 @@ export const describeInboundConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:DescribeInboundConnections", "es:DescribeInboundCrossClusterSearchConnections"],
-  },
   telemetry: TELEMETRY,
   span: "DescribeInboundConnections",
 })) as any;
@@ -4185,14 +3934,6 @@ export const describeInsightDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInsightDetails",
-  iam: {
-    actions: ["es:DescribeInsightDetails"],
-    resources: {
-      "es:DescribeInsightDetails": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInsightDetails",
 }));
@@ -4228,7 +3969,6 @@ export const describeInstanceTypeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInstanceTypeLimits",
-  iam: { actions: ["es:DescribeInstanceTypeLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceTypeLimits",
 }));
@@ -4259,9 +3999,6 @@ export const describeOutboundConnections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:DescribeOutboundConnections", "es:DescribeOutboundCrossClusterSearchConnections"],
-  },
   telemetry: TELEMETRY,
   span: "DescribeOutboundConnections",
 })) as any;
@@ -4302,7 +4039,6 @@ export const describePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:DescribePackages"] },
   telemetry: TELEMETRY,
   span: "DescribePackages",
 })) as any;
@@ -4341,7 +4077,6 @@ export const describeReservedInstanceOfferings: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:DescribeReservedInstanceOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedInstanceOfferings",
 })) as any;
@@ -4380,7 +4115,6 @@ export const describeReservedInstances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:DescribeReservedInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedInstances",
 })) as any;
@@ -4406,7 +4140,6 @@ export const describeVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpoints",
-  iam: { actions: ["es:DescribeVpcEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpoints",
 }));
@@ -4441,14 +4174,6 @@ export const detachDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachDataSource",
-  iam: {
-    actions: ["es:DetachDataSource"],
-    resources: {
-      "es:DetachDataSource": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DetachDataSource",
 }));
@@ -4487,12 +4212,6 @@ export const dissociatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackage",
-  iam: {
-    actions: ["es:DissociatePackage"],
-    resources: {
-      "es:DissociatePackage": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DissociatePackage",
 }));
@@ -4527,12 +4246,6 @@ export const dissociatePackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackages",
-  iam: {
-    actions: ["es:DissociatePackages"],
-    resources: {
-      "es:DissociatePackages": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DissociatePackages",
 }));
@@ -4570,12 +4283,6 @@ export const failoverReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverReplication",
-  iam: {
-    actions: ["es:FailoverReplication"],
-    resources: {
-      "es:FailoverReplication": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "FailoverReplication",
 }));
@@ -4610,14 +4317,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["es:GetApplication"],
-    resources: {
-      "es:GetApplication": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -4650,12 +4349,6 @@ export const getCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapability",
-  iam: {
-    actions: ["es:GetCapability"],
-    resources: {
-      "es:GetCapability": ["arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCapability",
 }));
@@ -4689,12 +4382,6 @@ export const getCompatibleVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleVersions",
-  iam: {
-    actions: ["es:GetCompatibleVersions"],
-    resources: {
-      "es:GetCompatibleVersions": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCompatibleVersions",
 }));
@@ -4729,12 +4416,6 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
-  iam: {
-    actions: ["es:GetDataSource"],
-    resources: {
-      "es:GetDataSource": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataSource",
 }));
@@ -4768,14 +4449,6 @@ export const getDefaultApplicationSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultApplicationSetting",
-  iam: {
-    actions: ["es:GetDefaultApplicationSetting"],
-    resources: {
-      "es:GetDefaultApplicationSetting": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDefaultApplicationSetting",
 }));
@@ -4809,14 +4482,6 @@ export const getDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDirectQueryDataSource",
-  iam: {
-    actions: ["es:GetDirectQueryDataSource"],
-    resources: {
-      "es:GetDirectQueryDataSource": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDirectQueryDataSource",
 }));
@@ -4849,14 +4514,6 @@ export const getDomainMaintenanceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainMaintenanceStatus",
-  iam: {
-    actions: ["es:GetDomainMaintenanceStatus"],
-    resources: {
-      "es:GetDomainMaintenanceStatus": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDomainMaintenanceStatus",
 }));
@@ -4893,10 +4550,6 @@ export const getIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndex",
-  iam: {
-    actions: ["es:GetIndex"],
-    resources: { "es:GetIndex": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetIndex",
 }));
@@ -4929,12 +4582,6 @@ export const getMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMigration",
-  iam: {
-    actions: ["es:GetMigration"],
-    resources: {
-      "es:GetMigration": ["arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMigration",
 }));
@@ -4976,7 +4623,6 @@ export const getPackageVersionHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:GetPackageVersionHistory"] },
   telemetry: TELEMETRY,
   span: "GetPackageVersionHistory",
 })) as any;
@@ -5016,12 +4662,6 @@ export const getUpgradeHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:GetUpgradeHistory"],
-    resources: {
-      "es:GetUpgradeHistory": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUpgradeHistory",
 })) as any;
@@ -5055,12 +4695,6 @@ export const getUpgradeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpgradeStatus",
-  iam: {
-    actions: ["es:GetUpgradeStatus"],
-    resources: {
-      "es:GetUpgradeStatus": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUpgradeStatus",
 }));
@@ -5097,12 +4731,6 @@ export const insightFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InsightFeedback",
-  iam: {
-    actions: ["es:InsightFeedback"],
-    resources: {
-      "es:InsightFeedback": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InsightFeedback",
 }));
@@ -5144,14 +4772,6 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "ApplicationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["es:ListApplications"],
-    resources: {
-      "es:ListApplications": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -5184,14 +4804,6 @@ export const listDataSourceAttachments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSourceAttachments",
-  iam: {
-    actions: ["es:ListDataSourceAttachments"],
-    resources: {
-      "es:ListDataSourceAttachments": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSourceAttachments",
 }));
@@ -5228,12 +4840,6 @@ export const listDataSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataSources",
-  iam: {
-    actions: ["es:ListDataSources"],
-    resources: {
-      "es:ListDataSources": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSources",
 }));
@@ -5267,14 +4873,6 @@ export const listDirectQueryDataSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDirectQueryDataSources",
-  iam: {
-    actions: ["es:ListDirectQueryDataSources"],
-    resources: {
-      "es:ListDirectQueryDataSources": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDirectQueryDataSources",
 }));
@@ -5313,14 +4911,6 @@ export const listDomainMaintenances: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:ListDomainMaintenances"],
-    resources: {
-      "es:ListDomainMaintenances": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDomainMaintenances",
 })) as any;
@@ -5342,7 +4932,6 @@ export const listDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
-  iam: { actions: ["es:ListDomainNames"] },
   telemetry: TELEMETRY,
   span: "ListDomainNames",
 }));
@@ -5383,7 +4972,6 @@ export const listDomainsForPackage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:ListDomainsForPackage"] },
   telemetry: TELEMETRY,
   span: "ListDomainsForPackage",
 })) as any;
@@ -5420,7 +5008,6 @@ export const listInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListInsights",
-  iam: { actions: ["es:ListInsights"] },
   telemetry: TELEMETRY,
   span: "ListInsights",
 }));
@@ -5453,7 +5040,6 @@ export const listInstanceTypeDetails: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:ListInstanceTypeDetails"] },
   telemetry: TELEMETRY,
   span: "ListInstanceTypeDetails",
 })) as any;
@@ -5484,14 +5070,6 @@ export const listMigrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMigrations",
-  iam: {
-    actions: ["es:ListMigrations"],
-    resources: {
-      "es:ListMigrations": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMigrations",
 }));
@@ -5532,12 +5110,6 @@ export const listPackagesForDomain: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:ListPackagesForDomain"],
-    resources: {
-      "es:ListPackagesForDomain": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPackagesForDomain",
 })) as any;
@@ -5578,12 +5150,6 @@ export const listScheduledActions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:ListScheduledActions"],
-    resources: {
-      "es:ListScheduledActions": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListScheduledActions",
 })) as any;
@@ -5610,16 +5176,6 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
-  iam: {
-    actions: ["es:ListTags"],
-    resources: {
-      "es:ListTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
@@ -5652,7 +5208,6 @@ export const listVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:ListVersions"] },
   telemetry: TELEMETRY,
   span: "ListVersions",
 })) as any;
@@ -5680,7 +5235,6 @@ export const listVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointAccess",
-  iam: { actions: ["es:ListVpcEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "ListVpcEndpointAccess",
 }));
@@ -5705,7 +5259,6 @@ export const listVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpoints",
-  iam: { actions: ["es:ListVpcEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListVpcEndpoints",
 }));
@@ -5732,7 +5285,6 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointsForDomain",
-  iam: { actions: ["es:ListVpcEndpointsForDomain"] },
   telemetry: TELEMETRY,
   span: "ListVpcEndpointsForDomain",
 }));
@@ -5767,7 +5319,6 @@ export const purchaseReservedInstanceOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedInstanceOffering",
-  iam: { actions: ["es:PurchaseReservedInstanceOffering"] },
   telemetry: TELEMETRY,
   span: "PurchaseReservedInstanceOffering",
 }));
@@ -5803,14 +5354,6 @@ export const putDefaultApplicationSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDefaultApplicationSetting",
-  iam: {
-    actions: ["es:PutDefaultApplicationSetting"],
-    resources: {
-      "es:PutDefaultApplicationSetting": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutDefaultApplicationSetting",
 }));
@@ -5847,14 +5390,6 @@ export const registerCapability: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCapability",
-  iam: {
-    actions: ["es:RegisterCapability"],
-    resources: {
-      "es:RegisterCapability": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterCapability",
 }));
@@ -5879,7 +5414,6 @@ export const rejectInboundConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInboundConnection",
-  iam: { actions: ["es:RejectInboundConnection", "es:RejectInboundCrossClusterSearchConnection"] },
   telemetry: TELEMETRY,
   span: "RejectInboundConnection",
 }));
@@ -5911,12 +5445,6 @@ export const removeReplicationPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveReplicationPeer",
-  iam: {
-    actions: ["es:RemoveReplicationPeer"],
-    resources: {
-      "es:RemoveReplicationPeer": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveReplicationPeer",
 }));
@@ -5942,16 +5470,6 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
-  iam: {
-    actions: ["es:RemoveTags"],
-    resources: {
-      "es:RemoveTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveTags",
 }));
@@ -5985,7 +5503,6 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeVpcEndpointAccess",
-  iam: { actions: ["es:RevokeVpcEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "RevokeVpcEndpointAccess",
 }));
@@ -6020,14 +5537,6 @@ export const rollbackServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackServiceSoftwareUpdate",
-  iam: {
-    actions: ["es:RollbackServiceSoftwareUpdate"],
-    resources: {
-      "es:RollbackServiceSoftwareUpdate": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RollbackServiceSoftwareUpdate",
 }));
@@ -6062,14 +5571,6 @@ export const startDomainMaintenance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDomainMaintenance",
-  iam: {
-    actions: ["es:StartDomainMaintenance"],
-    resources: {
-      "es:StartDomainMaintenance": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDomainMaintenance",
 }));
@@ -6104,14 +5605,6 @@ export const startMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMigration",
-  iam: {
-    actions: ["es:StartMigration"],
-    resources: {
-      "es:StartMigration": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMigration",
 }));
@@ -6139,14 +5632,6 @@ export const startServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartServiceSoftwareUpdate",
-  iam: {
-    actions: ["es:StartServiceSoftwareUpdate"],
-    resources: {
-      "es:StartServiceSoftwareUpdate": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartServiceSoftwareUpdate",
 }));
@@ -6183,12 +5668,6 @@ export const switchoverReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverReplication",
-  iam: {
-    actions: ["es:SwitchoverReplication"],
-    resources: {
-      "es:SwitchoverReplication": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SwitchoverReplication",
 }));
@@ -6225,14 +5704,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: {
-    actions: ["es:UpdateApplication"],
-    resources: {
-      "es:UpdateApplication": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -6269,14 +5740,6 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
-  iam: {
-    actions: ["iam:PassRole", "es:UpdateDataSource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "es:UpdateDataSource": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataSource",
 }));
@@ -6312,16 +5775,6 @@ export const updateDirectQueryDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectQueryDataSource",
-  iam: {
-    actions: ["iam:PassRole", "es:UpdateDirectQueryDataSource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "es:UpdateDirectQueryDataSource": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDirectQueryDataSource",
 }));
@@ -6357,14 +5810,6 @@ export const updateDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainConfig",
-  iam: {
-    actions: ["iam:PassRole", "es:UpdateDomainConfig"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "es:UpdateDomainConfig": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-    conditional: { "iam:PassRole": "CognitoOptions.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDomainConfig",
 }));
@@ -6401,12 +5846,6 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
-  iam: {
-    actions: ["es:UpdateIndex"],
-    resources: {
-      "es:UpdateIndex": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIndex",
 }));
@@ -6443,7 +5882,6 @@ export const updatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackage",
-  iam: { actions: ["es:UpdatePackage"] },
   telemetry: TELEMETRY,
   span: "UpdatePackage",
 }));
@@ -6477,7 +5915,6 @@ export const updatePackageScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackageScope",
-  iam: { actions: ["es:UpdatePackageScope"] },
   telemetry: TELEMETRY,
   span: "UpdatePackageScope",
 }));
@@ -6516,12 +5953,6 @@ export const updateScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScheduledAction",
-  iam: {
-    actions: ["es:UpdateScheduledAction"],
-    resources: {
-      "es:UpdateScheduledAction": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateScheduledAction",
 }));
@@ -6556,7 +5987,6 @@ export const updateVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
-  iam: { actions: ["es:UpdateVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "UpdateVpcEndpoint",
 }));
@@ -6592,12 +6022,6 @@ export const upgradeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeDomain",
-  iam: {
-    actions: ["es:UpgradeDomain"],
-    resources: {
-      "es:UpgradeDomain": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpgradeDomain",
 }));

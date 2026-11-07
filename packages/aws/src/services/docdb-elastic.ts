@@ -433,14 +433,6 @@ export const applyPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyPendingMaintenanceAction",
-  iam: {
-    actions: ["docdb-elastic:ApplyPendingMaintenanceAction"],
-    resources: {
-      "docdb-elastic:ApplyPendingMaintenanceAction": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ApplyPendingMaintenanceAction",
 }));
@@ -477,23 +469,6 @@ export const copyClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyClusterSnapshot",
-  iam: {
-    actions: [
-      "docdb-elastic:CopyClusterSnapshot",
-      "docdb-elastic:CreateClusterSnapshot",
-      "docdb-elastic:TagResource",
-    ],
-    resources: {
-      "docdb-elastic:CopyClusterSnapshot": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster-snapshot/${ResourceId}",
-      ],
-      "docdb-elastic:CreateClusterSnapshot": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster-snapshot/${ResourceId}",
-      ],
-    },
-    conditional: { "docdb-elastic:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CopyClusterSnapshot",
 }));
@@ -528,10 +503,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: ["docdb-elastic:CreateCluster", "docdb-elastic:TagResource"],
-    conditional: { "docdb-elastic:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -568,16 +539,6 @@ export const createClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSnapshot",
-  iam: {
-    actions: ["docdb-elastic:CreateClusterSnapshot", "docdb-elastic:TagResource"],
-    resources: {
-      "docdb-elastic:CreateClusterSnapshot": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster-snapshot/${ResourceId}",
-      ],
-    },
-    conditional: { "docdb-elastic:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateClusterSnapshot",
 }));
@@ -612,14 +573,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["docdb-elastic:DeleteCluster"],
-    resources: {
-      "docdb-elastic:DeleteCluster": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -654,14 +607,6 @@ export const deleteClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSnapshot",
-  iam: {
-    actions: ["docdb-elastic:DeleteClusterSnapshot"],
-    resources: {
-      "docdb-elastic:DeleteClusterSnapshot": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster-snapshot/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteClusterSnapshot",
 }));
@@ -694,14 +639,6 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
-  iam: {
-    actions: ["docdb-elastic:GetCluster"],
-    resources: {
-      "docdb-elastic:GetCluster": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCluster",
 }));
@@ -734,14 +671,6 @@ export const getClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterSnapshot",
-  iam: {
-    actions: ["docdb-elastic:GetClusterSnapshot"],
-    resources: {
-      "docdb-elastic:GetClusterSnapshot": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster-snapshot/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetClusterSnapshot",
 }));
@@ -776,14 +705,6 @@ export const getPendingMaintenanceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPendingMaintenanceAction",
-  iam: {
-    actions: ["docdb-elastic:GetPendingMaintenanceAction"],
-    resources: {
-      "docdb-elastic:GetPendingMaintenanceAction": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPendingMaintenanceAction",
 }));
@@ -821,7 +742,6 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["docdb-elastic:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -859,7 +779,6 @@ export const listClusterSnapshots: API.PaginatedOperationMethod<
     items: "snapshots",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["docdb-elastic:ListClusterSnapshots"] },
   telemetry: TELEMETRY,
   span: "ListClusterSnapshots",
 })) as any;
@@ -897,7 +816,6 @@ export const listPendingMaintenanceActions: API.PaginatedOperationMethod<
     items: "resourcePendingMaintenanceActions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["docdb-elastic:ListPendingMaintenanceActions"] },
   telemetry: TELEMETRY,
   span: "ListPendingMaintenanceActions",
 })) as any;
@@ -928,7 +846,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["docdb-elastic:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -965,35 +882,6 @@ export const restoreClusterFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreClusterFromSnapshot",
-  iam: {
-    actions: [
-      "docdb-elastic:CreateCluster",
-      "docdb-elastic:RestoreClusterFromSnapshot",
-      "docdb-elastic:TagResource",
-      "ec2:CreateTags",
-      "ec2:CreateVpcEndpoint",
-      "ec2:DeleteVpcEndpoints",
-      "ec2:DescribeAccountAttributes",
-      "ec2:DescribeAvailabilityZones",
-      "ec2:DescribeSecurityGroups",
-      "ec2:DescribeSubnets",
-      "ec2:DescribeVpcAttribute",
-      "ec2:DescribeVpcEndpoints",
-      "ec2:DescribeVpcs",
-      "ec2:ModifyVpcEndpoint",
-    ],
-    resources: {
-      "docdb-elastic:RestoreClusterFromSnapshot": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster-snapshot/${ResourceId}",
-      ],
-      "ec2:DeleteVpcEndpoints": [
-        "arn:${Partition}:ec2:${Region}:${Account}:vpc-endpoint/${VpcEndpointId}",
-      ],
-      "ec2:DescribeVpcAttribute": ["arn:${Partition}:ec2:${Region}:${Account}:vpc/${VpcId}"],
-    },
-    conditional: { "docdb-elastic:TagResource": "tags", "ec2:CreateTags": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "RestoreClusterFromSnapshot",
 }));
@@ -1026,14 +914,6 @@ export const startCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCluster",
-  iam: {
-    actions: ["docdb-elastic:StartCluster"],
-    resources: {
-      "docdb-elastic:StartCluster": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartCluster",
 }));
@@ -1067,14 +947,6 @@ export const stopCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCluster",
-  iam: {
-    actions: ["docdb-elastic:StopCluster"],
-    resources: {
-      "docdb-elastic:StopCluster": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopCluster",
 }));
@@ -1105,7 +977,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["docdb-elastic:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1136,7 +1007,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["docdb-elastic:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1172,14 +1042,6 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-  iam: {
-    actions: ["docdb-elastic:UpdateCluster"],
-    resources: {
-      "docdb-elastic:UpdateCluster": [
-        "arn:${Partition}:docdb-elastic:${Region}:${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));

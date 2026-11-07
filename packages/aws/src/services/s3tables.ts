@@ -1001,14 +1001,6 @@ export const completeTableMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteTableMigration",
-  iam: {
-    actions: ["s3tables:CompleteTableMigration"],
-    resources: {
-      "s3tables:CompleteTableMigration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CompleteTableMigration",
 }));
@@ -1047,14 +1039,6 @@ export const createNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNamespace",
-  iam: {
-    actions: ["s3tables:CreateNamespace"],
-    resources: {
-      "s3tables:CreateNamespace": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateNamespace",
 }));
@@ -1103,26 +1087,6 @@ export const createTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTable",
-  iam: {
-    actions: [
-      "s3tables:CreateTable",
-      "s3tables:PutTableEncryption",
-      "s3tables:PutTableStorageClass",
-      "s3tables:TagResource",
-    ],
-    resources: {
-      "s3tables:CreateTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:PutTableEncryption": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-      "s3tables:PutTableStorageClass": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-    conditional: { "s3tables:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTable",
 }));
@@ -1167,30 +1131,6 @@ export const createTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTableBucket",
-  iam: {
-    actions: [
-      "s3tables:CreateTableBucket",
-      "s3tables:PutTableBucketEncryption",
-      "s3tables:PutTableBucketPolicy",
-      "s3tables:PutTableBucketStorageClass",
-      "s3tables:TagResource",
-    ],
-    resources: {
-      "s3tables:CreateTableBucket": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:PutTableBucketEncryption": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:PutTableBucketPolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-      "s3tables:PutTableBucketStorageClass": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-    conditional: { "s3tables:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTableBucket",
 }));
@@ -1229,14 +1169,6 @@ export const deleteNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNamespace",
-  iam: {
-    actions: ["s3tables:DeleteNamespace"],
-    resources: {
-      "s3tables:DeleteNamespace": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNamespace",
 }));
@@ -1275,14 +1207,6 @@ export const deleteTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTable",
-  iam: {
-    actions: ["s3tables:DeleteTable"],
-    resources: {
-      "s3tables:DeleteTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTable",
 }));
@@ -1321,14 +1245,6 @@ export const deleteTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucket",
-  iam: {
-    actions: ["s3tables:DeleteTableBucket"],
-    resources: {
-      "s3tables:DeleteTableBucket": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTableBucket",
 }));
@@ -1367,14 +1283,6 @@ export const deleteTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketEncryption",
-  iam: {
-    actions: ["s3tables:DeleteTableBucketEncryption"],
-    resources: {
-      "s3tables:DeleteTableBucketEncryption": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTableBucketEncryption",
 }));
@@ -1413,14 +1321,6 @@ export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketMetricsConfiguration",
-  iam: {
-    actions: ["s3tables:DeleteTableBucketMetricsConfiguration"],
-    resources: {
-      "s3tables:DeleteTableBucketMetricsConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTableBucketMetricsConfiguration",
 }));
@@ -1459,14 +1359,6 @@ export const deleteTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketPolicy",
-  iam: {
-    actions: ["s3tables:DeleteTableBucketPolicy"],
-    resources: {
-      "s3tables:DeleteTableBucketPolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTableBucketPolicy",
 }));
@@ -1507,14 +1399,6 @@ export const deleteTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableBucketReplication",
-  iam: {
-    actions: ["s3tables:DeleteTableBucketReplication"],
-    resources: {
-      "s3tables:DeleteTableBucketReplication": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTableBucketReplication",
 }));
@@ -1553,14 +1437,6 @@ export const deleteTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTablePolicy",
-  iam: {
-    actions: ["s3tables:DeleteTablePolicy"],
-    resources: {
-      "s3tables:DeleteTablePolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTablePolicy",
 }));
@@ -1601,14 +1477,6 @@ export const deleteTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTableReplication",
-  iam: {
-    actions: ["s3tables:DeleteTableReplication"],
-    resources: {
-      "s3tables:DeleteTableReplication": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTableReplication",
 }));
@@ -1649,14 +1517,6 @@ export const getNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNamespace",
-  iam: {
-    actions: ["s3tables:GetNamespace"],
-    resources: {
-      "s3tables:GetNamespace": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetNamespace",
 }));
@@ -1697,14 +1557,6 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
-  iam: {
-    actions: ["s3tables:GetTable"],
-    resources: {
-      "s3tables:GetTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTable",
 }));
@@ -1745,14 +1597,6 @@ export const getTableBucket: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucket",
-  iam: {
-    actions: ["s3tables:GetTableBucket"],
-    resources: {
-      "s3tables:GetTableBucket": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableBucket",
 }));
@@ -1791,14 +1635,6 @@ export const getTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketEncryption",
-  iam: {
-    actions: ["s3tables:GetTableBucketEncryption"],
-    resources: {
-      "s3tables:GetTableBucketEncryption": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableBucketEncryption",
 }));
@@ -1837,14 +1673,6 @@ export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketMaintenanceConfiguration",
-  iam: {
-    actions: ["s3tables:GetTableBucketMaintenanceConfiguration"],
-    resources: {
-      "s3tables:GetTableBucketMaintenanceConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableBucketMaintenanceConfiguration",
 }));
@@ -1883,14 +1711,6 @@ export const getTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketMetricsConfiguration",
-  iam: {
-    actions: ["s3tables:GetTableBucketMetricsConfiguration"],
-    resources: {
-      "s3tables:GetTableBucketMetricsConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableBucketMetricsConfiguration",
 }));
@@ -1929,14 +1749,6 @@ export const getTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketPolicy",
-  iam: {
-    actions: ["s3tables:GetTableBucketPolicy"],
-    resources: {
-      "s3tables:GetTableBucketPolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableBucketPolicy",
 }));
@@ -1977,14 +1789,6 @@ export const getTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketReplication",
-  iam: {
-    actions: ["s3tables:GetTableBucketReplication"],
-    resources: {
-      "s3tables:GetTableBucketReplication": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableBucketReplication",
 }));
@@ -2023,14 +1827,6 @@ export const getTableBucketStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableBucketStorageClass",
-  iam: {
-    actions: ["s3tables:GetTableBucketStorageClass"],
-    resources: {
-      "s3tables:GetTableBucketStorageClass": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableBucketStorageClass",
 }));
@@ -2069,14 +1865,6 @@ export const getTableEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableEncryption",
-  iam: {
-    actions: ["s3tables:GetTableEncryption"],
-    resources: {
-      "s3tables:GetTableEncryption": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableEncryption",
 }));
@@ -2117,14 +1905,6 @@ export const getTableMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMaintenanceConfiguration",
-  iam: {
-    actions: ["s3tables:GetTableMaintenanceConfiguration"],
-    resources: {
-      "s3tables:GetTableMaintenanceConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableMaintenanceConfiguration",
 }));
@@ -2163,14 +1943,6 @@ export const getTableMaintenanceJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMaintenanceJobStatus",
-  iam: {
-    actions: ["s3tables:GetTableMaintenanceJobStatus"],
-    resources: {
-      "s3tables:GetTableMaintenanceJobStatus": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableMaintenanceJobStatus",
 }));
@@ -2209,14 +1981,6 @@ export const getTableMetadataLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMetadataLocation",
-  iam: {
-    actions: ["s3tables:GetTableMetadataLocation"],
-    resources: {
-      "s3tables:GetTableMetadataLocation": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableMetadataLocation",
 }));
@@ -2255,14 +2019,6 @@ export const getTableMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableMigration",
-  iam: {
-    actions: ["s3tables:GetTableMigration"],
-    resources: {
-      "s3tables:GetTableMigration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableMigration",
 }));
@@ -2301,14 +2057,6 @@ export const getTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTablePolicy",
-  iam: {
-    actions: ["s3tables:GetTablePolicy"],
-    resources: {
-      "s3tables:GetTablePolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTablePolicy",
 }));
@@ -2347,14 +2095,6 @@ export const getTableRecordExpirationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableRecordExpirationConfiguration",
-  iam: {
-    actions: ["s3tables:GetTableRecordExpirationConfiguration"],
-    resources: {
-      "s3tables:GetTableRecordExpirationConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableRecordExpirationConfiguration",
 }));
@@ -2393,14 +2133,6 @@ export const getTableRecordExpirationJobStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableRecordExpirationJobStatus",
-  iam: {
-    actions: ["s3tables:GetTableRecordExpirationJobStatus"],
-    resources: {
-      "s3tables:GetTableRecordExpirationJobStatus": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableRecordExpirationJobStatus",
 }));
@@ -2441,14 +2173,6 @@ export const getTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableReplication",
-  iam: {
-    actions: ["s3tables:GetTableReplication"],
-    resources: {
-      "s3tables:GetTableReplication": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableReplication",
 }));
@@ -2487,14 +2211,6 @@ export const getTableReplicationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableReplicationStatus",
-  iam: {
-    actions: ["s3tables:GetTableReplicationStatus"],
-    resources: {
-      "s3tables:GetTableReplicationStatus": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableReplicationStatus",
 }));
@@ -2533,14 +2249,6 @@ export const getTableStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTableStorageClass",
-  iam: {
-    actions: ["s3tables:GetTableStorageClass"],
-    resources: {
-      "s3tables:GetTableStorageClass": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTableStorageClass",
 }));
@@ -2588,14 +2296,6 @@ export const listNamespaces: API.PaginatedOperationMethod<
     items: "namespaces",
     pageSize: "maxNamespaces",
   } as const,
-  iam: {
-    actions: ["s3tables:ListNamespaces"],
-    resources: {
-      "s3tables:ListNamespaces": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListNamespaces",
 })) as any;
@@ -2643,7 +2343,6 @@ export const listTableBuckets: API.PaginatedOperationMethod<
     items: "tableBuckets",
     pageSize: "maxBuckets",
   } as const,
-  iam: { actions: ["s3tables:ListTableBuckets"] },
   telemetry: TELEMETRY,
   span: "ListTableBuckets",
 })) as any;
@@ -2691,7 +2390,6 @@ export const listTableMigrations: API.PaginatedOperationMethod<
     items: "migrations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["s3tables:ListTableMigrations"] },
   telemetry: TELEMETRY,
   span: "ListTableMigrations",
 })) as any;
@@ -2737,14 +2435,6 @@ export const listTables: API.PaginatedOperationMethod<
     items: "tables",
     pageSize: "maxTables",
   } as const,
-  iam: {
-    actions: ["s3tables:ListTables"],
-    resources: {
-      "s3tables:ListTables": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTables",
 })) as any;
@@ -2785,7 +2475,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["s3tables:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2826,14 +2515,6 @@ export const putTableBucketEncryption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketEncryption",
-  iam: {
-    actions: ["s3tables:PutTableBucketEncryption"],
-    resources: {
-      "s3tables:PutTableBucketEncryption": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableBucketEncryption",
 }));
@@ -2872,14 +2553,6 @@ export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketMaintenanceConfiguration",
-  iam: {
-    actions: ["s3tables:PutTableBucketMaintenanceConfiguration"],
-    resources: {
-      "s3tables:PutTableBucketMaintenanceConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableBucketMaintenanceConfiguration",
 }));
@@ -2918,14 +2591,6 @@ export const putTableBucketMetricsConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketMetricsConfiguration",
-  iam: {
-    actions: ["s3tables:PutTableBucketMetricsConfiguration"],
-    resources: {
-      "s3tables:PutTableBucketMetricsConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableBucketMetricsConfiguration",
 }));
@@ -2964,14 +2629,6 @@ export const putTableBucketPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketPolicy",
-  iam: {
-    actions: ["s3tables:PutTableBucketPolicy"],
-    resources: {
-      "s3tables:PutTableBucketPolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableBucketPolicy",
 }));
@@ -3028,15 +2685,6 @@ export const putTableBucketReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketReplication",
-  iam: {
-    actions: ["iam:PassRole", "s3tables:PutTableBucketReplication"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "s3tables:PutTableBucketReplication": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableBucketReplication",
 }));
@@ -3075,14 +2723,6 @@ export const putTableBucketStorageClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableBucketStorageClass",
-  iam: {
-    actions: ["s3tables:PutTableBucketStorageClass"],
-    resources: {
-      "s3tables:PutTableBucketStorageClass": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableBucketStorageClass",
 }));
@@ -3121,14 +2761,6 @@ export const putTableMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableMaintenanceConfiguration",
-  iam: {
-    actions: ["s3tables:PutTableMaintenanceConfiguration"],
-    resources: {
-      "s3tables:PutTableMaintenanceConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableMaintenanceConfiguration",
 }));
@@ -3167,14 +2799,6 @@ export const putTablePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTablePolicy",
-  iam: {
-    actions: ["s3tables:PutTablePolicy"],
-    resources: {
-      "s3tables:PutTablePolicy": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTablePolicy",
 }));
@@ -3213,14 +2837,6 @@ export const putTableRecordExpirationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableRecordExpirationConfiguration",
-  iam: {
-    actions: ["s3tables:PutTableRecordExpirationConfiguration"],
-    resources: {
-      "s3tables:PutTableRecordExpirationConfiguration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableRecordExpirationConfiguration",
 }));
@@ -3275,15 +2891,6 @@ export const putTableReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTableReplication",
-  iam: {
-    actions: ["iam:PassRole", "s3tables:PutTableReplication"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "s3tables:PutTableReplication": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTableReplication",
 }));
@@ -3322,14 +2929,6 @@ export const renameTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenameTable",
-  iam: {
-    actions: ["s3tables:RenameTable"],
-    resources: {
-      "s3tables:RenameTable": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RenameTable",
 }));
@@ -3378,15 +2977,6 @@ export const startTableMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTableMigration",
-  iam: {
-    actions: ["iam:PassRole", "s3tables:StartTableMigration"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "s3tables:StartTableMigration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartTableMigration",
 }));
@@ -3431,15 +3021,6 @@ export const syncTableMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SyncTableMigration",
-  iam: {
-    actions: ["iam:PassRole", "s3tables:SyncTableMigration"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "s3tables:SyncTableMigration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SyncTableMigration",
 }));
@@ -3480,7 +3061,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["s3tables:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3521,7 +3101,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["s3tables:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3560,14 +3139,6 @@ export const updateTableMetadataLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableMetadataLocation",
-  iam: {
-    actions: ["s3tables:UpdateTableMetadataLocation"],
-    resources: {
-      "s3tables:UpdateTableMetadataLocation": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTableMetadataLocation",
 }));
@@ -3610,14 +3181,6 @@ export const updateTableMigration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTableMigration",
-  iam: {
-    actions: ["s3tables:UpdateTableMigration"],
-    resources: {
-      "s3tables:UpdateTableMigration": [
-        "arn:${Partition}:s3tables:${Region}:${Account}:bucket/${TableBucketName}/table/${TableID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTableMigration",
 }));

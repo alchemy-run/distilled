@@ -1423,14 +1423,6 @@ export const applyArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ApplyArchiveRule",
-  iam: {
-    actions: ["access-analyzer:ApplyArchiveRule"],
-    resources: {
-      "access-analyzer:ApplyArchiveRule": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ApplyArchiveRule",
 }));
@@ -1461,7 +1453,6 @@ export const cancelPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelPolicyGeneration",
-  iam: { actions: ["access-analyzer:CancelPolicyGeneration"] },
   telemetry: TELEMETRY,
   span: "CancelPolicyGeneration",
 }));
@@ -1496,7 +1487,6 @@ export const checkAccessNotGranted: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckAccessNotGranted",
-  iam: { actions: ["access-analyzer:CheckAccessNotGranted"] },
   telemetry: TELEMETRY,
   span: "CheckAccessNotGranted",
 }));
@@ -1533,7 +1523,6 @@ export const checkNoNewAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckNoNewAccess",
-  iam: { actions: ["access-analyzer:CheckNoNewAccess"] },
   telemetry: TELEMETRY,
   span: "CheckNoNewAccess",
 }));
@@ -1568,7 +1557,6 @@ export const checkNoPublicAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CheckNoPublicAccess",
-  iam: { actions: ["access-analyzer:CheckNoPublicAccess"] },
   telemetry: TELEMETRY,
   span: "CheckNoPublicAccess",
 }));
@@ -1605,14 +1593,6 @@ export const createAccessPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessPreview",
-  iam: {
-    actions: ["access-analyzer:CreateAccessPreview"],
-    resources: {
-      "access-analyzer:CreateAccessPreview": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAccessPreview",
 }));
@@ -1647,15 +1627,6 @@ export const createAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnalyzer",
-  iam: {
-    actions: ["access-analyzer:CreateAnalyzer", "access-analyzer:TagResource"],
-    resources: {
-      "access-analyzer:CreateAnalyzer": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-    conditional: { "access-analyzer:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAnalyzer",
 }));
@@ -1694,14 +1665,6 @@ export const createArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchiveRule",
-  iam: {
-    actions: ["access-analyzer:CreateArchiveRule"],
-    resources: {
-      "access-analyzer:CreateArchiveRule": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}/archive-rule/${RuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateArchiveRule",
 }));
@@ -1738,14 +1701,6 @@ export const createServiceLinkedAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLinkedAnalyzer",
-  iam: {
-    actions: ["access-analyzer:CreateServiceLinkedAnalyzer"],
-    resources: {
-      "access-analyzer:CreateServiceLinkedAnalyzer": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceLinkedAnalyzer",
 }));
@@ -1778,14 +1733,6 @@ export const deleteAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalyzer",
-  iam: {
-    actions: ["access-analyzer:DeleteAnalyzer"],
-    resources: {
-      "access-analyzer:DeleteAnalyzer": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAnalyzer",
 }));
@@ -1818,14 +1765,6 @@ export const deleteArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchiveRule",
-  iam: {
-    actions: ["access-analyzer:DeleteArchiveRule"],
-    resources: {
-      "access-analyzer:DeleteArchiveRule": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}/archive-rule/${RuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteArchiveRule",
 }));
@@ -1862,14 +1801,6 @@ export const deleteServiceLinkedAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLinkedAnalyzer",
-  iam: {
-    actions: ["access-analyzer:DeleteServiceLinkedAnalyzer"],
-    resources: {
-      "access-analyzer:DeleteServiceLinkedAnalyzer": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServiceLinkedAnalyzer",
 }));
@@ -1900,14 +1831,6 @@ export const generateFindingRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateFindingRecommendation",
-  iam: {
-    actions: ["access-analyzer:GenerateFindingRecommendation"],
-    resources: {
-      "access-analyzer:GenerateFindingRecommendation": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GenerateFindingRecommendation",
 }));
@@ -1940,14 +1863,6 @@ export const getAccessPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessPreview",
-  iam: {
-    actions: ["access-analyzer:GetAccessPreview"],
-    resources: {
-      "access-analyzer:GetAccessPreview": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAccessPreview",
 }));
@@ -1982,14 +1897,6 @@ export const getAnalyzedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalyzedResource",
-  iam: {
-    actions: ["access-analyzer:GetAnalyzedResource"],
-    resources: {
-      "access-analyzer:GetAnalyzedResource": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAnalyzedResource",
 }));
@@ -2022,14 +1929,6 @@ export const getAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalyzer",
-  iam: {
-    actions: ["access-analyzer:GetAnalyzer"],
-    resources: {
-      "access-analyzer:GetAnalyzer": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAnalyzer",
 }));
@@ -2064,14 +1963,6 @@ export const getArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveRule",
-  iam: {
-    actions: ["access-analyzer:GetArchiveRule"],
-    resources: {
-      "access-analyzer:GetArchiveRule": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}/archive-rule/${RuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArchiveRule",
 }));
@@ -2106,14 +1997,6 @@ export const getFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFinding",
-  iam: {
-    actions: ["access-analyzer:GetFinding"],
-    resources: {
-      "access-analyzer:GetFinding": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFinding",
 }));
@@ -2153,14 +2036,6 @@ export const getFindingRecommendation: API.PaginatedOperationMethod<
     items: "recommendedSteps",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["access-analyzer:GetFindingRecommendation"],
-    resources: {
-      "access-analyzer:GetFindingRecommendation": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFindingRecommendation",
 })) as any;
@@ -2193,14 +2068,6 @@ export const getFindingsStatistics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsStatistics",
-  iam: {
-    actions: ["access-analyzer:GetFindingsStatistics"],
-    resources: {
-      "access-analyzer:GetFindingsStatistics": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFindingsStatistics",
 }));
@@ -2240,14 +2107,6 @@ export const getFindingV2: API.PaginatedOperationMethod<
     items: "findingDetails",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["access-analyzer:GetFinding"],
-    resources: {
-      "access-analyzer:GetFinding": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFindingV2",
 })) as any;
@@ -2278,7 +2137,6 @@ export const getGeneratedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGeneratedPolicy",
-  iam: { actions: ["access-analyzer:GetGeneratedPolicy"] },
   telemetry: TELEMETRY,
   span: "GetGeneratedPolicy",
 }));
@@ -2320,14 +2178,6 @@ export const listAccessPreviewFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["access-analyzer:ListAccessPreviewFindings"],
-    resources: {
-      "access-analyzer:ListAccessPreviewFindings": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAccessPreviewFindings",
 })) as any;
@@ -2367,14 +2217,6 @@ export const listAccessPreviews: API.PaginatedOperationMethod<
     items: "accessPreviews",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["access-analyzer:ListAccessPreviews"],
-    resources: {
-      "access-analyzer:ListAccessPreviews": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAccessPreviews",
 })) as any;
@@ -2414,14 +2256,6 @@ export const listAnalyzedResources: API.PaginatedOperationMethod<
     items: "analyzedResources",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["access-analyzer:ListAnalyzedResources"],
-    resources: {
-      "access-analyzer:ListAnalyzedResources": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAnalyzedResources",
 })) as any;
@@ -2459,7 +2293,6 @@ export const listAnalyzers: API.PaginatedOperationMethod<
     items: "analyzers",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["access-analyzer:ListAnalyzers"] },
   telemetry: TELEMETRY,
   span: "ListAnalyzers",
 })) as any;
@@ -2497,14 +2330,6 @@ export const listArchiveRules: API.PaginatedOperationMethod<
     items: "archiveRules",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["access-analyzer:ListArchiveRules"],
-    resources: {
-      "access-analyzer:ListArchiveRules": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListArchiveRules",
 })) as any;
@@ -2548,14 +2373,6 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["access-analyzer:ListFindings"],
-    resources: {
-      "access-analyzer:ListFindings": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFindings",
 })) as any;
@@ -2597,14 +2414,6 @@ export const listFindingsV2: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["access-analyzer:ListFindings"],
-    resources: {
-      "access-analyzer:ListFindings": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFindingsV2",
 })) as any;
@@ -2642,7 +2451,6 @@ export const listPolicyGenerations: API.PaginatedOperationMethod<
     items: "policyGenerations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["access-analyzer:ListPolicyGenerations"] },
   telemetry: TELEMETRY,
   span: "ListPolicyGenerations",
 })) as any;
@@ -2675,7 +2483,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["access-analyzer:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2710,11 +2517,6 @@ export const startPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPolicyGeneration",
-  iam: {
-    actions: ["iam:PassRole", "access-analyzer:StartPolicyGeneration"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "cloudTrailDetails.accessRole" },
-  },
   telemetry: TELEMETRY,
   span: "StartPolicyGeneration",
 }));
@@ -2749,14 +2551,6 @@ export const startResourceScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartResourceScan",
-  iam: {
-    actions: ["access-analyzer:StartResourceScan"],
-    resources: {
-      "access-analyzer:StartResourceScan": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartResourceScan",
 }));
@@ -2789,7 +2583,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["access-analyzer:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2822,7 +2615,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["access-analyzer:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2859,14 +2651,6 @@ export const updateAnalyzer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalyzer",
-  iam: {
-    actions: ["access-analyzer:UpdateAnalyzer"],
-    resources: {
-      "access-analyzer:UpdateAnalyzer": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAnalyzer",
 }));
@@ -2899,14 +2683,6 @@ export const updateArchiveRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchiveRule",
-  iam: {
-    actions: ["access-analyzer:UpdateArchiveRule"],
-    resources: {
-      "access-analyzer:UpdateArchiveRule": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}/archive-rule/${RuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateArchiveRule",
 }));
@@ -2939,14 +2715,6 @@ export const updateFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFindings",
-  iam: {
-    actions: ["access-analyzer:UpdateFindings"],
-    resources: {
-      "access-analyzer:UpdateFindings": [
-        "arn:${Partition}:access-analyzer:${Region}:${Account}:analyzer/${AnalyzerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFindings",
 }));
@@ -2984,7 +2752,6 @@ export const validatePolicy: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["access-analyzer:ValidatePolicy"] },
   telemetry: TELEMETRY,
   span: "ValidatePolicy",
 })) as any;

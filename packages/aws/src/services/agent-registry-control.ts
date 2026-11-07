@@ -781,10 +781,6 @@ export const createRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistry",
-  iam: {
-    actions: ["agent-registry:CreateRegistry", "agent-registry:TagResource"],
-    conditional: { "agent-registry:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRegistry",
 }));
@@ -821,35 +817,6 @@ export const createRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistryRecord",
-  iam: {
-    actions: [
-      "agent-registry:CreateRegistryRecord",
-      "bedrock-agentcore:GetResourceOauth2Token",
-      "bedrock-agentcore:GetWorkloadAccessToken",
-      "iam:PassRole",
-      "agent-registry:TagResource",
-    ],
-    resources: {
-      "agent-registry:CreateRegistryRecord": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}",
-      ],
-      "bedrock-agentcore:GetResourceOauth2Token": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-      "bedrock-agentcore:GetWorkloadAccessToken": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "a role the request names",
-      "agent-registry:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateRegistryRecord",
 }));
@@ -884,14 +851,6 @@ export const deleteRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistry",
-  iam: {
-    actions: ["agent-registry:DeleteRegistry"],
-    resources: {
-      "agent-registry:DeleteRegistry": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRegistry",
 }));
@@ -926,14 +885,6 @@ export const deleteRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistryRecord",
-  iam: {
-    actions: ["agent-registry:DeleteRegistryRecord"],
-    resources: {
-      "agent-registry:DeleteRegistryRecord": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRegistryRecord",
 }));
@@ -966,14 +917,6 @@ export const getRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistry",
-  iam: {
-    actions: ["agent-registry:GetRegistry"],
-    resources: {
-      "agent-registry:GetRegistry": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRegistry",
 }));
@@ -1008,14 +951,6 @@ export const getRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryRecord",
-  iam: {
-    actions: ["agent-registry:GetRegistryRecord"],
-    resources: {
-      "agent-registry:GetRegistryRecord": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRegistryRecord",
 }));
@@ -1053,7 +988,6 @@ export const listRegistries: API.PaginatedOperationMethod<
     items: "registries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["agent-registry:ListRegistries"] },
   telemetry: TELEMETRY,
   span: "ListRegistries",
 })) as any;
@@ -1095,14 +1029,6 @@ export const listRegistryRecords: API.PaginatedOperationMethod<
     items: "registryRecords",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["agent-registry:ListRegistryRecords"],
-    resources: {
-      "agent-registry:ListRegistryRecords": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRegistryRecords",
 })) as any;
@@ -1135,7 +1061,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["agent-registry:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1170,14 +1095,6 @@ export const submitRegistryRecordForApproval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitRegistryRecordForApproval",
-  iam: {
-    actions: ["agent-registry:SubmitRegistryRecordForApproval"],
-    resources: {
-      "agent-registry:SubmitRegistryRecordForApproval": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SubmitRegistryRecordForApproval",
 }));
@@ -1212,7 +1129,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["agent-registry:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1245,7 +1161,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["agent-registry:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1282,14 +1197,6 @@ export const updateRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistry",
-  iam: {
-    actions: ["agent-registry:UpdateRegistry"],
-    resources: {
-      "agent-registry:UpdateRegistry": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRegistry",
 }));
@@ -1324,31 +1231,6 @@ export const updateRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecord",
-  iam: {
-    actions: [
-      "bedrock-agentcore:GetResourceOauth2Token",
-      "bedrock-agentcore:GetWorkloadAccessToken",
-      "iam:PassRole",
-      "agent-registry:UpdateRegistryRecord",
-    ],
-    resources: {
-      "bedrock-agentcore:GetResourceOauth2Token": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-      "bedrock-agentcore:GetWorkloadAccessToken": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "agent-registry:UpdateRegistryRecord": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRegistryRecord",
 }));
@@ -1383,14 +1265,6 @@ export const updateRegistryRecordStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecordStatus",
-  iam: {
-    actions: ["agent-registry:UpdateRegistryRecordStatus"],
-    resources: {
-      "agent-registry:UpdateRegistryRecordStatus": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRegistryRecordStatus",
 }));

@@ -1488,7 +1488,6 @@ export const createApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKey",
-  iam: { actions: ["apigateway:POST", "apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "CreateApiKey",
 }));
@@ -1523,11 +1522,6 @@ export const createAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthorizer",
-  iam: {
-    actions: ["apigateway:POST", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAuthorizer",
 }));
@@ -1562,7 +1556,6 @@ export const createBasePathMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBasePathMapping",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "CreateBasePathMapping",
 }));
@@ -1599,7 +1592,6 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "CreateDeployment",
 }));
@@ -1634,7 +1626,6 @@ export const createDocumentationPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentationPart",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "CreateDocumentationPart",
 }));
@@ -1669,7 +1660,6 @@ export const createDocumentationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDocumentationVersion",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "CreateDocumentationVersion",
 }));
@@ -1702,14 +1692,6 @@ export const createDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainName",
-  iam: {
-    actions: [
-      "apigateway:AddCertificateToDomain",
-      "apigateway:POST",
-      "apigateway:PUT",
-      "apigateway:UpdateDomainNamePolicy",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "CreateDomainName",
 }));
@@ -1743,7 +1725,6 @@ export const createDomainNameAccessAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainNameAccessAssociation",
-  iam: { actions: ["apigateway:CreateAccessAssociation", "apigateway:POST", "apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "CreateDomainNameAccessAssociation",
 }));
@@ -1778,7 +1759,6 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "CreateModel",
 }));
@@ -1813,7 +1793,6 @@ export const createRequestValidator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRequestValidator",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "CreateRequestValidator",
 }));
@@ -1848,7 +1827,6 @@ export const createResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResource",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "CreateResource",
 }));
@@ -1881,7 +1859,6 @@ export const createRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRestApi",
-  iam: { actions: ["apigateway:POST", "apigateway:PUT", "apigateway:UpdateRestApiPolicy"] },
   telemetry: TELEMETRY,
   span: "CreateRestApi",
 }));
@@ -1916,7 +1893,6 @@ export const createStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
-  iam: { actions: ["apigateway:POST", "apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "CreateStage",
 }));
@@ -1951,7 +1927,6 @@ export const createUsagePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsagePlan",
-  iam: { actions: ["apigateway:POST", "apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "CreateUsagePlan",
 }));
@@ -1986,7 +1961,6 @@ export const createUsagePlanKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsagePlanKey",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "CreateUsagePlanKey",
 }));
@@ -2019,7 +1993,6 @@ export const createVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcLink",
-  iam: { actions: ["apigateway:POST", "apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "CreateVpcLink",
 }));
@@ -2052,7 +2025,6 @@ export const deleteApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKey",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteApiKey",
 }));
@@ -2085,7 +2057,6 @@ export const deleteAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthorizer",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteAuthorizer",
 }));
@@ -2118,7 +2089,6 @@ export const deleteBasePathMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBasePathMapping",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteBasePathMapping",
 }));
@@ -2151,7 +2121,6 @@ export const deleteClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClientCertificate",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteClientCertificate",
 }));
@@ -2186,7 +2155,6 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteDeployment",
 }));
@@ -2219,7 +2187,6 @@ export const deleteDocumentationPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentationPart",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteDocumentationPart",
 }));
@@ -2252,7 +2219,6 @@ export const deleteDocumentationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDocumentationVersion",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteDocumentationVersion",
 }));
@@ -2285,7 +2251,6 @@ export const deleteDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainName",
-  iam: { actions: ["apigateway:DELETE", "apigateway:RemoveCertificateFromDomain"] },
   telemetry: TELEMETRY,
   span: "DeleteDomainName",
 }));
@@ -2320,7 +2285,6 @@ export const deleteDomainNameAccessAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainNameAccessAssociation",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteDomainNameAccessAssociation",
 }));
@@ -2353,7 +2317,6 @@ export const deleteGatewayResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayResponse",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteGatewayResponse",
 }));
@@ -2386,7 +2349,6 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
 }));
@@ -2419,7 +2381,6 @@ export const deleteIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegrationResponse",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteIntegrationResponse",
 }));
@@ -2445,7 +2406,6 @@ export const deleteMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMethod",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteMethod",
 }));
@@ -2478,7 +2438,6 @@ export const deleteMethodResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMethodResponse",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteMethodResponse",
 }));
@@ -2511,7 +2470,6 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteModel",
 }));
@@ -2544,7 +2502,6 @@ export const deleteRequestValidator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRequestValidator",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteRequestValidator",
 }));
@@ -2577,7 +2534,6 @@ export const deleteResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResource",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteResource",
 }));
@@ -2610,7 +2566,6 @@ export const deleteRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRestApi",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteRestApi",
 }));
@@ -2645,7 +2600,6 @@ export const deleteStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStage",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteStage",
 }));
@@ -2678,7 +2632,6 @@ export const deleteUsagePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsagePlan",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteUsagePlan",
 }));
@@ -2711,7 +2664,6 @@ export const deleteUsagePlanKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsagePlanKey",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteUsagePlanKey",
 }));
@@ -2744,7 +2696,6 @@ export const deleteVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcLink",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "DeleteVpcLink",
 }));
@@ -2779,7 +2730,6 @@ export const flushStageAuthorizersCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushStageAuthorizersCache",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "FlushStageAuthorizersCache",
 }));
@@ -2814,7 +2764,6 @@ export const flushStageCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushStageCache",
-  iam: { actions: ["apigateway:DELETE"] },
   telemetry: TELEMETRY,
   span: "FlushStageCache",
 }));
@@ -2847,7 +2796,6 @@ export const generateClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateClientCertificate",
-  iam: { actions: ["apigateway:POST", "apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "GenerateClientCertificate",
 }));
@@ -2873,7 +2821,6 @@ export const getAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccount",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetAccount",
 }));
@@ -2899,7 +2846,6 @@ export const getApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiKey",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetApiKey",
 }));
@@ -2932,7 +2878,6 @@ export const getApiKeys: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetApiKeys",
 })) as any;
@@ -2958,7 +2903,6 @@ export const getAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizer",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetAuthorizer",
 }));
@@ -2984,7 +2928,6 @@ export const getAuthorizers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAuthorizers",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetAuthorizers",
 }));
@@ -3010,7 +2953,6 @@ export const getBasePathMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBasePathMapping",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetBasePathMapping",
 }));
@@ -3043,7 +2985,6 @@ export const getBasePathMappings: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetBasePathMappings",
 })) as any;
@@ -3069,7 +3010,6 @@ export const getClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClientCertificate",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetClientCertificate",
 }));
@@ -3102,7 +3042,6 @@ export const getClientCertificates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetClientCertificates",
 })) as any;
@@ -3135,7 +3074,6 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
@@ -3175,7 +3113,6 @@ export const getDeployments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDeployments",
 })) as any;
@@ -3201,7 +3138,6 @@ export const getDocumentationPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationPart",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDocumentationPart",
 }));
@@ -3227,7 +3163,6 @@ export const getDocumentationParts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationParts",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDocumentationParts",
 }));
@@ -3252,7 +3187,6 @@ export const getDocumentationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationVersion",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDocumentationVersion",
 }));
@@ -3278,7 +3212,6 @@ export const getDocumentationVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDocumentationVersions",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDocumentationVersions",
 }));
@@ -3304,7 +3237,6 @@ export const getDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainName",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDomainName",
 }));
@@ -3330,7 +3262,6 @@ export const getDomainNameAccessAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainNameAccessAssociations",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDomainNameAccessAssociations",
 }));
@@ -3363,7 +3294,6 @@ export const getDomainNames: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetDomainNames",
 })) as any;
@@ -3398,7 +3328,6 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetExport",
 }));
@@ -3424,7 +3353,6 @@ export const getGatewayResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayResponse",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetGatewayResponse",
 }));
@@ -3450,7 +3378,6 @@ export const getGatewayResponses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayResponses",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetGatewayResponses",
 }));
@@ -3476,7 +3403,6 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetIntegration",
 }));
@@ -3502,7 +3428,6 @@ export const getIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegrationResponse",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetIntegrationResponse",
 }));
@@ -3527,7 +3452,6 @@ export const getMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMethod",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetMethod",
 }));
@@ -3552,7 +3476,6 @@ export const getMethodResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMethodResponse",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetMethodResponse",
 }));
@@ -3578,7 +3501,6 @@ export const getModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModel",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetModel",
 }));
@@ -3611,7 +3533,6 @@ export const getModels: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetModels",
 })) as any;
@@ -3637,7 +3558,6 @@ export const getModelTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelTemplate",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetModelTemplate",
 }));
@@ -3663,7 +3583,6 @@ export const getRequestValidator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestValidator",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetRequestValidator",
 }));
@@ -3689,7 +3608,6 @@ export const getRequestValidators: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRequestValidators",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetRequestValidators",
 }));
@@ -3714,7 +3632,6 @@ export const getResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResource",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetResource",
 }));
@@ -3747,7 +3664,6 @@ export const getResources: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetResources",
 })) as any;
@@ -3773,7 +3689,6 @@ export const getRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRestApi",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetRestApi",
 }));
@@ -3806,7 +3721,6 @@ export const getRestApis: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetRestApis",
 })) as any;
@@ -3841,7 +3755,6 @@ export const getSdk: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdk",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetSdk",
 }));
@@ -3867,7 +3780,6 @@ export const getSdkType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdkType",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetSdkType",
 }));
@@ -3893,7 +3805,6 @@ export const getSdkTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSdkTypes",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetSdkTypes",
 }));
@@ -3928,7 +3839,6 @@ export const getStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStage",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetStage",
 }));
@@ -3963,7 +3873,6 @@ export const getStages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStages",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetStages",
 }));
@@ -3989,7 +3898,6 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetTags",
 }));
@@ -4022,7 +3930,6 @@ export const getUsage: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetUsage",
 })) as any;
@@ -4048,7 +3955,6 @@ export const getUsagePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsagePlan",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetUsagePlan",
 }));
@@ -4074,7 +3980,6 @@ export const getUsagePlanKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUsagePlanKey",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetUsagePlanKey",
 }));
@@ -4107,7 +4012,6 @@ export const getUsagePlanKeys: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetUsagePlanKeys",
 })) as any;
@@ -4140,7 +4044,6 @@ export const getUsagePlans: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetUsagePlans",
 })) as any;
@@ -4166,7 +4069,6 @@ export const getVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcLink",
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetVpcLink",
 }));
@@ -4199,7 +4101,6 @@ export const getVpcLinks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "limit",
   } as const,
-  iam: { actions: ["apigateway:GET"] },
   telemetry: TELEMETRY,
   span: "GetVpcLinks",
 })) as any;
@@ -4234,7 +4135,6 @@ export const importApiKeys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApiKeys",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "ImportApiKeys",
 }));
@@ -4269,7 +4169,6 @@ export const importDocumentationParts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDocumentationParts",
-  iam: { actions: ["apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "ImportDocumentationParts",
 }));
@@ -4304,11 +4203,6 @@ export const importRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportRestApi",
-  iam: {
-    actions: ["apigateway:POST", "iam:PassRole", "apigateway:UpdateRestApiPolicy"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "ImportRestApi",
 }));
@@ -4343,7 +4237,6 @@ export const putGatewayResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGatewayResponse",
-  iam: { actions: ["apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "PutGatewayResponse",
 }));
@@ -4378,11 +4271,6 @@ export const putIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegration",
-  iam: {
-    actions: ["apigateway:PUT", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "PutIntegration",
 }));
@@ -4417,7 +4305,6 @@ export const putIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIntegrationResponse",
-  iam: { actions: ["apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "PutIntegrationResponse",
 }));
@@ -4452,7 +4339,6 @@ export const putMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMethod",
-  iam: { actions: ["apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "PutMethod",
 }));
@@ -4487,7 +4373,6 @@ export const putMethodResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMethodResponse",
-  iam: { actions: ["apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "PutMethodResponse",
 }));
@@ -4523,11 +4408,6 @@ export const putRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRestApi",
-  iam: {
-    actions: ["apigateway:PUT", "iam:PassRole", "apigateway:UpdateRestApiPolicy"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "PutRestApi",
 }));
@@ -4562,7 +4442,6 @@ export const rejectDomainNameAccessAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDomainNameAccessAssociation",
-  iam: { actions: ["apigateway:RejectAccessAssociation"] },
   telemetry: TELEMETRY,
   span: "RejectDomainNameAccessAssociation",
 }));
@@ -4597,7 +4476,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["apigateway:PATCH", "apigateway:POST", "apigateway:PUT"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4623,7 +4501,6 @@ export const testInvokeAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestInvokeAuthorizer",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "TestInvokeAuthorizer",
 }));
@@ -4649,7 +4526,6 @@ export const testInvokeMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestInvokeMethod",
-  iam: { actions: ["apigateway:POST"] },
   telemetry: TELEMETRY,
   span: "TestInvokeMethod",
 }));
@@ -4684,7 +4560,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["apigateway:DELETE", "apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4719,11 +4594,6 @@ export const updateAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccount",
-  iam: {
-    actions: ["apigateway:PATCH", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAccount",
 }));
@@ -4758,7 +4628,6 @@ export const updateApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKey",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateApiKey",
 }));
@@ -4793,11 +4662,6 @@ export const updateAuthorizer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthorizer",
-  iam: {
-    actions: ["apigateway:PATCH", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAuthorizer",
 }));
@@ -4832,7 +4696,6 @@ export const updateBasePathMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBasePathMapping",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateBasePathMapping",
 }));
@@ -4867,7 +4730,6 @@ export const updateClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClientCertificate",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateClientCertificate",
 }));
@@ -4904,7 +4766,6 @@ export const updateDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateDeployment",
 }));
@@ -4939,7 +4800,6 @@ export const updateDocumentationPart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentationPart",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateDocumentationPart",
 }));
@@ -4974,7 +4834,6 @@ export const updateDocumentationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDocumentationVersion",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateDocumentationVersion",
 }));
@@ -5009,15 +4868,6 @@ export const updateDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
-  iam: {
-    actions: [
-      "apigateway:AddCertificateToDomain",
-      "apigateway:PATCH",
-      "apigateway:RemoveCertificateFromDomain",
-      "apigateway:UpdateDomainNameManagementPolicy",
-      "apigateway:UpdateDomainNamePolicy",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "UpdateDomainName",
 }));
@@ -5052,7 +4902,6 @@ export const updateGatewayResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayResponse",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateGatewayResponse",
 }));
@@ -5087,11 +4936,6 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
-  iam: {
-    actions: ["apigateway:PATCH", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIntegration",
 }));
@@ -5126,7 +4970,6 @@ export const updateIntegrationResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegrationResponse",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateIntegrationResponse",
 }));
@@ -5159,7 +5002,6 @@ export const updateMethod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMethod",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateMethod",
 }));
@@ -5194,7 +5036,6 @@ export const updateMethodResponse: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMethodResponse",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateMethodResponse",
 }));
@@ -5229,7 +5070,6 @@ export const updateModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModel",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateModel",
 }));
@@ -5264,7 +5104,6 @@ export const updateRequestValidator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRequestValidator",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateRequestValidator",
 }));
@@ -5297,7 +5136,6 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateResource",
 }));
@@ -5332,7 +5170,6 @@ export const updateRestApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRestApi",
-  iam: { actions: ["apigateway:PATCH", "apigateway:UpdateRestApiPolicy"] },
   telemetry: TELEMETRY,
   span: "UpdateRestApi",
 }));
@@ -5367,7 +5204,6 @@ export const updateStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateStage",
 }));
@@ -5402,7 +5238,6 @@ export const updateUsage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsage",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateUsage",
 }));
@@ -5437,7 +5272,6 @@ export const updateUsagePlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUsagePlan",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateUsagePlan",
 }));
@@ -5472,7 +5306,6 @@ export const updateVpcLink: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcLink",
-  iam: { actions: ["apigateway:PATCH"] },
   telemetry: TELEMETRY,
   span: "UpdateVpcLink",
 }));

@@ -397,14 +397,6 @@ export const createToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateToken",
-  iam: {
-    actions: ["sso-oauth:CreateTokenWithIAM"],
-    resources: {
-      "sso-oauth:CreateTokenWithIAM": [
-        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateToken",
 }));
@@ -457,14 +449,6 @@ export const createTokenWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTokenWithIAM",
-  iam: {
-    actions: ["sso-oauth:CreateTokenWithIAM"],
-    resources: {
-      "sso-oauth:CreateTokenWithIAM": [
-        "arn:${Partition}:sso::${AccountId}:application/${InstanceId}/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateTokenWithIAM",
 }));

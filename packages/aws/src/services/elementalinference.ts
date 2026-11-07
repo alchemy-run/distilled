@@ -627,14 +627,6 @@ export const associateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFeed",
-  iam: {
-    actions: ["elemental-inference:AssociateFeed"],
-    resources: {
-      "elemental-inference:AssociateFeed": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateFeed",
 }));
@@ -669,10 +661,6 @@ export const createDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDictionary",
-  iam: {
-    actions: ["elemental-inference:CreateDictionary", "elemental-inference:TagResource"],
-    conditional: { "elemental-inference:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDictionary",
 }));
@@ -709,11 +697,6 @@ export const createFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFeed",
-  iam: {
-    actions: ["elemental-inference:CreateFeed", "iam:PassRole", "elemental-inference:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "accessRoleArn", "elemental-inference:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFeed",
 }));
@@ -752,14 +735,6 @@ export const createScheduleAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduleAction",
-  iam: {
-    actions: ["elemental-inference:CreateScheduleAction"],
-    resources: {
-      "elemental-inference:CreateScheduleAction": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateScheduleAction",
 }));
@@ -794,14 +769,6 @@ export const deleteDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDictionary",
-  iam: {
-    actions: ["elemental-inference:DeleteDictionary"],
-    resources: {
-      "elemental-inference:DeleteDictionary": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:dictionary/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDictionary",
 }));
@@ -836,14 +803,6 @@ export const deleteFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeed",
-  iam: {
-    actions: ["elemental-inference:DeleteFeed"],
-    resources: {
-      "elemental-inference:DeleteFeed": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFeed",
 }));
@@ -876,14 +835,6 @@ export const deleteFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeedPolicy",
-  iam: {
-    actions: ["elemental-inference:DeleteFeedPolicy"],
-    resources: {
-      "elemental-inference:DeleteFeedPolicy": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFeedPolicy",
 }));
@@ -920,14 +871,6 @@ export const deleteScheduleAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduleAction",
-  iam: {
-    actions: ["elemental-inference:DeleteScheduleAction"],
-    resources: {
-      "elemental-inference:DeleteScheduleAction": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteScheduleAction",
 }));
@@ -962,14 +905,6 @@ export const disassociateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFeed",
-  iam: {
-    actions: ["elemental-inference:DisassociateFeed"],
-    resources: {
-      "elemental-inference:DisassociateFeed": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateFeed",
 }));
@@ -1002,14 +937,6 @@ export const exportDictionaryEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportDictionaryEntries",
-  iam: {
-    actions: ["elemental-inference:ExportDictionaryEntries"],
-    resources: {
-      "elemental-inference:ExportDictionaryEntries": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:dictionary/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExportDictionaryEntries",
 }));
@@ -1042,14 +969,6 @@ export const getDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDictionary",
-  iam: {
-    actions: ["elemental-inference:GetDictionary"],
-    resources: {
-      "elemental-inference:GetDictionary": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:dictionary/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDictionary",
 }));
@@ -1080,14 +999,6 @@ export const getFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeed",
-  iam: {
-    actions: ["elemental-inference:GetFeed"],
-    resources: {
-      "elemental-inference:GetFeed": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFeed",
 }));
@@ -1120,14 +1031,6 @@ export const getFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFeedPolicy",
-  iam: {
-    actions: ["elemental-inference:GetFeedPolicy"],
-    resources: {
-      "elemental-inference:GetFeedPolicy": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFeedPolicy",
 }));
@@ -1201,7 +1104,6 @@ export const listDictionaries: API.PaginatedOperationMethod<
     items: "dictionaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["elemental-inference:ListDictionaries"] },
   telemetry: TELEMETRY,
   span: "ListDictionaries",
 })) as any;
@@ -1241,7 +1143,6 @@ export const listFeeds: API.PaginatedOperationMethod<
     items: "feeds",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["elemental-inference:ListFeeds"] },
   telemetry: TELEMETRY,
   span: "ListFeeds",
 })) as any;
@@ -1283,14 +1184,6 @@ export const listScheduleActions: API.PaginatedOperationMethod<
     items: "scheduleActions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["elemental-inference:ListScheduleActions"],
-    resources: {
-      "elemental-inference:ListScheduleActions": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListScheduleActions",
 })) as any;
@@ -1323,7 +1216,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["elemental-inference:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1358,14 +1250,6 @@ export const putFeedPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFeedPolicy",
-  iam: {
-    actions: ["elemental-inference:PutFeedPolicy"],
-    resources: {
-      "elemental-inference:PutFeedPolicy": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutFeedPolicy",
 }));
@@ -1441,7 +1325,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["elemental-inference:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1476,7 +1359,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["elemental-inference:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1511,14 +1393,6 @@ export const updateDictionary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDictionary",
-  iam: {
-    actions: ["elemental-inference:UpdateDictionary"],
-    resources: {
-      "elemental-inference:UpdateDictionary": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:dictionary/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDictionary",
 }));
@@ -1561,16 +1435,6 @@ export const updateFeed: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeed",
-  iam: {
-    actions: ["iam:PassRole", "elemental-inference:UpdateFeed"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "elemental-inference:UpdateFeed": [
-        "arn:${Partition}:elemental-inference:${Region}:${Account}:feed/${Id}",
-      ],
-    },
-    conditional: { "iam:PassRole": "accessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFeed",
 }));

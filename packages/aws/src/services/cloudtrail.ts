@@ -2057,7 +2057,6 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-  iam: { actions: ["cloudtrail:AddTags"] },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -2107,14 +2106,6 @@ export const cancelQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelQuery",
-  iam: {
-    actions: ["cloudtrail:CancelQuery"],
-    resources: {
-      "cloudtrail:CancelQuery": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelQuery",
 }));
@@ -2165,16 +2156,6 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
-  iam: {
-    actions: ["cloudtrail:AddTags", "cloudtrail:CreateChannel"],
-    resources: {
-      "cloudtrail:CreateChannel": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:channel/${ChannelId}",
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-    conditional: { "cloudtrail:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -2231,25 +2212,6 @@ export const createDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDashboard",
-  iam: {
-    actions: [
-      "cloudtrail:AddTags",
-      "cloudtrail:CreateDashboard",
-      "cloudtrail:StartDashboardRefresh",
-      "cloudtrail:StartQuery",
-    ],
-    resources: {
-      "cloudtrail:CreateDashboard": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:dashboard/${DashboardName}",
-      ],
-      "cloudtrail:StartDashboardRefresh": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:dashboard/${DashboardName}",
-      ],
-      "cloudtrail:StartQuery": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDashboard",
 }));
@@ -2314,14 +2276,6 @@ export const createEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventDataStore",
-  iam: {
-    actions: ["cloudtrail:AddTags", "cloudtrail:CreateEventDataStore"],
-    resources: {
-      "cloudtrail:CreateEventDataStore": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEventDataStore",
 }));
@@ -2410,16 +2364,6 @@ export const createTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrail",
-  iam: {
-    actions: ["cloudtrail:AddTags", "cloudtrail:CreateTrail", "iam:PassRole"],
-    resources: {
-      "cloudtrail:CreateTrail": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "CloudWatchLogsRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrail",
 }));
@@ -2452,14 +2396,6 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
-  iam: {
-    actions: ["cloudtrail:DeleteChannel"],
-    resources: {
-      "cloudtrail:DeleteChannel": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -2486,14 +2422,6 @@ export const deleteDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDashboard",
-  iam: {
-    actions: ["cloudtrail:DeleteDashboard"],
-    resources: {
-      "cloudtrail:DeleteDashboard": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:dashboard/${DashboardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDashboard",
 }));
@@ -2557,14 +2485,6 @@ export const deleteEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventDataStore",
-  iam: {
-    actions: ["cloudtrail:DeleteEventDataStore"],
-    resources: {
-      "cloudtrail:DeleteEventDataStore": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventDataStore",
 }));
@@ -2601,7 +2521,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: { actions: ["cloudtrail:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -2658,14 +2577,6 @@ export const deleteTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrail",
-  iam: {
-    actions: ["cloudtrail:DeleteTrail"],
-    resources: {
-      "cloudtrail:DeleteTrail": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrail",
 }));
@@ -2711,7 +2622,6 @@ export const deregisterOrganizationDelegatedAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterOrganizationDelegatedAdmin",
-  iam: { actions: ["cloudtrail:DeregisterOrganizationDelegatedAdmin"] },
   telemetry: TELEMETRY,
   span: "DeregisterOrganizationDelegatedAdmin",
 }));
@@ -2759,14 +2669,6 @@ export const describeQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuery",
-  iam: {
-    actions: ["cloudtrail:DescribeQuery"],
-    resources: {
-      "cloudtrail:DescribeQuery": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeQuery",
 }));
@@ -2800,7 +2702,6 @@ export const describeTrails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrails",
-  iam: { actions: ["cloudtrail:DescribeTrails"] },
   telemetry: TELEMETRY,
   span: "DescribeTrails",
 }));
@@ -2857,14 +2758,6 @@ export const disableFederation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableFederation",
-  iam: {
-    actions: ["cloudtrail:DisableFederation"],
-    resources: {
-      "cloudtrail:DisableFederation": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableFederation",
 }));
@@ -2930,15 +2823,6 @@ export const enableFederation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableFederation",
-  iam: {
-    actions: ["cloudtrail:EnableFederation", "iam:PassRole"],
-    resources: {
-      "cloudtrail:EnableFederation": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableFederation",
 }));
@@ -2994,14 +2878,6 @@ export const generateQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateQuery",
-  iam: {
-    actions: ["cloudtrail:GenerateQuery"],
-    resources: {
-      "cloudtrail:GenerateQuery": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GenerateQuery",
 }));
@@ -3034,14 +2910,6 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
-  iam: {
-    actions: ["cloudtrail:GetChannel"],
-    resources: {
-      "cloudtrail:GetChannel": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannel",
 }));
@@ -3067,14 +2935,6 @@ export const getDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDashboard",
-  iam: {
-    actions: ["cloudtrail:GetDashboard"],
-    resources: {
-      "cloudtrail:GetDashboard": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:dashboard/${DashboardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDashboard",
 }));
@@ -3121,7 +2981,6 @@ export const getEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventConfiguration",
-  iam: { actions: ["cloudtrail:GetEventConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetEventConfiguration",
 }));
@@ -3159,14 +3018,6 @@ export const getEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventDataStore",
-  iam: {
-    actions: ["cloudtrail:GetEventDataStore"],
-    resources: {
-      "cloudtrail:GetEventDataStore": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventDataStore",
 }));
@@ -3222,14 +3073,6 @@ export const getEventSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventSelectors",
-  iam: {
-    actions: ["cloudtrail:GetEventSelectors"],
-    resources: {
-      "cloudtrail:GetEventSelectors": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventSelectors",
 }));
@@ -3262,7 +3105,6 @@ export const getImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImport",
-  iam: { actions: ["cloudtrail:GetImport"] },
   telemetry: TELEMETRY,
   span: "GetImport",
 }));
@@ -3314,7 +3156,6 @@ export const getInsightSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightSelectors",
-  iam: { actions: ["cloudtrail:GetInsightSelectors"] },
   telemetry: TELEMETRY,
   span: "GetInsightSelectors",
 }));
@@ -3364,14 +3205,6 @@ export const getQueryResults: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetQueryResults",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  iam: {
-    actions: ["cloudtrail:GetQueryResults"],
-    resources: {
-      "cloudtrail:GetQueryResults": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQueryResults",
 })) as any;
@@ -3406,7 +3239,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: { actions: ["cloudtrail:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -3439,14 +3271,6 @@ export const getTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrail",
-  iam: {
-    actions: ["cloudtrail:GetTrail"],
-    resources: {
-      "cloudtrail:GetTrail": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTrail",
 }));
@@ -3483,14 +3307,6 @@ export const getTrailStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrailStatus",
-  iam: {
-    actions: ["cloudtrail:GetTrailStatus"],
-    resources: {
-      "cloudtrail:GetTrailStatus": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTrailStatus",
 }));
@@ -3527,7 +3343,6 @@ export const listChannels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudtrail:ListChannels"] },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -3550,7 +3365,6 @@ export const listDashboards: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDashboards",
-  iam: { actions: ["cloudtrail:ListDashboards"] },
   telemetry: TELEMETRY,
   span: "ListDashboards",
 }));
@@ -3592,7 +3406,6 @@ export const listEventDataStores: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudtrail:ListEventDataStores"] },
   telemetry: TELEMETRY,
   span: "ListEventDataStores",
 })) as any;
@@ -3632,7 +3445,6 @@ export const listImportFailures: API.PaginatedOperationMethod<
     items: "Failures",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudtrail:ListImportFailures"] },
   telemetry: TELEMETRY,
   span: "ListImportFailures",
 })) as any;
@@ -3675,7 +3487,6 @@ export const listImports: API.PaginatedOperationMethod<
     items: "Imports",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudtrail:ListImports"] },
   telemetry: TELEMETRY,
   span: "ListImports",
 })) as any;
@@ -3731,14 +3542,6 @@ export const listInsightsData: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["cloudtrail:ListInsightsData"],
-    resources: {
-      "cloudtrail:ListInsightsData": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListInsightsData",
 })) as any;
@@ -3799,7 +3602,6 @@ export const listInsightsMetricData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudtrail:ListInsightsMetricData"] },
   telemetry: TELEMETRY,
   span: "ListInsightsMetricData",
 })) as any;
@@ -3843,7 +3645,6 @@ export const listPublicKeys: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "PublicKeyList",
   } as const,
-  iam: { actions: ["cloudtrail:ListPublicKeys"] },
   telemetry: TELEMETRY,
   span: "ListPublicKeys",
 })) as any;
@@ -3902,14 +3703,6 @@ export const listQueries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["cloudtrail:ListQueries"],
-    resources: {
-      "cloudtrail:ListQueries": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListQueries",
 })) as any;
@@ -3962,7 +3755,6 @@ export const listTags: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ResourceTagList",
   } as const,
-  iam: { actions: ["cloudtrail:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 })) as any;
@@ -3988,7 +3780,6 @@ export const listTrails: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTrails",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Trails" } as const,
-  iam: { actions: ["cloudtrail:ListTrails"] },
   telemetry: TELEMETRY,
   span: "ListTrails",
 })) as any;
@@ -4069,7 +3860,6 @@ export const lookupEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cloudtrail:LookupEvents"] },
   telemetry: TELEMETRY,
   span: "LookupEvents",
 })) as any;
@@ -4130,7 +3920,6 @@ export const putEventConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventConfiguration",
-  iam: { actions: ["cloudtrail:PutEventConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutEventConfiguration",
 }));
@@ -4232,14 +4021,6 @@ export const putEventSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventSelectors",
-  iam: {
-    actions: ["cloudtrail:PutEventSelectors"],
-    resources: {
-      "cloudtrail:PutEventSelectors": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutEventSelectors",
 }));
@@ -4322,7 +4103,6 @@ export const putInsightSelectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInsightSelectors",
-  iam: { actions: ["cloudtrail:PutInsightSelectors"] },
   telemetry: TELEMETRY,
   span: "PutInsightSelectors",
 }));
@@ -4361,7 +4141,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: { actions: ["cloudtrail:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -4412,7 +4191,6 @@ export const registerOrganizationDelegatedAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterOrganizationDelegatedAdmin",
-  iam: { actions: ["cloudtrail:RegisterOrganizationDelegatedAdmin"] },
   telemetry: TELEMETRY,
   span: "RegisterOrganizationDelegatedAdmin",
 }));
@@ -4465,7 +4243,6 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
-  iam: { actions: ["cloudtrail:RemoveTags"] },
   telemetry: TELEMETRY,
   span: "RemoveTags",
 }));
@@ -4519,14 +4296,6 @@ export const restoreEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreEventDataStore",
-  iam: {
-    actions: ["cloudtrail:RestoreEventDataStore"],
-    resources: {
-      "cloudtrail:RestoreEventDataStore": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RestoreEventDataStore",
 }));
@@ -4558,7 +4327,6 @@ export const searchSampleQueries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchSampleQueries",
-  iam: { actions: ["cloudtrail:SearchSampleQueries"] },
   telemetry: TELEMETRY,
   span: "SearchSampleQueries",
 }));
@@ -4596,17 +4364,6 @@ export const startDashboardRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDashboardRefresh",
-  iam: {
-    actions: ["cloudtrail:StartDashboardRefresh", "cloudtrail:StartQuery"],
-    resources: {
-      "cloudtrail:StartDashboardRefresh": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:dashboard/${DashboardName}",
-      ],
-      "cloudtrail:StartQuery": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDashboardRefresh",
 }));
@@ -4654,14 +4411,6 @@ export const startEventDataStoreIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEventDataStoreIngestion",
-  iam: {
-    actions: ["cloudtrail:StartEventDataStoreIngestion"],
-    resources: {
-      "cloudtrail:StartEventDataStoreIngestion": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartEventDataStoreIngestion",
 }));
@@ -4727,11 +4476,6 @@ export const startImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartImport",
-  iam: {
-    actions: ["iam:PassRole", "cloudtrail:StartImport"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "StartImport",
 }));
@@ -4779,14 +4523,6 @@ export const startLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLogging",
-  iam: {
-    actions: ["cloudtrail:StartLogging"],
-    resources: {
-      "cloudtrail:StartLogging": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartLogging",
 }));
@@ -4845,14 +4581,6 @@ export const startQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartQuery",
-  iam: {
-    actions: ["cloudtrail:StartQuery"],
-    resources: {
-      "cloudtrail:StartQuery": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartQuery",
 }));
@@ -4900,14 +4628,6 @@ export const stopEventDataStoreIngestion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEventDataStoreIngestion",
-  iam: {
-    actions: ["cloudtrail:StopEventDataStoreIngestion"],
-    resources: {
-      "cloudtrail:StopEventDataStoreIngestion": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopEventDataStoreIngestion",
 }));
@@ -4940,7 +4660,6 @@ export const stopImport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopImport",
-  iam: { actions: ["cloudtrail:StopImport"] },
   telemetry: TELEMETRY,
   span: "StopImport",
 }));
@@ -4991,14 +4710,6 @@ export const stopLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopLogging",
-  iam: {
-    actions: ["cloudtrail:StopLogging"],
-    resources: {
-      "cloudtrail:StopLogging": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopLogging",
 }));
@@ -5043,14 +4754,6 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
-  iam: {
-    actions: ["cloudtrail:UpdateChannel"],
-    resources: {
-      "cloudtrail:UpdateChannel": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:channel/${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -5098,24 +4801,6 @@ export const updateDashboard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDashboard",
-  iam: {
-    actions: [
-      "cloudtrail:StartDashboardRefresh",
-      "cloudtrail:StartQuery",
-      "cloudtrail:UpdateDashboard",
-    ],
-    resources: {
-      "cloudtrail:StartDashboardRefresh": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:dashboard/${DashboardName}",
-      ],
-      "cloudtrail:StartQuery": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-      "cloudtrail:UpdateDashboard": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:dashboard/${DashboardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDashboard",
 }));
@@ -5195,14 +4880,6 @@ export const updateEventDataStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventDataStore",
-  iam: {
-    actions: ["cloudtrail:UpdateEventDataStore"],
-    resources: {
-      "cloudtrail:UpdateEventDataStore": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:eventdatastore/${EventDataStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEventDataStore",
 }));
@@ -5296,16 +4973,6 @@ export const updateTrail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrail",
-  iam: {
-    actions: ["iam:PassRole", "cloudtrail:UpdateTrail"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "cloudtrail:UpdateTrail": [
-        "arn:${Partition}:cloudtrail:${Region}:${Account}:trail/${TrailName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "CloudWatchLogsRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTrail",
 }));

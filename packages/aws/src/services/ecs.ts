@@ -3323,14 +3323,6 @@ export const associateGatewayWithCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateGatewayWithCluster",
-  iam: {
-    actions: ["ecs:AssociateGatewayWithCluster"],
-    resources: {
-      "ecs:AssociateGatewayWithCluster": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateGatewayWithCluster",
 }));
@@ -3371,15 +3363,6 @@ export const continueServiceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ContinueServiceDeployment",
-  iam: {
-    actions: ["ecs:ContinueServiceDeployment"],
-    resources: {
-      "ecs:ContinueServiceDeployment": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-        "arn:${Partition}:ecs:${Region}:${Account}:service-deployment/${ClusterName}/${ServiceName}/${ServiceDeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ContinueServiceDeployment",
 }));
@@ -3418,27 +3401,6 @@ export const createCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityProvider",
-  iam: {
-    actions: [
-      "ecs:CreateCapacityProvider",
-      "iam:PassRole",
-      "ecs:PutClusterCapacityProviders",
-      "ecs:TagResource",
-    ],
-    resources: {
-      "ecs:CreateCapacityProvider": [
-        "arn:${Partition}:ecs:${Region}:${Account}:capacity-provider/${CapacityProviderName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:PutClusterCapacityProviders": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-    conditional: {
-      "iam:PassRole": "managedInstancesProvider.infrastructureRoleArn",
-      "ecs:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCapacityProvider",
 }));
@@ -3473,13 +3435,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: ["ecs:CreateCluster", "ecs:TagResource"],
-    resources: {
-      "ecs:CreateCluster": ["arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}"],
-    },
-    conditional: { "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -3522,16 +3477,6 @@ export const createDaemon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDaemon",
-  iam: {
-    actions: ["ecs:CreateDaemon", "iam:PassRole", "ecs:TagResource"],
-    resources: {
-      "ecs:CreateDaemon": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon/${ClusterName}/${DaemonName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDaemon",
 }));
@@ -3574,34 +3519,6 @@ export const createExpressGatewayService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExpressGatewayService",
-  iam: {
-    actions: [
-      "ecs:AssociateGatewayWithCluster",
-      "ecs:CreateCluster",
-      "ecs:CreateExpressGatewayService",
-      "ecs:CreateGateway",
-      "iam:PassRole",
-      "ecs:RegisterTaskDefinition",
-      "ecs:TagResource",
-    ],
-    resources: {
-      "ecs:AssociateGatewayWithCluster": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-      "ecs:CreateCluster": ["arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}"],
-      "ecs:CreateExpressGatewayService": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-      "ecs:CreateGateway": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:RegisterTaskDefinition": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-definition/${TaskDefinitionFamilyName}:${TaskDefinitionRevisionNumber}",
-      ],
-    },
-    conditional: { "iam:PassRole": "executionRoleArn", "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExpressGatewayService",
 }));
@@ -3636,16 +3553,6 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
-  iam: {
-    actions: ["ecs:CreateGateway", "iam:PassRole", "ecs:TagResource"],
-    resources: {
-      "ecs:CreateGateway": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGateway",
 }));
@@ -3780,16 +3687,6 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
-  iam: {
-    actions: ["ecs:CreateService", "iam:PassRole", "ecs:TagResource"],
-    resources: {
-      "ecs:CreateService": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "role", "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
@@ -3840,16 +3737,6 @@ export const createTaskSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTaskSet",
-  iam: {
-    actions: ["ecs:CreateTaskSet", "iam:PassRole", "ecs:TagResource"],
-    resources: {
-      "ecs:CreateTaskSet": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-set/${ClusterName}/${ServiceName}/${TaskSetId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTaskSet",
 }));
@@ -3875,7 +3762,6 @@ export const deleteAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountSetting",
-  iam: { actions: ["ecs:DeleteAccountSetting"] },
   telemetry: TELEMETRY,
   span: "DeleteAccountSetting",
 }));
@@ -3910,14 +3796,6 @@ export const deleteAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributes",
-  iam: {
-    actions: ["ecs:DeleteAttributes"],
-    resources: {
-      "ecs:DeleteAttributes": [
-        "arn:${Partition}:ecs:${Region}:${Account}:container-instance/${ClusterName}/${ContainerInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAttributes",
 }));
@@ -3958,17 +3836,6 @@ export const deleteCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProvider",
-  iam: {
-    actions: ["ecs:DeleteCapacityProvider", "ecs:PutClusterCapacityProviders"],
-    resources: {
-      "ecs:DeleteCapacityProvider": [
-        "arn:${Partition}:ecs:${Region}:${Account}:capacity-provider/${CapacityProviderName}",
-      ],
-      "ecs:PutClusterCapacityProviders": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCapacityProvider",
 }));
@@ -4013,12 +3880,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["ecs:DeleteCluster"],
-    resources: {
-      "ecs:DeleteCluster": ["arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -4059,14 +3920,6 @@ export const deleteDaemon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDaemon",
-  iam: {
-    actions: ["ecs:DeleteDaemon"],
-    resources: {
-      "ecs:DeleteDaemon": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon/${ClusterName}/${DaemonName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDaemon",
 }));
@@ -4094,14 +3947,6 @@ export const deleteDaemonTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDaemonTaskDefinition",
-  iam: {
-    actions: ["ecs:DeleteDaemonTaskDefinition"],
-    resources: {
-      "ecs:DeleteDaemonTaskDefinition": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon-task-definition/${DaemonTaskDefinitionFamilyName}:${DaemonTaskDefinitionRevisionNumber}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDaemonTaskDefinition",
 }));
@@ -4144,14 +3989,6 @@ export const deleteExpressGatewayService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExpressGatewayService",
-  iam: {
-    actions: ["ecs:DeleteExpressGatewayService"],
-    resources: {
-      "ecs:DeleteExpressGatewayService": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExpressGatewayService",
 }));
@@ -4186,14 +4023,6 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
-  iam: {
-    actions: ["ecs:DeleteGateway"],
-    resources: {
-      "ecs:DeleteGateway": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGateway",
 }));
@@ -4232,14 +4061,6 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
-  iam: {
-    actions: ["ecs:DeleteService"],
-    resources: {
-      "ecs:DeleteService": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteService",
 }));
@@ -4275,14 +4096,6 @@ export const deleteTaskDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTaskDefinitions",
-  iam: {
-    actions: ["ecs:DeleteTaskDefinitions"],
-    resources: {
-      "ecs:DeleteTaskDefinitions": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-definition/${TaskDefinitionFamilyName}:${TaskDefinitionRevisionNumber}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTaskDefinitions",
 }));
@@ -4325,14 +4138,6 @@ export const deleteTaskSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTaskSet",
-  iam: {
-    actions: ["ecs:DeleteTaskSet"],
-    resources: {
-      "ecs:DeleteTaskSet": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-set/${ClusterName}/${ServiceName}/${TaskSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTaskSet",
 }));
@@ -4371,14 +4176,6 @@ export const deregisterContainerInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterContainerInstance",
-  iam: {
-    actions: ["ecs:DeregisterContainerInstance"],
-    resources: {
-      "ecs:DeregisterContainerInstance": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterContainerInstance",
 }));
@@ -4410,7 +4207,6 @@ export const deregisterTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTaskDefinition",
-  iam: { actions: ["ecs:DeregisterTaskDefinition"] },
   telemetry: TELEMETRY,
   span: "DeregisterTaskDefinition",
 }));
@@ -4445,14 +4241,6 @@ export const describeCapacityProviders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapacityProviders",
-  iam: {
-    actions: ["ecs:DescribeCapacityProviders"],
-    resources: {
-      "ecs:DescribeCapacityProviders": [
-        "arn:${Partition}:ecs:${Region}:${Account}:capacity-provider/${CapacityProviderName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCapacityProviders",
 }));
@@ -4480,12 +4268,6 @@ export const describeClusters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusters",
-  iam: {
-    actions: ["ecs:DescribeClusters"],
-    resources: {
-      "ecs:DescribeClusters": ["arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeClusters",
 }));
@@ -4518,14 +4300,6 @@ export const describeContainerInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerInstances",
-  iam: {
-    actions: ["ecs:DescribeContainerInstances"],
-    resources: {
-      "ecs:DescribeContainerInstances": [
-        "arn:${Partition}:ecs:${Region}:${Account}:container-instance/${ClusterName}/${ContainerInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeContainerInstances",
 }));
@@ -4562,14 +4336,6 @@ export const describeDaemon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDaemon",
-  iam: {
-    actions: ["ecs:DescribeDaemon"],
-    resources: {
-      "ecs:DescribeDaemon": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon/${ClusterName}/${DaemonName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDaemon",
 }));
@@ -4606,15 +4372,6 @@ export const describeDaemonDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDaemonDeployments",
-  iam: {
-    actions: ["ecs:DescribeDaemonDeployments"],
-    resources: {
-      "ecs:DescribeDaemonDeployments": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon/${ClusterName}/${DaemonName}",
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon-deployment/${ClusterName}/${DaemonName}/${DaemonDeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDaemonDeployments",
 }));
@@ -4651,15 +4408,6 @@ export const describeDaemonRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDaemonRevisions",
-  iam: {
-    actions: ["ecs:DescribeDaemonRevisions"],
-    resources: {
-      "ecs:DescribeDaemonRevisions": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon/${ClusterName}/${DaemonName}",
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon-revision/${ClusterName}/${DaemonName}/${DaemonRevisionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDaemonRevisions",
 }));
@@ -4685,14 +4433,6 @@ export const describeDaemonTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDaemonTaskDefinition",
-  iam: {
-    actions: ["ecs:DescribeDaemonTaskDefinition"],
-    resources: {
-      "ecs:DescribeDaemonTaskDefinition": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon-task-definition/${DaemonTaskDefinitionFamilyName}:${DaemonTaskDefinitionRevisionNumber}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDaemonTaskDefinition",
 }));
@@ -4733,14 +4473,6 @@ export const describeExpressGatewayService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExpressGatewayService",
-  iam: {
-    actions: ["ecs:DescribeExpressGatewayService"],
-    resources: {
-      "ecs:DescribeExpressGatewayService": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeExpressGatewayService",
 }));
@@ -4775,14 +4507,6 @@ export const describeGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGateway",
-  iam: {
-    actions: ["ecs:DescribeGateway"],
-    resources: {
-      "ecs:DescribeGateway": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeGateway",
 }));
@@ -4817,14 +4541,6 @@ export const describeGatewayResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayResources",
-  iam: {
-    actions: ["ecs:DescribeGatewayResources"],
-    resources: {
-      "ecs:DescribeGatewayResources": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeGatewayResources",
 }));
@@ -4859,15 +4575,6 @@ export const describeGatewayRoute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGatewayRoute",
-  iam: {
-    actions: ["ecs:DescribeGatewayRoute"],
-    resources: {
-      "ecs:DescribeGatewayRoute": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway-route/${GatewayName}/${GatewayId}/${RouteId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeGatewayRoute",
 }));
@@ -4906,15 +4613,6 @@ export const describeServiceDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceDeployments",
-  iam: {
-    actions: ["ecs:DescribeServiceDeployments"],
-    resources: {
-      "ecs:DescribeServiceDeployments": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-        "arn:${Partition}:ecs:${Region}:${Account}:service-deployment/${ClusterName}/${ServiceName}/${ServiceDeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeServiceDeployments",
 }));
@@ -4955,15 +4653,6 @@ export const describeServiceRevisions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceRevisions",
-  iam: {
-    actions: ["ecs:DescribeServiceRevisions"],
-    resources: {
-      "ecs:DescribeServiceRevisions": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-        "arn:${Partition}:ecs:${Region}:${Account}:service-revision/${ClusterName}/${ServiceName}/${ServiceRevisionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeServiceRevisions",
 }));
@@ -4996,14 +4685,6 @@ export const describeServices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServices",
-  iam: {
-    actions: ["ecs:DescribeServices"],
-    resources: {
-      "ecs:DescribeServices": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeServices",
 }));
@@ -5031,7 +4712,6 @@ export const describeTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTaskDefinition",
-  iam: { actions: ["ecs:DescribeTaskDefinition"] },
   telemetry: TELEMETRY,
   span: "DescribeTaskDefinition",
 }));
@@ -5068,14 +4748,6 @@ export const describeTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTasks",
-  iam: {
-    actions: ["ecs:DescribeTasks"],
-    resources: {
-      "ecs:DescribeTasks": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task/${ClusterName}/${TaskId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTasks",
 }));
@@ -5114,14 +4786,6 @@ export const describeTaskSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTaskSets",
-  iam: {
-    actions: ["ecs:DescribeTaskSets"],
-    resources: {
-      "ecs:DescribeTaskSets": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-set/${ClusterName}/${ServiceName}/${TaskSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTaskSets",
 }));
@@ -5160,14 +4824,6 @@ export const disassociateGatewayFromCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateGatewayFromCluster",
-  iam: {
-    actions: ["ecs:DisassociateGatewayFromCluster"],
-    resources: {
-      "ecs:DisassociateGatewayFromCluster": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateGatewayFromCluster",
 }));
@@ -5195,7 +4851,6 @@ export const discoverPollEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DiscoverPollEndpoint",
-  iam: { actions: ["ecs:DiscoverPollEndpoint"] },
   telemetry: TELEMETRY,
   span: "DiscoverPollEndpoint",
 }));
@@ -5234,15 +4889,6 @@ export const executeCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteCommand",
-  iam: {
-    actions: ["ecs:ExecuteCommand"],
-    resources: {
-      "ecs:ExecuteCommand": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-        "arn:${Partition}:ecs:${Region}:${Account}:task/${ClusterName}/${TaskId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExecuteCommand",
 }));
@@ -5279,14 +4925,6 @@ export const getTaskProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTaskProtection",
-  iam: {
-    actions: ["ecs:GetTaskProtection"],
-    resources: {
-      "ecs:GetTaskProtection": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task/${ClusterName}/${TaskId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTaskProtection",
 }));
@@ -5319,7 +4957,6 @@ export const listAccountSettings: API.PaginatedOperationMethod<
     items: "settings",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecs:ListAccountSettings"] },
   telemetry: TELEMETRY,
   span: "ListAccountSettings",
 })) as any;
@@ -5359,12 +4996,6 @@ export const listAttributes: API.PaginatedOperationMethod<
     items: "attributes",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecs:ListAttributes"],
-    resources: {
-      "ecs:ListAttributes": ["arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAttributes",
 })) as any;
@@ -5397,7 +5028,6 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusterArns",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecs:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -5437,14 +5067,6 @@ export const listContainerInstances: API.PaginatedOperationMethod<
     items: "containerInstanceArns",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecs:ListContainerInstances"],
-    resources: {
-      "ecs:ListContainerInstances": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListContainerInstances",
 })) as any;
@@ -5479,14 +5101,6 @@ export const listDaemonDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDaemonDeployments",
-  iam: {
-    actions: ["ecs:ListDaemonDeployments"],
-    resources: {
-      "ecs:ListDaemonDeployments": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon/${ClusterName}/${DaemonName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDaemonDeployments",
 }));
@@ -5521,7 +5135,6 @@ export const listDaemons: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDaemons",
-  iam: { actions: ["ecs:ListDaemons"] },
   telemetry: TELEMETRY,
   span: "ListDaemons",
 }));
@@ -5547,7 +5160,6 @@ export const listDaemonTaskDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDaemonTaskDefinitions",
-  iam: { actions: ["ecs:ListDaemonTaskDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListDaemonTaskDefinitions",
 }));
@@ -5587,7 +5199,6 @@ export const listGatewayClusterAssociations: API.PaginatedOperationMethod<
     items: "gatewayClusterAssociations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecs:ListGatewayClusterAssociations"] },
   telemetry: TELEMETRY,
   span: "ListGatewayClusterAssociations",
 })) as any;
@@ -5629,7 +5240,6 @@ export const listGatewayRoutes: API.PaginatedOperationMethod<
     items: "gatewayRoutes",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecs:ListGatewayRoutes"] },
   telemetry: TELEMETRY,
   span: "ListGatewayRoutes",
 })) as any;
@@ -5669,14 +5279,6 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "gateways",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecs:ListGateways"],
-    resources: {
-      "ecs:ListGateways": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGateways",
 })) as any;
@@ -5717,14 +5319,6 @@ export const listServiceDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListServiceDeployments",
-  iam: {
-    actions: ["ecs:ListServiceDeployments"],
-    resources: {
-      "ecs:ListServiceDeployments": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServiceDeployments",
 }));
@@ -5764,7 +5358,6 @@ export const listServices: API.PaginatedOperationMethod<
     items: "serviceArns",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecs:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -5804,7 +5397,6 @@ export const listServicesByNamespace: API.PaginatedOperationMethod<
     items: "serviceArns",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecs:ListServicesByNamespace"] },
   telemetry: TELEMETRY,
   span: "ListServicesByNamespace",
 })) as any;
@@ -5837,7 +5429,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["ecs:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5872,7 +5463,6 @@ export const listTaskDefinitionFamilies: API.PaginatedOperationMethod<
     items: "families",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecs:ListTaskDefinitionFamilies"] },
   telemetry: TELEMETRY,
   span: "ListTaskDefinitionFamilies",
 })) as any;
@@ -5905,7 +5495,6 @@ export const listTaskDefinitions: API.PaginatedOperationMethod<
     items: "taskDefinitionArns",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ecs:ListTaskDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListTaskDefinitions",
 })) as any;
@@ -5949,14 +5538,6 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "taskArns",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ecs:ListTasks"],
-    resources: {
-      "ecs:ListTasks": [
-        "arn:${Partition}:ecs:${Region}:${Account}:container-instance/${ClusterName}/${ContainerInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTasks",
 })) as any;
@@ -5984,7 +5565,6 @@ export const putAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSetting",
-  iam: { actions: ["ecs:PutAccountSetting"] },
   telemetry: TELEMETRY,
   span: "PutAccountSetting",
 }));
@@ -6010,7 +5590,6 @@ export const putAccountSettingDefault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSettingDefault",
-  iam: { actions: ["ecs:PutAccountSettingDefault"] },
   telemetry: TELEMETRY,
   span: "PutAccountSettingDefault",
 }));
@@ -6047,14 +5626,6 @@ export const putAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAttributes",
-  iam: {
-    actions: ["ecs:PutAttributes"],
-    resources: {
-      "ecs:PutAttributes": [
-        "arn:${Partition}:ecs:${Region}:${Account}:container-instance/${ClusterName}/${ContainerInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutAttributes",
 }));
@@ -6099,14 +5670,6 @@ export const putClusterCapacityProviders: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterCapacityProviders",
-  iam: {
-    actions: ["ecs:PutClusterCapacityProviders"],
-    resources: {
-      "ecs:PutClusterCapacityProviders": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutClusterCapacityProviders",
 }));
@@ -6141,15 +5704,6 @@ export const registerContainerInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterContainerInstance",
-  iam: {
-    actions: ["ecs:RegisterContainerInstance", "ecs:TagResource"],
-    resources: {
-      "ecs:RegisterContainerInstance": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-    conditional: { "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "RegisterContainerInstance",
 }));
@@ -6186,16 +5740,6 @@ export const registerDaemonTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDaemonTaskDefinition",
-  iam: {
-    actions: ["iam:PassRole", "ecs:RegisterDaemonTaskDefinition", "ecs:TagResource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:RegisterDaemonTaskDefinition": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon-task-definition/${DaemonTaskDefinitionFamilyName}:${DaemonTaskDefinitionRevisionNumber}",
-      ],
-    },
-    conditional: { "iam:PassRole": "taskRoleArn", "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "RegisterDaemonTaskDefinition",
 }));
@@ -6232,16 +5776,6 @@ export const registerTaskDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTaskDefinition",
-  iam: {
-    actions: ["iam:PassRole", "ecs:RegisterTaskDefinition", "ecs:TagResource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:RegisterTaskDefinition": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-definition/${TaskDefinitionFamilyName}:${TaskDefinitionRevisionNumber}",
-      ],
-    },
-    conditional: { "iam:PassRole": "taskRoleArn", "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "RegisterTaskDefinition",
 }));
@@ -6312,16 +5846,6 @@ export const runTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RunTask",
-  iam: {
-    actions: ["iam:PassRole", "ecs:RunTask", "ecs:TagResource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:RunTask": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-definition/${TaskDefinitionFamilyName}:${TaskDefinitionRevisionNumber}",
-      ],
-    },
-    conditional: { "iam:PassRole": "overrides.executionRoleArn", "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "RunTask",
 }));
@@ -6366,16 +5890,6 @@ export const startTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTask",
-  iam: {
-    actions: ["iam:PassRole", "ecs:StartTask", "ecs:TagResource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:StartTask": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-definition/${TaskDefinitionFamilyName}:${TaskDefinitionRevisionNumber}",
-      ],
-    },
-    conditional: { "iam:PassRole": "overrides.executionRoleArn", "ecs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartTask",
 }));
@@ -6420,15 +5934,6 @@ export const stopServiceDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopServiceDeployment",
-  iam: {
-    actions: ["ecs:StopServiceDeployment"],
-    resources: {
-      "ecs:StopServiceDeployment": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-        "arn:${Partition}:ecs:${Region}:${Account}:service-deployment/${ClusterName}/${ServiceName}/${ServiceDeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopServiceDeployment",
 }));
@@ -6467,12 +5972,6 @@ export const stopTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTask",
-  iam: {
-    actions: ["ecs:StopTask"],
-    resources: {
-      "ecs:StopTask": ["arn:${Partition}:ecs:${Region}:${Account}:task/${ClusterName}/${TaskId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopTask",
 }));
@@ -6507,14 +6006,6 @@ export const submitAttachmentStateChanges: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitAttachmentStateChanges",
-  iam: {
-    actions: ["ecs:SubmitAttachmentStateChanges"],
-    resources: {
-      "ecs:SubmitAttachmentStateChanges": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SubmitAttachmentStateChanges",
 }));
@@ -6549,14 +6040,6 @@ export const submitContainerStateChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitContainerStateChange",
-  iam: {
-    actions: ["ecs:SubmitContainerStateChange"],
-    resources: {
-      "ecs:SubmitContainerStateChange": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SubmitContainerStateChange",
 }));
@@ -6591,14 +6074,6 @@ export const submitTaskStateChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitTaskStateChange",
-  iam: {
-    actions: ["ecs:SubmitTaskStateChange"],
-    resources: {
-      "ecs:SubmitTaskStateChange": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SubmitTaskStateChange",
 }));
@@ -6635,7 +6110,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["ecs:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6670,7 +6144,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["ecs:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6707,19 +6180,6 @@ export const updateCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityProvider",
-  iam: {
-    actions: ["iam:PassRole", "ecs:PutClusterCapacityProviders", "ecs:UpdateCapacityProvider"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:PutClusterCapacityProviders": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-      "ecs:UpdateCapacityProvider": [
-        "arn:${Partition}:ecs:${Region}:${Account}:capacity-provider/${CapacityProviderName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "managedInstancesProvider.infrastructureRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCapacityProvider",
 }));
@@ -6754,12 +6214,6 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-  iam: {
-    actions: ["ecs:UpdateCluster"],
-    resources: {
-      "ecs:UpdateCluster": ["arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -6794,14 +6248,6 @@ export const updateClusterSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterSettings",
-  iam: {
-    actions: ["ecs:UpdateClusterSettings"],
-    resources: {
-      "ecs:UpdateClusterSettings": [
-        "arn:${Partition}:ecs:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateClusterSettings",
 }));
@@ -6846,14 +6292,6 @@ export const updateContainerAgent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerAgent",
-  iam: {
-    actions: ["ecs:UpdateContainerAgent"],
-    resources: {
-      "ecs:UpdateContainerAgent": [
-        "arn:${Partition}:ecs:${Region}:${Account}:container-instance/${ClusterName}/${ContainerInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateContainerAgent",
 }));
@@ -6904,14 +6342,6 @@ export const updateContainerInstancesState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerInstancesState",
-  iam: {
-    actions: ["ecs:UpdateContainerInstancesState"],
-    resources: {
-      "ecs:UpdateContainerInstancesState": [
-        "arn:${Partition}:ecs:${Region}:${Account}:container-instance/${ClusterName}/${ContainerInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateContainerInstancesState",
 }));
@@ -6958,16 +6388,6 @@ export const updateDaemon: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDaemon",
-  iam: {
-    actions: ["iam:PassRole", "ecs:UpdateDaemon"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:UpdateDaemon": [
-        "arn:${Partition}:ecs:${Region}:${Account}:daemon/${ClusterName}/${DaemonName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDaemon",
 }));
@@ -7010,31 +6430,6 @@ export const updateExpressGatewayService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExpressGatewayService",
-  iam: {
-    actions: [
-      "ecs:AssociateGatewayWithCluster",
-      "ecs:CreateGateway",
-      "iam:PassRole",
-      "ecs:RegisterTaskDefinition",
-      "ecs:UpdateExpressGatewayService",
-    ],
-    resources: {
-      "ecs:AssociateGatewayWithCluster": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-      "ecs:CreateGateway": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:RegisterTaskDefinition": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-definition/${TaskDefinitionFamilyName}:${TaskDefinitionRevisionNumber}",
-      ],
-      "ecs:UpdateExpressGatewayService": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "executionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateExpressGatewayService",
 }));
@@ -7071,16 +6466,6 @@ export const updateGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGateway",
-  iam: {
-    actions: ["iam:PassRole", "ecs:UpdateGateway"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:UpdateGateway": [
-        "arn:${Partition}:ecs:${Region}:${Account}:gateway/${GatewayName}/${GatewayId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "infrastructureRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGateway",
 }));
@@ -7169,16 +6554,6 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
-  iam: {
-    actions: ["iam:PassRole", "ecs:UpdateService"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ecs:UpdateService": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateService",
 }));
@@ -7219,14 +6594,6 @@ export const updateServicePrimaryTaskSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServicePrimaryTaskSet",
-  iam: {
-    actions: ["ecs:UpdateServicePrimaryTaskSet"],
-    resources: {
-      "ecs:UpdateServicePrimaryTaskSet": [
-        "arn:${Partition}:ecs:${Region}:${Account}:service/${ClusterName}/${ServiceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServicePrimaryTaskSet",
 }));
@@ -7273,14 +6640,6 @@ export const updateTaskProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTaskProtection",
-  iam: {
-    actions: ["ecs:UpdateTaskProtection"],
-    resources: {
-      "ecs:UpdateTaskProtection": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task/${ClusterName}/${TaskId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTaskProtection",
 }));
@@ -7323,14 +6682,6 @@ export const updateTaskSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTaskSet",
-  iam: {
-    actions: ["ecs:UpdateTaskSet"],
-    resources: {
-      "ecs:UpdateTaskSet": [
-        "arn:${Partition}:ecs:${Region}:${Account}:task-set/${ClusterName}/${ServiceName}/${TaskSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTaskSet",
 }));

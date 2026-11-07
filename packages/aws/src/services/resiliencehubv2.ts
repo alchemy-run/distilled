@@ -2522,14 +2522,6 @@ export const createAssertion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssertion",
-  iam: {
-    actions: ["resiliencehub:CreateAssertion"],
-    resources: {
-      "resiliencehub:CreateAssertion": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAssertion",
 }));
@@ -2564,14 +2556,6 @@ export const createInputSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInputSource",
-  iam: {
-    actions: ["resiliencehub:CreateInputSource"],
-    resources: {
-      "resiliencehub:CreateInputSource": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateInputSource",
 }));
@@ -2606,15 +2590,6 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
-  iam: {
-    actions: ["resiliencehub:CreatePolicy", "resiliencehub:TagResource"],
-    resources: {
-      "resiliencehub:CreatePolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:policy/${PolicyId}",
-      ],
-    },
-    conditional: { "resiliencehub:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePolicy",
 }));
@@ -2649,14 +2624,6 @@ export const createReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReport",
-  iam: {
-    actions: ["resiliencehub:CreateReport"],
-    resources: {
-      "resiliencehub:CreateReport": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateReport",
 }));
@@ -2691,11 +2658,6 @@ export const createService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateService",
-  iam: {
-    actions: ["resiliencehub:CreateService", "iam:PassRole", "resiliencehub:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "resiliencehub:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateService",
 }));
@@ -2730,14 +2692,6 @@ export const createServiceFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceFunction",
-  iam: {
-    actions: ["resiliencehub:CreateServiceFunction"],
-    resources: {
-      "resiliencehub:CreateServiceFunction": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceFunction",
 }));
@@ -2770,14 +2724,6 @@ export const createServiceFunctionResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceFunctionResources",
-  iam: {
-    actions: ["resiliencehub:CreateServiceFunctionResources"],
-    resources: {
-      "resiliencehub:CreateServiceFunctionResources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceFunctionResources",
 }));
@@ -2812,15 +2758,6 @@ export const createSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSystem",
-  iam: {
-    actions: ["resiliencehub:CreateSystem", "resiliencehub:TagResource"],
-    resources: {
-      "resiliencehub:CreateSystem": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:system/${SystemId}",
-      ],
-    },
-    conditional: { "resiliencehub:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSystem",
 }));
@@ -2853,16 +2790,6 @@ export const createTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTest",
-  iam: {
-    actions: ["resiliencehub:CreateTest", "iam:PassRole"],
-    resources: {
-      "resiliencehub:CreateTest": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "roleName" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTest",
 }));
@@ -2897,7 +2824,6 @@ export const createUserJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserJourney",
-  iam: { actions: ["resiliencehub:CreateUserJourney"] },
   telemetry: TELEMETRY,
   span: "CreateUserJourney",
 }));
@@ -2928,14 +2854,6 @@ export const deleteAssertion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssertion",
-  iam: {
-    actions: ["resiliencehub:DeleteAssertion"],
-    resources: {
-      "resiliencehub:DeleteAssertion": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAssertion",
 }));
@@ -2966,14 +2884,6 @@ export const deleteInputSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInputSource",
-  iam: {
-    actions: ["resiliencehub:DeleteInputSource"],
-    resources: {
-      "resiliencehub:DeleteInputSource": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInputSource",
 }));
@@ -3006,14 +2916,6 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
-  iam: {
-    actions: ["resiliencehub:DeletePolicy"],
-    resources: {
-      "resiliencehub:DeletePolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:policy/${PolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -3046,14 +2948,6 @@ export const deleteService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteService",
-  iam: {
-    actions: ["resiliencehub:DeleteService"],
-    resources: {
-      "resiliencehub:DeleteService": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteService",
 }));
@@ -3086,14 +2980,6 @@ export const deleteServiceFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceFunction",
-  iam: {
-    actions: ["resiliencehub:DeleteServiceFunction"],
-    resources: {
-      "resiliencehub:DeleteServiceFunction": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServiceFunction",
 }));
@@ -3126,14 +3012,6 @@ export const deleteServiceFunctionResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceFunctionResources",
-  iam: {
-    actions: ["resiliencehub:DeleteServiceFunctionResources"],
-    resources: {
-      "resiliencehub:DeleteServiceFunctionResources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServiceFunctionResources",
 }));
@@ -3166,14 +3044,6 @@ export const deleteSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSystem",
-  iam: {
-    actions: ["resiliencehub:DeleteSystem"],
-    resources: {
-      "resiliencehub:DeleteSystem": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:system/${SystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSystem",
 }));
@@ -3206,14 +3076,6 @@ export const deleteTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTest",
-  iam: {
-    actions: ["resiliencehub:DeleteTest"],
-    resources: {
-      "resiliencehub:DeleteTest": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTest",
 }));
@@ -3246,14 +3108,6 @@ export const deleteTestSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTestSources",
-  iam: {
-    actions: ["resiliencehub:DeleteTestSources"],
-    resources: {
-      "resiliencehub:DeleteTestSources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTestSources",
 }));
@@ -3286,14 +3140,6 @@ export const deleteUserJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserJourney",
-  iam: {
-    actions: ["resiliencehub:DeleteUserJourney"],
-    resources: {
-      "resiliencehub:DeleteUserJourney": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:system/${SystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserJourney",
 }));
@@ -3326,14 +3172,6 @@ export const getDependencyInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDependencyInsights",
-  iam: {
-    actions: ["resiliencehub:GetDependencyInsights"],
-    resources: {
-      "resiliencehub:GetDependencyInsights": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDependencyInsights",
 }));
@@ -3364,14 +3202,6 @@ export const getFailureModeFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFailureModeFinding",
-  iam: {
-    actions: ["resiliencehub:GetFailureModeFinding"],
-    resources: {
-      "resiliencehub:GetFailureModeFinding": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFailureModeFinding",
 }));
@@ -3402,14 +3232,6 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
-  iam: {
-    actions: ["resiliencehub:GetPolicy"],
-    resources: {
-      "resiliencehub:GetPolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:policy/${PolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -3440,14 +3262,6 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
-  iam: {
-    actions: ["resiliencehub:GetService"],
-    resources: {
-      "resiliencehub:GetService": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetService",
 }));
@@ -3478,14 +3292,6 @@ export const getSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSystem",
-  iam: {
-    actions: ["resiliencehub:GetSystem"],
-    resources: {
-      "resiliencehub:GetSystem": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:system/${SystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSystem",
 }));
@@ -3516,14 +3322,6 @@ export const getTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTest",
-  iam: {
-    actions: ["resiliencehub:GetTest"],
-    resources: {
-      "resiliencehub:GetTest": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTest",
 }));
@@ -3554,14 +3352,6 @@ export const getTestRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestRun",
-  iam: {
-    actions: ["resiliencehub:GetTestRun"],
-    resources: {
-      "resiliencehub:GetTestRun": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTestRun",
 }));
@@ -3592,7 +3382,6 @@ export const getTestTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTestTemplate",
-  iam: { actions: ["resiliencehub:GetTestTemplate"] },
   telemetry: TELEMETRY,
   span: "GetTestTemplate",
 }));
@@ -3623,14 +3412,6 @@ export const getUserJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserJourney",
-  iam: {
-    actions: ["resiliencehub:GetUserJourney"],
-    resources: {
-      "resiliencehub:GetUserJourney": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:system/${SystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUserJourney",
 }));
@@ -3665,16 +3446,6 @@ export const importApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportApp",
-  iam: {
-    actions: ["resiliencehub:ImportApp", "resiliencehub:TagResource"],
-    resources: {
-      "resiliencehub:ImportApp": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:app/${AppId}",
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-    conditional: { "resiliencehub:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportApp",
 }));
@@ -3709,16 +3480,6 @@ export const importPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPolicy",
-  iam: {
-    actions: ["resiliencehub:ImportPolicy", "resiliencehub:TagResource"],
-    resources: {
-      "resiliencehub:ImportPolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:policy/${PolicyId}",
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:resiliency-policy/${ResiliencyPolicyId}",
-      ],
-    },
-    conditional: { "resiliencehub:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportPolicy",
 }));
@@ -3756,14 +3517,6 @@ export const listAssertions: API.PaginatedOperationMethod<
     items: "assertions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListAssertions"],
-    resources: {
-      "resiliencehub:ListAssertions": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAssertions",
 })) as any;
@@ -3801,7 +3554,6 @@ export const listDependencies: API.PaginatedOperationMethod<
     items: "dependencySummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListDependencies"] },
   telemetry: TELEMETRY,
   span: "ListDependencies",
 })) as any;
@@ -3839,14 +3591,6 @@ export const listFailureModeAssessments: API.PaginatedOperationMethod<
     items: "assessmentSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListFailureModeAssessments"],
-    resources: {
-      "resiliencehub:ListFailureModeAssessments": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFailureModeAssessments",
 })) as any;
@@ -3884,14 +3628,6 @@ export const listFailureModeFindings: API.PaginatedOperationMethod<
     items: "findingsSummary",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListFailureModeFindings"],
-    resources: {
-      "resiliencehub:ListFailureModeFindings": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFailureModeFindings",
 })) as any;
@@ -3929,14 +3665,6 @@ export const listInputSources: API.PaginatedOperationMethod<
     items: "inputSourceSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListInputSources"],
-    resources: {
-      "resiliencehub:ListInputSources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListInputSources",
 })) as any;
@@ -3968,7 +3696,6 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policySummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -4006,14 +3733,6 @@ export const listPolicyEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListPolicyEvents"],
-    resources: {
-      "resiliencehub:ListPolicyEvents": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:policy/${PolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPolicyEvents",
 })) as any;
@@ -4053,7 +3772,6 @@ export const listReports: API.PaginatedOperationMethod<
     items: "reportGenerationResults",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListReports"] },
   telemetry: TELEMETRY,
   span: "ListReports",
 })) as any;
@@ -4091,14 +3809,6 @@ export const listResolvedTestRunTargetResources: API.PaginatedOperationMethod<
     items: "resolvedTargetResources",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListResolvedTestRunTargetResources"],
-    resources: {
-      "resiliencehub:ListResolvedTestRunTargetResources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResolvedTestRunTargetResources",
 })) as any;
@@ -4136,14 +3846,6 @@ export const listResources: API.PaginatedOperationMethod<
     items: "serviceResources",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListResources"],
-    resources: {
-      "resiliencehub:ListResources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResources",
 })) as any;
@@ -4181,14 +3883,6 @@ export const listServiceEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListServiceEvents"],
-    resources: {
-      "resiliencehub:ListServiceEvents": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServiceEvents",
 })) as any;
@@ -4226,14 +3920,6 @@ export const listServiceFunctions: API.PaginatedOperationMethod<
     items: "serviceFunctions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListServiceFunctions"],
-    resources: {
-      "resiliencehub:ListServiceFunctions": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServiceFunctions",
 })) as any;
@@ -4265,7 +3951,6 @@ export const listServices: API.PaginatedOperationMethod<
     items: "serviceSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -4297,14 +3982,6 @@ export const listServiceTopologyEdges: API.PaginatedOperationMethod<
     items: "serviceTopologyEdgeSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListServiceTopologyEdges"],
-    resources: {
-      "resiliencehub:ListServiceTopologyEdges": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServiceTopologyEdges",
 })) as any;
@@ -4342,14 +4019,6 @@ export const listSystemEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListSystemEvents"],
-    resources: {
-      "resiliencehub:ListSystemEvents": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:system/${SystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSystemEvents",
 })) as any;
@@ -4381,7 +4050,6 @@ export const listSystems: API.PaginatedOperationMethod<
     items: "systemSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["resiliencehub:ListSystems"] },
   telemetry: TELEMETRY,
   span: "ListSystems",
 })) as any;
@@ -4414,7 +4082,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["resiliencehub:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4452,14 +4119,6 @@ export const listTestRunDependencies: API.PaginatedOperationMethod<
     items: "dependencies",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListTestRunDependencies"],
-    resources: {
-      "resiliencehub:ListTestRunDependencies": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTestRunDependencies",
 })) as any;
@@ -4497,14 +4156,6 @@ export const listTestRunEvents: API.PaginatedOperationMethod<
     items: "events",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListTestRunEvents"],
-    resources: {
-      "resiliencehub:ListTestRunEvents": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTestRunEvents",
 })) as any;
@@ -4542,14 +4193,6 @@ export const listTestRuns: API.PaginatedOperationMethod<
     items: "testRuns",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListTestRuns"],
-    resources: {
-      "resiliencehub:ListTestRuns": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTestRuns",
 })) as any;
@@ -4587,14 +4230,6 @@ export const listTestRunSourceEvents: API.PaginatedOperationMethod<
     items: "testRunSourceEvents",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListTestRunSourceEvents"],
-    resources: {
-      "resiliencehub:ListTestRunSourceEvents": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTestRunSourceEvents",
 })) as any;
@@ -4632,14 +4267,6 @@ export const listTestRunSources: API.PaginatedOperationMethod<
     items: "testRunSources",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListTestRunSources"],
-    resources: {
-      "resiliencehub:ListTestRunSources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTestRunSources",
 })) as any;
@@ -4677,14 +4304,6 @@ export const listTests: API.PaginatedOperationMethod<
     items: "tests",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListTests"],
-    resources: {
-      "resiliencehub:ListTests": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTests",
 })) as any;
@@ -4722,14 +4341,6 @@ export const listTestSources: API.PaginatedOperationMethod<
     items: "testSources",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListTestSources"],
-    resources: {
-      "resiliencehub:ListTestSources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTestSources",
 })) as any;
@@ -4754,7 +4365,6 @@ export const listTestTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTestTemplates",
-  iam: { actions: ["resiliencehub:ListTestTemplates"] },
   telemetry: TELEMETRY,
   span: "ListTestTemplates",
 }));
@@ -4792,14 +4402,6 @@ export const listUserJourneys: API.PaginatedOperationMethod<
     items: "userJourneySummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["resiliencehub:ListUserJourneys"],
-    resources: {
-      "resiliencehub:ListUserJourneys": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:system/${SystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUserJourneys",
 })) as any;
@@ -4834,14 +4436,6 @@ export const putTestSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTestSources",
-  iam: {
-    actions: ["resiliencehub:PutTestSources"],
-    resources: {
-      "resiliencehub:PutTestSources": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutTestSources",
 }));
@@ -4876,14 +4470,6 @@ export const startDependencyInsights: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDependencyInsights",
-  iam: {
-    actions: ["resiliencehub:StartDependencyInsights"],
-    resources: {
-      "resiliencehub:StartDependencyInsights": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDependencyInsights",
 }));
@@ -4918,14 +4504,6 @@ export const startFailureModeAssessment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFailureModeAssessment",
-  iam: {
-    actions: ["resiliencehub:StartFailureModeAssessment"],
-    resources: {
-      "resiliencehub:StartFailureModeAssessment": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartFailureModeAssessment",
 }));
@@ -4958,14 +4536,6 @@ export const startTestRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTestRun",
-  iam: {
-    actions: ["resiliencehub:StartTestRun"],
-    resources: {
-      "resiliencehub:StartTestRun": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartTestRun",
 }));
@@ -4998,14 +4568,6 @@ export const stopTestRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTestRun",
-  iam: {
-    actions: ["resiliencehub:StopTestRun"],
-    resources: {
-      "resiliencehub:StopTestRun": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopTestRun",
 }));
@@ -5038,7 +4600,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["resiliencehub:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5071,7 +4632,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["resiliencehub:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5104,14 +4664,6 @@ export const updateAssertion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssertion",
-  iam: {
-    actions: ["resiliencehub:UpdateAssertion"],
-    resources: {
-      "resiliencehub:UpdateAssertion": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAssertion",
 }));
@@ -5144,14 +4696,6 @@ export const updateDependency: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDependency",
-  iam: {
-    actions: ["resiliencehub:UpdateDependency"],
-    resources: {
-      "resiliencehub:UpdateDependency": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDependency",
 }));
@@ -5184,14 +4728,6 @@ export const updateFailureModeFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFailureModeFinding",
-  iam: {
-    actions: ["resiliencehub:UpdateFailureModeFinding"],
-    resources: {
-      "resiliencehub:UpdateFailureModeFinding": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFailureModeFinding",
 }));
@@ -5224,14 +4760,6 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
-  iam: {
-    actions: ["resiliencehub:UpdatePolicy"],
-    resources: {
-      "resiliencehub:UpdatePolicy": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:policy/${PolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePolicy",
 }));
@@ -5266,11 +4794,6 @@ export const updateService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateService",
-  iam: {
-    actions: ["iam:PassRole", "resiliencehub:UpdateService"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "permissionModel.invokerRoleName" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateService",
 }));
@@ -5303,14 +4826,6 @@ export const updateServiceFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceFunction",
-  iam: {
-    actions: ["resiliencehub:UpdateServiceFunction"],
-    resources: {
-      "resiliencehub:UpdateServiceFunction": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceFunction",
 }));
@@ -5343,14 +4858,6 @@ export const updateSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSystem",
-  iam: {
-    actions: ["resiliencehub:UpdateSystem"],
-    resources: {
-      "resiliencehub:UpdateSystem": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:system/${SystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSystem",
 }));
@@ -5383,16 +4890,6 @@ export const updateTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTest",
-  iam: {
-    actions: ["iam:PassRole", "resiliencehub:UpdateTest"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "resiliencehub:UpdateTest": [
-        "arn:${Partition}:resiliencehub:${Region}:${Account}:service/${ServiceId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleName" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTest",
 }));
@@ -5425,7 +4922,6 @@ export const updateUserJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserJourney",
-  iam: { actions: ["resiliencehub:UpdateUserJourney"] },
   telemetry: TELEMETRY,
   span: "UpdateUserJourney",
 }));

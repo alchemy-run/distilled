@@ -1344,15 +1344,6 @@ export const associateRoleToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateRoleToGroup",
-  iam: {
-    actions: ["greengrass:AssociateRoleToGroup", "iam:PassRole"],
-    resources: {
-      "greengrass:AssociateRoleToGroup": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateRoleToGroup",
 }));
@@ -1376,10 +1367,6 @@ export const associateServiceRoleToAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceRoleToAccount",
-  iam: {
-    actions: ["greengrass:AssociateServiceRoleToAccount", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "AssociateServiceRoleToAccount",
 }));
@@ -1400,10 +1387,6 @@ export const createConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDefinition",
-  iam: {
-    actions: ["greengrass:CreateConnectorDefinition", "greengrass:TagResource"],
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConnectorDefinition",
 }));
@@ -1424,14 +1407,6 @@ export const createConnectorDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDefinitionVersion",
-  iam: {
-    actions: ["greengrass:CreateConnectorDefinitionVersion"],
-    resources: {
-      "greengrass:CreateConnectorDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/connectors/${ConnectorDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateConnectorDefinitionVersion",
 }));
@@ -1452,10 +1427,6 @@ export const createCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreDefinition",
-  iam: {
-    actions: ["greengrass:CreateCoreDefinition", "greengrass:TagResource"],
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCoreDefinition",
 }));
@@ -1476,14 +1447,6 @@ export const createCoreDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCoreDefinitionVersion",
-  iam: {
-    actions: ["greengrass:CreateCoreDefinitionVersion"],
-    resources: {
-      "greengrass:CreateCoreDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/cores/${CoreDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCoreDefinitionVersion",
 }));
@@ -1504,14 +1467,6 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
-  iam: {
-    actions: ["greengrass:CreateDeployment", "greengrass:TagResource"],
-    resources: {
-      "greengrass:CreateDeployment": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDeployment",
 }));
@@ -1532,10 +1487,6 @@ export const createDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceDefinition",
-  iam: {
-    actions: ["greengrass:CreateDeviceDefinition", "greengrass:TagResource"],
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDeviceDefinition",
 }));
@@ -1556,14 +1507,6 @@ export const createDeviceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceDefinitionVersion",
-  iam: {
-    actions: ["greengrass:CreateDeviceDefinitionVersion"],
-    resources: {
-      "greengrass:CreateDeviceDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/devices/${DeviceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDeviceDefinitionVersion",
 }));
@@ -1584,10 +1527,6 @@ export const createFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionDefinition",
-  iam: {
-    actions: ["greengrass:CreateFunctionDefinition", "greengrass:TagResource"],
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFunctionDefinition",
 }));
@@ -1608,14 +1547,6 @@ export const createFunctionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunctionDefinitionVersion",
-  iam: {
-    actions: ["greengrass:CreateFunctionDefinitionVersion"],
-    resources: {
-      "greengrass:CreateFunctionDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/functions/${FunctionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateFunctionDefinitionVersion",
 }));
@@ -1636,10 +1567,6 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-  iam: {
-    actions: ["greengrass:CreateGroup", "greengrass:TagResource"],
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -1663,14 +1590,6 @@ export const createGroupCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupCertificateAuthority",
-  iam: {
-    actions: ["greengrass:CreateGroupCertificateAuthority"],
-    resources: {
-      "greengrass:CreateGroupCertificateAuthority": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroupCertificateAuthority",
 }));
@@ -1691,14 +1610,6 @@ export const createGroupVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupVersion",
-  iam: {
-    actions: ["greengrass:CreateGroupVersion"],
-    resources: {
-      "greengrass:CreateGroupVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroupVersion",
 }));
@@ -1719,10 +1630,6 @@ export const createLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggerDefinition",
-  iam: {
-    actions: ["greengrass:CreateLoggerDefinition", "greengrass:TagResource"],
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLoggerDefinition",
 }));
@@ -1743,14 +1650,6 @@ export const createLoggerDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggerDefinitionVersion",
-  iam: {
-    actions: ["greengrass:CreateLoggerDefinitionVersion"],
-    resources: {
-      "greengrass:CreateLoggerDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/loggers/${LoggerDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateLoggerDefinitionVersion",
 }));
@@ -1771,10 +1670,6 @@ export const createResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDefinition",
-  iam: {
-    actions: ["greengrass:CreateResourceDefinition", "greengrass:TagResource"],
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateResourceDefinition",
 }));
@@ -1795,14 +1690,6 @@ export const createResourceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceDefinitionVersion",
-  iam: {
-    actions: ["greengrass:CreateResourceDefinitionVersion"],
-    resources: {
-      "greengrass:CreateResourceDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/resources/${ResourceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateResourceDefinitionVersion",
 }));
@@ -1826,10 +1713,6 @@ export const createSoftwareUpdateJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSoftwareUpdateJob",
-  iam: {
-    actions: ["greengrass:CreateSoftwareUpdateJob", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "CreateSoftwareUpdateJob",
 }));
@@ -1850,10 +1733,6 @@ export const createSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionDefinition",
-  iam: {
-    actions: ["greengrass:CreateSubscriptionDefinition", "greengrass:TagResource"],
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSubscriptionDefinition",
 }));
@@ -1874,14 +1753,6 @@ export const createSubscriptionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSubscriptionDefinitionVersion",
-  iam: {
-    actions: ["greengrass:CreateSubscriptionDefinitionVersion"],
-    resources: {
-      "greengrass:CreateSubscriptionDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/subscriptions/${SubscriptionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSubscriptionDefinitionVersion",
 }));
@@ -1902,14 +1773,6 @@ export const deleteConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorDefinition",
-  iam: {
-    actions: ["greengrass:DeleteConnectorDefinition"],
-    resources: {
-      "greengrass:DeleteConnectorDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/connectors/${ConnectorDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConnectorDefinition",
 }));
@@ -1930,14 +1793,6 @@ export const deleteCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCoreDefinition",
-  iam: {
-    actions: ["greengrass:DeleteCoreDefinition"],
-    resources: {
-      "greengrass:DeleteCoreDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/cores/${CoreDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCoreDefinition",
 }));
@@ -1958,14 +1813,6 @@ export const deleteDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeviceDefinition",
-  iam: {
-    actions: ["greengrass:DeleteDeviceDefinition"],
-    resources: {
-      "greengrass:DeleteDeviceDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/devices/${DeviceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDeviceDefinition",
 }));
@@ -1986,14 +1833,6 @@ export const deleteFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunctionDefinition",
-  iam: {
-    actions: ["greengrass:DeleteFunctionDefinition"],
-    resources: {
-      "greengrass:DeleteFunctionDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/functions/${FunctionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFunctionDefinition",
 }));
@@ -2014,14 +1853,6 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-  iam: {
-    actions: ["greengrass:DeleteGroup"],
-    resources: {
-      "greengrass:DeleteGroup": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -2042,14 +1873,6 @@ export const deleteLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggerDefinition",
-  iam: {
-    actions: ["greengrass:DeleteLoggerDefinition"],
-    resources: {
-      "greengrass:DeleteLoggerDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/loggers/${LoggerDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLoggerDefinition",
 }));
@@ -2070,14 +1893,6 @@ export const deleteResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceDefinition",
-  iam: {
-    actions: ["greengrass:DeleteResourceDefinition"],
-    resources: {
-      "greengrass:DeleteResourceDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/resources/${ResourceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourceDefinition",
 }));
@@ -2098,14 +1913,6 @@ export const deleteSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSubscriptionDefinition",
-  iam: {
-    actions: ["greengrass:DeleteSubscriptionDefinition"],
-    resources: {
-      "greengrass:DeleteSubscriptionDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/subscriptions/${SubscriptionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSubscriptionDefinition",
 }));
@@ -2129,14 +1936,6 @@ export const disassociateRoleFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateRoleFromGroup",
-  iam: {
-    actions: ["greengrass:DisassociateRoleFromGroup"],
-    resources: {
-      "greengrass:DisassociateRoleFromGroup": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateRoleFromGroup",
 }));
@@ -2157,7 +1956,6 @@ export const disassociateServiceRoleFromAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceRoleFromAccount",
-  iam: { actions: ["greengrass:DisassociateServiceRoleFromAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateServiceRoleFromAccount",
 }));
@@ -2181,14 +1979,6 @@ export const getAssociatedRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedRole",
-  iam: {
-    actions: ["greengrass:GetAssociatedRole"],
-    resources: {
-      "greengrass:GetAssociatedRole": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAssociatedRole",
 }));
@@ -2209,14 +1999,6 @@ export const getBulkDeploymentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBulkDeploymentStatus",
-  iam: {
-    actions: ["greengrass:GetBulkDeploymentStatus"],
-    resources: {
-      "greengrass:GetBulkDeploymentStatus": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/bulk/deployments/${BulkDeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBulkDeploymentStatus",
 }));
@@ -2240,14 +2022,6 @@ export const getConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectivityInfo",
-  iam: {
-    actions: ["greengrass:GetConnectivityInfo"],
-    resources: {
-      "greengrass:GetConnectivityInfo": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/things/${ThingName}/connectivityInfo",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConnectivityInfo",
 }));
@@ -2268,14 +2042,6 @@ export const getConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDefinition",
-  iam: {
-    actions: ["greengrass:GetConnectorDefinition"],
-    resources: {
-      "greengrass:GetConnectorDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/connectors/${ConnectorDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConnectorDefinition",
 }));
@@ -2296,15 +2062,6 @@ export const getConnectorDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDefinitionVersion",
-  iam: {
-    actions: ["greengrass:GetConnectorDefinitionVersion"],
-    resources: {
-      "greengrass:GetConnectorDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/connectors/${ConnectorDefinitionId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/connectors/${ConnectorDefinitionId}/versions/${VersionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConnectorDefinitionVersion",
 }));
@@ -2325,14 +2082,6 @@ export const getCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDefinition",
-  iam: {
-    actions: ["greengrass:GetCoreDefinition"],
-    resources: {
-      "greengrass:GetCoreDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/cores/${CoreDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCoreDefinition",
 }));
@@ -2353,15 +2102,6 @@ export const getCoreDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCoreDefinitionVersion",
-  iam: {
-    actions: ["greengrass:GetCoreDefinitionVersion"],
-    resources: {
-      "greengrass:GetCoreDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/cores/${CoreDefinitionId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/cores/${CoreDefinitionId}/versions/${VersionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCoreDefinitionVersion",
 }));
@@ -2382,16 +2122,6 @@ export const getDeploymentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentStatus",
-  iam: {
-    actions: ["greengrass:GetDeploymentStatus"],
-    resources: {
-      "greengrass:GetDeploymentStatus": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}/deployments/${DeploymentId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:deployments:${DeploymentId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeploymentStatus",
 }));
@@ -2412,14 +2142,6 @@ export const getDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDefinition",
-  iam: {
-    actions: ["greengrass:GetDeviceDefinition"],
-    resources: {
-      "greengrass:GetDeviceDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/devices/${DeviceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeviceDefinition",
 }));
@@ -2440,15 +2162,6 @@ export const getDeviceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDefinitionVersion",
-  iam: {
-    actions: ["greengrass:GetDeviceDefinitionVersion"],
-    resources: {
-      "greengrass:GetDeviceDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/devices/${DeviceDefinitionId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/devices/${DeviceDefinitionId}/versions/${VersionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeviceDefinitionVersion",
 }));
@@ -2469,14 +2182,6 @@ export const getFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionDefinition",
-  iam: {
-    actions: ["greengrass:GetFunctionDefinition"],
-    resources: {
-      "greengrass:GetFunctionDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/functions/${FunctionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFunctionDefinition",
 }));
@@ -2497,15 +2202,6 @@ export const getFunctionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunctionDefinitionVersion",
-  iam: {
-    actions: ["greengrass:GetFunctionDefinitionVersion"],
-    resources: {
-      "greengrass:GetFunctionDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/functions/${FunctionDefinitionId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/functions/${FunctionDefinitionId}/versions/${VersionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFunctionDefinitionVersion",
 }));
@@ -2526,14 +2222,6 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
-  iam: {
-    actions: ["greengrass:GetGroup"],
-    resources: {
-      "greengrass:GetGroup": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroup",
 }));
@@ -2557,15 +2245,6 @@ export const getGroupCertificateAuthority: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupCertificateAuthority",
-  iam: {
-    actions: ["greengrass:GetGroupCertificateAuthority"],
-    resources: {
-      "greengrass:GetGroupCertificateAuthority": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}/certificateauthorities/${CertificateAuthorityId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroupCertificateAuthority",
 }));
@@ -2589,14 +2268,6 @@ export const getGroupCertificateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupCertificateConfiguration",
-  iam: {
-    actions: ["greengrass:GetGroupCertificateConfiguration"],
-    resources: {
-      "greengrass:GetGroupCertificateConfiguration": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroupCertificateConfiguration",
 }));
@@ -2617,15 +2288,6 @@ export const getGroupVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupVersion",
-  iam: {
-    actions: ["greengrass:GetGroupVersion"],
-    resources: {
-      "greengrass:GetGroupVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}/versions/${VersionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroupVersion",
 }));
@@ -2646,14 +2308,6 @@ export const getLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggerDefinition",
-  iam: {
-    actions: ["greengrass:GetLoggerDefinition"],
-    resources: {
-      "greengrass:GetLoggerDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/loggers/${LoggerDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLoggerDefinition",
 }));
@@ -2674,15 +2328,6 @@ export const getLoggerDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggerDefinitionVersion",
-  iam: {
-    actions: ["greengrass:GetLoggerDefinitionVersion"],
-    resources: {
-      "greengrass:GetLoggerDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/loggers/${LoggerDefinitionId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/loggers/${LoggerDefinitionId}/versions/${VersionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLoggerDefinitionVersion",
 }));
@@ -2703,14 +2348,6 @@ export const getResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDefinition",
-  iam: {
-    actions: ["greengrass:GetResourceDefinition"],
-    resources: {
-      "greengrass:GetResourceDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/resources/${ResourceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourceDefinition",
 }));
@@ -2731,15 +2368,6 @@ export const getResourceDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceDefinitionVersion",
-  iam: {
-    actions: ["greengrass:GetResourceDefinitionVersion"],
-    resources: {
-      "greengrass:GetResourceDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/resources/${ResourceDefinitionId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/resources/${ResourceDefinitionId}/versions/${VersionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourceDefinitionVersion",
 }));
@@ -2760,7 +2388,6 @@ export const getServiceRoleForAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceRoleForAccount",
-  iam: { actions: ["greengrass:GetServiceRoleForAccount"] },
   telemetry: TELEMETRY,
   span: "GetServiceRoleForAccount",
 }));
@@ -2781,14 +2408,6 @@ export const getSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionDefinition",
-  iam: {
-    actions: ["greengrass:GetSubscriptionDefinition"],
-    resources: {
-      "greengrass:GetSubscriptionDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/subscriptions/${SubscriptionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSubscriptionDefinition",
 }));
@@ -2809,15 +2428,6 @@ export const getSubscriptionDefinitionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSubscriptionDefinitionVersion",
-  iam: {
-    actions: ["greengrass:GetSubscriptionDefinitionVersion"],
-    resources: {
-      "greengrass:GetSubscriptionDefinitionVersion": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/subscriptions/${SubscriptionDefinitionId}",
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/subscriptions/${SubscriptionDefinitionId}/versions/${VersionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSubscriptionDefinitionVersion",
 }));
@@ -2841,14 +2451,6 @@ export const getThingRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThingRuntimeConfiguration",
-  iam: {
-    actions: ["greengrass:GetThingRuntimeConfiguration"],
-    resources: {
-      "greengrass:GetThingRuntimeConfiguration": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/things/${ThingName}/runtimeconfig",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetThingRuntimeConfiguration",
 }));
@@ -2869,14 +2471,6 @@ export const listBulkDeploymentDetailedReports: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBulkDeploymentDetailedReports",
-  iam: {
-    actions: ["greengrass:ListBulkDeploymentDetailedReports"],
-    resources: {
-      "greengrass:ListBulkDeploymentDetailedReports": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/bulk/deployments/${BulkDeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBulkDeploymentDetailedReports",
 }));
@@ -2897,7 +2491,6 @@ export const listBulkDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBulkDeployments",
-  iam: { actions: ["greengrass:ListBulkDeployments"] },
   telemetry: TELEMETRY,
   span: "ListBulkDeployments",
 }));
@@ -2918,7 +2511,6 @@ export const listConnectorDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorDefinitions",
-  iam: { actions: ["greengrass:ListConnectorDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListConnectorDefinitions",
 }));
@@ -2939,14 +2531,6 @@ export const listConnectorDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListConnectorDefinitionVersions",
-  iam: {
-    actions: ["greengrass:ListConnectorDefinitionVersions"],
-    resources: {
-      "greengrass:ListConnectorDefinitionVersions": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/connectors/${ConnectorDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListConnectorDefinitionVersions",
 }));
@@ -2967,7 +2551,6 @@ export const listCoreDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCoreDefinitions",
-  iam: { actions: ["greengrass:ListCoreDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListCoreDefinitions",
 }));
@@ -2988,14 +2571,6 @@ export const listCoreDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCoreDefinitionVersions",
-  iam: {
-    actions: ["greengrass:ListCoreDefinitionVersions"],
-    resources: {
-      "greengrass:ListCoreDefinitionVersions": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/cores/${CoreDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCoreDefinitionVersions",
 }));
@@ -3016,14 +2591,6 @@ export const listDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeployments",
-  iam: {
-    actions: ["greengrass:ListDeployments"],
-    resources: {
-      "greengrass:ListDeployments": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDeployments",
 }));
@@ -3044,7 +2611,6 @@ export const listDeviceDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceDefinitions",
-  iam: { actions: ["greengrass:ListDeviceDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListDeviceDefinitions",
 }));
@@ -3065,14 +2631,6 @@ export const listDeviceDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDeviceDefinitionVersions",
-  iam: {
-    actions: ["greengrass:ListDeviceDefinitionVersions"],
-    resources: {
-      "greengrass:ListDeviceDefinitionVersions": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/devices/${DeviceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDeviceDefinitionVersions",
 }));
@@ -3093,7 +2651,6 @@ export const listFunctionDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionDefinitions",
-  iam: { actions: ["greengrass:ListFunctionDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListFunctionDefinitions",
 }));
@@ -3114,14 +2671,6 @@ export const listFunctionDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFunctionDefinitionVersions",
-  iam: {
-    actions: ["greengrass:ListFunctionDefinitionVersions"],
-    resources: {
-      "greengrass:ListFunctionDefinitionVersions": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/functions/${FunctionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFunctionDefinitionVersions",
 }));
@@ -3145,14 +2694,6 @@ export const listGroupCertificateAuthorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupCertificateAuthorities",
-  iam: {
-    actions: ["greengrass:ListGroupCertificateAuthorities"],
-    resources: {
-      "greengrass:ListGroupCertificateAuthorities": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupCertificateAuthorities",
 }));
@@ -3173,7 +2714,6 @@ export const listGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroups",
-  iam: { actions: ["greengrass:ListGroups"] },
   telemetry: TELEMETRY,
   span: "ListGroups",
 }));
@@ -3194,14 +2734,6 @@ export const listGroupVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupVersions",
-  iam: {
-    actions: ["greengrass:ListGroupVersions"],
-    resources: {
-      "greengrass:ListGroupVersions": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupVersions",
 }));
@@ -3222,7 +2754,6 @@ export const listLoggerDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggerDefinitions",
-  iam: { actions: ["greengrass:ListLoggerDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListLoggerDefinitions",
 }));
@@ -3243,14 +2774,6 @@ export const listLoggerDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListLoggerDefinitionVersions",
-  iam: {
-    actions: ["greengrass:ListLoggerDefinitionVersions"],
-    resources: {
-      "greengrass:ListLoggerDefinitionVersions": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/loggers/${LoggerDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListLoggerDefinitionVersions",
 }));
@@ -3271,7 +2794,6 @@ export const listResourceDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDefinitions",
-  iam: { actions: ["greengrass:ListResourceDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListResourceDefinitions",
 }));
@@ -3292,14 +2814,6 @@ export const listResourceDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceDefinitionVersions",
-  iam: {
-    actions: ["greengrass:ListResourceDefinitionVersions"],
-    resources: {
-      "greengrass:ListResourceDefinitionVersions": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/resources/${ResourceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourceDefinitionVersions",
 }));
@@ -3320,7 +2834,6 @@ export const listSubscriptionDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionDefinitions",
-  iam: { actions: ["greengrass:ListSubscriptionDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListSubscriptionDefinitions",
 }));
@@ -3341,14 +2854,6 @@ export const listSubscriptionDefinitionVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListSubscriptionDefinitionVersions",
-  iam: {
-    actions: ["greengrass:ListSubscriptionDefinitionVersions"],
-    resources: {
-      "greengrass:ListSubscriptionDefinitionVersions": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/subscriptions/${SubscriptionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSubscriptionDefinitionVersions",
 }));
@@ -3369,7 +2874,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["greengrass:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3390,14 +2894,6 @@ export const resetDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetDeployments",
-  iam: {
-    actions: ["greengrass:ResetDeployments"],
-    resources: {
-      "greengrass:ResetDeployments": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetDeployments",
 }));
@@ -3418,11 +2914,6 @@ export const startBulkDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBulkDeployment",
-  iam: {
-    actions: ["iam:PassRole", "greengrass:StartBulkDeployment", "greengrass:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "greengrass:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartBulkDeployment",
 }));
@@ -3443,14 +2934,6 @@ export const stopBulkDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBulkDeployment",
-  iam: {
-    actions: ["greengrass:StopBulkDeployment"],
-    resources: {
-      "greengrass:StopBulkDeployment": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/bulk/deployments/${BulkDeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopBulkDeployment",
 }));
@@ -3471,7 +2954,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["greengrass:TagResource"], conditional: { "greengrass:TagResource": "tags" } },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3492,7 +2974,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["greengrass:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3516,14 +2997,6 @@ export const updateConnectivityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectivityInfo",
-  iam: {
-    actions: ["greengrass:UpdateConnectivityInfo"],
-    resources: {
-      "greengrass:UpdateConnectivityInfo": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/things/${ThingName}/connectivityInfo",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConnectivityInfo",
 }));
@@ -3544,14 +3017,6 @@ export const updateConnectorDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorDefinition",
-  iam: {
-    actions: ["greengrass:UpdateConnectorDefinition"],
-    resources: {
-      "greengrass:UpdateConnectorDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/connectors/${ConnectorDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConnectorDefinition",
 }));
@@ -3572,14 +3037,6 @@ export const updateCoreDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCoreDefinition",
-  iam: {
-    actions: ["greengrass:UpdateCoreDefinition"],
-    resources: {
-      "greengrass:UpdateCoreDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/cores/${CoreDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCoreDefinition",
 }));
@@ -3600,14 +3057,6 @@ export const updateDeviceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceDefinition",
-  iam: {
-    actions: ["greengrass:UpdateDeviceDefinition"],
-    resources: {
-      "greengrass:UpdateDeviceDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/devices/${DeviceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDeviceDefinition",
 }));
@@ -3628,14 +3077,6 @@ export const updateFunctionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunctionDefinition",
-  iam: {
-    actions: ["greengrass:UpdateFunctionDefinition"],
-    resources: {
-      "greengrass:UpdateFunctionDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/functions/${FunctionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFunctionDefinition",
 }));
@@ -3656,14 +3097,6 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
-  iam: {
-    actions: ["greengrass:UpdateGroup"],
-    resources: {
-      "greengrass:UpdateGroup": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -3687,14 +3120,6 @@ export const updateGroupCertificateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupCertificateConfiguration",
-  iam: {
-    actions: ["greengrass:UpdateGroupCertificateConfiguration"],
-    resources: {
-      "greengrass:UpdateGroupCertificateConfiguration": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/groups/${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGroupCertificateConfiguration",
 }));
@@ -3715,14 +3140,6 @@ export const updateLoggerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggerDefinition",
-  iam: {
-    actions: ["greengrass:UpdateLoggerDefinition"],
-    resources: {
-      "greengrass:UpdateLoggerDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/loggers/${LoggerDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLoggerDefinition",
 }));
@@ -3743,14 +3160,6 @@ export const updateResourceDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceDefinition",
-  iam: {
-    actions: ["greengrass:UpdateResourceDefinition"],
-    resources: {
-      "greengrass:UpdateResourceDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/resources/${ResourceDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateResourceDefinition",
 }));
@@ -3771,14 +3180,6 @@ export const updateSubscriptionDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubscriptionDefinition",
-  iam: {
-    actions: ["greengrass:UpdateSubscriptionDefinition"],
-    resources: {
-      "greengrass:UpdateSubscriptionDefinition": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/definition/subscriptions/${SubscriptionDefinitionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSubscriptionDefinition",
 }));
@@ -3802,14 +3203,6 @@ export const updateThingRuntimeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThingRuntimeConfiguration",
-  iam: {
-    actions: ["greengrass:UpdateThingRuntimeConfiguration"],
-    resources: {
-      "greengrass:UpdateThingRuntimeConfiguration": [
-        "arn:${Partition}:greengrass:${Region}:${Account}:/greengrass/things/${ThingName}/runtimeconfig",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateThingRuntimeConfiguration",
 }));

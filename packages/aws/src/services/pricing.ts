@@ -285,7 +285,6 @@ export const describeServices: API.PaginatedOperationMethod<
     items: "Services",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["pricing:DescribeServices"] },
   telemetry: TELEMETRY,
   span: "DescribeServices",
 })) as any;
@@ -329,7 +328,6 @@ export const getAttributeValues: API.PaginatedOperationMethod<
     items: "AttributeValues",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["pricing:GetAttributeValues"] },
   telemetry: TELEMETRY,
   span: "GetAttributeValues",
 })) as any;
@@ -366,7 +364,6 @@ export const getPriceListFileUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPriceListFileUrl",
-  iam: { actions: ["pricing:GetPriceListFileUrl"] },
   telemetry: TELEMETRY,
   span: "GetPriceListFileUrl",
 }));
@@ -410,7 +407,6 @@ export const getProducts: API.PaginatedOperationMethod<
     items: "PriceList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["pricing:GetProducts"] },
   telemetry: TELEMETRY,
   span: "GetProducts",
 })) as any;
@@ -458,7 +454,6 @@ export const listPriceLists: API.PaginatedOperationMethod<
     items: "PriceLists",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["pricing:ListPriceLists"] },
   telemetry: TELEMETRY,
   span: "ListPriceLists",
 })) as any;

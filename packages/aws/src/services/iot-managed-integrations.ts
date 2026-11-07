@@ -1674,13 +1674,6 @@ export const createAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccountAssociation",
-  iam: {
-    actions: [
-      "iotmanagedintegrations:CreateAccountAssociation",
-      "iotmanagedintegrations:TagResource",
-    ],
-    conditional: { "iotmanagedintegrations:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAccountAssociation",
 }));
@@ -1713,7 +1706,6 @@ export const createCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudConnector",
-  iam: { actions: ["iotmanagedintegrations:CreateCloudConnector"] },
   telemetry: TELEMETRY,
   span: "CreateCloudConnector",
 }));
@@ -1750,7 +1742,6 @@ export const createConnectorDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnectorDestination",
-  iam: { actions: ["iotmanagedintegrations:CreateConnectorDestination"] },
   telemetry: TELEMETRY,
   span: "CreateConnectorDestination",
 }));
@@ -1789,13 +1780,6 @@ export const createCredentialLocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCredentialLocker",
-  iam: {
-    actions: [
-      "iotmanagedintegrations:CreateCredentialLocker",
-      "iotmanagedintegrations:TagResource",
-    ],
-    conditional: { "iotmanagedintegrations:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCredentialLocker",
 }));
@@ -1828,10 +1812,6 @@ export const createDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDestination",
-  iam: {
-    actions: ["iotmanagedintegrations:CreateDestination", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "CreateDestination",
 }));
@@ -1866,7 +1846,6 @@ export const createEventLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventLogConfiguration",
-  iam: { actions: ["iotmanagedintegrations:CreateEventLogConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateEventLogConfiguration",
 }));
@@ -1905,10 +1884,6 @@ export const createManagedThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedThing",
-  iam: {
-    actions: ["iotmanagedintegrations:CreateManagedThing", "iotmanagedintegrations:TagResource"],
-    conditional: { "iotmanagedintegrations:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateManagedThing",
 }));
@@ -1941,7 +1916,6 @@ export const createNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationConfiguration",
-  iam: { actions: ["iotmanagedintegrations:CreateNotificationConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateNotificationConfiguration",
 }));
@@ -1978,10 +1952,6 @@ export const createOtaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOtaTask",
-  iam: {
-    actions: ["iotmanagedintegrations:CreateOtaTask", "iotmanagedintegrations:TagResource"],
-    conditional: { "iotmanagedintegrations:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOtaTask",
 }));
@@ -2014,7 +1984,6 @@ export const createOtaTaskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOtaTaskConfiguration",
-  iam: { actions: ["iotmanagedintegrations:CreateOtaTaskConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateOtaTaskConfiguration",
 }));
@@ -2053,13 +2022,6 @@ export const createProvisioningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningProfile",
-  iam: {
-    actions: [
-      "iotmanagedintegrations:CreateProvisioningProfile",
-      "iotmanagedintegrations:TagResource",
-    ],
-    conditional: { "iotmanagedintegrations:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProvisioningProfile",
 }));
@@ -2096,14 +2058,6 @@ export const deleteAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAssociation",
-  iam: {
-    actions: ["iotmanagedintegrations:DeleteAccountAssociation"],
-    resources: {
-      "iotmanagedintegrations:DeleteAccountAssociation": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:account-association/${AccountAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAccountAssociation",
 }));
@@ -2138,7 +2092,6 @@ export const deleteCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudConnector",
-  iam: { actions: ["iotmanagedintegrations:DeleteCloudConnector"] },
   telemetry: TELEMETRY,
   span: "DeleteCloudConnector",
 }));
@@ -2173,7 +2126,6 @@ export const deleteConnectorDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnectorDestination",
-  iam: { actions: ["iotmanagedintegrations:DeleteConnectorDestination"] },
   telemetry: TELEMETRY,
   span: "DeleteConnectorDestination",
 }));
@@ -2210,14 +2162,6 @@ export const deleteCredentialLocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCredentialLocker",
-  iam: {
-    actions: ["iotmanagedintegrations:DeleteCredentialLocker"],
-    resources: {
-      "iotmanagedintegrations:DeleteCredentialLocker": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:credential-locker/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCredentialLocker",
 }));
@@ -2250,7 +2194,6 @@ export const deleteDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDestination",
-  iam: { actions: ["iotmanagedintegrations:DeleteDestination"] },
   telemetry: TELEMETRY,
   span: "DeleteDestination",
 }));
@@ -2283,7 +2226,6 @@ export const deleteEventLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventLogConfiguration",
-  iam: { actions: ["iotmanagedintegrations:DeleteEventLogConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteEventLogConfiguration",
 }));
@@ -2322,14 +2264,6 @@ export const deleteManagedThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedThing",
-  iam: {
-    actions: ["iotmanagedintegrations:DeleteManagedThing"],
-    resources: {
-      "iotmanagedintegrations:DeleteManagedThing": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteManagedThing",
 }));
@@ -2362,7 +2296,6 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
-  iam: { actions: ["iotmanagedintegrations:DeleteNotificationConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteNotificationConfiguration",
 }));
@@ -2397,14 +2330,6 @@ export const deleteOtaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOtaTask",
-  iam: {
-    actions: ["iotmanagedintegrations:DeleteOtaTask"],
-    resources: {
-      "iotmanagedintegrations:DeleteOtaTask": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:ota-task/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOtaTask",
 }));
@@ -2437,7 +2362,6 @@ export const deleteOtaTaskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOtaTaskConfiguration",
-  iam: { actions: ["iotmanagedintegrations:DeleteOtaTaskConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteOtaTaskConfiguration",
 }));
@@ -2476,14 +2400,6 @@ export const deleteProvisioningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisioningProfile",
-  iam: {
-    actions: ["iotmanagedintegrations:DeleteProvisioningProfile"],
-    resources: {
-      "iotmanagedintegrations:DeleteProvisioningProfile": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:provisioning-profile/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProvisioningProfile",
 }));
@@ -2518,15 +2434,6 @@ export const deregisterAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterAccountAssociation",
-  iam: {
-    actions: ["iotmanagedintegrations:DeregisterAccountAssociation"],
-    resources: {
-      "iotmanagedintegrations:DeregisterAccountAssociation": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:account-association/${AccountAssociationId}",
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterAccountAssociation",
 }));
@@ -2561,14 +2468,6 @@ export const getAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountAssociation",
-  iam: {
-    actions: ["iotmanagedintegrations:GetAccountAssociation"],
-    resources: {
-      "iotmanagedintegrations:GetAccountAssociation": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:account-association/${AccountAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAccountAssociation",
 }));
@@ -2601,7 +2500,6 @@ export const getCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudConnector",
-  iam: { actions: ["iotmanagedintegrations:GetCloudConnector"] },
   telemetry: TELEMETRY,
   span: "GetCloudConnector",
 }));
@@ -2634,7 +2532,6 @@ export const getConnectorDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConnectorDestination",
-  iam: { actions: ["iotmanagedintegrations:GetConnectorDestination"] },
   telemetry: TELEMETRY,
   span: "GetConnectorDestination",
 }));
@@ -2669,14 +2566,6 @@ export const getCredentialLocker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCredentialLocker",
-  iam: {
-    actions: ["iotmanagedintegrations:GetCredentialLocker"],
-    resources: {
-      "iotmanagedintegrations:GetCredentialLocker": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:credential-locker/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCredentialLocker",
 }));
@@ -2713,7 +2602,6 @@ export const getCustomEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCustomEndpoint",
-  iam: { actions: ["iotmanagedintegrations:GetCustomEndpoint"] },
   telemetry: TELEMETRY,
   span: "GetCustomEndpoint",
 }));
@@ -2750,7 +2638,6 @@ export const getDefaultEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultEncryptionConfiguration",
-  iam: { actions: ["iotmanagedintegrations:GetDefaultEncryptionConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetDefaultEncryptionConfiguration",
 }));
@@ -2783,7 +2670,6 @@ export const getDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDestination",
-  iam: { actions: ["iotmanagedintegrations:GetDestination"] },
   telemetry: TELEMETRY,
   span: "GetDestination",
 }));
@@ -2820,7 +2706,6 @@ export const getDeviceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceDiscovery",
-  iam: { actions: ["iotmanagedintegrations:GetDeviceDiscovery"] },
   telemetry: TELEMETRY,
   span: "GetDeviceDiscovery",
 }));
@@ -2853,7 +2738,6 @@ export const getEventLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventLogConfiguration",
-  iam: { actions: ["iotmanagedintegrations:GetEventLogConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetEventLogConfiguration",
 }));
@@ -2888,7 +2772,6 @@ export const getHubConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHubConfiguration",
-  iam: { actions: ["iotmanagedintegrations:GetHubConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetHubConfiguration",
 }));
@@ -2925,14 +2808,6 @@ export const getManagedThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThing",
-  iam: {
-    actions: ["iotmanagedintegrations:GetManagedThing"],
-    resources: {
-      "iotmanagedintegrations:GetManagedThing": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetManagedThing",
 }));
@@ -2969,14 +2844,6 @@ export const getManagedThingCapabilities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingCapabilities",
-  iam: {
-    actions: ["iotmanagedintegrations:GetManagedThingCapabilities"],
-    resources: {
-      "iotmanagedintegrations:GetManagedThingCapabilities": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetManagedThingCapabilities",
 }));
@@ -3013,14 +2880,6 @@ export const getManagedThingCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingCertificate",
-  iam: {
-    actions: ["iotmanagedintegrations:GetManagedThingCertificate"],
-    resources: {
-      "iotmanagedintegrations:GetManagedThingCertificate": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetManagedThingCertificate",
 }));
@@ -3057,14 +2916,6 @@ export const getManagedThingConnectivityData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingConnectivityData",
-  iam: {
-    actions: ["iotmanagedintegrations:GetManagedThingConnectivityData"],
-    resources: {
-      "iotmanagedintegrations:GetManagedThingConnectivityData": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetManagedThingConnectivityData",
 }));
@@ -3103,14 +2954,6 @@ export const getManagedThingMetaData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingMetaData",
-  iam: {
-    actions: ["iotmanagedintegrations:GetManagedThingMetaData"],
-    resources: {
-      "iotmanagedintegrations:GetManagedThingMetaData": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetManagedThingMetaData",
 }));
@@ -3147,14 +2990,6 @@ export const getManagedThingState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedThingState",
-  iam: {
-    actions: ["iotmanagedintegrations:GetManagedThingState"],
-    resources: {
-      "iotmanagedintegrations:GetManagedThingState": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetManagedThingState",
 }));
@@ -3187,7 +3022,6 @@ export const getNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationConfiguration",
-  iam: { actions: ["iotmanagedintegrations:GetNotificationConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetNotificationConfiguration",
 }));
@@ -3220,14 +3054,6 @@ export const getOtaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOtaTask",
-  iam: {
-    actions: ["iotmanagedintegrations:GetOtaTask"],
-    resources: {
-      "iotmanagedintegrations:GetOtaTask": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:ota-task/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOtaTask",
 }));
@@ -3260,7 +3086,6 @@ export const getOtaTaskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOtaTaskConfiguration",
-  iam: { actions: ["iotmanagedintegrations:GetOtaTaskConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetOtaTaskConfiguration",
 }));
@@ -3297,14 +3122,6 @@ export const getProvisioningProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisioningProfile",
-  iam: {
-    actions: ["iotmanagedintegrations:GetProvisioningProfile"],
-    resources: {
-      "iotmanagedintegrations:GetProvisioningProfile": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:provisioning-profile/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProvisioningProfile",
 }));
@@ -3337,7 +3154,6 @@ export const getRuntimeLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuntimeLogConfiguration",
-  iam: { actions: ["iotmanagedintegrations:GetRuntimeLogConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetRuntimeLogConfiguration",
 }));
@@ -3374,7 +3190,6 @@ export const getSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaVersion",
-  iam: { actions: ["iotmanagedintegrations:GetSchemaVersion"] },
   telemetry: TELEMETRY,
   span: "GetSchemaVersion",
 }));
@@ -3414,7 +3229,6 @@ export const listAccountAssociations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListAccountAssociations"] },
   telemetry: TELEMETRY,
   span: "ListAccountAssociations",
 })) as any;
@@ -3452,7 +3266,6 @@ export const listCloudConnectors: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListCloudConnectors"] },
   telemetry: TELEMETRY,
   span: "ListCloudConnectors",
 })) as any;
@@ -3490,7 +3303,6 @@ export const listConnectorDestinations: API.PaginatedOperationMethod<
     items: "ConnectorDestinationList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListConnectorDestinations"] },
   telemetry: TELEMETRY,
   span: "ListConnectorDestinations",
 })) as any;
@@ -3530,7 +3342,6 @@ export const listCredentialLockers: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListCredentialLockers"] },
   telemetry: TELEMETRY,
   span: "ListCredentialLockers",
 })) as any;
@@ -3568,7 +3379,6 @@ export const listDestinations: API.PaginatedOperationMethod<
     items: "DestinationList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListDestinations"] },
   telemetry: TELEMETRY,
   span: "ListDestinations",
 })) as any;
@@ -3610,7 +3420,6 @@ export const listDeviceDiscoveries: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListDeviceDiscoveries"] },
   telemetry: TELEMETRY,
   span: "ListDeviceDiscoveries",
 })) as any;
@@ -3654,7 +3463,6 @@ export const listDiscoveredDevices: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListDiscoveredDevices"] },
   telemetry: TELEMETRY,
   span: "ListDiscoveredDevices",
 })) as any;
@@ -3692,7 +3500,6 @@ export const listEventLogConfigurations: API.PaginatedOperationMethod<
     items: "EventLogConfigurationList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListEventLogConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListEventLogConfigurations",
 })) as any;
@@ -3730,7 +3537,6 @@ export const listManagedThingAccountAssociations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListManagedThingAccountAssociations"] },
   telemetry: TELEMETRY,
   span: "ListManagedThingAccountAssociations",
 })) as any;
@@ -3772,7 +3578,6 @@ export const listManagedThings: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListManagedThings"] },
   telemetry: TELEMETRY,
   span: "ListManagedThings",
 })) as any;
@@ -3816,14 +3621,6 @@ export const listManagedThingSchemas: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["iotmanagedintegrations:ListManagedThingSchemas"],
-    resources: {
-      "iotmanagedintegrations:ListManagedThingSchemas": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListManagedThingSchemas",
 })) as any;
@@ -3861,7 +3658,6 @@ export const listNotificationConfigurations: API.PaginatedOperationMethod<
     items: "NotificationConfigurationList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListNotificationConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListNotificationConfigurations",
 })) as any;
@@ -3899,7 +3695,6 @@ export const listOtaTaskConfigurations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListOtaTaskConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListOtaTaskConfigurations",
 })) as any;
@@ -3939,14 +3734,6 @@ export const listOtaTaskExecutions: API.PaginatedOperationMethod<
     items: "ExecutionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["iotmanagedintegrations:ListOtaTaskExecutions"],
-    resources: {
-      "iotmanagedintegrations:ListOtaTaskExecutions": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:ota-task/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListOtaTaskExecutions",
 })) as any;
@@ -3986,7 +3773,6 @@ export const listOtaTasks: API.PaginatedOperationMethod<
     items: "Tasks",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListOtaTasks"] },
   telemetry: TELEMETRY,
   span: "ListOtaTasks",
 })) as any;
@@ -4028,7 +3814,6 @@ export const listProvisioningProfiles: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListProvisioningProfiles"] },
   telemetry: TELEMETRY,
   span: "ListProvisioningProfiles",
 })) as any;
@@ -4070,7 +3855,6 @@ export const listSchemaVersions: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["iotmanagedintegrations:ListSchemaVersions"] },
   telemetry: TELEMETRY,
   span: "ListSchemaVersions",
 })) as any;
@@ -4101,7 +3885,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["iotmanagedintegrations:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4138,7 +3921,6 @@ export const putDefaultEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutDefaultEncryptionConfiguration",
-  iam: { actions: ["iotmanagedintegrations:PutDefaultEncryptionConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutDefaultEncryptionConfiguration",
 }));
@@ -4173,7 +3955,6 @@ export const putHubConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutHubConfiguration",
-  iam: { actions: ["iotmanagedintegrations:PutHubConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutHubConfiguration",
 }));
@@ -4206,7 +3987,6 @@ export const putRuntimeLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRuntimeLogConfiguration",
-  iam: { actions: ["iotmanagedintegrations:PutRuntimeLogConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutRuntimeLogConfiguration",
 }));
@@ -4241,15 +4021,6 @@ export const registerAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAccountAssociation",
-  iam: {
-    actions: ["iotmanagedintegrations:RegisterAccountAssociation"],
-    resources: {
-      "iotmanagedintegrations:RegisterAccountAssociation": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:account-association/${AccountAssociationId}",
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:managed-thing/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterAccountAssociation",
 }));
@@ -4286,7 +4057,6 @@ export const registerCustomEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCustomEndpoint",
-  iam: { actions: ["iotmanagedintegrations:RegisterCustomEndpoint"] },
   telemetry: TELEMETRY,
   span: "RegisterCustomEndpoint",
 }));
@@ -4319,7 +4089,6 @@ export const resetRuntimeLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetRuntimeLogConfiguration",
-  iam: { actions: ["iotmanagedintegrations:ResetRuntimeLogConfiguration"] },
   telemetry: TELEMETRY,
   span: "ResetRuntimeLogConfiguration",
 }));
@@ -4354,7 +4123,6 @@ export const sendConnectorEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendConnectorEvent",
-  iam: { actions: ["iotmanagedintegrations:SendConnectorEvent"] },
   telemetry: TELEMETRY,
   span: "SendConnectorEvent",
 }));
@@ -4391,7 +4159,6 @@ export const sendManagedThingCommand: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendManagedThingCommand",
-  iam: { actions: ["iotmanagedintegrations:SendManagedThingCommand"] },
   telemetry: TELEMETRY,
   span: "SendManagedThingCommand",
 }));
@@ -4428,14 +4195,6 @@ export const startAccountAssociationRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAccountAssociationRefresh",
-  iam: {
-    actions: ["iotmanagedintegrations:StartAccountAssociationRefresh"],
-    resources: {
-      "iotmanagedintegrations:StartAccountAssociationRefresh": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:account-association/${AccountAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartAccountAssociationRefresh",
 }));
@@ -4474,7 +4233,6 @@ export const startDeviceDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeviceDiscovery",
-  iam: { actions: ["iotmanagedintegrations:StartDeviceDiscovery"] },
   telemetry: TELEMETRY,
   span: "StartDeviceDiscovery",
 }));
@@ -4507,7 +4265,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["iotmanagedintegrations:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4540,7 +4297,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["iotmanagedintegrations:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4577,14 +4333,6 @@ export const updateAccountAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountAssociation",
-  iam: {
-    actions: ["iotmanagedintegrations:UpdateAccountAssociation"],
-    resources: {
-      "iotmanagedintegrations:UpdateAccountAssociation": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:account-association/${AccountAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAccountAssociation",
 }));
@@ -4619,7 +4367,6 @@ export const updateCloudConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudConnector",
-  iam: { actions: ["iotmanagedintegrations:UpdateCloudConnector"] },
   telemetry: TELEMETRY,
   span: "UpdateCloudConnector",
 }));
@@ -4652,7 +4399,6 @@ export const updateConnectorDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorDestination",
-  iam: { actions: ["iotmanagedintegrations:UpdateConnectorDestination"] },
   telemetry: TELEMETRY,
   span: "UpdateConnectorDestination",
 }));
@@ -4685,7 +4431,6 @@ export const updateDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDestination",
-  iam: { actions: ["iotmanagedintegrations:UpdateDestination"] },
   telemetry: TELEMETRY,
   span: "UpdateDestination",
 }));
@@ -4718,7 +4463,6 @@ export const updateEventLogConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventLogConfiguration",
-  iam: { actions: ["iotmanagedintegrations:UpdateEventLogConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateEventLogConfiguration",
 }));
@@ -4757,7 +4501,6 @@ export const updateManagedThing: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedThing",
-  iam: { actions: ["iotmanagedintegrations:UpdateManagedThing"] },
   telemetry: TELEMETRY,
   span: "UpdateManagedThing",
 }));
@@ -4790,7 +4533,6 @@ export const updateNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationConfiguration",
-  iam: { actions: ["iotmanagedintegrations:UpdateNotificationConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateNotificationConfiguration",
 }));
@@ -4823,14 +4565,6 @@ export const updateOtaTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOtaTask",
-  iam: {
-    actions: ["iotmanagedintegrations:UpdateOtaTask"],
-    resources: {
-      "iotmanagedintegrations:UpdateOtaTask": [
-        "arn:${Partition}:iotmanagedintegrations:${Region}:${Account}:ota-task/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOtaTask",
 }));

@@ -221,14 +221,6 @@ export const getMedia: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedia",
-  iam: {
-    actions: ["kinesisvideo:GetMedia"],
-    resources: {
-      "kinesisvideo:GetMedia": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMedia",
 }));

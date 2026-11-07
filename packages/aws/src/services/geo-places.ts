@@ -1058,12 +1058,6 @@ export const autocomplete: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Autocomplete",
-  iam: {
-    actions: ["geo-places:Autocomplete"],
-    resources: {
-      "geo-places:Autocomplete": ["arn:${Partition}:geo-places:${Region}::provider/default"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Autocomplete",
 }));
@@ -1096,12 +1090,6 @@ export const geocode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Geocode",
-  iam: {
-    actions: ["geo-places:Geocode"],
-    resources: {
-      "geo-places:Geocode": ["arn:${Partition}:geo-places:${Region}::provider/default"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Geocode",
 }));
@@ -1134,12 +1122,6 @@ export const getPlace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlace",
-  iam: {
-    actions: ["geo-places:GetPlace"],
-    resources: {
-      "geo-places:GetPlace": ["arn:${Partition}:geo-places:${Region}::provider/default"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPlace",
 }));
@@ -1172,12 +1154,6 @@ export const reverseGeocode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReverseGeocode",
-  iam: {
-    actions: ["geo-places:ReverseGeocode"],
-    resources: {
-      "geo-places:ReverseGeocode": ["arn:${Partition}:geo-places:${Region}::provider/default"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReverseGeocode",
 }));
@@ -1210,12 +1186,6 @@ export const searchNearby: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchNearby",
-  iam: {
-    actions: ["geo-places:SearchNearby"],
-    resources: {
-      "geo-places:SearchNearby": ["arn:${Partition}:geo-places:${Region}::provider/default"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchNearby",
 }));
@@ -1248,12 +1218,6 @@ export const searchText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchText",
-  iam: {
-    actions: ["geo-places:SearchText"],
-    resources: {
-      "geo-places:SearchText": ["arn:${Partition}:geo-places:${Region}::provider/default"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchText",
 }));
@@ -1286,12 +1250,6 @@ export const suggest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Suggest",
-  iam: {
-    actions: ["geo-places:Suggest"],
-    resources: {
-      "geo-places:Suggest": ["arn:${Partition}:geo-places:${Region}::provider/default"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Suggest",
 }));

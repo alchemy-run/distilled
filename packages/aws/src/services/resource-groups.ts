@@ -577,14 +577,6 @@ export const cancelTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTagSyncTask",
-  iam: {
-    actions: ["resource-groups:CancelTagSyncTask"],
-    resources: {
-      "resource-groups:CancelTagSyncTask": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelTagSyncTask",
 }));
@@ -629,15 +621,6 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-  iam: {
-    actions: ["resource-groups:CreateGroup", "resource-groups:Tag"],
-    resources: {
-      "resource-groups:Tag": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-    conditional: { "resource-groups:Tag": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -679,14 +662,6 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-  iam: {
-    actions: ["resource-groups:DeleteGroup"],
-    resources: {
-      "resource-groups:DeleteGroup": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -719,7 +694,6 @@ export const getAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountSettings",
-  iam: { actions: ["resource-groups:GetAccountSettings"] },
   telemetry: TELEMETRY,
   span: "GetAccountSettings",
 }));
@@ -760,14 +734,6 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
-  iam: {
-    actions: ["resource-groups:GetGroup"],
-    resources: {
-      "resource-groups:GetGroup": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroup",
 }));
@@ -809,14 +775,6 @@ export const getGroupConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupConfiguration",
-  iam: {
-    actions: ["resource-groups:GetGroupConfiguration"],
-    resources: {
-      "resource-groups:GetGroupConfiguration": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroupConfiguration",
 }));
@@ -859,14 +817,6 @@ export const getGroupQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupQuery",
-  iam: {
-    actions: ["resource-groups:GetGroupQuery"],
-    resources: {
-      "resource-groups:GetGroupQuery": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroupQuery",
 }));
@@ -908,14 +858,6 @@ export const getTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTags",
-  iam: {
-    actions: ["resource-groups:GetTags"],
-    resources: {
-      "resource-groups:GetTags": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTags",
 }));
@@ -958,14 +900,6 @@ export const getTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTagSyncTask",
-  iam: {
-    actions: ["resource-groups:GetTagSyncTask"],
-    resources: {
-      "resource-groups:GetTagSyncTask": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTagSyncTask",
 }));
@@ -1017,14 +951,6 @@ export const groupResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GroupResources",
-  iam: {
-    actions: ["resource-groups:GroupResources"],
-    resources: {
-      "resource-groups:GroupResources": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GroupResources",
 }));
@@ -1067,14 +993,6 @@ export const listGroupingStatuses: API.PaginatedOperationMethod<
     items: "GroupingStatuses",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["resource-groups:ListGroupingStatuses"],
-    resources: {
-      "resource-groups:ListGroupingStatuses": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupingStatuses",
 })) as any;
@@ -1131,14 +1049,6 @@ export const listGroupResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["resource-groups:ListGroupResources"],
-    resources: {
-      "resource-groups:ListGroupResources": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupResources",
 })) as any;
@@ -1184,7 +1094,6 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "GroupIdentifiers",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["resource-groups:ListGroups"] },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -1233,14 +1142,6 @@ export const listTagSyncTasks: API.PaginatedOperationMethod<
     items: "TagSyncTasks",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["resource-groups:ListTagSyncTasks"],
-    resources: {
-      "resource-groups:ListTagSyncTasks": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagSyncTasks",
 })) as any;
@@ -1283,14 +1184,6 @@ export const putGroupConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupConfiguration",
-  iam: {
-    actions: ["resource-groups:PutGroupConfiguration"],
-    resources: {
-      "resource-groups:PutGroupConfiguration": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutGroupConfiguration",
 }));
@@ -1346,19 +1239,6 @@ export const searchResources: API.PaginatedOperationMethod<
     items: "ResourceIdentifiers",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: [
-      "resource-groups:SearchResources",
-      "cloudformation:DescribeStacks",
-      "cloudformation:ListStackResources",
-      "tag:GetResources",
-    ],
-    resources: {
-      "cloudformation:ListStackResources": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchResources",
 })) as any;
@@ -1411,15 +1291,6 @@ export const startTagSyncTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTagSyncTask",
-  iam: {
-    actions: ["resource-groups:CreateGroup", "iam:PassRole", "resource-groups:StartTagSyncTask"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "resource-groups:StartTagSyncTask": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartTagSyncTask",
 }));
@@ -1466,14 +1337,6 @@ export const tag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Tag",
-  iam: {
-    actions: ["resource-groups:Tag"],
-    resources: {
-      "resource-groups:Tag": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Tag",
 }));
@@ -1517,14 +1380,6 @@ export const ungroupResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UngroupResources",
-  iam: {
-    actions: ["resource-groups:UngroupResources"],
-    resources: {
-      "resource-groups:UngroupResources": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UngroupResources",
 }));
@@ -1565,14 +1420,6 @@ export const untag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Untag",
-  iam: {
-    actions: ["resource-groups:Untag"],
-    resources: {
-      "resource-groups:Untag": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Untag",
 }));
@@ -1610,7 +1457,6 @@ export const updateAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountSettings",
-  iam: { actions: ["resource-groups:UpdateAccountSettings"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountSettings",
 }));
@@ -1652,14 +1498,6 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
-  iam: {
-    actions: ["resource-groups:UpdateGroup"],
-    resources: {
-      "resource-groups:UpdateGroup": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -1701,14 +1539,6 @@ export const updateGroupQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroupQuery",
-  iam: {
-    actions: ["resource-groups:UpdateGroupQuery"],
-    resources: {
-      "resource-groups:UpdateGroupQuery": [
-        "arn:${Partition}:resource-groups:${Region}:${Account}:group/${GroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGroupQuery",
 }));

@@ -653,14 +653,6 @@ export const associateFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFraudster",
-  iam: {
-    actions: ["voiceid:AssociateFraudster"],
-    resources: {
-      "voiceid:AssociateFraudster": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateFraudster",
 }));
@@ -698,10 +690,6 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
-  iam: {
-    actions: ["voiceid:CreateDomain", "voiceid:TagResource"],
-    conditional: { "voiceid:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -738,14 +726,6 @@ export const createWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWatchlist",
-  iam: {
-    actions: ["voiceid:CreateWatchlist"],
-    resources: {
-      "voiceid:CreateWatchlist": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateWatchlist",
 }));
@@ -780,12 +760,6 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
-  iam: {
-    actions: ["voiceid:DeleteDomain"],
-    resources: {
-      "voiceid:DeleteDomain": ["arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -820,14 +794,6 @@ export const deleteFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFraudster",
-  iam: {
-    actions: ["voiceid:DeleteFraudster"],
-    resources: {
-      "voiceid:DeleteFraudster": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFraudster",
 }));
@@ -862,12 +828,6 @@ export const deleteSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpeaker",
-  iam: {
-    actions: ["voiceid:DeleteSpeaker"],
-    resources: {
-      "voiceid:DeleteSpeaker": ["arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSpeaker",
 }));
@@ -904,14 +864,6 @@ export const deleteWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWatchlist",
-  iam: {
-    actions: ["voiceid:DeleteWatchlist"],
-    resources: {
-      "voiceid:DeleteWatchlist": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWatchlist",
 }));
@@ -944,14 +896,6 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
-  iam: {
-    actions: ["voiceid:DescribeDomain"],
-    resources: {
-      "voiceid:DescribeDomain": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomain",
 }));
@@ -984,14 +928,6 @@ export const describeFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFraudster",
-  iam: {
-    actions: ["voiceid:DescribeFraudster"],
-    resources: {
-      "voiceid:DescribeFraudster": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFraudster",
 }));
@@ -1024,14 +960,6 @@ export const describeFraudsterRegistrationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFraudsterRegistrationJob",
-  iam: {
-    actions: ["voiceid:DescribeFraudsterRegistrationJob"],
-    resources: {
-      "voiceid:DescribeFraudsterRegistrationJob": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFraudsterRegistrationJob",
 }));
@@ -1064,14 +992,6 @@ export const describeSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpeaker",
-  iam: {
-    actions: ["voiceid:DescribeSpeaker"],
-    resources: {
-      "voiceid:DescribeSpeaker": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSpeaker",
 }));
@@ -1104,14 +1024,6 @@ export const describeSpeakerEnrollmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpeakerEnrollmentJob",
-  iam: {
-    actions: ["voiceid:DescribeSpeakerEnrollmentJob"],
-    resources: {
-      "voiceid:DescribeSpeakerEnrollmentJob": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSpeakerEnrollmentJob",
 }));
@@ -1144,14 +1056,6 @@ export const describeWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWatchlist",
-  iam: {
-    actions: ["voiceid:DescribeWatchlist"],
-    resources: {
-      "voiceid:DescribeWatchlist": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeWatchlist",
 }));
@@ -1188,14 +1092,6 @@ export const disassociateFraudster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFraudster",
-  iam: {
-    actions: ["voiceid:DisassociateFraudster"],
-    resources: {
-      "voiceid:DisassociateFraudster": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateFraudster",
 }));
@@ -1231,14 +1127,6 @@ export const evaluateSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateSession",
-  iam: {
-    actions: ["voiceid:EvaluateSession"],
-    resources: {
-      "voiceid:EvaluateSession": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EvaluateSession",
 }));
@@ -1276,7 +1164,6 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "DomainSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["voiceid:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -1318,14 +1205,6 @@ export const listFraudsterRegistrationJobs: API.PaginatedOperationMethod<
     items: "JobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["voiceid:ListFraudsterRegistrationJobs"],
-    resources: {
-      "voiceid:ListFraudsterRegistrationJobs": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFraudsterRegistrationJobs",
 })) as any;
@@ -1365,14 +1244,6 @@ export const listFraudsters: API.PaginatedOperationMethod<
     items: "FraudsterSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["voiceid:ListFraudsters"],
-    resources: {
-      "voiceid:ListFraudsters": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFraudsters",
 })) as any;
@@ -1414,14 +1285,6 @@ export const listSpeakerEnrollmentJobs: API.PaginatedOperationMethod<
     items: "JobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["voiceid:ListSpeakerEnrollmentJobs"],
-    resources: {
-      "voiceid:ListSpeakerEnrollmentJobs": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSpeakerEnrollmentJobs",
 })) as any;
@@ -1461,12 +1324,6 @@ export const listSpeakers: API.PaginatedOperationMethod<
     items: "SpeakerSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["voiceid:ListSpeakers"],
-    resources: {
-      "voiceid:ListSpeakers": ["arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSpeakers",
 })) as any;
@@ -1499,7 +1356,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["voiceid:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1539,14 +1395,6 @@ export const listWatchlists: API.PaginatedOperationMethod<
     items: "WatchlistSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["voiceid:ListWatchlists"],
-    resources: {
-      "voiceid:ListWatchlists": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListWatchlists",
 })) as any;
@@ -1588,12 +1436,6 @@ export const optOutSpeaker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "OptOutSpeaker",
-  iam: {
-    actions: ["voiceid:OptOutSpeaker"],
-    resources: {
-      "voiceid:OptOutSpeaker": ["arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "OptOutSpeaker",
 }));
@@ -1630,15 +1472,6 @@ export const startFraudsterRegistrationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFraudsterRegistrationJob",
-  iam: {
-    actions: ["iam:PassRole", "voiceid:StartFraudsterRegistrationJob"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "voiceid:StartFraudsterRegistrationJob": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartFraudsterRegistrationJob",
 }));
@@ -1675,15 +1508,6 @@ export const startSpeakerEnrollmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSpeakerEnrollmentJob",
-  iam: {
-    actions: ["iam:PassRole", "voiceid:StartSpeakerEnrollmentJob"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "voiceid:StartSpeakerEnrollmentJob": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartSpeakerEnrollmentJob",
 }));
@@ -1718,7 +1542,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["voiceid:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1753,7 +1576,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["voiceid:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1790,12 +1612,6 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
-  iam: {
-    actions: ["voiceid:UpdateDomain"],
-    resources: {
-      "voiceid:UpdateDomain": ["arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDomain",
 }));
@@ -1830,14 +1646,6 @@ export const updateWatchlist: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWatchlist",
-  iam: {
-    actions: ["voiceid:UpdateWatchlist"],
-    resources: {
-      "voiceid:UpdateWatchlist": [
-        "arn:${Partition}:voiceid:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWatchlist",
 }));

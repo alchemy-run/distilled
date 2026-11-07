@@ -1447,14 +1447,6 @@ export const configureLogsForChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogsForChannel",
-  iam: {
-    actions: ["mediatailor:ConfigureLogsForChannel"],
-    resources: {
-      "mediatailor:ConfigureLogsForChannel": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ConfigureLogsForChannel",
 }));
@@ -1475,14 +1467,6 @@ export const configureLogsForPlaybackConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogsForPlaybackConfiguration",
-  iam: {
-    actions: ["mediatailor:ConfigureLogsForPlaybackConfiguration"],
-    resources: {
-      "mediatailor:ConfigureLogsForPlaybackConfiguration": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:playbackConfiguration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ConfigureLogsForPlaybackConfiguration",
 }));
@@ -1503,10 +1487,6 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
-  iam: {
-    actions: ["mediatailor:CreateChannel", "mediatailor:TagResource"],
-    conditional: { "mediatailor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -1527,10 +1507,6 @@ export const createLiveSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLiveSource",
-  iam: {
-    actions: ["mediatailor:CreateLiveSource", "mediatailor:TagResource"],
-    conditional: { "mediatailor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLiveSource",
 }));
@@ -1554,15 +1530,6 @@ export const createPrefetchSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrefetchSchedule",
-  iam: {
-    actions: ["mediatailor:CreatePrefetchSchedule", "mediatailor:TagResource"],
-    resources: {
-      "mediatailor:CreatePrefetchSchedule": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:playbackConfiguration/${ResourceId}",
-      ],
-    },
-    conditional: { "mediatailor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePrefetchSchedule",
 }));
@@ -1583,10 +1550,6 @@ export const createProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProgram",
-  iam: {
-    actions: ["mediatailor:CreateProgram", "mediatailor:TagResource"],
-    conditional: { "mediatailor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProgram",
 }));
@@ -1607,10 +1570,6 @@ export const createSourceLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceLocation",
-  iam: {
-    actions: ["mediatailor:CreateSourceLocation", "mediatailor:TagResource"],
-    conditional: { "mediatailor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSourceLocation",
 }));
@@ -1631,10 +1590,6 @@ export const createVodSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVodSource",
-  iam: {
-    actions: ["mediatailor:CreateVodSource", "mediatailor:TagResource"],
-    conditional: { "mediatailor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVodSource",
 }));
@@ -1655,14 +1610,6 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
-  iam: {
-    actions: ["mediatailor:DeleteChannel"],
-    resources: {
-      "mediatailor:DeleteChannel": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -1683,14 +1630,6 @@ export const deleteChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPolicy",
-  iam: {
-    actions: ["mediatailor:DeleteChannelPolicy"],
-    resources: {
-      "mediatailor:DeleteChannelPolicy": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelPolicy",
 }));
@@ -1731,14 +1670,6 @@ export const deleteLiveSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLiveSource",
-  iam: {
-    actions: ["mediatailor:DeleteLiveSource"],
-    resources: {
-      "mediatailor:DeleteLiveSource": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:liveSource/${SourceLocationName}/${LiveSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLiveSource",
 }));
@@ -1759,14 +1690,6 @@ export const deletePlaybackConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePlaybackConfiguration",
-  iam: {
-    actions: ["mediatailor:DeletePlaybackConfiguration"],
-    resources: {
-      "mediatailor:DeletePlaybackConfiguration": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:playbackConfiguration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePlaybackConfiguration",
 }));
@@ -1790,15 +1713,6 @@ export const deletePrefetchSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrefetchSchedule",
-  iam: {
-    actions: ["mediatailor:DeletePrefetchSchedule"],
-    resources: {
-      "mediatailor:DeletePrefetchSchedule": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:playbackConfiguration/${ResourceId}",
-        "arn:${Partition}:mediatailor:${Region}:${Account}:prefetchSchedule/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePrefetchSchedule",
 }));
@@ -1819,14 +1733,6 @@ export const deleteProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProgram",
-  iam: {
-    actions: ["mediatailor:DeleteProgram"],
-    resources: {
-      "mediatailor:DeleteProgram": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:program/${ChannelName}/${ProgramName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProgram",
 }));
@@ -1847,14 +1753,6 @@ export const deleteSourceLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceLocation",
-  iam: {
-    actions: ["mediatailor:DeleteSourceLocation"],
-    resources: {
-      "mediatailor:DeleteSourceLocation": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:sourceLocation/${SourceLocationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSourceLocation",
 }));
@@ -1875,14 +1773,6 @@ export const deleteVodSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVodSource",
-  iam: {
-    actions: ["mediatailor:DeleteVodSource"],
-    resources: {
-      "mediatailor:DeleteVodSource": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:vodSource/${SourceLocationName}/${VodSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVodSource",
 }));
@@ -1903,14 +1793,6 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
-  iam: {
-    actions: ["mediatailor:DescribeChannel"],
-    resources: {
-      "mediatailor:DescribeChannel": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannel",
 }));
@@ -1931,14 +1813,6 @@ export const describeLiveSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLiveSource",
-  iam: {
-    actions: ["mediatailor:DescribeLiveSource"],
-    resources: {
-      "mediatailor:DescribeLiveSource": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:liveSource/${SourceLocationName}/${LiveSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLiveSource",
 }));
@@ -1959,14 +1833,6 @@ export const describeProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProgram",
-  iam: {
-    actions: ["mediatailor:DescribeProgram"],
-    resources: {
-      "mediatailor:DescribeProgram": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:program/${ChannelName}/${ProgramName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProgram",
 }));
@@ -1987,14 +1853,6 @@ export const describeSourceLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSourceLocation",
-  iam: {
-    actions: ["mediatailor:DescribeSourceLocation"],
-    resources: {
-      "mediatailor:DescribeSourceLocation": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:sourceLocation/${SourceLocationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSourceLocation",
 }));
@@ -2015,14 +1873,6 @@ export const describeVodSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVodSource",
-  iam: {
-    actions: ["mediatailor:DescribeVodSource"],
-    resources: {
-      "mediatailor:DescribeVodSource": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:vodSource/${SourceLocationName}/${VodSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeVodSource",
 }));
@@ -2043,14 +1893,6 @@ export const getChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelPolicy",
-  iam: {
-    actions: ["mediatailor:GetChannelPolicy"],
-    resources: {
-      "mediatailor:GetChannelPolicy": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannelPolicy",
 }));
@@ -2078,14 +1920,6 @@ export const getChannelSchedule: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["mediatailor:GetChannelSchedule"],
-    resources: {
-      "mediatailor:GetChannelSchedule": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannelSchedule",
 })) as any;
@@ -2126,14 +1960,6 @@ export const getPlaybackConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPlaybackConfiguration",
-  iam: {
-    actions: ["mediatailor:GetPlaybackConfiguration"],
-    resources: {
-      "mediatailor:GetPlaybackConfiguration": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:playbackConfiguration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPlaybackConfiguration",
 }));
@@ -2157,15 +1983,6 @@ export const getPrefetchSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrefetchSchedule",
-  iam: {
-    actions: ["mediatailor:GetPrefetchSchedule"],
-    resources: {
-      "mediatailor:GetPrefetchSchedule": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:playbackConfiguration/${ResourceId}",
-        "arn:${Partition}:mediatailor:${Region}:${Account}:prefetchSchedule/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPrefetchSchedule",
 }));
@@ -2193,7 +2010,6 @@ export const listAlerts: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediatailor:ListAlerts"] },
   telemetry: TELEMETRY,
   span: "ListAlerts",
 })) as any;
@@ -2221,7 +2037,6 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediatailor:ListChannels"] },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -2276,7 +2091,6 @@ export const listLiveSources: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediatailor:ListLiveSources"] },
   telemetry: TELEMETRY,
   span: "ListLiveSources",
 })) as any;
@@ -2304,7 +2118,6 @@ export const listPlaybackConfigurations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediatailor:ListPlaybackConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListPlaybackConfigurations",
 })) as any;
@@ -2335,14 +2148,6 @@ export const listPrefetchSchedules: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["mediatailor:ListPrefetchSchedules"],
-    resources: {
-      "mediatailor:ListPrefetchSchedules": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:playbackConfiguration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPrefetchSchedules",
 })) as any;
@@ -2370,7 +2175,6 @@ export const listSourceLocations: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediatailor:ListSourceLocations"] },
   telemetry: TELEMETRY,
   span: "ListSourceLocations",
 })) as any;
@@ -2391,7 +2195,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["mediatailor:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2419,7 +2222,6 @@ export const listVodSources: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediatailor:ListVodSources"] },
   telemetry: TELEMETRY,
   span: "ListVodSources",
 })) as any;
@@ -2440,14 +2242,6 @@ export const putChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelPolicy",
-  iam: {
-    actions: ["mediatailor:PutChannelPolicy"],
-    resources: {
-      "mediatailor:PutChannelPolicy": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutChannelPolicy",
 }));
@@ -2468,7 +2262,6 @@ export const putFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutFunction",
-  iam: { actions: ["mediatailor:TagResource"], conditional: { "mediatailor:TagResource": "Tags" } },
   telemetry: TELEMETRY,
   span: "PutFunction",
 }));
@@ -2489,10 +2282,6 @@ export const putPlaybackConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPlaybackConfiguration",
-  iam: {
-    actions: ["mediatailor:PutPlaybackConfiguration", "mediatailor:TagResource"],
-    conditional: { "mediatailor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutPlaybackConfiguration",
 }));
@@ -2513,14 +2302,6 @@ export const startChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChannel",
-  iam: {
-    actions: ["mediatailor:StartChannel"],
-    resources: {
-      "mediatailor:StartChannel": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartChannel",
 }));
@@ -2541,14 +2322,6 @@ export const stopChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopChannel",
-  iam: {
-    actions: ["mediatailor:StopChannel"],
-    resources: {
-      "mediatailor:StopChannel": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopChannel",
 }));
@@ -2569,7 +2342,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["mediatailor:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2590,7 +2362,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["mediatailor:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2611,14 +2382,6 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
-  iam: {
-    actions: ["mediatailor:UpdateChannel"],
-    resources: {
-      "mediatailor:UpdateChannel": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:channel/${ChannelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -2639,14 +2402,6 @@ export const updateLiveSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLiveSource",
-  iam: {
-    actions: ["mediatailor:UpdateLiveSource"],
-    resources: {
-      "mediatailor:UpdateLiveSource": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:liveSource/${SourceLocationName}/${LiveSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLiveSource",
 }));
@@ -2667,14 +2422,6 @@ export const updateProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProgram",
-  iam: {
-    actions: ["mediatailor:UpdateProgram"],
-    resources: {
-      "mediatailor:UpdateProgram": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:program/${ChannelName}/${ProgramName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProgram",
 }));
@@ -2695,14 +2442,6 @@ export const updateSourceLocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceLocation",
-  iam: {
-    actions: ["mediatailor:UpdateSourceLocation"],
-    resources: {
-      "mediatailor:UpdateSourceLocation": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:sourceLocation/${SourceLocationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSourceLocation",
 }));
@@ -2723,14 +2462,6 @@ export const updateVodSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVodSource",
-  iam: {
-    actions: ["mediatailor:UpdateVodSource"],
-    resources: {
-      "mediatailor:UpdateVodSource": [
-        "arn:${Partition}:mediatailor:${Region}:${Account}:vodSource/${SourceLocationName}/${VodSourceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVodSource",
 }));

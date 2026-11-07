@@ -618,14 +618,6 @@ export const batchExecuteStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExecuteStatement",
-  iam: {
-    actions: ["rds-data:BatchExecuteStatement"],
-    resources: {
-      "rds-data:BatchExecuteStatement": [
-        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchExecuteStatement",
 }));
@@ -684,14 +676,6 @@ export const beginTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BeginTransaction",
-  iam: {
-    actions: ["rds-data:BeginTransaction"],
-    resources: {
-      "rds-data:BeginTransaction": [
-        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BeginTransaction",
 }));
@@ -744,14 +728,6 @@ export const commitTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CommitTransaction",
-  iam: {
-    actions: ["rds-data:CommitTransaction"],
-    resources: {
-      "rds-data:CommitTransaction": [
-        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CommitTransaction",
 }));
@@ -786,14 +762,6 @@ export const executeSql: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteSql",
-  iam: {
-    actions: ["rds-data:ExecuteSql"],
-    resources: {
-      "rds-data:ExecuteSql": [
-        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExecuteSql",
 }));
@@ -852,14 +820,6 @@ export const executeStatement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteStatement",
-  iam: {
-    actions: ["rds-data:ExecuteStatement"],
-    resources: {
-      "rds-data:ExecuteStatement": [
-        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExecuteStatement",
 }));
@@ -912,14 +872,6 @@ export const rollbackTransaction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackTransaction",
-  iam: {
-    actions: ["rds-data:RollbackTransaction"],
-    resources: {
-      "rds-data:RollbackTransaction": [
-        "arn:${Partition}:rds:${Region}:${Account}:cluster:${DbClusterInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RollbackTransaction",
 }));

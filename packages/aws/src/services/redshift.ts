@@ -3895,7 +3895,6 @@ export const acceptReservedNodeExchange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptReservedNodeExchange",
-  iam: { actions: ["redshift:AcceptReservedNodeExchange"] },
   telemetry: TELEMETRY,
   span: "AcceptReservedNodeExchange",
 }));
@@ -3928,7 +3927,6 @@ export const addPartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddPartner",
-  iam: { actions: ["redshift:AddPartner", "redshift:DeletePartner"] },
   telemetry: TELEMETRY,
   span: "AddPartner",
 }));
@@ -3954,14 +3952,6 @@ export const associateDataShareConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDataShareConsumer",
-  iam: {
-    actions: ["redshift:AssociateDataShareConsumer"],
-    resources: {
-      "redshift:AssociateDataShareConsumer": [
-        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateDataShareConsumer",
 }));
@@ -4010,15 +4000,6 @@ export const authorizeClusterSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeClusterSecurityGroupIngress",
-  iam: {
-    actions: ["redshift:AuthorizeClusterSecurityGroupIngress"],
-    resources: {
-      "redshift:AuthorizeClusterSecurityGroupIngress": [
-        "arn:${Partition}:redshift:${Region}:${Account}:securitygroup:${SecurityGroupName}/ec2securitygroup/${Owner}/${Ec2SecurityGroupId}",
-        "arn:${Partition}:redshift:${Region}:${Account}:securitygroupingress:${SecurityGroupName}/ec2securitygroup/${Owner}/${Ece2SecuritygroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AuthorizeClusterSecurityGroupIngress",
 }));
@@ -4041,14 +4022,6 @@ export const authorizeDataShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeDataShare",
-  iam: {
-    actions: ["redshift:AuthorizeDataShare"],
-    resources: {
-      "redshift:AuthorizeDataShare": [
-        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AuthorizeDataShare",
 }));
@@ -4083,7 +4056,6 @@ export const authorizeEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeEndpointAccess",
-  iam: { actions: ["redshift:AuthorizeEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "AuthorizeEndpointAccess",
 }));
@@ -4125,7 +4097,6 @@ export const authorizeSnapshotAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeSnapshotAccess",
-  iam: { actions: ["redshift:AuthorizeSnapshotAccess"] },
   telemetry: TELEMETRY,
   span: "AuthorizeSnapshotAccess",
 }));
@@ -4146,14 +4117,6 @@ export const batchDeleteClusterSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteClusterSnapshots",
-  iam: {
-    actions: ["redshift:BatchDeleteClusterSnapshots"],
-    resources: {
-      "redshift:BatchDeleteClusterSnapshots": [
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshot:${ClusterName}/${SnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteClusterSnapshots",
 }));
@@ -4177,14 +4140,6 @@ export const batchModifyClusterSnapshots: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchModifyClusterSnapshots",
-  iam: {
-    actions: ["redshift:BatchModifyClusterSnapshots"],
-    resources: {
-      "redshift:BatchModifyClusterSnapshots": [
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshot:${ClusterName}/${SnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchModifyClusterSnapshots",
 }));
@@ -4215,14 +4170,6 @@ export const cancelResize: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelResize",
-  iam: {
-    actions: ["redshift:CancelResize"],
-    resources: {
-      "redshift:CancelResize": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelResize",
 }));
@@ -4269,7 +4216,6 @@ export const copyClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyClusterSnapshot",
-  iam: { actions: ["redshift:CopyClusterSnapshot"] },
   telemetry: TELEMETRY,
   span: "CopyClusterSnapshot",
 }));
@@ -4298,7 +4244,6 @@ export const createAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAuthenticationProfile",
-  iam: { actions: ["redshift:CreateAuthenticationProfile"] },
   telemetry: TELEMETRY,
   span: "CreateAuthenticationProfile",
 }));
@@ -4400,25 +4345,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: [
-      "redshift:AssociateDataShareConsumer",
-      "redshift:CreateCluster",
-      "redshift:CreateTags",
-      "iam:PassRole",
-      "redshift:RegisterNamespace",
-    ],
-    resources: {
-      "redshift:AssociateDataShareConsumer": [
-        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
-      ],
-      "redshift:CreateCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "DefaultIamRoleArn", "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -4459,15 +4385,6 @@ export const createClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterParameterGroup",
-  iam: {
-    actions: ["redshift:CreateClusterParameterGroup", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateClusterParameterGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:parametergroup:${ParameterGroupName}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateClusterParameterGroup",
 }));
@@ -4503,15 +4420,6 @@ export const createClusterSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSecurityGroup",
-  iam: {
-    actions: ["redshift:CreateClusterSecurityGroup", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateClusterSecurityGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:securitygroup:${SecurityGroupName}/ec2securitygroup/${Owner}/${Ec2SecurityGroupId}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateClusterSecurityGroup",
 }));
@@ -4553,10 +4461,6 @@ export const createClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSnapshot",
-  iam: {
-    actions: ["redshift:CreateClusterSnapshot", "redshift:CreateTags"],
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateClusterSnapshot",
 }));
@@ -4601,15 +4505,6 @@ export const createClusterSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSubnetGroup",
-  iam: {
-    actions: ["redshift:CreateClusterSubnetGroup", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateClusterSubnetGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:subnetgroup:${SubnetGroupName}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateClusterSubnetGroup",
 }));
@@ -4635,14 +4530,6 @@ export const createCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomDomainAssociation",
-  iam: {
-    actions: ["redshift:CreateCustomDomainAssociation"],
-    resources: {
-      "redshift:CreateCustomDomainAssociation": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCustomDomainAssociation",
 }));
@@ -4685,7 +4572,6 @@ export const createEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointAccess",
-  iam: { actions: ["redshift:CreateEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "CreateEndpointAccess",
 }));
@@ -4748,15 +4634,6 @@ export const createEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventSubscription",
-  iam: {
-    actions: ["redshift:CreateEventSubscription", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateEventSubscription": [
-        "arn:${Partition}:redshift:${Region}:${Account}:eventsubscription:${EventSubscriptionName}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEventSubscription",
 }));
@@ -4795,15 +4672,6 @@ export const createHsmClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsmClientCertificate",
-  iam: {
-    actions: ["redshift:CreateHsmClientCertificate", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateHsmClientCertificate": [
-        "arn:${Partition}:redshift:${Region}:${Account}:hsmclientcertificate:${HSMClientCertificateId}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHsmClientCertificate",
 }));
@@ -4841,15 +4709,6 @@ export const createHsmConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHsmConfiguration",
-  iam: {
-    actions: ["redshift:CreateHsmConfiguration", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateHsmConfiguration": [
-        "arn:${Partition}:redshift:${Region}:${Account}:hsmconfiguration:${HSMConfigurationId}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHsmConfiguration",
 }));
@@ -4890,15 +4749,6 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
-  iam: {
-    actions: ["redshift:CreateIntegration", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateIntegration": [
-        "arn:${Partition}:redshift:${Region}:${Account}:integration:${IntegrationIdentifier}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIntegration",
 }));
@@ -4929,10 +4779,6 @@ export const createQev2IdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQev2IdcApplication",
-  iam: {
-    actions: ["redshift:CreateQev2IdcApplication", "redshift:CreateTags"],
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateQev2IdcApplication",
 }));
@@ -4969,10 +4815,6 @@ export const createRedshiftIdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRedshiftIdcApplication",
-  iam: {
-    actions: ["redshift:CreateRedshiftIdcApplication", "redshift:CreateTags"],
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRedshiftIdcApplication",
 }));
@@ -5012,27 +4854,6 @@ export const createScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScheduledAction",
-  iam: {
-    actions: [
-      "redshift:CreateScheduledAction",
-      "iam:PassRole",
-      "redshift:PauseCluster",
-      "redshift:ResizeCluster",
-      "redshift:ResumeCluster",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "redshift:PauseCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-      "redshift:ResizeCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-      "redshift:ResumeCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateScheduledAction",
 }));
@@ -5073,15 +4894,6 @@ export const createSnapshotCopyGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshotCopyGrant",
-  iam: {
-    actions: ["redshift:CreateSnapshotCopyGrant", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateSnapshotCopyGrant": [
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshotcopygrant:${SnapshotCopyGrantName}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSnapshotCopyGrant",
 }));
@@ -5116,15 +4928,6 @@ export const createSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshotSchedule",
-  iam: {
-    actions: ["redshift:CreateSnapshotSchedule", "redshift:CreateTags"],
-    resources: {
-      "redshift:CreateSnapshotSchedule": [
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshotschedule:${ScheduleIdentifier}",
-      ],
-    },
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSnapshotSchedule",
 }));
@@ -5156,7 +4959,6 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
-  iam: { actions: ["redshift:CreateTags", "redshift:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "CreateTags",
 }));
@@ -5194,10 +4996,6 @@ export const createUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUsageLimit",
-  iam: {
-    actions: ["redshift:CreateTags", "redshift:CreateUsageLimit"],
-    conditional: { "redshift:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateUsageLimit",
 }));
@@ -5218,14 +5016,6 @@ export const deauthorizeDataShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeauthorizeDataShare",
-  iam: {
-    actions: ["redshift:DeauthorizeDataShare"],
-    resources: {
-      "redshift:DeauthorizeDataShare": [
-        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeauthorizeDataShare",
 }));
@@ -5249,7 +5039,6 @@ export const deleteAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAuthenticationProfile",
-  iam: { actions: ["redshift:DeleteAuthenticationProfile"] },
   telemetry: TELEMETRY,
   span: "DeleteAuthenticationProfile",
 }));
@@ -5298,14 +5087,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["redshift:CreateClusterSnapshot", "redshift:DeleteCluster"],
-    resources: {
-      "redshift:DeleteCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -5332,14 +5113,6 @@ export const deleteClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterParameterGroup",
-  iam: {
-    actions: ["redshift:DeleteClusterParameterGroup"],
-    resources: {
-      "redshift:DeleteClusterParameterGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:parametergroup:${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteClusterParameterGroup",
 }));
@@ -5370,14 +5143,6 @@ export const deleteClusterSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSecurityGroup",
-  iam: {
-    actions: ["redshift:DeleteClusterSecurityGroup"],
-    resources: {
-      "redshift:DeleteClusterSecurityGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:securitygroup:${SecurityGroupName}/ec2securitygroup/${Owner}/${Ec2SecurityGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteClusterSecurityGroup",
 }));
@@ -5408,7 +5173,6 @@ export const deleteClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSnapshot",
-  iam: { actions: ["redshift:DeleteClusterSnapshot"] },
   telemetry: TELEMETRY,
   span: "DeleteClusterSnapshot",
 }));
@@ -5437,14 +5201,6 @@ export const deleteClusterSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSubnetGroup",
-  iam: {
-    actions: ["redshift:DeleteClusterSubnetGroup"],
-    resources: {
-      "redshift:DeleteClusterSubnetGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:subnetgroup:${SubnetGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteClusterSubnetGroup",
 }));
@@ -5475,14 +5231,6 @@ export const deleteCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomDomainAssociation",
-  iam: {
-    actions: ["redshift:DeleteCustomDomainAssociation"],
-    resources: {
-      "redshift:DeleteCustomDomainAssociation": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCustomDomainAssociation",
 }));
@@ -5515,7 +5263,6 @@ export const deleteEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointAccess",
-  iam: { actions: ["redshift:DeleteEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "DeleteEndpointAccess",
 }));
@@ -5539,14 +5286,6 @@ export const deleteEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventSubscription",
-  iam: {
-    actions: ["redshift:DeleteEventSubscription"],
-    resources: {
-      "redshift:DeleteEventSubscription": [
-        "arn:${Partition}:redshift:${Region}:${Account}:eventsubscription:${EventSubscriptionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventSubscription",
 }));
@@ -5570,14 +5309,6 @@ export const deleteHsmClientCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsmClientCertificate",
-  iam: {
-    actions: ["redshift:DeleteHsmClientCertificate"],
-    resources: {
-      "redshift:DeleteHsmClientCertificate": [
-        "arn:${Partition}:redshift:${Region}:${Account}:hsmclientcertificate:${HSMClientCertificateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHsmClientCertificate",
 }));
@@ -5601,14 +5332,6 @@ export const deleteHsmConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHsmConfiguration",
-  iam: {
-    actions: ["redshift:DeleteHsmConfiguration"],
-    resources: {
-      "redshift:DeleteHsmConfiguration": [
-        "arn:${Partition}:redshift:${Region}:${Account}:hsmconfiguration:${HSMConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHsmConfiguration",
 }));
@@ -5639,14 +5362,6 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
-  iam: {
-    actions: ["redshift:DeleteIntegration"],
-    resources: {
-      "redshift:DeleteIntegration": [
-        "arn:${Partition}:redshift:${Region}:${Account}:integration:${IntegrationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
 }));
@@ -5677,7 +5392,6 @@ export const deletePartner: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartner",
-  iam: { actions: ["redshift:DeletePartner"] },
   telemetry: TELEMETRY,
   span: "DeletePartner",
 }));
@@ -5708,14 +5422,6 @@ export const deleteQev2IdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQev2IdcApplication",
-  iam: {
-    actions: ["redshift:DeleteQev2IdcApplication"],
-    resources: {
-      "redshift:DeleteQev2IdcApplication": [
-        "arn:${Partition}:redshift:${Region}:${Account}:qev2idcapplication:${Qev2IdcApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteQev2IdcApplication",
 }));
@@ -5746,14 +5452,6 @@ export const deleteRedshiftIdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRedshiftIdcApplication",
-  iam: {
-    actions: ["redshift:DeleteRedshiftIdcApplication"],
-    resources: {
-      "redshift:DeleteRedshiftIdcApplication": [
-        "arn:${Partition}:redshift:${Region}:${Account}:redshiftidcapplication:${RedshiftIdcApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRedshiftIdcApplication",
 }));
@@ -5777,14 +5475,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: {
-    actions: ["redshift:DeleteResourcePolicy"],
-    resources: {
-      "redshift:DeleteResourcePolicy": [
-        "arn:${Partition}:redshift:${Region}:${Account}:namespace:${ClusterNamespace}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -5808,7 +5498,6 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
-  iam: { actions: ["redshift:DeleteScheduledAction"] },
   telemetry: TELEMETRY,
   span: "DeleteScheduledAction",
 }));
@@ -5832,14 +5521,6 @@ export const deleteSnapshotCopyGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotCopyGrant",
-  iam: {
-    actions: ["redshift:DeleteSnapshotCopyGrant"],
-    resources: {
-      "redshift:DeleteSnapshotCopyGrant": [
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshotcopygrant:${SnapshotCopyGrantName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshotCopyGrant",
 }));
@@ -5863,14 +5544,6 @@ export const deleteSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshotSchedule",
-  iam: {
-    actions: ["redshift:DeleteSnapshotSchedule"],
-    resources: {
-      "redshift:DeleteSnapshotSchedule": [
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshotschedule:${ScheduleIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshotSchedule",
 }));
@@ -5892,7 +5565,6 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
-  iam: { actions: ["redshift:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -5916,14 +5588,6 @@ export const deleteUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUsageLimit",
-  iam: {
-    actions: ["redshift:DeleteUsageLimit"],
-    resources: {
-      "redshift:DeleteUsageLimit": [
-        "arn:${Partition}:redshift:${Region}:${Account}:usagelimit:${UsageLimitId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUsageLimit",
 }));
@@ -5948,7 +5612,6 @@ export const deregisterNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterNamespace",
-  iam: { actions: ["redshift:DeregisterNamespace"] },
   telemetry: TELEMETRY,
   span: "DeregisterNamespace",
 }));
@@ -5969,7 +5632,6 @@ export const describeAccountAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountAttributes",
-  iam: { actions: ["redshift:DescribeAccountAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountAttributes",
 }));
@@ -5993,7 +5655,6 @@ export const describeAuthenticationProfiles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAuthenticationProfiles",
-  iam: { actions: ["redshift:DescribeAuthenticationProfiles"] },
   telemetry: TELEMETRY,
   span: "DescribeAuthenticationProfiles",
 }));
@@ -6024,7 +5685,6 @@ export const describeClusterDbRevisions: API.PaginatedOperationMethod<
     items: "ClusterDbRevisions",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeClusterDbRevisions"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterDbRevisions",
 })) as any;
@@ -6073,7 +5733,6 @@ export const describeClusterParameterGroups: API.PaginatedOperationMethod<
     items: "ParameterGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeClusterParameterGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterParameterGroups",
 })) as any;
@@ -6113,14 +5772,6 @@ export const describeClusterParameters: API.PaginatedOperationMethod<
     items: "Parameters",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["redshift:DescribeClusterParameters"],
-    resources: {
-      "redshift:DescribeClusterParameters": [
-        "arn:${Partition}:redshift:${Region}:${Account}:parametergroup:${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeClusterParameters",
 })) as any;
@@ -6162,7 +5813,6 @@ export const describeClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeClusters"] },
   telemetry: TELEMETRY,
   span: "DescribeClusters",
 })) as any;
@@ -6209,7 +5859,6 @@ export const describeClusterSecurityGroups: API.PaginatedOperationMethod<
     items: "ClusterSecurityGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeClusterSecurityGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterSecurityGroups",
 })) as any;
@@ -6261,7 +5910,6 @@ export const describeClusterSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeClusterSnapshots"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterSnapshots",
 })) as any;
@@ -6304,7 +5952,6 @@ export const describeClusterSubnetGroups: API.PaginatedOperationMethod<
     items: "ClusterSubnetGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeClusterSubnetGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterSubnetGroups",
 })) as any;
@@ -6335,7 +5982,6 @@ export const describeClusterTracks: API.PaginatedOperationMethod<
     items: "MaintenanceTracks",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeClusterTracks"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterTracks",
 })) as any;
@@ -6368,7 +6014,6 @@ export const describeClusterVersions: API.PaginatedOperationMethod<
     items: "ClusterVersions",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeClusterVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeClusterVersions",
 })) as any;
@@ -6399,7 +6044,6 @@ export const describeCustomDomainAssociations: API.PaginatedOperationMethod<
     items: "Associations",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeCustomDomainAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeCustomDomainAssociations",
 })) as any;
@@ -6428,7 +6072,6 @@ export const describeDataShares: API.PaginatedOperationMethod<
     items: "DataShares",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeDataShares"] },
   telemetry: TELEMETRY,
   span: "DescribeDataShares",
 })) as any;
@@ -6456,7 +6099,6 @@ export const describeDataSharesForConsumer: API.PaginatedOperationMethod<
     items: "DataShares",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeDataSharesForConsumer"] },
   telemetry: TELEMETRY,
   span: "DescribeDataSharesForConsumer",
 })) as any;
@@ -6484,7 +6126,6 @@ export const describeDataSharesForProducer: API.PaginatedOperationMethod<
     items: "DataShares",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeDataSharesForProducer"] },
   telemetry: TELEMETRY,
   span: "DescribeDataSharesForProducer",
 })) as any;
@@ -6517,7 +6158,6 @@ export const describeDefaultClusterParameters: API.PaginatedOperationMethod<
     items: "DefaultClusterParameters.Parameters",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeDefaultClusterParameters"] },
   telemetry: TELEMETRY,
   span: "DescribeDefaultClusterParameters",
 })) as any;
@@ -6549,7 +6189,6 @@ export const describeEndpointAccess: API.PaginatedOperationMethod<
     items: "EndpointAccessList",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpointAccess",
 })) as any;
@@ -6580,7 +6219,6 @@ export const describeEndpointAuthorization: API.PaginatedOperationMethod<
     items: "EndpointAuthorizationList",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeEndpointAuthorization"] },
   telemetry: TELEMETRY,
   span: "DescribeEndpointAuthorization",
 })) as any;
@@ -6603,7 +6241,6 @@ export const describeEventCategories: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventCategories",
-  iam: { actions: ["redshift:DescribeEventCategories"] },
   telemetry: TELEMETRY,
   span: "DescribeEventCategories",
 }));
@@ -6634,7 +6271,6 @@ export const describeEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeEvents"] },
   telemetry: TELEMETRY,
   span: "DescribeEvents",
 })) as any;
@@ -6677,7 +6313,6 @@ export const describeEventSubscriptions: API.PaginatedOperationMethod<
     items: "EventSubscriptionsList",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeEventSubscriptions"] },
   telemetry: TELEMETRY,
   span: "DescribeEventSubscriptions",
 })) as any;
@@ -6719,7 +6354,6 @@ export const describeHsmClientCertificates: API.PaginatedOperationMethod<
     items: "HsmClientCertificates",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeHsmClientCertificates"] },
   telemetry: TELEMETRY,
   span: "DescribeHsmClientCertificates",
 })) as any;
@@ -6762,7 +6396,6 @@ export const describeHsmConfigurations: API.PaginatedOperationMethod<
     items: "HsmConfigurations",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeHsmConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeHsmConfigurations",
 })) as any;
@@ -6794,7 +6427,6 @@ export const describeInboundIntegrations: API.PaginatedOperationMethod<
     items: "InboundIntegrations",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeInboundIntegrations"] },
   telemetry: TELEMETRY,
   span: "DescribeInboundIntegrations",
 })) as any;
@@ -6825,14 +6457,6 @@ export const describeIntegrations: API.PaginatedOperationMethod<
     items: "Integrations",
     pageSize: "MaxRecords",
   } as const,
-  iam: {
-    actions: ["redshift:DescribeIntegrations"],
-    resources: {
-      "redshift:DescribeIntegrations": [
-        "arn:${Partition}:redshift:${Region}:${Account}:integration:${IntegrationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeIntegrations",
 })) as any;
@@ -6857,14 +6481,6 @@ export const describeLoggingStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoggingStatus",
-  iam: {
-    actions: ["redshift:DescribeLoggingStatus"],
-    resources: {
-      "redshift:DescribeLoggingStatus": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLoggingStatus",
 }));
@@ -6905,7 +6521,6 @@ export const describeNodeConfigurationOptions: API.PaginatedOperationMethod<
     items: "NodeConfigurationOptionList",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeNodeConfigurationOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeNodeConfigurationOptions",
 })) as any;
@@ -6941,7 +6556,6 @@ export const describeOrderableClusterOptions: API.PaginatedOperationMethod<
     items: "OrderableClusterOptions",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeOrderableClusterOptions"] },
   telemetry: TELEMETRY,
   span: "DescribeOrderableClusterOptions",
 })) as any;
@@ -6966,7 +6580,6 @@ export const describePartners: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePartners",
-  iam: { actions: ["redshift:DescribePartners"] },
   telemetry: TELEMETRY,
   span: "DescribePartners",
 }));
@@ -7004,7 +6617,6 @@ export const describeQev2IdcApplications: API.PaginatedOperationMethod<
     items: "Qev2IdcApplications",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeQev2IdcApplications"] },
   telemetry: TELEMETRY,
   span: "DescribeQev2IdcApplications",
 })) as any;
@@ -7042,7 +6654,6 @@ export const describeRedshiftIdcApplications: API.PaginatedOperationMethod<
     items: "RedshiftIdcApplications",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeRedshiftIdcApplications"] },
   telemetry: TELEMETRY,
   span: "DescribeRedshiftIdcApplications",
 })) as any;
@@ -7075,7 +6686,6 @@ export const describeReservedNodeExchangeStatus: API.PaginatedOperationMethod<
     items: "ReservedNodeExchangeStatusDetails",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeReservedNodeExchangeStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedNodeExchangeStatus",
 })) as any;
@@ -7120,7 +6730,6 @@ export const describeReservedNodeOfferings: API.PaginatedOperationMethod<
     items: "ReservedNodeOfferings",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeReservedNodeOfferings"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedNodeOfferings",
 })) as any;
@@ -7151,7 +6760,6 @@ export const describeReservedNodes: API.PaginatedOperationMethod<
     items: "ReservedNodes",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeReservedNodes"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedNodes",
 })) as any;
@@ -7182,14 +6790,6 @@ export const describeResize: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResize",
-  iam: {
-    actions: ["redshift:DescribeResize"],
-    resources: {
-      "redshift:DescribeResize": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeResize",
 }));
@@ -7220,7 +6820,6 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
     items: "ScheduledActions",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeScheduledActions"] },
   telemetry: TELEMETRY,
   span: "DescribeScheduledActions",
 })) as any;
@@ -7256,7 +6855,6 @@ export const describeSnapshotCopyGrants: API.PaginatedOperationMethod<
     items: "SnapshotCopyGrants",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeSnapshotCopyGrants"] },
   telemetry: TELEMETRY,
   span: "DescribeSnapshotCopyGrants",
 })) as any;
@@ -7284,7 +6882,6 @@ export const describeSnapshotSchedules: API.PaginatedOperationMethod<
     items: "SnapshotSchedules",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeSnapshotSchedules"] },
   telemetry: TELEMETRY,
   span: "DescribeSnapshotSchedules",
 })) as any;
@@ -7305,7 +6902,6 @@ export const describeStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStorage",
-  iam: { actions: ["redshift:DescribeStorage"] },
   telemetry: TELEMETRY,
   span: "DescribeStorage",
 }));
@@ -7341,7 +6937,6 @@ export const describeTableRestoreStatus: API.PaginatedOperationMethod<
     items: "TableRestoreStatusDetails",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeTableRestoreStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeTableRestoreStatus",
 })) as any;
@@ -7391,7 +6986,6 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "TaggedResources",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 })) as any;
@@ -7435,7 +7029,6 @@ export const describeUsageLimits: API.PaginatedOperationMethod<
     items: "UsageLimits",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:DescribeUsageLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeUsageLimits",
 })) as any;
@@ -7461,14 +7054,6 @@ export const disableLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableLogging",
-  iam: {
-    actions: ["redshift:DisableLogging"],
-    resources: {
-      "redshift:DisableLogging": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableLogging",
 }));
@@ -7506,14 +7091,6 @@ export const disableSnapshotCopy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSnapshotCopy",
-  iam: {
-    actions: ["redshift:DisableSnapshotCopy"],
-    resources: {
-      "redshift:DisableSnapshotCopy": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableSnapshotCopy",
 }));
@@ -7537,14 +7114,6 @@ export const disassociateDataShareConsumer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDataShareConsumer",
-  iam: {
-    actions: ["redshift:DisassociateDataShareConsumer"],
-    resources: {
-      "redshift:DisassociateDataShareConsumer": [
-        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateDataShareConsumer",
 }));
@@ -7582,14 +7151,6 @@ export const enableLogging: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableLogging",
-  iam: {
-    actions: ["redshift:EnableLogging"],
-    resources: {
-      "redshift:EnableLogging": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableLogging",
 }));
@@ -7635,14 +7196,6 @@ export const enableSnapshotCopy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSnapshotCopy",
-  iam: {
-    actions: ["redshift:EnableSnapshotCopy"],
-    resources: {
-      "redshift:EnableSnapshotCopy": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableSnapshotCopy",
 }));
@@ -7673,14 +7226,6 @@ export const failoverPrimaryCompute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverPrimaryCompute",
-  iam: {
-    actions: ["redshift:FailoverPrimaryCompute"],
-    resources: {
-      "redshift:FailoverPrimaryCompute": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "FailoverPrimaryCompute",
 }));
@@ -7728,17 +7273,6 @@ export const getClusterCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterCredentials",
-  iam: {
-    actions: ["redshift:CreateClusterUser", "redshift:GetClusterCredentials", "redshift:JoinGroup"],
-    resources: {
-      "redshift:CreateClusterUser": [
-        "arn:${Partition}:redshift:${Region}:${Account}:dbuser:${ClusterName}/${DbUser}",
-      ],
-      "redshift:JoinGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:dbgroup:${ClusterName}/${DbGroup}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetClusterCredentials",
 }));
@@ -7772,7 +7306,6 @@ export const getClusterCredentialsWithIAM: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterCredentialsWithIAM",
-  iam: { actions: ["redshift:GetClusterCredentialsWithIAM"] },
   telemetry: TELEMETRY,
   span: "GetClusterCredentialsWithIAM",
 }));
@@ -7814,14 +7347,6 @@ export const getIdentityCenterAuthToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityCenterAuthToken",
-  iam: {
-    actions: ["redshift:GetIdentityCenterAuthToken"],
-    resources: {
-      "redshift:GetIdentityCenterAuthToken": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIdentityCenterAuthToken",
 }));
@@ -7877,7 +7402,6 @@ export const getReservedNodeExchangeConfigurationOptions: API.PaginatedOperation
     items: "ReservedNodeConfigurationOptionList",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:GetReservedNodeExchangeConfigurationOptions"] },
   telemetry: TELEMETRY,
   span: "GetReservedNodeExchangeConfigurationOptions",
 })) as any;
@@ -7920,7 +7444,6 @@ export const getReservedNodeExchangeOfferings: API.PaginatedOperationMethod<
     items: "ReservedNodeOfferings",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:GetReservedNodeExchangeOfferings"] },
   telemetry: TELEMETRY,
   span: "GetReservedNodeExchangeOfferings",
 })) as any;
@@ -7945,14 +7468,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: {
-    actions: ["redshift:GetResourcePolicy"],
-    resources: {
-      "redshift:GetResourcePolicy": [
-        "arn:${Partition}:redshift:${Region}:${Account}:namespace:${ClusterNamespace}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -7983,7 +7498,6 @@ export const listRecommendations: API.PaginatedOperationMethod<
     items: "Recommendations",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["redshift:ListRecommendations", "redshift:ViewQueriesInConsole"] },
   telemetry: TELEMETRY,
   span: "ListRecommendations",
 })) as any;
@@ -8008,14 +7522,6 @@ export const modifyAquaConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAquaConfiguration",
-  iam: {
-    actions: ["redshift:ModifyAquaConfiguration"],
-    resources: {
-      "redshift:ModifyAquaConfiguration": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyAquaConfiguration",
 }));
@@ -8044,7 +7550,6 @@ export const modifyAuthenticationProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyAuthenticationProfile",
-  iam: { actions: ["redshift:ModifyAuthenticationProfile"] },
   telemetry: TELEMETRY,
   span: "ModifyAuthenticationProfile",
 }));
@@ -8139,14 +7644,6 @@ export const modifyCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCluster",
-  iam: {
-    actions: ["redshift:ModifyCluster"],
-    resources: {
-      "redshift:ModifyCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyCluster",
 }));
@@ -8178,14 +7675,6 @@ export const modifyClusterDbRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterDbRevision",
-  iam: {
-    actions: ["redshift:ModifyClusterDbRevision"],
-    resources: {
-      "redshift:ModifyClusterDbRevision": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyClusterDbRevision",
 }));
@@ -8214,16 +7703,6 @@ export const modifyClusterIamRoles: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterIamRoles",
-  iam: {
-    actions: ["redshift:ModifyClusterIamRoles", "iam:PassRole"],
-    resources: {
-      "redshift:ModifyClusterIamRoles": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "DefaultIamRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyClusterIamRoles",
 }));
@@ -8247,14 +7726,6 @@ export const modifyClusterMaintenance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterMaintenance",
-  iam: {
-    actions: ["redshift:ModifyClusterMaintenance"],
-    resources: {
-      "redshift:ModifyClusterMaintenance": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyClusterMaintenance",
 }));
@@ -8282,14 +7753,6 @@ export const modifyClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterParameterGroup",
-  iam: {
-    actions: ["redshift:ModifyClusterParameterGroup"],
-    resources: {
-      "redshift:ModifyClusterParameterGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:parametergroup:${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyClusterParameterGroup",
 }));
@@ -8320,14 +7783,6 @@ export const modifyClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterSnapshot",
-  iam: {
-    actions: ["redshift:ModifyClusterSnapshot"],
-    resources: {
-      "redshift:ModifyClusterSnapshot": [
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshot:${ClusterName}/${SnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyClusterSnapshot",
 }));
@@ -8356,14 +7811,6 @@ export const modifyClusterSnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterSnapshotSchedule",
-  iam: {
-    actions: ["redshift:ModifyClusterSnapshotSchedule"],
-    resources: {
-      "redshift:ModifyClusterSnapshotSchedule": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyClusterSnapshotSchedule",
 }));
@@ -8417,14 +7864,6 @@ export const modifyClusterSubnetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyClusterSubnetGroup",
-  iam: {
-    actions: ["redshift:ModifyClusterSubnetGroup"],
-    resources: {
-      "redshift:ModifyClusterSubnetGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:subnetgroup:${SubnetGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyClusterSubnetGroup",
 }));
@@ -8455,14 +7894,6 @@ export const modifyCustomDomainAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCustomDomainAssociation",
-  iam: {
-    actions: ["redshift:ModifyCustomDomainAssociation"],
-    resources: {
-      "redshift:ModifyCustomDomainAssociation": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyCustomDomainAssociation",
 }));
@@ -8497,7 +7928,6 @@ export const modifyEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEndpointAccess",
-  iam: { actions: ["redshift:ModifyEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "ModifyEndpointAccess",
 }));
@@ -8538,14 +7968,6 @@ export const modifyEventSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyEventSubscription",
-  iam: {
-    actions: ["redshift:ModifyEventSubscription"],
-    resources: {
-      "redshift:ModifyEventSubscription": [
-        "arn:${Partition}:redshift:${Region}:${Account}:eventsubscription:${EventSubscriptionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyEventSubscription",
 }));
@@ -8578,14 +8000,6 @@ export const modifyIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIntegration",
-  iam: {
-    actions: ["redshift:ModifyIntegration"],
-    resources: {
-      "redshift:ModifyIntegration": [
-        "arn:${Partition}:redshift:${Region}:${Account}:integration:${IntegrationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyIntegration",
 }));
@@ -8622,25 +8036,6 @@ export const modifyLakehouseConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLakehouseConfiguration",
-  iam: {
-    actions: [
-      "redshift:AssociateDataShareConsumer",
-      "redshift:DeregisterNamespace",
-      "redshift:ModifyLakehouseConfiguration",
-      "iam:PassRole",
-      "redshift:RegisterNamespace",
-    ],
-    resources: {
-      "redshift:AssociateDataShareConsumer": [
-        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
-      ],
-      "redshift:ModifyLakehouseConfiguration": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyLakehouseConfiguration",
 }));
@@ -8671,14 +8066,6 @@ export const modifyQev2IdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyQev2IdcApplication",
-  iam: {
-    actions: ["redshift:ModifyQev2IdcApplication"],
-    resources: {
-      "redshift:ModifyQev2IdcApplication": [
-        "arn:${Partition}:redshift:${Region}:${Account}:qev2idcapplication:${Qev2IdcApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyQev2IdcApplication",
 }));
@@ -8709,14 +8096,6 @@ export const modifyRedshiftIdcApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyRedshiftIdcApplication",
-  iam: {
-    actions: ["redshift:ModifyRedshiftIdcApplication"],
-    resources: {
-      "redshift:ModifyRedshiftIdcApplication": [
-        "arn:${Partition}:redshift:${Region}:${Account}:redshiftidcapplication:${RedshiftIdcApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyRedshiftIdcApplication",
 }));
@@ -8753,28 +8132,6 @@ export const modifyScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyScheduledAction",
-  iam: {
-    actions: [
-      "redshift:ModifyScheduledAction",
-      "iam:PassRole",
-      "redshift:PauseCluster",
-      "redshift:ResizeCluster",
-      "redshift:ResumeCluster",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "redshift:PauseCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-      "redshift:ResizeCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-      "redshift:ResumeCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "IamRole" },
-  },
   telemetry: TELEMETRY,
   span: "ModifyScheduledAction",
 }));
@@ -8813,14 +8170,6 @@ export const modifySnapshotCopyRetentionPeriod: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySnapshotCopyRetentionPeriod",
-  iam: {
-    actions: ["redshift:ModifySnapshotCopyRetentionPeriod"],
-    resources: {
-      "redshift:ModifySnapshotCopyRetentionPeriod": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifySnapshotCopyRetentionPeriod",
 }));
@@ -8850,14 +8199,6 @@ export const modifySnapshotSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifySnapshotSchedule",
-  iam: {
-    actions: ["redshift:ModifySnapshotSchedule"],
-    resources: {
-      "redshift:ModifySnapshotSchedule": [
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshotschedule:${ScheduleIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifySnapshotSchedule",
 }));
@@ -8883,14 +8224,6 @@ export const modifyUsageLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyUsageLimit",
-  iam: {
-    actions: ["redshift:ModifyUsageLimit"],
-    resources: {
-      "redshift:ModifyUsageLimit": [
-        "arn:${Partition}:redshift:${Region}:${Account}:usagelimit:${UsageLimitId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyUsageLimit",
 }));
@@ -8915,14 +8248,6 @@ export const pauseCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PauseCluster",
-  iam: {
-    actions: ["redshift:PauseCluster"],
-    resources: {
-      "redshift:PauseCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PauseCluster",
 }));
@@ -8961,7 +8286,6 @@ export const purchaseReservedNodeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedNodeOffering",
-  iam: { actions: ["redshift:PurchaseReservedNodeOffering"] },
   telemetry: TELEMETRY,
   span: "PurchaseReservedNodeOffering",
 }));
@@ -8992,14 +8316,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: {
-    actions: ["redshift:PutResourcePolicy"],
-    resources: {
-      "redshift:PutResourcePolicy": [
-        "arn:${Partition}:redshift:${Region}:${Account}:namespace:${ClusterNamespace}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -9027,14 +8343,6 @@ export const rebootCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootCluster",
-  iam: {
-    actions: ["redshift:RebootCluster"],
-    resources: {
-      "redshift:RebootCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootCluster",
 }));
@@ -9059,7 +8367,6 @@ export const registerNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterNamespace",
-  iam: { actions: ["redshift:RegisterNamespace"] },
   telemetry: TELEMETRY,
   span: "RegisterNamespace",
 }));
@@ -9080,14 +8387,6 @@ export const rejectDataShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectDataShare",
-  iam: {
-    actions: ["redshift:RejectDataShare"],
-    resources: {
-      "redshift:RejectDataShare": [
-        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectDataShare",
 }));
@@ -9114,14 +8413,6 @@ export const resetClusterParameterGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetClusterParameterGroup",
-  iam: {
-    actions: ["redshift:ResetClusterParameterGroup"],
-    resources: {
-      "redshift:ResetClusterParameterGroup": [
-        "arn:${Partition}:redshift:${Region}:${Account}:parametergroup:${ParameterGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetClusterParameterGroup",
 }));
@@ -9204,14 +8495,6 @@ export const resizeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResizeCluster",
-  iam: {
-    actions: ["redshift:ResizeCluster"],
-    resources: {
-      "redshift:ResizeCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResizeCluster",
 }));
@@ -9334,25 +8617,6 @@ export const restoreFromClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreFromClusterSnapshot",
-  iam: {
-    actions: [
-      "redshift:AssociateDataShareConsumer",
-      "iam:PassRole",
-      "redshift:RegisterNamespace",
-      "redshift:RestoreFromClusterSnapshot",
-    ],
-    resources: {
-      "redshift:AssociateDataShareConsumer": [
-        "arn:${Partition}:redshift:${Region}:${Account}:datashare:${ProducerClusterNamespace}/${DataShareName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "redshift:RestoreFromClusterSnapshot": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshot:${ClusterName}/${SnapshotName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "DefaultIamRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "RestoreFromClusterSnapshot",
 }));
@@ -9404,15 +8668,6 @@ export const restoreTableFromClusterSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreTableFromClusterSnapshot",
-  iam: {
-    actions: ["redshift:RestoreTableFromClusterSnapshot"],
-    resources: {
-      "redshift:RestoreTableFromClusterSnapshot": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-        "arn:${Partition}:redshift:${Region}:${Account}:snapshot:${ClusterName}/${SnapshotName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RestoreTableFromClusterSnapshot",
 }));
@@ -9443,14 +8698,6 @@ export const resumeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeCluster",
-  iam: {
-    actions: ["redshift:ResumeCluster"],
-    resources: {
-      "redshift:ResumeCluster": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResumeCluster",
 }));
@@ -9483,15 +8730,6 @@ export const revokeClusterSecurityGroupIngress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeClusterSecurityGroupIngress",
-  iam: {
-    actions: ["redshift:RevokeClusterSecurityGroupIngress"],
-    resources: {
-      "redshift:RevokeClusterSecurityGroupIngress": [
-        "arn:${Partition}:redshift:${Region}:${Account}:securitygroup:${SecurityGroupName}/ec2securitygroup/${Owner}/${Ec2SecurityGroupId}",
-        "arn:${Partition}:redshift:${Region}:${Account}:securitygroupingress:${SecurityGroupName}/ec2securitygroup/${Owner}/${Ece2SecuritygroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RevokeClusterSecurityGroupIngress",
 }));
@@ -9528,7 +8766,6 @@ export const revokeEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeEndpointAccess",
-  iam: { actions: ["redshift:RevokeEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "RevokeEndpointAccess",
 }));
@@ -9565,7 +8802,6 @@ export const revokeSnapshotAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeSnapshotAccess",
-  iam: { actions: ["redshift:RevokeSnapshotAccess"] },
   telemetry: TELEMETRY,
   span: "RevokeSnapshotAccess",
 }));
@@ -9596,14 +8832,6 @@ export const rotateEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RotateEncryptionKey",
-  iam: {
-    actions: ["redshift:RotateEncryptionKey"],
-    resources: {
-      "redshift:RotateEncryptionKey": [
-        "arn:${Partition}:redshift:${Region}:${Account}:cluster:${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RotateEncryptionKey",
 }));
@@ -9634,7 +8862,6 @@ export const updatePartnerStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartnerStatus",
-  iam: { actions: ["redshift:UpdatePartnerStatus"] },
   telemetry: TELEMETRY,
   span: "UpdatePartnerStatus",
 }));

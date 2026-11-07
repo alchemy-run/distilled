@@ -2922,15 +2922,6 @@ export const batchGetCollaborationAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCollaborationAnalysisTemplate",
-  iam: {
-    actions: ["cleanrooms:BatchGetCollaborationAnalysisTemplate"],
-    resources: {
-      "cleanrooms:BatchGetCollaborationAnalysisTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetCollaborationAnalysisTemplate",
 }));
@@ -2963,7 +2954,6 @@ export const batchGetSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSchema",
-  iam: { actions: ["cleanrooms:BatchGetSchema"] },
   telemetry: TELEMETRY,
   span: "BatchGetSchema",
 }));
@@ -2996,7 +2986,6 @@ export const batchGetSchemaAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSchemaAnalysisRule",
-  iam: { actions: ["cleanrooms:BatchGetSchemaAnalysisRule"] },
   telemetry: TELEMETRY,
   span: "BatchGetSchemaAnalysisRule",
 }));
@@ -3033,17 +3022,6 @@ export const createAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnalysisTemplate",
-  iam: {
-    actions: ["cleanrooms:CreateAnalysisTemplate", "iam:PassRole", "cleanrooms:TagResource"],
-    resources: {
-      "cleanrooms:CreateAnalysisTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAnalysisTemplate",
 }));
@@ -3076,15 +3054,6 @@ export const createCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollaboration",
-  iam: {
-    actions: ["cleanrooms:CreateCollaboration", "cleanrooms:TagResource"],
-    resources: {
-      "cleanrooms:CreateCollaboration": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-    conditional: { "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCollaboration",
 }));
@@ -3121,14 +3090,6 @@ export const createCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollaborationChangeRequest",
-  iam: {
-    actions: ["cleanrooms:CreateCollaborationChangeRequest"],
-    resources: {
-      "cleanrooms:CreateCollaborationChangeRequest": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCollaborationChangeRequest",
 }));
@@ -3165,16 +3126,6 @@ export const createConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredAudienceModelAssociation",
-  iam: {
-    actions: ["cleanrooms:CreateConfiguredAudienceModelAssociation", "cleanrooms:TagResource"],
-    resources: {
-      "cleanrooms:CreateConfiguredAudienceModelAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-    conditional: { "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredAudienceModelAssociation",
 }));
@@ -3211,15 +3162,6 @@ export const createConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTable",
-  iam: {
-    actions: ["cleanrooms:CreateConfiguredTable", "cleanrooms:TagResource"],
-    resources: {
-      "cleanrooms:CreateConfiguredTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-    },
-    conditional: { "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredTable",
 }));
@@ -3256,14 +3198,6 @@ export const createConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:CreateConfiguredTableAnalysisRule"],
-    resources: {
-      "cleanrooms:CreateConfiguredTableAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredTableAnalysisRule",
 }));
@@ -3300,22 +3234,6 @@ export const createConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAssociation",
-  iam: {
-    actions: [
-      "cleanrooms:CreateConfiguredTableAssociation",
-      "iam:PassRole",
-      "cleanrooms:TagResource",
-    ],
-    resources: {
-      "cleanrooms:CreateConfiguredTableAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredTableAssociation",
 }));
@@ -3350,14 +3268,6 @@ export const createConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfiguredTableAssociationAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:CreateConfiguredTableAssociationAnalysisRule"],
-    resources: {
-      "cleanrooms:CreateConfiguredTableAssociationAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateConfiguredTableAssociationAnalysisRule",
 }));
@@ -3394,16 +3304,6 @@ export const createIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdMappingTable",
-  iam: {
-    actions: ["cleanrooms:CreateIdMappingTable", "cleanrooms:TagResource"],
-    resources: {
-      "cleanrooms:CreateIdMappingTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-    conditional: { "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIdMappingTable",
 }));
@@ -3440,16 +3340,6 @@ export const createIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdNamespaceAssociation",
-  iam: {
-    actions: ["cleanrooms:CreateIdNamespaceAssociation", "cleanrooms:TagResource"],
-    resources: {
-      "cleanrooms:CreateIdNamespaceAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-    conditional: { "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIdNamespaceAssociation",
 }));
@@ -3486,10 +3376,6 @@ export const createIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntermediateTable",
-  iam: {
-    actions: ["cleanrooms:CreateIntermediateTable", "cleanrooms:TagResource"],
-    conditional: { "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIntermediateTable",
 }));
@@ -3526,14 +3412,6 @@ export const createIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntermediateTableAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:CreateIntermediateTableAnalysisRule"],
-    resources: {
-      "cleanrooms:CreateIntermediateTableAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateIntermediateTableAnalysisRule",
 }));
@@ -3570,20 +3448,6 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
-  iam: {
-    actions: ["cleanrooms:CreateMembership", "iam:PassRole", "cleanrooms:TagResource"],
-    resources: {
-      "cleanrooms:CreateMembership": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "defaultResultConfiguration.roleArn",
-      "cleanrooms:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMembership",
 }));
@@ -3620,16 +3484,6 @@ export const createPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivacyBudgetTemplate",
-  iam: {
-    actions: ["cleanrooms:CreatePrivacyBudgetTemplate", "cleanrooms:TagResource"],
-    resources: {
-      "cleanrooms:CreatePrivacyBudgetTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
-      ],
-    },
-    conditional: { "cleanrooms:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePrivacyBudgetTemplate",
 }));
@@ -3662,14 +3516,6 @@ export const deleteAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnalysisTemplate",
-  iam: {
-    actions: ["cleanrooms:DeleteAnalysisTemplate"],
-    resources: {
-      "cleanrooms:DeleteAnalysisTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAnalysisTemplate",
 }));
@@ -3700,14 +3546,6 @@ export const deleteCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollaboration",
-  iam: {
-    actions: ["cleanrooms:DeleteCollaboration"],
-    resources: {
-      "cleanrooms:DeleteCollaboration": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCollaboration",
 }));
@@ -3740,14 +3578,6 @@ export const deleteConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredAudienceModelAssociation",
-  iam: {
-    actions: ["cleanrooms:DeleteConfiguredAudienceModelAssociation"],
-    resources: {
-      "cleanrooms:DeleteConfiguredAudienceModelAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredAudienceModelAssociation",
 }));
@@ -3782,14 +3612,6 @@ export const deleteConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTable",
-  iam: {
-    actions: ["cleanrooms:DeleteConfiguredTable"],
-    resources: {
-      "cleanrooms:DeleteConfiguredTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredTable",
 }));
@@ -3824,14 +3646,6 @@ export const deleteConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:DeleteConfiguredTableAnalysisRule"],
-    resources: {
-      "cleanrooms:DeleteConfiguredTableAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredTableAnalysisRule",
 }));
@@ -3866,14 +3680,6 @@ export const deleteConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAssociation",
-  iam: {
-    actions: ["cleanrooms:DeleteConfiguredTableAssociation"],
-    resources: {
-      "cleanrooms:DeleteConfiguredTableAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredTableAssociation",
 }));
@@ -3912,14 +3718,6 @@ export const deleteConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfiguredTableAssociationAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:DeleteConfiguredTableAssociationAnalysisRule"],
-    resources: {
-      "cleanrooms:DeleteConfiguredTableAssociationAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConfiguredTableAssociationAnalysisRule",
 }));
@@ -3952,15 +3750,6 @@ export const deleteIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdMappingTable",
-  iam: {
-    actions: ["cleanrooms:DeleteIdMappingTable"],
-    resources: {
-      "cleanrooms:DeleteIdMappingTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIdMappingTable",
 }));
@@ -3993,15 +3782,6 @@ export const deleteIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdNamespaceAssociation",
-  iam: {
-    actions: ["cleanrooms:DeleteIdNamespaceAssociation"],
-    resources: {
-      "cleanrooms:DeleteIdNamespaceAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIdNamespaceAssociation",
 }));
@@ -4036,15 +3816,6 @@ export const deleteIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntermediateTable",
-  iam: {
-    actions: ["cleanrooms:DeleteIntermediateTable"],
-    resources: {
-      "cleanrooms:DeleteIntermediateTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIntermediateTable",
 }));
@@ -4079,14 +3850,6 @@ export const deleteIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntermediateTableAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:DeleteIntermediateTableAnalysisRule"],
-    resources: {
-      "cleanrooms:DeleteIntermediateTableAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIntermediateTableAnalysisRule",
 }));
@@ -4121,14 +3884,6 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
-  iam: {
-    actions: ["cleanrooms:DeleteMember"],
-    resources: {
-      "cleanrooms:DeleteMember": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMember",
 }));
@@ -4163,14 +3918,6 @@ export const deleteMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembership",
-  iam: {
-    actions: ["cleanrooms:DeleteMembership"],
-    resources: {
-      "cleanrooms:DeleteMembership": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMembership",
 }));
@@ -4203,14 +3950,6 @@ export const deletePrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivacyBudgetTemplate",
-  iam: {
-    actions: ["cleanrooms:DeletePrivacyBudgetTemplate"],
-    resources: {
-      "cleanrooms:DeletePrivacyBudgetTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePrivacyBudgetTemplate",
 }));
@@ -4245,14 +3984,6 @@ export const disallowIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisallowIntermediateTable",
-  iam: {
-    actions: ["cleanrooms:DisallowIntermediateTable"],
-    resources: {
-      "cleanrooms:DisallowIntermediateTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisallowIntermediateTable",
 }));
@@ -4287,14 +4018,6 @@ export const getAnalysisLogExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalysisLogExport",
-  iam: {
-    actions: ["cleanrooms:GetAnalysisLogExport"],
-    resources: {
-      "cleanrooms:GetAnalysisLogExport": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAnalysisLogExport",
 }));
@@ -4327,14 +4050,6 @@ export const getAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAnalysisTemplate",
-  iam: {
-    actions: ["cleanrooms:GetAnalysisTemplate"],
-    resources: {
-      "cleanrooms:GetAnalysisTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAnalysisTemplate",
 }));
@@ -4365,14 +4080,6 @@ export const getCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaboration",
-  iam: {
-    actions: ["cleanrooms:GetCollaboration"],
-    resources: {
-      "cleanrooms:GetCollaboration": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCollaboration",
 }));
@@ -4405,15 +4112,6 @@ export const getCollaborationAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationAnalysisTemplate",
-  iam: {
-    actions: ["cleanrooms:GetCollaborationAnalysisTemplate"],
-    resources: {
-      "cleanrooms:GetCollaborationAnalysisTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCollaborationAnalysisTemplate",
 }));
@@ -4446,14 +4144,6 @@ export const getCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationChangeRequest",
-  iam: {
-    actions: ["cleanrooms:GetCollaborationChangeRequest"],
-    resources: {
-      "cleanrooms:GetCollaborationChangeRequest": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCollaborationChangeRequest",
 }));
@@ -4494,15 +4184,6 @@ export const getCollaborationConfiguredAudienceModelAssociation: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationConfiguredAudienceModelAssociation",
-  iam: {
-    actions: ["cleanrooms:GetCollaborationConfiguredAudienceModelAssociation"],
-    resources: {
-      "cleanrooms:GetCollaborationConfiguredAudienceModelAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCollaborationConfiguredAudienceModelAssociation",
 }));
@@ -4535,15 +4216,6 @@ export const getCollaborationIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationIdNamespaceAssociation",
-  iam: {
-    actions: ["cleanrooms:GetCollaborationIdNamespaceAssociation"],
-    resources: {
-      "cleanrooms:GetCollaborationIdNamespaceAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCollaborationIdNamespaceAssociation",
 }));
@@ -4576,15 +4248,6 @@ export const getCollaborationPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollaborationPrivacyBudgetTemplate",
-  iam: {
-    actions: ["cleanrooms:GetCollaborationPrivacyBudgetTemplate"],
-    resources: {
-      "cleanrooms:GetCollaborationPrivacyBudgetTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCollaborationPrivacyBudgetTemplate",
 }));
@@ -4617,14 +4280,6 @@ export const getConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredAudienceModelAssociation",
-  iam: {
-    actions: ["cleanrooms:GetConfiguredAudienceModelAssociation"],
-    resources: {
-      "cleanrooms:GetConfiguredAudienceModelAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConfiguredAudienceModelAssociation",
 }));
@@ -4657,14 +4312,6 @@ export const getConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTable",
-  iam: {
-    actions: ["cleanrooms:GetConfiguredTable"],
-    resources: {
-      "cleanrooms:GetConfiguredTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConfiguredTable",
 }));
@@ -4697,14 +4344,6 @@ export const getConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:GetConfiguredTableAnalysisRule"],
-    resources: {
-      "cleanrooms:GetConfiguredTableAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConfiguredTableAnalysisRule",
 }));
@@ -4737,14 +4376,6 @@ export const getConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAssociation",
-  iam: {
-    actions: ["cleanrooms:GetConfiguredTableAssociation"],
-    resources: {
-      "cleanrooms:GetConfiguredTableAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConfiguredTableAssociation",
 }));
@@ -4777,14 +4408,6 @@ export const getConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguredTableAssociationAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:GetConfiguredTableAssociationAnalysisRule"],
-    resources: {
-      "cleanrooms:GetConfiguredTableAssociationAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConfiguredTableAssociationAnalysisRule",
 }));
@@ -4817,15 +4440,6 @@ export const getIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdMappingTable",
-  iam: {
-    actions: ["cleanrooms:GetIdMappingTable"],
-    resources: {
-      "cleanrooms:GetIdMappingTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIdMappingTable",
 }));
@@ -4858,15 +4472,6 @@ export const getIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdNamespaceAssociation",
-  iam: {
-    actions: ["cleanrooms:GetIdNamespaceAssociation"],
-    resources: {
-      "cleanrooms:GetIdNamespaceAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIdNamespaceAssociation",
 }));
@@ -4899,15 +4504,6 @@ export const getIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntermediateTable",
-  iam: {
-    actions: ["cleanrooms:GetIntermediateTable"],
-    resources: {
-      "cleanrooms:GetIntermediateTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIntermediateTable",
 }));
@@ -4940,14 +4536,6 @@ export const getIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntermediateTableAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:GetIntermediateTableAnalysisRule"],
-    resources: {
-      "cleanrooms:GetIntermediateTableAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIntermediateTableAnalysisRule",
 }));
@@ -4980,14 +4568,6 @@ export const getMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMembership",
-  iam: {
-    actions: ["cleanrooms:GetMembership"],
-    resources: {
-      "cleanrooms:GetMembership": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMembership",
 }));
@@ -5020,14 +4600,6 @@ export const getPrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrivacyBudgetTemplate",
-  iam: {
-    actions: ["cleanrooms:GetPrivacyBudgetTemplate"],
-    resources: {
-      "cleanrooms:GetPrivacyBudgetTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPrivacyBudgetTemplate",
 }));
@@ -5060,14 +4632,6 @@ export const getProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectedJob",
-  iam: {
-    actions: ["cleanrooms:GetProtectedJob"],
-    resources: {
-      "cleanrooms:GetProtectedJob": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProtectedJob",
 }));
@@ -5100,14 +4664,6 @@ export const getProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectedQuery",
-  iam: {
-    actions: ["cleanrooms:GetProtectedQuery"],
-    resources: {
-      "cleanrooms:GetProtectedQuery": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProtectedQuery",
 }));
@@ -5140,15 +4696,6 @@ export const getSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchema",
-  iam: {
-    actions: ["cleanrooms:GetSchema"],
-    resources: {
-      "cleanrooms:GetSchema": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSchema",
 }));
@@ -5181,15 +4728,6 @@ export const getSchemaAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:GetSchemaAnalysisRule"],
-    resources: {
-      "cleanrooms:GetSchemaAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSchemaAnalysisRule",
 }));
@@ -5229,14 +4767,6 @@ export const listAnalysisLogExports: API.PaginatedOperationMethod<
     items: "analysisLogExports",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListAnalysisLogExports"],
-    resources: {
-      "cleanrooms:ListAnalysisLogExports": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAnalysisLogExports",
 })) as any;
@@ -5276,15 +4806,6 @@ export const listAnalysisTemplates: API.PaginatedOperationMethod<
     items: "analysisTemplateSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListAnalysisTemplates"],
-    resources: {
-      "cleanrooms:ListAnalysisTemplates": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAnalysisTemplates",
 })) as any;
@@ -5324,14 +4845,6 @@ export const listCollaborationAnalysisTemplates: API.PaginatedOperationMethod<
     items: "collaborationAnalysisTemplateSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListCollaborationAnalysisTemplates"],
-    resources: {
-      "cleanrooms:ListCollaborationAnalysisTemplates": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCollaborationAnalysisTemplates",
 })) as any;
@@ -5371,14 +4884,6 @@ export const listCollaborationChangeRequests: API.PaginatedOperationMethod<
     items: "collaborationChangeRequestSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListCollaborationChangeRequests"],
-    resources: {
-      "cleanrooms:ListCollaborationChangeRequests": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCollaborationChangeRequests",
 })) as any;
@@ -5426,14 +4931,6 @@ export const listCollaborationConfiguredAudienceModelAssociations: API.Paginated
     items: "collaborationConfiguredAudienceModelAssociationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListCollaborationConfiguredAudienceModelAssociations"],
-    resources: {
-      "cleanrooms:ListCollaborationConfiguredAudienceModelAssociations": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCollaborationConfiguredAudienceModelAssociations",
 })) as any;
@@ -5473,14 +4970,6 @@ export const listCollaborationIdNamespaceAssociations: API.PaginatedOperationMet
     items: "collaborationIdNamespaceAssociationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListCollaborationIdNamespaceAssociations"],
-    resources: {
-      "cleanrooms:ListCollaborationIdNamespaceAssociations": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCollaborationIdNamespaceAssociations",
 })) as any;
@@ -5520,14 +5009,6 @@ export const listCollaborationPrivacyBudgets: API.PaginatedOperationMethod<
     items: "collaborationPrivacyBudgetSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListCollaborationPrivacyBudgets"],
-    resources: {
-      "cleanrooms:ListCollaborationPrivacyBudgets": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCollaborationPrivacyBudgets",
 })) as any;
@@ -5567,14 +5048,6 @@ export const listCollaborationPrivacyBudgetTemplates: API.PaginatedOperationMeth
     items: "collaborationPrivacyBudgetTemplateSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListCollaborationPrivacyBudgetTemplates"],
-    resources: {
-      "cleanrooms:ListCollaborationPrivacyBudgetTemplates": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCollaborationPrivacyBudgetTemplates",
 })) as any;
@@ -5612,7 +5085,6 @@ export const listCollaborations: API.PaginatedOperationMethod<
     items: "collaborationList",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["cleanrooms:ListCollaborations"] },
   telemetry: TELEMETRY,
   span: "ListCollaborations",
 })) as any;
@@ -5652,15 +5124,6 @@ export const listConfiguredAudienceModelAssociations: API.PaginatedOperationMeth
     items: "configuredAudienceModelAssociationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListConfiguredAudienceModelAssociations"],
-    resources: {
-      "cleanrooms:ListConfiguredAudienceModelAssociations": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListConfiguredAudienceModelAssociations",
 })) as any;
@@ -5700,15 +5163,6 @@ export const listConfiguredTableAssociations: API.PaginatedOperationMethod<
     items: "configuredTableAssociationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListConfiguredTableAssociations"],
-    resources: {
-      "cleanrooms:ListConfiguredTableAssociations": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListConfiguredTableAssociations",
 })) as any;
@@ -5746,7 +5200,6 @@ export const listConfiguredTables: API.PaginatedOperationMethod<
     items: "configuredTableSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["cleanrooms:ListConfiguredTables"] },
   telemetry: TELEMETRY,
   span: "ListConfiguredTables",
 })) as any;
@@ -5786,15 +5239,6 @@ export const listIdMappingTables: API.PaginatedOperationMethod<
     items: "idMappingTableSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListIdMappingTables"],
-    resources: {
-      "cleanrooms:ListIdMappingTables": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIdMappingTables",
 })) as any;
@@ -5834,15 +5278,6 @@ export const listIdNamespaceAssociations: API.PaginatedOperationMethod<
     items: "idNamespaceAssociationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListIdNamespaceAssociations"],
-    resources: {
-      "cleanrooms:ListIdNamespaceAssociations": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIdNamespaceAssociations",
 })) as any;
@@ -5882,15 +5317,6 @@ export const listIntermediateTables: API.PaginatedOperationMethod<
     items: "intermediateTableSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListIntermediateTables"],
-    resources: {
-      "cleanrooms:ListIntermediateTables": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIntermediateTables",
 })) as any;
@@ -5930,15 +5356,6 @@ export const listIntermediateTableVersions: API.PaginatedOperationMethod<
     items: "intermediateTableVersionSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListIntermediateTableVersions"],
-    resources: {
-      "cleanrooms:ListIntermediateTableVersions": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIntermediateTableVersions",
 })) as any;
@@ -5978,14 +5395,6 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "memberSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListMembers"],
-    resources: {
-      "cleanrooms:ListMembers": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMembers",
 })) as any;
@@ -6023,7 +5432,6 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "membershipSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["cleanrooms:ListMemberships"] },
   telemetry: TELEMETRY,
   span: "ListMemberships",
 })) as any;
@@ -6063,14 +5471,6 @@ export const listPrivacyBudgets: API.PaginatedOperationMethod<
     items: "privacyBudgetSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListPrivacyBudgets"],
-    resources: {
-      "cleanrooms:ListPrivacyBudgets": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPrivacyBudgets",
 })) as any;
@@ -6110,15 +5510,6 @@ export const listPrivacyBudgetTemplates: API.PaginatedOperationMethod<
     items: "privacyBudgetTemplateSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListPrivacyBudgetTemplates"],
-    resources: {
-      "cleanrooms:ListPrivacyBudgetTemplates": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPrivacyBudgetTemplates",
 })) as any;
@@ -6158,14 +5549,6 @@ export const listProtectedJobs: API.PaginatedOperationMethod<
     items: "protectedJobs",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListProtectedJobs"],
-    resources: {
-      "cleanrooms:ListProtectedJobs": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProtectedJobs",
 })) as any;
@@ -6205,14 +5588,6 @@ export const listProtectedQueries: API.PaginatedOperationMethod<
     items: "protectedQueries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListProtectedQueries"],
-    resources: {
-      "cleanrooms:ListProtectedQueries": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProtectedQueries",
 })) as any;
@@ -6252,14 +5627,6 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "schemaSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["cleanrooms:ListSchemas"],
-    resources: {
-      "cleanrooms:ListSchemas": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSchemas",
 })) as any;
@@ -6283,7 +5650,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["cleanrooms:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -6320,15 +5686,6 @@ export const populateIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PopulateIdMappingTable",
-  iam: {
-    actions: ["cleanrooms:PopulateIdMappingTable"],
-    resources: {
-      "cleanrooms:PopulateIdMappingTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PopulateIdMappingTable",
 }));
@@ -6365,7 +5722,6 @@ export const populateIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PopulateIntermediateTable",
-  iam: { actions: ["cleanrooms:PopulateIntermediateTable"] },
   telemetry: TELEMETRY,
   span: "PopulateIntermediateTable",
 }));
@@ -6398,14 +5754,6 @@ export const previewPrivacyImpact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PreviewPrivacyImpact",
-  iam: {
-    actions: ["cleanrooms:PreviewPrivacyImpact"],
-    resources: {
-      "cleanrooms:PreviewPrivacyImpact": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PreviewPrivacyImpact",
 }));
@@ -6454,14 +5802,6 @@ export const startAnalysisLogExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAnalysisLogExport",
-  iam: {
-    actions: ["cleanrooms:StartAnalysisLogExport"],
-    resources: {
-      "cleanrooms:StartAnalysisLogExport": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartAnalysisLogExport",
 }));
@@ -6496,7 +5836,6 @@ export const startProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProtectedJob",
-  iam: { actions: ["cleanrooms:StartProtectedJob"] },
   telemetry: TELEMETRY,
   span: "StartProtectedJob",
 }));
@@ -6531,7 +5870,6 @@ export const startProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProtectedQuery",
-  iam: { actions: ["cleanrooms:StartProtectedQuery"] },
   telemetry: TELEMETRY,
   span: "StartProtectedQuery",
 }));
@@ -6552,7 +5890,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["cleanrooms:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6573,7 +5910,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["cleanrooms:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6606,14 +5942,6 @@ export const updateAnalysisTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAnalysisTemplate",
-  iam: {
-    actions: ["cleanrooms:UpdateAnalysisTemplate"],
-    resources: {
-      "cleanrooms:UpdateAnalysisTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/analysistemplate/${AnalysisTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAnalysisTemplate",
 }));
@@ -6644,14 +5972,6 @@ export const updateCollaboration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollaboration",
-  iam: {
-    actions: ["cleanrooms:UpdateCollaboration"],
-    resources: {
-      "cleanrooms:UpdateCollaboration": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCollaboration",
 }));
@@ -6688,14 +6008,6 @@ export const updateCollaborationChangeRequest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollaborationChangeRequest",
-  iam: {
-    actions: ["cleanrooms:UpdateCollaborationChangeRequest"],
-    resources: {
-      "cleanrooms:UpdateCollaborationChangeRequest": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:collaboration/${CollaborationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCollaborationChangeRequest",
 }));
@@ -6728,14 +6040,6 @@ export const updateConfiguredAudienceModelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredAudienceModelAssociation",
-  iam: {
-    actions: ["cleanrooms:UpdateConfiguredAudienceModelAssociation"],
-    resources: {
-      "cleanrooms:UpdateConfiguredAudienceModelAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredaudiencemodelassociation/${ConfiguredAudienceModelAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredAudienceModelAssociation",
 }));
@@ -6772,24 +6076,6 @@ export const updateConfiguredTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTable",
-  iam: {
-    actions: [
-      "cleanrooms:UpdateConfiguredTable",
-      "cleanrooms:UpdateConfiguredTableAllowedColumns",
-      "cleanrooms:UpdateConfiguredTableReference",
-    ],
-    resources: {
-      "cleanrooms:UpdateConfiguredTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-      "cleanrooms:UpdateConfiguredTableAllowedColumns": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-      "cleanrooms:UpdateConfiguredTableReference": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredTable",
 }));
@@ -6826,14 +6112,6 @@ export const updateConfiguredTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:UpdateConfiguredTableAnalysisRule"],
-    resources: {
-      "cleanrooms:UpdateConfiguredTableAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:configuredtable/${ConfiguredTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredTableAnalysisRule",
 }));
@@ -6868,16 +6146,6 @@ export const updateConfiguredTableAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAssociation",
-  iam: {
-    actions: ["iam:PassRole", "cleanrooms:UpdateConfiguredTableAssociation"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "cleanrooms:UpdateConfiguredTableAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredTableAssociation",
 }));
@@ -6912,14 +6180,6 @@ export const updateConfiguredTableAssociationAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguredTableAssociationAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:UpdateConfiguredTableAssociationAnalysisRule"],
-    resources: {
-      "cleanrooms:UpdateConfiguredTableAssociationAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/configuredtableassociation/${ConfiguredTableAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConfiguredTableAssociationAnalysisRule",
 }));
@@ -6952,15 +6212,6 @@ export const updateIdMappingTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdMappingTable",
-  iam: {
-    actions: ["cleanrooms:UpdateIdMappingTable"],
-    resources: {
-      "cleanrooms:UpdateIdMappingTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idmappingtable/${IdMappingTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIdMappingTable",
 }));
@@ -6993,15 +6244,6 @@ export const updateIdNamespaceAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdNamespaceAssociation",
-  iam: {
-    actions: ["cleanrooms:UpdateIdNamespaceAssociation"],
-    resources: {
-      "cleanrooms:UpdateIdNamespaceAssociation": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/idnamespaceassociation/${IdNamespaceAssociationId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIdNamespaceAssociation",
 }));
@@ -7034,15 +6276,6 @@ export const updateIntermediateTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntermediateTable",
-  iam: {
-    actions: ["cleanrooms:UpdateIntermediateTable"],
-    resources: {
-      "cleanrooms:UpdateIntermediateTable": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIntermediateTable",
 }));
@@ -7077,14 +6310,6 @@ export const updateIntermediateTableAnalysisRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntermediateTableAnalysisRule",
-  iam: {
-    actions: ["cleanrooms:UpdateIntermediateTableAnalysisRule"],
-    resources: {
-      "cleanrooms:UpdateIntermediateTableAnalysisRule": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/intermediatetable/${IntermediateTableId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIntermediateTableAnalysisRule",
 }));
@@ -7119,16 +6344,6 @@ export const updateMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMembership",
-  iam: {
-    actions: ["iam:PassRole", "cleanrooms:UpdateMembership"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "cleanrooms:UpdateMembership": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "defaultResultConfiguration.roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMembership",
 }));
@@ -7163,14 +6378,6 @@ export const updatePrivacyBudgetTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivacyBudgetTemplate",
-  iam: {
-    actions: ["cleanrooms:UpdatePrivacyBudgetTemplate"],
-    resources: {
-      "cleanrooms:UpdatePrivacyBudgetTemplate": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}/privacybudgettemplate/${PrivacyBudgetTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePrivacyBudgetTemplate",
 }));
@@ -7205,14 +6412,6 @@ export const updateProtectedJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectedJob",
-  iam: {
-    actions: ["cleanrooms:UpdateProtectedJob"],
-    resources: {
-      "cleanrooms:UpdateProtectedJob": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProtectedJob",
 }));
@@ -7247,14 +6446,6 @@ export const updateProtectedQuery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProtectedQuery",
-  iam: {
-    actions: ["cleanrooms:UpdateProtectedQuery"],
-    resources: {
-      "cleanrooms:UpdateProtectedQuery": [
-        "arn:${Partition}:cleanrooms:${Region}:${Account}:membership/${MembershipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProtectedQuery",
 }));

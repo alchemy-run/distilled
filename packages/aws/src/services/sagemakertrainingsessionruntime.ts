@@ -473,14 +473,6 @@ export const executeSamplingOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteSamplingOperation",
-  iam: {
-    actions: ["sagemaker:ExecuteSamplingOperation"],
-    resources: {
-      "sagemaker:ExecuteSamplingOperation": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExecuteSamplingOperation",
 }));
@@ -513,14 +505,6 @@ export const executeTrainingOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteTrainingOperation",
-  iam: {
-    actions: ["sagemaker:ExecuteTrainingOperation"],
-    resources: {
-      "sagemaker:ExecuteTrainingOperation": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExecuteTrainingOperation",
 }));
@@ -551,14 +535,6 @@ export const getSamplingOperationResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSamplingOperationResult",
-  iam: {
-    actions: ["sagemaker:GetSamplingOperationResult"],
-    resources: {
-      "sagemaker:GetSamplingOperationResult": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSamplingOperationResult",
 }));
@@ -589,14 +565,6 @@ export const getTrainingOperationResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrainingOperationResult",
-  iam: {
-    actions: ["sagemaker:GetTrainingOperationResult"],
-    resources: {
-      "sagemaker:GetTrainingOperationResult": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTrainingOperationResult",
 }));
@@ -629,14 +597,6 @@ export const sampleTrainingSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SampleTrainingSession",
-  iam: {
-    actions: ["sagemaker:CallWithBearerToken", "sagemaker:SampleTrainingSession"],
-    resources: {
-      "sagemaker:SampleTrainingSession": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SampleTrainingSession",
 }));
@@ -669,14 +629,6 @@ export const sampleTrainingSessionWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SampleTrainingSessionWithResponseStream",
-  iam: {
-    actions: ["sagemaker:CallWithBearerToken", "sagemaker:SampleTrainingSessionWithResponseStream"],
-    resources: {
-      "sagemaker:SampleTrainingSessionWithResponseStream": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SampleTrainingSessionWithResponseStream",
 }));

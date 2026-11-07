@@ -8501,14 +8501,6 @@ export const acceptInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInputDeviceTransfer",
-  iam: {
-    actions: ["medialive:AcceptInputDeviceTransfer"],
-    resources: {
-      "medialive:AcceptInputDeviceTransfer": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptInputDeviceTransfer",
 }));
@@ -8547,7 +8539,6 @@ export const batchDelete: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDelete",
-  iam: { actions: ["medialive:BatchDelete"] },
   telemetry: TELEMETRY,
   span: "BatchDelete",
 }));
@@ -8586,7 +8577,6 @@ export const batchStart: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStart",
-  iam: { actions: ["medialive:BatchStart"] },
   telemetry: TELEMETRY,
   span: "BatchStart",
 }));
@@ -8625,7 +8615,6 @@ export const batchStop: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchStop",
-  iam: { actions: ["medialive:BatchStop"] },
   telemetry: TELEMETRY,
   span: "BatchStop",
 }));
@@ -8664,14 +8653,6 @@ export const batchUpdateSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateSchedule",
-  iam: {
-    actions: ["medialive:BatchUpdateSchedule"],
-    resources: {
-      "medialive:BatchUpdateSchedule": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchUpdateSchedule",
 }));
@@ -8712,14 +8693,6 @@ export const cancelInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelInputDeviceTransfer",
-  iam: {
-    actions: ["medialive:CancelInputDeviceTransfer"],
-    resources: {
-      "medialive:CancelInputDeviceTransfer": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelInputDeviceTransfer",
 }));
@@ -8758,14 +8731,6 @@ export const claimDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClaimDevice",
-  iam: {
-    actions: ["medialive:ClaimDevice"],
-    resources: {
-      "medialive:ClaimDevice": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ClaimDevice",
 }));
@@ -8806,17 +8771,6 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
-  iam: {
-    actions: ["medialive:CreateChannel", "medialive:CreateTags", "iam:PassRole"],
-    resources: {
-      "medialive:CreateChannel": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn", "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -8853,16 +8807,6 @@ export const createChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelPlacementGroup",
-  iam: {
-    actions: ["medialive:CreateChannelPlacementGroup", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateChannelPlacementGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channelPlacementGroup:${ClusterId}/${ChannelPlacementGroupId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannelPlacementGroup",
 }));
@@ -8897,16 +8841,6 @@ export const createCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudWatchAlarmTemplate",
-  iam: {
-    actions: ["medialive:CreateCloudWatchAlarmTemplate", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateCloudWatchAlarmTemplate": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template:${CloudWatchAlarmTemplateId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCloudWatchAlarmTemplate",
 }));
@@ -8941,15 +8875,6 @@ export const createCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudWatchAlarmTemplateGroup",
-  iam: {
-    actions: ["medialive:CreateCloudWatchAlarmTemplateGroup", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateCloudWatchAlarmTemplateGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCloudWatchAlarmTemplateGroup",
 }));
@@ -8986,16 +8911,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: ["medialive:CreateCluster", "medialive:CreateTags", "iam:PassRole"],
-    resources: {
-      "medialive:CreateCluster": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "InstanceRoleArn", "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -9030,16 +8945,6 @@ export const createEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBridgeRuleTemplate",
-  iam: {
-    actions: ["medialive:CreateEventBridgeRuleTemplate", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateEventBridgeRuleTemplate": [
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template:${EventBridgeRuleTemplateId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEventBridgeRuleTemplate",
 }));
@@ -9074,15 +8979,6 @@ export const createEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventBridgeRuleTemplateGroup",
-  iam: {
-    actions: ["medialive:CreateEventBridgeRuleTemplateGroup", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateEventBridgeRuleTemplateGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEventBridgeRuleTemplateGroup",
 }));
@@ -9117,17 +9013,6 @@ export const createInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInput",
-  iam: {
-    actions: ["medialive:CreateInput", "medialive:CreateTags", "iam:PassRole"],
-    resources: {
-      "medialive:CreateInput": [
-        "arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn", "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateInput",
 }));
@@ -9162,15 +9047,6 @@ export const createInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInputSecurityGroup",
-  iam: {
-    actions: ["medialive:CreateInputSecurityGroup", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateInputSecurityGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateInputSecurityGroup",
 }));
@@ -9209,15 +9085,6 @@ export const createMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiplex",
-  iam: {
-    actions: ["medialive:CreateMultiplex", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateMultiplex": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMultiplex",
 }));
@@ -9256,14 +9123,6 @@ export const createMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMultiplexProgram",
-  iam: {
-    actions: ["medialive:CreateMultiplexProgram"],
-    resources: {
-      "medialive:CreateMultiplexProgram": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMultiplexProgram",
 }));
@@ -9300,15 +9159,6 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
-  iam: {
-    actions: ["medialive:CreateNetwork", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateNetwork": [
-        "arn:${Partition}:medialive:${Region}:${Account}:network:${NetworkId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateNetwork",
 }));
@@ -9345,16 +9195,6 @@ export const createNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNode",
-  iam: {
-    actions: ["medialive:CreateNode", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateNode": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateNode",
 }));
@@ -9391,14 +9231,6 @@ export const createNodeRegistrationScript: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNodeRegistrationScript",
-  iam: {
-    actions: ["medialive:CreateNodeRegistrationScript"],
-    resources: {
-      "medialive:CreateNodeRegistrationScript": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateNodeRegistrationScript",
 }));
@@ -9433,15 +9265,6 @@ export const createPartnerInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerInput",
-  iam: {
-    actions: ["medialive:CreatePartnerInput", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreatePartnerInput": [
-        "arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePartnerInput",
 }));
@@ -9478,15 +9301,6 @@ export const createSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSdiSource",
-  iam: {
-    actions: ["medialive:CreateSdiSource", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateSdiSource": [
-        "arn:${Partition}:medialive:${Region}:${Account}:sdiSource:${SdiSourceId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSdiSource",
 }));
@@ -9521,15 +9335,6 @@ export const createSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalMap",
-  iam: {
-    actions: ["medialive:CreateSignalMap", "medialive:CreateTags"],
-    resources: {
-      "medialive:CreateSignalMap": [
-        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSignalMap",
 }));
@@ -9560,7 +9365,6 @@ export const createTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTags",
-  iam: { actions: ["medialive:CreateTags"], conditional: { "medialive:CreateTags": "Tags" } },
   telemetry: TELEMETRY,
   span: "CreateTags",
 }));
@@ -9599,14 +9403,6 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
-  iam: {
-    actions: ["medialive:DeleteChannel"],
-    resources: {
-      "medialive:DeleteChannel": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -9645,14 +9441,6 @@ export const deleteChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPlacementGroup",
-  iam: {
-    actions: ["medialive:DeleteChannelPlacementGroup"],
-    resources: {
-      "medialive:DeleteChannelPlacementGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channelPlacementGroup:${ClusterId}/${ChannelPlacementGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelPlacementGroup",
 }));
@@ -9687,14 +9475,6 @@ export const deleteCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudWatchAlarmTemplate",
-  iam: {
-    actions: ["medialive:DeleteCloudWatchAlarmTemplate"],
-    resources: {
-      "medialive:DeleteCloudWatchAlarmTemplate": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template:${CloudWatchAlarmTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCloudWatchAlarmTemplate",
 }));
@@ -9729,14 +9509,6 @@ export const deleteCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudWatchAlarmTemplateGroup",
-  iam: {
-    actions: ["medialive:DeleteCloudWatchAlarmTemplateGroup"],
-    resources: {
-      "medialive:DeleteCloudWatchAlarmTemplateGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCloudWatchAlarmTemplateGroup",
 }));
@@ -9775,14 +9547,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["medialive:DeleteCluster"],
-    resources: {
-      "medialive:DeleteCluster": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -9817,14 +9581,6 @@ export const deleteEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBridgeRuleTemplate",
-  iam: {
-    actions: ["medialive:DeleteEventBridgeRuleTemplate"],
-    resources: {
-      "medialive:DeleteEventBridgeRuleTemplate": [
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template:${EventBridgeRuleTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventBridgeRuleTemplate",
 }));
@@ -9859,14 +9615,6 @@ export const deleteEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventBridgeRuleTemplateGroup",
-  iam: {
-    actions: ["medialive:DeleteEventBridgeRuleTemplateGroup"],
-    resources: {
-      "medialive:DeleteEventBridgeRuleTemplateGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventBridgeRuleTemplateGroup",
 }));
@@ -9905,12 +9653,6 @@ export const deleteInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInput",
-  iam: {
-    actions: ["medialive:DeleteInput"],
-    resources: {
-      "medialive:DeleteInput": ["arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInput",
 }));
@@ -9947,14 +9689,6 @@ export const deleteInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInputSecurityGroup",
-  iam: {
-    actions: ["medialive:DeleteInputSecurityGroup"],
-    resources: {
-      "medialive:DeleteInputSecurityGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInputSecurityGroup",
 }));
@@ -9993,14 +9727,6 @@ export const deleteMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiplex",
-  iam: {
-    actions: ["medialive:DeleteMultiplex"],
-    resources: {
-      "medialive:DeleteMultiplex": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMultiplex",
 }));
@@ -10039,14 +9765,6 @@ export const deleteMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMultiplexProgram",
-  iam: {
-    actions: ["medialive:DeleteMultiplexProgram"],
-    resources: {
-      "medialive:DeleteMultiplexProgram": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMultiplexProgram",
 }));
@@ -10085,14 +9803,6 @@ export const deleteNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetwork",
-  iam: {
-    actions: ["medialive:DeleteNetwork"],
-    resources: {
-      "medialive:DeleteNetwork": [
-        "arn:${Partition}:medialive:${Region}:${Account}:network:${NetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNetwork",
 }));
@@ -10131,14 +9841,6 @@ export const deleteNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNode",
-  iam: {
-    actions: ["medialive:DeleteNode"],
-    resources: {
-      "medialive:DeleteNode": [
-        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNode",
 }));
@@ -10177,14 +9879,6 @@ export const deleteReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReservation",
-  iam: {
-    actions: ["medialive:DeleteReservation"],
-    resources: {
-      "medialive:DeleteReservation": [
-        "arn:${Partition}:medialive:${Region}:${Account}:reservation:${ReservationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReservation",
 }));
@@ -10221,14 +9915,6 @@ export const deleteSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchedule",
-  iam: {
-    actions: ["medialive:DeleteSchedule"],
-    resources: {
-      "medialive:DeleteSchedule": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSchedule",
 }));
@@ -10267,14 +9953,6 @@ export const deleteSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSdiSource",
-  iam: {
-    actions: ["medialive:DeleteSdiSource"],
-    resources: {
-      "medialive:DeleteSdiSource": [
-        "arn:${Partition}:medialive:${Region}:${Account}:sdiSource:${SdiSourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSdiSource",
 }));
@@ -10309,14 +9987,6 @@ export const deleteSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalMap",
-  iam: {
-    actions: ["medialive:DeleteSignalMap"],
-    resources: {
-      "medialive:DeleteSignalMap": [
-        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSignalMap",
 }));
@@ -10347,7 +10017,6 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
-  iam: { actions: ["medialive:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -10382,7 +10051,6 @@ export const describeAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountConfiguration",
-  iam: { actions: ["medialive:DescribeAccountConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountConfiguration",
 }));
@@ -10419,14 +10087,6 @@ export const describeChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannel",
-  iam: {
-    actions: ["medialive:DescribeChannel"],
-    resources: {
-      "medialive:DescribeChannel": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannel",
 }));
@@ -10463,14 +10123,6 @@ export const describeChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeChannelPlacementGroup",
-  iam: {
-    actions: ["medialive:DescribeChannelPlacementGroup"],
-    resources: {
-      "medialive:DescribeChannelPlacementGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channelPlacementGroup:${ClusterId}/${ChannelPlacementGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeChannelPlacementGroup",
 }));
@@ -10507,14 +10159,6 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
-  iam: {
-    actions: ["medialive:DescribeCluster"],
-    resources: {
-      "medialive:DescribeCluster": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCluster",
 }));
@@ -10551,14 +10195,6 @@ export const describeInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInput",
-  iam: {
-    actions: ["medialive:DescribeInput"],
-    resources: {
-      "medialive:DescribeInput": [
-        "arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInput",
 }));
@@ -10595,14 +10231,6 @@ export const describeInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputDevice",
-  iam: {
-    actions: ["medialive:DescribeInputDevice"],
-    resources: {
-      "medialive:DescribeInputDevice": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInputDevice",
 }));
@@ -10639,14 +10267,6 @@ export const describeInputDeviceThumbnail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputDeviceThumbnail",
-  iam: {
-    actions: ["medialive:DescribeInputDeviceThumbnail"],
-    resources: {
-      "medialive:DescribeInputDeviceThumbnail": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInputDeviceThumbnail",
 }));
@@ -10683,14 +10303,6 @@ export const describeInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInputSecurityGroup",
-  iam: {
-    actions: ["medialive:DescribeInputSecurityGroup"],
-    resources: {
-      "medialive:DescribeInputSecurityGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInputSecurityGroup",
 }));
@@ -10727,14 +10339,6 @@ export const describeMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiplex",
-  iam: {
-    actions: ["medialive:DescribeMultiplex"],
-    resources: {
-      "medialive:DescribeMultiplex": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMultiplex",
 }));
@@ -10771,14 +10375,6 @@ export const describeMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMultiplexProgram",
-  iam: {
-    actions: ["medialive:DescribeMultiplexProgram"],
-    resources: {
-      "medialive:DescribeMultiplexProgram": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMultiplexProgram",
 }));
@@ -10815,14 +10411,6 @@ export const describeNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNetwork",
-  iam: {
-    actions: ["medialive:DescribeNetwork"],
-    resources: {
-      "medialive:DescribeNetwork": [
-        "arn:${Partition}:medialive:${Region}:${Account}:network:${NetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeNetwork",
 }));
@@ -10859,14 +10447,6 @@ export const describeNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNode",
-  iam: {
-    actions: ["medialive:DescribeNode"],
-    resources: {
-      "medialive:DescribeNode": [
-        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeNode",
 }));
@@ -10903,14 +10483,6 @@ export const describeOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOffering",
-  iam: {
-    actions: ["medialive:DescribeOffering"],
-    resources: {
-      "medialive:DescribeOffering": [
-        "arn:${Partition}:medialive:${Region}:${Account}:offering:${OfferingId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeOffering",
 }));
@@ -10947,14 +10519,6 @@ export const describeReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservation",
-  iam: {
-    actions: ["medialive:DescribeReservation"],
-    resources: {
-      "medialive:DescribeReservation": [
-        "arn:${Partition}:medialive:${Region}:${Account}:reservation:${ReservationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeReservation",
 }));
@@ -10998,14 +10562,6 @@ export const describeSchedule: API.PaginatedOperationMethod<
     items: "ScheduleActions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["medialive:DescribeSchedule"],
-    resources: {
-      "medialive:DescribeSchedule": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSchedule",
 })) as any;
@@ -11042,14 +10598,6 @@ export const describeSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSdiSource",
-  iam: {
-    actions: ["medialive:DescribeSdiSource"],
-    resources: {
-      "medialive:DescribeSdiSource": [
-        "arn:${Partition}:medialive:${Region}:${Account}:sdiSource:${SdiSourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSdiSource",
 }));
@@ -11088,14 +10636,6 @@ export const describeThumbnails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThumbnails",
-  iam: {
-    actions: ["medialive:DescribeThumbnails"],
-    resources: {
-      "medialive:DescribeThumbnails": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeThumbnails",
 }));
@@ -11128,14 +10668,6 @@ export const getCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudWatchAlarmTemplate",
-  iam: {
-    actions: ["medialive:GetCloudWatchAlarmTemplate"],
-    resources: {
-      "medialive:GetCloudWatchAlarmTemplate": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template:${CloudWatchAlarmTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCloudWatchAlarmTemplate",
 }));
@@ -11168,14 +10700,6 @@ export const getCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudWatchAlarmTemplateGroup",
-  iam: {
-    actions: ["medialive:GetCloudWatchAlarmTemplateGroup"],
-    resources: {
-      "medialive:GetCloudWatchAlarmTemplateGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCloudWatchAlarmTemplateGroup",
 }));
@@ -11208,14 +10732,6 @@ export const getEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventBridgeRuleTemplate",
-  iam: {
-    actions: ["medialive:GetEventBridgeRuleTemplate"],
-    resources: {
-      "medialive:GetEventBridgeRuleTemplate": [
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template:${EventBridgeRuleTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventBridgeRuleTemplate",
 }));
@@ -11248,14 +10764,6 @@ export const getEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventBridgeRuleTemplateGroup",
-  iam: {
-    actions: ["medialive:GetEventBridgeRuleTemplateGroup"],
-    resources: {
-      "medialive:GetEventBridgeRuleTemplateGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventBridgeRuleTemplateGroup",
 }));
@@ -11288,14 +10796,6 @@ export const getSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalMap",
-  iam: {
-    actions: ["medialive:GetSignalMap"],
-    resources: {
-      "medialive:GetSignalMap": [
-        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSignalMap",
 }));
@@ -11339,7 +10839,6 @@ export const listAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListAlerts"] },
   telemetry: TELEMETRY,
   span: "ListAlerts",
 })) as any;
@@ -11381,7 +10880,6 @@ export const listChannelPlacementGroups: API.PaginatedOperationMethod<
     items: "ChannelPlacementGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListChannelPlacementGroups"] },
   telemetry: TELEMETRY,
   span: "ListChannelPlacementGroups",
 })) as any;
@@ -11423,7 +10921,6 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Channels",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListChannels"] },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -11463,7 +10960,6 @@ export const listCloudWatchAlarmTemplateGroups: API.PaginatedOperationMethod<
     items: "CloudWatchAlarmTemplateGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListCloudWatchAlarmTemplateGroups"] },
   telemetry: TELEMETRY,
   span: "ListCloudWatchAlarmTemplateGroups",
 })) as any;
@@ -11503,7 +10999,6 @@ export const listCloudWatchAlarmTemplates: API.PaginatedOperationMethod<
     items: "CloudWatchAlarmTemplates",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListCloudWatchAlarmTemplates"] },
   telemetry: TELEMETRY,
   span: "ListCloudWatchAlarmTemplates",
 })) as any;
@@ -11547,7 +11042,6 @@ export const listClusterAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListClusterAlerts"] },
   telemetry: TELEMETRY,
   span: "ListClusterAlerts",
 })) as any;
@@ -11589,7 +11083,6 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -11629,7 +11122,6 @@ export const listEventBridgeRuleTemplateGroups: API.PaginatedOperationMethod<
     items: "EventBridgeRuleTemplateGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListEventBridgeRuleTemplateGroups"] },
   telemetry: TELEMETRY,
   span: "ListEventBridgeRuleTemplateGroups",
 })) as any;
@@ -11669,7 +11161,6 @@ export const listEventBridgeRuleTemplates: API.PaginatedOperationMethod<
     items: "EventBridgeRuleTemplates",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListEventBridgeRuleTemplates"] },
   telemetry: TELEMETRY,
   span: "ListEventBridgeRuleTemplates",
 })) as any;
@@ -11711,7 +11202,6 @@ export const listInputDevices: API.PaginatedOperationMethod<
     items: "InputDevices",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListInputDevices"] },
   telemetry: TELEMETRY,
   span: "ListInputDevices",
 })) as any;
@@ -11755,7 +11245,6 @@ export const listInputDeviceTransfers: API.PaginatedOperationMethod<
     items: "InputDeviceTransfers",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListInputDeviceTransfers"] },
   telemetry: TELEMETRY,
   span: "ListInputDeviceTransfers",
 })) as any;
@@ -11797,7 +11286,6 @@ export const listInputs: API.PaginatedOperationMethod<
     items: "Inputs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListInputs"] },
   telemetry: TELEMETRY,
   span: "ListInputs",
 })) as any;
@@ -11839,7 +11327,6 @@ export const listInputSecurityGroups: API.PaginatedOperationMethod<
     items: "InputSecurityGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListInputSecurityGroups"] },
   telemetry: TELEMETRY,
   span: "ListInputSecurityGroups",
 })) as any;
@@ -11883,7 +11370,6 @@ export const listMultiplexAlerts: API.PaginatedOperationMethod<
     items: "Alerts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListMultiplexAlerts"] },
   telemetry: TELEMETRY,
   span: "ListMultiplexAlerts",
 })) as any;
@@ -11925,7 +11411,6 @@ export const listMultiplexes: API.PaginatedOperationMethod<
     items: "Multiplexes",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListMultiplexes"] },
   telemetry: TELEMETRY,
   span: "ListMultiplexes",
 })) as any;
@@ -11969,7 +11454,6 @@ export const listMultiplexPrograms: API.PaginatedOperationMethod<
     items: "MultiplexPrograms",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListMultiplexPrograms"] },
   telemetry: TELEMETRY,
   span: "ListMultiplexPrograms",
 })) as any;
@@ -12011,7 +11495,6 @@ export const listNetworks: API.PaginatedOperationMethod<
     items: "Networks",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListNetworks"] },
   telemetry: TELEMETRY,
   span: "ListNetworks",
 })) as any;
@@ -12053,7 +11536,6 @@ export const listNodes: API.PaginatedOperationMethod<
     items: "Nodes",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListNodes"] },
   telemetry: TELEMETRY,
   span: "ListNodes",
 })) as any;
@@ -12095,7 +11577,6 @@ export const listOfferings: API.PaginatedOperationMethod<
     items: "Offerings",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListOfferings"] },
   telemetry: TELEMETRY,
   span: "ListOfferings",
 })) as any;
@@ -12137,7 +11618,6 @@ export const listReservations: API.PaginatedOperationMethod<
     items: "Reservations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListReservations"] },
   telemetry: TELEMETRY,
   span: "ListReservations",
 })) as any;
@@ -12179,7 +11659,6 @@ export const listSdiSources: API.PaginatedOperationMethod<
     items: "SdiSources",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListSdiSources"] },
   telemetry: TELEMETRY,
   span: "ListSdiSources",
 })) as any;
@@ -12219,7 +11698,6 @@ export const listSignalMaps: API.PaginatedOperationMethod<
     items: "SignalMaps",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["medialive:ListSignalMaps"] },
   telemetry: TELEMETRY,
   span: "ListSignalMaps",
 })) as any;
@@ -12250,7 +11728,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["medialive:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -12289,7 +11766,6 @@ export const listVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVersions",
-  iam: { actions: ["medialive:ListVersions"] },
   telemetry: TELEMETRY,
   span: "ListVersions",
 }));
@@ -12328,16 +11804,6 @@ export const purchaseOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseOffering",
-  iam: {
-    actions: ["medialive:CreateTags", "medialive:PurchaseOffering"],
-    resources: {
-      "medialive:PurchaseOffering": [
-        "arn:${Partition}:medialive:${Region}:${Account}:offering:${OfferingId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:reservation:${ReservationId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "PurchaseOffering",
 }));
@@ -12376,14 +11842,6 @@ export const rebootInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootInputDevice",
-  iam: {
-    actions: ["medialive:RebootInputDevice"],
-    resources: {
-      "medialive:RebootInputDevice": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootInputDevice",
 }));
@@ -12424,14 +11882,6 @@ export const rejectInputDeviceTransfer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInputDeviceTransfer",
-  iam: {
-    actions: ["medialive:RejectInputDeviceTransfer"],
-    resources: {
-      "medialive:RejectInputDeviceTransfer": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectInputDeviceTransfer",
 }));
@@ -12470,14 +11920,6 @@ export const restartChannelPipelines: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestartChannelPipelines",
-  iam: {
-    actions: ["medialive:RestartChannelPipelines"],
-    resources: {
-      "medialive:RestartChannelPipelines": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RestartChannelPipelines",
 }));
@@ -12516,14 +11958,6 @@ export const startChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartChannel",
-  iam: {
-    actions: ["medialive:StartChannel"],
-    resources: {
-      "medialive:StartChannel": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartChannel",
 }));
@@ -12558,14 +11992,6 @@ export const startDeleteMonitorDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDeleteMonitorDeployment",
-  iam: {
-    actions: ["medialive:StartDeleteMonitorDeployment"],
-    resources: {
-      "medialive:StartDeleteMonitorDeployment": [
-        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDeleteMonitorDeployment",
 }));
@@ -12604,14 +12030,6 @@ export const startInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInputDevice",
-  iam: {
-    actions: ["medialive:StartInputDevice"],
-    resources: {
-      "medialive:StartInputDevice": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartInputDevice",
 }));
@@ -12650,14 +12068,6 @@ export const startInputDeviceMaintenanceWindow: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInputDeviceMaintenanceWindow",
-  iam: {
-    actions: ["medialive:StartInputDeviceMaintenanceWindow"],
-    resources: {
-      "medialive:StartInputDeviceMaintenanceWindow": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartInputDeviceMaintenanceWindow",
 }));
@@ -12692,14 +12102,6 @@ export const startMonitorDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitorDeployment",
-  iam: {
-    actions: ["medialive:StartMonitorDeployment"],
-    resources: {
-      "medialive:StartMonitorDeployment": [
-        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMonitorDeployment",
 }));
@@ -12738,14 +12140,6 @@ export const startMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMultiplex",
-  iam: {
-    actions: ["medialive:StartMultiplex"],
-    resources: {
-      "medialive:StartMultiplex": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMultiplex",
 }));
@@ -12780,14 +12174,6 @@ export const startUpdateSignalMap: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUpdateSignalMap",
-  iam: {
-    actions: ["medialive:StartUpdateSignalMap"],
-    resources: {
-      "medialive:StartUpdateSignalMap": [
-        "arn:${Partition}:medialive:${Region}:${Account}:signal-map:${SignalMapId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartUpdateSignalMap",
 }));
@@ -12826,14 +12212,6 @@ export const stopChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopChannel",
-  iam: {
-    actions: ["medialive:StopChannel"],
-    resources: {
-      "medialive:StopChannel": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopChannel",
 }));
@@ -12872,14 +12250,6 @@ export const stopInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInputDevice",
-  iam: {
-    actions: ["medialive:StopInputDevice"],
-    resources: {
-      "medialive:StopInputDevice": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopInputDevice",
 }));
@@ -12918,14 +12288,6 @@ export const stopMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMultiplex",
-  iam: {
-    actions: ["medialive:StopMultiplex"],
-    resources: {
-      "medialive:StopMultiplex": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopMultiplex",
 }));
@@ -12966,14 +12328,6 @@ export const transferInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TransferInputDevice",
-  iam: {
-    actions: ["medialive:TransferInputDevice"],
-    resources: {
-      "medialive:TransferInputDevice": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TransferInputDevice",
 }));
@@ -13010,7 +12364,6 @@ export const updateAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountConfiguration",
-  iam: { actions: ["medialive:UpdateAccountConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountConfiguration",
 }));
@@ -13047,16 +12400,6 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
-  iam: {
-    actions: ["medialive:CreateTags", "iam:PassRole", "medialive:UpdateChannel"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "medialive:UpdateChannel": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -13097,14 +12440,6 @@ export const updateChannelClass: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelClass",
-  iam: {
-    actions: ["medialive:UpdateChannelClass"],
-    resources: {
-      "medialive:UpdateChannelClass": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channel:${ChannelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannelClass",
 }));
@@ -13143,14 +12478,6 @@ export const updateChannelPlacementGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelPlacementGroup",
-  iam: {
-    actions: ["medialive:UpdateChannelPlacementGroup"],
-    resources: {
-      "medialive:UpdateChannelPlacementGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:channelPlacementGroup:${ClusterId}/${ChannelPlacementGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannelPlacementGroup",
 }));
@@ -13185,15 +12512,6 @@ export const updateCloudWatchAlarmTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudWatchAlarmTemplate",
-  iam: {
-    actions: ["medialive:UpdateCloudWatchAlarmTemplate"],
-    resources: {
-      "medialive:UpdateCloudWatchAlarmTemplate": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template:${CloudWatchAlarmTemplateId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCloudWatchAlarmTemplate",
 }));
@@ -13228,14 +12546,6 @@ export const updateCloudWatchAlarmTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudWatchAlarmTemplateGroup",
-  iam: {
-    actions: ["medialive:UpdateCloudWatchAlarmTemplateGroup"],
-    resources: {
-      "medialive:UpdateCloudWatchAlarmTemplateGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cloudwatch-alarm-template-group:${CloudWatchAlarmTemplateGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCloudWatchAlarmTemplateGroup",
 }));
@@ -13272,14 +12582,6 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-  iam: {
-    actions: ["medialive:UpdateCluster"],
-    resources: {
-      "medialive:UpdateCluster": [
-        "arn:${Partition}:medialive:${Region}:${Account}:cluster:${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -13314,15 +12616,6 @@ export const updateEventBridgeRuleTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventBridgeRuleTemplate",
-  iam: {
-    actions: ["medialive:UpdateEventBridgeRuleTemplate"],
-    resources: {
-      "medialive:UpdateEventBridgeRuleTemplate": [
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template:${EventBridgeRuleTemplateId}",
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEventBridgeRuleTemplate",
 }));
@@ -13357,14 +12650,6 @@ export const updateEventBridgeRuleTemplateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventBridgeRuleTemplateGroup",
-  iam: {
-    actions: ["medialive:UpdateEventBridgeRuleTemplateGroup"],
-    resources: {
-      "medialive:UpdateEventBridgeRuleTemplateGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:eventbridge-rule-template-group:${EventBridgeRuleTemplateGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEventBridgeRuleTemplateGroup",
 }));
@@ -13401,14 +12686,6 @@ export const updateInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInput",
-  iam: {
-    actions: ["iam:PassRole", "medialive:UpdateInput"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "medialive:UpdateInput": ["arn:${Partition}:medialive:${Region}:${Account}:input:${InputId}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateInput",
 }));
@@ -13447,16 +12724,6 @@ export const updateInputDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInputDevice",
-  iam: {
-    actions: ["iam:PassRole", "medialive:UpdateInputDevice"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "medialive:UpdateInputDevice": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputDevice:${DeviceId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateInputDevice",
 }));
@@ -13493,15 +12760,6 @@ export const updateInputSecurityGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInputSecurityGroup",
-  iam: {
-    actions: ["medialive:CreateTags", "medialive:UpdateInputSecurityGroup"],
-    resources: {
-      "medialive:UpdateInputSecurityGroup": [
-        "arn:${Partition}:medialive:${Region}:${Account}:inputSecurityGroup:${InputSecurityGroupId}",
-      ],
-    },
-    conditional: { "medialive:CreateTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateInputSecurityGroup",
 }));
@@ -13540,14 +12798,6 @@ export const updateMultiplex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiplex",
-  iam: {
-    actions: ["medialive:UpdateMultiplex"],
-    resources: {
-      "medialive:UpdateMultiplex": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMultiplex",
 }));
@@ -13586,14 +12836,6 @@ export const updateMultiplexProgram: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMultiplexProgram",
-  iam: {
-    actions: ["medialive:UpdateMultiplexProgram"],
-    resources: {
-      "medialive:UpdateMultiplexProgram": [
-        "arn:${Partition}:medialive:${Region}:${Account}:multiplex:${MultiplexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMultiplexProgram",
 }));
@@ -13630,14 +12872,6 @@ export const updateNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNetwork",
-  iam: {
-    actions: ["medialive:UpdateNetwork"],
-    resources: {
-      "medialive:UpdateNetwork": [
-        "arn:${Partition}:medialive:${Region}:${Account}:network:${NetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateNetwork",
 }));
@@ -13674,14 +12908,6 @@ export const updateNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNode",
-  iam: {
-    actions: ["medialive:UpdateNode"],
-    resources: {
-      "medialive:UpdateNode": [
-        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateNode",
 }));
@@ -13720,14 +12946,6 @@ export const updateNodeState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNodeState",
-  iam: {
-    actions: ["medialive:UpdateNodeState"],
-    resources: {
-      "medialive:UpdateNodeState": [
-        "arn:${Partition}:medialive:${Region}:${Account}:node:${ClusterId}/${NodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateNodeState",
 }));
@@ -13766,14 +12984,6 @@ export const updateReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReservation",
-  iam: {
-    actions: ["medialive:UpdateReservation"],
-    resources: {
-      "medialive:UpdateReservation": [
-        "arn:${Partition}:medialive:${Region}:${Account}:reservation:${ReservationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateReservation",
 }));
@@ -13810,14 +13020,6 @@ export const updateSdiSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSdiSource",
-  iam: {
-    actions: ["medialive:UpdateSdiSource"],
-    resources: {
-      "medialive:UpdateSdiSource": [
-        "arn:${Partition}:medialive:${Region}:${Account}:sdiSource:${SdiSourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSdiSource",
 }));

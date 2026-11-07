@@ -2749,14 +2749,6 @@ export const addArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddArtifact",
-  iam: {
-    actions: ["securityagent:AddArtifact"],
-    resources: {
-      "securityagent:AddArtifact": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddArtifact",
 }));
@@ -2793,14 +2785,6 @@ export const batchCreateSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateSecurityRequirements",
-  iam: {
-    actions: ["securityagent:BatchCreateSecurityRequirements"],
-    resources: {
-      "securityagent:BatchCreateSecurityRequirements": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchCreateSecurityRequirements",
 }));
@@ -2821,14 +2805,6 @@ export const batchDeleteCodeReviews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteCodeReviews",
-  iam: {
-    actions: ["securityagent:BatchDeleteCodeReviews"],
-    resources: {
-      "securityagent:BatchDeleteCodeReviews": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteCodeReviews",
 }));
@@ -2849,14 +2825,6 @@ export const batchDeletePentests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeletePentests",
-  iam: {
-    actions: ["securityagent:BatchDeletePentests"],
-    resources: {
-      "securityagent:BatchDeletePentests": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeletePentests",
 }));
@@ -2891,14 +2859,6 @@ export const batchDeleteSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteSecurityRequirements",
-  iam: {
-    actions: ["securityagent:BatchDeleteSecurityRequirements"],
-    resources: {
-      "securityagent:BatchDeleteSecurityRequirements": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteSecurityRequirements",
 }));
@@ -2919,14 +2879,6 @@ export const batchDeleteThreatModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteThreatModels",
-  iam: {
-    actions: ["securityagent:BatchDeleteThreatModels"],
-    resources: {
-      "securityagent:BatchDeleteThreatModels": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteThreatModels",
 }));
@@ -2963,14 +2915,6 @@ export const batchDisassociateFindingIssue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateFindingIssue",
-  iam: {
-    actions: ["securityagent:BatchDisassociateFindingIssue"],
-    resources: {
-      "securityagent:BatchDisassociateFindingIssue": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateFindingIssue",
 }));
@@ -3007,14 +2951,6 @@ export const batchExportFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchExportFindings",
-  iam: {
-    actions: ["securityagent:BatchExportFindings"],
-    resources: {
-      "securityagent:BatchExportFindings": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchExportFindings",
 }));
@@ -3035,14 +2971,6 @@ export const batchGetAgentSpaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAgentSpaces",
-  iam: {
-    actions: ["securityagent:BatchGetAgentSpaces"],
-    resources: {
-      "securityagent:BatchGetAgentSpaces": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetAgentSpaces",
 }));
@@ -3075,14 +3003,6 @@ export const batchGetArtifactMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetArtifactMetadata",
-  iam: {
-    actions: ["securityagent:BatchGetArtifactMetadata"],
-    resources: {
-      "securityagent:BatchGetArtifactMetadata": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetArtifactMetadata",
 }));
@@ -3103,14 +3023,6 @@ export const batchGetCodeReviewJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviewJobs",
-  iam: {
-    actions: ["securityagent:BatchGetCodeReviewJobs"],
-    resources: {
-      "securityagent:BatchGetCodeReviewJobs": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetCodeReviewJobs",
 }));
@@ -3131,14 +3043,6 @@ export const batchGetCodeReviewJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviewJobTasks",
-  iam: {
-    actions: ["securityagent:BatchGetCodeReviewJobTasks"],
-    resources: {
-      "securityagent:BatchGetCodeReviewJobTasks": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetCodeReviewJobTasks",
 }));
@@ -3159,14 +3063,6 @@ export const batchGetCodeReviews: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeReviews",
-  iam: {
-    actions: ["securityagent:BatchGetCodeReviews"],
-    resources: {
-      "securityagent:BatchGetCodeReviews": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetCodeReviews",
 }));
@@ -3187,14 +3083,6 @@ export const batchGetFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFindings",
-  iam: {
-    actions: ["securityagent:BatchGetFindings"],
-    resources: {
-      "securityagent:BatchGetFindings": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetFindings",
 }));
@@ -3215,14 +3103,6 @@ export const batchGetPentestJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentestJobs",
-  iam: {
-    actions: ["securityagent:BatchGetPentestJobs"],
-    resources: {
-      "securityagent:BatchGetPentestJobs": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetPentestJobs",
 }));
@@ -3243,14 +3123,6 @@ export const batchGetPentestJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentestJobTasks",
-  iam: {
-    actions: ["securityagent:BatchGetPentestJobTasks"],
-    resources: {
-      "securityagent:BatchGetPentestJobTasks": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetPentestJobTasks",
 }));
@@ -3271,14 +3143,6 @@ export const batchGetPentests: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetPentests",
-  iam: {
-    actions: ["securityagent:BatchGetPentests"],
-    resources: {
-      "securityagent:BatchGetPentests": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetPentests",
 }));
@@ -3311,14 +3175,6 @@ export const batchGetSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetSecurityRequirements",
-  iam: {
-    actions: ["securityagent:BatchGetSecurityRequirements"],
-    resources: {
-      "securityagent:BatchGetSecurityRequirements": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetSecurityRequirements",
 }));
@@ -3339,14 +3195,6 @@ export const batchGetTargetDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetTargetDomains",
-  iam: {
-    actions: ["securityagent:BatchGetTargetDomains"],
-    resources: {
-      "securityagent:BatchGetTargetDomains": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:target-domain/${TargetDomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetTargetDomains",
 }));
@@ -3367,14 +3215,6 @@ export const batchGetThreatModelJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModelJobs",
-  iam: {
-    actions: ["securityagent:BatchGetThreatModelJobs"],
-    resources: {
-      "securityagent:BatchGetThreatModelJobs": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetThreatModelJobs",
 }));
@@ -3395,14 +3235,6 @@ export const batchGetThreatModelJobTasks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModelJobTasks",
-  iam: {
-    actions: ["securityagent:BatchGetThreatModelJobTasks"],
-    resources: {
-      "securityagent:BatchGetThreatModelJobTasks": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetThreatModelJobTasks",
 }));
@@ -3423,14 +3255,6 @@ export const batchGetThreatModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreatModels",
-  iam: {
-    actions: ["securityagent:BatchGetThreatModels"],
-    resources: {
-      "securityagent:BatchGetThreatModels": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetThreatModels",
 }));
@@ -3451,14 +3275,6 @@ export const batchGetThreats: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetThreats",
-  iam: {
-    actions: ["securityagent:BatchGetThreats"],
-    resources: {
-      "securityagent:BatchGetThreats": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetThreats",
 }));
@@ -3493,14 +3309,6 @@ export const batchUpdateSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateSecurityRequirements",
-  iam: {
-    actions: ["securityagent:BatchUpdateSecurityRequirements"],
-    resources: {
-      "securityagent:BatchUpdateSecurityRequirements": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchUpdateSecurityRequirements",
 }));
@@ -3521,14 +3329,6 @@ export const createAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentSpace",
-  iam: {
-    actions: ["securityagent:CreateAgentSpace", "iam:PassRole", "securityagent:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "a role the request names",
-      "securityagent:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAgentSpace",
 }));
@@ -3549,11 +3349,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["securityagent:CreateApplication", "iam:PassRole", "securityagent:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "roleArn", "securityagent:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -3574,14 +3369,6 @@ export const createCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeReview",
-  iam: {
-    actions: ["securityagent:CreateCodeReview"],
-    resources: {
-      "securityagent:CreateCodeReview": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCodeReview",
 }));
@@ -3616,10 +3403,6 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
-  iam: {
-    actions: ["securityagent:CreateIntegration", "securityagent:TagResource"],
-    conditional: { "securityagent:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIntegration",
 }));
@@ -3640,14 +3423,6 @@ export const createMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMembership",
-  iam: {
-    actions: ["securityagent:CreateMembership"],
-    resources: {
-      "securityagent:CreateMembership": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMembership",
 }));
@@ -3668,14 +3443,6 @@ export const createPentest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePentest",
-  iam: {
-    actions: ["securityagent:CreatePentest"],
-    resources: {
-      "securityagent:CreatePentest": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePentest",
 }));
@@ -3710,10 +3477,6 @@ export const createPrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateConnection",
-  iam: {
-    actions: ["securityagent:CreatePrivateConnection", "securityagent:TagResource"],
-    conditional: { "securityagent:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePrivateConnection",
 }));
@@ -3748,10 +3511,6 @@ export const createSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSecurityRequirementPack",
-  iam: {
-    actions: ["securityagent:CreateSecurityRequirementPack", "securityagent:TagResource"],
-    conditional: { "securityagent:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSecurityRequirementPack",
 }));
@@ -3772,10 +3531,6 @@ export const createTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetDomain",
-  iam: {
-    actions: ["securityagent:CreateTargetDomain", "securityagent:TagResource"],
-    conditional: { "securityagent:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTargetDomain",
 }));
@@ -3796,14 +3551,6 @@ export const createThreat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreat",
-  iam: {
-    actions: ["securityagent:CreateThreat"],
-    resources: {
-      "securityagent:CreateThreat": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateThreat",
 }));
@@ -3824,14 +3571,6 @@ export const createThreatModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThreatModel",
-  iam: {
-    actions: ["securityagent:CreateThreatModel"],
-    resources: {
-      "securityagent:CreateThreatModel": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateThreatModel",
 }));
@@ -3852,14 +3591,6 @@ export const deleteAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentSpace",
-  iam: {
-    actions: ["securityagent:DeleteAgentSpace"],
-    resources: {
-      "securityagent:DeleteAgentSpace": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAgentSpace",
 }));
@@ -3880,14 +3611,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["securityagent:DeleteApplication"],
-    resources: {
-      "securityagent:DeleteApplication": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -3920,14 +3643,6 @@ export const deleteArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArtifact",
-  iam: {
-    actions: ["securityagent:DeleteArtifact"],
-    resources: {
-      "securityagent:DeleteArtifact": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteArtifact",
 }));
@@ -3962,14 +3677,6 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
-  iam: {
-    actions: ["securityagent:DeleteIntegration"],
-    resources: {
-      "securityagent:DeleteIntegration": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:integration/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
 }));
@@ -3990,14 +3697,6 @@ export const deleteMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMembership",
-  iam: {
-    actions: ["securityagent:DeleteMembership"],
-    resources: {
-      "securityagent:DeleteMembership": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMembership",
 }));
@@ -4032,14 +3731,6 @@ export const deletePrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrivateConnection",
-  iam: {
-    actions: ["securityagent:DeletePrivateConnection"],
-    resources: {
-      "securityagent:DeletePrivateConnection": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:private-connection/${PrivateConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePrivateConnection",
 }));
@@ -4074,14 +3765,6 @@ export const deleteSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSecurityRequirementPack",
-  iam: {
-    actions: ["securityagent:DeleteSecurityRequirementPack"],
-    resources: {
-      "securityagent:DeleteSecurityRequirementPack": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSecurityRequirementPack",
 }));
@@ -4102,14 +3785,6 @@ export const deleteTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetDomain",
-  iam: {
-    actions: ["securityagent:DeleteTargetDomain"],
-    resources: {
-      "securityagent:DeleteTargetDomain": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:target-domain/${TargetDomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTargetDomain",
 }));
@@ -4142,14 +3817,6 @@ export const describePrivateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePrivateConnection",
-  iam: {
-    actions: ["securityagent:DescribePrivateConnection"],
-    resources: {
-      "securityagent:DescribePrivateConnection": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:private-connection/${PrivateConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePrivateConnection",
 }));
@@ -4170,14 +3837,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["securityagent:GetApplication"],
-    resources: {
-      "securityagent:GetApplication": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -4210,14 +3869,6 @@ export const getArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArtifact",
-  iam: {
-    actions: ["securityagent:GetArtifact"],
-    resources: {
-      "securityagent:GetArtifact": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArtifact",
 }));
@@ -4250,14 +3901,6 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
-  iam: {
-    actions: ["securityagent:GetIntegration"],
-    resources: {
-      "securityagent:GetIntegration": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:integration/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIntegration",
 }));
@@ -4290,14 +3933,6 @@ export const getSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSecurityRequirementPack",
-  iam: {
-    actions: ["securityagent:GetSecurityRequirementPack"],
-    resources: {
-      "securityagent:GetSecurityRequirementPack": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSecurityRequirementPack",
 }));
@@ -4334,14 +3969,6 @@ export const importSecurityRequirements: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSecurityRequirements",
-  iam: {
-    actions: ["securityagent:ImportSecurityRequirements"],
-    resources: {
-      "securityagent:ImportSecurityRequirements": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportSecurityRequirements",
 }));
@@ -4376,7 +4003,6 @@ export const initiateProviderRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateProviderRegistration",
-  iam: { actions: ["securityagent:InitiateProviderRegistration"] },
   telemetry: TELEMETRY,
   span: "InitiateProviderRegistration",
 }));
@@ -4404,14 +4030,6 @@ export const listActorMessages: API.PaginatedOperationMethod<
     items: "messages",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListActorMessages"],
-    resources: {
-      "securityagent:ListActorMessages": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListActorMessages",
 })) as any;
@@ -4439,7 +4057,6 @@ export const listAgentSpaces: API.PaginatedOperationMethod<
     items: "agentSpaceSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["securityagent:ListAgentSpaces"] },
   telemetry: TELEMETRY,
   span: "ListAgentSpaces",
 })) as any;
@@ -4467,7 +4084,6 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applicationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["securityagent:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -4507,14 +4123,6 @@ export const listArtifacts: API.PaginatedOperationMethod<
     items: "artifactSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListArtifacts"],
-    resources: {
-      "securityagent:ListArtifacts": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListArtifacts",
 })) as any;
@@ -4542,14 +4150,6 @@ export const listCodeReviewJobsForCodeReview: API.PaginatedOperationMethod<
     items: "codeReviewJobSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListCodeReviewJobsForCodeReview"],
-    resources: {
-      "securityagent:ListCodeReviewJobsForCodeReview": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCodeReviewJobsForCodeReview",
 })) as any;
@@ -4577,14 +4177,6 @@ export const listCodeReviewJobTasks: API.PaginatedOperationMethod<
     items: "codeReviewJobTaskSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListCodeReviewJobTasks"],
-    resources: {
-      "securityagent:ListCodeReviewJobTasks": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCodeReviewJobTasks",
 })) as any;
@@ -4612,14 +4204,6 @@ export const listCodeReviews: API.PaginatedOperationMethod<
     items: "codeReviewSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListCodeReviews"],
-    resources: {
-      "securityagent:ListCodeReviews": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCodeReviews",
 })) as any;
@@ -4647,14 +4231,6 @@ export const listDiscoveredEndpoints: API.PaginatedOperationMethod<
     items: "discoveredEndpoints",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListDiscoveredEndpoints"],
-    resources: {
-      "securityagent:ListDiscoveredEndpoints": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDiscoveredEndpoints",
 })) as any;
@@ -4682,14 +4258,6 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findingsSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListFindings"],
-    resources: {
-      "securityagent:ListFindings": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFindings",
 })) as any;
@@ -4729,14 +4297,6 @@ export const listIntegratedResources: API.PaginatedOperationMethod<
     items: "integratedResourceSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListIntegratedResources"],
-    resources: {
-      "securityagent:ListIntegratedResources": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIntegratedResources",
 })) as any;
@@ -4776,7 +4336,6 @@ export const listIntegrations: API.PaginatedOperationMethod<
     items: "integrationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["securityagent:ListIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListIntegrations",
 })) as any;
@@ -4804,14 +4363,6 @@ export const listMemberships: API.PaginatedOperationMethod<
     items: "membershipSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListMemberships"],
-    resources: {
-      "securityagent:ListMemberships": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMemberships",
 })) as any;
@@ -4839,14 +4390,6 @@ export const listPentestJobsForPentest: API.PaginatedOperationMethod<
     items: "pentestJobSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListPentestJobsForPentest"],
-    resources: {
-      "securityagent:ListPentestJobsForPentest": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPentestJobsForPentest",
 })) as any;
@@ -4874,14 +4417,6 @@ export const listPentestJobTasks: API.PaginatedOperationMethod<
     items: "taskSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListPentestJobTasks"],
-    resources: {
-      "securityagent:ListPentestJobTasks": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPentestJobTasks",
 })) as any;
@@ -4909,14 +4444,6 @@ export const listPentests: API.PaginatedOperationMethod<
     items: "pentestSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListPentests"],
-    resources: {
-      "securityagent:ListPentests": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPentests",
 })) as any;
@@ -4954,7 +4481,6 @@ export const listPrivateConnections: API.PaginatedOperationMethod<
     items: "privateConnections",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["securityagent:ListPrivateConnections"] },
   telemetry: TELEMETRY,
   span: "ListPrivateConnections",
 })) as any;
@@ -4992,7 +4518,6 @@ export const listSecurityRequirementPacks: API.PaginatedOperationMethod<
     items: "securityRequirementPackSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["securityagent:ListSecurityRequirementPacks"] },
   telemetry: TELEMETRY,
   span: "ListSecurityRequirementPacks",
 })) as any;
@@ -5032,14 +4557,6 @@ export const listSecurityRequirements: API.PaginatedOperationMethod<
     items: "securityRequirementSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListSecurityRequirements"],
-    resources: {
-      "securityagent:ListSecurityRequirements": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSecurityRequirements",
 })) as any;
@@ -5060,7 +4577,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["securityagent:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5088,7 +4604,6 @@ export const listTargetDomains: API.PaginatedOperationMethod<
     items: "targetDomainSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["securityagent:ListTargetDomains"] },
   telemetry: TELEMETRY,
   span: "ListTargetDomains",
 })) as any;
@@ -5116,14 +4631,6 @@ export const listThreatModelJobs: API.PaginatedOperationMethod<
     items: "threatModelJobSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListThreatModelJobs"],
-    resources: {
-      "securityagent:ListThreatModelJobs": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListThreatModelJobs",
 })) as any;
@@ -5151,14 +4658,6 @@ export const listThreatModelJobTasks: API.PaginatedOperationMethod<
     items: "threatModelJobTaskSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListThreatModelJobTasks"],
-    resources: {
-      "securityagent:ListThreatModelJobTasks": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListThreatModelJobTasks",
 })) as any;
@@ -5186,14 +4685,6 @@ export const listThreatModels: API.PaginatedOperationMethod<
     items: "threatModelSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListThreatModels"],
-    resources: {
-      "securityagent:ListThreatModels": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListThreatModels",
 })) as any;
@@ -5221,14 +4712,6 @@ export const listThreats: API.PaginatedOperationMethod<
     items: "threats",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["securityagent:ListThreats"],
-    resources: {
-      "securityagent:ListThreats": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListThreats",
 })) as any;
@@ -5249,14 +4732,6 @@ export const startCodeRemediation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeRemediation",
-  iam: {
-    actions: ["securityagent:StartCodeRemediation"],
-    resources: {
-      "securityagent:StartCodeRemediation": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartCodeRemediation",
 }));
@@ -5277,14 +4752,6 @@ export const startCodeReviewJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeReviewJob",
-  iam: {
-    actions: ["securityagent:StartCodeReviewJob"],
-    resources: {
-      "securityagent:StartCodeReviewJob": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartCodeReviewJob",
 }));
@@ -5305,14 +4772,6 @@ export const startPentestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPentestJob",
-  iam: {
-    actions: ["securityagent:StartPentestJob"],
-    resources: {
-      "securityagent:StartPentestJob": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartPentestJob",
 }));
@@ -5333,14 +4792,6 @@ export const startThreatModelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartThreatModelJob",
-  iam: {
-    actions: ["securityagent:StartThreatModelJob"],
-    resources: {
-      "securityagent:StartThreatModelJob": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartThreatModelJob",
 }));
@@ -5361,14 +4812,6 @@ export const stopCodeReviewJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCodeReviewJob",
-  iam: {
-    actions: ["securityagent:StopCodeReviewJob"],
-    resources: {
-      "securityagent:StopCodeReviewJob": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopCodeReviewJob",
 }));
@@ -5389,14 +4832,6 @@ export const stopPentestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPentestJob",
-  iam: {
-    actions: ["securityagent:StopPentestJob"],
-    resources: {
-      "securityagent:StopPentestJob": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopPentestJob",
 }));
@@ -5417,14 +4852,6 @@ export const stopThreatModelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopThreatModelJob",
-  iam: {
-    actions: ["securityagent:StopThreatModelJob"],
-    resources: {
-      "securityagent:StopThreatModelJob": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopThreatModelJob",
 }));
@@ -5445,7 +4872,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["securityagent:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5466,7 +4892,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["securityagent:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5487,16 +4912,6 @@ export const updateAgentSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentSpace",
-  iam: {
-    actions: ["iam:PassRole", "securityagent:UpdateAgentSpace"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "securityagent:UpdateAgentSpace": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAgentSpace",
 }));
@@ -5517,16 +4932,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: {
-    actions: ["iam:PassRole", "securityagent:UpdateApplication"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "securityagent:UpdateApplication": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:application/${ApplicationId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -5547,14 +4952,6 @@ export const updateCodeReview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeReview",
-  iam: {
-    actions: ["securityagent:UpdateCodeReview"],
-    resources: {
-      "securityagent:UpdateCodeReview": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCodeReview",
 }));
@@ -5575,16 +4972,6 @@ export const updateFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFinding",
-  iam: {
-    actions: ["iam:PassRole", "securityagent:UpdateFinding"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "securityagent:UpdateFinding": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFinding",
 }));
@@ -5619,15 +5006,6 @@ export const updateIntegratedResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegratedResources",
-  iam: {
-    actions: ["securityagent:UpdateIntegratedResources"],
-    resources: {
-      "securityagent:UpdateIntegratedResources": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-        "arn:${Partition}:securityagent:${Region}:${Account}:integration/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIntegratedResources",
 }));
@@ -5662,14 +5040,6 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
-  iam: {
-    actions: ["securityagent:UpdateIntegration"],
-    resources: {
-      "securityagent:UpdateIntegration": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:integration/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIntegration",
 }));
@@ -5690,14 +5060,6 @@ export const updatePentest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePentest",
-  iam: {
-    actions: ["securityagent:UpdatePentest"],
-    resources: {
-      "securityagent:UpdatePentest": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePentest",
 }));
@@ -5732,14 +5094,6 @@ export const updatePrivateConnectionCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrivateConnectionCertificate",
-  iam: {
-    actions: ["securityagent:UpdatePrivateConnectionCertificate"],
-    resources: {
-      "securityagent:UpdatePrivateConnectionCertificate": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:private-connection/${PrivateConnectionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePrivateConnectionCertificate",
 }));
@@ -5774,14 +5128,6 @@ export const updateSecurityRequirementPack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSecurityRequirementPack",
-  iam: {
-    actions: ["securityagent:UpdateSecurityRequirementPack"],
-    resources: {
-      "securityagent:UpdateSecurityRequirementPack": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:security-requirement-pack/${SecurityRequirementPackId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSecurityRequirementPack",
 }));
@@ -5802,14 +5148,6 @@ export const updateTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTargetDomain",
-  iam: {
-    actions: ["securityagent:UpdateTargetDomain"],
-    resources: {
-      "securityagent:UpdateTargetDomain": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:target-domain/${TargetDomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTargetDomain",
 }));
@@ -5830,14 +5168,6 @@ export const updateThreat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreat",
-  iam: {
-    actions: ["securityagent:UpdateThreat"],
-    resources: {
-      "securityagent:UpdateThreat": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateThreat",
 }));
@@ -5858,14 +5188,6 @@ export const updateThreatModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThreatModel",
-  iam: {
-    actions: ["securityagent:UpdateThreatModel"],
-    resources: {
-      "securityagent:UpdateThreatModel": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:agent-space/${AgentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateThreatModel",
 }));
@@ -5886,14 +5208,6 @@ export const verifyTargetDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyTargetDomain",
-  iam: {
-    actions: ["securityagent:VerifyTargetDomain"],
-    resources: {
-      "securityagent:VerifyTargetDomain": [
-        "arn:${Partition}:securityagent:${Region}:${Account}:target-domain/${TargetDomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "VerifyTargetDomain",
 }));

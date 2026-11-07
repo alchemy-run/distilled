@@ -933,7 +933,6 @@ export const addAttributesToFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddAttributesToFindings",
-  iam: { actions: ["inspector:AddAttributesToFindings"] },
   telemetry: TELEMETRY,
   span: "AddAttributesToFindings",
 }));
@@ -977,7 +976,6 @@ export const createAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentTarget",
-  iam: { actions: ["inspector:CreateAssessmentTarget"] },
   telemetry: TELEMETRY,
   span: "CreateAssessmentTarget",
 }));
@@ -1015,7 +1013,6 @@ export const createAssessmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAssessmentTemplate",
-  iam: { actions: ["inspector:CreateAssessmentTemplate"] },
   telemetry: TELEMETRY,
   span: "CreateAssessmentTemplate",
 }));
@@ -1052,7 +1049,6 @@ export const createExclusionsPreview: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExclusionsPreview",
-  iam: { actions: ["inspector:CreateExclusionsPreview"] },
   telemetry: TELEMETRY,
   span: "CreateExclusionsPreview",
 }));
@@ -1088,7 +1084,6 @@ export const createResourceGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceGroup",
-  iam: { actions: ["inspector:CreateResourceGroup"] },
   telemetry: TELEMETRY,
   span: "CreateResourceGroup",
 }));
@@ -1124,7 +1119,6 @@ export const deleteAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentRun",
-  iam: { actions: ["inspector:DeleteAssessmentRun"] },
   telemetry: TELEMETRY,
   span: "DeleteAssessmentRun",
 }));
@@ -1160,7 +1154,6 @@ export const deleteAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentTarget",
-  iam: { actions: ["inspector:DeleteAssessmentTarget"] },
   telemetry: TELEMETRY,
   span: "DeleteAssessmentTarget",
 }));
@@ -1196,7 +1189,6 @@ export const deleteAssessmentTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssessmentTemplate",
-  iam: { actions: ["inspector:DeleteAssessmentTemplate"] },
   telemetry: TELEMETRY,
   span: "DeleteAssessmentTemplate",
 }));
@@ -1218,7 +1210,6 @@ export const describeAssessmentRuns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentRuns",
-  iam: { actions: ["inspector:DescribeAssessmentRuns"] },
   telemetry: TELEMETRY,
   span: "DescribeAssessmentRuns",
 }));
@@ -1243,7 +1234,6 @@ export const describeAssessmentTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentTargets",
-  iam: { actions: ["inspector:DescribeAssessmentTargets"] },
   telemetry: TELEMETRY,
   span: "DescribeAssessmentTargets",
 }));
@@ -1268,7 +1258,6 @@ export const describeAssessmentTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAssessmentTemplates",
-  iam: { actions: ["inspector:DescribeAssessmentTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeAssessmentTemplates",
 }));
@@ -1290,7 +1279,6 @@ export const describeCrossAccountAccessRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCrossAccountAccessRole",
-  iam: { actions: ["inspector:DescribeCrossAccountAccessRole"] },
   telemetry: TELEMETRY,
   span: "DescribeCrossAccountAccessRole",
 }));
@@ -1311,7 +1299,6 @@ export const describeExclusions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExclusions",
-  iam: { actions: ["inspector:DescribeExclusions"] },
   telemetry: TELEMETRY,
   span: "DescribeExclusions",
 }));
@@ -1332,7 +1319,6 @@ export const describeFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFindings",
-  iam: { actions: ["inspector:DescribeFindings"] },
   telemetry: TELEMETRY,
   span: "DescribeFindings",
 }));
@@ -1354,7 +1340,6 @@ export const describeResourceGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceGroups",
-  iam: { actions: ["inspector:DescribeResourceGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeResourceGroups",
 }));
@@ -1376,7 +1361,6 @@ export const describeRulesPackages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRulesPackages",
-  iam: { actions: ["inspector:DescribeRulesPackages"] },
   telemetry: TELEMETRY,
   span: "DescribeRulesPackages",
 }));
@@ -1414,7 +1398,6 @@ export const getAssessmentReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssessmentReport",
-  iam: { actions: ["inspector:GetAssessmentReport"] },
   telemetry: TELEMETRY,
   span: "GetAssessmentReport",
 }));
@@ -1448,7 +1431,6 @@ export const getExclusionsPreview: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:GetExclusionsPreview"] },
   telemetry: TELEMETRY,
   span: "GetExclusionsPreview",
 })) as any;
@@ -1475,7 +1457,6 @@ export const getTelemetryMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryMetadata",
-  iam: { actions: ["inspector:GetTelemetryMetadata"] },
   telemetry: TELEMETRY,
   span: "GetTelemetryMetadata",
 }));
@@ -1508,7 +1489,6 @@ export const listAssessmentRunAgents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:ListAssessmentRunAgents"] },
   telemetry: TELEMETRY,
   span: "ListAssessmentRunAgents",
 })) as any;
@@ -1541,7 +1521,6 @@ export const listAssessmentRuns: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:ListAssessmentRuns"] },
   telemetry: TELEMETRY,
   span: "ListAssessmentRuns",
 })) as any;
@@ -1574,7 +1553,6 @@ export const listAssessmentTargets: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:ListAssessmentTargets"] },
   telemetry: TELEMETRY,
   span: "ListAssessmentTargets",
 })) as any;
@@ -1607,7 +1585,6 @@ export const listAssessmentTemplates: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:ListAssessmentTemplates"] },
   telemetry: TELEMETRY,
   span: "ListAssessmentTemplates",
 })) as any;
@@ -1640,7 +1617,6 @@ export const listEventSubscriptions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:ListEventSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListEventSubscriptions",
 })) as any;
@@ -1672,7 +1648,6 @@ export const listExclusions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:ListExclusions"] },
   telemetry: TELEMETRY,
   span: "ListExclusions",
 })) as any;
@@ -1705,7 +1680,6 @@ export const listFindings: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:ListFindings"] },
   telemetry: TELEMETRY,
   span: "ListFindings",
 })) as any;
@@ -1736,7 +1710,6 @@ export const listRulesPackages: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:ListRulesPackages"] },
   telemetry: TELEMETRY,
   span: "ListRulesPackages",
 })) as any;
@@ -1762,7 +1735,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["inspector:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1802,7 +1774,6 @@ export const previewAgents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector:PreviewAgents"] },
   telemetry: TELEMETRY,
   span: "PreviewAgents",
 })) as any;
@@ -1836,7 +1807,6 @@ export const registerCrossAccountAccessRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterCrossAccountAccessRole",
-  iam: { actions: ["inspector:RegisterCrossAccountAccessRole"] },
   telemetry: TELEMETRY,
   span: "RegisterCrossAccountAccessRole",
 }));
@@ -1870,7 +1840,6 @@ export const removeAttributesFromFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttributesFromFindings",
-  iam: { actions: ["inspector:RemoveAttributesFromFindings"] },
   telemetry: TELEMETRY,
   span: "RemoveAttributesFromFindings",
 }));
@@ -1904,7 +1873,6 @@ export const setTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTagsForResource",
-  iam: { actions: ["inspector:SetTagsForResource"] },
   telemetry: TELEMETRY,
   span: "SetTagsForResource",
 }));
@@ -1945,7 +1913,6 @@ export const startAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAssessmentRun",
-  iam: { actions: ["inspector:StartAssessmentRun"] },
   telemetry: TELEMETRY,
   span: "StartAssessmentRun",
 }));
@@ -1979,7 +1946,6 @@ export const stopAssessmentRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAssessmentRun",
-  iam: { actions: ["inspector:StopAssessmentRun"] },
   telemetry: TELEMETRY,
   span: "StopAssessmentRun",
 }));
@@ -2015,7 +1981,6 @@ export const subscribeToEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubscribeToEvent",
-  iam: { actions: ["inspector:SubscribeToEvent"] },
   telemetry: TELEMETRY,
   span: "SubscribeToEvent",
 }));
@@ -2049,7 +2014,6 @@ export const unsubscribeFromEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnsubscribeFromEvent",
-  iam: { actions: ["inspector:UnsubscribeFromEvent"] },
   telemetry: TELEMETRY,
   span: "UnsubscribeFromEvent",
 }));
@@ -2086,7 +2050,6 @@ export const updateAssessmentTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAssessmentTarget",
-  iam: { actions: ["inspector:UpdateAssessmentTarget"] },
   telemetry: TELEMETRY,
   span: "UpdateAssessmentTarget",
 }));

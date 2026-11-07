@@ -638,12 +638,6 @@ export const cancelSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSession",
-  iam: {
-    actions: ["mpa:CancelSession"],
-    resources: {
-      "mpa:CancelSession": ["arn:${Partition}:mpa:${Region}:${Account}:session/${SessionId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelSession",
 }));
@@ -678,15 +672,6 @@ export const createApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApprovalTeam",
-  iam: {
-    actions: ["mpa:CreateApprovalTeam", "mpa:TagResource"],
-    resources: {
-      "mpa:CreateApprovalTeam": [
-        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
-      ],
-    },
-    conditional: { "mpa:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApprovalTeam",
 }));
@@ -719,15 +704,6 @@ export const createIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentitySource",
-  iam: {
-    actions: ["mpa:CreateIdentitySource", "mpa:TagResource"],
-    resources: {
-      "mpa:CreateIdentitySource": [
-        "arn:${Partition}:mpa:${Region}:${Account}:identity-source/${IdentitySourceId}",
-      ],
-    },
-    conditional: { "mpa:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIdentitySource",
 }));
@@ -760,14 +736,6 @@ export const deleteIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentitySource",
-  iam: {
-    actions: ["mpa:DeleteIdentitySource"],
-    resources: {
-      "mpa:DeleteIdentitySource": [
-        "arn:${Partition}:mpa:${Region}:${Account}:identity-source/${IdentitySourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIdentitySource",
 }));
@@ -804,14 +772,6 @@ export const deleteInactiveApprovalTeamVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInactiveApprovalTeamVersion",
-  iam: {
-    actions: ["mpa:DeleteInactiveApprovalTeamVersion"],
-    resources: {
-      "mpa:DeleteInactiveApprovalTeamVersion": [
-        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInactiveApprovalTeamVersion",
 }));
@@ -844,14 +804,6 @@ export const getApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApprovalTeam",
-  iam: {
-    actions: ["mpa:GetApprovalTeam"],
-    resources: {
-      "mpa:GetApprovalTeam": [
-        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApprovalTeam",
 }));
@@ -884,14 +836,6 @@ export const getIdentitySource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentitySource",
-  iam: {
-    actions: ["mpa:GetIdentitySource"],
-    resources: {
-      "mpa:GetIdentitySource": [
-        "arn:${Partition}:mpa:${Region}:${Account}:identity-source/${IdentitySourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIdentitySource",
 }));
@@ -924,7 +868,6 @@ export const getPolicyVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyVersion",
-  iam: { actions: ["mpa:GetPolicyVersion"] },
   telemetry: TELEMETRY,
   span: "GetPolicyVersion",
 }));
@@ -957,7 +900,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: { actions: ["mpa:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -990,12 +932,6 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
-  iam: {
-    actions: ["mpa:GetSession"],
-    resources: {
-      "mpa:GetSession": ["arn:${Partition}:mpa:${Region}:${Account}:session/${SessionId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -1033,7 +969,6 @@ export const listApprovalTeams: API.PaginatedOperationMethod<
     items: "ApprovalTeams",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mpa:ListApprovalTeams"] },
   telemetry: TELEMETRY,
   span: "ListApprovalTeams",
 })) as any;
@@ -1071,7 +1006,6 @@ export const listIdentitySources: API.PaginatedOperationMethod<
     items: "IdentitySources",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mpa:ListIdentitySources"] },
   telemetry: TELEMETRY,
   span: "ListIdentitySources",
 })) as any;
@@ -1109,7 +1043,6 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "Policies",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mpa:ListPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -1149,7 +1082,6 @@ export const listPolicyVersions: API.PaginatedOperationMethod<
     items: "PolicyVersions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mpa:ListPolicyVersions"] },
   telemetry: TELEMETRY,
   span: "ListPolicyVersions",
 })) as any;
@@ -1189,7 +1121,6 @@ export const listResourcePolicies: API.PaginatedOperationMethod<
     items: "ResourcePolicies",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mpa:ListResourcePolicies"] },
   telemetry: TELEMETRY,
   span: "ListResourcePolicies",
 })) as any;
@@ -1229,7 +1160,6 @@ export const listSessions: API.PaginatedOperationMethod<
     items: "Sessions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mpa:ListSessions"] },
   telemetry: TELEMETRY,
   span: "ListSessions",
 })) as any;
@@ -1262,7 +1192,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["mpa:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1301,14 +1230,6 @@ export const startActiveApprovalTeamDeletion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartActiveApprovalTeamDeletion",
-  iam: {
-    actions: ["mpa:StartActiveApprovalTeamDeletion"],
-    resources: {
-      "mpa:StartActiveApprovalTeamDeletion": [
-        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartActiveApprovalTeamDeletion",
 }));
@@ -1341,14 +1262,6 @@ export const startApprovalTeamBaseline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApprovalTeamBaseline",
-  iam: {
-    actions: ["mpa:StartApprovalTeamBaseline"],
-    resources: {
-      "mpa:StartApprovalTeamBaseline": [
-        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartApprovalTeamBaseline",
 }));
@@ -1383,7 +1296,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["mpa:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1416,7 +1328,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["mpa:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1457,14 +1368,6 @@ export const updateApprovalTeam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApprovalTeam",
-  iam: {
-    actions: ["mpa:UpdateApprovalTeam"],
-    resources: {
-      "mpa:UpdateApprovalTeam": [
-        "arn:${Partition}:mpa:${Region}:${Account}:approval-team/${ApprovalTeamId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApprovalTeam",
 }));

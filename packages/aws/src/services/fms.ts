@@ -1245,7 +1245,6 @@ export const associateAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAdminAccount",
-  iam: { actions: ["fms:AssociateAdminAccount"] },
   telemetry: TELEMETRY,
   span: "AssociateAdminAccount",
 }));
@@ -1276,7 +1275,6 @@ export const associateThirdPartyFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateThirdPartyFirewall",
-  iam: { actions: ["fms:AssociateThirdPartyFirewall"] },
   telemetry: TELEMETRY,
   span: "AssociateThirdPartyFirewall",
 }));
@@ -1309,14 +1307,6 @@ export const batchAssociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateResource",
-  iam: {
-    actions: ["fms:BatchAssociateResource"],
-    resources: {
-      "fms:BatchAssociateResource": [
-        "arn:${Partition}:fms:${Region}:${Account}:resource-set/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchAssociateResource",
 }));
@@ -1347,14 +1337,6 @@ export const batchDisassociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateResource",
-  iam: {
-    actions: ["fms:BatchDisassociateResource"],
-    resources: {
-      "fms:BatchDisassociateResource": [
-        "arn:${Partition}:fms:${Region}:${Account}:resource-set/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateResource",
 }));
@@ -1379,12 +1361,6 @@ export const deleteAppsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppsList",
-  iam: {
-    actions: ["fms:DeleteAppsList"],
-    resources: {
-      "fms:DeleteAppsList": ["arn:${Partition}:fms:${Region}:${Account}:applications-list/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAppsList",
 }));
@@ -1410,7 +1386,6 @@ export const deleteNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationChannel",
-  iam: { actions: ["fms:DeleteNotificationChannel"] },
   telemetry: TELEMETRY,
   span: "DeleteNotificationChannel",
 }));
@@ -1443,10 +1418,6 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
-  iam: {
-    actions: ["fms:DeletePolicy"],
-    resources: { "fms:DeletePolicy": ["arn:${Partition}:fms:${Region}:${Account}:policy/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -1471,12 +1442,6 @@ export const deleteProtocolsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProtocolsList",
-  iam: {
-    actions: ["fms:DeleteProtocolsList"],
-    resources: {
-      "fms:DeleteProtocolsList": ["arn:${Partition}:fms:${Region}:${Account}:protocols-list/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProtocolsList",
 }));
@@ -1507,12 +1472,6 @@ export const deleteResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceSet",
-  iam: {
-    actions: ["fms:DeleteResourceSet"],
-    resources: {
-      "fms:DeleteResourceSet": ["arn:${Partition}:fms:${Region}:${Account}:resource-set/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourceSet",
 }));
@@ -1539,7 +1498,6 @@ export const disassociateAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAdminAccount",
-  iam: { actions: ["fms:DisassociateAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DisassociateAdminAccount",
 }));
@@ -1570,7 +1528,6 @@ export const disassociateThirdPartyFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateThirdPartyFirewall",
-  iam: { actions: ["fms:DisassociateThirdPartyFirewall"] },
   telemetry: TELEMETRY,
   span: "DisassociateThirdPartyFirewall",
 }));
@@ -1596,7 +1553,6 @@ export const getAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdminAccount",
-  iam: { actions: ["fms:GetAdminAccount"] },
   telemetry: TELEMETRY,
   span: "GetAdminAccount",
 }));
@@ -1629,7 +1585,6 @@ export const getAdminScope: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdminScope",
-  iam: { actions: ["fms:GetAdminScope"] },
   telemetry: TELEMETRY,
   span: "GetAdminScope",
 }));
@@ -1654,12 +1609,6 @@ export const getAppsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAppsList",
-  iam: {
-    actions: ["fms:GetAppsList"],
-    resources: {
-      "fms:GetAppsList": ["arn:${Partition}:fms:${Region}:${Account}:applications-list/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAppsList",
 }));
@@ -1693,12 +1642,6 @@ export const getComplianceDetail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComplianceDetail",
-  iam: {
-    actions: ["fms:GetComplianceDetail"],
-    resources: {
-      "fms:GetComplianceDetail": ["arn:${Partition}:fms:${Region}:${Account}:policy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetComplianceDetail",
 }));
@@ -1725,7 +1668,6 @@ export const getNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationChannel",
-  iam: { actions: ["fms:GetNotificationChannel"] },
   telemetry: TELEMETRY,
   span: "GetNotificationChannel",
 }));
@@ -1756,10 +1698,6 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
-  iam: {
-    actions: ["fms:GetPolicy"],
-    resources: { "fms:GetPolicy": ["arn:${Partition}:fms:${Region}:${Account}:policy/${Id}"] },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -1785,12 +1723,6 @@ export const getProtectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtectionStatus",
-  iam: {
-    actions: ["fms:GetProtectionStatus"],
-    resources: {
-      "fms:GetProtectionStatus": ["arn:${Partition}:fms:${Region}:${Account}:policy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProtectionStatus",
 }));
@@ -1815,12 +1747,6 @@ export const getProtocolsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProtocolsList",
-  iam: {
-    actions: ["fms:GetProtocolsList"],
-    resources: {
-      "fms:GetProtocolsList": ["arn:${Partition}:fms:${Region}:${Account}:protocols-list/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProtocolsList",
 }));
@@ -1851,12 +1777,6 @@ export const getResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSet",
-  iam: {
-    actions: ["fms:GetResourceSet"],
-    resources: {
-      "fms:GetResourceSet": ["arn:${Partition}:fms:${Region}:${Account}:resource-set/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourceSet",
 }));
@@ -1887,7 +1807,6 @@ export const getThirdPartyFirewallAssociationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetThirdPartyFirewallAssociationStatus",
-  iam: { actions: ["fms:GetThirdPartyFirewallAssociationStatus"] },
   telemetry: TELEMETRY,
   span: "GetThirdPartyFirewallAssociationStatus",
 }));
@@ -1912,12 +1831,6 @@ export const getViolationDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetViolationDetails",
-  iam: {
-    actions: ["fms:GetViolationDetails"],
-    resources: {
-      "fms:GetViolationDetails": ["arn:${Partition}:fms:${Region}:${Account}:policy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetViolationDetails",
 }));
@@ -1957,7 +1870,6 @@ export const listAdminAccountsForOrganization: API.PaginatedOperationMethod<
     items: "AdminAccounts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fms:ListAdminAccountsForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListAdminAccountsForOrganization",
 })) as any;
@@ -1989,7 +1901,6 @@ export const listAdminsManagingAccount: API.PaginatedOperationMethod<
     items: "AdminAccounts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fms:ListAdminsManagingAccount"] },
   telemetry: TELEMETRY,
   span: "ListAdminsManagingAccount",
 })) as any;
@@ -2027,7 +1938,6 @@ export const listAppsLists: API.PaginatedOperationMethod<
     items: "AppsLists",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fms:ListAppsLists"] },
   telemetry: TELEMETRY,
   span: "ListAppsLists",
 })) as any;
@@ -2060,12 +1970,6 @@ export const listComplianceStatus: API.PaginatedOperationMethod<
     items: "PolicyComplianceStatusList",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["fms:ListComplianceStatus"],
-    resources: {
-      "fms:ListComplianceStatus": ["arn:${Partition}:fms:${Region}:${Account}:policy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListComplianceStatus",
 })) as any;
@@ -2090,7 +1994,6 @@ export const listDiscoveredResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDiscoveredResources",
-  iam: { actions: ["fms:ListDiscoveredResources"] },
   telemetry: TELEMETRY,
   span: "ListDiscoveredResources",
 }));
@@ -2124,7 +2027,6 @@ export const listMemberAccounts: API.PaginatedOperationMethod<
     items: "MemberAccounts",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fms:ListMemberAccounts"] },
   telemetry: TELEMETRY,
   span: "ListMemberAccounts",
 })) as any;
@@ -2162,7 +2064,6 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "PolicyList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fms:ListPolicies"] },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -2194,7 +2095,6 @@ export const listProtocolsLists: API.PaginatedOperationMethod<
     items: "ProtocolsLists",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fms:ListProtocolsLists"] },
   telemetry: TELEMETRY,
   span: "ListProtocolsLists",
 })) as any;
@@ -2225,14 +2125,6 @@ export const listResourceSetResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceSetResources",
-  iam: {
-    actions: ["fms:ListResourceSetResources"],
-    resources: {
-      "fms:ListResourceSetResources": [
-        "arn:${Partition}:fms:${Region}:${Account}:resource-set/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourceSetResources",
 }));
@@ -2257,7 +2149,6 @@ export const listResourceSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResourceSets",
-  iam: { actions: ["fms:ListResourceSets"] },
   telemetry: TELEMETRY,
   span: "ListResourceSets",
 }));
@@ -2288,12 +2179,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["fms:ListTagsForResource"],
-    resources: {
-      "fms:ListTagsForResource": ["arn:${Partition}:fms:${Region}:${Account}:policy/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2331,7 +2216,6 @@ export const listThirdPartyFirewallFirewallPolicies: API.PaginatedOperationMetho
     items: "ThirdPartyFirewallFirewallPolicies",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fms:ListThirdPartyFirewallFirewallPolicies"] },
   telemetry: TELEMETRY,
   span: "ListThirdPartyFirewallFirewallPolicies",
 })) as any;
@@ -2363,7 +2247,6 @@ export const putAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAdminAccount",
-  iam: { actions: ["fms:PutAdminAccount"] },
   telemetry: TELEMETRY,
   span: "PutAdminAccount",
 }));
@@ -2396,13 +2279,6 @@ export const putAppsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAppsList",
-  iam: {
-    actions: ["fms:PutAppsList", "fms:TagResource"],
-    resources: {
-      "fms:PutAppsList": ["arn:${Partition}:fms:${Region}:${Account}:applications-list/${Id}"],
-    },
-    conditional: { "fms:TagResource": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "PutAppsList",
 }));
@@ -2431,10 +2307,6 @@ export const putNotificationChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationChannel",
-  iam: {
-    actions: ["iam:PassRole", "fms:PutNotificationChannel"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "PutNotificationChannel",
 }));
@@ -2506,11 +2378,6 @@ export const putPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPolicy",
-  iam: {
-    actions: ["fms:PutPolicy", "fms:TagResource"],
-    resources: { "fms:PutPolicy": ["arn:${Partition}:fms:${Region}:${Account}:policy/${Id}"] },
-    conditional: { "fms:TagResource": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "PutPolicy",
 }));
@@ -2543,13 +2410,6 @@ export const putProtocolsList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProtocolsList",
-  iam: {
-    actions: ["fms:PutProtocolsList", "fms:TagResource"],
-    resources: {
-      "fms:PutProtocolsList": ["arn:${Partition}:fms:${Region}:${Account}:protocols-list/${Id}"],
-    },
-    conditional: { "fms:TagResource": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "PutProtocolsList",
 }));
@@ -2582,13 +2442,6 @@ export const putResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourceSet",
-  iam: {
-    actions: ["fms:PutResourceSet", "fms:TagResource"],
-    resources: {
-      "fms:PutResourceSet": ["arn:${Partition}:fms:${Region}:${Account}:resource-set/${Id}"],
-    },
-    conditional: { "fms:TagResource": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "PutResourceSet",
 }));
@@ -2621,7 +2474,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["fms:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2652,7 +2504,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["fms:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

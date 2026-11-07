@@ -436,15 +436,6 @@ export const createDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeployment",
-  iam: {
-    actions: ["launchwizard:CreateDeployment", "launchwizard:TagResource"],
-    resources: {
-      "launchwizard:CreateDeployment": [
-        "arn:${Partition}:launchwizard:${Region}:${Account}:deployment/${DeploymentId}",
-      ],
-    },
-    conditional: { "launchwizard:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDeployment",
 }));
@@ -475,14 +466,6 @@ export const deleteDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeployment",
-  iam: {
-    actions: ["launchwizard:DeleteDeployment"],
-    resources: {
-      "launchwizard:DeleteDeployment": [
-        "arn:${Partition}:launchwizard:${Region}:${Account}:deployment/${DeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDeployment",
 }));
@@ -507,14 +490,6 @@ export const getDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployment",
-  iam: {
-    actions: ["launchwizard:GetDeployment"],
-    resources: {
-      "launchwizard:GetDeployment": [
-        "arn:${Partition}:launchwizard:${Region}:${Account}:deployment/${DeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeployment",
 }));
@@ -538,7 +513,6 @@ export const getDeploymentPatternVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeploymentPatternVersion",
-  iam: { actions: ["launchwizard:GetDeploymentPatternVersion"] },
   telemetry: TELEMETRY,
   span: "GetDeploymentPatternVersion",
 }));
@@ -563,7 +537,6 @@ export const getWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkload",
-  iam: { actions: ["launchwizard:GetWorkload"] },
   telemetry: TELEMETRY,
   span: "GetWorkload",
 }));
@@ -588,7 +561,6 @@ export const getWorkloadDeploymentPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadDeploymentPattern",
-  iam: { actions: ["launchwizard:GetWorkloadDeploymentPattern"] },
   telemetry: TELEMETRY,
   span: "GetWorkloadDeploymentPattern",
 }));
@@ -620,7 +592,6 @@ export const listDeploymentEvents: API.PaginatedOperationMethod<
     items: "deploymentEvents",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["launchwizard:ListDeploymentEvents"] },
   telemetry: TELEMETRY,
   span: "ListDeploymentEvents",
 })) as any;
@@ -652,7 +623,6 @@ export const listDeploymentPatternVersions: API.PaginatedOperationMethod<
     items: "deploymentPatternVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["launchwizard:ListDeploymentPatternVersions"] },
   telemetry: TELEMETRY,
   span: "ListDeploymentPatternVersions",
 })) as any;
@@ -680,7 +650,6 @@ export const listDeployments: API.PaginatedOperationMethod<
     items: "deployments",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["launchwizard:ListDeployments"] },
   telemetry: TELEMETRY,
   span: "ListDeployments",
 })) as any;
@@ -705,7 +674,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["launchwizard:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -737,7 +705,6 @@ export const listWorkloadDeploymentPatterns: API.PaginatedOperationMethod<
     items: "workloadDeploymentPatterns",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["launchwizard:ListWorkloadDeploymentPatterns"] },
   telemetry: TELEMETRY,
   span: "ListWorkloadDeploymentPatterns",
 })) as any;
@@ -765,7 +732,6 @@ export const listWorkloads: API.PaginatedOperationMethod<
     items: "workloads",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["launchwizard:ListWorkloads"] },
   telemetry: TELEMETRY,
   span: "ListWorkloads",
 })) as any;
@@ -790,7 +756,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["launchwizard:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -815,7 +780,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["launchwizard:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -846,14 +810,6 @@ export const updateDeployment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeployment",
-  iam: {
-    actions: ["launchwizard:UpdateDeployment"],
-    resources: {
-      "launchwizard:UpdateDeployment": [
-        "arn:${Partition}:launchwizard:${Region}:${Account}:deployment/${DeploymentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDeployment",
 }));

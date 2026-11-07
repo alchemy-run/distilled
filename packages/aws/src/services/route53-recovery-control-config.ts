@@ -574,13 +574,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: [
-      "route53-recovery-control-config:CreateCluster",
-      "route53-recovery-control-config:TagResource",
-    ],
-    conditional: { "route53-recovery-control-config:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -617,18 +610,6 @@ export const createControlPanel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateControlPanel",
-  iam: {
-    actions: [
-      "route53-recovery-control-config:CreateControlPanel",
-      "route53-recovery-control-config:TagResource",
-    ],
-    resources: {
-      "route53-recovery-control-config:CreateControlPanel": [
-        "arn:${Partition}:route53-recovery-control::${Account}:cluster/${ResourceId}",
-      ],
-    },
-    conditional: { "route53-recovery-control-config:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateControlPanel",
 }));
@@ -669,14 +650,6 @@ export const createRoutingControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRoutingControl",
-  iam: {
-    actions: ["route53-recovery-control-config:CreateRoutingControl"],
-    resources: {
-      "route53-recovery-control-config:CreateRoutingControl": [
-        "arn:${Partition}:route53-recovery-control::${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateRoutingControl",
 }));
@@ -705,18 +678,6 @@ export const createSafetyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSafetyRule",
-  iam: {
-    actions: [
-      "route53-recovery-control-config:CreateSafetyRule",
-      "route53-recovery-control-config:TagResource",
-    ],
-    resources: {
-      "route53-recovery-control-config:CreateSafetyRule": [
-        "arn:${Partition}:route53-recovery-control::${Account}:cluster/${ResourceId}",
-      ],
-    },
-    conditional: { "route53-recovery-control-config:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSafetyRule",
 }));
@@ -751,14 +712,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["route53-recovery-control-config:DeleteCluster"],
-    resources: {
-      "route53-recovery-control-config:DeleteCluster": [
-        "arn:${Partition}:route53-recovery-control::${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -793,14 +746,6 @@ export const deleteControlPanel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteControlPanel",
-  iam: {
-    actions: ["route53-recovery-control-config:DeleteControlPanel"],
-    resources: {
-      "route53-recovery-control-config:DeleteControlPanel": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteControlPanel",
 }));
@@ -835,14 +780,6 @@ export const deleteRoutingControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRoutingControl",
-  iam: {
-    actions: ["route53-recovery-control-config:DeleteRoutingControl"],
-    resources: {
-      "route53-recovery-control-config:DeleteRoutingControl": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/routingcontrol/${RoutingControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRoutingControl",
 }));
@@ -868,14 +805,6 @@ export const deleteSafetyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSafetyRule",
-  iam: {
-    actions: ["route53-recovery-control-config:DeleteSafetyRule"],
-    resources: {
-      "route53-recovery-control-config:DeleteSafetyRule": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/safetyrule/${SafetyRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSafetyRule",
 }));
@@ -910,14 +839,6 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
-  iam: {
-    actions: ["route53-recovery-control-config:DescribeCluster"],
-    resources: {
-      "route53-recovery-control-config:DescribeCluster": [
-        "arn:${Partition}:route53-recovery-control::${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCluster",
 }));
@@ -952,14 +873,6 @@ export const describeControlPanel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeControlPanel",
-  iam: {
-    actions: ["route53-recovery-control-config:DescribeControlPanel"],
-    resources: {
-      "route53-recovery-control-config:DescribeControlPanel": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeControlPanel",
 }));
@@ -996,14 +909,6 @@ export const describeRoutingControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRoutingControl",
-  iam: {
-    actions: ["route53-recovery-control-config:DescribeRoutingControl"],
-    resources: {
-      "route53-recovery-control-config:DescribeRoutingControl": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/routingcontrol/${RoutingControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRoutingControl",
 }));
@@ -1027,14 +932,6 @@ export const describeSafetyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSafetyRule",
-  iam: {
-    actions: ["route53-recovery-control-config:DescribeSafetyRule"],
-    resources: {
-      "route53-recovery-control-config:DescribeSafetyRule": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/safetyrule/${SafetyRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSafetyRule",
 }));
@@ -1058,14 +955,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: {
-    actions: ["route53-recovery-control-config:GetResourcePolicy"],
-    resources: {
-      "route53-recovery-control-config:GetResourcePolicy": [
-        "arn:${Partition}:route53-recovery-control::${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -1097,14 +986,6 @@ export const listAssociatedRoute53HealthChecks: API.PaginatedOperationMethod<
     items: "HealthCheckIds",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53-recovery-control-config:ListAssociatedRoute53HealthChecks"],
-    resources: {
-      "route53-recovery-control-config:ListAssociatedRoute53HealthChecks": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/routingcontrol/${RoutingControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAssociatedRoute53HealthChecks",
 })) as any;
@@ -1144,7 +1025,6 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "Clusters",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53-recovery-control-config:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -1184,7 +1064,6 @@ export const listControlPanels: API.PaginatedOperationMethod<
     items: "ControlPanels",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53-recovery-control-config:ListControlPanels"] },
   telemetry: TELEMETRY,
   span: "ListControlPanels",
 })) as any;
@@ -1224,14 +1103,6 @@ export const listRoutingControls: API.PaginatedOperationMethod<
     items: "RoutingControls",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53-recovery-control-config:ListRoutingControls"],
-    resources: {
-      "route53-recovery-control-config:ListRoutingControls": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRoutingControls",
 })) as any;
@@ -1271,14 +1142,6 @@ export const listSafetyRules: API.PaginatedOperationMethod<
     items: "SafetyRules",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53-recovery-control-config:ListSafetyRules"],
-    resources: {
-      "route53-recovery-control-config:ListSafetyRules": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSafetyRules",
 })) as any;
@@ -1303,7 +1166,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["route53-recovery-control-config:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1328,7 +1190,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["route53-recovery-control-config:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1353,7 +1214,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["route53-recovery-control-config:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1388,14 +1248,6 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-  iam: {
-    actions: ["route53-recovery-control-config:UpdateCluster"],
-    resources: {
-      "route53-recovery-control-config:UpdateCluster": [
-        "arn:${Partition}:route53-recovery-control::${Account}:cluster/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -1430,14 +1282,6 @@ export const updateControlPanel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateControlPanel",
-  iam: {
-    actions: ["route53-recovery-control-config:UpdateControlPanel"],
-    resources: {
-      "route53-recovery-control-config:UpdateControlPanel": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateControlPanel",
 }));
@@ -1472,14 +1316,6 @@ export const updateRoutingControl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRoutingControl",
-  iam: {
-    actions: ["route53-recovery-control-config:UpdateRoutingControl"],
-    resources: {
-      "route53-recovery-control-config:UpdateRoutingControl": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/routingcontrol/${RoutingControlId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRoutingControl",
 }));
@@ -1504,14 +1340,6 @@ export const updateSafetyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSafetyRule",
-  iam: {
-    actions: ["route53-recovery-control-config:UpdateSafetyRule"],
-    resources: {
-      "route53-recovery-control-config:UpdateSafetyRule": [
-        "arn:${Partition}:route53-recovery-control::${Account}:controlpanel/${ControlPanelId}/safetyrule/${SafetyRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSafetyRule",
 }));

@@ -1222,10 +1222,6 @@ export const createCallAnalyticsCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCallAnalyticsCategory",
-  iam: {
-    actions: ["transcribe:CreateCallAnalyticsCategory", "transcribe:TagResource"],
-    conditional: { "transcribe:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCallAnalyticsCategory",
 }));
@@ -1267,11 +1263,6 @@ export const createLanguageModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLanguageModel",
-  iam: {
-    actions: ["transcribe:CreateLanguageModel", "iam:PassRole", "transcribe:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "transcribe:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLanguageModel",
 }));
@@ -1317,10 +1308,6 @@ export const createMedicalVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMedicalVocabulary",
-  iam: {
-    actions: ["transcribe:CreateMedicalVocabulary", "transcribe:TagResource"],
-    conditional: { "transcribe:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMedicalVocabulary",
 }));
@@ -1364,11 +1351,6 @@ export const createVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVocabulary",
-  iam: {
-    actions: ["transcribe:CreateVocabulary", "iam:PassRole", "transcribe:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "DataAccessRoleArn", "transcribe:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVocabulary",
 }));
@@ -1411,11 +1393,6 @@ export const createVocabularyFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVocabularyFilter",
-  iam: {
-    actions: ["transcribe:CreateVocabularyFilter", "iam:PassRole", "transcribe:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "DataAccessRoleArn", "transcribe:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVocabularyFilter",
 }));
@@ -1448,14 +1425,6 @@ export const deleteCallAnalyticsCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCallAnalyticsCategory",
-  iam: {
-    actions: ["transcribe:DeleteCallAnalyticsCategory"],
-    resources: {
-      "transcribe:DeleteCallAnalyticsCategory": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:analytics-category/${CategoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCallAnalyticsCategory",
 }));
@@ -1482,14 +1451,6 @@ export const deleteCallAnalyticsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCallAnalyticsJob",
-  iam: {
-    actions: ["transcribe:DeleteCallAnalyticsJob"],
-    resources: {
-      "transcribe:DeleteCallAnalyticsJob": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:analytics/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCallAnalyticsJob",
 }));
@@ -1516,14 +1477,6 @@ export const deleteLanguageModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLanguageModel",
-  iam: {
-    actions: ["transcribe:DeleteLanguageModel"],
-    resources: {
-      "transcribe:DeleteLanguageModel": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:language-model/${ModelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLanguageModel",
 }));
@@ -1550,14 +1503,6 @@ export const deleteMedicalScribeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMedicalScribeJob",
-  iam: {
-    actions: ["transcribe:DeleteMedicalScribeJob"],
-    resources: {
-      "transcribe:DeleteMedicalScribeJob": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:medical-scribe-job/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMedicalScribeJob",
 }));
@@ -1584,14 +1529,6 @@ export const deleteMedicalTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMedicalTranscriptionJob",
-  iam: {
-    actions: ["transcribe:DeleteMedicalTranscriptionJob"],
-    resources: {
-      "transcribe:DeleteMedicalTranscriptionJob": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:medical-transcription-job/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMedicalTranscriptionJob",
 }));
@@ -1624,14 +1561,6 @@ export const deleteMedicalVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMedicalVocabulary",
-  iam: {
-    actions: ["transcribe:DeleteMedicalVocabulary"],
-    resources: {
-      "transcribe:DeleteMedicalVocabulary": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:medical-vocabulary/${VocabularyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMedicalVocabulary",
 }));
@@ -1658,14 +1587,6 @@ export const deleteTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTranscriptionJob",
-  iam: {
-    actions: ["transcribe:DeleteTranscriptionJob"],
-    resources: {
-      "transcribe:DeleteTranscriptionJob": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:transcription-job/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTranscriptionJob",
 }));
@@ -1698,14 +1619,6 @@ export const deleteVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVocabulary",
-  iam: {
-    actions: ["transcribe:DeleteVocabulary"],
-    resources: {
-      "transcribe:DeleteVocabulary": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:vocabulary/${VocabularyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVocabulary",
 }));
@@ -1738,14 +1651,6 @@ export const deleteVocabularyFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVocabularyFilter",
-  iam: {
-    actions: ["transcribe:DeleteVocabularyFilter"],
-    resources: {
-      "transcribe:DeleteVocabularyFilter": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:vocabulary-filter/${VocabularyFilterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVocabularyFilter",
 }));
@@ -1784,14 +1689,6 @@ export const describeLanguageModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLanguageModel",
-  iam: {
-    actions: ["transcribe:DescribeLanguageModel"],
-    resources: {
-      "transcribe:DescribeLanguageModel": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:language-model/${ModelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLanguageModel",
 }));
@@ -1824,14 +1721,6 @@ export const getCallAnalyticsCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCallAnalyticsCategory",
-  iam: {
-    actions: ["transcribe:GetCallAnalyticsCategory"],
-    resources: {
-      "transcribe:GetCallAnalyticsCategory": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:analytics-category/${CategoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCallAnalyticsCategory",
 }));
@@ -1877,14 +1766,6 @@ export const getCallAnalyticsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCallAnalyticsJob",
-  iam: {
-    actions: ["transcribe:GetCallAnalyticsJob"],
-    resources: {
-      "transcribe:GetCallAnalyticsJob": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:analytics/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCallAnalyticsJob",
 }));
@@ -1924,14 +1805,6 @@ export const getMedicalScribeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalScribeJob",
-  iam: {
-    actions: ["transcribe:GetMedicalScribeJob"],
-    resources: {
-      "transcribe:GetMedicalScribeJob": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:medical-scribe-job/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMedicalScribeJob",
 }));
@@ -1971,14 +1844,6 @@ export const getMedicalTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalTranscriptionJob",
-  iam: {
-    actions: ["transcribe:GetMedicalTranscriptionJob"],
-    resources: {
-      "transcribe:GetMedicalTranscriptionJob": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:medical-transcription-job/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMedicalTranscriptionJob",
 }));
@@ -2016,14 +1881,6 @@ export const getMedicalVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMedicalVocabulary",
-  iam: {
-    actions: ["transcribe:GetMedicalVocabulary"],
-    resources: {
-      "transcribe:GetMedicalVocabulary": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:medical-vocabulary/${VocabularyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMedicalVocabulary",
 }));
@@ -2066,14 +1923,6 @@ export const getTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTranscriptionJob",
-  iam: {
-    actions: ["transcribe:GetTranscriptionJob"],
-    resources: {
-      "transcribe:GetTranscriptionJob": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:transcription-job/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTranscriptionJob",
 }));
@@ -2112,14 +1961,6 @@ export const getVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVocabulary",
-  iam: {
-    actions: ["transcribe:GetVocabulary"],
-    resources: {
-      "transcribe:GetVocabulary": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:vocabulary/${VocabularyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVocabulary",
 }));
@@ -2152,14 +1993,6 @@ export const getVocabularyFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVocabularyFilter",
-  iam: {
-    actions: ["transcribe:GetVocabularyFilter"],
-    resources: {
-      "transcribe:GetVocabularyFilter": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:vocabulary-filter/${VocabularyFilterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVocabularyFilter",
 }));
@@ -2193,7 +2026,6 @@ export const listCallAnalyticsCategories: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListCallAnalyticsCategories"] },
   telemetry: TELEMETRY,
   span: "ListCallAnalyticsCategories",
 })) as any;
@@ -2227,7 +2059,6 @@ export const listCallAnalyticsJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListCallAnalyticsJobs"] },
   telemetry: TELEMETRY,
   span: "ListCallAnalyticsJobs",
 })) as any;
@@ -2261,7 +2092,6 @@ export const listLanguageModels: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListLanguageModels"] },
   telemetry: TELEMETRY,
   span: "ListLanguageModels",
 })) as any;
@@ -2295,7 +2125,6 @@ export const listMedicalScribeJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListMedicalScribeJobs"] },
   telemetry: TELEMETRY,
   span: "ListMedicalScribeJobs",
 })) as any;
@@ -2329,7 +2158,6 @@ export const listMedicalTranscriptionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListMedicalTranscriptionJobs"] },
   telemetry: TELEMETRY,
   span: "ListMedicalTranscriptionJobs",
 })) as any;
@@ -2363,7 +2191,6 @@ export const listMedicalVocabularies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListMedicalVocabularies"] },
   telemetry: TELEMETRY,
   span: "ListMedicalVocabularies",
 })) as any;
@@ -2398,7 +2225,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["transcribe:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2432,7 +2258,6 @@ export const listTranscriptionJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListTranscriptionJobs"] },
   telemetry: TELEMETRY,
   span: "ListTranscriptionJobs",
 })) as any;
@@ -2466,7 +2291,6 @@ export const listVocabularies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListVocabularies"] },
   telemetry: TELEMETRY,
   span: "ListVocabularies",
 })) as any;
@@ -2500,7 +2324,6 @@ export const listVocabularyFilters: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["transcribe:ListVocabularyFilters"] },
   telemetry: TELEMETRY,
   span: "ListVocabularyFilters",
 })) as any;
@@ -2573,11 +2396,6 @@ export const startCallAnalyticsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCallAnalyticsJob",
-  iam: {
-    actions: ["iam:PassRole", "transcribe:StartCallAnalyticsJob", "transcribe:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "DataAccessRoleArn", "transcribe:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartCallAnalyticsJob",
 }));
@@ -2639,11 +2457,6 @@ export const startMedicalScribeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalScribeJob",
-  iam: {
-    actions: ["iam:PassRole", "transcribe:StartMedicalScribeJob", "transcribe:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "transcribe:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartMedicalScribeJob",
 }));
@@ -2709,10 +2522,6 @@ export const startMedicalTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMedicalTranscriptionJob",
-  iam: {
-    actions: ["transcribe:StartMedicalTranscriptionJob", "transcribe:TagResource"],
-    conditional: { "transcribe:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartMedicalTranscriptionJob",
 }));
@@ -2770,14 +2579,6 @@ export const startTranscriptionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTranscriptionJob",
-  iam: {
-    actions: ["iam:PassRole", "transcribe:StartTranscriptionJob", "transcribe:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "JobExecutionSettings.DataAccessRoleArn",
-      "transcribe:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartTranscriptionJob",
 }));
@@ -2814,7 +2615,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["transcribe:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2850,7 +2650,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["transcribe:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2888,14 +2687,6 @@ export const updateCallAnalyticsCategory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCallAnalyticsCategory",
-  iam: {
-    actions: ["transcribe:UpdateCallAnalyticsCategory"],
-    resources: {
-      "transcribe:UpdateCallAnalyticsCategory": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:analytics-category/${CategoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCallAnalyticsCategory",
 }));
@@ -2938,16 +2729,6 @@ export const updateLanguageModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLanguageModel",
-  iam: {
-    actions: ["iam:PassRole", "transcribe:UpdateLanguageModel"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "transcribe:UpdateLanguageModel": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:language-model/${ModelName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "DataAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLanguageModel",
 }));
@@ -2982,14 +2763,6 @@ export const updateMedicalVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMedicalVocabulary",
-  iam: {
-    actions: ["transcribe:UpdateMedicalVocabulary"],
-    resources: {
-      "transcribe:UpdateMedicalVocabulary": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:medical-vocabulary/${VocabularyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMedicalVocabulary",
 }));
@@ -3028,16 +2801,6 @@ export const updateVocabulary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVocabulary",
-  iam: {
-    actions: ["iam:PassRole", "transcribe:UpdateVocabulary"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "transcribe:UpdateVocabulary": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:vocabulary/${VocabularyName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "DataAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVocabulary",
 }));
@@ -3075,16 +2838,6 @@ export const updateVocabularyFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVocabularyFilter",
-  iam: {
-    actions: ["iam:PassRole", "transcribe:UpdateVocabularyFilter"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "transcribe:UpdateVocabularyFilter": [
-        "arn:${Partition}:transcribe:${Region}:${Account}:vocabulary-filter/${VocabularyFilterName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "DataAccessRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVocabularyFilter",
 }));

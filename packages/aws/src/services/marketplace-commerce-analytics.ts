@@ -188,7 +188,6 @@ export const generateDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateDataSet",
-  iam: { actions: ["marketplacecommerceanalytics:GenerateDataSet"] },
   telemetry: TELEMETRY,
   span: "GenerateDataSet",
 }));
@@ -216,7 +215,6 @@ export const startSupportDataExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSupportDataExport",
-  iam: { actions: ["marketplacecommerceanalytics:StartSupportDataExport"] },
   telemetry: TELEMETRY,
   span: "StartSupportDataExport",
 }));

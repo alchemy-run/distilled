@@ -782,7 +782,6 @@ export const deleteSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSession",
-  iam: { actions: ["lex:DeleteSession"] },
   telemetry: TELEMETRY,
   span: "DeleteSession",
 }));
@@ -825,7 +824,6 @@ export const getSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSession",
-  iam: { actions: ["lex:GetSession"] },
   telemetry: TELEMETRY,
   span: "GetSession",
 }));
@@ -866,7 +864,6 @@ export const putSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutSession",
-  iam: { actions: ["lex:PutSession"] },
   telemetry: TELEMETRY,
   span: "PutSession",
 }));
@@ -930,15 +927,6 @@ export const recognizeText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecognizeText",
-  iam: {
-    actions: ["lex:RecognizeText"],
-    resources: {
-      "lex:RecognizeText": [
-        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
-        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RecognizeText",
 }));
@@ -1025,15 +1013,6 @@ export const recognizeUtterance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecognizeUtterance",
-  iam: {
-    actions: ["lex:RecognizeUtterance"],
-    resources: {
-      "lex:RecognizeUtterance": [
-        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
-        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RecognizeUtterance",
 }));
@@ -1108,15 +1087,6 @@ export const startConversation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartConversation",
-  iam: {
-    actions: ["lex:StartConversation"],
-    resources: {
-      "lex:StartConversation": [
-        "arn:${Partition}:lex:${Region}:${Account}:bot-alias/${BotId}/${BotAliasId}",
-        "arn:${Partition}:lex:${Region}:${Account}:bot:${BotName}:${BotAlias}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartConversation",
 }));

@@ -192,7 +192,6 @@ export const scanSbom: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScanSbom",
-  iam: { actions: ["inspector-scan:ScanSbom"] },
   telemetry: TELEMETRY,
   span: "ScanSbom",
 }));

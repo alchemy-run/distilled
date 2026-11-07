@@ -1367,14 +1367,6 @@ export const associateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateApi",
-  iam: {
-    actions: ["appsync:AssociateApi"],
-    resources: {
-      "appsync:AssociateApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:domainnames/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateApi",
 }));
@@ -1410,17 +1402,6 @@ export const associateMergedGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMergedGraphqlApi",
-  iam: {
-    actions: ["appsync:AssociateMergedGraphqlApi", "appsync:AssociateSourceGraphqlApi"],
-    resources: {
-      "appsync:AssociateMergedGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${GraphQLAPIId}",
-      ],
-      "appsync:AssociateSourceGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${GraphQLAPIId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateMergedGraphqlApi",
 }));
@@ -1456,17 +1437,6 @@ export const associateSourceGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceGraphqlApi",
-  iam: {
-    actions: ["appsync:AssociateMergedGraphqlApi", "appsync:AssociateSourceGraphqlApi"],
-    resources: {
-      "appsync:AssociateMergedGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${GraphQLAPIId}",
-      ],
-      "appsync:AssociateSourceGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${GraphQLAPIId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateSourceGraphqlApi",
 }));
@@ -1501,11 +1471,6 @@ export const createApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApi",
-  iam: {
-    actions: ["appsync:CreateApi", "iam:PassRole", "appsync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names", "appsync:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApi",
 }));
@@ -1538,7 +1503,6 @@ export const createApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiCache",
-  iam: { actions: ["appsync:CreateApiCache"] },
   telemetry: TELEMETRY,
   span: "CreateApiCache",
 }));
@@ -1575,7 +1539,6 @@ export const createApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKey",
-  iam: { actions: ["appsync:CreateApiKey"] },
   telemetry: TELEMETRY,
   span: "CreateApiKey",
 }));
@@ -1612,15 +1575,6 @@ export const createChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelNamespace",
-  iam: {
-    actions: ["appsync:CreateChannelNamespace", "appsync:TagResource"],
-    resources: {
-      "appsync:CreateChannelNamespace": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${ApiId}/channelNamespace/${ChannelNamespaceName}",
-      ],
-    },
-    conditional: { "appsync:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannelNamespace",
 }));
@@ -1653,11 +1607,6 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
-  iam: {
-    actions: ["appsync:CreateDataSource", "lambda:PassNetworkConnector", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "serviceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataSource",
 }));
@@ -1682,15 +1631,6 @@ export const createDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomainName",
-  iam: {
-    actions: ["appsync:CreateDomainName", "appsync:TagResource"],
-    resources: {
-      "appsync:CreateDomainName": [
-        "arn:${Partition}:appsync:${Region}:${Account}:domainnames/${DomainName}",
-      ],
-    },
-    conditional: { "appsync:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDomainName",
 }));
@@ -1726,7 +1666,6 @@ export const createFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFunction",
-  iam: { actions: ["appsync:CreateFunction"] },
   telemetry: TELEMETRY,
   span: "CreateFunction",
 }));
@@ -1761,11 +1700,6 @@ export const createGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGraphqlApi",
-  iam: {
-    actions: ["appsync:CreateGraphqlApi", "iam:PassRole", "appsync:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "mergedApiExecutionRoleArn", "appsync:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGraphqlApi",
 }));
@@ -1801,7 +1735,6 @@ export const createResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResolver",
-  iam: { actions: ["appsync:CreateResolver"] },
   telemetry: TELEMETRY,
   span: "CreateResolver",
 }));
@@ -1834,7 +1767,6 @@ export const createType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateType",
-  iam: { actions: ["appsync:CreateType"] },
   telemetry: TELEMETRY,
   span: "CreateType",
 }));
@@ -1869,12 +1801,6 @@ export const deleteApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApi",
-  iam: {
-    actions: ["appsync:DeleteApi"],
-    resources: {
-      "appsync:DeleteApi": ["arn:${Partition}:appsync:${Region}:${Account}:apis/${ApiId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApi",
 }));
@@ -1907,7 +1833,6 @@ export const deleteApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiCache",
-  iam: { actions: ["appsync:DeleteApiCache"] },
   telemetry: TELEMETRY,
   span: "DeleteApiCache",
 }));
@@ -1933,7 +1858,6 @@ export const deleteApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKey",
-  iam: { actions: ["appsync:DeleteApiKey"] },
   telemetry: TELEMETRY,
   span: "DeleteApiKey",
 }));
@@ -1968,14 +1892,6 @@ export const deleteChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelNamespace",
-  iam: {
-    actions: ["appsync:DeleteChannelNamespace"],
-    resources: {
-      "appsync:DeleteChannelNamespace": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${ApiId}/channelNamespace/${ChannelNamespaceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelNamespace",
 }));
@@ -2008,7 +1924,6 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
-  iam: { actions: ["appsync:DeleteDataSource"] },
   telemetry: TELEMETRY,
   span: "DeleteDataSource",
 }));
@@ -2041,14 +1956,6 @@ export const deleteDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomainName",
-  iam: {
-    actions: ["appsync:DeleteDomainName"],
-    resources: {
-      "appsync:DeleteDomainName": [
-        "arn:${Partition}:appsync:${Region}:${Account}:domainnames/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDomainName",
 }));
@@ -2081,7 +1988,6 @@ export const deleteFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFunction",
-  iam: { actions: ["appsync:DeleteFunction"] },
   telemetry: TELEMETRY,
   span: "DeleteFunction",
 }));
@@ -2116,14 +2022,6 @@ export const deleteGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGraphqlApi",
-  iam: {
-    actions: ["appsync:DeleteGraphqlApi"],
-    resources: {
-      "appsync:DeleteGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${GraphQLAPIId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGraphqlApi",
 }));
@@ -2156,7 +2054,6 @@ export const deleteResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResolver",
-  iam: { actions: ["appsync:DeleteResolver"] },
   telemetry: TELEMETRY,
   span: "DeleteResolver",
 }));
@@ -2189,7 +2086,6 @@ export const deleteType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteType",
-  iam: { actions: ["appsync:DeleteType"] },
   telemetry: TELEMETRY,
   span: "DeleteType",
 }));
@@ -2222,14 +2118,6 @@ export const disassociateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateApi",
-  iam: {
-    actions: ["appsync:DisassociateApi"],
-    resources: {
-      "appsync:DisassociateApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:domainnames/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateApi",
 }));
@@ -2263,14 +2151,6 @@ export const disassociateMergedGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMergedGraphqlApi",
-  iam: {
-    actions: ["appsync:DisassociateMergedGraphqlApi"],
-    resources: {
-      "appsync:DisassociateMergedGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${SourceGraphQLAPIId}/mergedApiAssociations/${Associationid}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateMergedGraphqlApi",
 }));
@@ -2304,14 +2184,6 @@ export const disassociateSourceGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSourceGraphqlApi",
-  iam: {
-    actions: ["appsync:DisassociateSourceGraphqlApi"],
-    resources: {
-      "appsync:DisassociateSourceGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${MergedGraphQLAPIId}/sourceApiAssociations/${Associationid}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateSourceGraphqlApi",
 }));
@@ -2341,7 +2213,6 @@ export const evaluateCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateCode",
-  iam: { actions: ["appsync:EvaluateCode"] },
   telemetry: TELEMETRY,
   span: "EvaluateCode",
 }));
@@ -2374,7 +2245,6 @@ export const evaluateMappingTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateMappingTemplate",
-  iam: { actions: ["appsync:EvaluateMappingTemplate"] },
   telemetry: TELEMETRY,
   span: "EvaluateMappingTemplate",
 }));
@@ -2407,7 +2277,6 @@ export const flushApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FlushApiCache",
-  iam: { actions: ["appsync:FlushApiCache"] },
   telemetry: TELEMETRY,
   span: "FlushApiCache",
 }));
@@ -2440,12 +2309,6 @@ export const getApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApi",
-  iam: {
-    actions: ["appsync:GetApi"],
-    resources: {
-      "appsync:GetApi": ["arn:${Partition}:appsync:${Region}:${Account}:apis/${ApiId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApi",
 }));
@@ -2471,14 +2334,6 @@ export const getApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiAssociation",
-  iam: {
-    actions: ["appsync:GetApiAssociation"],
-    resources: {
-      "appsync:GetApiAssociation": [
-        "arn:${Partition}:appsync:${Region}:${Account}:domainnames/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApiAssociation",
 }));
@@ -2511,7 +2366,6 @@ export const getApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiCache",
-  iam: { actions: ["appsync:GetApiCache"] },
   telemetry: TELEMETRY,
   span: "GetApiCache",
 }));
@@ -2544,14 +2398,6 @@ export const getChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelNamespace",
-  iam: {
-    actions: ["appsync:GetChannelNamespace"],
-    resources: {
-      "appsync:GetChannelNamespace": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${ApiId}/channelNamespace/${ChannelNamespaceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannelNamespace",
 }));
@@ -2584,7 +2430,6 @@ export const getDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSource",
-  iam: { actions: ["appsync:GetDataSource"] },
   telemetry: TELEMETRY,
   span: "GetDataSource",
 }));
@@ -2611,7 +2456,6 @@ export const getDataSourceIntrospection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSourceIntrospection",
-  iam: { actions: ["appsync:GetDataSourceIntrospection"] },
   telemetry: TELEMETRY,
   span: "GetDataSourceIntrospection",
 }));
@@ -2637,14 +2481,6 @@ export const getDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDomainName",
-  iam: {
-    actions: ["appsync:GetDomainName"],
-    resources: {
-      "appsync:GetDomainName": [
-        "arn:${Partition}:appsync:${Region}:${Account}:domainnames/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDomainName",
 }));
@@ -2669,7 +2505,6 @@ export const getFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFunction",
-  iam: { actions: ["appsync:GetFunction"] },
   telemetry: TELEMETRY,
   span: "GetFunction",
 }));
@@ -2702,14 +2537,6 @@ export const getGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphqlApi",
-  iam: {
-    actions: ["appsync:GetGraphqlApi"],
-    resources: {
-      "appsync:GetGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${GraphQLAPIId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGraphqlApi",
 }));
@@ -2743,7 +2570,6 @@ export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGraphqlApiEnvironmentVariables",
-  iam: { actions: ["appsync:GetGraphqlApiEnvironmentVariables"] },
   telemetry: TELEMETRY,
   span: "GetGraphqlApiEnvironmentVariables",
 }));
@@ -2774,7 +2600,6 @@ export const getIntrospectionSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntrospectionSchema",
-  iam: { actions: ["appsync:GetIntrospectionSchema"] },
   telemetry: TELEMETRY,
   span: "GetIntrospectionSchema",
 }));
@@ -2799,7 +2624,6 @@ export const getResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResolver",
-  iam: { actions: ["appsync:GetResolver"] },
   telemetry: TELEMETRY,
   span: "GetResolver",
 }));
@@ -2825,7 +2649,6 @@ export const getSchemaCreationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSchemaCreationStatus",
-  iam: { actions: ["appsync:GetSchemaCreationStatus"] },
   telemetry: TELEMETRY,
   span: "GetSchemaCreationStatus",
 }));
@@ -2851,14 +2674,6 @@ export const getSourceApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSourceApiAssociation",
-  iam: {
-    actions: ["appsync:GetSourceApiAssociation"],
-    resources: {
-      "appsync:GetSourceApiAssociation": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${MergedGraphQLAPIId}/sourceApiAssociations/${Associationid}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSourceApiAssociation",
 }));
@@ -2891,7 +2706,6 @@ export const getType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetType",
-  iam: { actions: ["appsync:GetType"] },
   telemetry: TELEMETRY,
   span: "GetType",
 }));
@@ -2929,7 +2743,6 @@ export const listApiKeys: API.PaginatedOperationMethod<
     items: "apiKeys",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListApiKeys"] },
   telemetry: TELEMETRY,
   span: "ListApiKeys",
 })) as any;
@@ -2964,7 +2777,6 @@ export const listApis: API.PaginatedOperationMethod<
     items: "apis",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListApis"] },
   telemetry: TELEMETRY,
   span: "ListApis",
 })) as any;
@@ -3000,14 +2812,6 @@ export const listChannelNamespaces: API.PaginatedOperationMethod<
     items: "channelNamespaces",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["appsync:ListChannelNamespaces"],
-    resources: {
-      "appsync:ListChannelNamespaces": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${ApiId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelNamespaces",
 })) as any;
@@ -3040,7 +2844,6 @@ export const listDataSources: API.PaginatedOperationMethod<
     items: "dataSources",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListDataSources"] },
   telemetry: TELEMETRY,
   span: "ListDataSources",
 })) as any;
@@ -3072,7 +2875,6 @@ export const listDomainNames: API.PaginatedOperationMethod<
     items: "domainNameConfigs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListDomainNames"] },
   telemetry: TELEMETRY,
   span: "ListDomainNames",
 })) as any;
@@ -3105,7 +2907,6 @@ export const listFunctions: API.PaginatedOperationMethod<
     items: "functions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListFunctions"] },
   telemetry: TELEMETRY,
   span: "ListFunctions",
 })) as any;
@@ -3137,7 +2938,6 @@ export const listGraphqlApis: API.PaginatedOperationMethod<
     items: "graphqlApis",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListGraphqlApis"] },
   telemetry: TELEMETRY,
   span: "ListGraphqlApis",
 })) as any;
@@ -3170,7 +2970,6 @@ export const listResolvers: API.PaginatedOperationMethod<
     items: "resolvers",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListResolvers"] },
   telemetry: TELEMETRY,
   span: "ListResolvers",
 })) as any;
@@ -3203,7 +3002,6 @@ export const listResolversByFunction: API.PaginatedOperationMethod<
     items: "resolvers",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListResolversByFunction"] },
   telemetry: TELEMETRY,
   span: "ListResolversByFunction",
 })) as any;
@@ -3236,7 +3034,6 @@ export const listSourceApiAssociations: API.PaginatedOperationMethod<
     items: "sourceApiAssociationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListSourceApiAssociations"] },
   telemetry: TELEMETRY,
   span: "ListSourceApiAssociations",
 })) as any;
@@ -3271,7 +3068,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["appsync:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3311,7 +3107,6 @@ export const listTypes: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListTypes"] },
   telemetry: TELEMETRY,
   span: "ListTypes",
 })) as any;
@@ -3351,7 +3146,6 @@ export const listTypesByAssociation: API.PaginatedOperationMethod<
     items: "types",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["appsync:ListTypesByAssociation"] },
   telemetry: TELEMETRY,
   span: "ListTypesByAssociation",
 })) as any;
@@ -3422,7 +3216,6 @@ export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGraphqlApiEnvironmentVariables",
-  iam: { actions: ["appsync:PutGraphqlApiEnvironmentVariables"] },
   telemetry: TELEMETRY,
   span: "PutGraphqlApiEnvironmentVariables",
 }));
@@ -3449,7 +3242,6 @@ export const startDataSourceIntrospection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceIntrospection",
-  iam: { actions: ["appsync:StartDataSourceIntrospection"] },
   telemetry: TELEMETRY,
   span: "StartDataSourceIntrospection",
 }));
@@ -3485,7 +3277,6 @@ export const startSchemaCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaCreation",
-  iam: { actions: ["appsync:StartSchemaCreation"] },
   telemetry: TELEMETRY,
   span: "StartSchemaCreation",
 }));
@@ -3519,14 +3310,6 @@ export const startSchemaMerge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSchemaMerge",
-  iam: {
-    actions: ["appsync:StartSchemaMerge"],
-    resources: {
-      "appsync:StartSchemaMerge": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${MergedGraphQLAPIId}/sourceApiAssociations/${Associationid}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartSchemaMerge",
 }));
@@ -3561,7 +3344,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["appsync:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3596,7 +3378,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["appsync:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3631,14 +3412,6 @@ export const updateApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApi",
-  iam: {
-    actions: ["iam:PassRole", "appsync:UpdateApi"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "appsync:UpdateApi": ["arn:${Partition}:appsync:${Region}:${Account}:apis/${ApiId}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApi",
 }));
@@ -3671,7 +3444,6 @@ export const updateApiCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiCache",
-  iam: { actions: ["appsync:UpdateApiCache"] },
   telemetry: TELEMETRY,
   span: "UpdateApiCache",
 }));
@@ -3706,7 +3478,6 @@ export const updateApiKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKey",
-  iam: { actions: ["appsync:UpdateApiKey"] },
   telemetry: TELEMETRY,
   span: "UpdateApiKey",
 }));
@@ -3741,14 +3512,6 @@ export const updateChannelNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelNamespace",
-  iam: {
-    actions: ["appsync:UpdateChannelNamespace"],
-    resources: {
-      "appsync:UpdateChannelNamespace": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${ApiId}/channelNamespace/${ChannelNamespaceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannelNamespace",
 }));
@@ -3781,11 +3544,6 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
-  iam: {
-    actions: ["lambda:PassNetworkConnector", "iam:PassRole", "appsync:UpdateDataSource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "serviceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataSource",
 }));
@@ -3818,14 +3576,6 @@ export const updateDomainName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomainName",
-  iam: {
-    actions: ["appsync:UpdateDomainName"],
-    resources: {
-      "appsync:UpdateDomainName": [
-        "arn:${Partition}:appsync:${Region}:${Account}:domainnames/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDomainName",
 }));
@@ -3858,7 +3608,6 @@ export const updateFunction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFunction",
-  iam: { actions: ["appsync:UpdateFunction"] },
   telemetry: TELEMETRY,
   span: "UpdateFunction",
 }));
@@ -3893,16 +3642,6 @@ export const updateGraphqlApi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGraphqlApi",
-  iam: {
-    actions: ["iam:PassRole", "appsync:UpdateGraphqlApi"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "appsync:UpdateGraphqlApi": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${GraphQLAPIId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "mergedApiExecutionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGraphqlApi",
 }));
@@ -3935,7 +3674,6 @@ export const updateResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResolver",
-  iam: { actions: ["appsync:UpdateResolver"] },
   telemetry: TELEMETRY,
   span: "UpdateResolver",
 }));
@@ -3968,14 +3706,6 @@ export const updateSourceApiAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSourceApiAssociation",
-  iam: {
-    actions: ["appsync:UpdateSourceApiAssociation"],
-    resources: {
-      "appsync:UpdateSourceApiAssociation": [
-        "arn:${Partition}:appsync:${Region}:${Account}:apis/${MergedGraphQLAPIId}/sourceApiAssociations/${Associationid}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSourceApiAssociation",
 }));
@@ -4008,7 +3738,6 @@ export const updateType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateType",
-  iam: { actions: ["appsync:UpdateType"] },
   telemetry: TELEMETRY,
   span: "UpdateType",
 }));

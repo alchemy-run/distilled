@@ -5361,12 +5361,6 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
-  iam: {
-    actions: ["mobiletargeting:CreateApp", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreateApp": ["arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateApp",
 }));
@@ -5403,14 +5397,6 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
-  iam: {
-    actions: ["mobiletargeting:CreateCampaign", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreateCampaign": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCampaign",
 }));
@@ -5443,14 +5429,6 @@ export const createEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEmailTemplate",
-  iam: {
-    actions: ["mobiletargeting:CreateEmailTemplate", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreateEmailTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEmailTemplate",
 }));
@@ -5487,15 +5465,6 @@ export const createExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExportJob",
-  iam: {
-    actions: ["mobiletargeting:CreateExportJob", "iam:PassRole"],
-    resources: {
-      "mobiletargeting:CreateExportJob": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateExportJob",
 }));
@@ -5532,15 +5501,6 @@ export const createImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImportJob",
-  iam: {
-    actions: ["mobiletargeting:CreateImportJob", "iam:PassRole"],
-    resources: {
-      "mobiletargeting:CreateImportJob": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateImportJob",
 }));
@@ -5573,14 +5533,6 @@ export const createInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInAppTemplate",
-  iam: {
-    actions: ["mobiletargeting:CreateInAppTemplate", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreateInAppTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateInAppTemplate",
 }));
@@ -5617,16 +5569,6 @@ export const createJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJourney",
-  iam: {
-    actions: ["mobiletargeting:CreateJourney", "iam:PassRole", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreateJourney": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateJourney",
 }));
@@ -5659,14 +5601,6 @@ export const createPushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePushTemplate",
-  iam: {
-    actions: ["mobiletargeting:CreatePushTemplate", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreatePushTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePushTemplate",
 }));
@@ -5703,15 +5637,6 @@ export const createRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommenderConfiguration",
-  iam: {
-    actions: ["mobiletargeting:CreateRecommenderConfiguration", "iam:PassRole"],
-    resources: {
-      "mobiletargeting:CreateRecommenderConfiguration": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:recommenders/*",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateRecommenderConfiguration",
 }));
@@ -5748,14 +5673,6 @@ export const createSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSegment",
-  iam: {
-    actions: ["mobiletargeting:CreateSegment", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreateSegment": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSegment",
 }));
@@ -5788,14 +5705,6 @@ export const createSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSmsTemplate",
-  iam: {
-    actions: ["mobiletargeting:CreateSmsTemplate", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreateSmsTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSmsTemplate",
 }));
@@ -5828,14 +5737,6 @@ export const createVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVoiceTemplate",
-  iam: {
-    actions: ["mobiletargeting:CreateVoiceTemplate", "mobiletargeting:TagResource"],
-    resources: {
-      "mobiletargeting:CreateVoiceTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateVoiceTemplate",
 }));
@@ -5872,14 +5773,6 @@ export const deleteAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAdmChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteAdmChannel"],
-    resources: {
-      "mobiletargeting:DeleteAdmChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAdmChannel",
 }));
@@ -5916,14 +5809,6 @@ export const deleteApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteApnsChannel"],
-    resources: {
-      "mobiletargeting:DeleteApnsChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApnsChannel",
 }));
@@ -5960,14 +5845,6 @@ export const deleteApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsSandboxChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteApnsSandboxChannel"],
-    resources: {
-      "mobiletargeting:DeleteApnsSandboxChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApnsSandboxChannel",
 }));
@@ -6004,14 +5881,6 @@ export const deleteApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsVoipChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteApnsVoipChannel"],
-    resources: {
-      "mobiletargeting:DeleteApnsVoipChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApnsVoipChannel",
 }));
@@ -6048,14 +5917,6 @@ export const deleteApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApnsVoipSandboxChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteApnsVoipSandboxChannel"],
-    resources: {
-      "mobiletargeting:DeleteApnsVoipSandboxChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApnsVoipSandboxChannel",
 }));
@@ -6092,14 +5953,6 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
-  iam: {
-    actions: ["mobiletargeting:DeleteApp"],
-    resources: {
-      "mobiletargeting:DeleteApp": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApp",
 }));
@@ -6136,14 +5989,6 @@ export const deleteBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBaiduChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteBaiduChannel"],
-    resources: {
-      "mobiletargeting:DeleteBaiduChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBaiduChannel",
 }));
@@ -6180,14 +6025,6 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
-  iam: {
-    actions: ["mobiletargeting:DeleteCampaign"],
-    resources: {
-      "mobiletargeting:DeleteCampaign": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/campaigns/${CampaignId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCampaign",
 }));
@@ -6224,14 +6061,6 @@ export const deleteEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteEmailChannel"],
-    resources: {
-      "mobiletargeting:DeleteEmailChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEmailChannel",
 }));
@@ -6268,14 +6097,6 @@ export const deleteEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailTemplate",
-  iam: {
-    actions: ["mobiletargeting:DeleteEmailTemplate"],
-    resources: {
-      "mobiletargeting:DeleteEmailTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEmailTemplate",
 }));
@@ -6312,14 +6133,6 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
-  iam: {
-    actions: ["mobiletargeting:DeleteEndpoint"],
-    resources: {
-      "mobiletargeting:DeleteEndpoint": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/endpoints/${EndpointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEndpoint",
 }));
@@ -6356,14 +6169,6 @@ export const deleteEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventStream",
-  iam: {
-    actions: ["mobiletargeting:DeleteEventStream"],
-    resources: {
-      "mobiletargeting:DeleteEventStream": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/eventstream",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventStream",
 }));
@@ -6400,14 +6205,6 @@ export const deleteGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGcmChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteGcmChannel"],
-    resources: {
-      "mobiletargeting:DeleteGcmChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGcmChannel",
 }));
@@ -6444,14 +6241,6 @@ export const deleteInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInAppTemplate",
-  iam: {
-    actions: ["mobiletargeting:DeleteInAppTemplate"],
-    resources: {
-      "mobiletargeting:DeleteInAppTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInAppTemplate",
 }));
@@ -6488,14 +6277,6 @@ export const deleteJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJourney",
-  iam: {
-    actions: ["mobiletargeting:DeleteJourney"],
-    resources: {
-      "mobiletargeting:DeleteJourney": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteJourney",
 }));
@@ -6532,14 +6313,6 @@ export const deletePushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePushTemplate",
-  iam: {
-    actions: ["mobiletargeting:DeletePushTemplate"],
-    resources: {
-      "mobiletargeting:DeletePushTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePushTemplate",
 }));
@@ -6576,14 +6349,6 @@ export const deleteRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommenderConfiguration",
-  iam: {
-    actions: ["mobiletargeting:DeleteRecommenderConfiguration"],
-    resources: {
-      "mobiletargeting:DeleteRecommenderConfiguration": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:recommenders/${RecommenderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecommenderConfiguration",
 }));
@@ -6620,14 +6385,6 @@ export const deleteSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSegment",
-  iam: {
-    actions: ["mobiletargeting:DeleteSegment"],
-    resources: {
-      "mobiletargeting:DeleteSegment": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/segments/${SegmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSegment",
 }));
@@ -6664,14 +6421,6 @@ export const deleteSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSmsChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteSmsChannel"],
-    resources: {
-      "mobiletargeting:DeleteSmsChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSmsChannel",
 }));
@@ -6708,14 +6457,6 @@ export const deleteSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSmsTemplate",
-  iam: {
-    actions: ["mobiletargeting:DeleteSmsTemplate"],
-    resources: {
-      "mobiletargeting:DeleteSmsTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSmsTemplate",
 }));
@@ -6752,14 +6493,6 @@ export const deleteUserEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserEndpoints",
-  iam: {
-    actions: ["mobiletargeting:DeleteUserEndpoints"],
-    resources: {
-      "mobiletargeting:DeleteUserEndpoints": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/users/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserEndpoints",
 }));
@@ -6796,14 +6529,6 @@ export const deleteVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceChannel",
-  iam: {
-    actions: ["mobiletargeting:DeleteVoiceChannel"],
-    resources: {
-      "mobiletargeting:DeleteVoiceChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceChannel",
 }));
@@ -6840,14 +6565,6 @@ export const deleteVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVoiceTemplate",
-  iam: {
-    actions: ["mobiletargeting:DeleteVoiceTemplate"],
-    resources: {
-      "mobiletargeting:DeleteVoiceTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVoiceTemplate",
 }));
@@ -6884,14 +6601,6 @@ export const getAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAdmChannel",
-  iam: {
-    actions: ["mobiletargeting:GetAdmChannel"],
-    resources: {
-      "mobiletargeting:GetAdmChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAdmChannel",
 }));
@@ -6928,14 +6637,6 @@ export const getApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsChannel",
-  iam: {
-    actions: ["mobiletargeting:GetApnsChannel"],
-    resources: {
-      "mobiletargeting:GetApnsChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApnsChannel",
 }));
@@ -6972,14 +6673,6 @@ export const getApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsSandboxChannel",
-  iam: {
-    actions: ["mobiletargeting:GetApnsSandboxChannel"],
-    resources: {
-      "mobiletargeting:GetApnsSandboxChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApnsSandboxChannel",
 }));
@@ -7016,14 +6709,6 @@ export const getApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsVoipChannel",
-  iam: {
-    actions: ["mobiletargeting:GetApnsVoipChannel"],
-    resources: {
-      "mobiletargeting:GetApnsVoipChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApnsVoipChannel",
 }));
@@ -7060,14 +6745,6 @@ export const getApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApnsVoipSandboxChannel",
-  iam: {
-    actions: ["mobiletargeting:GetApnsVoipSandboxChannel"],
-    resources: {
-      "mobiletargeting:GetApnsVoipSandboxChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApnsVoipSandboxChannel",
 }));
@@ -7104,14 +6781,6 @@ export const getApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApp",
-  iam: {
-    actions: ["mobiletargeting:GetApp"],
-    resources: {
-      "mobiletargeting:GetApp": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApp",
 }));
@@ -7148,14 +6817,6 @@ export const getApplicationDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationDateRangeKpi",
-  iam: {
-    actions: ["mobiletargeting:GetApplicationDateRangeKpi"],
-    resources: {
-      "mobiletargeting:GetApplicationDateRangeKpi": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/kpis/daterange/${KpiName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplicationDateRangeKpi",
 }));
@@ -7192,14 +6853,6 @@ export const getApplicationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationSettings",
-  iam: {
-    actions: ["mobiletargeting:GetApplicationSettings"],
-    resources: {
-      "mobiletargeting:GetApplicationSettings": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplicationSettings",
 }));
@@ -7236,12 +6889,6 @@ export const getApps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApps",
-  iam: {
-    actions: ["mobiletargeting:GetApps"],
-    resources: {
-      "mobiletargeting:GetApps": ["arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/*"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApps",
 }));
@@ -7278,14 +6925,6 @@ export const getBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBaiduChannel",
-  iam: {
-    actions: ["mobiletargeting:GetBaiduChannel"],
-    resources: {
-      "mobiletargeting:GetBaiduChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBaiduChannel",
 }));
@@ -7322,14 +6961,6 @@ export const getCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaign",
-  iam: {
-    actions: ["mobiletargeting:GetCampaign"],
-    resources: {
-      "mobiletargeting:GetCampaign": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/campaigns/${CampaignId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCampaign",
 }));
@@ -7366,14 +6997,6 @@ export const getCampaignActivities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignActivities",
-  iam: {
-    actions: ["mobiletargeting:GetCampaignActivities"],
-    resources: {
-      "mobiletargeting:GetCampaignActivities": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/campaigns/${CampaignId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCampaignActivities",
 }));
@@ -7410,14 +7033,6 @@ export const getCampaignDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignDateRangeKpi",
-  iam: {
-    actions: ["mobiletargeting:GetCampaignDateRangeKpi"],
-    resources: {
-      "mobiletargeting:GetCampaignDateRangeKpi": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/campaigns/${CampaignId}/kpis/daterange/${KpiName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCampaignDateRangeKpi",
 }));
@@ -7454,14 +7069,6 @@ export const getCampaigns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaigns",
-  iam: {
-    actions: ["mobiletargeting:GetCampaigns"],
-    resources: {
-      "mobiletargeting:GetCampaigns": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCampaigns",
 }));
@@ -7498,14 +7105,6 @@ export const getCampaignVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignVersion",
-  iam: {
-    actions: ["mobiletargeting:GetCampaignVersion"],
-    resources: {
-      "mobiletargeting:GetCampaignVersion": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/campaigns/${CampaignId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCampaignVersion",
 }));
@@ -7542,14 +7141,6 @@ export const getCampaignVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaignVersions",
-  iam: {
-    actions: ["mobiletargeting:GetCampaignVersions"],
-    resources: {
-      "mobiletargeting:GetCampaignVersions": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/campaigns/${CampaignId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCampaignVersions",
 }));
@@ -7586,14 +7177,6 @@ export const getChannels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannels",
-  iam: {
-    actions: ["mobiletargeting:GetChannels"],
-    resources: {
-      "mobiletargeting:GetChannels": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannels",
 }));
@@ -7630,14 +7213,6 @@ export const getEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailChannel",
-  iam: {
-    actions: ["mobiletargeting:GetEmailChannel"],
-    resources: {
-      "mobiletargeting:GetEmailChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEmailChannel",
 }));
@@ -7674,14 +7249,6 @@ export const getEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEmailTemplate",
-  iam: {
-    actions: ["mobiletargeting:GetEmailTemplate"],
-    resources: {
-      "mobiletargeting:GetEmailTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEmailTemplate",
 }));
@@ -7718,14 +7285,6 @@ export const getEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEndpoint",
-  iam: {
-    actions: ["mobiletargeting:GetEndpoint"],
-    resources: {
-      "mobiletargeting:GetEndpoint": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/endpoints/${EndpointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEndpoint",
 }));
@@ -7762,14 +7321,6 @@ export const getEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventStream",
-  iam: {
-    actions: ["mobiletargeting:GetEventStream"],
-    resources: {
-      "mobiletargeting:GetEventStream": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/eventstream",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventStream",
 }));
@@ -7806,14 +7357,6 @@ export const getExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportJob",
-  iam: {
-    actions: ["mobiletargeting:GetExportJob"],
-    resources: {
-      "mobiletargeting:GetExportJob": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/jobs/export/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExportJob",
 }));
@@ -7850,14 +7393,6 @@ export const getExportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExportJobs",
-  iam: {
-    actions: ["mobiletargeting:GetExportJobs"],
-    resources: {
-      "mobiletargeting:GetExportJobs": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExportJobs",
 }));
@@ -7894,14 +7429,6 @@ export const getGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGcmChannel",
-  iam: {
-    actions: ["mobiletargeting:GetGcmChannel"],
-    resources: {
-      "mobiletargeting:GetGcmChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGcmChannel",
 }));
@@ -7938,14 +7465,6 @@ export const getImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJob",
-  iam: {
-    actions: ["mobiletargeting:GetImportJob"],
-    resources: {
-      "mobiletargeting:GetImportJob": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/jobs/import/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetImportJob",
 }));
@@ -7982,14 +7501,6 @@ export const getImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImportJobs",
-  iam: {
-    actions: ["mobiletargeting:GetImportJobs"],
-    resources: {
-      "mobiletargeting:GetImportJobs": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetImportJobs",
 }));
@@ -8026,14 +7537,6 @@ export const getInAppMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInAppMessages",
-  iam: {
-    actions: ["mobiletargeting:GetInAppMessages"],
-    resources: {
-      "mobiletargeting:GetInAppMessages": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetInAppMessages",
 }));
@@ -8070,14 +7573,6 @@ export const getInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInAppTemplate",
-  iam: {
-    actions: ["mobiletargeting:GetInAppTemplate"],
-    resources: {
-      "mobiletargeting:GetInAppTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetInAppTemplate",
 }));
@@ -8114,14 +7609,6 @@ export const getJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourney",
-  iam: {
-    actions: ["mobiletargeting:GetJourney"],
-    resources: {
-      "mobiletargeting:GetJourney": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJourney",
 }));
@@ -8158,14 +7645,6 @@ export const getJourneyDateRangeKpi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyDateRangeKpi",
-  iam: {
-    actions: ["mobiletargeting:GetJourneyDateRangeKpi"],
-    resources: {
-      "mobiletargeting:GetJourneyDateRangeKpi": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}/kpis/daterange/${KpiName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJourneyDateRangeKpi",
 }));
@@ -8202,14 +7681,6 @@ export const getJourneyExecutionActivityMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyExecutionActivityMetrics",
-  iam: {
-    actions: ["mobiletargeting:GetJourneyExecutionActivityMetrics"],
-    resources: {
-      "mobiletargeting:GetJourneyExecutionActivityMetrics": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}/activities/${JourneyActivityId}/execution-metrics",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJourneyExecutionActivityMetrics",
 }));
@@ -8246,14 +7717,6 @@ export const getJourneyExecutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyExecutionMetrics",
-  iam: {
-    actions: ["mobiletargeting:GetJourneyExecutionMetrics"],
-    resources: {
-      "mobiletargeting:GetJourneyExecutionMetrics": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}/execution-metrics",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJourneyExecutionMetrics",
 }));
@@ -8290,14 +7753,6 @@ export const getJourneyRunExecutionActivityMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRunExecutionActivityMetrics",
-  iam: {
-    actions: ["mobiletargeting:GetJourneyRunExecutionActivityMetrics"],
-    resources: {
-      "mobiletargeting:GetJourneyRunExecutionActivityMetrics": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJourneyRunExecutionActivityMetrics",
 }));
@@ -8334,14 +7789,6 @@ export const getJourneyRunExecutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRunExecutionMetrics",
-  iam: {
-    actions: ["mobiletargeting:GetJourneyRunExecutionMetrics"],
-    resources: {
-      "mobiletargeting:GetJourneyRunExecutionMetrics": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJourneyRunExecutionMetrics",
 }));
@@ -8378,14 +7825,6 @@ export const getJourneyRuns: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJourneyRuns",
-  iam: {
-    actions: ["mobiletargeting:GetJourneyRuns"],
-    resources: {
-      "mobiletargeting:GetJourneyRuns": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetJourneyRuns",
 }));
@@ -8422,14 +7861,6 @@ export const getPushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPushTemplate",
-  iam: {
-    actions: ["mobiletargeting:GetPushTemplate"],
-    resources: {
-      "mobiletargeting:GetPushTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPushTemplate",
 }));
@@ -8466,14 +7897,6 @@ export const getRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderConfiguration",
-  iam: {
-    actions: ["mobiletargeting:GetRecommenderConfiguration"],
-    resources: {
-      "mobiletargeting:GetRecommenderConfiguration": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:recommenders/${RecommenderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecommenderConfiguration",
 }));
@@ -8510,14 +7933,6 @@ export const getRecommenderConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommenderConfigurations",
-  iam: {
-    actions: ["mobiletargeting:GetRecommenderConfigurations"],
-    resources: {
-      "mobiletargeting:GetRecommenderConfigurations": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:recommenders/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecommenderConfigurations",
 }));
@@ -8554,14 +7969,6 @@ export const getSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegment",
-  iam: {
-    actions: ["mobiletargeting:GetSegment"],
-    resources: {
-      "mobiletargeting:GetSegment": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/segments/${SegmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSegment",
 }));
@@ -8598,14 +8005,6 @@ export const getSegmentExportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentExportJobs",
-  iam: {
-    actions: ["mobiletargeting:GetSegmentExportJobs"],
-    resources: {
-      "mobiletargeting:GetSegmentExportJobs": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/segments/${SegmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSegmentExportJobs",
 }));
@@ -8642,14 +8041,6 @@ export const getSegmentImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentImportJobs",
-  iam: {
-    actions: ["mobiletargeting:GetSegmentImportJobs"],
-    resources: {
-      "mobiletargeting:GetSegmentImportJobs": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/segments/${SegmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSegmentImportJobs",
 }));
@@ -8686,14 +8077,6 @@ export const getSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegments",
-  iam: {
-    actions: ["mobiletargeting:GetSegments"],
-    resources: {
-      "mobiletargeting:GetSegments": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSegments",
 }));
@@ -8730,14 +8113,6 @@ export const getSegmentVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentVersion",
-  iam: {
-    actions: ["mobiletargeting:GetSegmentVersion"],
-    resources: {
-      "mobiletargeting:GetSegmentVersion": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/segments/${SegmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSegmentVersion",
 }));
@@ -8774,14 +8149,6 @@ export const getSegmentVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSegmentVersions",
-  iam: {
-    actions: ["mobiletargeting:GetSegmentVersions"],
-    resources: {
-      "mobiletargeting:GetSegmentVersions": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/segments/${SegmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSegmentVersions",
 }));
@@ -8818,14 +8185,6 @@ export const getSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSmsChannel",
-  iam: {
-    actions: ["mobiletargeting:GetSmsChannel"],
-    resources: {
-      "mobiletargeting:GetSmsChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSmsChannel",
 }));
@@ -8862,14 +8221,6 @@ export const getSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSmsTemplate",
-  iam: {
-    actions: ["mobiletargeting:GetSmsTemplate"],
-    resources: {
-      "mobiletargeting:GetSmsTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSmsTemplate",
 }));
@@ -8906,14 +8257,6 @@ export const getUserEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserEndpoints",
-  iam: {
-    actions: ["mobiletargeting:GetUserEndpoints"],
-    resources: {
-      "mobiletargeting:GetUserEndpoints": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/users/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUserEndpoints",
 }));
@@ -8950,14 +8293,6 @@ export const getVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceChannel",
-  iam: {
-    actions: ["mobiletargeting:GetVoiceChannel"],
-    resources: {
-      "mobiletargeting:GetVoiceChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceChannel",
 }));
@@ -8994,14 +8329,6 @@ export const getVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVoiceTemplate",
-  iam: {
-    actions: ["mobiletargeting:GetVoiceTemplate"],
-    resources: {
-      "mobiletargeting:GetVoiceTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVoiceTemplate",
 }));
@@ -9038,14 +8365,6 @@ export const listJourneys: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListJourneys",
-  iam: {
-    actions: ["mobiletargeting:ListJourneys"],
-    resources: {
-      "mobiletargeting:ListJourneys": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListJourneys",
 }));
@@ -9066,7 +8385,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["mobiletargeting:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -9099,14 +8417,6 @@ export const listTemplates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplates",
-  iam: {
-    actions: ["mobiletargeting:ListTemplates"],
-    resources: {
-      "mobiletargeting:ListTemplates": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTemplates",
 }));
@@ -9143,14 +8453,6 @@ export const listTemplateVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTemplateVersions",
-  iam: {
-    actions: ["mobiletargeting:ListTemplateVersions"],
-    resources: {
-      "mobiletargeting:ListTemplateVersions": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTemplateVersions",
 }));
@@ -9187,14 +8489,6 @@ export const phoneNumberValidate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PhoneNumberValidate",
-  iam: {
-    actions: ["mobiletargeting:PhoneNumberValidate"],
-    resources: {
-      "mobiletargeting:PhoneNumberValidate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:phone/number/validate",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PhoneNumberValidate",
 }));
@@ -9231,14 +8525,6 @@ export const putEvents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEvents",
-  iam: {
-    actions: ["mobiletargeting:PutEvents"],
-    resources: {
-      "mobiletargeting:PutEvents": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/events",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutEvents",
 }));
@@ -9275,15 +8561,6 @@ export const putEventStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEventStream",
-  iam: {
-    actions: ["iam:PassRole", "mobiletargeting:PutEventStream"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "mobiletargeting:PutEventStream": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/eventstream",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutEventStream",
 }));
@@ -9320,14 +8597,6 @@ export const removeAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAttributes",
-  iam: {
-    actions: ["mobiletargeting:RemoveAttributes"],
-    resources: {
-      "mobiletargeting:RemoveAttributes": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/attributes/${AttributeType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveAttributes",
 }));
@@ -9364,14 +8633,6 @@ export const sendMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendMessages",
-  iam: {
-    actions: ["mobiletargeting:SendMessages"],
-    resources: {
-      "mobiletargeting:SendMessages": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/messages",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendMessages",
 }));
@@ -9408,14 +8669,6 @@ export const sendOTPMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendOTPMessage",
-  iam: {
-    actions: ["mobiletargeting:SendOTPMessage"],
-    resources: {
-      "mobiletargeting:SendOTPMessage": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/otp",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendOTPMessage",
 }));
@@ -9452,14 +8705,6 @@ export const sendUsersMessages: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendUsersMessages",
-  iam: {
-    actions: ["mobiletargeting:SendUsersMessages"],
-    resources: {
-      "mobiletargeting:SendUsersMessages": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/messages",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendUsersMessages",
 }));
@@ -9480,7 +8725,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["mobiletargeting:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -9501,7 +8745,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["mobiletargeting:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -9538,14 +8781,6 @@ export const updateAdmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAdmChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateAdmChannel"],
-    resources: {
-      "mobiletargeting:UpdateAdmChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAdmChannel",
 }));
@@ -9582,14 +8817,6 @@ export const updateApnsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateApnsChannel"],
-    resources: {
-      "mobiletargeting:UpdateApnsChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApnsChannel",
 }));
@@ -9626,14 +8853,6 @@ export const updateApnsSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsSandboxChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateApnsSandboxChannel"],
-    resources: {
-      "mobiletargeting:UpdateApnsSandboxChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApnsSandboxChannel",
 }));
@@ -9670,14 +8889,6 @@ export const updateApnsVoipChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsVoipChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateApnsVoipChannel"],
-    resources: {
-      "mobiletargeting:UpdateApnsVoipChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApnsVoipChannel",
 }));
@@ -9714,14 +8925,6 @@ export const updateApnsVoipSandboxChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApnsVoipSandboxChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateApnsVoipSandboxChannel"],
-    resources: {
-      "mobiletargeting:UpdateApnsVoipSandboxChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApnsVoipSandboxChannel",
 }));
@@ -9758,14 +8961,6 @@ export const updateApplicationSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationSettings",
-  iam: {
-    actions: ["mobiletargeting:UpdateApplicationSettings"],
-    resources: {
-      "mobiletargeting:UpdateApplicationSettings": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplicationSettings",
 }));
@@ -9802,14 +8997,6 @@ export const updateBaiduChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBaiduChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateBaiduChannel"],
-    resources: {
-      "mobiletargeting:UpdateBaiduChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBaiduChannel",
 }));
@@ -9846,14 +9033,6 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
-  iam: {
-    actions: ["mobiletargeting:UpdateCampaign"],
-    resources: {
-      "mobiletargeting:UpdateCampaign": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/campaigns/${CampaignId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCampaign",
 }));
@@ -9890,16 +9069,6 @@ export const updateEmailChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmailChannel",
-  iam: {
-    actions: ["iam:PassRole", "mobiletargeting:UpdateEmailChannel"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "mobiletargeting:UpdateEmailChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-    conditional: { "iam:PassRole": "EmailChannelRequest.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEmailChannel",
 }));
@@ -9936,14 +9105,6 @@ export const updateEmailTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEmailTemplate",
-  iam: {
-    actions: ["mobiletargeting:UpdateEmailTemplate"],
-    resources: {
-      "mobiletargeting:UpdateEmailTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEmailTemplate",
 }));
@@ -9980,14 +9141,6 @@ export const updateEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpoint",
-  iam: {
-    actions: ["mobiletargeting:UpdateEndpoint"],
-    resources: {
-      "mobiletargeting:UpdateEndpoint": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/endpoints/${EndpointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEndpoint",
 }));
@@ -10024,14 +9177,6 @@ export const updateEndpointsBatch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointsBatch",
-  iam: {
-    actions: ["mobiletargeting:UpdateEndpointsBatch"],
-    resources: {
-      "mobiletargeting:UpdateEndpointsBatch": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEndpointsBatch",
 }));
@@ -10068,14 +9213,6 @@ export const updateGcmChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGcmChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateGcmChannel"],
-    resources: {
-      "mobiletargeting:UpdateGcmChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGcmChannel",
 }));
@@ -10112,14 +9249,6 @@ export const updateInAppTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInAppTemplate",
-  iam: {
-    actions: ["mobiletargeting:UpdateInAppTemplate"],
-    resources: {
-      "mobiletargeting:UpdateInAppTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateInAppTemplate",
 }));
@@ -10158,16 +9287,6 @@ export const updateJourney: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJourney",
-  iam: {
-    actions: ["iam:PassRole", "mobiletargeting:UpdateJourney"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "mobiletargeting:UpdateJourney": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateJourney",
 }));
@@ -10204,14 +9323,6 @@ export const updateJourneyState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateJourneyState",
-  iam: {
-    actions: ["mobiletargeting:UpdateJourneyState"],
-    resources: {
-      "mobiletargeting:UpdateJourneyState": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/journeys/${JourneyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateJourneyState",
 }));
@@ -10248,14 +9359,6 @@ export const updatePushTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePushTemplate",
-  iam: {
-    actions: ["mobiletargeting:UpdatePushTemplate"],
-    resources: {
-      "mobiletargeting:UpdatePushTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePushTemplate",
 }));
@@ -10292,15 +9395,6 @@ export const updateRecommenderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommenderConfiguration",
-  iam: {
-    actions: ["iam:PassRole", "mobiletargeting:UpdateRecommenderConfiguration"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "mobiletargeting:UpdateRecommenderConfiguration": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:recommenders/${RecommenderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRecommenderConfiguration",
 }));
@@ -10337,14 +9431,6 @@ export const updateSegment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSegment",
-  iam: {
-    actions: ["mobiletargeting:UpdateSegment"],
-    resources: {
-      "mobiletargeting:UpdateSegment": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/segments/${SegmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSegment",
 }));
@@ -10381,14 +9467,6 @@ export const updateSmsChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSmsChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateSmsChannel"],
-    resources: {
-      "mobiletargeting:UpdateSmsChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSmsChannel",
 }));
@@ -10425,14 +9503,6 @@ export const updateSmsTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSmsTemplate",
-  iam: {
-    actions: ["mobiletargeting:UpdateSmsTemplate"],
-    resources: {
-      "mobiletargeting:UpdateSmsTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSmsTemplate",
 }));
@@ -10469,14 +9539,6 @@ export const updateTemplateActiveVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTemplateActiveVersion",
-  iam: {
-    actions: ["mobiletargeting:UpdateTemplateActiveVersion"],
-    resources: {
-      "mobiletargeting:UpdateTemplateActiveVersion": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTemplateActiveVersion",
 }));
@@ -10513,14 +9575,6 @@ export const updateVoiceChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceChannel",
-  iam: {
-    actions: ["mobiletargeting:UpdateVoiceChannel"],
-    resources: {
-      "mobiletargeting:UpdateVoiceChannel": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/channels/${ChannelType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVoiceChannel",
 }));
@@ -10557,14 +9611,6 @@ export const updateVoiceTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVoiceTemplate",
-  iam: {
-    actions: ["mobiletargeting:UpdateVoiceTemplate"],
-    resources: {
-      "mobiletargeting:UpdateVoiceTemplate": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:templates/${TemplateName}/${TemplateType}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVoiceTemplate",
 }));
@@ -10601,14 +9647,6 @@ export const verifyOTPMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyOTPMessage",
-  iam: {
-    actions: ["mobiletargeting:VerifyOTPMessage"],
-    resources: {
-      "mobiletargeting:VerifyOTPMessage": [
-        "arn:${Partition}:mobiletargeting:${Region}:${Account}:apps/${AppId}/verify-otp",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "VerifyOTPMessage",
 }));

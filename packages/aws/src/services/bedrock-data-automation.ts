@@ -930,14 +930,6 @@ export const copyBlueprintStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyBlueprintStage",
-  iam: {
-    actions: ["bedrock:CopyBlueprintStage"],
-    resources: {
-      "bedrock:CopyBlueprintStage": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CopyBlueprintStage",
 }));
@@ -972,10 +964,6 @@ export const createBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueprint",
-  iam: {
-    actions: ["bedrock:CreateBlueprint", "bedrock:TagResource"],
-    conditional: { "bedrock:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBlueprint",
 }));
@@ -1010,14 +998,6 @@ export const createBlueprintVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBlueprintVersion",
-  iam: {
-    actions: ["bedrock:CreateBlueprintVersion"],
-    resources: {
-      "bedrock:CreateBlueprintVersion": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBlueprintVersion",
 }));
@@ -1052,10 +1032,6 @@ export const createDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAutomationLibrary",
-  iam: {
-    actions: ["bedrock:CreateDataAutomationLibrary", "bedrock:TagResource"],
-    conditional: { "bedrock:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataAutomationLibrary",
 }));
@@ -1090,10 +1066,6 @@ export const createDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataAutomationProject",
-  iam: {
-    actions: ["bedrock:CreateDataAutomationProject", "bedrock:TagResource"],
-    conditional: { "bedrock:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataAutomationProject",
 }));
@@ -1126,14 +1098,6 @@ export const deleteBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBlueprint",
-  iam: {
-    actions: ["bedrock:DeleteBlueprint"],
-    resources: {
-      "bedrock:DeleteBlueprint": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBlueprint",
 }));
@@ -1168,14 +1132,6 @@ export const deleteDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAutomationLibrary",
-  iam: {
-    actions: ["bedrock:DeleteDataAutomationLibrary"],
-    resources: {
-      "bedrock:DeleteDataAutomationLibrary": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataAutomationLibrary",
 }));
@@ -1208,14 +1164,6 @@ export const deleteDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataAutomationProject",
-  iam: {
-    actions: ["bedrock:DeleteDataAutomationProject"],
-    resources: {
-      "bedrock:DeleteDataAutomationProject": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataAutomationProject",
 }));
@@ -1248,14 +1196,6 @@ export const getBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprint",
-  iam: {
-    actions: ["bedrock:GetBlueprint"],
-    resources: {
-      "bedrock:GetBlueprint": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBlueprint",
 }));
@@ -1288,14 +1228,6 @@ export const getBlueprintOptimizationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBlueprintOptimizationStatus",
-  iam: {
-    actions: ["bedrock:GetBlueprintOptimizationStatus"],
-    resources: {
-      "bedrock:GetBlueprintOptimizationStatus": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint-optimization-invocation/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBlueprintOptimizationStatus",
 }));
@@ -1328,14 +1260,6 @@ export const getDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibrary",
-  iam: {
-    actions: ["bedrock:GetDataAutomationLibrary"],
-    resources: {
-      "bedrock:GetDataAutomationLibrary": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataAutomationLibrary",
 }));
@@ -1368,14 +1292,6 @@ export const getDataAutomationLibraryEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibraryEntity",
-  iam: {
-    actions: ["bedrock:GetDataAutomationLibraryEntity"],
-    resources: {
-      "bedrock:GetDataAutomationLibraryEntity": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataAutomationLibraryEntity",
 }));
@@ -1408,15 +1324,6 @@ export const getDataAutomationLibraryIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationLibraryIngestionJob",
-  iam: {
-    actions: ["bedrock:GetDataAutomationLibraryIngestionJob"],
-    resources: {
-      "bedrock:GetDataAutomationLibraryIngestionJob": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library-ingestion-job/${IngestionJobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataAutomationLibraryIngestionJob",
 }));
@@ -1449,14 +1356,6 @@ export const getDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataAutomationProject",
-  iam: {
-    actions: ["bedrock:GetDataAutomationProject"],
-    resources: {
-      "bedrock:GetDataAutomationProject": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataAutomationProject",
 }));
@@ -1491,16 +1390,6 @@ export const invokeBlueprintOptimizationAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeBlueprintOptimizationAsync",
-  iam: {
-    actions: ["bedrock:InvokeBlueprintOptimizationAsync", "bedrock:TagResource"],
-    resources: {
-      "bedrock:InvokeBlueprintOptimizationAsync": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-profile/${ProfileId}",
-      ],
-    },
-    conditional: { "bedrock:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "InvokeBlueprintOptimizationAsync",
 }));
@@ -1537,15 +1426,6 @@ export const invokeDataAutomationLibraryIngestionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeDataAutomationLibraryIngestionJob",
-  iam: {
-    actions: ["bedrock:InvokeDataAutomationLibraryIngestionJob", "bedrock:TagResource"],
-    resources: {
-      "bedrock:InvokeDataAutomationLibraryIngestionJob": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-      ],
-    },
-    conditional: { "bedrock:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "InvokeDataAutomationLibraryIngestionJob",
 }));
@@ -1585,7 +1465,6 @@ export const listBlueprints: API.PaginatedOperationMethod<
     items: "blueprints",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock:ListBlueprints"] },
   telemetry: TELEMETRY,
   span: "ListBlueprints",
 })) as any;
@@ -1623,7 +1502,6 @@ export const listDataAutomationLibraries: API.PaginatedOperationMethod<
     items: "libraries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock:ListDataAutomationLibraries"] },
   telemetry: TELEMETRY,
   span: "ListDataAutomationLibraries",
 })) as any;
@@ -1663,14 +1541,6 @@ export const listDataAutomationLibraryEntities: API.PaginatedOperationMethod<
     items: "entities",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock:ListDataAutomationLibraryEntities"],
-    resources: {
-      "bedrock:ListDataAutomationLibraryEntities": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataAutomationLibraryEntities",
 })) as any;
@@ -1710,14 +1580,6 @@ export const listDataAutomationLibraryIngestionJobs: API.PaginatedOperationMetho
     items: "jobs",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock:ListDataAutomationLibraryIngestionJobs"],
-    resources: {
-      "bedrock:ListDataAutomationLibraryIngestionJobs": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataAutomationLibraryIngestionJobs",
 })) as any;
@@ -1757,7 +1619,6 @@ export const listDataAutomationProjects: API.PaginatedOperationMethod<
     items: "projects",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock:ListDataAutomationProjects"] },
   telemetry: TELEMETRY,
   span: "ListDataAutomationProjects",
 })) as any;
@@ -1790,45 +1651,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["bedrock:CallWithBearerToken", "bedrock:ListTagsForResource"],
-    resources: {
-      "bedrock:ListTagsForResource": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:advanced-prompt-optimization-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent/${AgentId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:agent-alias/${AgentId}/${AgentAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:application-inference-profile/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:async-invoke/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:automated-reasoning-policy/${AutomatedReasoningPolicyId}:${AutomatedReasoningPolicyVersion}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint-optimization-invocation/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:custom-model-deployment/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-invocation/${JobId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library-ingestion-job/${IngestionJobId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-project/${ProjectId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:evaluation-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:flow/${FlowId}/alias/${FlowAliasId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:guardrail/${GuardrailId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:imported-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:knowledge-base/${KnowledgeBaseId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-copy-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-customization-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-evaluation-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-import-job/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:model-invocation-job/${JobIdentifier}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt-router/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:prompt/${PromptId}:${PromptVersion}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:provisioned-model/${ResourceId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:retrieval-instruction/${RetrievalInstructionId}",
-        "arn:${Partition}:bedrock:${Region}:${Account}:session/${SessionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1863,7 +1685,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1896,7 +1717,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["bedrock:CallWithBearerToken", "bedrock:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1931,14 +1751,6 @@ export const updateBlueprint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBlueprint",
-  iam: {
-    actions: ["bedrock:UpdateBlueprint"],
-    resources: {
-      "bedrock:UpdateBlueprint": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:blueprint/${BlueprintId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBlueprint",
 }));
@@ -1973,14 +1785,6 @@ export const updateDataAutomationLibrary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAutomationLibrary",
-  iam: {
-    actions: ["bedrock:UpdateDataAutomationLibrary"],
-    resources: {
-      "bedrock:UpdateDataAutomationLibrary": [
-        "arn:${Partition}:bedrock:${Region}:${Account}:data-automation-library/${DataAutomationLibraryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataAutomationLibrary",
 }));
@@ -2017,7 +1821,6 @@ export const updateDataAutomationProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataAutomationProject",
-  iam: { actions: ["bedrock:UpdateDataAutomationProject"] },
   telemetry: TELEMETRY,
   span: "UpdateDataAutomationProject",
 }));

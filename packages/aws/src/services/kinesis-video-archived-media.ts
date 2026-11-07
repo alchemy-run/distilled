@@ -373,14 +373,6 @@ export const getClip: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClip",
-  iam: {
-    actions: ["kinesisvideo:GetClip"],
-    resources: {
-      "kinesisvideo:GetClip": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetClip",
 }));
@@ -541,14 +533,6 @@ export const getDASHStreamingSessionURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDASHStreamingSessionURL",
-  iam: {
-    actions: ["kinesisvideo:GetDASHStreamingSessionURL"],
-    resources: {
-      "kinesisvideo:GetDASHStreamingSessionURL": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDASHStreamingSessionURL",
 }));
@@ -749,14 +733,6 @@ export const getHLSStreamingSessionURL: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHLSStreamingSessionURL",
-  iam: {
-    actions: ["kinesisvideo:GetHLSStreamingSessionURL"],
-    resources: {
-      "kinesisvideo:GetHLSStreamingSessionURL": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetHLSStreamingSessionURL",
 }));
@@ -797,14 +773,6 @@ export const getImages: API.PaginatedOperationMethod<
     items: "Images",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kinesisvideo:GetImages"],
-    resources: {
-      "kinesisvideo:GetImages": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetImages",
 })) as any;
@@ -862,14 +830,6 @@ export const getMediaForFragmentList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaForFragmentList",
-  iam: {
-    actions: ["kinesisvideo:GetMediaForFragmentList"],
-    resources: {
-      "kinesisvideo:GetMediaForFragmentList": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMediaForFragmentList",
 }));
@@ -936,14 +896,6 @@ export const listFragments: API.PaginatedOperationMethod<
     items: "Fragments",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kinesisvideo:ListFragments"],
-    resources: {
-      "kinesisvideo:ListFragments": [
-        "arn:${Partition}:kinesisvideo:${Region}:${Account}:stream/${StreamName}/${CreationTime}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFragments",
 })) as any;

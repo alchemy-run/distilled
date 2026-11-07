@@ -421,7 +421,6 @@ export const acceptPrimaryEmailUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPrimaryEmailUpdate",
-  iam: { actions: ["account:AcceptPrimaryEmailUpdate", "iam:UpdateAccountEmailAddress"] },
   telemetry: TELEMETRY,
   span: "AcceptPrimaryEmailUpdate",
 }));
@@ -458,7 +457,6 @@ export const deleteAlternateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlternateContact",
-  iam: { actions: ["account:DeleteAlternateContact"] },
   telemetry: TELEMETRY,
   span: "DeleteAlternateContact",
 }));
@@ -493,7 +491,6 @@ export const disableRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableRegion",
-  iam: { actions: ["account:DisableRegion"] },
   telemetry: TELEMETRY,
   span: "DisableRegion",
 }));
@@ -526,7 +523,6 @@ export const enableRegion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableRegion",
-  iam: { actions: ["account:EnableRegion"] },
   telemetry: TELEMETRY,
   span: "EnableRegion",
 }));
@@ -557,7 +553,6 @@ export const getAccountInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountInformation",
-  iam: { actions: ["account:GetAccountInformation"] },
   telemetry: TELEMETRY,
   span: "GetAccountInformation",
 }));
@@ -594,7 +589,6 @@ export const getAlternateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAlternateContact",
-  iam: { actions: ["account:GetAlternateContact"] },
   telemetry: TELEMETRY,
   span: "GetAlternateContact",
 }));
@@ -629,7 +623,6 @@ export const getContactInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetContactInformation",
-  iam: { actions: ["account:GetContactInformation"] },
   telemetry: TELEMETRY,
   span: "GetContactInformation",
 }));
@@ -664,7 +657,6 @@ export const getGovCloudAccountInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGovCloudAccountInformation",
-  iam: { actions: ["account:GetGovCloudAccountInformation"] },
   telemetry: TELEMETRY,
   span: "GetGovCloudAccountInformation",
 }));
@@ -697,7 +689,6 @@ export const getPrimaryEmail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrimaryEmail",
-  iam: { actions: ["account:GetPrimaryEmail"] },
   telemetry: TELEMETRY,
   span: "GetPrimaryEmail",
 }));
@@ -730,7 +721,6 @@ export const getPrimaryEmailUpdateStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPrimaryEmailUpdateStatus",
-  iam: { actions: ["account:GetPrimaryEmailUpdateStatus"] },
   telemetry: TELEMETRY,
   span: "GetPrimaryEmailUpdateStatus",
 }));
@@ -761,7 +751,6 @@ export const getRegionOptStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegionOptStatus",
-  iam: { actions: ["account:GetRegionOptStatus"] },
   telemetry: TELEMETRY,
   span: "GetRegionOptStatus",
 }));
@@ -799,7 +788,6 @@ export const listRegions: API.PaginatedOperationMethod<
     items: "Regions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["account:ListRegions"] },
   telemetry: TELEMETRY,
   span: "ListRegions",
 })) as any;
@@ -830,7 +818,6 @@ export const putAccountName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountName",
-  iam: { actions: ["account:PutAccountName", "iam:UpdateAccountName"] },
   telemetry: TELEMETRY,
   span: "PutAccountName",
 }));
@@ -865,7 +852,6 @@ export const putAlternateContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlternateContact",
-  iam: { actions: ["account:PutAlternateContact"] },
   telemetry: TELEMETRY,
   span: "PutAlternateContact",
 }));
@@ -898,7 +884,6 @@ export const putContactInformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutContactInformation",
-  iam: { actions: ["account:PutContactInformation"] },
   telemetry: TELEMETRY,
   span: "PutContactInformation",
 }));
@@ -935,7 +920,6 @@ export const sendPhoneNumberVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendPhoneNumberVerification",
-  iam: { actions: ["account:SendPhoneNumberVerification"] },
   telemetry: TELEMETRY,
   span: "SendPhoneNumberVerification",
 }));
@@ -970,7 +954,6 @@ export const startPrimaryEmailUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPrimaryEmailUpdate",
-  iam: { actions: ["account:StartPrimaryEmailUpdate", "iam:UpdateAccountEmailAddress"] },
   telemetry: TELEMETRY,
   span: "StartPrimaryEmailUpdate",
 }));
@@ -1007,7 +990,6 @@ export const verifyPhoneNumber: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyPhoneNumber",
-  iam: { actions: ["account:VerifyPhoneNumber"] },
   telemetry: TELEMETRY,
   span: "VerifyPhoneNumber",
 }));

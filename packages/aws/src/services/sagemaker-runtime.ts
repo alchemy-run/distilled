@@ -295,7 +295,6 @@ export const invokeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpoint",
-  iam: { actions: ["sagemaker:InvokeEndpoint"] },
   telemetry: TELEMETRY,
   span: "InvokeEndpoint",
 }));
@@ -334,14 +333,6 @@ export const invokeEndpointAsync: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointAsync",
-  iam: {
-    actions: ["sagemaker:InvokeEndpointAsync"],
-    resources: {
-      "sagemaker:InvokeEndpointAsync": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint/${EndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InvokeEndpointAsync",
 }));
@@ -399,7 +390,6 @@ export const invokeEndpointWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InvokeEndpointWithResponseStream",
-  iam: { actions: ["sagemaker:CallWithBearerToken", "sagemaker:InvokeEndpoint"] },
   telemetry: TELEMETRY,
   span: "InvokeEndpointWithResponseStream",
 }));

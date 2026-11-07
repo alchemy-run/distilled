@@ -861,14 +861,6 @@ export const createAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlertManagerDefinition",
-  iam: {
-    actions: ["aps:CreateAlertManagerDefinition"],
-    resources: {
-      "aps:CreateAlertManagerDefinition": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAlertManagerDefinition",
 }));
@@ -903,15 +895,6 @@ export const createAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAnomalyDetector",
-  iam: {
-    actions: ["aps:CreateAnomalyDetector", "aps:TagResource"],
-    resources: {
-      "aps:CreateAnomalyDetector": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-    conditional: { "aps:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAnomalyDetector",
 }));
@@ -946,14 +929,6 @@ export const createLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoggingConfiguration",
-  iam: {
-    actions: ["aps:CreateLoggingConfiguration"],
-    resources: {
-      "aps:CreateLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateLoggingConfiguration",
 }));
@@ -986,14 +961,6 @@ export const createQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQueryLoggingConfiguration",
-  iam: {
-    actions: ["aps:CreateQueryLoggingConfiguration"],
-    resources: {
-      "aps:CreateQueryLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateQueryLoggingConfiguration",
 }));
@@ -1034,15 +1001,6 @@ export const createRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroupsNamespace",
-  iam: {
-    actions: ["aps:CreateRuleGroupsNamespace", "aps:TagResource"],
-    resources: {
-      "aps:CreateRuleGroupsNamespace": [
-        "arn:${Partition}:aps:${Region}:${Account}:rulegroupsnamespace/${WorkspaceId}/${Namespace}",
-      ],
-    },
-    conditional: { "aps:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRuleGroupsNamespace",
 }));
@@ -1087,17 +1045,6 @@ export const createScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScraper",
-  iam: {
-    actions: ["aps:CreateScraper", "iam:PassRole", "aps:TagResource"],
-    resources: {
-      "aps:CreateScraper": [
-        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "roleConfiguration.sourceRoleArn", "aps:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateScraper",
 }));
@@ -1132,10 +1079,6 @@ export const createWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspace",
-  iam: {
-    actions: ["aps:CreateWorkspace", "aps:TagResource"],
-    conditional: { "aps:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkspace",
 }));
@@ -1170,14 +1113,6 @@ export const deleteAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlertManagerDefinition",
-  iam: {
-    actions: ["aps:DeleteAlertManagerDefinition"],
-    resources: {
-      "aps:DeleteAlertManagerDefinition": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAlertManagerDefinition",
 }));
@@ -1212,15 +1147,6 @@ export const deleteAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAnomalyDetector",
-  iam: {
-    actions: ["aps:DeleteAnomalyDetector"],
-    resources: {
-      "aps:DeleteAnomalyDetector": [
-        "arn:${Partition}:aps:${Region}:${Account}:anomalydetector/${WorkspaceId}/${AnomalyDetectorId}",
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAnomalyDetector",
 }));
@@ -1255,14 +1181,6 @@ export const deleteLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoggingConfiguration",
-  iam: {
-    actions: ["aps:DeleteLoggingConfiguration"],
-    resources: {
-      "aps:DeleteLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLoggingConfiguration",
 }));
@@ -1295,14 +1213,6 @@ export const deleteQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQueryLoggingConfiguration",
-  iam: {
-    actions: ["aps:DeleteQueryLoggingConfiguration"],
-    resources: {
-      "aps:DeleteQueryLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteQueryLoggingConfiguration",
 }));
@@ -1337,14 +1247,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: {
-    actions: ["aps:DeleteResourcePolicy"],
-    resources: {
-      "aps:DeleteResourcePolicy": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1379,14 +1281,6 @@ export const deleteRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroupsNamespace",
-  iam: {
-    actions: ["aps:DeleteRuleGroupsNamespace"],
-    resources: {
-      "aps:DeleteRuleGroupsNamespace": [
-        "arn:${Partition}:aps:${Region}:${Account}:rulegroupsnamespace/${WorkspaceId}/${Namespace}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRuleGroupsNamespace",
 }));
@@ -1421,12 +1315,6 @@ export const deleteScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScraper",
-  iam: {
-    actions: ["aps:DeleteScraper"],
-    resources: {
-      "aps:DeleteScraper": ["arn:${Partition}:aps:${Region}:${Account}:scraper/${ScraperId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteScraper",
 }));
@@ -1459,14 +1347,6 @@ export const deleteScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScraperLoggingConfiguration",
-  iam: {
-    actions: ["aps:DeleteScraperLoggingConfiguration"],
-    resources: {
-      "aps:DeleteScraperLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:scraper/${ScraperId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteScraperLoggingConfiguration",
 }));
@@ -1503,12 +1383,6 @@ export const deleteWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspace",
-  iam: {
-    actions: ["aps:DeleteWorkspace"],
-    resources: {
-      "aps:DeleteWorkspace": ["arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspace",
 }));
@@ -1541,14 +1415,6 @@ export const describeAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlertManagerDefinition",
-  iam: {
-    actions: ["aps:DescribeAlertManagerDefinition"],
-    resources: {
-      "aps:DescribeAlertManagerDefinition": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAlertManagerDefinition",
 }));
@@ -1581,15 +1447,6 @@ export const describeAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAnomalyDetector",
-  iam: {
-    actions: ["aps:DescribeAnomalyDetector"],
-    resources: {
-      "aps:DescribeAnomalyDetector": [
-        "arn:${Partition}:aps:${Region}:${Account}:anomalydetector/${WorkspaceId}/${AnomalyDetectorId}",
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAnomalyDetector",
 }));
@@ -1622,14 +1479,6 @@ export const describeLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoggingConfiguration",
-  iam: {
-    actions: ["aps:DescribeLoggingConfiguration"],
-    resources: {
-      "aps:DescribeLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLoggingConfiguration",
 }));
@@ -1660,14 +1509,6 @@ export const describeQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQueryLoggingConfiguration",
-  iam: {
-    actions: ["aps:DescribeQueryLoggingConfiguration"],
-    resources: {
-      "aps:DescribeQueryLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeQueryLoggingConfiguration",
 }));
@@ -1700,14 +1541,6 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
-  iam: {
-    actions: ["aps:DescribeResourcePolicy"],
-    resources: {
-      "aps:DescribeResourcePolicy": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeResourcePolicy",
 }));
@@ -1740,14 +1573,6 @@ export const describeRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupsNamespace",
-  iam: {
-    actions: ["aps:DescribeRuleGroupsNamespace"],
-    resources: {
-      "aps:DescribeRuleGroupsNamespace": [
-        "arn:${Partition}:aps:${Region}:${Account}:rulegroupsnamespace/${WorkspaceId}/${Namespace}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRuleGroupsNamespace",
 }));
@@ -1780,12 +1605,6 @@ export const describeScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScraper",
-  iam: {
-    actions: ["aps:DescribeScraper"],
-    resources: {
-      "aps:DescribeScraper": ["arn:${Partition}:aps:${Region}:${Account}:scraper/${ScraperId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeScraper",
 }));
@@ -1816,14 +1635,6 @@ export const describeScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScraperLoggingConfiguration",
-  iam: {
-    actions: ["aps:DescribeScraperLoggingConfiguration"],
-    resources: {
-      "aps:DescribeScraperLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:scraper/${ScraperId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeScraperLoggingConfiguration",
 }));
@@ -1856,14 +1667,6 @@ export const describeWorkspace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspace",
-  iam: {
-    actions: ["aps:DescribeWorkspace"],
-    resources: {
-      "aps:DescribeWorkspace": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspace",
 }));
@@ -1896,14 +1699,6 @@ export const describeWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkspaceConfiguration",
-  iam: {
-    actions: ["aps:DescribeWorkspaceConfiguration"],
-    resources: {
-      "aps:DescribeWorkspaceConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeWorkspaceConfiguration",
 }));
@@ -1928,7 +1723,6 @@ export const getDefaultScraperConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultScraperConfiguration",
-  iam: { actions: ["aps:GetDefaultScraperConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetDefaultScraperConfiguration",
 }));
@@ -1968,14 +1762,6 @@ export const listAnomalyDetectors: API.PaginatedOperationMethod<
     items: "anomalyDetectors",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["aps:ListAnomalyDetectors"],
-    resources: {
-      "aps:ListAnomalyDetectors": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAnomalyDetectors",
 })) as any;
@@ -2015,14 +1801,6 @@ export const listRuleGroupsNamespaces: API.PaginatedOperationMethod<
     items: "ruleGroupsNamespaces",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["aps:ListRuleGroupsNamespaces"],
-    resources: {
-      "aps:ListRuleGroupsNamespaces": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRuleGroupsNamespaces",
 })) as any;
@@ -2060,7 +1838,6 @@ export const listScrapers: API.PaginatedOperationMethod<
     items: "scrapers",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["aps:ListScrapers"] },
   telemetry: TELEMETRY,
   span: "ListScrapers",
 })) as any;
@@ -2093,7 +1870,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["aps:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2131,7 +1907,6 @@ export const listWorkspaces: API.PaginatedOperationMethod<
     items: "workspaces",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["aps:ListWorkspaces"] },
   telemetry: TELEMETRY,
   span: "ListWorkspaces",
 })) as any;
@@ -2168,14 +1943,6 @@ export const putAlertManagerDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAlertManagerDefinition",
-  iam: {
-    actions: ["aps:PutAlertManagerDefinition"],
-    resources: {
-      "aps:PutAlertManagerDefinition": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutAlertManagerDefinition",
 }));
@@ -2210,15 +1977,6 @@ export const putAnomalyDetector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAnomalyDetector",
-  iam: {
-    actions: ["aps:PutAnomalyDetector"],
-    resources: {
-      "aps:PutAnomalyDetector": [
-        "arn:${Partition}:aps:${Region}:${Account}:anomalydetector/${WorkspaceId}/${AnomalyDetectorId}",
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutAnomalyDetector",
 }));
@@ -2259,14 +2017,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: {
-    actions: ["aps:PutResourcePolicy"],
-    resources: {
-      "aps:PutResourcePolicy": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -2309,14 +2059,6 @@ export const putRuleGroupsNamespace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRuleGroupsNamespace",
-  iam: {
-    actions: ["aps:PutRuleGroupsNamespace"],
-    resources: {
-      "aps:PutRuleGroupsNamespace": [
-        "arn:${Partition}:aps:${Region}:${Account}:rulegroupsnamespace/${WorkspaceId}/${Namespace}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutRuleGroupsNamespace",
 }));
@@ -2351,7 +2093,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["aps:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2384,7 +2125,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["aps:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2419,14 +2159,6 @@ export const updateLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggingConfiguration",
-  iam: {
-    actions: ["aps:UpdateLoggingConfiguration"],
-    resources: {
-      "aps:UpdateLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLoggingConfiguration",
 }));
@@ -2459,14 +2191,6 @@ export const updateQueryLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQueryLoggingConfiguration",
-  iam: {
-    actions: ["aps:UpdateQueryLoggingConfiguration"],
-    resources: {
-      "aps:UpdateQueryLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateQueryLoggingConfiguration",
 }));
@@ -2505,11 +2229,6 @@ export const updateScraper: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScraper",
-  iam: {
-    actions: ["iam:PassRole", "aps:UpdateScraper"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "roleConfiguration.sourceRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateScraper",
 }));
@@ -2542,14 +2261,6 @@ export const updateScraperLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateScraperLoggingConfiguration",
-  iam: {
-    actions: ["aps:UpdateScraperLoggingConfiguration"],
-    resources: {
-      "aps:UpdateScraperLoggingConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:scraper/${ScraperId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateScraperLoggingConfiguration",
 }));
@@ -2586,14 +2297,6 @@ export const updateWorkspaceAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceAlias",
-  iam: {
-    actions: ["aps:UpdateWorkspaceAlias"],
-    resources: {
-      "aps:UpdateWorkspaceAlias": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceAlias",
 }));
@@ -2632,14 +2335,6 @@ export const updateWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkspaceConfiguration",
-  iam: {
-    actions: ["aps:UpdateWorkspaceConfiguration"],
-    resources: {
-      "aps:UpdateWorkspaceConfiguration": [
-        "arn:${Partition}:aps:${Region}:${Account}:workspace/${WorkspaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWorkspaceConfiguration",
 }));

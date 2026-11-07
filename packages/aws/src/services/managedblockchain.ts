@@ -722,10 +722,6 @@ export const createAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessor",
-  iam: {
-    actions: ["managedblockchain:CreateAccessor", "managedblockchain:TagResource"],
-    conditional: { "managedblockchain:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAccessor",
 }));
@@ -768,14 +764,6 @@ export const createMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMember",
-  iam: {
-    actions: ["managedblockchain:CreateMember", "managedblockchain:TagResource"],
-    resources: {
-      "managedblockchain:CreateMember": [
-        "arn:${Partition}:managedblockchain:${Region}::networks/${NetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMember",
 }));
@@ -814,10 +802,6 @@ export const createNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNetwork",
-  iam: {
-    actions: ["managedblockchain:CreateNetwork", "managedblockchain:TagResource"],
-    conditional: { "managedblockchain:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateNetwork",
 }));
@@ -860,10 +844,6 @@ export const createNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNode",
-  iam: {
-    actions: ["managedblockchain:CreateNode", "managedblockchain:TagResource"],
-    conditional: { "managedblockchain:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateNode",
 }));
@@ -902,15 +882,6 @@ export const createProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProposal",
-  iam: {
-    actions: ["managedblockchain:CreateProposal", "managedblockchain:TagResource"],
-    resources: {
-      "managedblockchain:CreateProposal": [
-        "arn:${Partition}:managedblockchain:${Region}::networks/${NetworkId}",
-      ],
-    },
-    conditional: { "managedblockchain:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProposal",
 }));
@@ -949,14 +920,6 @@ export const deleteAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessor",
-  iam: {
-    actions: ["managedblockchain:DeleteAccessor"],
-    resources: {
-      "managedblockchain:DeleteAccessor": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:accessors/${AccessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAccessor",
 }));
@@ -993,14 +956,6 @@ export const deleteMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMember",
-  iam: {
-    actions: ["managedblockchain:DeleteMember"],
-    resources: {
-      "managedblockchain:DeleteMember": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:members/${MemberId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMember",
 }));
@@ -1037,14 +992,6 @@ export const deleteNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNode",
-  iam: {
-    actions: ["managedblockchain:DeleteNode"],
-    resources: {
-      "managedblockchain:DeleteNode": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:nodes/${NodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNode",
 }));
@@ -1078,14 +1025,6 @@ export const getAccessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessor",
-  iam: {
-    actions: ["managedblockchain:GetAccessor"],
-    resources: {
-      "managedblockchain:GetAccessor": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:accessors/${AccessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAccessor",
 }));
@@ -1120,14 +1059,6 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
-  iam: {
-    actions: ["managedblockchain:GetMember"],
-    resources: {
-      "managedblockchain:GetMember": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:members/${MemberId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMember",
 }));
@@ -1162,14 +1093,6 @@ export const getNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNetwork",
-  iam: {
-    actions: ["managedblockchain:GetNetwork"],
-    resources: {
-      "managedblockchain:GetNetwork": [
-        "arn:${Partition}:managedblockchain:${Region}::networks/${NetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetNetwork",
 }));
@@ -1204,14 +1127,6 @@ export const getNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNode",
-  iam: {
-    actions: ["managedblockchain:GetNode"],
-    resources: {
-      "managedblockchain:GetNode": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:nodes/${NodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetNode",
 }));
@@ -1246,14 +1161,6 @@ export const getProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProposal",
-  iam: {
-    actions: ["managedblockchain:GetProposal"],
-    resources: {
-      "managedblockchain:GetProposal": [
-        "arn:${Partition}:managedblockchain:${Region}::proposals/${ProposalId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProposal",
 }));
@@ -1292,7 +1199,6 @@ export const listAccessors: API.PaginatedOperationMethod<
     items: "Accessors",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["managedblockchain:ListAccessors"] },
   telemetry: TELEMETRY,
   span: "ListAccessors",
 })) as any;
@@ -1335,7 +1241,6 @@ export const listInvitations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["managedblockchain:ListInvitations"] },
   telemetry: TELEMETRY,
   span: "ListInvitations",
 })) as any;
@@ -1374,14 +1279,6 @@ export const listMembers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["managedblockchain:ListMembers"],
-    resources: {
-      "managedblockchain:ListMembers": [
-        "arn:${Partition}:managedblockchain:${Region}::networks/${NetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMembers",
 })) as any;
@@ -1420,7 +1317,6 @@ export const listNetworks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["managedblockchain:ListNetworks"] },
   telemetry: TELEMETRY,
   span: "ListNetworks",
 })) as any;
@@ -1459,7 +1355,6 @@ export const listNodes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["managedblockchain:ListNodes"] },
   telemetry: TELEMETRY,
   span: "ListNodes",
 })) as any;
@@ -1500,14 +1395,6 @@ export const listProposals: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["managedblockchain:ListProposals"],
-    resources: {
-      "managedblockchain:ListProposals": [
-        "arn:${Partition}:managedblockchain:${Region}::networks/${NetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProposals",
 })) as any;
@@ -1546,14 +1433,6 @@ export const listProposalVotes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["managedblockchain:ListProposalVotes"],
-    resources: {
-      "managedblockchain:ListProposalVotes": [
-        "arn:${Partition}:managedblockchain:${Region}::proposals/${ProposalId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProposalVotes",
 })) as any;
@@ -1586,7 +1465,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["managedblockchain:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1623,14 +1501,6 @@ export const rejectInvitation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInvitation",
-  iam: {
-    actions: ["managedblockchain:RejectInvitation"],
-    resources: {
-      "managedblockchain:RejectInvitation": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:invitations/${InvitationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectInvitation",
 }));
@@ -1669,7 +1539,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["managedblockchain:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1702,7 +1571,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["managedblockchain:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1737,14 +1605,6 @@ export const updateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMember",
-  iam: {
-    actions: ["managedblockchain:UpdateMember"],
-    resources: {
-      "managedblockchain:UpdateMember": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:members/${MemberId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMember",
 }));
@@ -1779,14 +1639,6 @@ export const updateNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNode",
-  iam: {
-    actions: ["managedblockchain:UpdateNode"],
-    resources: {
-      "managedblockchain:UpdateNode": [
-        "arn:${Partition}:managedblockchain:${Region}:${Account}:nodes/${NodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateNode",
 }));
@@ -1823,14 +1675,6 @@ export const voteOnProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VoteOnProposal",
-  iam: {
-    actions: ["managedblockchain:VoteOnProposal"],
-    resources: {
-      "managedblockchain:VoteOnProposal": [
-        "arn:${Partition}:managedblockchain:${Region}::proposals/${ProposalId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "VoteOnProposal",
 }));

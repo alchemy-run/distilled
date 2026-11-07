@@ -1295,14 +1295,6 @@ export const getProgrammaticAccessCredentials: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProgrammaticAccessCredentials",
-  iam: {
-    actions: ["finspace-api:GetProgrammaticAccessCredentials"],
-    resources: {
-      "finspace-api:GetProgrammaticAccessCredentials": [
-        "arn:${Partition}:finspace-api:${Region}:${Account}:/credentials/programmatic",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetProgrammaticAccessCredentials",
 }));

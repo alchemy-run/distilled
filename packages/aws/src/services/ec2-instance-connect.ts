@@ -283,14 +283,6 @@ export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendSerialConsoleSSHPublicKey",
-  iam: {
-    actions: ["ec2-instance-connect:SendSerialConsoleSSHPublicKey"],
-    resources: {
-      "ec2-instance-connect:SendSerialConsoleSSHPublicKey": [
-        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendSerialConsoleSSHPublicKey",
 }));
@@ -330,14 +322,6 @@ export const sendSSHPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendSSHPublicKey",
-  iam: {
-    actions: ["ec2-instance-connect:SendSSHPublicKey"],
-    resources: {
-      "ec2-instance-connect:SendSSHPublicKey": [
-        "arn:${Partition}:ec2:${Region}:${Account}:instance/${InstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendSSHPublicKey",
 }));

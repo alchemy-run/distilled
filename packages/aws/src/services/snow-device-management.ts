@@ -401,14 +401,6 @@ export const cancelTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTask",
-  iam: {
-    actions: ["snow-device-management:CancelTask"],
-    resources: {
-      "snow-device-management:CancelTask": [
-        "arn:${Partition}:snow-device-management:${Region}:${Account}:task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelTask",
 }));
@@ -443,10 +435,6 @@ export const createTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTask",
-  iam: {
-    actions: ["snow-device-management:CreateTask", "snow-device-management:TagResource"],
-    conditional: { "snow-device-management:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTask",
 }));
@@ -480,14 +468,6 @@ export const describeDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDevice",
-  iam: {
-    actions: ["snow-device-management:DescribeDevice"],
-    resources: {
-      "snow-device-management:DescribeDevice": [
-        "arn:${Partition}:snow-device-management:${Region}:${Account}:managed-device/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDevice",
 }));
@@ -522,14 +502,6 @@ export const describeDeviceEc2Instances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeviceEc2Instances",
-  iam: {
-    actions: ["snow-device-management:DescribeDeviceEc2Instances"],
-    resources: {
-      "snow-device-management:DescribeDeviceEc2Instances": [
-        "arn:${Partition}:snow-device-management:${Region}:${Account}:managed-device/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDeviceEc2Instances",
 }));
@@ -562,7 +534,6 @@ export const describeExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExecution",
-  iam: { actions: ["snow-device-management:DescribeExecution"] },
   telemetry: TELEMETRY,
   span: "DescribeExecution",
 }));
@@ -595,14 +566,6 @@ export const describeTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTask",
-  iam: {
-    actions: ["snow-device-management:DescribeTask"],
-    resources: {
-      "snow-device-management:DescribeTask": [
-        "arn:${Partition}:snow-device-management:${Region}:${Account}:task/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTask",
 }));
@@ -642,14 +605,6 @@ export const listDeviceResources: API.PaginatedOperationMethod<
     items: "resources",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["snow-device-management:ListDeviceResources"],
-    resources: {
-      "snow-device-management:ListDeviceResources": [
-        "arn:${Partition}:snow-device-management:${Region}:${Account}:managed-device/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDeviceResources",
 })) as any;
@@ -688,7 +643,6 @@ export const listDevices: API.PaginatedOperationMethod<
     items: "devices",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["snow-device-management:ListDevices"] },
   telemetry: TELEMETRY,
   span: "ListDevices",
 })) as any;
@@ -728,7 +682,6 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "executions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["snow-device-management:ListExecutions"] },
   telemetry: TELEMETRY,
   span: "ListExecutions",
 })) as any;
@@ -753,7 +706,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["snow-device-management:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -791,7 +743,6 @@ export const listTasks: API.PaginatedOperationMethod<
     items: "tasks",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["snow-device-management:ListTasks"] },
   telemetry: TELEMETRY,
   span: "ListTasks",
 })) as any;
@@ -816,7 +767,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["snow-device-management:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -841,7 +791,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["snow-device-management:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

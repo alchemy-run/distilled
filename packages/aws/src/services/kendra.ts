@@ -2343,15 +2343,6 @@ export const associateEntitiesToExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateEntitiesToExperience",
-  iam: {
-    actions: ["kendra:AssociateEntitiesToExperience"],
-    resources: {
-      "kendra:AssociateEntitiesToExperience": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/experience/${ExperienceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateEntitiesToExperience",
 }));
@@ -2390,15 +2381,6 @@ export const associatePersonasToEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePersonasToEntities",
-  iam: {
-    actions: ["kendra:AssociatePersonasToEntities"],
-    resources: {
-      "kendra:AssociatePersonasToEntities": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/experience/${ExperienceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociatePersonasToEntities",
 }));
@@ -2444,14 +2426,6 @@ export const batchDeleteDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteDocument",
-  iam: {
-    actions: ["kendra:BatchDeleteDocument"],
-    resources: {
-      "kendra:BatchDeleteDocument": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteDocument",
 }));
@@ -2486,15 +2460,6 @@ export const batchDeleteFeaturedResultsSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteFeaturedResultsSet",
-  iam: {
-    actions: ["kendra:BatchDeleteFeaturedResultsSet"],
-    resources: {
-      "kendra:BatchDeleteFeaturedResultsSet": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/featured-results-set/${FeaturedResultsSetId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteFeaturedResultsSet",
 }));
@@ -2539,14 +2504,6 @@ export const batchGetDocumentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDocumentStatus",
-  iam: {
-    actions: ["kendra:BatchGetDocumentStatus"],
-    resources: {
-      "kendra:BatchGetDocumentStatus": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetDocumentStatus",
 }));
@@ -2598,14 +2555,6 @@ export const batchPutDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutDocument",
-  iam: {
-    actions: ["kendra:BatchPutDocument", "iam:PassRole"],
-    resources: {
-      "kendra:BatchPutDocument": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "BatchPutDocument",
 }));
@@ -2650,14 +2599,6 @@ export const clearQuerySuggestions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ClearQuerySuggestions",
-  iam: {
-    actions: ["kendra:ClearQuerySuggestions"],
-    resources: {
-      "kendra:ClearQuerySuggestions": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ClearQuerySuggestions",
 }));
@@ -2719,14 +2660,6 @@ export const createAccessControlConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessControlConfiguration",
-  iam: {
-    actions: ["kendra:CreateAccessControlConfiguration"],
-    resources: {
-      "kendra:CreateAccessControlConfiguration": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAccessControlConfiguration",
 }));
@@ -2777,14 +2710,6 @@ export const createDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSource",
-  iam: {
-    actions: ["kendra:CreateDataSource", "iam:PassRole", "kendra:TagResource"],
-    resources: {
-      "kendra:CreateDataSource": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn", "kendra:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataSource",
 }));
@@ -2824,14 +2749,6 @@ export const createExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperience",
-  iam: {
-    actions: ["kendra:CreateExperience", "iam:PassRole"],
-    resources: {
-      "kendra:CreateExperience": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExperience",
 }));
@@ -2873,14 +2790,6 @@ export const createFaq: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFaq",
-  iam: {
-    actions: ["kendra:CreateFaq", "iam:PassRole", "kendra:TagResource"],
-    resources: {
-      "kendra:CreateFaq": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "kendra:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFaq",
 }));
@@ -2924,15 +2833,6 @@ export const createFeaturedResultsSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFeaturedResultsSet",
-  iam: {
-    actions: ["kendra:CreateFeaturedResultsSet", "kendra:TagResource"],
-    resources: {
-      "kendra:CreateFeaturedResultsSet": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-    conditional: { "kendra:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFeaturedResultsSet",
 }));
@@ -2984,11 +2884,6 @@ export const createIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIndex",
-  iam: {
-    actions: ["kendra:CreateIndex", "iam:PassRole", "kendra:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "kendra:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIndex",
 }));
@@ -3043,16 +2938,6 @@ export const createQuerySuggestionsBlockList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateQuerySuggestionsBlockList",
-  iam: {
-    actions: ["kendra:CreateQuerySuggestionsBlockList", "iam:PassRole", "kendra:TagResource"],
-    resources: {
-      "kendra:CreateQuerySuggestionsBlockList": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "kendra:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateQuerySuggestionsBlockList",
 }));
@@ -3094,14 +2979,6 @@ export const createThesaurus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateThesaurus",
-  iam: {
-    actions: ["kendra:CreateThesaurus", "iam:PassRole", "kendra:TagResource"],
-    resources: {
-      "kendra:CreateThesaurus": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "kendra:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateThesaurus",
 }));
@@ -3139,15 +3016,6 @@ export const deleteAccessControlConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessControlConfiguration",
-  iam: {
-    actions: ["kendra:DeleteAccessControlConfiguration"],
-    resources: {
-      "kendra:DeleteAccessControlConfiguration": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/access-control-configuration/${AccessControlConfigurationId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAccessControlConfiguration",
 }));
@@ -3189,15 +3057,6 @@ export const deleteDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSource",
-  iam: {
-    actions: ["kendra:DeleteDataSource"],
-    resources: {
-      "kendra:DeleteDataSource": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataSource",
 }));
@@ -3234,15 +3093,6 @@ export const deleteExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperience",
-  iam: {
-    actions: ["kendra:DeleteExperience"],
-    resources: {
-      "kendra:DeleteExperience": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/experience/${ExperienceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExperience",
 }));
@@ -3277,15 +3127,6 @@ export const deleteFaq: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFaq",
-  iam: {
-    actions: ["kendra:DeleteFaq"],
-    resources: {
-      "kendra:DeleteFaq": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/faq/${FaqId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFaq",
 }));
@@ -3322,12 +3163,6 @@ export const deleteIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIndex",
-  iam: {
-    actions: ["kendra:DeleteIndex"],
-    resources: {
-      "kendra:DeleteIndex": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIndex",
 }));
@@ -3376,7 +3211,6 @@ export const deletePrincipalMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePrincipalMapping",
-  iam: { actions: ["kendra:DeletePrincipalMapping"] },
   telemetry: TELEMETRY,
   span: "DeletePrincipalMapping",
 }));
@@ -3418,15 +3252,6 @@ export const deleteQuerySuggestionsBlockList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteQuerySuggestionsBlockList",
-  iam: {
-    actions: ["kendra:DeleteQuerySuggestionsBlockList"],
-    resources: {
-      "kendra:DeleteQuerySuggestionsBlockList": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/query-suggestions-block-list/${QuerySuggestionsBlockListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteQuerySuggestionsBlockList",
 }));
@@ -3461,15 +3286,6 @@ export const deleteThesaurus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteThesaurus",
-  iam: {
-    actions: ["kendra:DeleteThesaurus"],
-    resources: {
-      "kendra:DeleteThesaurus": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/thesaurus/${ThesaurusId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteThesaurus",
 }));
@@ -3505,15 +3321,6 @@ export const describeAccessControlConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccessControlConfiguration",
-  iam: {
-    actions: ["kendra:DescribeAccessControlConfiguration"],
-    resources: {
-      "kendra:DescribeAccessControlConfiguration": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/access-control-configuration/${AccessControlConfigurationId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAccessControlConfiguration",
 }));
@@ -3546,15 +3353,6 @@ export const describeDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataSource",
-  iam: {
-    actions: ["kendra:DescribeDataSource"],
-    resources: {
-      "kendra:DescribeDataSource": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDataSource",
 }));
@@ -3590,15 +3388,6 @@ export const describeExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExperience",
-  iam: {
-    actions: ["kendra:DescribeExperience"],
-    resources: {
-      "kendra:DescribeExperience": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/experience/${ExperienceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeExperience",
 }));
@@ -3631,15 +3420,6 @@ export const describeFaq: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFaq",
-  iam: {
-    actions: ["kendra:DescribeFaq"],
-    resources: {
-      "kendra:DescribeFaq": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/faq/${FaqId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFaq",
 }));
@@ -3674,15 +3454,6 @@ export const describeFeaturedResultsSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeaturedResultsSet",
-  iam: {
-    actions: ["kendra:DescribeFeaturedResultsSet"],
-    resources: {
-      "kendra:DescribeFeaturedResultsSet": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/featured-results-set/${FeaturedResultsSetId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFeaturedResultsSet",
 }));
@@ -3715,12 +3486,6 @@ export const describeIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIndex",
-  iam: {
-    actions: ["kendra:DescribeIndex"],
-    resources: {
-      "kendra:DescribeIndex": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeIndex",
 }));
@@ -3760,7 +3525,6 @@ export const describePrincipalMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePrincipalMapping",
-  iam: { actions: ["kendra:DescribePrincipalMapping"] },
   telemetry: TELEMETRY,
   span: "DescribePrincipalMapping",
 }));
@@ -3800,15 +3564,6 @@ export const describeQuerySuggestionsBlockList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuerySuggestionsBlockList",
-  iam: {
-    actions: ["kendra:DescribeQuerySuggestionsBlockList"],
-    resources: {
-      "kendra:DescribeQuerySuggestionsBlockList": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/query-suggestions-block-list/${QuerySuggestionsBlockListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeQuerySuggestionsBlockList",
 }));
@@ -3847,14 +3602,6 @@ export const describeQuerySuggestionsConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeQuerySuggestionsConfig",
-  iam: {
-    actions: ["kendra:DescribeQuerySuggestionsConfig"],
-    resources: {
-      "kendra:DescribeQuerySuggestionsConfig": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeQuerySuggestionsConfig",
 }));
@@ -3887,15 +3634,6 @@ export const describeThesaurus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeThesaurus",
-  iam: {
-    actions: ["kendra:DescribeThesaurus"],
-    resources: {
-      "kendra:DescribeThesaurus": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/thesaurus/${ThesaurusId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeThesaurus",
 }));
@@ -3932,15 +3670,6 @@ export const disassociateEntitiesFromExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateEntitiesFromExperience",
-  iam: {
-    actions: ["kendra:DisassociateEntitiesFromExperience"],
-    resources: {
-      "kendra:DisassociateEntitiesFromExperience": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/experience/${ExperienceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateEntitiesFromExperience",
 }));
@@ -3977,15 +3706,6 @@ export const disassociatePersonasFromEntities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePersonasFromEntities",
-  iam: {
-    actions: ["kendra:DisassociatePersonasFromEntities"],
-    resources: {
-      "kendra:DisassociatePersonasFromEntities": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/experience/${ExperienceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociatePersonasFromEntities",
 }));
@@ -4025,14 +3745,6 @@ export const getQuerySuggestions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetQuerySuggestions",
-  iam: {
-    actions: ["kendra:GetQuerySuggestions"],
-    resources: {
-      "kendra:GetQuerySuggestions": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetQuerySuggestions",
 }));
@@ -4070,12 +3782,6 @@ export const getSnapshots: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:GetSnapshots"],
-    resources: {
-      "kendra:GetSnapshots": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSnapshots",
 })) as any;
@@ -4117,14 +3823,6 @@ export const listAccessControlConfigurations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:ListAccessControlConfigurations"],
-    resources: {
-      "kendra:ListAccessControlConfigurations": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAccessControlConfigurations",
 })) as any;
@@ -4163,12 +3861,6 @@ export const listDataSources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:ListDataSources"],
-    resources: {
-      "kendra:ListDataSources": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSources",
 })) as any;
@@ -4209,15 +3901,6 @@ export const listDataSourceSyncJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:ListDataSourceSyncJobs"],
-    resources: {
-      "kendra:ListDataSourceSyncJobs": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSourceSyncJobs",
 })) as any;
@@ -4257,15 +3940,6 @@ export const listEntityPersonas: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:ListEntityPersonas"],
-    resources: {
-      "kendra:ListEntityPersonas": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/experience/${ExperienceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEntityPersonas",
 })) as any;
@@ -4304,15 +3978,6 @@ export const listExperienceEntities: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListExperienceEntities",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  iam: {
-    actions: ["kendra:ListExperienceEntities"],
-    resources: {
-      "kendra:ListExperienceEntities": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/experience/${ExperienceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListExperienceEntities",
 })) as any;
@@ -4354,12 +4019,6 @@ export const listExperiences: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:ListExperiences"],
-    resources: {
-      "kendra:ListExperiences": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListExperiences",
 })) as any;
@@ -4398,12 +4057,6 @@ export const listFaqs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:ListFaqs"],
-    resources: {
-      "kendra:ListFaqs": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFaqs",
 })) as any;
@@ -4438,14 +4091,6 @@ export const listFeaturedResultsSets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListFeaturedResultsSets",
-  iam: {
-    actions: ["kendra:ListFeaturedResultsSets"],
-    resources: {
-      "kendra:ListFeaturedResultsSets": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFeaturedResultsSets",
 }));
@@ -4489,7 +4134,6 @@ export const listGroupsOlderThanOrderingId: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["kendra:ListGroupsOlderThanOrderingId"] },
   telemetry: TELEMETRY,
   span: "ListGroupsOlderThanOrderingId",
 })) as any;
@@ -4526,7 +4170,6 @@ export const listIndices: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["kendra:ListIndices"] },
   telemetry: TELEMETRY,
   span: "ListIndices",
 })) as any;
@@ -4572,14 +4215,6 @@ export const listQuerySuggestionsBlockLists: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:ListQuerySuggestionsBlockLists"],
-    resources: {
-      "kendra:ListQuerySuggestionsBlockLists": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListQuerySuggestionsBlockLists",
 })) as any;
@@ -4615,7 +4250,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["kendra:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4654,12 +4288,6 @@ export const listThesauri: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["kendra:ListThesauri"],
-    resources: {
-      "kendra:ListThesauri": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListThesauri",
 })) as any;
@@ -4710,11 +4338,6 @@ export const putPrincipalMapping: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPrincipalMapping",
-  iam: {
-    actions: ["iam:PassRole", "kendra:PutPrincipalMapping"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "PutPrincipalMapping",
 }));
@@ -4783,12 +4406,6 @@ export const query: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Query",
-  iam: {
-    actions: ["kendra:Query"],
-    resources: {
-      "kendra:Query": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Query",
 }));
@@ -4863,12 +4480,6 @@ export const retrieve: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Retrieve",
-  iam: {
-    actions: ["kendra:Retrieve"],
-    resources: {
-      "kendra:Retrieve": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Retrieve",
 }));
@@ -4911,15 +4522,6 @@ export const startDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDataSourceSyncJob",
-  iam: {
-    actions: ["kendra:StartDataSourceSyncJob"],
-    resources: {
-      "kendra:StartDataSourceSyncJob": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDataSourceSyncJob",
 }));
@@ -4953,15 +4555,6 @@ export const stopDataSourceSyncJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDataSourceSyncJob",
-  iam: {
-    actions: ["kendra:StopDataSourceSyncJob"],
-    resources: {
-      "kendra:StopDataSourceSyncJob": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopDataSourceSyncJob",
 }));
@@ -5000,12 +4593,6 @@ export const submitFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitFeedback",
-  iam: {
-    actions: ["kendra:SubmitFeedback"],
-    resources: {
-      "kendra:SubmitFeedback": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SubmitFeedback",
 }));
@@ -5039,7 +4626,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["kendra:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5072,7 +4658,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["kendra:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5134,15 +4719,6 @@ export const updateAccessControlConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessControlConfiguration",
-  iam: {
-    actions: ["kendra:UpdateAccessControlConfiguration"],
-    resources: {
-      "kendra:UpdateAccessControlConfiguration": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/access-control-configuration/${AccessControlConfigurationId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAccessControlConfiguration",
 }));
@@ -5177,17 +4753,6 @@ export const updateDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSource",
-  iam: {
-    actions: ["iam:PassRole", "kendra:UpdateDataSource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "kendra:UpdateDataSource": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/data-source/${DataSourceId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataSource",
 }));
@@ -5224,14 +4789,6 @@ export const updateExperience: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperience",
-  iam: {
-    actions: ["iam:PassRole", "kendra:UpdateExperience"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "kendra:UpdateExperience": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateExperience",
 }));
@@ -5270,15 +4827,6 @@ export const updateFeaturedResultsSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeaturedResultsSet",
-  iam: {
-    actions: ["kendra:UpdateFeaturedResultsSet"],
-    resources: {
-      "kendra:UpdateFeaturedResultsSet": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/featured-results-set/${FeaturedResultsSetId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFeaturedResultsSet",
 }));
@@ -5315,14 +4863,6 @@ export const updateIndex: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndex",
-  iam: {
-    actions: ["iam:PassRole", "kendra:UpdateIndex"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "kendra:UpdateIndex": ["arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIndex",
 }));
@@ -5370,17 +4910,6 @@ export const updateQuerySuggestionsBlockList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuerySuggestionsBlockList",
-  iam: {
-    actions: ["iam:PassRole", "kendra:UpdateQuerySuggestionsBlockList"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "kendra:UpdateQuerySuggestionsBlockList": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/query-suggestions-block-list/${QuerySuggestionsBlockListId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateQuerySuggestionsBlockList",
 }));
@@ -5430,14 +4959,6 @@ export const updateQuerySuggestionsConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateQuerySuggestionsConfig",
-  iam: {
-    actions: ["kendra:UpdateQuerySuggestionsConfig"],
-    resources: {
-      "kendra:UpdateQuerySuggestionsConfig": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateQuerySuggestionsConfig",
 }));
@@ -5472,17 +4993,6 @@ export const updateThesaurus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateThesaurus",
-  iam: {
-    actions: ["iam:PassRole", "kendra:UpdateThesaurus"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "kendra:UpdateThesaurus": [
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}",
-        "arn:${Partition}:kendra:${Region}:${Account}:index/${IndexId}/thesaurus/${ThesaurusId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateThesaurus",
 }));

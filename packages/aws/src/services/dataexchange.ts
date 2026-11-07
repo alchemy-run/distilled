@@ -1105,18 +1105,6 @@ export const acceptDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDataGrant",
-  iam: {
-    actions: ["dataexchange:AcceptDataGrant", "aws-marketplace:Subscribe"],
-    resources: {
-      "dataexchange:AcceptDataGrant": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-grants/${DataGrantId}",
-      ],
-    },
-    conditional: {
-      "aws-marketplace:Subscribe":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptDataGrant",
 }));
@@ -1149,14 +1137,6 @@ export const cancelJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelJob",
-  iam: {
-    actions: ["dataexchange:CancelJob"],
-    resources: {
-      "dataexchange:CancelJob": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:jobs/${JobId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelJob",
 }));
@@ -1191,42 +1171,6 @@ export const createDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataGrant",
-  iam: {
-    actions: [
-      "dataexchange:CreateDataGrant",
-      "dataexchange:CreateJob",
-      "dataexchange:PublishDataSet",
-      "dataexchange:PublishToDataGrant",
-      "dataexchange:StartJob",
-      "dataexchange:TagResource",
-    ],
-    resources: {
-      "dataexchange:CreateDataGrant": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-grants/${DataGrantId}",
-      ],
-      "dataexchange:CreateJob": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:jobs/${JobId}",
-      ],
-      "dataexchange:PublishDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-      ],
-      "dataexchange:PublishToDataGrant": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-      ],
-      "dataexchange:StartJob": ["arn:${Partition}:dataexchange:${Region}:${Account}:jobs/${JobId}"],
-    },
-    conditional: {
-      "dataexchange:TagResource": "Tags",
-      "dataexchange:CreateJob":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-      "dataexchange:PublishDataSet":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-      "dataexchange:PublishToDataGrant":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-      "dataexchange:StartJob":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataGrant",
 }));
@@ -1259,15 +1203,6 @@ export const createDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataSet",
-  iam: {
-    actions: ["dataexchange:CreateDataSet", "dataexchange:TagResource"],
-    resources: {
-      "dataexchange:CreateDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-      ],
-    },
-    conditional: { "dataexchange:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataSet",
 }));
@@ -1300,15 +1235,6 @@ export const createEventAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventAction",
-  iam: {
-    actions: ["dataexchange:CreateEventAction", "dataexchange:TagResource"],
-    resources: {
-      "dataexchange:CreateEventAction": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:event-actions/${EventActionId}",
-      ],
-    },
-    conditional: { "dataexchange:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEventAction",
 }));
@@ -1343,11 +1269,6 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
-  iam: {
-    actions: ["dataexchange:CreateJob", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -1380,15 +1301,6 @@ export const createRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRevision",
-  iam: {
-    actions: ["dataexchange:CreateRevision", "dataexchange:TagResource"],
-    resources: {
-      "dataexchange:CreateRevision": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-      ],
-    },
-    conditional: { "dataexchange:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRevision",
 }));
@@ -1423,14 +1335,6 @@ export const deleteAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAsset",
-  iam: {
-    actions: ["dataexchange:DeleteAsset"],
-    resources: {
-      "dataexchange:DeleteAsset": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}/assets/${AssetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAsset",
 }));
@@ -1463,35 +1367,6 @@ export const deleteDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataGrant",
-  iam: {
-    actions: [
-      "dataexchange:CreateJob",
-      "dataexchange:DeleteDataGrant",
-      "dataexchange:DeleteDataSet",
-      "dataexchange:StartJob",
-    ],
-    resources: {
-      "dataexchange:CreateJob": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:jobs/${JobId}",
-      ],
-      "dataexchange:DeleteDataGrant": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-grants/${DataGrantId}",
-      ],
-      "dataexchange:DeleteDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}",
-      ],
-      "dataexchange:StartJob": ["arn:${Partition}:dataexchange:${Region}:${Account}:jobs/${JobId}"],
-    },
-    conditional: {
-      "dataexchange:CreateJob":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-      "dataexchange:DeleteDataSet":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-      "dataexchange:StartJob":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataGrant",
 }));
@@ -1526,15 +1401,6 @@ export const deleteDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataSet",
-  iam: {
-    actions: ["dataexchange:DeleteDataSet"],
-    resources: {
-      "dataexchange:DeleteDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataSet",
 }));
@@ -1565,14 +1431,6 @@ export const deleteEventAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventAction",
-  iam: {
-    actions: ["dataexchange:DeleteEventAction"],
-    resources: {
-      "dataexchange:DeleteEventAction": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:event-actions/${EventActionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventAction",
 }));
@@ -1607,14 +1465,6 @@ export const deleteRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRevision",
-  iam: {
-    actions: ["dataexchange:DeleteRevision"],
-    resources: {
-      "dataexchange:DeleteRevision": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRevision",
 }));
@@ -1645,15 +1495,6 @@ export const getAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAsset",
-  iam: {
-    actions: ["dataexchange:GetAsset"],
-    resources: {
-      "dataexchange:GetAsset": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}/assets/${AssetId}",
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}/revisions/${RevisionId}/assets/${AssetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAsset",
 }));
@@ -1686,22 +1527,6 @@ export const getDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataGrant",
-  iam: {
-    actions: ["dataexchange:GetDataGrant", "dataexchange:GetDataSet"],
-    resources: {
-      "dataexchange:GetDataGrant": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-grants/${DataGrantId}",
-      ],
-      "dataexchange:GetDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}",
-      ],
-    },
-    conditional: {
-      "dataexchange:GetDataSet":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataGrant",
 }));
@@ -1732,15 +1557,6 @@ export const getDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataSet",
-  iam: {
-    actions: ["dataexchange:GetDataSet"],
-    resources: {
-      "dataexchange:GetDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataSet",
 }));
@@ -1771,14 +1587,6 @@ export const getEventAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventAction",
-  iam: {
-    actions: ["dataexchange:GetEventAction"],
-    resources: {
-      "dataexchange:GetEventAction": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:event-actions/${EventActionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventAction",
 }));
@@ -1809,7 +1617,6 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
-  iam: { actions: ["dataexchange:GetJob"] },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -1842,22 +1649,6 @@ export const getReceivedDataGrant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReceivedDataGrant",
-  iam: {
-    actions: ["dataexchange:GetDataSet", "dataexchange:GetReceivedDataGrant"],
-    resources: {
-      "dataexchange:GetDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}",
-      ],
-      "dataexchange:GetReceivedDataGrant": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-grants/${DataGrantId}",
-      ],
-    },
-    conditional: {
-      "dataexchange:GetDataSet":
-        "Authorized for the data-grant flows that publish or subscribe; not granted unless asked.",
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReceivedDataGrant",
 }));
@@ -1888,15 +1679,6 @@ export const getRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevision",
-  iam: {
-    actions: ["dataexchange:GetRevision"],
-    resources: {
-      "dataexchange:GetRevision": [
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}/revisions/${RevisionId}",
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRevision",
 }));
@@ -1936,7 +1718,6 @@ export const listDataGrants: API.PaginatedOperationMethod<
     items: "DataGrantSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["dataexchange:ListDataGrants"] },
   telemetry: TELEMETRY,
   span: "ListDataGrants",
 })) as any;
@@ -1974,15 +1755,6 @@ export const listDataSetRevisions: API.PaginatedOperationMethod<
     items: "Revisions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["dataexchange:ListDataSetRevisions"],
-    resources: {
-      "dataexchange:ListDataSetRevisions": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDataSetRevisions",
 })) as any;
@@ -2020,7 +1792,6 @@ export const listDataSets: API.PaginatedOperationMethod<
     items: "DataSets",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["dataexchange:ListDataSets"] },
   telemetry: TELEMETRY,
   span: "ListDataSets",
 })) as any;
@@ -2058,7 +1829,6 @@ export const listEventActions: API.PaginatedOperationMethod<
     items: "EventActions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["dataexchange:ListEventActions"] },
   telemetry: TELEMETRY,
   span: "ListEventActions",
 })) as any;
@@ -2096,7 +1866,6 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "Jobs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["dataexchange:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -2136,7 +1905,6 @@ export const listReceivedDataGrants: API.PaginatedOperationMethod<
     items: "DataGrantSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["dataexchange:ListReceivedDataGrants"] },
   telemetry: TELEMETRY,
   span: "ListReceivedDataGrants",
 })) as any;
@@ -2174,15 +1942,6 @@ export const listRevisionAssets: API.PaginatedOperationMethod<
     items: "Assets",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["dataexchange:ListRevisionAssets"],
-    resources: {
-      "dataexchange:ListRevisionAssets": [
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}/revisions/${RevisionId}",
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRevisionAssets",
 })) as any;
@@ -2203,7 +1962,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["dataexchange:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2238,14 +1996,6 @@ export const revokeRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeRevision",
-  iam: {
-    actions: ["dataexchange:RevokeRevision"],
-    resources: {
-      "dataexchange:RevokeRevision": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RevokeRevision",
 }));
@@ -2279,15 +2029,6 @@ export const sendApiAsset: API.OperationMethod<
   retry: Retry,
   operationName: "SendApiAsset",
   endpointHostPrefix: "api-fulfill.",
-  iam: {
-    actions: ["dataexchange:SendApiAsset"],
-    resources: {
-      "dataexchange:SendApiAsset": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}/assets/${AssetId}",
-        "arn:${Partition}:dataexchange:${Region}::data-sets/${DataSetId}/revisions/${RevisionId}/assets/${AssetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendApiAsset",
 }));
@@ -2322,14 +2063,6 @@ export const sendDataSetNotification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendDataSetNotification",
-  iam: {
-    actions: ["dataexchange:SendDataSetNotification"],
-    resources: {
-      "dataexchange:SendDataSetNotification": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendDataSetNotification",
 }));
@@ -2364,15 +2097,6 @@ export const startJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartJob",
-  iam: {
-    actions: ["dataexchange:CreateAsset", "dataexchange:StartJob", "dataexchange:TagResource"],
-    resources: {
-      "dataexchange:CreateAsset": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}",
-      ],
-      "dataexchange:StartJob": ["arn:${Partition}:dataexchange:${Region}:${Account}:jobs/${JobId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartJob",
 }));
@@ -2393,7 +2117,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["dataexchange:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2414,7 +2137,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["dataexchange:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2449,14 +2171,6 @@ export const updateAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAsset",
-  iam: {
-    actions: ["dataexchange:UpdateAsset"],
-    resources: {
-      "dataexchange:UpdateAsset": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}/assets/${AssetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAsset",
 }));
@@ -2489,14 +2203,6 @@ export const updateDataSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataSet",
-  iam: {
-    actions: ["dataexchange:UpdateDataSet"],
-    resources: {
-      "dataexchange:UpdateDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataSet",
 }));
@@ -2529,14 +2235,6 @@ export const updateEventAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventAction",
-  iam: {
-    actions: ["dataexchange:UpdateEventAction"],
-    resources: {
-      "dataexchange:UpdateEventAction": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:event-actions/${EventActionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEventAction",
 }));
@@ -2571,24 +2269,6 @@ export const updateRevision: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRevision",
-  iam: {
-    actions: [
-      "dataexchange:PublishDataSet",
-      "dataexchange:PublishToDataGrant",
-      "dataexchange:UpdateRevision",
-    ],
-    resources: {
-      "dataexchange:PublishDataSet": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-      ],
-      "dataexchange:PublishToDataGrant": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}",
-      ],
-      "dataexchange:UpdateRevision": [
-        "arn:${Partition}:dataexchange:${Region}:${Account}:data-sets/${DataSetId}/revisions/${RevisionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRevision",
 }));

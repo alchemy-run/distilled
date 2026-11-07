@@ -1102,14 +1102,6 @@ export const batchDeleteInstrumentationConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteInstrumentationConfigurations",
-  iam: {
-    actions: ["application-signals:BatchDeleteInstrumentationConfigurations"],
-    resources: {
-      "application-signals:BatchDeleteInstrumentationConfigurations": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:instrumentationConfig/${Service}/${Environment}/${SignalType}/${LocationHash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteInstrumentationConfigurations",
 }));
@@ -1139,14 +1131,6 @@ export const batchGetServiceLevelObjectiveBudgetReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetServiceLevelObjectiveBudgetReport",
-  iam: {
-    actions: ["application-signals:BatchGetServiceLevelObjectiveBudgetReport"],
-    resources: {
-      "application-signals:BatchGetServiceLevelObjectiveBudgetReport": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:slo/${SloName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetServiceLevelObjectiveBudgetReport",
 }));
@@ -1171,14 +1155,6 @@ export const batchUpdateExclusionWindows: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateExclusionWindows",
-  iam: {
-    actions: ["application-signals:BatchUpdateExclusionWindows"],
-    resources: {
-      "application-signals:BatchUpdateExclusionWindows": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:slo/${SloName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchUpdateExclusionWindows",
 }));
@@ -1213,13 +1189,6 @@ export const createInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInstrumentationConfiguration",
-  iam: {
-    actions: [
-      "application-signals:CreateInstrumentationConfiguration",
-      "application-signals:TagResource",
-    ],
-    conditional: { "application-signals:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateInstrumentationConfiguration",
 }));
@@ -1294,10 +1263,6 @@ export const createServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceLevelObjective",
-  iam: {
-    actions: ["application-signals:CreateServiceLevelObjective", "application-signals:TagResource"],
-    conditional: { "application-signals:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceLevelObjective",
 }));
@@ -1322,7 +1287,6 @@ export const deleteGroupingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupingConfiguration",
-  iam: { actions: ["application-signals:DeleteGroupingConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteGroupingConfiguration",
 }));
@@ -1347,14 +1311,6 @@ export const deleteInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInstrumentationConfiguration",
-  iam: {
-    actions: ["application-signals:DeleteInstrumentationConfiguration"],
-    resources: {
-      "application-signals:DeleteInstrumentationConfiguration": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:instrumentationConfig/${Service}/${Environment}/${SignalType}/${LocationHash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInstrumentationConfiguration",
 }));
@@ -1379,14 +1335,6 @@ export const deleteServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceLevelObjective",
-  iam: {
-    actions: ["application-signals:DeleteServiceLevelObjective"],
-    resources: {
-      "application-signals:DeleteServiceLevelObjective": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:slo/${SloName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteServiceLevelObjective",
 }));
@@ -1411,14 +1359,6 @@ export const getInstrumentationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInstrumentationConfiguration",
-  iam: {
-    actions: ["application-signals:GetInstrumentationConfiguration"],
-    resources: {
-      "application-signals:GetInstrumentationConfiguration": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:instrumentationConfig/${Service}/${Environment}/${SignalType}/${LocationHash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetInstrumentationConfiguration",
 }));
@@ -1452,14 +1392,6 @@ export const getInstrumentationConfigurationStatus: API.PaginatedOperationMethod
     items: "Events",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["application-signals:GetInstrumentationConfigurationStatus"],
-    resources: {
-      "application-signals:GetInstrumentationConfigurationStatus": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:instrumentationConfig/${Service}/${Environment}/${SignalType}/${LocationHash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetInstrumentationConfigurationStatus",
 })) as any;
@@ -1480,7 +1412,6 @@ export const getService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetService",
-  iam: { actions: ["application-signals:GetService"] },
   telemetry: TELEMETRY,
   span: "GetService",
 }));
@@ -1505,14 +1436,6 @@ export const getServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetServiceLevelObjective",
-  iam: {
-    actions: ["application-signals:GetServiceLevelObjective"],
-    resources: {
-      "application-signals:GetServiceLevelObjective": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:slo/${SloName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetServiceLevelObjective",
 }));
@@ -1533,13 +1456,6 @@ export const listAuditFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAuditFindings",
-  iam: {
-    actions: [
-      "application-signals:ListAuditFindings",
-      "application-signals:ListServiceLevelObjectives",
-      "cloudwatch:GetMetricData",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ListAuditFindings",
 }));
@@ -1567,7 +1483,6 @@ export const listEntityEvents: API.PaginatedOperationMethod<
     items: "ChangeEvents",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["application-signals:ListEntityEvents"] },
   telemetry: TELEMETRY,
   span: "ListEntityEvents",
 })) as any;
@@ -1592,7 +1507,6 @@ export const listGroupingAttributeDefinitions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListGroupingAttributeDefinitions",
-  iam: { actions: ["application-signals:ListGroupingAttributeDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListGroupingAttributeDefinitions",
 }));
@@ -1626,7 +1540,6 @@ export const listInstrumentationConfigurations: API.PaginatedOperationMethod<
     items: "LatestConfigurations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["application-signals:ListInstrumentationConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListInstrumentationConfigurations",
 })) as any;
@@ -1654,7 +1567,6 @@ export const listServiceDependencies: API.PaginatedOperationMethod<
     items: "ServiceDependencies",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["application-signals:ListServiceDependencies"] },
   telemetry: TELEMETRY,
   span: "ListServiceDependencies",
 })) as any;
@@ -1682,7 +1594,6 @@ export const listServiceDependents: API.PaginatedOperationMethod<
     items: "ServiceDependents",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["application-signals:ListServiceDependents"] },
   telemetry: TELEMETRY,
   span: "ListServiceDependents",
 })) as any;
@@ -1714,14 +1625,6 @@ export const listServiceLevelObjectiveExclusionWindows: API.PaginatedOperationMe
     items: "ExclusionWindows",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["application-signals:ListServiceLevelObjectiveExclusionWindows"],
-    resources: {
-      "application-signals:ListServiceLevelObjectiveExclusionWindows": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:slo/${SloName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServiceLevelObjectiveExclusionWindows",
 })) as any;
@@ -1752,7 +1655,6 @@ export const listServiceLevelObjectives: API.PaginatedOperationMethod<
     items: "SloSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["application-signals:ListServiceLevelObjectives"] },
   telemetry: TELEMETRY,
   span: "ListServiceLevelObjectives",
 })) as any;
@@ -1780,7 +1682,6 @@ export const listServiceOperations: API.PaginatedOperationMethod<
     items: "ServiceOperations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["application-signals:ListServiceOperations"] },
   telemetry: TELEMETRY,
   span: "ListServiceOperations",
 })) as any;
@@ -1808,7 +1709,6 @@ export const listServices: API.PaginatedOperationMethod<
     items: "ServiceSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["application-signals:ListServices"] },
   telemetry: TELEMETRY,
   span: "ListServices",
 })) as any;
@@ -1836,7 +1736,6 @@ export const listServiceStates: API.PaginatedOperationMethod<
     items: "ServiceStates",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["application-signals:ListServiceStates"] },
   telemetry: TELEMETRY,
   span: "ListServiceStates",
 })) as any;
@@ -1860,7 +1759,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["application-signals:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1885,7 +1783,6 @@ export const putGroupingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutGroupingConfiguration",
-  iam: { actions: ["application-signals:PutGroupingConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutGroupingConfiguration",
 }));
@@ -1911,14 +1808,6 @@ export const reportInstrumentationConfigurationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportInstrumentationConfigurationStatus",
-  iam: {
-    actions: ["application-signals:ReportInstrumentationConfigurationStatus"],
-    resources: {
-      "application-signals:ReportInstrumentationConfigurationStatus": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:instrumentationConfig/${Service}/${Environment}/${SignalType}/${LocationHash}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReportInstrumentationConfigurationStatus",
 }));
@@ -1961,7 +1850,6 @@ export const startDiscovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDiscovery",
-  iam: { actions: ["application-signals:StartDiscovery"] },
   telemetry: TELEMETRY,
   span: "StartDiscovery",
 }));
@@ -1994,7 +1882,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["application-signals:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2015,7 +1902,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["application-signals:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2042,14 +1928,6 @@ export const updateServiceLevelObjective: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceLevelObjective",
-  iam: {
-    actions: ["application-signals:UpdateServiceLevelObjective"],
-    resources: {
-      "application-signals:UpdateServiceLevelObjective": [
-        "arn:${Partition}:application-signals:${Region}:${Account}:slo/${SloName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceLevelObjective",
 }));

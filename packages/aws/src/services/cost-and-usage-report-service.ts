@@ -260,14 +260,6 @@ export const deleteReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReportDefinition",
-  iam: {
-    actions: ["cur:DeleteReportDefinition"],
-    resources: {
-      "cur:DeleteReportDefinition": [
-        "arn:${Partition}:cur:${Region}:${Account}:definition/${ReportName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReportDefinition",
 }));
@@ -294,7 +286,6 @@ export const describeReportDefinitions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cur:DescribeReportDefinitions"] },
   telemetry: TELEMETRY,
   span: "DescribeReportDefinitions",
 })) as any;
@@ -319,14 +310,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["cur:ListTagsForResource"],
-    resources: {
-      "cur:ListTagsForResource": [
-        "arn:${Partition}:cur:${Region}:${Account}:definition/${ReportName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -351,14 +334,6 @@ export const modifyReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyReportDefinition",
-  iam: {
-    actions: ["cur:ModifyReportDefinition"],
-    resources: {
-      "cur:ModifyReportDefinition": [
-        "arn:${Partition}:cur:${Region}:${Account}:definition/${ReportName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyReportDefinition",
 }));
@@ -393,16 +368,6 @@ export const putReportDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutReportDefinition",
-  iam: {
-    actions: ["cur:PutReportDefinition", "cur:TagResource"],
-    resources: {
-      "cur:PutReportDefinition": [
-        "arn:${Partition}:cur:${Region}:${Account}:definition/${ReportName}",
-      ],
-      "cur:TagResource": ["arn:${Partition}:cur:${Region}:${Account}:definition/${ReportName}"],
-    },
-    conditional: { "cur:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "PutReportDefinition",
 }));
@@ -427,12 +392,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["cur:TagResource"],
-    resources: {
-      "cur:TagResource": ["arn:${Partition}:cur:${Region}:${Account}:definition/${ReportName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -457,12 +416,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["cur:UntagResource"],
-    resources: {
-      "cur:UntagResource": ["arn:${Partition}:cur:${Region}:${Account}:definition/${ReportName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

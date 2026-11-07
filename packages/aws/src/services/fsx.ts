@@ -3176,14 +3176,6 @@ export const associateFileSystemAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFileSystemAliases",
-  iam: {
-    actions: ["fsx:AssociateFileSystemAliases"],
-    resources: {
-      "fsx:AssociateFileSystemAliases": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateFileSystemAliases",
 }));
@@ -3227,12 +3219,6 @@ export const cancelDataRepositoryTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDataRepositoryTask",
-  iam: {
-    actions: ["fsx:CancelDataRepositoryTask"],
-    resources: {
-      "fsx:CancelDataRepositoryTask": ["arn:${Partition}:fsx:${Region}:${Account}:task/${TaskId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelDataRepositoryTask",
 }));
@@ -3301,13 +3287,6 @@ export const copyBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyBackup",
-  iam: {
-    actions: ["fsx:CopyBackup", "fsx:TagResource"],
-    resources: {
-      "fsx:CopyBackup": ["arn:${Partition}:fsx:${Region}:${Account}:backup/${BackupId}"],
-    },
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CopyBackup",
 }));
@@ -3341,15 +3320,6 @@ export const copySnapshotAndUpdateVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopySnapshotAndUpdateVolume",
-  iam: {
-    actions: ["fsx:CopySnapshotAndUpdateVolume"],
-    resources: {
-      "fsx:CopySnapshotAndUpdateVolume": [
-        "arn:${Partition}:fsx:${Region}:${Account}:snapshot/${VolumeId}/${SnapshotId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:volume/${FileSystemId}/${VolumeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CopySnapshotAndUpdateVolume",
 }));
@@ -3411,7 +3381,6 @@ export const createAndAttachS3AccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAndAttachS3AccessPoint",
-  iam: { actions: ["fsx:CreateAndAttachS3AccessPoint"] },
   telemetry: TELEMETRY,
   span: "CreateAndAttachS3AccessPoint",
 }));
@@ -3496,10 +3465,6 @@ export const createBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackup",
-  iam: {
-    actions: ["fsx:CreateBackup", "fsx:TagResource"],
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBackup",
 }));
@@ -3550,16 +3515,6 @@ export const createDataRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataRepositoryAssociation",
-  iam: {
-    actions: ["fsx:CreateDataRepositoryAssociation", "fsx:TagResource"],
-    resources: {
-      "fsx:CreateDataRepositoryAssociation": [
-        "arn:${Partition}:fsx:${Region}:${Account}:association/${FileSystemIdOrFileCacheId}/${DataRepositoryAssociationId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataRepositoryAssociation",
 }));
@@ -3613,16 +3568,6 @@ export const createDataRepositoryTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataRepositoryTask",
-  iam: {
-    actions: ["fsx:CreateDataRepositoryTask", "fsx:TagResource"],
-    resources: {
-      "fsx:CreateDataRepositoryTask": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:task/${TaskId}",
-      ],
-    },
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataRepositoryTask",
 }));
@@ -3678,16 +3623,6 @@ export const createFileCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileCache",
-  iam: {
-    actions: ["fsx:CreateDataRepositoryAssociation", "fsx:CreateFileCache", "fsx:TagResource"],
-    resources: {
-      "fsx:CreateDataRepositoryAssociation": [
-        "arn:${Partition}:fsx:${Region}:${Account}:association/${FileSystemIdOrFileCacheId}/${DataRepositoryAssociationId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFileCache",
 }));
@@ -3766,15 +3701,6 @@ export const createFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystem",
-  iam: {
-    actions: ["fsx:CreateFileSystem", "fsx:TagResource"],
-    resources: {
-      "fsx:CreateFileSystem": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFileSystem",
 }));
@@ -3845,16 +3771,6 @@ export const createFileSystemFromBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFileSystemFromBackup",
-  iam: {
-    actions: ["fsx:CreateFileSystemFromBackup", "fsx:TagResource"],
-    resources: {
-      "fsx:CreateFileSystemFromBackup": [
-        "arn:${Partition}:fsx:${Region}:${Account}:backup/${BackupId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFileSystemFromBackup",
 }));
@@ -3913,10 +3829,6 @@ export const createSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSnapshot",
-  iam: {
-    actions: ["fsx:CreateSnapshot", "fsx:TagResource"],
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSnapshot",
 }));
@@ -3953,16 +3865,6 @@ export const createStorageVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageVirtualMachine",
-  iam: {
-    actions: ["fsx:CreateStorageVirtualMachine", "fsx:TagResource"],
-    resources: {
-      "fsx:CreateStorageVirtualMachine": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:storage-virtual-machine/${FileSystemId}/${StorageVirtualMachineId}",
-      ],
-    },
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateStorageVirtualMachine",
 }));
@@ -4001,10 +3903,6 @@ export const createVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVolume",
-  iam: {
-    actions: ["fsx:CreateVolume", "fsx:TagResource"],
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVolume",
 }));
@@ -4044,17 +3942,6 @@ export const createVolumeFromBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVolumeFromBackup",
-  iam: {
-    actions: ["fsx:CreateVolumeFromBackup", "fsx:TagResource"],
-    resources: {
-      "fsx:CreateVolumeFromBackup": [
-        "arn:${Partition}:fsx:${Region}:${Account}:backup/${BackupId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:storage-virtual-machine/${FileSystemId}/${StorageVirtualMachineId}",
-        "arn:${Partition}:fsx:${Region}:${Account}:volume/${FileSystemId}/${VolumeId}",
-      ],
-    },
-    conditional: { "fsx:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVolumeFromBackup",
 }));
@@ -4098,12 +3985,6 @@ export const deleteBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackup",
-  iam: {
-    actions: ["fsx:DeleteBackup"],
-    resources: {
-      "fsx:DeleteBackup": ["arn:${Partition}:fsx:${Region}:${Account}:backup/${BackupId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBackup",
 }));
@@ -4142,14 +4023,6 @@ export const deleteDataRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataRepositoryAssociation",
-  iam: {
-    actions: ["fsx:DeleteDataRepositoryAssociation"],
-    resources: {
-      "fsx:DeleteDataRepositoryAssociation": [
-        "arn:${Partition}:fsx:${Region}:${Account}:association/${FileSystemIdOrFileCacheId}/${DataRepositoryAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataRepositoryAssociation",
 }));
@@ -4193,14 +4066,6 @@ export const deleteFileCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileCache",
-  iam: {
-    actions: ["fsx:DeleteDataRepositoryAssociation", "fsx:DeleteFileCache"],
-    resources: {
-      "fsx:DeleteDataRepositoryAssociation": [
-        "arn:${Partition}:fsx:${Region}:${Account}:association/${FileSystemIdOrFileCacheId}/${DataRepositoryAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFileCache",
 }));
@@ -4278,7 +4143,6 @@ export const deleteFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFileSystem",
-  iam: { actions: ["fsx:CreateBackup", "fsx:DeleteFileSystem", "fsx:TagResource"] },
   telemetry: TELEMETRY,
   span: "DeleteFileSystem",
 }));
@@ -4308,14 +4172,6 @@ export const deleteSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSnapshot",
-  iam: {
-    actions: ["fsx:DeleteSnapshot"],
-    resources: {
-      "fsx:DeleteSnapshot": [
-        "arn:${Partition}:fsx:${Region}:${Account}:snapshot/${VolumeId}/${SnapshotId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSnapshot",
 }));
@@ -4347,14 +4203,6 @@ export const deleteStorageVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageVirtualMachine",
-  iam: {
-    actions: ["fsx:DeleteStorageVirtualMachine"],
-    resources: {
-      "fsx:DeleteStorageVirtualMachine": [
-        "arn:${Partition}:fsx:${Region}:${Account}:storage-virtual-machine/${FileSystemId}/${StorageVirtualMachineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteStorageVirtualMachine",
 }));
@@ -4388,14 +4236,6 @@ export const deleteVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVolume",
-  iam: {
-    actions: ["fsx:BypassSnaplockEnterpriseRetention", "fsx:DeleteVolume", "fsx:TagResource"],
-    resources: {
-      "fsx:BypassSnaplockEnterpriseRetention": [
-        "arn:${Partition}:fsx:${Region}:${Account}:volume/${FileSystemId}/${VolumeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVolume",
 }));
@@ -4452,7 +4292,6 @@ export const describeBackups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeBackups"] },
   telemetry: TELEMETRY,
   span: "DescribeBackups",
 })) as any;
@@ -4511,7 +4350,6 @@ export const describeDataRepositoryAssociations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeDataRepositoryAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeDataRepositoryAssociations",
 })) as any;
@@ -4553,7 +4391,6 @@ export const describeDataRepositoryTasks: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeDataRepositoryTasks"] },
   telemetry: TELEMETRY,
   span: "DescribeDataRepositoryTasks",
 })) as any;
@@ -4610,7 +4447,6 @@ export const describeFileCaches: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeFileCaches"] },
   telemetry: TELEMETRY,
   span: "DescribeFileCaches",
 })) as any;
@@ -4643,14 +4479,6 @@ export const describeFileSystemAliases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["fsx:DescribeFileSystemAliases"],
-    resources: {
-      "fsx:DescribeFileSystemAliases": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFileSystemAliases",
 })) as any;
@@ -4707,7 +4535,6 @@ export const describeFileSystems: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeFileSystems"] },
   telemetry: TELEMETRY,
   span: "DescribeFileSystems",
 })) as any;
@@ -4744,7 +4571,6 @@ export const describeS3AccessPointAttachments: API.PaginatedOperationMethod<
     items: "S3AccessPointAttachments",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeS3AccessPointAttachments"] },
   telemetry: TELEMETRY,
   span: "DescribeS3AccessPointAttachments",
 })) as any;
@@ -4766,7 +4592,6 @@ export const describeSharedVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSharedVpcConfiguration",
-  iam: { actions: ["fsx:DescribeSharedVpcConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeSharedVpcConfiguration",
 }));
@@ -4823,7 +4648,6 @@ export const describeSnapshots: API.PaginatedOperationMethod<
     items: "Snapshots",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeSnapshots"] },
   telemetry: TELEMETRY,
   span: "DescribeSnapshots",
 })) as any;
@@ -4855,7 +4679,6 @@ export const describeStorageVirtualMachines: API.PaginatedOperationMethod<
     items: "StorageVirtualMachines",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeStorageVirtualMachines"] },
   telemetry: TELEMETRY,
   span: "DescribeStorageVirtualMachines",
 })) as any;
@@ -4884,7 +4707,6 @@ export const describeVolumes: API.PaginatedOperationMethod<
     items: "Volumes",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:DescribeVolumes"] },
   telemetry: TELEMETRY,
   span: "DescribeVolumes",
 })) as any;
@@ -4923,7 +4745,6 @@ export const detachAndDeleteS3AccessPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachAndDeleteS3AccessPoint",
-  iam: { actions: ["fsx:DetachAndDeleteS3AccessPoint"] },
   telemetry: TELEMETRY,
   span: "DetachAndDeleteS3AccessPoint",
 }));
@@ -4957,14 +4778,6 @@ export const disassociateFileSystemAliases: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFileSystemAliases",
-  iam: {
-    actions: ["fsx:DisassociateFileSystemAliases"],
-    resources: {
-      "fsx:DisassociateFileSystemAliases": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateFileSystemAliases",
 }));
@@ -5025,7 +4838,6 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["fsx:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -5059,14 +4871,6 @@ export const releaseFileSystemNfsV3Locks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReleaseFileSystemNfsV3Locks",
-  iam: {
-    actions: ["fsx:ReleaseFileSystemNfsV3Locks"],
-    resources: {
-      "fsx:ReleaseFileSystemNfsV3Locks": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReleaseFileSystemNfsV3Locks",
 }));
@@ -5093,7 +4897,6 @@ export const restoreVolumeFromSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreVolumeFromSnapshot",
-  iam: { actions: ["fsx:RestoreVolumeFromSnapshot"] },
   telemetry: TELEMETRY,
   span: "RestoreVolumeFromSnapshot",
 }));
@@ -5119,14 +4922,6 @@ export const startMisconfiguredStateRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMisconfiguredStateRecovery",
-  iam: {
-    actions: ["fsx:StartMisconfiguredStateRecovery"],
-    resources: {
-      "fsx:StartMisconfiguredStateRecovery": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMisconfiguredStateRecovery",
 }));
@@ -5159,7 +4954,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["fsx:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5192,7 +4986,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["fsx:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5228,14 +5021,6 @@ export const updateDataRepositoryAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataRepositoryAssociation",
-  iam: {
-    actions: ["fsx:UpdateDataRepositoryAssociation"],
-    resources: {
-      "fsx:UpdateDataRepositoryAssociation": [
-        "arn:${Partition}:fsx:${Region}:${Account}:association/${FileSystemIdOrFileCacheId}/${DataRepositoryAssociationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataRepositoryAssociation",
 }));
@@ -5273,14 +5058,6 @@ export const updateFileCache: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileCache",
-  iam: {
-    actions: ["fsx:UpdateFileCache"],
-    resources: {
-      "fsx:UpdateFileCache": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-cache/${FileCacheId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFileCache",
 }));
@@ -5424,14 +5201,6 @@ export const updateFileSystem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFileSystem",
-  iam: {
-    actions: ["fsx:UpdateFileSystem"],
-    resources: {
-      "fsx:UpdateFileSystem": [
-        "arn:${Partition}:fsx:${Region}:${Account}:file-system/${FileSystemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFileSystem",
 }));
@@ -5464,7 +5233,6 @@ export const updateSharedVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSharedVpcConfiguration",
-  iam: { actions: ["fsx:UpdateSharedVpcConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateSharedVpcConfiguration",
 }));
@@ -5490,14 +5258,6 @@ export const updateSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSnapshot",
-  iam: {
-    actions: ["fsx:UpdateSnapshot"],
-    resources: {
-      "fsx:UpdateSnapshot": [
-        "arn:${Partition}:fsx:${Region}:${Account}:snapshot/${VolumeId}/${SnapshotId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSnapshot",
 }));
@@ -5530,14 +5290,6 @@ export const updateStorageVirtualMachine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStorageVirtualMachine",
-  iam: {
-    actions: ["fsx:UpdateStorageVirtualMachine"],
-    resources: {
-      "fsx:UpdateStorageVirtualMachine": [
-        "arn:${Partition}:fsx:${Region}:${Account}:storage-virtual-machine/${FileSystemId}/${StorageVirtualMachineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateStorageVirtualMachine",
 }));
@@ -5570,14 +5322,6 @@ export const updateVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVolume",
-  iam: {
-    actions: ["fsx:UpdateVolume"],
-    resources: {
-      "fsx:UpdateVolume": [
-        "arn:${Partition}:fsx:${Region}:${Account}:volume/${FileSystemId}/${VolumeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVolume",
 }));

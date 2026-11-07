@@ -1545,15 +1545,6 @@ export const associateVehicleFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVehicleFleet",
-  iam: {
-    actions: ["iotfleetwise:AssociateVehicleFleet"],
-    resources: {
-      "iotfleetwise:AssociateVehicleFleet": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:fleet/${FleetId}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateVehicleFleet",
 }));
@@ -1592,27 +1583,6 @@ export const batchCreateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateVehicle",
-  iam: {
-    actions: [
-      "iotfleetwise:CreateVehicle",
-      "iotfleetwise:TagResource",
-      "iot:CreateThing",
-      "iot:DescribeThing",
-      "iotfleetwise:BatchCreateVehicle",
-    ],
-    resources: {
-      "iotfleetwise:CreateVehicle": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:model-manifest/${Name}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-      "iot:DescribeThing": ["arn:${Partition}:iot:${Region}:${Account}:thing/${ThingName}"],
-    },
-    conditional: {
-      "iotfleetwise:TagResource":
-        "Needed only when the request sets tags; not granted, since tagging can change tag-based access.",
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchCreateVehicle",
 }));
@@ -1651,7 +1621,6 @@ export const batchUpdateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateVehicle",
-  iam: { actions: ["iotfleetwise:BatchUpdateVehicle", "iotfleetwise:UpdateVehicle"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateVehicle",
 }));
@@ -1694,19 +1663,6 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
-  iam: {
-    actions: ["iotfleetwise:CreateCampaign", "iam:PassRole", "iotfleetwise:TagResource"],
-    resources: {
-      "iotfleetwise:CreateCampaign": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:campaign/${CampaignName}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:fleet/${FleetId}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "iotfleetwise:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCampaign",
 }));
@@ -1752,16 +1708,6 @@ export const createDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDecoderManifest",
-  iam: {
-    actions: ["iotfleetwise:CreateDecoderManifest", "iotfleetwise:TagResource"],
-    resources: {
-      "iotfleetwise:CreateDecoderManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:model-manifest/${Name}",
-      ],
-    },
-    conditional: { "iotfleetwise:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDecoderManifest",
 }));
@@ -1803,16 +1749,6 @@ export const createFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFleet",
-  iam: {
-    actions: ["iotfleetwise:CreateFleet", "iotfleetwise:TagResource"],
-    resources: {
-      "iotfleetwise:CreateFleet": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:fleet/${FleetId}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-      ],
-    },
-    conditional: { "iotfleetwise:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFleet",
 }));
@@ -1853,16 +1789,6 @@ export const createModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelManifest",
-  iam: {
-    actions: ["iotfleetwise:CreateModelManifest", "iotfleetwise:TagResource"],
-    resources: {
-      "iotfleetwise:CreateModelManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:model-manifest/${Name}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-      ],
-    },
-    conditional: { "iotfleetwise:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelManifest",
 }));
@@ -1900,15 +1826,6 @@ export const createSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSignalCatalog",
-  iam: {
-    actions: ["iotfleetwise:CreateSignalCatalog", "iotfleetwise:TagResource"],
-    resources: {
-      "iotfleetwise:CreateSignalCatalog": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-      ],
-    },
-    conditional: { "iotfleetwise:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSignalCatalog",
 }));
@@ -1949,16 +1866,6 @@ export const createStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStateTemplate",
-  iam: {
-    actions: ["iotfleetwise:CreateStateTemplate", "iotfleetwise:TagResource"],
-    resources: {
-      "iotfleetwise:CreateStateTemplate": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:state-template/${StateTemplateId}",
-      ],
-    },
-    conditional: { "iotfleetwise:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateStateTemplate",
 }));
@@ -2003,17 +1910,6 @@ export const createVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVehicle",
-  iam: {
-    actions: ["iotfleetwise:CreateVehicle", "iotfleetwise:TagResource"],
-    resources: {
-      "iotfleetwise:CreateVehicle": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:model-manifest/${Name}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-    },
-    conditional: { "iotfleetwise:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVehicle",
 }));
@@ -2045,14 +1941,6 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
-  iam: {
-    actions: ["iotfleetwise:DeleteCampaign"],
-    resources: {
-      "iotfleetwise:DeleteCampaign": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:campaign/${CampaignName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCampaign",
 }));
@@ -2086,14 +1974,6 @@ export const deleteDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDecoderManifest",
-  iam: {
-    actions: ["iotfleetwise:DeleteDecoderManifest"],
-    resources: {
-      "iotfleetwise:DeleteDecoderManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDecoderManifest",
 }));
@@ -2126,14 +2006,6 @@ export const deleteFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFleet",
-  iam: {
-    actions: ["iotfleetwise:DeleteFleet"],
-    resources: {
-      "iotfleetwise:DeleteFleet": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:fleet/${FleetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFleet",
 }));
@@ -2166,14 +2038,6 @@ export const deleteModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelManifest",
-  iam: {
-    actions: ["iotfleetwise:DeleteModelManifest"],
-    resources: {
-      "iotfleetwise:DeleteModelManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:model-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelManifest",
 }));
@@ -2206,14 +2070,6 @@ export const deleteSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSignalCatalog",
-  iam: {
-    actions: ["iotfleetwise:DeleteSignalCatalog"],
-    resources: {
-      "iotfleetwise:DeleteSignalCatalog": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSignalCatalog",
 }));
@@ -2244,14 +2100,6 @@ export const deleteStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStateTemplate",
-  iam: {
-    actions: ["iotfleetwise:DeleteStateTemplate"],
-    resources: {
-      "iotfleetwise:DeleteStateTemplate": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:state-template/${StateTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteStateTemplate",
 }));
@@ -2282,14 +2130,6 @@ export const deleteVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVehicle",
-  iam: {
-    actions: ["iotfleetwise:DeleteVehicle"],
-    resources: {
-      "iotfleetwise:DeleteVehicle": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVehicle",
 }));
@@ -2323,15 +2163,6 @@ export const disassociateVehicleFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVehicleFleet",
-  iam: {
-    actions: ["iotfleetwise:DisassociateVehicleFleet"],
-    resources: {
-      "iotfleetwise:DisassociateVehicleFleet": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:fleet/${FleetId}",
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateVehicleFleet",
 }));
@@ -2364,14 +2195,6 @@ export const getCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCampaign",
-  iam: {
-    actions: ["iotfleetwise:GetCampaign"],
-    resources: {
-      "iotfleetwise:GetCampaign": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:campaign/${CampaignName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCampaign",
 }));
@@ -2402,14 +2225,6 @@ export const getDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDecoderManifest",
-  iam: {
-    actions: ["iotfleetwise:GetDecoderManifest"],
-    resources: {
-      "iotfleetwise:GetDecoderManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDecoderManifest",
 }));
@@ -2442,7 +2257,6 @@ export const getEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncryptionConfiguration",
-  iam: { actions: ["iotfleetwise:GetEncryptionConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetEncryptionConfiguration",
 }));
@@ -2475,14 +2289,6 @@ export const getFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFleet",
-  iam: {
-    actions: ["iotfleetwise:GetFleet"],
-    resources: {
-      "iotfleetwise:GetFleet": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:fleet/${FleetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFleet",
 }));
@@ -2503,7 +2309,6 @@ export const getLoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLoggingOptions",
-  iam: { actions: ["iotfleetwise:GetLoggingOptions"] },
   telemetry: TELEMETRY,
   span: "GetLoggingOptions",
 }));
@@ -2534,14 +2339,6 @@ export const getModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelManifest",
-  iam: {
-    actions: ["iotfleetwise:GetModelManifest"],
-    resources: {
-      "iotfleetwise:GetModelManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:model-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetModelManifest",
 }));
@@ -2580,7 +2377,6 @@ export const getRegisterAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegisterAccountStatus",
-  iam: { actions: ["iotfleetwise:GetRegisterAccountStatus"] },
   telemetry: TELEMETRY,
   span: "GetRegisterAccountStatus",
 }));
@@ -2611,14 +2407,6 @@ export const getSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSignalCatalog",
-  iam: {
-    actions: ["iotfleetwise:GetSignalCatalog"],
-    resources: {
-      "iotfleetwise:GetSignalCatalog": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSignalCatalog",
 }));
@@ -2653,14 +2441,6 @@ export const getStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStateTemplate",
-  iam: {
-    actions: ["iotfleetwise:GetStateTemplate"],
-    resources: {
-      "iotfleetwise:GetStateTemplate": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:state-template/${StateTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetStateTemplate",
 }));
@@ -2693,14 +2473,6 @@ export const getVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVehicle",
-  iam: {
-    actions: ["iotfleetwise:GetVehicle"],
-    resources: {
-      "iotfleetwise:GetVehicle": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVehicle",
 }));
@@ -2739,14 +2511,6 @@ export const getVehicleStatus: API.PaginatedOperationMethod<
     items: "campaigns",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iotfleetwise:GetVehicleStatus"],
-    resources: {
-      "iotfleetwise:GetVehicleStatus": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVehicleStatus",
 })) as any;
@@ -2785,14 +2549,6 @@ export const importDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportDecoderManifest",
-  iam: {
-    actions: ["iotfleetwise:ImportDecoderManifest"],
-    resources: {
-      "iotfleetwise:ImportDecoderManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportDecoderManifest",
 }));
@@ -2832,15 +2588,6 @@ export const importSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportSignalCatalog",
-  iam: {
-    actions: ["iotfleetwise:ImportSignalCatalog", "iotfleetwise:TagResource"],
-    resources: {
-      "iotfleetwise:ImportSignalCatalog": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-      ],
-    },
-    conditional: { "iotfleetwise:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportSignalCatalog",
 }));
@@ -2874,7 +2621,6 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaignSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iotfleetwise:ListCampaigns"] },
   telemetry: TELEMETRY,
   span: "ListCampaigns",
 })) as any;
@@ -2916,14 +2662,6 @@ export const listDecoderManifestNetworkInterfaces: API.PaginatedOperationMethod<
     items: "networkInterfaces",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iotfleetwise:ListDecoderManifestNetworkInterfaces"],
-    resources: {
-      "iotfleetwise:ListDecoderManifestNetworkInterfaces": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDecoderManifestNetworkInterfaces",
 })) as any;
@@ -2963,7 +2701,6 @@ export const listDecoderManifests: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iotfleetwise:ListDecoderManifests"] },
   telemetry: TELEMETRY,
   span: "ListDecoderManifests",
 })) as any;
@@ -3005,14 +2742,6 @@ export const listDecoderManifestSignals: API.PaginatedOperationMethod<
     items: "signalDecoders",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iotfleetwise:ListDecoderManifestSignals"],
-    resources: {
-      "iotfleetwise:ListDecoderManifestSignals": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDecoderManifestSignals",
 })) as any;
@@ -3054,7 +2783,6 @@ export const listFleets: API.PaginatedOperationMethod<
     items: "fleetSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iotfleetwise:ListFleets"] },
   telemetry: TELEMETRY,
   span: "ListFleets",
 })) as any;
@@ -3096,14 +2824,6 @@ export const listFleetsForVehicle: API.PaginatedOperationMethod<
     items: "fleets",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iotfleetwise:ListFleetsForVehicle"],
-    resources: {
-      "iotfleetwise:ListFleetsForVehicle": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:vehicle/${VehicleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFleetsForVehicle",
 })) as any;
@@ -3147,14 +2867,6 @@ export const listModelManifestNodes: API.PaginatedOperationMethod<
     items: "nodes",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iotfleetwise:ListModelManifestNodes"],
-    resources: {
-      "iotfleetwise:ListModelManifestNodes": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:model-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListModelManifestNodes",
 })) as any;
@@ -3194,7 +2906,6 @@ export const listModelManifests: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iotfleetwise:ListModelManifests"] },
   telemetry: TELEMETRY,
   span: "ListModelManifests",
 })) as any;
@@ -3238,14 +2949,6 @@ export const listSignalCatalogNodes: API.PaginatedOperationMethod<
     items: "nodes",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iotfleetwise:ListSignalCatalogNodes"],
-    resources: {
-      "iotfleetwise:ListSignalCatalogNodes": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListSignalCatalogNodes",
 })) as any;
@@ -3288,7 +2991,6 @@ export const listSignalCatalogs: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iotfleetwise:ListSignalCatalogs"] },
   telemetry: TELEMETRY,
   span: "ListSignalCatalogs",
 })) as any;
@@ -3328,7 +3030,6 @@ export const listStateTemplates: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iotfleetwise:ListStateTemplates"] },
   telemetry: TELEMETRY,
   span: "ListStateTemplates",
 })) as any;
@@ -3361,7 +3062,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["iotfleetwise:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3401,7 +3101,6 @@ export const listVehicles: API.PaginatedOperationMethod<
     items: "vehicleSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["iotfleetwise:ListVehicles"] },
   telemetry: TELEMETRY,
   span: "ListVehicles",
 })) as any;
@@ -3443,14 +3142,6 @@ export const listVehiclesInFleet: API.PaginatedOperationMethod<
     items: "vehicles",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["iotfleetwise:ListVehiclesInFleet"],
-    resources: {
-      "iotfleetwise:ListVehiclesInFleet": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:fleet/${FleetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListVehiclesInFleet",
 })) as any;
@@ -3488,7 +3179,6 @@ export const putEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEncryptionConfiguration",
-  iam: { actions: ["iotfleetwise:PutEncryptionConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutEncryptionConfiguration",
 }));
@@ -3521,7 +3211,6 @@ export const putLoggingOptions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLoggingOptions",
-  iam: { actions: ["iotfleetwise:PutLoggingOptions"] },
   telemetry: TELEMETRY,
   span: "PutLoggingOptions",
 }));
@@ -3578,7 +3267,6 @@ export const registerAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterAccount",
-  iam: { actions: ["iotfleetwise:RegisterAccount"] },
   telemetry: TELEMETRY,
   span: "RegisterAccount",
 }));
@@ -3612,7 +3300,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["iotfleetwise:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3645,7 +3332,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["iotfleetwise:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3678,14 +3364,6 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
-  iam: {
-    actions: ["iotfleetwise:UpdateCampaign"],
-    resources: {
-      "iotfleetwise:UpdateCampaign": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:campaign/${CampaignName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCampaign",
 }));
@@ -3725,14 +3403,6 @@ export const updateDecoderManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDecoderManifest",
-  iam: {
-    actions: ["iotfleetwise:UpdateDecoderManifest"],
-    resources: {
-      "iotfleetwise:UpdateDecoderManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:decoder-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDecoderManifest",
 }));
@@ -3767,14 +3437,6 @@ export const updateFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFleet",
-  iam: {
-    actions: ["iotfleetwise:UpdateFleet"],
-    resources: {
-      "iotfleetwise:UpdateFleet": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:fleet/${FleetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFleet",
 }));
@@ -3812,14 +3474,6 @@ export const updateModelManifest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelManifest",
-  iam: {
-    actions: ["iotfleetwise:UpdateModelManifest"],
-    resources: {
-      "iotfleetwise:UpdateModelManifest": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:model-manifest/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateModelManifest",
 }));
@@ -3860,14 +3514,6 @@ export const updateSignalCatalog: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSignalCatalog",
-  iam: {
-    actions: ["iotfleetwise:UpdateSignalCatalog"],
-    resources: {
-      "iotfleetwise:UpdateSignalCatalog": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:signal-catalog/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSignalCatalog",
 }));
@@ -3906,14 +3552,6 @@ export const updateStateTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStateTemplate",
-  iam: {
-    actions: ["iotfleetwise:UpdateStateTemplate"],
-    resources: {
-      "iotfleetwise:UpdateStateTemplate": [
-        "arn:${Partition}:iotfleetwise:${Region}:${Account}:state-template/${StateTemplateId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateStateTemplate",
 }));
@@ -3952,7 +3590,6 @@ export const updateVehicle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVehicle",
-  iam: { actions: ["iotfleetwise:UpdateVehicle"] },
   telemetry: TELEMETRY,
   span: "UpdateVehicle",
 }));

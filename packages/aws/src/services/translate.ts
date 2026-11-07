@@ -597,10 +597,6 @@ export const createParallelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParallelData",
-  iam: {
-    actions: ["translate:CreateParallelData", "translate:TagResource"],
-    conditional: { "translate:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateParallelData",
 }));
@@ -631,7 +627,6 @@ export const deleteParallelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteParallelData",
-  iam: { actions: ["translate:DeleteParallelData"] },
   telemetry: TELEMETRY,
   span: "DeleteParallelData",
 }));
@@ -662,7 +657,6 @@ export const deleteTerminology: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTerminology",
-  iam: { actions: ["translate:DeleteTerminology"] },
   telemetry: TELEMETRY,
   span: "DeleteTerminology",
 }));
@@ -688,7 +682,6 @@ export const describeTextTranslationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTextTranslationJob",
-  iam: { actions: ["translate:DescribeTextTranslationJob"] },
   telemetry: TELEMETRY,
   span: "DescribeTextTranslationJob",
 }));
@@ -719,7 +712,6 @@ export const getParallelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParallelData",
-  iam: { actions: ["translate:GetParallelData"] },
   telemetry: TELEMETRY,
   span: "GetParallelData",
 }));
@@ -750,7 +742,6 @@ export const getTerminology: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTerminology",
-  iam: { actions: ["translate:GetTerminology"] },
   telemetry: TELEMETRY,
   span: "GetTerminology",
 }));
@@ -793,10 +784,6 @@ export const importTerminology: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportTerminology",
-  iam: {
-    actions: ["translate:ImportTerminology", "translate:TagResource"],
-    conditional: { "translate:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportTerminology",
 }));
@@ -833,7 +820,6 @@ export const listLanguages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["translate:ListLanguages"] },
   telemetry: TELEMETRY,
   span: "ListLanguages",
 })) as any;
@@ -864,7 +850,6 @@ export const listParallelData: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["translate:ListParallelData"] },
   telemetry: TELEMETRY,
   span: "ListParallelData",
 })) as any;
@@ -891,7 +876,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["translate:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -922,7 +906,6 @@ export const listTerminologies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["translate:ListTerminologies"] },
   telemetry: TELEMETRY,
   span: "ListTerminologies",
 })) as any;
@@ -959,7 +942,6 @@ export const listTextTranslationJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["translate:ListTextTranslationJobs"] },
   telemetry: TELEMETRY,
   span: "ListTextTranslationJobs",
 })) as any;
@@ -1002,10 +984,6 @@ export const startTextTranslationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTextTranslationJob",
-  iam: {
-    actions: ["iam:PassRole", "translate:StartTextTranslationJob"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "StartTextTranslationJob",
 }));
@@ -1038,7 +1016,6 @@ export const stopTextTranslationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTextTranslationJob",
-  iam: { actions: ["translate:StopTextTranslationJob"] },
   telemetry: TELEMETRY,
   span: "StopTextTranslationJob",
 }));
@@ -1074,7 +1051,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["translate:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1120,7 +1096,6 @@ export const translateDocument: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TranslateDocument",
-  iam: { actions: ["translate:TranslateDocument"] },
   telemetry: TELEMETRY,
   span: "TranslateDocument",
 }));
@@ -1160,7 +1135,6 @@ export const translateText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TranslateText",
-  iam: { actions: ["translate:TranslateText"] },
   telemetry: TELEMETRY,
   span: "TranslateText",
 }));
@@ -1193,7 +1167,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["translate:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1233,7 +1206,6 @@ export const updateParallelData: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateParallelData",
-  iam: { actions: ["translate:UpdateParallelData"] },
   telemetry: TELEMETRY,
   span: "UpdateParallelData",
 }));

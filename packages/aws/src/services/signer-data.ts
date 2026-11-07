@@ -146,15 +146,6 @@ export const getRevocationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRevocationStatus",
-  iam: {
-    actions: ["signer:GetRevocationStatus"],
-    resources: {
-      "signer:GetRevocationStatus": [
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-jobs/${JobId}",
-        "arn:${Partition}:signer:${Region}:${Account}:/signing-profiles/${ProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRevocationStatus",
 }));

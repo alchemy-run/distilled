@@ -1984,14 +1984,6 @@ export const acceptNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptNetworkFirewallTransitGatewayAttachment",
-  iam: {
-    actions: ["network-firewall:AcceptNetworkFirewallTransitGatewayAttachment"],
-    resources: {
-      "network-firewall:AcceptNetworkFirewallTransitGatewayAttachment": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptNetworkFirewallTransitGatewayAttachment",
 }));
@@ -2030,14 +2022,6 @@ export const associateAvailabilityZones: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAvailabilityZones",
-  iam: {
-    actions: ["network-firewall:AssociateAvailabilityZones"],
-    resources: {
-      "network-firewall:AssociateAvailabilityZones": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateAvailabilityZones",
 }));
@@ -2077,16 +2061,6 @@ export const associateFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFirewallPolicy",
-  iam: {
-    actions: ["network-firewall:AssociateFirewallPolicy"],
-    resources: {
-      "network-firewall:AssociateFirewallPolicy": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy-v2/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateFirewallPolicy",
 }));
@@ -2129,14 +2103,6 @@ export const associateSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSubnets",
-  iam: {
-    actions: ["network-firewall:AssociateSubnets"],
-    resources: {
-      "network-firewall:AssociateSubnets": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateSubnets",
 }));
@@ -2169,15 +2135,6 @@ export const attachRuleGroupsToProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachRuleGroupsToProxyConfiguration",
-  iam: {
-    actions: ["network-firewall:AttachRuleGroupsToProxyConfiguration"],
-    resources: {
-      "network-firewall:AttachRuleGroupsToProxyConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AttachRuleGroupsToProxyConfiguration",
 }));
@@ -2211,15 +2168,6 @@ export const createContainerAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContainerAssociation",
-  iam: {
-    actions: ["network-firewall:CreateContainerAssociation", "network-firewall:TagResource"],
-    resources: {
-      "network-firewall:CreateContainerAssociation": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:container-association/${Name}",
-      ],
-    },
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateContainerAssociation",
 }));
@@ -2267,21 +2215,6 @@ export const createFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewall",
-  iam: {
-    actions: [
-      "network-firewall:AssociateFirewallPolicy",
-      "network-firewall:CreateFirewall",
-      "network-firewall:TagResource",
-    ],
-    resources: {
-      "network-firewall:AssociateFirewallPolicy": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy-v2/${Name}",
-      ],
-    },
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFirewall",
 }));
@@ -2320,20 +2253,6 @@ export const createFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallPolicy",
-  iam: {
-    actions: [
-      "network-firewall:CreateFirewallPolicy",
-      "network-firewall:ListRuleGroups",
-      "network-firewall:ListTLSInspectionConfigurations",
-      "network-firewall:TagResource",
-    ],
-    resources: {
-      "network-firewall:ListTLSInspectionConfigurations": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:tls-configuration/${Name}",
-      ],
-    },
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFirewallPolicy",
 }));
@@ -2374,16 +2293,6 @@ export const createProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxy",
-  iam: {
-    actions: ["network-firewall:CreateProxy", "network-firewall:TagResource"],
-    resources: {
-      "network-firewall:CreateProxy": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-      ],
-    },
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProxy",
 }));
@@ -2422,20 +2331,6 @@ export const createProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxyConfiguration",
-  iam: {
-    actions: [
-      "network-firewall:AttachRuleGroupsToProxyConfiguration",
-      "network-firewall:CreateProxyConfiguration",
-      "network-firewall:TagResource",
-    ],
-    resources: {
-      "network-firewall:AttachRuleGroupsToProxyConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProxyConfiguration",
 }));
@@ -2474,15 +2369,6 @@ export const createProxyRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxyRuleGroup",
-  iam: {
-    actions: ["network-firewall:CreateProxyRuleGroup", "network-firewall:TagResource"],
-    resources: {
-      "network-firewall:CreateProxyRuleGroup": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProxyRuleGroup",
 }));
@@ -2511,14 +2397,6 @@ export const createProxyRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProxyRules",
-  iam: {
-    actions: ["network-firewall:CreateProxyRules"],
-    resources: {
-      "network-firewall:CreateProxyRules": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateProxyRules",
 }));
@@ -2555,10 +2433,6 @@ export const createRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleGroup",
-  iam: {
-    actions: ["network-firewall:CreateRuleGroup", "network-firewall:TagResource"],
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRuleGroup",
 }));
@@ -2600,15 +2474,6 @@ export const createTLSInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTLSInspectionConfiguration",
-  iam: {
-    actions: ["network-firewall:CreateTLSInspectionConfiguration", "network-firewall:TagResource"],
-    resources: {
-      "network-firewall:CreateTLSInspectionConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:tls-configuration/${Name}",
-      ],
-    },
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTLSInspectionConfiguration",
 }));
@@ -2645,23 +2510,6 @@ export const createVpcEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpointAssociation",
-  iam: {
-    actions: [
-      "network-firewall:CreateVpcEndpointAssociation",
-      "network-firewall:ListFirewalls",
-      "network-firewall:TagResource",
-    ],
-    resources: {
-      "network-firewall:CreateVpcEndpointAssociation": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:vpc-endpoint-association/${Name}",
-      ],
-      "network-firewall:ListFirewalls": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-    conditional: { "network-firewall:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateVpcEndpointAssociation",
 }));
@@ -2696,14 +2544,6 @@ export const deleteContainerAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContainerAssociation",
-  iam: {
-    actions: ["network-firewall:DeleteContainerAssociation"],
-    resources: {
-      "network-firewall:DeleteContainerAssociation": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:container-association/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteContainerAssociation",
 }));
@@ -2750,14 +2590,6 @@ export const deleteFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewall",
-  iam: {
-    actions: ["network-firewall:DeleteFirewall"],
-    resources: {
-      "network-firewall:DeleteFirewall": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFirewall",
 }));
@@ -2792,14 +2624,6 @@ export const deleteFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallPolicy",
-  iam: {
-    actions: ["network-firewall:DeleteFirewallPolicy"],
-    resources: {
-      "network-firewall:DeleteFirewallPolicy": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFirewallPolicy",
 }));
@@ -2842,14 +2666,6 @@ export const deleteNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNetworkFirewallTransitGatewayAttachment",
-  iam: {
-    actions: ["network-firewall:DeleteNetworkFirewallTransitGatewayAttachment"],
-    resources: {
-      "network-firewall:DeleteNetworkFirewallTransitGatewayAttachment": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNetworkFirewallTransitGatewayAttachment",
 }));
@@ -2884,14 +2700,6 @@ export const deleteProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxy",
-  iam: {
-    actions: ["network-firewall:DeleteProxy"],
-    resources: {
-      "network-firewall:DeleteProxy": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProxy",
 }));
@@ -2922,14 +2730,6 @@ export const deleteProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxyConfiguration",
-  iam: {
-    actions: ["network-firewall:DeleteProxyConfiguration"],
-    resources: {
-      "network-firewall:DeleteProxyConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProxyConfiguration",
 }));
@@ -2960,14 +2760,6 @@ export const deleteProxyRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxyRuleGroup",
-  iam: {
-    actions: ["network-firewall:DeleteProxyRuleGroup"],
-    resources: {
-      "network-firewall:DeleteProxyRuleGroup": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProxyRuleGroup",
 }));
@@ -2998,14 +2790,6 @@ export const deleteProxyRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProxyRules",
-  iam: {
-    actions: ["network-firewall:DeleteProxyRules"],
-    resources: {
-      "network-firewall:DeleteProxyRules": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProxyRules",
 }));
@@ -3038,7 +2822,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: { actions: ["network-firewall:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -3073,17 +2856,6 @@ export const deleteRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleGroup",
-  iam: {
-    actions: ["network-firewall:DeleteRuleGroup"],
-    resources: {
-      "network-firewall:DeleteRuleGroup": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-rulegroup/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:ips-rulegroup/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:stateful-rulegroup/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:stateless-rulegroup/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRuleGroup",
 }));
@@ -3116,14 +2888,6 @@ export const deleteTLSInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTLSInspectionConfiguration",
-  iam: {
-    actions: ["network-firewall:DeleteTLSInspectionConfiguration"],
-    resources: {
-      "network-firewall:DeleteTLSInspectionConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:tls-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTLSInspectionConfiguration",
 }));
@@ -3163,14 +2927,6 @@ export const deleteVpcEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpointAssociation",
-  iam: {
-    actions: ["network-firewall:DeleteVpcEndpointAssociation"],
-    resources: {
-      "network-firewall:DeleteVpcEndpointAssociation": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:vpc-endpoint-association/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVpcEndpointAssociation",
 }));
@@ -3201,14 +2957,6 @@ export const describeContainerAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContainerAssociation",
-  iam: {
-    actions: ["network-firewall:DescribeContainerAssociation"],
-    resources: {
-      "network-firewall:DescribeContainerAssociation": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:container-association/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeContainerAssociation",
 }));
@@ -3239,14 +2987,6 @@ export const describeFirewall: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewall",
-  iam: {
-    actions: ["network-firewall:DescribeFirewall"],
-    resources: {
-      "network-firewall:DescribeFirewall": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFirewall",
 }));
@@ -3278,14 +3018,6 @@ export const describeFirewallMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewallMetadata",
-  iam: {
-    actions: ["network-firewall:DescribeFirewallMetadata"],
-    resources: {
-      "network-firewall:DescribeFirewallMetadata": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFirewallMetadata",
 }));
@@ -3316,7 +3048,6 @@ export const describeFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFirewallPolicy",
-  iam: { actions: ["network-firewall:DescribeFirewallPolicy"] },
   telemetry: TELEMETRY,
   span: "DescribeFirewallPolicy",
 }));
@@ -3347,14 +3078,6 @@ export const describeFlowOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowOperation",
-  iam: {
-    actions: ["network-firewall:DescribeFlowOperation"],
-    resources: {
-      "network-firewall:DescribeFlowOperation": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFlowOperation",
 }));
@@ -3385,14 +3108,6 @@ export const describeLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoggingConfiguration",
-  iam: {
-    actions: ["network-firewall:DescribeLoggingConfiguration"],
-    resources: {
-      "network-firewall:DescribeLoggingConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLoggingConfiguration",
 }));
@@ -3423,14 +3138,6 @@ export const describeProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxy",
-  iam: {
-    actions: ["network-firewall:DescribeProxy"],
-    resources: {
-      "network-firewall:DescribeProxy": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProxy",
 }));
@@ -3461,14 +3168,6 @@ export const describeProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxyConfiguration",
-  iam: {
-    actions: ["network-firewall:DescribeProxyConfiguration"],
-    resources: {
-      "network-firewall:DescribeProxyConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProxyConfiguration",
 }));
@@ -3499,14 +3198,6 @@ export const describeProxyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxyRule",
-  iam: {
-    actions: ["network-firewall:DescribeProxyRule"],
-    resources: {
-      "network-firewall:DescribeProxyRule": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProxyRule",
 }));
@@ -3537,14 +3228,6 @@ export const describeProxyRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProxyRuleGroup",
-  iam: {
-    actions: ["network-firewall:DescribeProxyRuleGroup"],
-    resources: {
-      "network-firewall:DescribeProxyRuleGroup": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProxyRuleGroup",
 }));
@@ -3575,7 +3258,6 @@ export const describeResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourcePolicy",
-  iam: { actions: ["network-firewall:DescribeResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DescribeResourcePolicy",
 }));
@@ -3606,7 +3288,6 @@ export const describeRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroup",
-  iam: { actions: ["network-firewall:DescribeRuleGroup"] },
   telemetry: TELEMETRY,
   span: "DescribeRuleGroup",
 }));
@@ -3639,7 +3320,6 @@ export const describeRuleGroupMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupMetadata",
-  iam: { actions: ["network-firewall:DescribeRuleGroupMetadata"] },
   telemetry: TELEMETRY,
   span: "DescribeRuleGroupMetadata",
 }));
@@ -3674,7 +3354,6 @@ export const describeRuleGroupSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRuleGroupSummary",
-  iam: { actions: ["network-firewall:DescribeRuleGroupSummary"] },
   telemetry: TELEMETRY,
   span: "DescribeRuleGroupSummary",
 }));
@@ -3705,14 +3384,6 @@ export const describeTLSInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTLSInspectionConfiguration",
-  iam: {
-    actions: ["network-firewall:DescribeTLSInspectionConfiguration"],
-    resources: {
-      "network-firewall:DescribeTLSInspectionConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:tls-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTLSInspectionConfiguration",
 }));
@@ -3743,14 +3414,6 @@ export const describeVpcEndpointAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpointAssociation",
-  iam: {
-    actions: ["network-firewall:DescribeVpcEndpointAssociation"],
-    resources: {
-      "network-firewall:DescribeVpcEndpointAssociation": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:vpc-endpoint-association/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpointAssociation",
 }));
@@ -3783,15 +3446,6 @@ export const detachRuleGroupsFromProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachRuleGroupsFromProxyConfiguration",
-  iam: {
-    actions: ["network-firewall:DetachRuleGroupsFromProxyConfiguration"],
-    resources: {
-      "network-firewall:DetachRuleGroupsFromProxyConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DetachRuleGroupsFromProxyConfiguration",
 }));
@@ -3830,14 +3484,6 @@ export const disassociateAvailabilityZones: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAvailabilityZones",
-  iam: {
-    actions: ["network-firewall:DisassociateAvailabilityZones"],
-    resources: {
-      "network-firewall:DisassociateAvailabilityZones": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateAvailabilityZones",
 }));
@@ -3874,14 +3520,6 @@ export const disassociateSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateSubnets",
-  iam: {
-    actions: ["network-firewall:DisassociateSubnets"],
-    resources: {
-      "network-firewall:DisassociateSubnets": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateSubnets",
 }));
@@ -3921,14 +3559,6 @@ export const getAnalysisReportResults: API.PaginatedOperationMethod<
     items: "AnalysisReportResults",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:GetAnalysisReportResults"],
-    resources: {
-      "network-firewall:GetAnalysisReportResults": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAnalysisReportResults",
 })) as any;
@@ -3966,14 +3596,6 @@ export const listAnalysisReports: API.PaginatedOperationMethod<
     items: "AnalysisReports",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListAnalysisReports"],
-    resources: {
-      "network-firewall:ListAnalysisReports": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAnalysisReports",
 })) as any;
@@ -4006,7 +3628,6 @@ export const listContainerAssociations: API.PaginatedOperationMethod<
     items: "ContainerAssociations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["network-firewall:ListContainerAssociations"] },
   telemetry: TELEMETRY,
   span: "ListContainerAssociations",
 })) as any;
@@ -4040,14 +3661,6 @@ export const listFirewallPolicies: API.PaginatedOperationMethod<
     items: "FirewallPolicies",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListFirewallPolicies"],
-    resources: {
-      "network-firewall:ListFirewallPolicies": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall-policy/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFirewallPolicies",
 })) as any;
@@ -4083,14 +3696,6 @@ export const listFirewalls: API.PaginatedOperationMethod<
     items: "Firewalls",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListFirewalls"],
-    resources: {
-      "network-firewall:ListFirewalls": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFirewalls",
 })) as any;
@@ -4133,14 +3738,6 @@ export const listFlowOperationResults: API.PaginatedOperationMethod<
     items: "Flows",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListFlowOperationResults"],
-    resources: {
-      "network-firewall:ListFlowOperationResults": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFlowOperationResults",
 })) as any;
@@ -4184,14 +3781,6 @@ export const listFlowOperations: API.PaginatedOperationMethod<
     items: "FlowOperations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListFlowOperations"],
-    resources: {
-      "network-firewall:ListFlowOperations": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFlowOperations",
 })) as any;
@@ -4225,14 +3814,6 @@ export const listProxies: API.PaginatedOperationMethod<
     items: "Proxies",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListProxies"],
-    resources: {
-      "network-firewall:ListProxies": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProxies",
 })) as any;
@@ -4272,14 +3853,6 @@ export const listProxyConfigurations: API.PaginatedOperationMethod<
     items: "ProxyConfigurations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListProxyConfigurations"],
-    resources: {
-      "network-firewall:ListProxyConfigurations": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProxyConfigurations",
 })) as any;
@@ -4319,14 +3892,6 @@ export const listProxyRuleGroups: API.PaginatedOperationMethod<
     items: "ProxyRuleGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListProxyRuleGroups"],
-    resources: {
-      "network-firewall:ListProxyRuleGroups": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProxyRuleGroups",
 })) as any;
@@ -4360,7 +3925,6 @@ export const listRuleGroups: API.PaginatedOperationMethod<
     items: "RuleGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["network-firewall:ListRuleGroups"] },
   telemetry: TELEMETRY,
   span: "ListRuleGroups",
 })) as any;
@@ -4405,7 +3969,6 @@ export const listTagsForResource: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["network-firewall:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -4437,14 +4000,6 @@ export const listTLSInspectionConfigurations: API.PaginatedOperationMethod<
     items: "TLSInspectionConfigurations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListTLSInspectionConfigurations"],
-    resources: {
-      "network-firewall:ListTLSInspectionConfigurations": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:tls-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTLSInspectionConfigurations",
 })) as any;
@@ -4480,14 +4035,6 @@ export const listVpcEndpointAssociations: API.PaginatedOperationMethod<
     items: "VpcEndpointAssociations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["network-firewall:ListVpcEndpointAssociations"],
-    resources: {
-      "network-firewall:ListVpcEndpointAssociations": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:vpc-endpoint-association/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListVpcEndpointAssociations",
 })) as any;
@@ -4533,7 +4080,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: { actions: ["network-firewall:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -4578,14 +4124,6 @@ export const rejectNetworkFirewallTransitGatewayAttachment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectNetworkFirewallTransitGatewayAttachment",
-  iam: {
-    actions: ["network-firewall:RejectNetworkFirewallTransitGatewayAttachment"],
-    resources: {
-      "network-firewall:RejectNetworkFirewallTransitGatewayAttachment": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectNetworkFirewallTransitGatewayAttachment",
 }));
@@ -4618,14 +4156,6 @@ export const startAnalysisReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAnalysisReport",
-  iam: {
-    actions: ["network-firewall:StartAnalysisReport"],
-    resources: {
-      "network-firewall:StartAnalysisReport": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartAnalysisReport",
 }));
@@ -4664,14 +4194,6 @@ export const startFlowCapture: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowCapture",
-  iam: {
-    actions: ["network-firewall:StartFlowCapture"],
-    resources: {
-      "network-firewall:StartFlowCapture": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartFlowCapture",
 }));
@@ -4708,14 +4230,6 @@ export const startFlowFlush: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFlowFlush",
-  iam: {
-    actions: ["network-firewall:StartFlowFlush"],
-    resources: {
-      "network-firewall:StartFlowFlush": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartFlowFlush",
 }));
@@ -4752,7 +4266,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["network-firewall:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4790,7 +4303,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["network-firewall:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4827,14 +4339,6 @@ export const updateAvailabilityZoneChangeProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAvailabilityZoneChangeProtection",
-  iam: {
-    actions: ["network-firewall:UpdateAvailabilityZoneChangeProtection"],
-    resources: {
-      "network-firewall:UpdateAvailabilityZoneChangeProtection": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAvailabilityZoneChangeProtection",
 }));
@@ -4870,14 +4374,6 @@ export const updateContainerAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContainerAssociation",
-  iam: {
-    actions: ["network-firewall:UpdateContainerAssociation"],
-    resources: {
-      "network-firewall:UpdateContainerAssociation": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:container-association/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateContainerAssociation",
 }));
@@ -4910,14 +4406,6 @@ export const updateFirewallAnalysisSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallAnalysisSettings",
-  iam: {
-    actions: ["network-firewall:UpdateFirewallAnalysisSettings"],
-    resources: {
-      "network-firewall:UpdateFirewallAnalysisSettings": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallAnalysisSettings",
 }));
@@ -4955,14 +4443,6 @@ export const updateFirewallDeleteProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDeleteProtection",
-  iam: {
-    actions: ["network-firewall:UpdateFirewallDeleteProtection"],
-    resources: {
-      "network-firewall:UpdateFirewallDeleteProtection": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallDeleteProtection",
 }));
@@ -4996,14 +4476,6 @@ export const updateFirewallDescription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDescription",
-  iam: {
-    actions: ["network-firewall:UpdateFirewallDescription"],
-    resources: {
-      "network-firewall:UpdateFirewallDescription": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallDescription",
 }));
@@ -5038,14 +4510,6 @@ export const updateFirewallEncryptionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallEncryptionConfiguration",
-  iam: {
-    actions: ["network-firewall:UpdateFirewallEncryptionConfiguration"],
-    resources: {
-      "network-firewall:UpdateFirewallEncryptionConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallEncryptionConfiguration",
 }));
@@ -5080,18 +4544,6 @@ export const updateFirewallPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallPolicy",
-  iam: {
-    actions: [
-      "network-firewall:ListRuleGroups",
-      "network-firewall:ListTLSInspectionConfigurations",
-      "network-firewall:UpdateFirewallPolicy",
-    ],
-    resources: {
-      "network-firewall:ListTLSInspectionConfigurations": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:tls-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallPolicy",
 }));
@@ -5128,14 +4580,6 @@ export const updateFirewallPolicyChangeProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallPolicyChangeProtection",
-  iam: {
-    actions: ["network-firewall:UpdateFirewallPolicyChangeProtection"],
-    resources: {
-      "network-firewall:UpdateFirewallPolicyChangeProtection": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallPolicyChangeProtection",
 }));
@@ -5193,14 +4637,6 @@ export const updateLoggingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLoggingConfiguration",
-  iam: {
-    actions: ["network-firewall:UpdateLoggingConfiguration"],
-    resources: {
-      "network-firewall:UpdateLoggingConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLoggingConfiguration",
 }));
@@ -5233,14 +4669,6 @@ export const updateProxy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxy",
-  iam: {
-    actions: ["network-firewall:UpdateProxy"],
-    resources: {
-      "network-firewall:UpdateProxy": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProxy",
 }));
@@ -5271,14 +4699,6 @@ export const updateProxyConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxyConfiguration",
-  iam: {
-    actions: ["network-firewall:UpdateProxyConfiguration"],
-    resources: {
-      "network-firewall:UpdateProxyConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProxyConfiguration",
 }));
@@ -5309,14 +4729,6 @@ export const updateProxyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxyRule",
-  iam: {
-    actions: ["network-firewall:UpdateProxyRule"],
-    resources: {
-      "network-firewall:UpdateProxyRule": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProxyRule",
 }));
@@ -5347,14 +4759,6 @@ export const updateProxyRuleGroupPriorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxyRuleGroupPriorities",
-  iam: {
-    actions: ["network-firewall:UpdateProxyRuleGroupPriorities"],
-    resources: {
-      "network-firewall:UpdateProxyRuleGroupPriorities": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProxyRuleGroupPriorities",
 }));
@@ -5385,14 +4789,6 @@ export const updateProxyRulePriorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProxyRulePriorities",
-  iam: {
-    actions: ["network-firewall:UpdateProxyRulePriorities"],
-    resources: {
-      "network-firewall:UpdateProxyRulePriorities": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:proxy-rule-group/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProxyRulePriorities",
 }));
@@ -5467,7 +4863,6 @@ export const updateRuleGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleGroup",
-  iam: { actions: ["network-firewall:UpdateRuleGroup"] },
   telemetry: TELEMETRY,
   span: "UpdateRuleGroup",
 }));
@@ -5502,14 +4897,6 @@ export const updateSubnetChangeProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSubnetChangeProtection",
-  iam: {
-    actions: ["network-firewall:UpdateSubnetChangeProtection"],
-    resources: {
-      "network-firewall:UpdateSubnetChangeProtection": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:firewall/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSubnetChangeProtection",
 }));
@@ -5548,14 +4935,6 @@ export const updateTLSInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTLSInspectionConfiguration",
-  iam: {
-    actions: ["network-firewall:UpdateTLSInspectionConfiguration"],
-    resources: {
-      "network-firewall:UpdateTLSInspectionConfiguration": [
-        "arn:${Partition}:network-firewall:${Region}:${Account}:tls-configuration/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTLSInspectionConfiguration",
 }));

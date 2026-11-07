@@ -205,14 +205,6 @@ export const getDeployments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeployments",
-  iam: {
-    actions: ["sagemaker:GetDeployments"],
-    resources: {
-      "sagemaker:GetDeployments": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}/device/${DeviceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeployments",
 }));
@@ -233,14 +225,6 @@ export const getDeviceRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceRegistration",
-  iam: {
-    actions: ["sagemaker:GetDeviceRegistration"],
-    resources: {
-      "sagemaker:GetDeviceRegistration": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}/device/${DeviceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeviceRegistration",
 }));
@@ -261,14 +245,6 @@ export const sendHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendHeartbeat",
-  iam: {
-    actions: ["sagemaker:SendHeartbeat"],
-    resources: {
-      "sagemaker:SendHeartbeat": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}/device/${DeviceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendHeartbeat",
 }));

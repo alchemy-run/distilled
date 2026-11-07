@@ -1234,16 +1234,6 @@ export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationCloudWatchLoggingOption",
-  iam: {
-    actions: ["kinesisanalytics:AddApplicationCloudWatchLoggingOption", "iam:PassRole"],
-    resources: {
-      "kinesisanalytics:AddApplicationCloudWatchLoggingOption": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "AddApplicationCloudWatchLoggingOption",
 }));
@@ -1286,16 +1276,6 @@ export const addApplicationInput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationInput",
-  iam: {
-    actions: ["kinesisanalytics:AddApplicationInput", "iam:PassRole"],
-    resources: {
-      "kinesisanalytics:AddApplicationInput": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "AddApplicationInput",
 }));
@@ -1330,14 +1310,6 @@ export const addApplicationInputProcessingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationInputProcessingConfiguration",
-  iam: {
-    actions: ["kinesisanalytics:AddApplicationInputProcessingConfiguration"],
-    resources: {
-      "kinesisanalytics:AddApplicationInputProcessingConfiguration": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddApplicationInputProcessingConfiguration",
 }));
@@ -1385,16 +1357,6 @@ export const addApplicationOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationOutput",
-  iam: {
-    actions: ["kinesisanalytics:AddApplicationOutput", "iam:PassRole"],
-    resources: {
-      "kinesisanalytics:AddApplicationOutput": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "AddApplicationOutput",
 }));
@@ -1433,16 +1395,6 @@ export const addApplicationReferenceDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationReferenceDataSource",
-  iam: {
-    actions: ["kinesisanalytics:AddApplicationReferenceDataSource", "iam:PassRole"],
-    resources: {
-      "kinesisanalytics:AddApplicationReferenceDataSource": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "AddApplicationReferenceDataSource",
 }));
@@ -1483,14 +1435,6 @@ export const addApplicationVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddApplicationVpcConfiguration",
-  iam: {
-    actions: ["kinesisanalytics:AddApplicationVpcConfiguration"],
-    resources: {
-      "kinesisanalytics:AddApplicationVpcConfiguration": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddApplicationVpcConfiguration",
 }));
@@ -1531,16 +1475,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["kinesisanalytics:CreateApplication", "iam:PassRole", "kinesisanalytics:TagResource"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "kinesisanalytics:TagResource": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-    conditional: { "kinesisanalytics:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -1578,14 +1512,6 @@ export const createApplicationPresignedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationPresignedUrl",
-  iam: {
-    actions: ["kinesisanalytics:CreateApplicationPresignedUrl"],
-    resources: {
-      "kinesisanalytics:CreateApplicationPresignedUrl": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplicationPresignedUrl",
 }));
@@ -1622,14 +1548,6 @@ export const createApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationSnapshot",
-  iam: {
-    actions: ["kinesisanalytics:CreateApplicationSnapshot"],
-    resources: {
-      "kinesisanalytics:CreateApplicationSnapshot": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplicationSnapshot",
 }));
@@ -1664,14 +1582,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["kinesisanalytics:DeleteApplication"],
-    resources: {
-      "kinesisanalytics:DeleteApplication": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -1706,14 +1616,6 @@ export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationCloudWatchLoggingOption",
-  iam: {
-    actions: ["kinesisanalytics:DeleteApplicationCloudWatchLoggingOption"],
-    resources: {
-      "kinesisanalytics:DeleteApplicationCloudWatchLoggingOption": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationCloudWatchLoggingOption",
 }));
@@ -1754,14 +1656,6 @@ export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationInputProcessingConfiguration",
-  iam: {
-    actions: ["kinesisanalytics:DeleteApplicationInputProcessingConfiguration"],
-    resources: {
-      "kinesisanalytics:DeleteApplicationInputProcessingConfiguration": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationInputProcessingConfiguration",
 }));
@@ -1796,14 +1690,6 @@ export const deleteApplicationOutput: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationOutput",
-  iam: {
-    actions: ["kinesisanalytics:DeleteApplicationOutput"],
-    resources: {
-      "kinesisanalytics:DeleteApplicationOutput": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationOutput",
 }));
@@ -1839,14 +1725,6 @@ export const deleteApplicationReferenceDataSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationReferenceDataSource",
-  iam: {
-    actions: ["kinesisanalytics:DeleteApplicationReferenceDataSource"],
-    resources: {
-      "kinesisanalytics:DeleteApplicationReferenceDataSource": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationReferenceDataSource",
 }));
@@ -1881,14 +1759,6 @@ export const deleteApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationSnapshot",
-  iam: {
-    actions: ["kinesisanalytics:DeleteApplicationSnapshot"],
-    resources: {
-      "kinesisanalytics:DeleteApplicationSnapshot": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationSnapshot",
 }));
@@ -1921,14 +1791,6 @@ export const deleteApplicationVpcConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplicationVpcConfiguration",
-  iam: {
-    actions: ["kinesisanalytics:DeleteApplicationVpcConfiguration"],
-    resources: {
-      "kinesisanalytics:DeleteApplicationVpcConfiguration": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplicationVpcConfiguration",
 }));
@@ -1956,14 +1818,6 @@ export const describeApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplication",
-  iam: {
-    actions: ["kinesisanalytics:DescribeApplication"],
-    resources: {
-      "kinesisanalytics:DescribeApplication": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeApplication",
 }));
@@ -1990,14 +1844,6 @@ export const describeApplicationOperation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationOperation",
-  iam: {
-    actions: ["kinesisanalytics:DescribeApplicationOperation"],
-    resources: {
-      "kinesisanalytics:DescribeApplicationOperation": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeApplicationOperation",
 }));
@@ -2022,14 +1868,6 @@ export const describeApplicationSnapshot: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationSnapshot",
-  iam: {
-    actions: ["kinesisanalytics:DescribeApplicationSnapshot"],
-    resources: {
-      "kinesisanalytics:DescribeApplicationSnapshot": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeApplicationSnapshot",
 }));
@@ -2056,14 +1894,6 @@ export const describeApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplicationVersion",
-  iam: {
-    actions: ["kinesisanalytics:DescribeApplicationVersion"],
-    resources: {
-      "kinesisanalytics:DescribeApplicationVersion": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeApplicationVersion",
 }));
@@ -2105,10 +1935,6 @@ export const discoverInputSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DiscoverInputSchema",
-  iam: {
-    actions: ["kinesisanalytics:DiscoverInputSchema", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "DiscoverInputSchema",
 }));
@@ -2145,14 +1971,6 @@ export const listApplicationOperations: API.PaginatedOperationMethod<
     items: "ApplicationOperationInfoList",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["kinesisanalytics:ListApplicationOperations"],
-    resources: {
-      "kinesisanalytics:ListApplicationOperations": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplicationOperations",
 })) as any;
@@ -2185,7 +2003,6 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "ApplicationSummaries",
     pageSize: "Limit",
   } as const,
-  iam: { actions: ["kinesisanalytics:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -2216,14 +2033,6 @@ export const listApplicationSnapshots: API.PaginatedOperationMethod<
     items: "SnapshotSummaries",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["kinesisanalytics:ListApplicationSnapshots"],
-    resources: {
-      "kinesisanalytics:ListApplicationSnapshots": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplicationSnapshots",
 })) as any;
@@ -2260,14 +2069,6 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
     items: "ApplicationVersionSummaries",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["kinesisanalytics:ListApplicationVersions"],
-    resources: {
-      "kinesisanalytics:ListApplicationVersions": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplicationVersions",
 })) as any;
@@ -2293,14 +2094,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["kinesisanalytics:ListTagsForResource"],
-    resources: {
-      "kinesisanalytics:ListTagsForResource": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2342,14 +2135,6 @@ export const rollbackApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackApplication",
-  iam: {
-    actions: ["kinesisanalytics:RollbackApplication"],
-    resources: {
-      "kinesisanalytics:RollbackApplication": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RollbackApplication",
 }));
@@ -2383,14 +2168,6 @@ export const startApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartApplication",
-  iam: {
-    actions: ["kinesisanalytics:StartApplication"],
-    resources: {
-      "kinesisanalytics:StartApplication": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartApplication",
 }));
@@ -2432,14 +2209,6 @@ export const stopApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopApplication",
-  iam: {
-    actions: ["kinesisanalytics:StopApplication"],
-    resources: {
-      "kinesisanalytics:StopApplication": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopApplication",
 }));
@@ -2474,14 +2243,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["kinesisanalytics:TagResource"],
-    resources: {
-      "kinesisanalytics:TagResource": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2515,14 +2276,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["kinesisanalytics:UntagResource"],
-    resources: {
-      "kinesisanalytics:UntagResource": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2565,16 +2318,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: {
-    actions: ["iam:PassRole", "kinesisanalytics:UpdateApplication"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "kinesisanalytics:UpdateApplication": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -2624,14 +2367,6 @@ export const updateApplicationMaintenanceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplicationMaintenanceConfiguration",
-  iam: {
-    actions: ["kinesisanalytics:UpdateApplicationMaintenanceConfiguration"],
-    resources: {
-      "kinesisanalytics:UpdateApplicationMaintenanceConfiguration": [
-        "arn:${Partition}:kinesisanalytics:${Region}:${Account}:application/${ApplicationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplicationMaintenanceConfiguration",
 }));

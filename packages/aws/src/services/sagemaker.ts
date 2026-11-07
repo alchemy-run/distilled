@@ -16994,18 +16994,6 @@ export const addAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddAssociation",
-  iam: {
-    actions: ["sagemaker:AddAssociation"],
-    resources: {
-      "sagemaker:AddAssociation": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:action/${ActionName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:artifact/${HashOfArtifactSource}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:context/${ContextName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment/${ExperimentName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddAssociation",
 }));
@@ -17032,7 +17020,6 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-  iam: { actions: ["sagemaker:AddTags"] },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -17053,15 +17040,6 @@ export const associateTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTrialComponent",
-  iam: {
-    actions: ["sagemaker:AssociateTrialComponent"],
-    resources: {
-      "sagemaker:AssociateTrialComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial/${TrialName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateTrialComponent",
 }));
@@ -17087,14 +17065,6 @@ export const attachClusterNodeNetworkInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachClusterNodeNetworkInterface",
-  iam: {
-    actions: ["sagemaker:AttachClusterNodeNetworkInterface"],
-    resources: {
-      "sagemaker:AttachClusterNodeNetworkInterface": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AttachClusterNodeNetworkInterface",
 }));
@@ -17117,14 +17087,6 @@ export const attachClusterNodeVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachClusterNodeVolume",
-  iam: {
-    actions: ["sagemaker:AttachClusterNodeVolume"],
-    resources: {
-      "sagemaker:AttachClusterNodeVolume": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AttachClusterNodeVolume",
 }));
@@ -17147,14 +17109,6 @@ export const batchAddClusterNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAddClusterNodes",
-  iam: {
-    actions: ["sagemaker:BatchAddClusterNodes"],
-    resources: {
-      "sagemaker:BatchAddClusterNodes": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchAddClusterNodes",
 }));
@@ -17179,14 +17133,6 @@ export const batchDeleteClusterNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteClusterNodes",
-  iam: {
-    actions: ["sagemaker:BatchDeleteClusterNodes"],
-    resources: {
-      "sagemaker:BatchDeleteClusterNodes": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteClusterNodes",
 }));
@@ -17207,14 +17153,6 @@ export const batchDescribeModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDescribeModelPackage",
-  iam: {
-    actions: ["sagemaker:BatchDescribeModelPackage"],
-    resources: {
-      "sagemaker:BatchDescribeModelPackage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package/${ModelPackageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDescribeModelPackage",
 }));
@@ -17243,14 +17181,6 @@ export const batchRebootClusterNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchRebootClusterNodes",
-  iam: {
-    actions: ["sagemaker:BatchRebootClusterNodes"],
-    resources: {
-      "sagemaker:BatchRebootClusterNodes": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchRebootClusterNodes",
 }));
@@ -17281,14 +17211,6 @@ export const batchReplaceClusterNodes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchReplaceClusterNodes",
-  iam: {
-    actions: ["sagemaker:BatchReplaceClusterNodes"],
-    resources: {
-      "sagemaker:BatchReplaceClusterNodes": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchReplaceClusterNodes",
 }));
@@ -17309,15 +17231,6 @@ export const createAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAction",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateAction"],
-    resources: {
-      "sagemaker:CreateAction": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:action/${ActionName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAction",
 }));
@@ -17342,16 +17255,6 @@ export const createAIBenchmarkJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIBenchmarkJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateAIBenchmarkJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateAIBenchmarkJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-benchmark-job/${AIBenchmarkJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAIBenchmarkJob",
 }));
@@ -17376,16 +17279,6 @@ export const createAIRecommendationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIRecommendationJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateAIRecommendationJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateAIRecommendationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-recommendation-job/${AIRecommendationJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAIRecommendationJob",
 }));
@@ -17406,15 +17299,6 @@ export const createAIWorkloadConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAIWorkloadConfig",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateAIWorkloadConfig"],
-    resources: {
-      "sagemaker:CreateAIWorkloadConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-workload-config/${AIWorkloadConfigName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAIWorkloadConfig",
 }));
@@ -17435,19 +17319,6 @@ export const createAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlgorithm",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateAlgorithm", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateAlgorithm": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:algorithm/${AlgorithmName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "ValidationSpecification.ValidationRole",
-      "sagemaker:AddTags": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAlgorithm",
 }));
@@ -17468,15 +17339,6 @@ export const createApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApp",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateApp"],
-    resources: {
-      "sagemaker:CreateApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:app/${DomainId}/${UserProfileName}/${AppType}/${AppName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApp",
 }));
@@ -17497,15 +17359,6 @@ export const createAppImageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAppImageConfig",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateAppImageConfig"],
-    resources: {
-      "sagemaker:CreateAppImageConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:app-image-config/${AppImageConfigName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAppImageConfig",
 }));
@@ -17526,15 +17379,6 @@ export const createArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArtifact",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateArtifact"],
-    resources: {
-      "sagemaker:CreateArtifact": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:artifact/${HashOfArtifactSource}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateArtifact",
 }));
@@ -17567,16 +17411,6 @@ export const createAutoMLJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoMLJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateAutoMLJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateAutoMLJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:automl-job/${AutoMLJobJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAutoMLJob",
 }));
@@ -17613,16 +17447,6 @@ export const createAutoMLJobV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoMLJobV2",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateAutoMLJobV2", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateAutoMLJobV2": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:automl-job/${AutoMLJobJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAutoMLJobV2",
 }));
@@ -17643,21 +17467,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: [
-      "sagemaker:AddTags",
-      "sagemaker:CreateCluster",
-      "iam:PassRole",
-      "sagemaker:UpdateClusterSoftware",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdateClusterSoftware": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "ClusterRole", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -17681,16 +17490,6 @@ export const createClusterSchedulerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateClusterSchedulerConfig",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateClusterSchedulerConfig"],
-    resources: {
-      "sagemaker:CreateClusterSchedulerConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster-scheduler-config/${ClusterSchedulerConfigId}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateClusterSchedulerConfig",
 }));
@@ -17713,15 +17512,6 @@ export const createCodeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeRepository",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateCodeRepository"],
-    resources: {
-      "sagemaker:CreateCodeRepository": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:code-repository/${CodeRepositoryName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCodeRepository",
 }));
@@ -17758,16 +17548,6 @@ export const createCompilationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCompilationJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateCompilationJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateCompilationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:compilation-job/${CompilationJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCompilationJob",
 }));
@@ -17788,16 +17568,6 @@ export const createComputeQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComputeQuota",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateComputeQuota"],
-    resources: {
-      "sagemaker:CreateComputeQuota": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:compute-quota/${ComputeQuotaId}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateComputeQuota",
 }));
@@ -17818,15 +17588,6 @@ export const createContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateContext",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateContext"],
-    resources: {
-      "sagemaker:CreateContext": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:context/${ContextName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateContext",
 }));
@@ -17850,16 +17611,6 @@ export const createDataQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataQualityJobDefinition",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateDataQualityJobDefinition", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateDataQualityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:data-quality-job-definition/${DataQualityJobDefinitionName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataQualityJobDefinition",
 }));
@@ -17880,14 +17631,6 @@ export const createDeviceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDeviceFleet",
-  iam: {
-    actions: ["sagemaker:CreateDeviceFleet"],
-    resources: {
-      "sagemaker:CreateDeviceFleet": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDeviceFleet",
 }));
@@ -17928,19 +17671,6 @@ export const createDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDomain",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateDomain", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateDomain": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:domain/${DomainId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "DefaultUserSettings.ExecutionRole",
-      "sagemaker:AddTags": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDomain",
 }));
@@ -17961,14 +17691,6 @@ export const createEdgeDeploymentPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEdgeDeploymentPlan",
-  iam: {
-    actions: ["sagemaker:CreateEdgeDeploymentPlan"],
-    resources: {
-      "sagemaker:CreateEdgeDeploymentPlan": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-deployment/${EdgeDeploymentPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEdgeDeploymentPlan",
 }));
@@ -17989,14 +17711,6 @@ export const createEdgeDeploymentStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEdgeDeploymentStage",
-  iam: {
-    actions: ["sagemaker:CreateEdgeDeploymentStage"],
-    resources: {
-      "sagemaker:CreateEdgeDeploymentStage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-deployment/${EdgeDeploymentPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEdgeDeploymentStage",
 }));
@@ -18017,14 +17731,6 @@ export const createEdgePackagingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEdgePackagingJob",
-  iam: {
-    actions: ["sagemaker:CreateEdgePackagingJob"],
-    resources: {
-      "sagemaker:CreateEdgePackagingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-packaging-job/${EdgePackagingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEdgePackagingJob",
 }));
@@ -18081,16 +17787,6 @@ export const createEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpoint",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateEndpoint"],
-    resources: {
-      "sagemaker:CreateEndpoint": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint/${EndpointName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint-config/${EndpointConfigName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEndpoint",
 }));
@@ -18122,16 +17818,6 @@ export const createEndpointConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEndpointConfig",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateEndpointConfig", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateEndpointConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint-config/${EndpointConfigName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "ExecutionRoleArn", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEndpointConfig",
 }));
@@ -18164,15 +17850,6 @@ export const createExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExperiment",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateExperiment"],
-    resources: {
-      "sagemaker:CreateExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment/${ExperimentName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExperiment",
 }));
@@ -18199,16 +17876,6 @@ export const createFeatureGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFeatureGroup",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateFeatureGroup", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateFeatureGroup": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFeatureGroup",
 }));
@@ -18229,16 +17896,6 @@ export const createFlowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFlowDefinition",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateFlowDefinition", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateFlowDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:flow-definition/${FlowDefinitionName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFlowDefinition",
 }));
@@ -18259,13 +17916,6 @@ export const createHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHub",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateHub"],
-    resources: {
-      "sagemaker:CreateHub": ["arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHub",
 }));
@@ -18293,15 +17943,6 @@ export const createHubContentPresignedUrls: API.PaginatedOperationMethod<
     items: "AuthorizedUrlConfigs",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:CreateHubContentPresignedUrls"],
-    resources: {
-      "sagemaker:CreateHubContentPresignedUrls": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateHubContentPresignedUrls",
 })) as any;
@@ -18326,16 +17967,6 @@ export const createHubContentReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHubContentReference",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateHubContentReference"],
-    resources: {
-      "sagemaker:CreateHubContentReference": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHubContentReference",
 }));
@@ -18356,15 +17987,6 @@ export const createHumanTaskUi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHumanTaskUi",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateHumanTaskUi"],
-    resources: {
-      "sagemaker:CreateHumanTaskUi": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:human-task-ui/${HumanTaskUiName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHumanTaskUi",
 }));
@@ -18392,16 +18014,6 @@ export const createHyperParameterTuningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHyperParameterTuningJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateHyperParameterTuningJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateHyperParameterTuningJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hyper-parameter-tuning-job/${HyperParameterTuningJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "TrainingJobDefinition.RoleArn", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHyperParameterTuningJob",
 }));
@@ -18422,16 +18034,6 @@ export const createImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImage",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateImage", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateImage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image/${ImageName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateImage",
 }));
@@ -18456,14 +18058,6 @@ export const createImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImageVersion",
-  iam: {
-    actions: ["sagemaker:CreateImageVersion"],
-    resources: {
-      "sagemaker:CreateImageVersion": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image/${ImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateImageVersion",
 }));
@@ -18484,16 +18078,6 @@ export const createInferenceComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceComponent",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateInferenceComponent"],
-    resources: {
-      "sagemaker:CreateInferenceComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint/${EndpointName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-component/${InferenceComponentName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateInferenceComponent",
 }));
@@ -18520,16 +18104,6 @@ export const createInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceExperiment",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateInferenceExperiment", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateInferenceExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-experiment/${InferenceExperimentName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateInferenceExperiment",
 }));
@@ -18553,16 +18127,6 @@ export const createInferenceRecommendationsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInferenceRecommendationsJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateInferenceRecommendationsJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateInferenceRecommendationsJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-recommendations-job/${InferenceRecommendationsJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateInferenceRecommendationsJob",
 }));
@@ -18605,30 +18169,6 @@ export const createJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateJob",
-  iam: {
-    actions: [
-      "sagemaker:AddTags",
-      "sagemaker:CreateJob",
-      "sagemaker:ImportHubContent",
-      "iam:PassRole",
-      "sagemaker:UpdateHubContent",
-    ],
-    resources: {
-      "sagemaker:CreateJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}",
-      ],
-      "sagemaker:ImportHubContent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdateHubContent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateJob",
 }));
@@ -18665,16 +18205,6 @@ export const createLabelingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLabelingJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateLabelingJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateLabelingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:labeling-job/${LabelingJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLabelingJob",
 }));
@@ -18695,16 +18225,6 @@ export const createMlflowApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMlflowApp",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateMlflowApp", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateMlflowApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-app/${MLflowAppId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMlflowApp",
 }));
@@ -18725,16 +18245,6 @@ export const createMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMlflowTrackingServer",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateMlflowTrackingServer", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateMlflowTrackingServer": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-tracking-server/${MlflowTrackingServerName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMlflowTrackingServer",
 }));
@@ -18763,25 +18273,6 @@ export const createModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModel",
-  iam: {
-    actions: [
-      "sagemaker:AddTags",
-      "sagemaker:CreateModel",
-      "sagemaker:DeployHubModel",
-      "iam:PassRole",
-    ],
-    resources: {
-      "sagemaker:CreateModel": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model/${ModelName}",
-      ],
-      "sagemaker:DeployHubModel": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "ExecutionRoleArn", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateModel",
 }));
@@ -18805,16 +18296,6 @@ export const createModelBiasJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelBiasJobDefinition",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateModelBiasJobDefinition", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateModelBiasJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-bias-job-definition/${ModelBiasJobDefinitionName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelBiasJobDefinition",
 }));
@@ -18837,15 +18318,6 @@ export const createModelCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelCard",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateModelCard"],
-    resources: {
-      "sagemaker:CreateModelCard": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelCard",
 }));
@@ -18870,14 +18342,6 @@ export const createModelCardExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelCardExportJob",
-  iam: {
-    actions: ["sagemaker:CreateModelCardExportJob"],
-    resources: {
-      "sagemaker:CreateModelCardExportJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelCardExportJob",
 }));
@@ -18901,20 +18365,6 @@ export const createModelExplainabilityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelExplainabilityJobDefinition",
-  iam: {
-    actions: [
-      "sagemaker:AddTags",
-      "sagemaker:CreateModelExplainabilityJobDefinition",
-      "iam:PassRole",
-    ],
-    resources: {
-      "sagemaker:CreateModelExplainabilityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-explainability-job-definition/${ModelExplainabilityJobDefinitionName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelExplainabilityJobDefinition",
 }));
@@ -18943,14 +18393,6 @@ export const createModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelPackage",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateModelPackage", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "ValidationSpecification.ValidationRole",
-      "sagemaker:AddTags": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelPackage",
 }));
@@ -18971,15 +18413,6 @@ export const createModelPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelPackageGroup",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateModelPackageGroup"],
-    resources: {
-      "sagemaker:CreateModelPackageGroup": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package-group/${ModelPackageGroupName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelPackageGroup",
 }));
@@ -19003,16 +18436,6 @@ export const createModelQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateModelQualityJobDefinition",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateModelQualityJobDefinition", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateModelQualityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-quality-job-definition/${ModelQualityJobDefinitionName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateModelQualityJobDefinition",
 }));
@@ -19033,16 +18456,6 @@ export const createMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMonitoringSchedule",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateMonitoringSchedule", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateMonitoringSchedule": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateMonitoringSchedule",
 }));
@@ -19081,16 +18494,6 @@ export const createNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebookInstance",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateNotebookInstance", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateNotebookInstance": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance/${NotebookInstanceName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateNotebookInstance",
 }));
@@ -19123,15 +18526,6 @@ export const createNotebookInstanceLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotebookInstanceLifecycleConfig",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateNotebookInstanceLifecycleConfig"],
-    resources: {
-      "sagemaker:CreateNotebookInstanceLifecycleConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance-lifecycle-config/${NotebookInstanceLifecycleConfigName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateNotebookInstanceLifecycleConfig",
 }));
@@ -19154,16 +18548,6 @@ export const createOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOptimizationJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateOptimizationJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateOptimizationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:optimization-job/${OptimizationJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOptimizationJob",
 }));
@@ -19184,16 +18568,6 @@ export const createPartnerApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerApp",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreatePartnerApp", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreatePartnerApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:partner-app/${AppId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePartnerApp",
 }));
@@ -19214,14 +18588,6 @@ export const createPartnerAppPresignedUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePartnerAppPresignedUrl",
-  iam: {
-    actions: ["sagemaker:CreatePartnerAppPresignedUrl"],
-    resources: {
-      "sagemaker:CreatePartnerAppPresignedUrl": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:partner-app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePartnerAppPresignedUrl",
 }));
@@ -19246,16 +18612,6 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreatePipeline", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreatePipeline": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePipeline",
 }));
@@ -19284,14 +18640,6 @@ export const createPresignedDomainUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedDomainUrl",
-  iam: {
-    actions: ["sagemaker:CreatePresignedDomainUrl"],
-    resources: {
-      "sagemaker:CreatePresignedDomainUrl": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:user-profile/${DomainId}/${UserProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePresignedDomainUrl",
 }));
@@ -19312,14 +18660,6 @@ export const createPresignedMlflowAppUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedMlflowAppUrl",
-  iam: {
-    actions: ["sagemaker:CreatePresignedMlflowAppUrl"],
-    resources: {
-      "sagemaker:CreatePresignedMlflowAppUrl": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-app/${MLflowAppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePresignedMlflowAppUrl",
 }));
@@ -19340,14 +18680,6 @@ export const createPresignedMlflowTrackingServerUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedMlflowTrackingServerUrl",
-  iam: {
-    actions: ["sagemaker:CreatePresignedMlflowTrackingServerUrl"],
-    resources: {
-      "sagemaker:CreatePresignedMlflowTrackingServerUrl": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-tracking-server/${MlflowTrackingServerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePresignedMlflowTrackingServerUrl",
 }));
@@ -19374,14 +18706,6 @@ export const createPresignedNotebookInstanceUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePresignedNotebookInstanceUrl",
-  iam: {
-    actions: ["sagemaker:CreatePresignedNotebookInstanceUrl"],
-    resources: {
-      "sagemaker:CreatePresignedNotebookInstanceUrl": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance/${NotebookInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePresignedNotebookInstanceUrl",
 }));
@@ -19406,16 +18730,6 @@ export const createProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProcessingJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateProcessingJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateProcessingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:processing-job/${ProcessingJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProcessingJob",
 }));
@@ -19436,16 +18750,6 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateProject", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateProject": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:project/${ProjectName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProject",
 }));
@@ -19466,15 +18770,6 @@ export const createSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSpace",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateSpace"],
-    resources: {
-      "sagemaker:CreateSpace": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:space/${DomainId}/${SpaceName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSpace",
 }));
@@ -19495,15 +18790,6 @@ export const createStudioLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStudioLifecycleConfig",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateStudioLifecycleConfig"],
-    resources: {
-      "sagemaker:CreateStudioLifecycleConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:studio-lifecycle-config/${StudioLifecycleConfigName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateStudioLifecycleConfig",
 }));
@@ -19558,11 +18844,6 @@ export const createTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainingJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateTrainingJob", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrainingJob",
 }));
@@ -19617,22 +18898,6 @@ export const createTrainingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainingPlan",
-  iam: {
-    actions: [
-      "sagemaker:AddTags",
-      "sagemaker:CreateReservedCapacity",
-      "sagemaker:CreateTrainingPlan",
-    ],
-    resources: {
-      "sagemaker:CreateReservedCapacity": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:reserved-capacity/${RandomString}",
-      ],
-      "sagemaker:CreateTrainingPlan": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-plan/${TrainingPlanName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrainingPlan",
 }));
@@ -19667,16 +18932,6 @@ export const createTrainingSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrainingSession",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateTrainingSession", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateTrainingSession": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrainingSession",
 }));
@@ -19717,16 +18972,6 @@ export const createTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransformJob",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateTransformJob", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateTransformJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:transform-job/${TransformJobName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTransformJob",
 }));
@@ -19753,16 +18998,6 @@ export const createTrial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrial",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateTrial"],
-    resources: {
-      "sagemaker:CreateTrial": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment/${ExperimentName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial/${TrialName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrial",
 }));
@@ -19789,15 +19024,6 @@ export const createTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrialComponent",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateTrialComponent"],
-    resources: {
-      "sagemaker:CreateTrialComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrialComponent",
 }));
@@ -19818,16 +19044,6 @@ export const createUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserProfile",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateUserProfile", "iam:PassRole"],
-    resources: {
-      "sagemaker:CreateUserProfile": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:user-profile/${DomainId}/${UserProfileName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "UserSettings.ExecutionRole", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateUserProfile",
 }));
@@ -19854,15 +19070,6 @@ export const createWorkforce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkforce",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateWorkforce"],
-    resources: {
-      "sagemaker:CreateWorkforce": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workforce/${WorkforceName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkforce",
 }));
@@ -19885,15 +19092,6 @@ export const createWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkteam",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:CreateWorkteam"],
-    resources: {
-      "sagemaker:CreateWorkteam": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workteam/${WorkteamName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkteam",
 }));
@@ -19914,14 +19112,6 @@ export const deleteAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAction",
-  iam: {
-    actions: ["sagemaker:DeleteAction"],
-    resources: {
-      "sagemaker:DeleteAction": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:action/${ActionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAction",
 }));
@@ -19942,14 +19132,6 @@ export const deleteAIBenchmarkJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIBenchmarkJob",
-  iam: {
-    actions: ["sagemaker:DeleteAIBenchmarkJob"],
-    resources: {
-      "sagemaker:DeleteAIBenchmarkJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-benchmark-job/${AIBenchmarkJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAIBenchmarkJob",
 }));
@@ -19970,14 +19152,6 @@ export const deleteAIRecommendationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIRecommendationJob",
-  iam: {
-    actions: ["sagemaker:DeleteAIRecommendationJob"],
-    resources: {
-      "sagemaker:DeleteAIRecommendationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-recommendation-job/${AIRecommendationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAIRecommendationJob",
 }));
@@ -19998,14 +19172,6 @@ export const deleteAIWorkloadConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAIWorkloadConfig",
-  iam: {
-    actions: ["sagemaker:DeleteAIWorkloadConfig"],
-    resources: {
-      "sagemaker:DeleteAIWorkloadConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-workload-config/${AIWorkloadConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAIWorkloadConfig",
 }));
@@ -20026,14 +19192,6 @@ export const deleteAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlgorithm",
-  iam: {
-    actions: ["sagemaker:DeleteAlgorithm"],
-    resources: {
-      "sagemaker:DeleteAlgorithm": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:algorithm/${AlgorithmName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAlgorithm",
 }));
@@ -20054,14 +19212,6 @@ export const deleteApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApp",
-  iam: {
-    actions: ["sagemaker:DeleteApp"],
-    resources: {
-      "sagemaker:DeleteApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:app/${DomainId}/${UserProfileName}/${AppType}/${AppName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApp",
 }));
@@ -20082,14 +19232,6 @@ export const deleteAppImageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAppImageConfig",
-  iam: {
-    actions: ["sagemaker:DeleteAppImageConfig"],
-    resources: {
-      "sagemaker:DeleteAppImageConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:app-image-config/${AppImageConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAppImageConfig",
 }));
@@ -20110,14 +19252,6 @@ export const deleteArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArtifact",
-  iam: {
-    actions: ["sagemaker:DeleteArtifact"],
-    resources: {
-      "sagemaker:DeleteArtifact": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:artifact/${HashOfArtifactSource}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteArtifact",
 }));
@@ -20138,18 +19272,6 @@ export const deleteAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAssociation",
-  iam: {
-    actions: ["sagemaker:DeleteAssociation"],
-    resources: {
-      "sagemaker:DeleteAssociation": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:action/${ActionName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:artifact/${HashOfArtifactSource}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:context/${ContextName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment/${ExperimentName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAssociation",
 }));
@@ -20170,14 +19292,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["sagemaker:DeleteCluster"],
-    resources: {
-      "sagemaker:DeleteCluster": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -20198,14 +19312,6 @@ export const deleteClusterSchedulerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterSchedulerConfig",
-  iam: {
-    actions: ["sagemaker:DeleteClusterSchedulerConfig"],
-    resources: {
-      "sagemaker:DeleteClusterSchedulerConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster-scheduler-config/${ClusterSchedulerConfigId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteClusterSchedulerConfig",
 }));
@@ -20226,14 +19332,6 @@ export const deleteCodeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeRepository",
-  iam: {
-    actions: ["sagemaker:DeleteCodeRepository"],
-    resources: {
-      "sagemaker:DeleteCodeRepository": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:code-repository/${CodeRepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCodeRepository",
 }));
@@ -20256,14 +19354,6 @@ export const deleteCompilationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCompilationJob",
-  iam: {
-    actions: ["sagemaker:DeleteCompilationJob"],
-    resources: {
-      "sagemaker:DeleteCompilationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:compilation-job/${CompilationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCompilationJob",
 }));
@@ -20284,14 +19374,6 @@ export const deleteComputeQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComputeQuota",
-  iam: {
-    actions: ["sagemaker:DeleteComputeQuota"],
-    resources: {
-      "sagemaker:DeleteComputeQuota": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:compute-quota/${ComputeQuotaId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteComputeQuota",
 }));
@@ -20312,14 +19394,6 @@ export const deleteContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteContext",
-  iam: {
-    actions: ["sagemaker:DeleteContext"],
-    resources: {
-      "sagemaker:DeleteContext": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:context/${ContextName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteContext",
 }));
@@ -20340,14 +19414,6 @@ export const deleteDataQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataQualityJobDefinition",
-  iam: {
-    actions: ["sagemaker:DeleteDataQualityJobDefinition"],
-    resources: {
-      "sagemaker:DeleteDataQualityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:data-quality-job-definition/${DataQualityJobDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataQualityJobDefinition",
 }));
@@ -20368,14 +19434,6 @@ export const deleteDeviceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDeviceFleet",
-  iam: {
-    actions: ["sagemaker:DeleteDeviceFleet"],
-    resources: {
-      "sagemaker:DeleteDeviceFleet": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDeviceFleet",
 }));
@@ -20396,14 +19454,6 @@ export const deleteDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDomain",
-  iam: {
-    actions: ["sagemaker:DeleteDomain"],
-    resources: {
-      "sagemaker:DeleteDomain": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDomain",
 }));
@@ -20424,14 +19474,6 @@ export const deleteEdgeDeploymentPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEdgeDeploymentPlan",
-  iam: {
-    actions: ["sagemaker:DeleteEdgeDeploymentPlan"],
-    resources: {
-      "sagemaker:DeleteEdgeDeploymentPlan": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-deployment/${EdgeDeploymentPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEdgeDeploymentPlan",
 }));
@@ -20452,14 +19494,6 @@ export const deleteEdgeDeploymentStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEdgeDeploymentStage",
-  iam: {
-    actions: ["sagemaker:DeleteEdgeDeploymentStage"],
-    resources: {
-      "sagemaker:DeleteEdgeDeploymentStage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-deployment/${EdgeDeploymentPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEdgeDeploymentStage",
 }));
@@ -20484,14 +19518,6 @@ export const deleteEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpoint",
-  iam: {
-    actions: ["sagemaker:DeleteEndpoint"],
-    resources: {
-      "sagemaker:DeleteEndpoint": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint/${EndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEndpoint",
 }));
@@ -20514,14 +19540,6 @@ export const deleteEndpointConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEndpointConfig",
-  iam: {
-    actions: ["sagemaker:DeleteEndpointConfig"],
-    resources: {
-      "sagemaker:DeleteEndpointConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint-config/${EndpointConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEndpointConfig",
 }));
@@ -20542,14 +19560,6 @@ export const deleteExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExperiment",
-  iam: {
-    actions: ["sagemaker:DeleteExperiment"],
-    resources: {
-      "sagemaker:DeleteExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment/${ExperimentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExperiment",
 }));
@@ -20574,14 +19584,6 @@ export const deleteFeatureGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFeatureGroup",
-  iam: {
-    actions: ["sagemaker:DeleteFeatureGroup"],
-    resources: {
-      "sagemaker:DeleteFeatureGroup": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFeatureGroup",
 }));
@@ -20602,14 +19604,6 @@ export const deleteFlowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFlowDefinition",
-  iam: {
-    actions: ["sagemaker:DeleteFlowDefinition"],
-    resources: {
-      "sagemaker:DeleteFlowDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:flow-definition/${FlowDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFlowDefinition",
 }));
@@ -20630,12 +19624,6 @@ export const deleteHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHub",
-  iam: {
-    actions: ["sagemaker:DeleteHub"],
-    resources: {
-      "sagemaker:DeleteHub": ["arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHub",
 }));
@@ -20656,15 +19644,6 @@ export const deleteHubContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHubContent",
-  iam: {
-    actions: ["sagemaker:DeleteHubContent"],
-    resources: {
-      "sagemaker:DeleteHubContent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHubContent",
 }));
@@ -20685,15 +19664,6 @@ export const deleteHubContentReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHubContentReference",
-  iam: {
-    actions: ["sagemaker:DeleteHubContentReference"],
-    resources: {
-      "sagemaker:DeleteHubContentReference": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHubContentReference",
 }));
@@ -20716,14 +19686,6 @@ export const deleteHumanTaskUi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHumanTaskUi",
-  iam: {
-    actions: ["sagemaker:DeleteHumanTaskUi"],
-    resources: {
-      "sagemaker:DeleteHumanTaskUi": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:human-task-ui/${HumanTaskUiName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHumanTaskUi",
 }));
@@ -20744,14 +19706,6 @@ export const deleteHyperParameterTuningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHyperParameterTuningJob",
-  iam: {
-    actions: ["sagemaker:DeleteHyperParameterTuningJob"],
-    resources: {
-      "sagemaker:DeleteHyperParameterTuningJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hyper-parameter-tuning-job/${HyperParameterTuningJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHyperParameterTuningJob",
 }));
@@ -20772,14 +19726,6 @@ export const deleteImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImage",
-  iam: {
-    actions: ["sagemaker:DeleteImage"],
-    resources: {
-      "sagemaker:DeleteImage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image/${ImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteImage",
 }));
@@ -20800,14 +19746,6 @@ export const deleteImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImageVersion",
-  iam: {
-    actions: ["sagemaker:DeleteImageVersion"],
-    resources: {
-      "sagemaker:DeleteImageVersion": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image-version/${ImageName}/${Version}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteImageVersion",
 }));
@@ -20828,14 +19766,6 @@ export const deleteInferenceComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceComponent",
-  iam: {
-    actions: ["sagemaker:DeleteInferenceComponent"],
-    resources: {
-      "sagemaker:DeleteInferenceComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-component/${InferenceComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInferenceComponent",
 }));
@@ -20858,14 +19788,6 @@ export const deleteInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInferenceExperiment",
-  iam: {
-    actions: ["sagemaker:DeleteInferenceExperiment"],
-    resources: {
-      "sagemaker:DeleteInferenceExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-experiment/${InferenceExperimentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInferenceExperiment",
 }));
@@ -20894,14 +19816,6 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
-  iam: {
-    actions: ["sagemaker:DeleteJob"],
-    resources: {
-      "sagemaker:DeleteJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteJob",
 }));
@@ -20922,14 +19836,6 @@ export const deleteMlflowApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMlflowApp",
-  iam: {
-    actions: ["sagemaker:DeleteMlflowApp"],
-    resources: {
-      "sagemaker:DeleteMlflowApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-app/${MLflowAppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMlflowApp",
 }));
@@ -20950,14 +19856,6 @@ export const deleteMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMlflowTrackingServer",
-  iam: {
-    actions: ["sagemaker:DeleteMlflowTrackingServer"],
-    resources: {
-      "sagemaker:DeleteMlflowTrackingServer": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-tracking-server/${MlflowTrackingServerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMlflowTrackingServer",
 }));
@@ -20978,14 +19876,6 @@ export const deleteModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModel",
-  iam: {
-    actions: ["sagemaker:DeleteModel"],
-    resources: {
-      "sagemaker:DeleteModel": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model/${ModelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModel",
 }));
@@ -21006,14 +19896,6 @@ export const deleteModelBiasJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelBiasJobDefinition",
-  iam: {
-    actions: ["sagemaker:DeleteModelBiasJobDefinition"],
-    resources: {
-      "sagemaker:DeleteModelBiasJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-bias-job-definition/${ModelBiasJobDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelBiasJobDefinition",
 }));
@@ -21034,14 +19916,6 @@ export const deleteModelCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelCard",
-  iam: {
-    actions: ["sagemaker:DeleteModelCard"],
-    resources: {
-      "sagemaker:DeleteModelCard": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelCard",
 }));
@@ -21062,14 +19936,6 @@ export const deleteModelExplainabilityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelExplainabilityJobDefinition",
-  iam: {
-    actions: ["sagemaker:DeleteModelExplainabilityJobDefinition"],
-    resources: {
-      "sagemaker:DeleteModelExplainabilityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-explainability-job-definition/${ModelExplainabilityJobDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelExplainabilityJobDefinition",
 }));
@@ -21092,14 +19958,6 @@ export const deleteModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelPackage",
-  iam: {
-    actions: ["sagemaker:DeleteModelPackage"],
-    resources: {
-      "sagemaker:DeleteModelPackage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package/${ModelPackageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelPackage",
 }));
@@ -21120,14 +19978,6 @@ export const deleteModelPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelPackageGroup",
-  iam: {
-    actions: ["sagemaker:DeleteModelPackageGroup"],
-    resources: {
-      "sagemaker:DeleteModelPackageGroup": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package-group/${ModelPackageGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelPackageGroup",
 }));
@@ -21148,14 +19998,6 @@ export const deleteModelPackageGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelPackageGroupPolicy",
-  iam: {
-    actions: ["sagemaker:DeleteModelPackageGroupPolicy"],
-    resources: {
-      "sagemaker:DeleteModelPackageGroupPolicy": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package-group/${ModelPackageGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelPackageGroupPolicy",
 }));
@@ -21176,14 +20018,6 @@ export const deleteModelQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteModelQualityJobDefinition",
-  iam: {
-    actions: ["sagemaker:DeleteModelQualityJobDefinition"],
-    resources: {
-      "sagemaker:DeleteModelQualityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-quality-job-definition/${ModelQualityJobDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteModelQualityJobDefinition",
 }));
@@ -21204,14 +20038,6 @@ export const deleteMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMonitoringSchedule",
-  iam: {
-    actions: ["sagemaker:DeleteMonitoringSchedule"],
-    resources: {
-      "sagemaker:DeleteMonitoringSchedule": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMonitoringSchedule",
 }));
@@ -21234,14 +20060,6 @@ export const deleteNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebookInstance",
-  iam: {
-    actions: ["sagemaker:DeleteNotebookInstance"],
-    resources: {
-      "sagemaker:DeleteNotebookInstance": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance/${NotebookInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNotebookInstance",
 }));
@@ -21262,14 +20080,6 @@ export const deleteNotebookInstanceLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotebookInstanceLifecycleConfig",
-  iam: {
-    actions: ["sagemaker:DeleteNotebookInstanceLifecycleConfig"],
-    resources: {
-      "sagemaker:DeleteNotebookInstanceLifecycleConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance-lifecycle-config/${NotebookInstanceLifecycleConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNotebookInstanceLifecycleConfig",
 }));
@@ -21290,14 +20100,6 @@ export const deleteOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOptimizationJob",
-  iam: {
-    actions: ["sagemaker:DeleteOptimizationJob"],
-    resources: {
-      "sagemaker:DeleteOptimizationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:optimization-job/${OptimizationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOptimizationJob",
 }));
@@ -21318,14 +20120,6 @@ export const deletePartnerApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePartnerApp",
-  iam: {
-    actions: ["sagemaker:DeletePartnerApp"],
-    resources: {
-      "sagemaker:DeletePartnerApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:partner-app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePartnerApp",
 }));
@@ -21346,14 +20140,6 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
-  iam: {
-    actions: ["sagemaker:DeletePipeline"],
-    resources: {
-      "sagemaker:DeletePipeline": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePipeline",
 }));
@@ -21374,14 +20160,6 @@ export const deleteProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProcessingJob",
-  iam: {
-    actions: ["sagemaker:DeleteProcessingJob"],
-    resources: {
-      "sagemaker:DeleteProcessingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:processing-job/${ProcessingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProcessingJob",
 }));
@@ -21402,14 +20180,6 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
-  iam: {
-    actions: ["sagemaker:DeleteProject"],
-    resources: {
-      "sagemaker:DeleteProject": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:project/${ProjectName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
@@ -21430,14 +20200,6 @@ export const deleteSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSpace",
-  iam: {
-    actions: ["sagemaker:DeleteSpace"],
-    resources: {
-      "sagemaker:DeleteSpace": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:space/${DomainId}/${SpaceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSpace",
 }));
@@ -21458,14 +20220,6 @@ export const deleteStudioLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStudioLifecycleConfig",
-  iam: {
-    actions: ["sagemaker:DeleteStudioLifecycleConfig"],
-    resources: {
-      "sagemaker:DeleteStudioLifecycleConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:studio-lifecycle-config/${StudioLifecycleConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteStudioLifecycleConfig",
 }));
@@ -21492,7 +20246,6 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
-  iam: { actions: ["sagemaker:DeleteTags"] },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -21513,14 +20266,6 @@ export const deleteTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrainingJob",
-  iam: {
-    actions: ["sagemaker:DeleteTrainingJob"],
-    resources: {
-      "sagemaker:DeleteTrainingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-job/${TrainingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrainingJob",
 }));
@@ -21549,14 +20294,6 @@ export const deleteTrainingSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrainingSession",
-  iam: {
-    actions: ["sagemaker:DeleteTrainingSession"],
-    resources: {
-      "sagemaker:DeleteTrainingSession": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrainingSession",
 }));
@@ -21577,14 +20314,6 @@ export const deleteTrial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrial",
-  iam: {
-    actions: ["sagemaker:DeleteTrial"],
-    resources: {
-      "sagemaker:DeleteTrial": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial/${TrialName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrial",
 }));
@@ -21605,14 +20334,6 @@ export const deleteTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrialComponent",
-  iam: {
-    actions: ["sagemaker:DeleteTrialComponent"],
-    resources: {
-      "sagemaker:DeleteTrialComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrialComponent",
 }));
@@ -21633,14 +20354,6 @@ export const deleteUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserProfile",
-  iam: {
-    actions: ["sagemaker:DeleteUserProfile"],
-    resources: {
-      "sagemaker:DeleteUserProfile": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:user-profile/${DomainId}/${UserProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserProfile",
 }));
@@ -21665,14 +20378,6 @@ export const deleteWorkforce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkforce",
-  iam: {
-    actions: ["sagemaker:DeleteWorkforce"],
-    resources: {
-      "sagemaker:DeleteWorkforce": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workforce/${WorkforceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkforce",
 }));
@@ -21693,14 +20398,6 @@ export const deleteWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkteam",
-  iam: {
-    actions: ["sagemaker:DeleteWorkteam"],
-    resources: {
-      "sagemaker:DeleteWorkteam": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workteam/${WorkteamName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkteam",
 }));
@@ -21721,14 +20418,6 @@ export const deregisterDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterDevices",
-  iam: {
-    actions: ["sagemaker:DeregisterDevices"],
-    resources: {
-      "sagemaker:DeregisterDevices": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}/device/${DeviceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterDevices",
 }));
@@ -21749,14 +20438,6 @@ export const describeAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAction",
-  iam: {
-    actions: ["sagemaker:DescribeAction"],
-    resources: {
-      "sagemaker:DescribeAction": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:action/${ActionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAction",
 }));
@@ -21777,14 +20458,6 @@ export const describeAIBenchmarkJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAIBenchmarkJob",
-  iam: {
-    actions: ["sagemaker:DescribeAIBenchmarkJob"],
-    resources: {
-      "sagemaker:DescribeAIBenchmarkJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-benchmark-job/${AIBenchmarkJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAIBenchmarkJob",
 }));
@@ -21805,14 +20478,6 @@ export const describeAIRecommendationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAIRecommendationJob",
-  iam: {
-    actions: ["sagemaker:DescribeAIRecommendationJob"],
-    resources: {
-      "sagemaker:DescribeAIRecommendationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-recommendation-job/${AIRecommendationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAIRecommendationJob",
 }));
@@ -21833,14 +20498,6 @@ export const describeAIWorkloadConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAIWorkloadConfig",
-  iam: {
-    actions: ["sagemaker:DescribeAIWorkloadConfig"],
-    resources: {
-      "sagemaker:DescribeAIWorkloadConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-workload-config/${AIWorkloadConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAIWorkloadConfig",
 }));
@@ -21861,14 +20518,6 @@ export const describeAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlgorithm",
-  iam: {
-    actions: ["sagemaker:DescribeAlgorithm"],
-    resources: {
-      "sagemaker:DescribeAlgorithm": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:algorithm/${AlgorithmName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAlgorithm",
 }));
@@ -21889,14 +20538,6 @@ export const describeApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApp",
-  iam: {
-    actions: ["sagemaker:DescribeApp"],
-    resources: {
-      "sagemaker:DescribeApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:app/${DomainId}/${UserProfileName}/${AppType}/${AppName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeApp",
 }));
@@ -21917,14 +20558,6 @@ export const describeAppImageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAppImageConfig",
-  iam: {
-    actions: ["sagemaker:DescribeAppImageConfig"],
-    resources: {
-      "sagemaker:DescribeAppImageConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:app-image-config/${AppImageConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAppImageConfig",
 }));
@@ -21945,14 +20578,6 @@ export const describeArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeArtifact",
-  iam: {
-    actions: ["sagemaker:DescribeArtifact"],
-    resources: {
-      "sagemaker:DescribeArtifact": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:artifact/${HashOfArtifactSource}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeArtifact",
 }));
@@ -21975,14 +20600,6 @@ export const describeAutoMLJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoMLJob",
-  iam: {
-    actions: ["sagemaker:DescribeAutoMLJob"],
-    resources: {
-      "sagemaker:DescribeAutoMLJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:automl-job/${AutoMLJobJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAutoMLJob",
 }));
@@ -22003,14 +20620,6 @@ export const describeAutoMLJobV2: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoMLJobV2",
-  iam: {
-    actions: ["sagemaker:DescribeAutoMLJobV2"],
-    resources: {
-      "sagemaker:DescribeAutoMLJobV2": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:automl-job/${AutoMLJobJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAutoMLJobV2",
 }));
@@ -22031,14 +20640,6 @@ export const describeCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCluster",
-  iam: {
-    actions: ["sagemaker:DescribeCluster"],
-    resources: {
-      "sagemaker:DescribeCluster": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCluster",
 }));
@@ -22059,14 +20660,6 @@ export const describeClusterEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterEvent",
-  iam: {
-    actions: ["sagemaker:DescribeClusterEvent"],
-    resources: {
-      "sagemaker:DescribeClusterEvent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeClusterEvent",
 }));
@@ -22087,14 +20680,6 @@ export const describeClusterNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterNode",
-  iam: {
-    actions: ["sagemaker:DescribeClusterNode"],
-    resources: {
-      "sagemaker:DescribeClusterNode": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeClusterNode",
 }));
@@ -22115,14 +20700,6 @@ export const describeClusterSchedulerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeClusterSchedulerConfig",
-  iam: {
-    actions: ["sagemaker:DescribeClusterSchedulerConfig"],
-    resources: {
-      "sagemaker:DescribeClusterSchedulerConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster-scheduler-config/${ClusterSchedulerConfigId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeClusterSchedulerConfig",
 }));
@@ -22143,14 +20720,6 @@ export const describeCodeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCodeRepository",
-  iam: {
-    actions: ["sagemaker:DescribeCodeRepository"],
-    resources: {
-      "sagemaker:DescribeCodeRepository": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:code-repository/${CodeRepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCodeRepository",
 }));
@@ -22173,14 +20742,6 @@ export const describeCompilationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCompilationJob",
-  iam: {
-    actions: ["sagemaker:DescribeCompilationJob"],
-    resources: {
-      "sagemaker:DescribeCompilationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:compilation-job/${CompilationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCompilationJob",
 }));
@@ -22201,14 +20762,6 @@ export const describeComputeQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComputeQuota",
-  iam: {
-    actions: ["sagemaker:DescribeComputeQuota"],
-    resources: {
-      "sagemaker:DescribeComputeQuota": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:compute-quota/${ComputeQuotaId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeComputeQuota",
 }));
@@ -22229,14 +20782,6 @@ export const describeContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeContext",
-  iam: {
-    actions: ["sagemaker:DescribeContext"],
-    resources: {
-      "sagemaker:DescribeContext": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:context/${ContextName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeContext",
 }));
@@ -22257,14 +20802,6 @@ export const describeDataQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataQualityJobDefinition",
-  iam: {
-    actions: ["sagemaker:DescribeDataQualityJobDefinition"],
-    resources: {
-      "sagemaker:DescribeDataQualityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:data-quality-job-definition/${DataQualityJobDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDataQualityJobDefinition",
 }));
@@ -22285,14 +20822,6 @@ export const describeDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDevice",
-  iam: {
-    actions: ["sagemaker:DescribeDevice"],
-    resources: {
-      "sagemaker:DescribeDevice": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}/device/${DeviceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDevice",
 }));
@@ -22313,14 +20842,6 @@ export const describeDeviceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDeviceFleet",
-  iam: {
-    actions: ["sagemaker:DescribeDeviceFleet"],
-    resources: {
-      "sagemaker:DescribeDeviceFleet": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDeviceFleet",
 }));
@@ -22341,14 +20862,6 @@ export const describeDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomain",
-  iam: {
-    actions: ["sagemaker:DescribeDomain"],
-    resources: {
-      "sagemaker:DescribeDomain": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomain",
 }));
@@ -22369,14 +20882,6 @@ export const describeEdgeDeploymentPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEdgeDeploymentPlan",
-  iam: {
-    actions: ["sagemaker:DescribeEdgeDeploymentPlan"],
-    resources: {
-      "sagemaker:DescribeEdgeDeploymentPlan": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-deployment/${EdgeDeploymentPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEdgeDeploymentPlan",
 }));
@@ -22397,14 +20902,6 @@ export const describeEdgePackagingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEdgePackagingJob",
-  iam: {
-    actions: ["sagemaker:DescribeEdgePackagingJob"],
-    resources: {
-      "sagemaker:DescribeEdgePackagingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-packaging-job/${EdgePackagingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEdgePackagingJob",
 }));
@@ -22425,14 +20922,6 @@ export const describeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpoint",
-  iam: {
-    actions: ["sagemaker:DescribeEndpoint"],
-    resources: {
-      "sagemaker:DescribeEndpoint": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint/${EndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEndpoint",
 }));
@@ -22453,14 +20942,6 @@ export const describeEndpointConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEndpointConfig",
-  iam: {
-    actions: ["sagemaker:DescribeEndpointConfig"],
-    resources: {
-      "sagemaker:DescribeEndpointConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint-config/${EndpointConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEndpointConfig",
 }));
@@ -22481,14 +20962,6 @@ export const describeExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeExperiment",
-  iam: {
-    actions: ["sagemaker:DescribeExperiment"],
-    resources: {
-      "sagemaker:DescribeExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment/${ExperimentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeExperiment",
 }));
@@ -22509,14 +20982,6 @@ export const describeFeatureGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeatureGroup",
-  iam: {
-    actions: ["sagemaker:DescribeFeatureGroup"],
-    resources: {
-      "sagemaker:DescribeFeatureGroup": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFeatureGroup",
 }));
@@ -22537,14 +21002,6 @@ export const describeFeatureMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeatureMetadata",
-  iam: {
-    actions: ["sagemaker:DescribeFeatureMetadata"],
-    resources: {
-      "sagemaker:DescribeFeatureMetadata": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFeatureMetadata",
 }));
@@ -22565,14 +21022,6 @@ export const describeFlowDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFlowDefinition",
-  iam: {
-    actions: ["sagemaker:DescribeFlowDefinition"],
-    resources: {
-      "sagemaker:DescribeFlowDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:flow-definition/${FlowDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFlowDefinition",
 }));
@@ -22593,12 +21042,6 @@ export const describeHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHub",
-  iam: {
-    actions: ["sagemaker:DescribeHub"],
-    resources: {
-      "sagemaker:DescribeHub": ["arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeHub",
 }));
@@ -22619,15 +21062,6 @@ export const describeHubContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHubContent",
-  iam: {
-    actions: ["sagemaker:DescribeHubContent"],
-    resources: {
-      "sagemaker:DescribeHubContent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeHubContent",
 }));
@@ -22648,14 +21082,6 @@ export const describeHumanTaskUi: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHumanTaskUi",
-  iam: {
-    actions: ["sagemaker:DescribeHumanTaskUi"],
-    resources: {
-      "sagemaker:DescribeHumanTaskUi": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:human-task-ui/${HumanTaskUiName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeHumanTaskUi",
 }));
@@ -22676,14 +21102,6 @@ export const describeHyperParameterTuningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHyperParameterTuningJob",
-  iam: {
-    actions: ["sagemaker:DescribeHyperParameterTuningJob"],
-    resources: {
-      "sagemaker:DescribeHyperParameterTuningJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hyper-parameter-tuning-job/${HyperParameterTuningJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeHyperParameterTuningJob",
 }));
@@ -22704,14 +21122,6 @@ export const describeImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImage",
-  iam: {
-    actions: ["sagemaker:DescribeImage"],
-    resources: {
-      "sagemaker:DescribeImage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image/${ImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeImage",
 }));
@@ -22732,14 +21142,6 @@ export const describeImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeImageVersion",
-  iam: {
-    actions: ["sagemaker:DescribeImageVersion"],
-    resources: {
-      "sagemaker:DescribeImageVersion": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image-version/${ImageName}/${Version}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeImageVersion",
 }));
@@ -22760,14 +21162,6 @@ export const describeInferenceComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceComponent",
-  iam: {
-    actions: ["sagemaker:DescribeInferenceComponent"],
-    resources: {
-      "sagemaker:DescribeInferenceComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-component/${InferenceComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInferenceComponent",
 }));
@@ -22788,14 +21182,6 @@ export const describeInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceExperiment",
-  iam: {
-    actions: ["sagemaker:DescribeInferenceExperiment"],
-    resources: {
-      "sagemaker:DescribeInferenceExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-experiment/${InferenceExperimentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInferenceExperiment",
 }));
@@ -22816,14 +21202,6 @@ export const describeInferenceRecommendationsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInferenceRecommendationsJob",
-  iam: {
-    actions: ["sagemaker:DescribeInferenceRecommendationsJob"],
-    resources: {
-      "sagemaker:DescribeInferenceRecommendationsJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-recommendations-job/${InferenceRecommendationsJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInferenceRecommendationsJob",
 }));
@@ -22854,14 +21232,6 @@ export const describeJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJob",
-  iam: {
-    actions: ["sagemaker:DescribeJob"],
-    resources: {
-      "sagemaker:DescribeJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeJob",
 }));
@@ -22888,7 +21258,6 @@ export const describeJobSchemaVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeJobSchemaVersion",
-  iam: { actions: ["sagemaker:DescribeJobSchemaVersion"] },
   telemetry: TELEMETRY,
   span: "DescribeJobSchemaVersion",
 }));
@@ -22909,14 +21278,6 @@ export const describeLabelingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLabelingJob",
-  iam: {
-    actions: ["sagemaker:DescribeLabelingJob"],
-    resources: {
-      "sagemaker:DescribeLabelingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:labeling-job/${LabelingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeLabelingJob",
 }));
@@ -22937,7 +21298,6 @@ export const describeLineageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLineageGroup",
-  iam: { actions: ["sagemaker:DescribeLineageGroup"] },
   telemetry: TELEMETRY,
   span: "DescribeLineageGroup",
 }));
@@ -22958,14 +21318,6 @@ export const describeMlflowApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMlflowApp",
-  iam: {
-    actions: ["sagemaker:DescribeMlflowApp"],
-    resources: {
-      "sagemaker:DescribeMlflowApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-app/${MLflowAppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMlflowApp",
 }));
@@ -22986,14 +21338,6 @@ export const describeMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMlflowTrackingServer",
-  iam: {
-    actions: ["sagemaker:DescribeMlflowTrackingServer"],
-    resources: {
-      "sagemaker:DescribeMlflowTrackingServer": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-tracking-server/${MlflowTrackingServerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMlflowTrackingServer",
 }));
@@ -23014,14 +21358,6 @@ export const describeModel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModel",
-  iam: {
-    actions: ["sagemaker:DescribeModel"],
-    resources: {
-      "sagemaker:DescribeModel": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model/${ModelName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeModel",
 }));
@@ -23042,14 +21378,6 @@ export const describeModelBiasJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelBiasJobDefinition",
-  iam: {
-    actions: ["sagemaker:DescribeModelBiasJobDefinition"],
-    resources: {
-      "sagemaker:DescribeModelBiasJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-bias-job-definition/${ModelBiasJobDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeModelBiasJobDefinition",
 }));
@@ -23072,14 +21400,6 @@ export const describeModelCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelCard",
-  iam: {
-    actions: ["sagemaker:DescribeModelCard"],
-    resources: {
-      "sagemaker:DescribeModelCard": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeModelCard",
 }));
@@ -23100,14 +21420,6 @@ export const describeModelCardExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelCardExportJob",
-  iam: {
-    actions: ["sagemaker:DescribeModelCardExportJob"],
-    resources: {
-      "sagemaker:DescribeModelCardExportJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}/export-job/${ExportJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeModelCardExportJob",
 }));
@@ -23128,14 +21440,6 @@ export const describeModelExplainabilityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelExplainabilityJobDefinition",
-  iam: {
-    actions: ["sagemaker:DescribeModelExplainabilityJobDefinition"],
-    resources: {
-      "sagemaker:DescribeModelExplainabilityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-explainability-job-definition/${ModelExplainabilityJobDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeModelExplainabilityJobDefinition",
 }));
@@ -23160,14 +21464,6 @@ export const describeModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelPackage",
-  iam: {
-    actions: ["sagemaker:DescribeModelPackage"],
-    resources: {
-      "sagemaker:DescribeModelPackage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package/${ModelPackageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeModelPackage",
 }));
@@ -23188,14 +21484,6 @@ export const describeModelPackageGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelPackageGroup",
-  iam: {
-    actions: ["sagemaker:DescribeModelPackageGroup"],
-    resources: {
-      "sagemaker:DescribeModelPackageGroup": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package-group/${ModelPackageGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeModelPackageGroup",
 }));
@@ -23216,14 +21504,6 @@ export const describeModelQualityJobDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeModelQualityJobDefinition",
-  iam: {
-    actions: ["sagemaker:DescribeModelQualityJobDefinition"],
-    resources: {
-      "sagemaker:DescribeModelQualityJobDefinition": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-quality-job-definition/${ModelQualityJobDefinitionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeModelQualityJobDefinition",
 }));
@@ -23244,14 +21524,6 @@ export const describeMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMonitoringSchedule",
-  iam: {
-    actions: ["sagemaker:DescribeMonitoringSchedule"],
-    resources: {
-      "sagemaker:DescribeMonitoringSchedule": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMonitoringSchedule",
 }));
@@ -23272,14 +21544,6 @@ export const describeNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotebookInstance",
-  iam: {
-    actions: ["sagemaker:DescribeNotebookInstance"],
-    resources: {
-      "sagemaker:DescribeNotebookInstance": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance/${NotebookInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeNotebookInstance",
 }));
@@ -23302,14 +21566,6 @@ export const describeNotebookInstanceLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeNotebookInstanceLifecycleConfig",
-  iam: {
-    actions: ["sagemaker:DescribeNotebookInstanceLifecycleConfig"],
-    resources: {
-      "sagemaker:DescribeNotebookInstanceLifecycleConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance-lifecycle-config/${NotebookInstanceLifecycleConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeNotebookInstanceLifecycleConfig",
 }));
@@ -23330,14 +21586,6 @@ export const describeOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOptimizationJob",
-  iam: {
-    actions: ["sagemaker:DescribeOptimizationJob"],
-    resources: {
-      "sagemaker:DescribeOptimizationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:optimization-job/${OptimizationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeOptimizationJob",
 }));
@@ -23358,14 +21606,6 @@ export const describePartnerApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePartnerApp",
-  iam: {
-    actions: ["sagemaker:DescribePartnerApp"],
-    resources: {
-      "sagemaker:DescribePartnerApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:partner-app/${AppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePartnerApp",
 }));
@@ -23386,14 +21626,6 @@ export const describePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipeline",
-  iam: {
-    actions: ["sagemaker:DescribePipeline"],
-    resources: {
-      "sagemaker:DescribePipeline": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePipeline",
 }));
@@ -23414,14 +21646,6 @@ export const describePipelineDefinitionForExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipelineDefinitionForExecution",
-  iam: {
-    actions: ["sagemaker:DescribePipelineDefinitionForExecution"],
-    resources: {
-      "sagemaker:DescribePipelineDefinitionForExecution": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePipelineDefinitionForExecution",
 }));
@@ -23442,14 +21666,6 @@ export const describePipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipelineExecution",
-  iam: {
-    actions: ["sagemaker:DescribePipelineExecution"],
-    resources: {
-      "sagemaker:DescribePipelineExecution": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePipelineExecution",
 }));
@@ -23470,14 +21686,6 @@ export const describeProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProcessingJob",
-  iam: {
-    actions: ["sagemaker:DescribeProcessingJob"],
-    resources: {
-      "sagemaker:DescribeProcessingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:processing-job/${ProcessingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProcessingJob",
 }));
@@ -23498,14 +21706,6 @@ export const describeProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProject",
-  iam: {
-    actions: ["sagemaker:DescribeProject"],
-    resources: {
-      "sagemaker:DescribeProject": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:project/${ProjectName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProject",
 }));
@@ -23526,14 +21726,6 @@ export const describeReservedCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeReservedCapacity",
-  iam: {
-    actions: ["sagemaker:DescribeReservedCapacity"],
-    resources: {
-      "sagemaker:DescribeReservedCapacity": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:reserved-capacity/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeReservedCapacity",
 }));
@@ -23554,14 +21746,6 @@ export const describeSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSpace",
-  iam: {
-    actions: ["sagemaker:DescribeSpace"],
-    resources: {
-      "sagemaker:DescribeSpace": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:space/${DomainId}/${SpaceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSpace",
 }));
@@ -23582,14 +21766,6 @@ export const describeStudioLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStudioLifecycleConfig",
-  iam: {
-    actions: ["sagemaker:DescribeStudioLifecycleConfig"],
-    resources: {
-      "sagemaker:DescribeStudioLifecycleConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:studio-lifecycle-config/${StudioLifecycleConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeStudioLifecycleConfig",
 }));
@@ -23610,14 +21786,6 @@ export const describeSubscribedWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSubscribedWorkteam",
-  iam: {
-    actions: ["sagemaker:DescribeSubscribedWorkteam"],
-    resources: {
-      "sagemaker:DescribeSubscribedWorkteam": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workteam/${WorkteamName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSubscribedWorkteam",
 }));
@@ -23640,14 +21808,6 @@ export const describeTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrainingJob",
-  iam: {
-    actions: ["sagemaker:DescribeTrainingJob"],
-    resources: {
-      "sagemaker:DescribeTrainingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-job/${TrainingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTrainingJob",
 }));
@@ -23668,14 +21828,6 @@ export const describeTrainingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrainingPlan",
-  iam: {
-    actions: ["sagemaker:DescribeTrainingPlan"],
-    resources: {
-      "sagemaker:DescribeTrainingPlan": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-plan/${TrainingPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTrainingPlan",
 }));
@@ -23703,14 +21855,6 @@ export const describeTrainingPlanExtensionHistory: API.PaginatedOperationMethod<
     items: "TrainingPlanExtensions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:DescribeTrainingPlanExtensionHistory"],
-    resources: {
-      "sagemaker:DescribeTrainingPlanExtensionHistory": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-plan/${TrainingPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTrainingPlanExtensionHistory",
 })) as any;
@@ -23741,14 +21885,6 @@ export const describeTrainingSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrainingSession",
-  iam: {
-    actions: ["sagemaker:DescribeTrainingSession"],
-    resources: {
-      "sagemaker:DescribeTrainingSession": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTrainingSession",
 }));
@@ -23769,14 +21905,6 @@ export const describeTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTransformJob",
-  iam: {
-    actions: ["sagemaker:DescribeTransformJob"],
-    resources: {
-      "sagemaker:DescribeTransformJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:transform-job/${TransformJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTransformJob",
 }));
@@ -23797,14 +21925,6 @@ export const describeTrial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrial",
-  iam: {
-    actions: ["sagemaker:DescribeTrial"],
-    resources: {
-      "sagemaker:DescribeTrial": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial/${TrialName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTrial",
 }));
@@ -23825,14 +21945,6 @@ export const describeTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTrialComponent",
-  iam: {
-    actions: ["sagemaker:DescribeTrialComponent"],
-    resources: {
-      "sagemaker:DescribeTrialComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTrialComponent",
 }));
@@ -23853,14 +21965,6 @@ export const describeUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserProfile",
-  iam: {
-    actions: ["sagemaker:DescribeUserProfile"],
-    resources: {
-      "sagemaker:DescribeUserProfile": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:user-profile/${DomainId}/${UserProfileName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUserProfile",
 }));
@@ -23883,14 +21987,6 @@ export const describeWorkforce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkforce",
-  iam: {
-    actions: ["sagemaker:DescribeWorkforce"],
-    resources: {
-      "sagemaker:DescribeWorkforce": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workforce/${WorkforceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeWorkforce",
 }));
@@ -23911,14 +22007,6 @@ export const describeWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkteam",
-  iam: {
-    actions: ["sagemaker:DescribeWorkteam"],
-    resources: {
-      "sagemaker:DescribeWorkteam": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workteam/${WorkteamName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeWorkteam",
 }));
@@ -23941,14 +22029,6 @@ export const detachClusterNodeVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachClusterNodeVolume",
-  iam: {
-    actions: ["sagemaker:DetachClusterNodeVolume"],
-    resources: {
-      "sagemaker:DetachClusterNodeVolume": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DetachClusterNodeVolume",
 }));
@@ -23969,7 +22049,6 @@ export const disableSagemakerServicecatalogPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableSagemakerServicecatalogPortfolio",
-  iam: { actions: ["sagemaker:DisableSagemakerServicecatalogPortfolio"] },
   telemetry: TELEMETRY,
   span: "DisableSagemakerServicecatalogPortfolio",
 }));
@@ -23992,16 +22071,6 @@ export const disassociateTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTrialComponent",
-  iam: {
-    actions: ["sagemaker:DisassociateTrialComponent"],
-    resources: {
-      "sagemaker:DisassociateTrialComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial/${TrialName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:processing-job/${ProcessingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateTrialComponent",
 }));
@@ -24022,7 +22091,6 @@ export const enableSagemakerServicecatalogPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableSagemakerServicecatalogPortfolio",
-  iam: { actions: ["sagemaker:EnableSagemakerServicecatalogPortfolio"] },
   telemetry: TELEMETRY,
   span: "EnableSagemakerServicecatalogPortfolio",
 }));
@@ -24047,7 +22115,6 @@ export const extendTrainingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExtendTrainingPlan",
-  iam: { actions: ["sagemaker:ExtendTrainingPlan"] },
   telemetry: TELEMETRY,
   span: "ExtendTrainingPlan",
 }));
@@ -24068,14 +22135,6 @@ export const getDeviceFleetReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDeviceFleetReport",
-  iam: {
-    actions: ["sagemaker:GetDeviceFleetReport"],
-    resources: {
-      "sagemaker:GetDeviceFleetReport": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDeviceFleetReport",
 }));
@@ -24096,7 +22155,6 @@ export const getLineageGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLineageGroupPolicy",
-  iam: { actions: ["sagemaker:GetLineageGroupPolicy"] },
   telemetry: TELEMETRY,
   span: "GetLineageGroupPolicy",
 }));
@@ -24117,14 +22175,6 @@ export const getModelPackageGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetModelPackageGroupPolicy",
-  iam: {
-    actions: ["sagemaker:GetModelPackageGroupPolicy"],
-    resources: {
-      "sagemaker:GetModelPackageGroupPolicy": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package-group/${ModelPackageGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetModelPackageGroupPolicy",
 }));
@@ -24145,7 +22195,6 @@ export const getSagemakerServicecatalogPortfolioStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSagemakerServicecatalogPortfolioStatus",
-  iam: { actions: ["sagemaker:GetSagemakerServicecatalogPortfolioStatus"] },
   telemetry: TELEMETRY,
   span: "GetSagemakerServicecatalogPortfolioStatus",
 }));
@@ -24166,14 +22215,6 @@ export const getScalingConfigurationRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScalingConfigurationRecommendation",
-  iam: {
-    actions: ["sagemaker:GetScalingConfigurationRecommendation"],
-    resources: {
-      "sagemaker:GetScalingConfigurationRecommendation": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-recommendations-job/${InferenceRecommendationsJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetScalingConfigurationRecommendation",
 }));
@@ -24194,7 +22235,6 @@ export const getSearchSuggestions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSearchSuggestions",
-  iam: { actions: ["sagemaker:GetSearchSuggestions"] },
   telemetry: TELEMETRY,
   span: "GetSearchSuggestions",
 }));
@@ -24219,17 +22259,6 @@ export const importHubContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportHubContent",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:ImportHubContent", "iam:PassRole"],
-    resources: {
-      "sagemaker:ImportHubContent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportHubContent",
 }));
@@ -24257,7 +22286,6 @@ export const listActions: API.PaginatedOperationMethod<
     items: "ActionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListActions"] },
   telemetry: TELEMETRY,
   span: "ListActions",
 })) as any;
@@ -24285,7 +22313,6 @@ export const listAIBenchmarkJobs: API.PaginatedOperationMethod<
     items: "AIBenchmarkJobs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListAIBenchmarkJobs"] },
   telemetry: TELEMETRY,
   span: "ListAIBenchmarkJobs",
 })) as any;
@@ -24313,7 +22340,6 @@ export const listAIRecommendationJobs: API.PaginatedOperationMethod<
     items: "AIRecommendationJobs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListAIRecommendationJobs"] },
   telemetry: TELEMETRY,
   span: "ListAIRecommendationJobs",
 })) as any;
@@ -24341,7 +22367,6 @@ export const listAIWorkloadConfigs: API.PaginatedOperationMethod<
     items: "AIWorkloadConfigs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListAIWorkloadConfigs"] },
   telemetry: TELEMETRY,
   span: "ListAIWorkloadConfigs",
 })) as any;
@@ -24369,7 +22394,6 @@ export const listAlgorithms: API.PaginatedOperationMethod<
     items: "AlgorithmSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListAlgorithms"] },
   telemetry: TELEMETRY,
   span: "ListAlgorithms",
 })) as any;
@@ -24397,15 +22421,6 @@ export const listAliases: API.PaginatedOperationMethod<
     items: "SageMakerImageVersionAliases",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListAliases"],
-    resources: {
-      "sagemaker:ListAliases": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image/${ImageName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image-version/${ImageName}/${Version}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAliases",
 })) as any;
@@ -24433,7 +22448,6 @@ export const listAppImageConfigs: API.PaginatedOperationMethod<
     items: "AppImageConfigs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListAppImageConfigs"] },
   telemetry: TELEMETRY,
   span: "ListAppImageConfigs",
 })) as any;
@@ -24461,7 +22475,6 @@ export const listApps: API.PaginatedOperationMethod<
     items: "Apps",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListApps"] },
   telemetry: TELEMETRY,
   span: "ListApps",
 })) as any;
@@ -24489,7 +22502,6 @@ export const listArtifacts: API.PaginatedOperationMethod<
     items: "ArtifactSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListArtifacts"] },
   telemetry: TELEMETRY,
   span: "ListArtifacts",
 })) as any;
@@ -24517,7 +22529,6 @@ export const listAssociations: API.PaginatedOperationMethod<
     items: "AssociationSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListAssociations"] },
   telemetry: TELEMETRY,
   span: "ListAssociations",
 })) as any;
@@ -24545,7 +22556,6 @@ export const listAutoMLJobs: API.PaginatedOperationMethod<
     items: "AutoMLJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListAutoMLJobs"] },
   telemetry: TELEMETRY,
   span: "ListAutoMLJobs",
 })) as any;
@@ -24573,7 +22583,6 @@ export const listCandidatesForAutoMLJob: API.PaginatedOperationMethod<
     items: "Candidates",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListCandidatesForAutoMLJob"] },
   telemetry: TELEMETRY,
   span: "ListCandidatesForAutoMLJob",
 })) as any;
@@ -24601,14 +22610,6 @@ export const listClusterEvents: API.PaginatedOperationMethod<
     items: "Events",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListClusterEvents"],
-    resources: {
-      "sagemaker:ListClusterEvents": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListClusterEvents",
 })) as any;
@@ -24636,14 +22637,6 @@ export const listClusterNodes: API.PaginatedOperationMethod<
     items: "ClusterNodeSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListClusterNodes"],
-    resources: {
-      "sagemaker:ListClusterNodes": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListClusterNodes",
 })) as any;
@@ -24671,7 +22664,6 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "ClusterSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -24699,7 +22691,6 @@ export const listClusterSchedulerConfigs: API.PaginatedOperationMethod<
     items: "ClusterSchedulerConfigSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListClusterSchedulerConfigs"] },
   telemetry: TELEMETRY,
   span: "ListClusterSchedulerConfigs",
 })) as any;
@@ -24727,7 +22718,6 @@ export const listCodeRepositories: API.PaginatedOperationMethod<
     items: "CodeRepositorySummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListCodeRepositories"] },
   telemetry: TELEMETRY,
   span: "ListCodeRepositories",
 })) as any;
@@ -24757,7 +22747,6 @@ export const listCompilationJobs: API.PaginatedOperationMethod<
     items: "CompilationJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListCompilationJobs"] },
   telemetry: TELEMETRY,
   span: "ListCompilationJobs",
 })) as any;
@@ -24785,7 +22774,6 @@ export const listComputeQuotas: API.PaginatedOperationMethod<
     items: "ComputeQuotaSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListComputeQuotas"] },
   telemetry: TELEMETRY,
   span: "ListComputeQuotas",
 })) as any;
@@ -24813,7 +22801,6 @@ export const listContexts: API.PaginatedOperationMethod<
     items: "ContextSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListContexts"] },
   telemetry: TELEMETRY,
   span: "ListContexts",
 })) as any;
@@ -24841,7 +22828,6 @@ export const listDataQualityJobDefinitions: API.PaginatedOperationMethod<
     items: "JobDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListDataQualityJobDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListDataQualityJobDefinitions",
 })) as any;
@@ -24869,7 +22855,6 @@ export const listDeviceFleets: API.PaginatedOperationMethod<
     items: "DeviceFleetSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListDeviceFleets"] },
   telemetry: TELEMETRY,
   span: "ListDeviceFleets",
 })) as any;
@@ -24897,7 +22882,6 @@ export const listDevices: API.PaginatedOperationMethod<
     items: "DeviceSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListDevices"] },
   telemetry: TELEMETRY,
   span: "ListDevices",
 })) as any;
@@ -24925,7 +22909,6 @@ export const listDomains: API.PaginatedOperationMethod<
     items: "Domains",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListDomains"] },
   telemetry: TELEMETRY,
   span: "ListDomains",
 })) as any;
@@ -24953,7 +22936,6 @@ export const listEdgeDeploymentPlans: API.PaginatedOperationMethod<
     items: "EdgeDeploymentPlanSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListEdgeDeploymentPlans"] },
   telemetry: TELEMETRY,
   span: "ListEdgeDeploymentPlans",
 })) as any;
@@ -24981,7 +22963,6 @@ export const listEdgePackagingJobs: API.PaginatedOperationMethod<
     items: "EdgePackagingJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListEdgePackagingJobs"] },
   telemetry: TELEMETRY,
   span: "ListEdgePackagingJobs",
 })) as any;
@@ -25009,7 +22990,6 @@ export const listEndpointConfigs: API.PaginatedOperationMethod<
     items: "EndpointConfigs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListEndpointConfigs"] },
   telemetry: TELEMETRY,
   span: "ListEndpointConfigs",
 })) as any;
@@ -25037,7 +23017,6 @@ export const listEndpoints: API.PaginatedOperationMethod<
     items: "Endpoints",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListEndpoints",
 })) as any;
@@ -25065,7 +23044,6 @@ export const listExperiments: API.PaginatedOperationMethod<
     items: "ExperimentSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListExperiments"] },
   telemetry: TELEMETRY,
   span: "ListExperiments",
 })) as any;
@@ -25093,7 +23071,6 @@ export const listFeatureGroups: API.PaginatedOperationMethod<
     items: "FeatureGroupSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListFeatureGroups"] },
   telemetry: TELEMETRY,
   span: "ListFeatureGroups",
 })) as any;
@@ -25121,7 +23098,6 @@ export const listFlowDefinitions: API.PaginatedOperationMethod<
     items: "FlowDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListFlowDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListFlowDefinitions",
 })) as any;
@@ -25142,14 +23118,6 @@ export const listHubContents: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHubContents",
-  iam: {
-    actions: ["sagemaker:ListHubContents"],
-    resources: {
-      "sagemaker:ListHubContents": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListHubContents",
 }));
@@ -25170,15 +23138,6 @@ export const listHubContentVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHubContentVersions",
-  iam: {
-    actions: ["sagemaker:ListHubContentVersions"],
-    resources: {
-      "sagemaker:ListHubContentVersions": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListHubContentVersions",
 }));
@@ -25199,7 +23158,6 @@ export const listHubs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListHubs",
-  iam: { actions: ["sagemaker:ListHubs"] },
   telemetry: TELEMETRY,
   span: "ListHubs",
 }));
@@ -25227,7 +23185,6 @@ export const listHumanTaskUis: API.PaginatedOperationMethod<
     items: "HumanTaskUiSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListHumanTaskUis"] },
   telemetry: TELEMETRY,
   span: "ListHumanTaskUis",
 })) as any;
@@ -25255,7 +23212,6 @@ export const listHyperParameterTuningJobs: API.PaginatedOperationMethod<
     items: "HyperParameterTuningJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListHyperParameterTuningJobs"] },
   telemetry: TELEMETRY,
   span: "ListHyperParameterTuningJobs",
 })) as any;
@@ -25283,7 +23239,6 @@ export const listImages: API.PaginatedOperationMethod<
     items: "Images",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListImages"] },
   telemetry: TELEMETRY,
   span: "ListImages",
 })) as any;
@@ -25311,14 +23266,6 @@ export const listImageVersions: API.PaginatedOperationMethod<
     items: "ImageVersions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListImageVersions"],
-    resources: {
-      "sagemaker:ListImageVersions": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image/${ImageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListImageVersions",
 })) as any;
@@ -25346,7 +23293,6 @@ export const listInferenceComponents: API.PaginatedOperationMethod<
     items: "InferenceComponents",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListInferenceComponents"] },
   telemetry: TELEMETRY,
   span: "ListInferenceComponents",
 })) as any;
@@ -25374,7 +23320,6 @@ export const listInferenceExperiments: API.PaginatedOperationMethod<
     items: "InferenceExperiments",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListInferenceExperiments"] },
   telemetry: TELEMETRY,
   span: "ListInferenceExperiments",
 })) as any;
@@ -25402,7 +23347,6 @@ export const listInferenceRecommendationsJobs: API.PaginatedOperationMethod<
     items: "InferenceRecommendationsJobs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListInferenceRecommendationsJobs"] },
   telemetry: TELEMETRY,
   span: "ListInferenceRecommendationsJobs",
 })) as any;
@@ -25432,7 +23376,6 @@ export const listInferenceRecommendationsJobSteps: API.PaginatedOperationMethod<
     items: "Steps",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListInferenceRecommendationsJobSteps"] },
   telemetry: TELEMETRY,
   span: "ListInferenceRecommendationsJobSteps",
 })) as any;
@@ -25466,7 +23409,6 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "JobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -25500,7 +23442,6 @@ export const listJobSchemaVersions: API.PaginatedOperationMethod<
     items: "JobConfigSchemas",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListJobSchemaVersions"] },
   telemetry: TELEMETRY,
   span: "ListJobSchemaVersions",
 })) as any;
@@ -25528,7 +23469,6 @@ export const listLabelingJobs: API.PaginatedOperationMethod<
     items: "LabelingJobSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListLabelingJobs"] },
   telemetry: TELEMETRY,
   span: "ListLabelingJobs",
 })) as any;
@@ -25556,14 +23496,6 @@ export const listLabelingJobsForWorkteam: API.PaginatedOperationMethod<
     items: "LabelingJobSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListLabelingJobsForWorkteam"],
-    resources: {
-      "sagemaker:ListLabelingJobsForWorkteam": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workteam/${WorkteamName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListLabelingJobsForWorkteam",
 })) as any;
@@ -25591,7 +23523,6 @@ export const listLineageGroups: API.PaginatedOperationMethod<
     items: "LineageGroupSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListLineageGroups"] },
   telemetry: TELEMETRY,
   span: "ListLineageGroups",
 })) as any;
@@ -25619,7 +23550,6 @@ export const listMlflowApps: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListMlflowApps"] },
   telemetry: TELEMETRY,
   span: "ListMlflowApps",
 })) as any;
@@ -25647,7 +23577,6 @@ export const listMlflowTrackingServers: API.PaginatedOperationMethod<
     items: "TrackingServerSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListMlflowTrackingServers"] },
   telemetry: TELEMETRY,
   span: "ListMlflowTrackingServers",
 })) as any;
@@ -25675,7 +23604,6 @@ export const listModelBiasJobDefinitions: API.PaginatedOperationMethod<
     items: "JobDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListModelBiasJobDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListModelBiasJobDefinitions",
 })) as any;
@@ -25703,14 +23631,6 @@ export const listModelCardExportJobs: API.PaginatedOperationMethod<
     items: "ModelCardExportJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListModelCardExportJobs"],
-    resources: {
-      "sagemaker:ListModelCardExportJobs": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListModelCardExportJobs",
 })) as any;
@@ -25738,7 +23658,6 @@ export const listModelCards: API.PaginatedOperationMethod<
     items: "ModelCardSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListModelCards"] },
   telemetry: TELEMETRY,
   span: "ListModelCards",
 })) as any;
@@ -25766,14 +23685,6 @@ export const listModelCardVersions: API.PaginatedOperationMethod<
     items: "ModelCardVersionSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListModelCardVersions"],
-    resources: {
-      "sagemaker:ListModelCardVersions": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListModelCardVersions",
 })) as any;
@@ -25801,7 +23712,6 @@ export const listModelExplainabilityJobDefinitions: API.PaginatedOperationMethod
     items: "JobDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListModelExplainabilityJobDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListModelExplainabilityJobDefinitions",
 })) as any;
@@ -25829,7 +23739,6 @@ export const listModelMetadata: API.PaginatedOperationMethod<
     items: "ModelMetadataSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListModelMetadata"] },
   telemetry: TELEMETRY,
   span: "ListModelMetadata",
 })) as any;
@@ -25857,7 +23766,6 @@ export const listModelPackageGroups: API.PaginatedOperationMethod<
     items: "ModelPackageGroupSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListModelPackageGroups"] },
   telemetry: TELEMETRY,
   span: "ListModelPackageGroups",
 })) as any;
@@ -25885,7 +23793,6 @@ export const listModelPackages: API.PaginatedOperationMethod<
     items: "ModelPackageSummaryList",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListModelPackages"] },
   telemetry: TELEMETRY,
   span: "ListModelPackages",
 })) as any;
@@ -25913,7 +23820,6 @@ export const listModelQualityJobDefinitions: API.PaginatedOperationMethod<
     items: "JobDefinitionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListModelQualityJobDefinitions"] },
   telemetry: TELEMETRY,
   span: "ListModelQualityJobDefinitions",
 })) as any;
@@ -25941,7 +23847,6 @@ export const listModels: API.PaginatedOperationMethod<
     items: "Models",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListModels"] },
   telemetry: TELEMETRY,
   span: "ListModels",
 })) as any;
@@ -25969,7 +23874,6 @@ export const listMonitoringAlertHistory: API.PaginatedOperationMethod<
     items: "MonitoringAlertHistory",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListMonitoringAlertHistory"] },
   telemetry: TELEMETRY,
   span: "ListMonitoringAlertHistory",
 })) as any;
@@ -25997,7 +23901,6 @@ export const listMonitoringAlerts: API.PaginatedOperationMethod<
     items: "MonitoringAlertSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListMonitoringAlerts"] },
   telemetry: TELEMETRY,
   span: "ListMonitoringAlerts",
 })) as any;
@@ -26025,7 +23928,6 @@ export const listMonitoringExecutions: API.PaginatedOperationMethod<
     items: "MonitoringExecutionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListMonitoringExecutions"] },
   telemetry: TELEMETRY,
   span: "ListMonitoringExecutions",
 })) as any;
@@ -26053,7 +23955,6 @@ export const listMonitoringSchedules: API.PaginatedOperationMethod<
     items: "MonitoringScheduleSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListMonitoringSchedules"] },
   telemetry: TELEMETRY,
   span: "ListMonitoringSchedules",
 })) as any;
@@ -26081,7 +23982,6 @@ export const listNotebookInstanceLifecycleConfigs: API.PaginatedOperationMethod<
     items: "NotebookInstanceLifecycleConfigs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListNotebookInstanceLifecycleConfigs"] },
   telemetry: TELEMETRY,
   span: "ListNotebookInstanceLifecycleConfigs",
 })) as any;
@@ -26109,7 +24009,6 @@ export const listNotebookInstances: API.PaginatedOperationMethod<
     items: "NotebookInstances",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListNotebookInstances"] },
   telemetry: TELEMETRY,
   span: "ListNotebookInstances",
 })) as any;
@@ -26137,7 +24036,6 @@ export const listOptimizationJobs: API.PaginatedOperationMethod<
     items: "OptimizationJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListOptimizationJobs"] },
   telemetry: TELEMETRY,
   span: "ListOptimizationJobs",
 })) as any;
@@ -26165,7 +24063,6 @@ export const listPartnerApps: API.PaginatedOperationMethod<
     items: "Summaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListPartnerApps"] },
   telemetry: TELEMETRY,
   span: "ListPartnerApps",
 })) as any;
@@ -26193,14 +24090,6 @@ export const listPipelineExecutions: API.PaginatedOperationMethod<
     items: "PipelineExecutionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListPipelineExecutions"],
-    resources: {
-      "sagemaker:ListPipelineExecutions": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPipelineExecutions",
 })) as any;
@@ -26228,14 +24117,6 @@ export const listPipelineExecutionSteps: API.PaginatedOperationMethod<
     items: "PipelineExecutionSteps",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListPipelineExecutionSteps"],
-    resources: {
-      "sagemaker:ListPipelineExecutionSteps": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPipelineExecutionSteps",
 })) as any;
@@ -26263,14 +24144,6 @@ export const listPipelineParametersForExecution: API.PaginatedOperationMethod<
     items: "PipelineParameters",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListPipelineParametersForExecution"],
-    resources: {
-      "sagemaker:ListPipelineParametersForExecution": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPipelineParametersForExecution",
 })) as any;
@@ -26298,7 +24171,6 @@ export const listPipelines: API.PaginatedOperationMethod<
     items: "PipelineSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListPipelines"] },
   telemetry: TELEMETRY,
   span: "ListPipelines",
 })) as any;
@@ -26326,14 +24198,6 @@ export const listPipelineVersions: API.PaginatedOperationMethod<
     items: "PipelineVersionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListPipelineVersions"],
-    resources: {
-      "sagemaker:ListPipelineVersions": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPipelineVersions",
 })) as any;
@@ -26361,7 +24225,6 @@ export const listProcessingJobs: API.PaginatedOperationMethod<
     items: "ProcessingJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListProcessingJobs"] },
   telemetry: TELEMETRY,
   span: "ListProcessingJobs",
 })) as any;
@@ -26388,7 +24251,6 @@ export const listProjects: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListProjects"] },
   telemetry: TELEMETRY,
   span: "ListProjects",
 })) as any;
@@ -26416,7 +24278,6 @@ export const listResourceCatalogs: API.PaginatedOperationMethod<
     items: "ResourceCatalogs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListResourceCatalogs"] },
   telemetry: TELEMETRY,
   span: "ListResourceCatalogs",
 })) as any;
@@ -26444,7 +24305,6 @@ export const listSpaces: API.PaginatedOperationMethod<
     items: "Spaces",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListSpaces"] },
   telemetry: TELEMETRY,
   span: "ListSpaces",
 })) as any;
@@ -26472,7 +24332,6 @@ export const listStageDevices: API.PaginatedOperationMethod<
     items: "DeviceDeploymentSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListStageDevices"] },
   telemetry: TELEMETRY,
   span: "ListStageDevices",
 })) as any;
@@ -26500,7 +24359,6 @@ export const listStudioLifecycleConfigs: API.PaginatedOperationMethod<
     items: "StudioLifecycleConfigs",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListStudioLifecycleConfigs"] },
   telemetry: TELEMETRY,
   span: "ListStudioLifecycleConfigs",
 })) as any;
@@ -26528,7 +24386,6 @@ export const listSubscribedWorkteams: API.PaginatedOperationMethod<
     items: "SubscribedWorkteams",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListSubscribedWorkteams"] },
   telemetry: TELEMETRY,
   span: "ListSubscribedWorkteams",
 })) as any;
@@ -26556,7 +24413,6 @@ export const listTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListTags"] },
   telemetry: TELEMETRY,
   span: "ListTags",
 })) as any;
@@ -26596,7 +24452,6 @@ export const listTrainingJobs: API.PaginatedOperationMethod<
     items: "TrainingJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListTrainingJobs"] },
   telemetry: TELEMETRY,
   span: "ListTrainingJobs",
 })) as any;
@@ -26632,14 +24487,6 @@ export const listTrainingJobsForHyperParameterTuningJob: API.PaginatedOperationM
     items: "TrainingJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListTrainingJobsForHyperParameterTuningJob"],
-    resources: {
-      "sagemaker:ListTrainingJobsForHyperParameterTuningJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hyper-parameter-tuning-job/${HyperParameterTuningJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTrainingJobsForHyperParameterTuningJob",
 })) as any;
@@ -26667,7 +24514,6 @@ export const listTrainingPlans: API.PaginatedOperationMethod<
     items: "TrainingPlanSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListTrainingPlans"] },
   telemetry: TELEMETRY,
   span: "ListTrainingPlans",
 })) as any;
@@ -26701,7 +24547,6 @@ export const listTrainingSessions: API.PaginatedOperationMethod<
     items: "TrainingSessionSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListTrainingSessions"] },
   telemetry: TELEMETRY,
   span: "ListTrainingSessions",
 })) as any;
@@ -26729,7 +24574,6 @@ export const listTransformJobs: API.PaginatedOperationMethod<
     items: "TransformJobSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListTransformJobs"] },
   telemetry: TELEMETRY,
   span: "ListTransformJobs",
 })) as any;
@@ -26763,7 +24607,6 @@ export const listTrialComponents: API.PaginatedOperationMethod<
     items: "TrialComponentSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListTrialComponents"] },
   telemetry: TELEMETRY,
   span: "ListTrialComponents",
 })) as any;
@@ -26791,7 +24634,6 @@ export const listTrials: API.PaginatedOperationMethod<
     items: "TrialSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListTrials"] },
   telemetry: TELEMETRY,
   span: "ListTrials",
 })) as any;
@@ -26819,14 +24661,6 @@ export const listUltraServersByReservedCapacity: API.PaginatedOperationMethod<
     items: "UltraServers",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListUltraServersByReservedCapacity"],
-    resources: {
-      "sagemaker:ListUltraServersByReservedCapacity": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:reserved-capacity/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUltraServersByReservedCapacity",
 })) as any;
@@ -26854,7 +24688,6 @@ export const listUserProfiles: API.PaginatedOperationMethod<
     items: "UserProfiles",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListUserProfiles"] },
   telemetry: TELEMETRY,
   span: "ListUserProfiles",
 })) as any;
@@ -26882,7 +24715,6 @@ export const listWorkforces: API.PaginatedOperationMethod<
     items: "Workforces",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListWorkforces"] },
   telemetry: TELEMETRY,
   span: "ListWorkforces",
 })) as any;
@@ -26910,7 +24742,6 @@ export const listWorkteams: API.PaginatedOperationMethod<
     items: "Workteams",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:ListWorkteams"] },
   telemetry: TELEMETRY,
   span: "ListWorkteams",
 })) as any;
@@ -26931,14 +24762,6 @@ export const putModelPackageGroupPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutModelPackageGroupPolicy",
-  iam: {
-    actions: ["sagemaker:PutModelPackageGroupPolicy"],
-    resources: {
-      "sagemaker:PutModelPackageGroupPolicy": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package-group/${ModelPackageGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutModelPackageGroupPolicy",
 }));
@@ -26965,7 +24788,6 @@ export const queryLineage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:QueryLineage"] },
   telemetry: TELEMETRY,
   span: "QueryLineage",
 })) as any;
@@ -26986,14 +24808,6 @@ export const registerDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterDevices",
-  iam: {
-    actions: ["sagemaker:RegisterDevices"],
-    resources: {
-      "sagemaker:RegisterDevices": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}/device/${DeviceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterDevices",
 }));
@@ -27014,10 +24828,6 @@ export const renderUiTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RenderUiTemplate",
-  iam: {
-    actions: ["iam:PassRole", "sagemaker:RenderUiTemplate"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "RenderUiTemplate",
 }));
@@ -27042,14 +24852,6 @@ export const retryPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryPipelineExecution",
-  iam: {
-    actions: ["sagemaker:RetryPipelineExecution"],
-    resources: {
-      "sagemaker:RetryPipelineExecution": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RetryPipelineExecution",
 }));
@@ -27081,7 +24883,6 @@ export const search: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sagemaker:Search"] },
   telemetry: TELEMETRY,
   span: "Search",
 })) as any;
@@ -27108,7 +24909,6 @@ export const searchTrainingPlanOfferings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchTrainingPlanOfferings",
-  iam: { actions: ["sagemaker:SearchTrainingPlanOfferings"] },
   telemetry: TELEMETRY,
   span: "SearchTrainingPlanOfferings",
 }));
@@ -27133,14 +24933,6 @@ export const sendPipelineExecutionStepFailure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendPipelineExecutionStepFailure",
-  iam: {
-    actions: ["sagemaker:SendPipelineExecutionStepFailure"],
-    resources: {
-      "sagemaker:SendPipelineExecutionStepFailure": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendPipelineExecutionStepFailure",
 }));
@@ -27165,14 +24957,6 @@ export const sendPipelineExecutionStepSuccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendPipelineExecutionStepSuccess",
-  iam: {
-    actions: ["sagemaker:SendPipelineExecutionStepSuccess"],
-    resources: {
-      "sagemaker:SendPipelineExecutionStepSuccess": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SendPipelineExecutionStepSuccess",
 }));
@@ -27193,14 +24977,6 @@ export const startClusterHealthCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartClusterHealthCheck",
-  iam: {
-    actions: ["sagemaker:StartClusterHealthCheck"],
-    resources: {
-      "sagemaker:StartClusterHealthCheck": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartClusterHealthCheck",
 }));
@@ -27221,14 +24997,6 @@ export const startEdgeDeploymentStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEdgeDeploymentStage",
-  iam: {
-    actions: ["sagemaker:StartEdgeDeploymentStage"],
-    resources: {
-      "sagemaker:StartEdgeDeploymentStage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-deployment/${EdgeDeploymentPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartEdgeDeploymentStage",
 }));
@@ -27249,14 +25017,6 @@ export const startInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInferenceExperiment",
-  iam: {
-    actions: ["sagemaker:StartInferenceExperiment"],
-    resources: {
-      "sagemaker:StartInferenceExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-experiment/${InferenceExperimentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartInferenceExperiment",
 }));
@@ -27277,14 +25037,6 @@ export const startMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMlflowTrackingServer",
-  iam: {
-    actions: ["sagemaker:StartMlflowTrackingServer"],
-    resources: {
-      "sagemaker:StartMlflowTrackingServer": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-tracking-server/${MlflowTrackingServerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMlflowTrackingServer",
 }));
@@ -27307,14 +25059,6 @@ export const startMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMonitoringSchedule",
-  iam: {
-    actions: ["sagemaker:StartMonitoringSchedule"],
-    resources: {
-      "sagemaker:StartMonitoringSchedule": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMonitoringSchedule",
 }));
@@ -27335,14 +25079,6 @@ export const startNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartNotebookInstance",
-  iam: {
-    actions: ["sagemaker:StartNotebookInstance"],
-    resources: {
-      "sagemaker:StartNotebookInstance": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance/${NotebookInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartNotebookInstance",
 }));
@@ -27367,14 +25103,6 @@ export const startPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPipelineExecution",
-  iam: {
-    actions: ["sagemaker:StartPipelineExecution"],
-    resources: {
-      "sagemaker:StartPipelineExecution": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartPipelineExecution",
 }));
@@ -27395,14 +25123,6 @@ export const startSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSession",
-  iam: {
-    actions: ["sagemaker:StartSession"],
-    resources: {
-      "sagemaker:StartSession": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:space/${DomainId}/${SpaceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartSession",
 }));
@@ -27423,14 +25143,6 @@ export const stopAIBenchmarkJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAIBenchmarkJob",
-  iam: {
-    actions: ["sagemaker:StopAIBenchmarkJob"],
-    resources: {
-      "sagemaker:StopAIBenchmarkJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-benchmark-job/${AIBenchmarkJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopAIBenchmarkJob",
 }));
@@ -27451,14 +25163,6 @@ export const stopAIRecommendationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAIRecommendationJob",
-  iam: {
-    actions: ["sagemaker:StopAIRecommendationJob"],
-    resources: {
-      "sagemaker:StopAIRecommendationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:ai-recommendation-job/${AIRecommendationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopAIRecommendationJob",
 }));
@@ -27479,14 +25183,6 @@ export const stopAutoMLJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutoMLJob",
-  iam: {
-    actions: ["sagemaker:StopAutoMLJob"],
-    resources: {
-      "sagemaker:StopAutoMLJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:automl-job/${AutoMLJobJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopAutoMLJob",
 }));
@@ -27511,14 +25207,6 @@ export const stopCompilationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCompilationJob",
-  iam: {
-    actions: ["sagemaker:StopCompilationJob"],
-    resources: {
-      "sagemaker:StopCompilationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:compilation-job/${CompilationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopCompilationJob",
 }));
@@ -27539,14 +25227,6 @@ export const stopEdgeDeploymentStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEdgeDeploymentStage",
-  iam: {
-    actions: ["sagemaker:StopEdgeDeploymentStage"],
-    resources: {
-      "sagemaker:StopEdgeDeploymentStage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-deployment/${EdgeDeploymentPlanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopEdgeDeploymentStage",
 }));
@@ -27567,14 +25247,6 @@ export const stopEdgePackagingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEdgePackagingJob",
-  iam: {
-    actions: ["sagemaker:StopEdgePackagingJob"],
-    resources: {
-      "sagemaker:StopEdgePackagingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:edge-packaging-job/${EdgePackagingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopEdgePackagingJob",
 }));
@@ -27597,14 +25269,6 @@ export const stopHyperParameterTuningJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopHyperParameterTuningJob",
-  iam: {
-    actions: ["sagemaker:StopHyperParameterTuningJob"],
-    resources: {
-      "sagemaker:StopHyperParameterTuningJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hyper-parameter-tuning-job/${HyperParameterTuningJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopHyperParameterTuningJob",
 }));
@@ -27625,14 +25289,6 @@ export const stopInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInferenceExperiment",
-  iam: {
-    actions: ["sagemaker:StopInferenceExperiment"],
-    resources: {
-      "sagemaker:StopInferenceExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-experiment/${InferenceExperimentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopInferenceExperiment",
 }));
@@ -27653,14 +25309,6 @@ export const stopInferenceRecommendationsJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopInferenceRecommendationsJob",
-  iam: {
-    actions: ["sagemaker:StopInferenceRecommendationsJob"],
-    resources: {
-      "sagemaker:StopInferenceRecommendationsJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-recommendations-job/${InferenceRecommendationsJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopInferenceRecommendationsJob",
 }));
@@ -27689,14 +25337,6 @@ export const stopJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopJob",
-  iam: {
-    actions: ["sagemaker:StopJob"],
-    resources: {
-      "sagemaker:StopJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopJob",
 }));
@@ -27717,14 +25357,6 @@ export const stopLabelingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopLabelingJob",
-  iam: {
-    actions: ["sagemaker:StopLabelingJob"],
-    resources: {
-      "sagemaker:StopLabelingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:labeling-job/${LabelingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopLabelingJob",
 }));
@@ -27745,14 +25377,6 @@ export const stopMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMlflowTrackingServer",
-  iam: {
-    actions: ["sagemaker:StopMlflowTrackingServer"],
-    resources: {
-      "sagemaker:StopMlflowTrackingServer": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-tracking-server/${MlflowTrackingServerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopMlflowTrackingServer",
 }));
@@ -27773,14 +25397,6 @@ export const stopMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopMonitoringSchedule",
-  iam: {
-    actions: ["sagemaker:StopMonitoringSchedule"],
-    resources: {
-      "sagemaker:StopMonitoringSchedule": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopMonitoringSchedule",
 }));
@@ -27803,14 +25419,6 @@ export const stopNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopNotebookInstance",
-  iam: {
-    actions: ["sagemaker:StopNotebookInstance"],
-    resources: {
-      "sagemaker:StopNotebookInstance": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance/${NotebookInstanceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopNotebookInstance",
 }));
@@ -27831,14 +25439,6 @@ export const stopOptimizationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopOptimizationJob",
-  iam: {
-    actions: ["sagemaker:StopOptimizationJob"],
-    resources: {
-      "sagemaker:StopOptimizationJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:optimization-job/${OptimizationJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopOptimizationJob",
 }));
@@ -27871,14 +25471,6 @@ export const stopPipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopPipelineExecution",
-  iam: {
-    actions: ["sagemaker:StopPipelineExecution"],
-    resources: {
-      "sagemaker:StopPipelineExecution": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopPipelineExecution",
 }));
@@ -27899,14 +25491,6 @@ export const stopProcessingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopProcessingJob",
-  iam: {
-    actions: ["sagemaker:StopProcessingJob"],
-    resources: {
-      "sagemaker:StopProcessingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:processing-job/${ProcessingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopProcessingJob",
 }));
@@ -27929,14 +25513,6 @@ export const stopTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingJob",
-  iam: {
-    actions: ["sagemaker:StopTrainingJob"],
-    resources: {
-      "sagemaker:StopTrainingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-job/${TrainingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopTrainingJob",
 }));
@@ -27965,14 +25541,6 @@ export const stopTrainingSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTrainingSession",
-  iam: {
-    actions: ["sagemaker:StopTrainingSession"],
-    resources: {
-      "sagemaker:StopTrainingSession": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-session/${SessionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopTrainingSession",
 }));
@@ -27995,14 +25563,6 @@ export const stopTransformJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTransformJob",
-  iam: {
-    actions: ["sagemaker:StopTransformJob"],
-    resources: {
-      "sagemaker:StopTransformJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:transform-job/${TransformJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopTransformJob",
 }));
@@ -28023,14 +25583,6 @@ export const updateAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAction",
-  iam: {
-    actions: ["sagemaker:UpdateAction"],
-    resources: {
-      "sagemaker:UpdateAction": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:action/${ActionName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAction",
 }));
@@ -28051,14 +25603,6 @@ export const updateAppImageConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAppImageConfig",
-  iam: {
-    actions: ["sagemaker:UpdateAppImageConfig"],
-    resources: {
-      "sagemaker:UpdateAppImageConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:app-image-config/${AppImageConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAppImageConfig",
 }));
@@ -28079,14 +25623,6 @@ export const updateArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArtifact",
-  iam: {
-    actions: ["sagemaker:UpdateArtifact"],
-    resources: {
-      "sagemaker:UpdateArtifact": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:artifact/${HashOfArtifactSource}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateArtifact",
 }));
@@ -28111,28 +25647,6 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-  iam: {
-    actions: [
-      "sagemaker:BatchAddClusterNodes",
-      "sagemaker:BatchDeleteClusterNodes",
-      "iam:PassRole",
-      "sagemaker:UpdateCluster",
-      "sagemaker:UpdateClusterSoftware",
-    ],
-    resources: {
-      "sagemaker:BatchAddClusterNodes": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-      "sagemaker:BatchDeleteClusterNodes": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdateClusterSoftware": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "ClusterRole" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));
@@ -28157,14 +25671,6 @@ export const updateClusterSchedulerConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterSchedulerConfig",
-  iam: {
-    actions: ["sagemaker:UpdateClusterSchedulerConfig"],
-    resources: {
-      "sagemaker:UpdateClusterSchedulerConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster-scheduler-config/${ClusterSchedulerConfigId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateClusterSchedulerConfig",
 }));
@@ -28187,14 +25693,6 @@ export const updateClusterSoftware: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateClusterSoftware",
-  iam: {
-    actions: ["sagemaker:UpdateClusterSoftware"],
-    resources: {
-      "sagemaker:UpdateClusterSoftware": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:cluster/${ClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateClusterSoftware",
 }));
@@ -28215,14 +25713,6 @@ export const updateCodeRepository: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeRepository",
-  iam: {
-    actions: ["sagemaker:UpdateCodeRepository"],
-    resources: {
-      "sagemaker:UpdateCodeRepository": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:code-repository/${CodeRepositoryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCodeRepository",
 }));
@@ -28247,14 +25737,6 @@ export const updateComputeQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComputeQuota",
-  iam: {
-    actions: ["sagemaker:UpdateComputeQuota"],
-    resources: {
-      "sagemaker:UpdateComputeQuota": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:compute-quota/${ComputeQuotaId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateComputeQuota",
 }));
@@ -28275,14 +25757,6 @@ export const updateContext: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateContext",
-  iam: {
-    actions: ["sagemaker:UpdateContext"],
-    resources: {
-      "sagemaker:UpdateContext": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:context/${ContextName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateContext",
 }));
@@ -28303,14 +25777,6 @@ export const updateDeviceFleet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceFleet",
-  iam: {
-    actions: ["sagemaker:UpdateDeviceFleet"],
-    resources: {
-      "sagemaker:UpdateDeviceFleet": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDeviceFleet",
 }));
@@ -28331,14 +25797,6 @@ export const updateDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDevices",
-  iam: {
-    actions: ["sagemaker:UpdateDevices"],
-    resources: {
-      "sagemaker:UpdateDevices": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:device-fleet/${DeviceFleetName}/device/${DeviceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDevices",
 }));
@@ -28363,16 +25821,6 @@ export const updateDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDomain",
-  iam: {
-    actions: ["iam:PassRole", "sagemaker:UpdateDomain"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdateDomain": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:domain/${DomainId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "DefaultUserSettings.ExecutionRole" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDomain",
 }));
@@ -28403,15 +25851,6 @@ export const updateEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpoint",
-  iam: {
-    actions: ["sagemaker:UpdateEndpoint"],
-    resources: {
-      "sagemaker:UpdateEndpoint": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint/${EndpointName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint-config/${EndpointConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEndpoint",
 }));
@@ -28432,14 +25871,6 @@ export const updateEndpointWeightsAndCapacities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEndpointWeightsAndCapacities",
-  iam: {
-    actions: ["sagemaker:UpdateEndpointWeightsAndCapacities"],
-    resources: {
-      "sagemaker:UpdateEndpointWeightsAndCapacities": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:endpoint/${EndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEndpointWeightsAndCapacities",
 }));
@@ -28460,14 +25891,6 @@ export const updateExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExperiment",
-  iam: {
-    actions: ["sagemaker:UpdateExperiment"],
-    resources: {
-      "sagemaker:UpdateExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment/${ExperimentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateExperiment",
 }));
@@ -28492,14 +25915,6 @@ export const updateFeatureGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeatureGroup",
-  iam: {
-    actions: ["sagemaker:UpdateFeatureGroup"],
-    resources: {
-      "sagemaker:UpdateFeatureGroup": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFeatureGroup",
 }));
@@ -28520,14 +25935,6 @@ export const updateFeatureMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFeatureMetadata",
-  iam: {
-    actions: ["sagemaker:UpdateFeatureMetadata"],
-    resources: {
-      "sagemaker:UpdateFeatureMetadata": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFeatureMetadata",
 }));
@@ -28548,12 +25955,6 @@ export const updateHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHub",
-  iam: {
-    actions: ["sagemaker:UpdateHub"],
-    resources: {
-      "sagemaker:UpdateHub": ["arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHub",
 }));
@@ -28590,15 +25991,6 @@ export const updateHubContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHubContent",
-  iam: {
-    actions: ["sagemaker:UpdateHubContent"],
-    resources: {
-      "sagemaker:UpdateHubContent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHubContent",
 }));
@@ -28625,15 +26017,6 @@ export const updateHubContentReference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHubContentReference",
-  iam: {
-    actions: ["sagemaker:UpdateHubContentReference"],
-    resources: {
-      "sagemaker:UpdateHubContentReference": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub/${HubName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:hub-content/${HubName}/${HubContentType}/${HubContentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHubContentReference",
 }));
@@ -28654,16 +26037,6 @@ export const updateImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImage",
-  iam: {
-    actions: ["iam:PassRole", "sagemaker:UpdateImage"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdateImage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image/${ImageName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateImage",
 }));
@@ -28684,14 +26057,6 @@ export const updateImageVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImageVersion",
-  iam: {
-    actions: ["sagemaker:UpdateImageVersion"],
-    resources: {
-      "sagemaker:UpdateImageVersion": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:image-version/${ImageName}/${Version}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateImageVersion",
 }));
@@ -28712,14 +26077,6 @@ export const updateInferenceComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceComponent",
-  iam: {
-    actions: ["sagemaker:UpdateInferenceComponent"],
-    resources: {
-      "sagemaker:UpdateInferenceComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-component/${InferenceComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateInferenceComponent",
 }));
@@ -28740,14 +26097,6 @@ export const updateInferenceComponentRuntimeConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceComponentRuntimeConfig",
-  iam: {
-    actions: ["sagemaker:UpdateInferenceComponentRuntimeConfig"],
-    resources: {
-      "sagemaker:UpdateInferenceComponentRuntimeConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-component/${InferenceComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateInferenceComponentRuntimeConfig",
 }));
@@ -28768,14 +26117,6 @@ export const updateInferenceExperiment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateInferenceExperiment",
-  iam: {
-    actions: ["sagemaker:UpdateInferenceExperiment"],
-    resources: {
-      "sagemaker:UpdateInferenceExperiment": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:inference-experiment/${InferenceExperimentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateInferenceExperiment",
 }));
@@ -28796,14 +26137,6 @@ export const updateMlflowApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMlflowApp",
-  iam: {
-    actions: ["sagemaker:UpdateMlflowApp"],
-    resources: {
-      "sagemaker:UpdateMlflowApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-app/${MLflowAppId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMlflowApp",
 }));
@@ -28828,14 +26161,6 @@ export const updateMlflowTrackingServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMlflowTrackingServer",
-  iam: {
-    actions: ["sagemaker:UpdateMlflowTrackingServer"],
-    resources: {
-      "sagemaker:UpdateMlflowTrackingServer": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:mlflow-tracking-server/${MlflowTrackingServerName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMlflowTrackingServer",
 }));
@@ -28862,14 +26187,6 @@ export const updateModelCard: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelCard",
-  iam: {
-    actions: ["sagemaker:UpdateModelCard"],
-    resources: {
-      "sagemaker:UpdateModelCard": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-card/${ModelCardName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateModelCard",
 }));
@@ -28890,14 +26207,6 @@ export const updateModelPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateModelPackage",
-  iam: {
-    actions: ["sagemaker:UpdateModelPackage"],
-    resources: {
-      "sagemaker:UpdateModelPackage": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:model-package/${ModelPackageName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateModelPackage",
 }));
@@ -28918,15 +26227,6 @@ export const updateMonitoringAlert: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitoringAlert",
-  iam: {
-    actions: ["sagemaker:UpdateMonitoringAlert"],
-    resources: {
-      "sagemaker:UpdateMonitoringAlert": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}",
-        "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}/alert/${MonitoringScheduleAlertName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMonitoringAlert",
 }));
@@ -28947,16 +26247,6 @@ export const updateMonitoringSchedule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMonitoringSchedule",
-  iam: {
-    actions: ["iam:PassRole", "sagemaker:UpdateMonitoringSchedule"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdateMonitoringSchedule": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:monitoring-schedule/${MonitoringScheduleName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMonitoringSchedule",
 }));
@@ -28979,16 +26269,6 @@ export const updateNotebookInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebookInstance",
-  iam: {
-    actions: ["iam:PassRole", "sagemaker:UpdateNotebookInstance"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdateNotebookInstance": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance/${NotebookInstanceName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateNotebookInstance",
 }));
@@ -29011,14 +26291,6 @@ export const updateNotebookInstanceLifecycleConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotebookInstanceLifecycleConfig",
-  iam: {
-    actions: ["sagemaker:UpdateNotebookInstanceLifecycleConfig"],
-    resources: {
-      "sagemaker:UpdateNotebookInstanceLifecycleConfig": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:notebook-instance-lifecycle-config/${NotebookInstanceLifecycleConfigName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateNotebookInstanceLifecycleConfig",
 }));
@@ -29039,15 +26311,6 @@ export const updatePartnerApp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePartnerApp",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:UpdatePartnerApp"],
-    resources: {
-      "sagemaker:UpdatePartnerApp": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:partner-app/${AppId}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePartnerApp",
 }));
@@ -29068,16 +26331,6 @@ export const updatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipeline",
-  iam: {
-    actions: ["iam:PassRole", "sagemaker:UpdatePipeline"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdatePipeline": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePipeline",
 }));
@@ -29098,14 +26351,6 @@ export const updatePipelineExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipelineExecution",
-  iam: {
-    actions: ["sagemaker:UpdatePipelineExecution"],
-    resources: {
-      "sagemaker:UpdatePipelineExecution": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}/execution/${RandomString}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePipelineExecution",
 }));
@@ -29126,14 +26371,6 @@ export const updatePipelineVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePipelineVersion",
-  iam: {
-    actions: ["sagemaker:UpdatePipelineVersion"],
-    resources: {
-      "sagemaker:UpdatePipelineVersion": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:pipeline/${PipelineName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePipelineVersion",
 }));
@@ -29156,15 +26393,6 @@ export const updateProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProject",
-  iam: {
-    actions: ["sagemaker:AddTags", "sagemaker:UpdateProject"],
-    resources: {
-      "sagemaker:UpdateProject": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:project/${ProjectName}",
-      ],
-    },
-    conditional: { "sagemaker:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProject",
 }));
@@ -29191,14 +26419,6 @@ export const updateSpace: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSpace",
-  iam: {
-    actions: ["sagemaker:UpdateSpace"],
-    resources: {
-      "sagemaker:UpdateSpace": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:space/${DomainId}/${SpaceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSpace",
 }));
@@ -29219,14 +26439,6 @@ export const updateTrainingJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrainingJob",
-  iam: {
-    actions: ["sagemaker:UpdateTrainingJob"],
-    resources: {
-      "sagemaker:UpdateTrainingJob": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:training-job/${TrainingJobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTrainingJob",
 }));
@@ -29247,14 +26459,6 @@ export const updateTrial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrial",
-  iam: {
-    actions: ["sagemaker:UpdateTrial"],
-    resources: {
-      "sagemaker:UpdateTrial": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial/${TrialName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTrial",
 }));
@@ -29275,14 +26479,6 @@ export const updateTrialComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrialComponent",
-  iam: {
-    actions: ["sagemaker:UpdateTrialComponent"],
-    resources: {
-      "sagemaker:UpdateTrialComponent": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:experiment-trial-component/${TrialComponentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTrialComponent",
 }));
@@ -29307,16 +26503,6 @@ export const updateUserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserProfile",
-  iam: {
-    actions: ["iam:PassRole", "sagemaker:UpdateUserProfile"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker:UpdateUserProfile": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:user-profile/${DomainId}/${UserProfileName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "UserSettings.ExecutionRole" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUserProfile",
 }));
@@ -29353,14 +26539,6 @@ export const updateWorkforce: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkforce",
-  iam: {
-    actions: ["sagemaker:UpdateWorkforce"],
-    resources: {
-      "sagemaker:UpdateWorkforce": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workforce/${WorkforceName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWorkforce",
 }));
@@ -29381,14 +26559,6 @@ export const updateWorkteam: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkteam",
-  iam: {
-    actions: ["sagemaker:UpdateWorkteam"],
-    resources: {
-      "sagemaker:UpdateWorkteam": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:workteam/${WorkteamName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWorkteam",
 }));

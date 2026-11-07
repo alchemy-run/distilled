@@ -758,7 +758,6 @@ export const addWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddWorkload",
-  iam: { actions: ["applicationinsights:AddWorkload"] },
   telemetry: TELEMETRY,
   span: "AddWorkload",
 }));
@@ -793,7 +792,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: { actions: ["applicationinsights:CreateApplication"] },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -824,7 +822,6 @@ export const createComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateComponent",
-  iam: { actions: ["applicationinsights:CreateComponent"] },
   telemetry: TELEMETRY,
   span: "CreateComponent",
 }));
@@ -855,7 +852,6 @@ export const createLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLogPattern",
-  iam: { actions: ["applicationinsights:CreateLogPattern"] },
   telemetry: TELEMETRY,
   span: "CreateLogPattern",
 }));
@@ -887,7 +883,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: { actions: ["applicationinsights:DeleteApplication"] },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -914,7 +909,6 @@ export const deleteComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteComponent",
-  iam: { actions: ["applicationinsights:DeleteComponent"] },
   telemetry: TELEMETRY,
   span: "DeleteComponent",
 }));
@@ -945,7 +939,6 @@ export const deleteLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLogPattern",
-  iam: { actions: ["applicationinsights:DeleteLogPattern"] },
   telemetry: TELEMETRY,
   span: "DeleteLogPattern",
 }));
@@ -970,7 +963,6 @@ export const describeApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeApplication",
-  iam: { actions: ["applicationinsights:DescribeApplication"] },
   telemetry: TELEMETRY,
   span: "DescribeApplication",
 }));
@@ -996,7 +988,6 @@ export const describeComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponent",
-  iam: { actions: ["applicationinsights:DescribeComponent"] },
   telemetry: TELEMETRY,
   span: "DescribeComponent",
 }));
@@ -1021,7 +1012,6 @@ export const describeComponentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponentConfiguration",
-  iam: { actions: ["applicationinsights:DescribeComponentConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeComponentConfiguration",
 }));
@@ -1050,7 +1040,6 @@ export const describeComponentConfigurationRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeComponentConfigurationRecommendation",
-  iam: { actions: ["applicationinsights:DescribeComponentConfigurationRecommendation"] },
   telemetry: TELEMETRY,
   span: "DescribeComponentConfigurationRecommendation",
 }));
@@ -1075,7 +1064,6 @@ export const describeLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLogPattern",
-  iam: { actions: ["applicationinsights:DescribeLogPattern"] },
   telemetry: TELEMETRY,
   span: "DescribeLogPattern",
 }));
@@ -1100,7 +1088,6 @@ export const describeObservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeObservation",
-  iam: { actions: ["applicationinsights:DescribeObservation"] },
   telemetry: TELEMETRY,
   span: "DescribeObservation",
 }));
@@ -1125,7 +1112,6 @@ export const describeProblem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProblem",
-  iam: { actions: ["applicationinsights:DescribeProblem"] },
   telemetry: TELEMETRY,
   span: "DescribeProblem",
 }));
@@ -1150,7 +1136,6 @@ export const describeProblemObservations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProblemObservations",
-  iam: { actions: ["applicationinsights:DescribeProblemObservations"] },
   telemetry: TELEMETRY,
   span: "DescribeProblemObservations",
 }));
@@ -1175,7 +1160,6 @@ export const describeWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeWorkload",
-  iam: { actions: ["applicationinsights:DescribeWorkload"] },
   telemetry: TELEMETRY,
   span: "DescribeWorkload",
 }));
@@ -1202,7 +1186,6 @@ export const listApplications: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["applicationinsights:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -1233,7 +1216,6 @@ export const listComponents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["applicationinsights:ListComponents"] },
   telemetry: TELEMETRY,
   span: "ListComponents",
 })) as any;
@@ -1272,7 +1254,6 @@ export const listConfigurationHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["applicationinsights:ListConfigurationHistory"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationHistory",
 })) as any;
@@ -1303,7 +1284,6 @@ export const listLogPatterns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["applicationinsights:ListLogPatterns"] },
   telemetry: TELEMETRY,
   span: "ListLogPatterns",
 })) as any;
@@ -1334,7 +1314,6 @@ export const listLogPatternSets: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["applicationinsights:ListLogPatternSets"] },
   telemetry: TELEMETRY,
   span: "ListLogPatternSets",
 })) as any;
@@ -1365,7 +1344,6 @@ export const listProblems: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["applicationinsights:ListProblems"] },
   telemetry: TELEMETRY,
   span: "ListProblems",
 })) as any;
@@ -1394,7 +1372,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["applicationinsights:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1425,7 +1402,6 @@ export const listWorkloads: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["applicationinsights:ListWorkloads"] },
   telemetry: TELEMETRY,
   span: "ListWorkloads",
 })) as any;
@@ -1450,7 +1426,6 @@ export const removeWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveWorkload",
-  iam: { actions: ["applicationinsights:RemoveWorkload"] },
   telemetry: TELEMETRY,
   span: "RemoveWorkload",
 }));
@@ -1483,7 +1458,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["applicationinsights:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1504,7 +1478,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["applicationinsights:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1529,7 +1502,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: { actions: ["applicationinsights:UpdateApplication"] },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -1561,7 +1533,6 @@ export const updateComponent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponent",
-  iam: { actions: ["applicationinsights:UpdateComponent"] },
   telemetry: TELEMETRY,
   span: "UpdateComponent",
 }));
@@ -1594,7 +1565,6 @@ export const updateComponentConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateComponentConfiguration",
-  iam: { actions: ["applicationinsights:UpdateComponentConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateComponentConfiguration",
 }));
@@ -1625,7 +1595,6 @@ export const updateLogPattern: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLogPattern",
-  iam: { actions: ["applicationinsights:UpdateLogPattern"] },
   telemetry: TELEMETRY,
   span: "UpdateLogPattern",
 }));
@@ -1651,7 +1620,6 @@ export const updateProblem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProblem",
-  iam: { actions: ["applicationinsights:UpdateProblem"] },
   telemetry: TELEMETRY,
   span: "UpdateProblem",
 }));
@@ -1676,7 +1644,6 @@ export const updateWorkload: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkload",
-  iam: { actions: ["applicationinsights:UpdateWorkload"] },
   telemetry: TELEMETRY,
   span: "UpdateWorkload",
 }));

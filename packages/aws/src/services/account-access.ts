@@ -322,10 +322,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["account-access:CreateApplication", "account-access:TagResource"],
-    conditional: { "account-access:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -362,14 +358,6 @@ export const createEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEntitlement",
-  iam: {
-    actions: ["account-access:CreateEntitlement"],
-    resources: {
-      "account-access:CreateEntitlement": [
-        "arn:${Partition}:account-access:${Region}:${Account}:application/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateEntitlement",
 }));
@@ -404,14 +392,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["account-access:DeleteApplication"],
-    resources: {
-      "account-access:DeleteApplication": [
-        "arn:${Partition}:account-access:${Region}:${Account}:application/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -446,14 +426,6 @@ export const deleteEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEntitlement",
-  iam: {
-    actions: ["account-access:DeleteEntitlement"],
-    resources: {
-      "account-access:DeleteEntitlement": [
-        "arn:${Partition}:account-access:${Region}:${Account}:application/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEntitlement",
 }));
@@ -486,14 +458,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["account-access:GetApplication"],
-    resources: {
-      "account-access:GetApplication": [
-        "arn:${Partition}:account-access:${Region}:${Account}:application/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -526,14 +490,6 @@ export const getEntitlement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEntitlement",
-  iam: {
-    actions: ["account-access:GetEntitlement"],
-    resources: {
-      "account-access:GetEntitlement": [
-        "arn:${Partition}:account-access:${Region}:${Account}:application/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEntitlement",
 }));
@@ -566,7 +522,6 @@ export const listApplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplications",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "applications" } as const,
-  iam: { actions: ["account-access:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -601,14 +556,6 @@ export const listEntitlements: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListEntitlements",
   pagination: { inputToken: "nextToken", outputToken: "nextToken", items: "entitlements" } as const,
-  iam: {
-    actions: ["account-access:ListEntitlements"],
-    resources: {
-      "account-access:ListEntitlements": [
-        "arn:${Partition}:account-access:${Region}:${Account}:application/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEntitlements",
 })) as any;
@@ -639,14 +586,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["account-access:ListTagsForResource"],
-    resources: {
-      "account-access:ListTagsForResource": [
-        "arn:${Partition}:account-access:${Region}:${Account}:application/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -677,7 +616,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["account-access:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -708,7 +646,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["account-access:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

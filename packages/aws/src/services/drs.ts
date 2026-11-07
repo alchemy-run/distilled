@@ -1453,14 +1453,6 @@ export const associateSourceNetworkStack: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSourceNetworkStack",
-  iam: {
-    actions: ["drs:AssociateSourceNetworkStack"],
-    resources: {
-      "drs:AssociateSourceNetworkStack": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-network/${SourceNetworkID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateSourceNetworkStack",
 }));
@@ -1497,14 +1489,6 @@ export const cancelRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelRecoveryPlanExecution",
-  iam: {
-    actions: ["drs:CancelRecoveryPlanExecution"],
-    resources: {
-      "drs:CancelRecoveryPlanExecution": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan-execution/${RecoveryPlanExecutionID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelRecoveryPlanExecution",
 }));
@@ -1541,10 +1525,6 @@ export const createExtendedSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExtendedSourceServer",
-  iam: {
-    actions: ["drs:CreateExtendedSourceServer", "drs:TagResource"],
-    conditional: { "drs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExtendedSourceServer",
 }));
@@ -1579,10 +1559,6 @@ export const createLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfigurationTemplate",
-  iam: {
-    actions: ["drs:CreateLaunchConfigurationTemplate", "drs:TagResource"],
-    conditional: { "drs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLaunchConfigurationTemplate",
 }));
@@ -1619,10 +1595,6 @@ export const createRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryPlan",
-  iam: {
-    actions: ["drs:CreateRecoveryPlan", "drs:TagResource"],
-    conditional: { "drs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRecoveryPlan",
 }));
@@ -1661,14 +1633,6 @@ export const createRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryPlanStep",
-  iam: {
-    actions: ["drs:CreateRecoveryPlanStep"],
-    resources: {
-      "drs:CreateRecoveryPlanStep": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateRecoveryPlanStep",
 }));
@@ -1703,10 +1667,6 @@ export const createReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReplicationConfigurationTemplate",
-  iam: {
-    actions: ["drs:CreateReplicationConfigurationTemplate", "drs:TagResource"],
-    conditional: { "drs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateReplicationConfigurationTemplate",
 }));
@@ -1743,10 +1703,6 @@ export const createSourceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSourceNetwork",
-  iam: {
-    actions: ["drs:CreateSourceNetwork", "drs:TagResource"],
-    conditional: { "drs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSourceNetwork",
 }));
@@ -1779,10 +1735,6 @@ export const deleteJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteJob",
-  iam: {
-    actions: ["drs:DeleteJob"],
-    resources: { "drs:DeleteJob": ["arn:${Partition}:drs:${Region}:${Account}:job/${JobID}"] },
-  },
   telemetry: TELEMETRY,
   span: "DeleteJob",
 }));
@@ -1815,7 +1767,6 @@ export const deleteLaunchAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchAction",
-  iam: { actions: ["drs:DeleteLaunchAction"] },
   telemetry: TELEMETRY,
   span: "DeleteLaunchAction",
 }));
@@ -1848,14 +1799,6 @@ export const deleteLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfigurationTemplate",
-  iam: {
-    actions: ["drs:DeleteLaunchConfigurationTemplate"],
-    resources: {
-      "drs:DeleteLaunchConfigurationTemplate": [
-        "arn:${Partition}:drs:${Region}:${Account}:launch-configuration-template/${LaunchConfigurationTemplateID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLaunchConfigurationTemplate",
 }));
@@ -1888,14 +1831,6 @@ export const deleteRecoveryInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryInstance",
-  iam: {
-    actions: ["drs:DeleteRecoveryInstance"],
-    resources: {
-      "drs:DeleteRecoveryInstance": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-instance/${RecoveryInstanceID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecoveryInstance",
 }));
@@ -1932,14 +1867,6 @@ export const deleteRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlan",
-  iam: {
-    actions: ["drs:DeleteRecoveryPlan"],
-    resources: {
-      "drs:DeleteRecoveryPlan": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecoveryPlan",
 }));
@@ -1976,14 +1903,6 @@ export const deleteRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlanExecution",
-  iam: {
-    actions: ["drs:DeleteRecoveryPlanExecution"],
-    resources: {
-      "drs:DeleteRecoveryPlanExecution": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan-execution/${RecoveryPlanExecutionID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecoveryPlanExecution",
 }));
@@ -2020,14 +1939,6 @@ export const deleteRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryPlanStep",
-  iam: {
-    actions: ["drs:DeleteRecoveryPlanStep"],
-    resources: {
-      "drs:DeleteRecoveryPlanStep": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecoveryPlanStep",
 }));
@@ -2060,14 +1971,6 @@ export const deleteReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReplicationConfigurationTemplate",
-  iam: {
-    actions: ["drs:DeleteReplicationConfigurationTemplate"],
-    resources: {
-      "drs:DeleteReplicationConfigurationTemplate": [
-        "arn:${Partition}:drs:${Region}:${Account}:replication-configuration-template/${ReplicationConfigurationTemplateID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReplicationConfigurationTemplate",
 }));
@@ -2100,14 +2003,6 @@ export const deleteSourceNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceNetwork",
-  iam: {
-    actions: ["drs:DeleteSourceNetwork"],
-    resources: {
-      "drs:DeleteSourceNetwork": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-network/${SourceNetworkID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSourceNetwork",
 }));
@@ -2140,14 +2035,6 @@ export const deleteSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSourceServer",
-  iam: {
-    actions: ["drs:DeleteSourceServer"],
-    resources: {
-      "drs:DeleteSourceServer": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSourceServer",
 }));
@@ -2185,12 +2072,6 @@ export const describeJobLogItems: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["drs:DescribeJobLogItems"],
-    resources: {
-      "drs:DescribeJobLogItems": ["arn:${Partition}:drs:${Region}:${Account}:job/${JobID}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeJobLogItems",
 })) as any;
@@ -2228,7 +2109,6 @@ export const describeJobs: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:DescribeJobs"] },
   telemetry: TELEMETRY,
   span: "DescribeJobs",
 })) as any;
@@ -2268,7 +2148,6 @@ export const describeLaunchConfigurationTemplates: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:DescribeLaunchConfigurationTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeLaunchConfigurationTemplates",
 })) as any;
@@ -2306,7 +2185,6 @@ export const describeRecoveryInstances: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:DescribeRecoveryInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeRecoveryInstances",
 })) as any;
@@ -2346,14 +2224,6 @@ export const describeRecoverySnapshots: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["drs:DescribeRecoverySnapshots"],
-    resources: {
-      "drs:DescribeRecoverySnapshots": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRecoverySnapshots",
 })) as any;
@@ -2393,7 +2263,6 @@ export const describeReplicationConfigurationTemplates: API.PaginatedOperationMe
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:DescribeReplicationConfigurationTemplates"] },
   telemetry: TELEMETRY,
   span: "DescribeReplicationConfigurationTemplates",
 })) as any;
@@ -2431,7 +2300,6 @@ export const describeSourceNetworks: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:DescribeSourceNetworks"] },
   telemetry: TELEMETRY,
   span: "DescribeSourceNetworks",
 })) as any;
@@ -2469,7 +2337,6 @@ export const describeSourceServers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:DescribeSourceServers"] },
   telemetry: TELEMETRY,
   span: "DescribeSourceServers",
 })) as any;
@@ -2504,14 +2371,6 @@ export const disconnectRecoveryInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectRecoveryInstance",
-  iam: {
-    actions: ["drs:DisconnectRecoveryInstance"],
-    resources: {
-      "drs:DisconnectRecoveryInstance": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-instance/${RecoveryInstanceID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisconnectRecoveryInstance",
 }));
@@ -2544,14 +2403,6 @@ export const disconnectSourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectSourceServer",
-  iam: {
-    actions: ["drs:DisconnectSourceServer"],
-    resources: {
-      "drs:DisconnectSourceServer": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisconnectSourceServer",
 }));
@@ -2586,14 +2437,6 @@ export const exportSourceNetworkCfnTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportSourceNetworkCfnTemplate",
-  iam: {
-    actions: ["drs:ExportSourceNetworkCfnTemplate"],
-    resources: {
-      "drs:ExportSourceNetworkCfnTemplate": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-network/${SourceNetworkID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExportSourceNetworkCfnTemplate",
 }));
@@ -2624,14 +2467,6 @@ export const getFailbackReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFailbackReplicationConfiguration",
-  iam: {
-    actions: ["drs:GetFailbackReplicationConfiguration"],
-    resources: {
-      "drs:GetFailbackReplicationConfiguration": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-instance/${RecoveryInstanceID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFailbackReplicationConfiguration",
 }));
@@ -2662,14 +2497,6 @@ export const getLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLaunchConfiguration",
-  iam: {
-    actions: ["drs:GetLaunchConfiguration"],
-    resources: {
-      "drs:GetLaunchConfiguration": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLaunchConfiguration",
 }));
@@ -2704,14 +2531,6 @@ export const getRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlan",
-  iam: {
-    actions: ["drs:GetRecoveryPlan"],
-    resources: {
-      "drs:GetRecoveryPlan": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecoveryPlan",
 }));
@@ -2746,14 +2565,6 @@ export const getRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanExecution",
-  iam: {
-    actions: ["drs:GetRecoveryPlanExecution"],
-    resources: {
-      "drs:GetRecoveryPlanExecution": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan-execution/${RecoveryPlanExecutionID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecoveryPlanExecution",
 }));
@@ -2788,14 +2599,6 @@ export const getRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanExecutionStep",
-  iam: {
-    actions: ["drs:GetRecoveryPlanExecutionStep"],
-    resources: {
-      "drs:GetRecoveryPlanExecutionStep": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan-execution/${RecoveryPlanExecutionID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecoveryPlanExecutionStep",
 }));
@@ -2830,14 +2633,6 @@ export const getRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryPlanStep",
-  iam: {
-    actions: ["drs:GetRecoveryPlanStep"],
-    resources: {
-      "drs:GetRecoveryPlanStep": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecoveryPlanStep",
 }));
@@ -2870,14 +2665,6 @@ export const getReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReplicationConfiguration",
-  iam: {
-    actions: ["drs:GetReplicationConfiguration"],
-    resources: {
-      "drs:GetReplicationConfiguration": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReplicationConfiguration",
 }));
@@ -2908,7 +2695,6 @@ export const initializeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeService",
-  iam: { actions: ["drs:InitializeService"] },
   telemetry: TELEMETRY,
   span: "InitializeService",
 }));
@@ -2948,7 +2734,6 @@ export const listExtensibleSourceServers: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:ListExtensibleSourceServers"] },
   telemetry: TELEMETRY,
   span: "ListExtensibleSourceServers",
 })) as any;
@@ -2988,7 +2773,6 @@ export const listLaunchActions: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:ListLaunchActions"] },
   telemetry: TELEMETRY,
   span: "ListLaunchActions",
 })) as any;
@@ -3028,14 +2812,6 @@ export const listRecoveryPlanExecutions: API.PaginatedOperationMethod<
     items: "recoveryPlanExecutions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["drs:ListRecoveryPlanExecutions"],
-    resources: {
-      "drs:ListRecoveryPlanExecutions": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRecoveryPlanExecutions",
 })) as any;
@@ -3077,14 +2853,6 @@ export const listRecoveryPlanExecutionSteps: API.PaginatedOperationMethod<
     items: "recoveryPlanExecutionSteps",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["drs:ListRecoveryPlanExecutionSteps"],
-    resources: {
-      "drs:ListRecoveryPlanExecutionSteps": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan-execution/${RecoveryPlanExecutionID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRecoveryPlanExecutionSteps",
 })) as any;
@@ -3124,7 +2892,6 @@ export const listRecoveryPlans: API.PaginatedOperationMethod<
     items: "recoveryPlans",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:ListRecoveryPlans"] },
   telemetry: TELEMETRY,
   span: "ListRecoveryPlans",
 })) as any;
@@ -3166,14 +2933,6 @@ export const listRecoveryPlanSteps: API.PaginatedOperationMethod<
     items: "recoveryPlanSteps",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["drs:ListRecoveryPlanSteps"],
-    resources: {
-      "drs:ListRecoveryPlanSteps": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRecoveryPlanSteps",
 })) as any;
@@ -3213,7 +2972,6 @@ export const listStagingAccounts: API.PaginatedOperationMethod<
     items: "accounts",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["drs:ListStagingAccounts"] },
   telemetry: TELEMETRY,
   span: "ListStagingAccounts",
 })) as any;
@@ -3246,7 +3004,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["drs:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3281,7 +3038,6 @@ export const putLaunchAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLaunchAction",
-  iam: { actions: ["drs:PutLaunchAction"] },
   telemetry: TELEMETRY,
   span: "PutLaunchAction",
 }));
@@ -3318,14 +3074,6 @@ export const reorderRecoveryPlanSteps: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReorderRecoveryPlanSteps",
-  iam: {
-    actions: ["drs:ReorderRecoveryPlanSteps"],
-    resources: {
-      "drs:ReorderRecoveryPlanSteps": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReorderRecoveryPlanSteps",
 }));
@@ -3358,14 +3106,6 @@ export const retryDataReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryDataReplication",
-  iam: {
-    actions: ["drs:RetryDataReplication"],
-    resources: {
-      "drs:RetryDataReplication": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RetryDataReplication",
 }));
@@ -3402,14 +3142,6 @@ export const retryRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RetryRecoveryPlanExecutionStep",
-  iam: {
-    actions: ["drs:RetryRecoveryPlanExecutionStep"],
-    resources: {
-      "drs:RetryRecoveryPlanExecutionStep": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan-execution/${RecoveryPlanExecutionID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RetryRecoveryPlanExecutionStep",
 }));
@@ -3446,14 +3178,6 @@ export const reverseReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReverseReplication",
-  iam: {
-    actions: ["drs:ReverseReplication"],
-    resources: {
-      "drs:ReverseReplication": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-instance/${RecoveryInstanceID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReverseReplication",
 }));
@@ -3488,14 +3212,6 @@ export const startFailbackLaunch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFailbackLaunch",
-  iam: {
-    actions: ["drs:StartFailbackLaunch"],
-    resources: {
-      "drs:StartFailbackLaunch": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-instance/${RecoveryInstanceID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartFailbackLaunch",
 }));
@@ -3528,15 +3244,6 @@ export const startRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecovery",
-  iam: {
-    actions: ["drs:StartRecovery", "drs:TagResource"],
-    resources: {
-      "drs:StartRecovery": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-    conditional: { "drs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartRecovery",
 }));
@@ -3575,15 +3282,6 @@ export const startRecoveryPlanExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecoveryPlanExecution",
-  iam: {
-    actions: ["drs:StartRecoveryPlanExecution", "drs:TagResource"],
-    resources: {
-      "drs:StartRecoveryPlanExecution": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-    conditional: { "drs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartRecoveryPlanExecution",
 }));
@@ -3616,14 +3314,6 @@ export const startReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartReplication",
-  iam: {
-    actions: ["drs:StartReplication"],
-    resources: {
-      "drs:StartReplication": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartReplication",
 }));
@@ -3658,15 +3348,6 @@ export const startSourceNetworkRecovery: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSourceNetworkRecovery",
-  iam: {
-    actions: ["drs:StartSourceNetworkRecovery", "drs:TagResource"],
-    resources: {
-      "drs:StartSourceNetworkRecovery": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-network/${SourceNetworkID}",
-      ],
-    },
-    conditional: { "drs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartSourceNetworkRecovery",
 }));
@@ -3699,14 +3380,6 @@ export const startSourceNetworkReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSourceNetworkReplication",
-  iam: {
-    actions: ["drs:StartSourceNetworkReplication"],
-    resources: {
-      "drs:StartSourceNetworkReplication": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-network/${SourceNetworkID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartSourceNetworkReplication",
 }));
@@ -3737,14 +3410,6 @@ export const stopFailback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopFailback",
-  iam: {
-    actions: ["drs:StopFailback"],
-    resources: {
-      "drs:StopFailback": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-instance/${RecoveryInstanceID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopFailback",
 }));
@@ -3777,14 +3442,6 @@ export const stopReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopReplication",
-  iam: {
-    actions: ["drs:StopReplication"],
-    resources: {
-      "drs:StopReplication": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopReplication",
 }));
@@ -3819,14 +3476,6 @@ export const stopSourceNetworkReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSourceNetworkReplication",
-  iam: {
-    actions: ["drs:StopSourceNetworkReplication"],
-    resources: {
-      "drs:StopSourceNetworkReplication": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-network/${SourceNetworkID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopSourceNetworkReplication",
 }));
@@ -3859,7 +3508,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["drs:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3892,14 +3540,6 @@ export const terminateRecoveryInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateRecoveryInstances",
-  iam: {
-    actions: ["drs:TerminateRecoveryInstances"],
-    resources: {
-      "drs:TerminateRecoveryInstances": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-instance/${RecoveryInstanceID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateRecoveryInstances",
 }));
@@ -3932,7 +3572,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["drs:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3965,14 +3604,6 @@ export const updateFailbackReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFailbackReplicationConfiguration",
-  iam: {
-    actions: ["drs:UpdateFailbackReplicationConfiguration"],
-    resources: {
-      "drs:UpdateFailbackReplicationConfiguration": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-instance/${RecoveryInstanceID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFailbackReplicationConfiguration",
 }));
@@ -4007,14 +3638,6 @@ export const updateLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfiguration",
-  iam: {
-    actions: ["drs:UpdateLaunchConfiguration"],
-    resources: {
-      "drs:UpdateLaunchConfiguration": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLaunchConfiguration",
 }));
@@ -4049,14 +3672,6 @@ export const updateLaunchConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLaunchConfigurationTemplate",
-  iam: {
-    actions: ["drs:UpdateLaunchConfigurationTemplate"],
-    resources: {
-      "drs:UpdateLaunchConfigurationTemplate": [
-        "arn:${Partition}:drs:${Region}:${Account}:launch-configuration-template/${LaunchConfigurationTemplateID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLaunchConfigurationTemplate",
 }));
@@ -4093,14 +3708,6 @@ export const updateRecoveryPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlan",
-  iam: {
-    actions: ["drs:UpdateRecoveryPlan"],
-    resources: {
-      "drs:UpdateRecoveryPlan": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRecoveryPlan",
 }));
@@ -4137,14 +3744,6 @@ export const updateRecoveryPlanExecutionStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlanExecutionStep",
-  iam: {
-    actions: ["drs:UpdateRecoveryPlanExecutionStep"],
-    resources: {
-      "drs:UpdateRecoveryPlanExecutionStep": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan-execution/${RecoveryPlanExecutionID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRecoveryPlanExecutionStep",
 }));
@@ -4181,14 +3780,6 @@ export const updateRecoveryPlanStep: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryPlanStep",
-  iam: {
-    actions: ["drs:UpdateRecoveryPlanStep"],
-    resources: {
-      "drs:UpdateRecoveryPlanStep": [
-        "arn:${Partition}:drs:${Region}:${Account}:recovery-plan/${RecoveryPlanID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRecoveryPlanStep",
 }));
@@ -4225,14 +3816,6 @@ export const updateReplicationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfiguration",
-  iam: {
-    actions: ["drs:UpdateReplicationConfiguration"],
-    resources: {
-      "drs:UpdateReplicationConfiguration": [
-        "arn:${Partition}:drs:${Region}:${Account}:source-server/${SourceServerID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateReplicationConfiguration",
 }));
@@ -4267,14 +3850,6 @@ export const updateReplicationConfigurationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReplicationConfigurationTemplate",
-  iam: {
-    actions: ["drs:UpdateReplicationConfigurationTemplate"],
-    resources: {
-      "drs:UpdateReplicationConfigurationTemplate": [
-        "arn:${Partition}:drs:${Region}:${Account}:replication-configuration-template/${ReplicationConfigurationTemplateID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateReplicationConfigurationTemplate",
 }));

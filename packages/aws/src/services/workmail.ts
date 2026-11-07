@@ -1386,14 +1386,6 @@ export const associateDelegateToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateDelegateToResource",
-  iam: {
-    actions: ["workmail:AssociateDelegateToResource"],
-    resources: {
-      "workmail:AssociateDelegateToResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateDelegateToResource",
 }));
@@ -1432,14 +1424,6 @@ export const associateMemberToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMemberToGroup",
-  iam: {
-    actions: ["workmail:AssociateMemberToGroup"],
-    resources: {
-      "workmail:AssociateMemberToGroup": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateMemberToGroup",
 }));
@@ -1471,14 +1455,6 @@ export const assumeImpersonationRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeImpersonationRole",
-  iam: {
-    actions: ["workmail:AssumeImpersonationRole"],
-    resources: {
-      "workmail:AssumeImpersonationRole": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssumeImpersonationRole",
 }));
@@ -1512,14 +1488,6 @@ export const cancelMailboxExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelMailboxExportJob",
-  iam: {
-    actions: ["workmail:CancelMailboxExportJob"],
-    resources: {
-      "workmail:CancelMailboxExportJob": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelMailboxExportJob",
 }));
@@ -1560,14 +1528,6 @@ export const createAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAlias",
-  iam: {
-    actions: ["workmail:CreateAlias"],
-    resources: {
-      "workmail:CreateAlias": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAlias",
 }));
@@ -1600,14 +1560,6 @@ export const createAvailabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAvailabilityConfiguration",
-  iam: {
-    actions: ["workmail:CreateAvailabilityConfiguration"],
-    resources: {
-      "workmail:CreateAvailabilityConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAvailabilityConfiguration",
 }));
@@ -1646,14 +1598,6 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-  iam: {
-    actions: ["workmail:CreateGroup"],
-    resources: {
-      "workmail:CreateGroup": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -1674,7 +1618,6 @@ export const createIdentityCenterApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityCenterApplication",
-  iam: { actions: ["workmail:CreateIdentityCenterApplication"] },
   telemetry: TELEMETRY,
   span: "CreateIdentityCenterApplication",
 }));
@@ -1714,14 +1657,6 @@ export const createImpersonationRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateImpersonationRole",
-  iam: {
-    actions: ["workmail:CreateImpersonationRole"],
-    resources: {
-      "workmail:CreateImpersonationRole": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateImpersonationRole",
 }));
@@ -1752,14 +1687,6 @@ export const createMobileDeviceAccessRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMobileDeviceAccessRule",
-  iam: {
-    actions: ["workmail:CreateMobileDeviceAccessRule"],
-    resources: {
-      "workmail:CreateMobileDeviceAccessRule": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMobileDeviceAccessRule",
 }));
@@ -1802,7 +1729,6 @@ export const createOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrganization",
-  iam: { actions: ["workmail:CreateOrganization"] },
   telemetry: TELEMETRY,
   span: "CreateOrganization",
 }));
@@ -1841,14 +1767,6 @@ export const createResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResource",
-  iam: {
-    actions: ["workmail:CreateResource"],
-    resources: {
-      "workmail:CreateResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateResource",
 }));
@@ -1889,14 +1807,6 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
-  iam: {
-    actions: ["workmail:CreateUser"],
-    resources: {
-      "workmail:CreateUser": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -1922,14 +1832,6 @@ export const deleteAccessControlRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessControlRule",
-  iam: {
-    actions: ["workmail:DeleteAccessControlRule"],
-    resources: {
-      "workmail:DeleteAccessControlRule": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAccessControlRule",
 }));
@@ -1963,14 +1865,6 @@ export const deleteAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAlias",
-  iam: {
-    actions: ["workmail:DeleteAlias"],
-    resources: {
-      "workmail:DeleteAlias": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAlias",
 }));
@@ -1994,14 +1888,6 @@ export const deleteAvailabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAvailabilityConfiguration",
-  iam: {
-    actions: ["workmail:DeleteAvailabilityConfiguration"],
-    resources: {
-      "workmail:DeleteAvailabilityConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAvailabilityConfiguration",
 }));
@@ -2026,14 +1912,6 @@ export const deleteEmailMonitoringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEmailMonitoringConfiguration",
-  iam: {
-    actions: ["workmail:DeleteEmailMonitoringConfiguration"],
-    resources: {
-      "workmail:DeleteEmailMonitoringConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEmailMonitoringConfiguration",
 }));
@@ -2070,14 +1948,6 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-  iam: {
-    actions: ["workmail:DeleteGroup"],
-    resources: {
-      "workmail:DeleteGroup": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -2101,7 +1971,6 @@ export const deleteIdentityCenterApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityCenterApplication",
-  iam: { actions: ["workmail:DeleteIdentityCenterApplication"] },
   telemetry: TELEMETRY,
   span: "DeleteIdentityCenterApplication",
 }));
@@ -2126,14 +1995,6 @@ export const deleteIdentityProviderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityProviderConfiguration",
-  iam: {
-    actions: ["workmail:DeleteIdentityProviderConfiguration"],
-    resources: {
-      "workmail:DeleteIdentityProviderConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIdentityProviderConfiguration",
 }));
@@ -2158,14 +2019,6 @@ export const deleteImpersonationRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteImpersonationRole",
-  iam: {
-    actions: ["workmail:DeleteImpersonationRole"],
-    resources: {
-      "workmail:DeleteImpersonationRole": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteImpersonationRole",
 }));
@@ -2198,14 +2051,6 @@ export const deleteMailboxPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMailboxPermissions",
-  iam: {
-    actions: ["workmail:DeleteMailboxPermissions"],
-    resources: {
-      "workmail:DeleteMailboxPermissions": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMailboxPermissions",
 }));
@@ -2238,14 +2083,6 @@ export const deleteMobileDeviceAccessOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMobileDeviceAccessOverride",
-  iam: {
-    actions: ["workmail:DeleteMobileDeviceAccessOverride"],
-    resources: {
-      "workmail:DeleteMobileDeviceAccessOverride": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMobileDeviceAccessOverride",
 }));
@@ -2272,14 +2109,6 @@ export const deleteMobileDeviceAccessRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMobileDeviceAccessRule",
-  iam: {
-    actions: ["workmail:DeleteMobileDeviceAccessRule"],
-    resources: {
-      "workmail:DeleteMobileDeviceAccessRule": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMobileDeviceAccessRule",
 }));
@@ -2304,14 +2133,6 @@ export const deleteOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOrganization",
-  iam: {
-    actions: ["workmail:DeleteOrganization"],
-    resources: {
-      "workmail:DeleteOrganization": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOrganization",
 }));
@@ -2336,14 +2157,6 @@ export const deletePersonalAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePersonalAccessToken",
-  iam: {
-    actions: ["workmail:DeletePersonalAccessToken"],
-    resources: {
-      "workmail:DeletePersonalAccessToken": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePersonalAccessToken",
 }));
@@ -2376,14 +2189,6 @@ export const deleteResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResource",
-  iam: {
-    actions: ["workmail:DeleteResource"],
-    resources: {
-      "workmail:DeleteResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResource",
 }));
@@ -2408,14 +2213,6 @@ export const deleteRetentionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRetentionPolicy",
-  iam: {
-    actions: ["workmail:DeleteRetentionPolicy"],
-    resources: {
-      "workmail:DeleteRetentionPolicy": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRetentionPolicy",
 }));
@@ -2457,14 +2254,6 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-  iam: {
-    actions: ["workmail:DeleteUser"],
-    resources: {
-      "workmail:DeleteUser": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -2500,14 +2289,6 @@ export const deregisterFromWorkMail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterFromWorkMail",
-  iam: {
-    actions: ["workmail:DeregisterFromWorkMail"],
-    resources: {
-      "workmail:DeregisterFromWorkMail": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterFromWorkMail",
 }));
@@ -2541,14 +2322,6 @@ export const deregisterMailDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterMailDomain",
-  iam: {
-    actions: ["workmail:DeregisterMailDomain"],
-    resources: {
-      "workmail:DeregisterMailDomain": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterMailDomain",
 }));
@@ -2579,14 +2352,6 @@ export const describeEmailMonitoringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEmailMonitoringConfiguration",
-  iam: {
-    actions: ["workmail:DescribeEmailMonitoringConfiguration"],
-    resources: {
-      "workmail:DescribeEmailMonitoringConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEmailMonitoringConfiguration",
 }));
@@ -2617,14 +2382,6 @@ export const describeEntity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEntity",
-  iam: {
-    actions: ["workmail:DescribeEntity"],
-    resources: {
-      "workmail:DescribeEntity": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEntity",
 }));
@@ -2655,14 +2412,6 @@ export const describeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroup",
-  iam: {
-    actions: ["workmail:DescribeGroup"],
-    resources: {
-      "workmail:DescribeGroup": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeGroup",
 }));
@@ -2693,14 +2442,6 @@ export const describeIdentityProviderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityProviderConfiguration",
-  iam: {
-    actions: ["workmail:DescribeIdentityProviderConfiguration"],
-    resources: {
-      "workmail:DescribeIdentityProviderConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeIdentityProviderConfiguration",
 }));
@@ -2724,14 +2465,6 @@ export const describeInboundDmarcSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInboundDmarcSettings",
-  iam: {
-    actions: ["workmail:DescribeInboundDmarcSettings"],
-    resources: {
-      "workmail:DescribeInboundDmarcSettings": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInboundDmarcSettings",
 }));
@@ -2762,14 +2495,6 @@ export const describeMailboxExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMailboxExportJob",
-  iam: {
-    actions: ["workmail:DescribeMailboxExportJob"],
-    resources: {
-      "workmail:DescribeMailboxExportJob": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMailboxExportJob",
 }));
@@ -2794,14 +2519,6 @@ export const describeOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganization",
-  iam: {
-    actions: ["workmail:DescribeOrganization"],
-    resources: {
-      "workmail:DescribeOrganization": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeOrganization",
 }));
@@ -2834,14 +2551,6 @@ export const describeResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResource",
-  iam: {
-    actions: ["workmail:DescribeResource"],
-    resources: {
-      "workmail:DescribeResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeResource",
 }));
@@ -2876,14 +2585,6 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
-  iam: {
-    actions: ["workmail:DescribeUser"],
-    resources: {
-      "workmail:DescribeUser": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUser",
 }));
@@ -2918,14 +2619,6 @@ export const disassociateDelegateFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateDelegateFromResource",
-  iam: {
-    actions: ["workmail:DisassociateDelegateFromResource"],
-    resources: {
-      "workmail:DisassociateDelegateFromResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateDelegateFromResource",
 }));
@@ -2964,14 +2657,6 @@ export const disassociateMemberFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMemberFromGroup",
-  iam: {
-    actions: ["workmail:DisassociateMemberFromGroup"],
-    resources: {
-      "workmail:DisassociateMemberFromGroup": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateMemberFromGroup",
 }));
@@ -3005,14 +2690,6 @@ export const getAccessControlEffect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessControlEffect",
-  iam: {
-    actions: ["workmail:GetAccessControlEffect"],
-    resources: {
-      "workmail:GetAccessControlEffect": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAccessControlEffect",
 }));
@@ -3043,14 +2720,6 @@ export const getDefaultRetentionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDefaultRetentionPolicy",
-  iam: {
-    actions: ["workmail:GetDefaultRetentionPolicy"],
-    resources: {
-      "workmail:GetDefaultRetentionPolicy": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDefaultRetentionPolicy",
 }));
@@ -3081,14 +2750,6 @@ export const getImpersonationRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImpersonationRole",
-  iam: {
-    actions: ["workmail:GetImpersonationRole"],
-    resources: {
-      "workmail:GetImpersonationRole": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetImpersonationRole",
 }));
@@ -3123,14 +2784,6 @@ export const getImpersonationRoleEffect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetImpersonationRoleEffect",
-  iam: {
-    actions: ["workmail:GetImpersonationRoleEffect"],
-    resources: {
-      "workmail:GetImpersonationRoleEffect": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetImpersonationRoleEffect",
 }));
@@ -3161,14 +2814,6 @@ export const getMailboxDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMailboxDetails",
-  iam: {
-    actions: ["workmail:GetMailboxDetails"],
-    resources: {
-      "workmail:GetMailboxDetails": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMailboxDetails",
 }));
@@ -3199,14 +2844,6 @@ export const getMailDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMailDomain",
-  iam: {
-    actions: ["workmail:GetMailDomain"],
-    resources: {
-      "workmail:GetMailDomain": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMailDomain",
 }));
@@ -3232,14 +2869,6 @@ export const getMobileDeviceAccessEffect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMobileDeviceAccessEffect",
-  iam: {
-    actions: ["workmail:GetMobileDeviceAccessEffect"],
-    resources: {
-      "workmail:GetMobileDeviceAccessEffect": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMobileDeviceAccessEffect",
 }));
@@ -3272,14 +2901,6 @@ export const getMobileDeviceAccessOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMobileDeviceAccessOverride",
-  iam: {
-    actions: ["workmail:GetMobileDeviceAccessOverride"],
-    resources: {
-      "workmail:GetMobileDeviceAccessOverride": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMobileDeviceAccessOverride",
 }));
@@ -3310,14 +2931,6 @@ export const getPersonalAccessTokenMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPersonalAccessTokenMetadata",
-  iam: {
-    actions: ["workmail:GetPersonalAccessTokenMetadata"],
-    resources: {
-      "workmail:GetPersonalAccessTokenMetadata": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPersonalAccessTokenMetadata",
 }));
@@ -3341,14 +2954,6 @@ export const listAccessControlRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListAccessControlRules",
-  iam: {
-    actions: ["workmail:ListAccessControlRules"],
-    resources: {
-      "workmail:ListAccessControlRules": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAccessControlRules",
 }));
@@ -3388,14 +2993,6 @@ export const listAliases: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListAliases"],
-    resources: {
-      "workmail:ListAliases": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAliases",
 })) as any;
@@ -3427,14 +3024,6 @@ export const listAvailabilityConfigurations: API.PaginatedOperationMethod<
     items: "AvailabilityConfigurations",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListAvailabilityConfigurations"],
-    resources: {
-      "workmail:ListAvailabilityConfigurations": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAvailabilityConfigurations",
 })) as any;
@@ -3474,14 +3063,6 @@ export const listGroupMembers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListGroupMembers"],
-    resources: {
-      "workmail:ListGroupMembers": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupMembers",
 })) as any;
@@ -3518,14 +3099,6 @@ export const listGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListGroups"],
-    resources: {
-      "workmail:ListGroups": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -3564,14 +3137,6 @@ export const listGroupsForEntity: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListGroupsForEntity"],
-    resources: {
-      "workmail:ListGroupsForEntity": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupsForEntity",
 })) as any;
@@ -3602,14 +3167,6 @@ export const listImpersonationRoles: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListImpersonationRoles"],
-    resources: {
-      "workmail:ListImpersonationRoles": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListImpersonationRoles",
 })) as any;
@@ -3641,14 +3198,6 @@ export const listMailboxExportJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListMailboxExportJobs"],
-    resources: {
-      "workmail:ListMailboxExportJobs": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMailboxExportJobs",
 })) as any;
@@ -3686,14 +3235,6 @@ export const listMailboxPermissions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListMailboxPermissions"],
-    resources: {
-      "workmail:ListMailboxPermissions": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMailboxPermissions",
 })) as any;
@@ -3724,14 +3265,6 @@ export const listMailDomains: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListMailDomains"],
-    resources: {
-      "workmail:ListMailDomains": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMailDomains",
 })) as any;
@@ -3768,14 +3301,6 @@ export const listMobileDeviceAccessOverrides: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListMobileDeviceAccessOverrides"],
-    resources: {
-      "workmail:ListMobileDeviceAccessOverrides": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMobileDeviceAccessOverrides",
 })) as any;
@@ -3800,14 +3325,6 @@ export const listMobileDeviceAccessRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListMobileDeviceAccessRules",
-  iam: {
-    actions: ["workmail:ListMobileDeviceAccessRules"],
-    resources: {
-      "workmail:ListMobileDeviceAccessRules": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMobileDeviceAccessRules",
 }));
@@ -3834,7 +3351,6 @@ export const listOrganizations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["workmail:ListOrganizations"] },
   telemetry: TELEMETRY,
   span: "ListOrganizations",
 })) as any;
@@ -3874,14 +3390,6 @@ export const listPersonalAccessTokens: API.PaginatedOperationMethod<
     items: "PersonalAccessTokenSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListPersonalAccessTokens"],
-    resources: {
-      "workmail:ListPersonalAccessTokens": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPersonalAccessTokens",
 })) as any;
@@ -3923,14 +3431,6 @@ export const listResourceDelegates: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListResourceDelegates"],
-    resources: {
-      "workmail:ListResourceDelegates": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourceDelegates",
 })) as any;
@@ -3967,14 +3467,6 @@ export const listResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListResources"],
-    resources: {
-      "workmail:ListResources": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResources",
 })) as any;
@@ -3995,14 +3487,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["workmail:ListTagsForResource"],
-    resources: {
-      "workmail:ListTagsForResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -4033,14 +3517,6 @@ export const listUsers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["workmail:ListUsers"],
-    resources: {
-      "workmail:ListUsers": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -4078,14 +3554,6 @@ export const putAccessControlRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccessControlRule",
-  iam: {
-    actions: ["workmail:PutAccessControlRule"],
-    resources: {
-      "workmail:PutAccessControlRule": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutAccessControlRule",
 }));
@@ -4116,16 +3584,6 @@ export const putEmailMonitoringConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEmailMonitoringConfiguration",
-  iam: {
-    actions: ["iam:PassRole", "workmail:PutEmailMonitoringConfiguration"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "workmail:PutEmailMonitoringConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "PutEmailMonitoringConfiguration",
 }));
@@ -4157,14 +3615,6 @@ export const putIdentityProviderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutIdentityProviderConfiguration",
-  iam: {
-    actions: ["workmail:PutIdentityProviderConfiguration"],
-    resources: {
-      "workmail:PutIdentityProviderConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutIdentityProviderConfiguration",
 }));
@@ -4188,14 +3638,6 @@ export const putInboundDmarcSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutInboundDmarcSettings",
-  iam: {
-    actions: ["workmail:PutInboundDmarcSettings"],
-    resources: {
-      "workmail:PutInboundDmarcSettings": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutInboundDmarcSettings",
 }));
@@ -4229,14 +3671,6 @@ export const putMailboxPermissions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMailboxPermissions",
-  iam: {
-    actions: ["workmail:PutMailboxPermissions"],
-    resources: {
-      "workmail:PutMailboxPermissions": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutMailboxPermissions",
 }));
@@ -4269,14 +3703,6 @@ export const putMobileDeviceAccessOverride: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutMobileDeviceAccessOverride",
-  iam: {
-    actions: ["workmail:PutMobileDeviceAccessOverride"],
-    resources: {
-      "workmail:PutMobileDeviceAccessOverride": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutMobileDeviceAccessOverride",
 }));
@@ -4307,14 +3733,6 @@ export const putRetentionPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRetentionPolicy",
-  iam: {
-    actions: ["workmail:PutRetentionPolicy"],
-    resources: {
-      "workmail:PutRetentionPolicy": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutRetentionPolicy",
 }));
@@ -4348,14 +3766,6 @@ export const registerMailDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterMailDomain",
-  iam: {
-    actions: ["workmail:RegisterMailDomain"],
-    resources: {
-      "workmail:RegisterMailDomain": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterMailDomain",
 }));
@@ -4409,14 +3819,6 @@ export const registerToWorkMail: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterToWorkMail",
-  iam: {
-    actions: ["workmail:RegisterToWorkMail"],
-    resources: {
-      "workmail:RegisterToWorkMail": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterToWorkMail",
 }));
@@ -4457,14 +3859,6 @@ export const resetPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetPassword",
-  iam: {
-    actions: ["workmail:ResetPassword"],
-    resources: {
-      "workmail:ResetPassword": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetPassword",
 }));
@@ -4500,15 +3894,6 @@ export const startMailboxExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMailboxExportJob",
-  iam: {
-    actions: ["iam:PassRole", "workmail:StartMailboxExportJob"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "workmail:StartMailboxExportJob": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartMailboxExportJob",
 }));
@@ -4540,14 +3925,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["workmail:TagResource"],
-    resources: {
-      "workmail:TagResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4584,14 +3961,6 @@ export const testAvailabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestAvailabilityConfiguration",
-  iam: {
-    actions: ["workmail:TestAvailabilityConfiguration"],
-    resources: {
-      "workmail:TestAvailabilityConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TestAvailabilityConfiguration",
 }));
@@ -4613,14 +3982,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["workmail:UntagResource"],
-    resources: {
-      "workmail:UntagResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4652,14 +4013,6 @@ export const updateAvailabilityConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAvailabilityConfiguration",
-  iam: {
-    actions: ["workmail:UpdateAvailabilityConfiguration"],
-    resources: {
-      "workmail:UpdateAvailabilityConfiguration": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAvailabilityConfiguration",
 }));
@@ -4692,14 +4045,6 @@ export const updateDefaultMailDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDefaultMailDomain",
-  iam: {
-    actions: ["workmail:UpdateDefaultMailDomain"],
-    resources: {
-      "workmail:UpdateDefaultMailDomain": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDefaultMailDomain",
 }));
@@ -4734,14 +4079,6 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
-  iam: {
-    actions: ["workmail:UpdateGroup"],
-    resources: {
-      "workmail:UpdateGroup": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -4778,14 +4115,6 @@ export const updateImpersonationRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateImpersonationRole",
-  iam: {
-    actions: ["workmail:UpdateImpersonationRole"],
-    resources: {
-      "workmail:UpdateImpersonationRole": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateImpersonationRole",
 }));
@@ -4819,14 +4148,6 @@ export const updateMailboxQuota: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMailboxQuota",
-  iam: {
-    actions: ["workmail:UpdateMailboxQuota"],
-    resources: {
-      "workmail:UpdateMailboxQuota": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMailboxQuota",
 }));
@@ -4857,14 +4178,6 @@ export const updateMobileDeviceAccessRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMobileDeviceAccessRule",
-  iam: {
-    actions: ["workmail:UpdateMobileDeviceAccessRule"],
-    resources: {
-      "workmail:UpdateMobileDeviceAccessRule": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMobileDeviceAccessRule",
 }));
@@ -4911,14 +4224,6 @@ export const updatePrimaryEmailAddress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePrimaryEmailAddress",
-  iam: {
-    actions: ["workmail:UpdatePrimaryEmailAddress"],
-    resources: {
-      "workmail:UpdatePrimaryEmailAddress": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePrimaryEmailAddress",
 }));
@@ -4967,14 +4272,6 @@ export const updateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResource",
-  iam: {
-    actions: ["workmail:UpdateResource"],
-    resources: {
-      "workmail:UpdateResource": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateResource",
 }));
@@ -5015,14 +4312,6 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
-  iam: {
-    actions: ["workmail:UpdateUser"],
-    resources: {
-      "workmail:UpdateUser": [
-        "arn:${Partition}:workmail:${Region}:${Account}:organization/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));

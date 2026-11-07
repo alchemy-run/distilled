@@ -699,14 +699,6 @@ export const acceptChannelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptChannelHandshake",
-  iam: {
-    actions: ["partnercentral:AcceptChannelHandshake"],
-    resources: {
-      "partnercentral:AcceptChannelHandshake": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/channel-handshake/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptChannelHandshake",
 }));
@@ -739,14 +731,6 @@ export const cancelChannelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelChannelHandshake",
-  iam: {
-    actions: ["partnercentral:CancelChannelHandshake"],
-    resources: {
-      "partnercentral:CancelChannelHandshake": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/channel-handshake/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelChannelHandshake",
 }));
@@ -783,20 +767,6 @@ export const createChannelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelHandshake",
-  iam: {
-    actions: [
-      "partnercentral:CreateChannelHandshake",
-      "partnercentral:GetProgramManagementAccount",
-      "partnercentral:GetRelationship",
-      "partnercentral:TagResource",
-    ],
-    resources: {
-      "partnercentral:GetRelationship": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${ProgramManagementAccountId}/relationship/${RelationshipId}",
-      ],
-    },
-    conditional: { "partnercentral:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannelHandshake",
 }));
@@ -833,10 +803,6 @@ export const createProgramManagementAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProgramManagementAccount",
-  iam: {
-    actions: ["partnercentral:CreateProgramManagementAccount", "partnercentral:TagResource"],
-    conditional: { "partnercentral:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProgramManagementAccount",
 }));
@@ -873,19 +839,6 @@ export const createRelationship: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelationship",
-  iam: {
-    actions: [
-      "partnercentral:CreateRelationship",
-      "partnercentral:GetProgramManagementAccount",
-      "partnercentral:TagResource",
-    ],
-    resources: {
-      "partnercentral:CreateRelationship": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${Identifier}",
-      ],
-    },
-    conditional: { "partnercentral:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRelationship",
 }));
@@ -920,14 +873,6 @@ export const deleteProgramManagementAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProgramManagementAccount",
-  iam: {
-    actions: ["partnercentral:DeleteProgramManagementAccount"],
-    resources: {
-      "partnercentral:DeleteProgramManagementAccount": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProgramManagementAccount",
 }));
@@ -962,14 +907,6 @@ export const deleteRelationship: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelationship",
-  iam: {
-    actions: ["partnercentral:DeleteRelationship"],
-    resources: {
-      "partnercentral:DeleteRelationship": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${ProgramManagementAccountId}/relationship/${RelationshipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRelationship",
 }));
@@ -1002,14 +939,6 @@ export const getRelationship: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelationship",
-  iam: {
-    actions: ["partnercentral:GetRelationship"],
-    resources: {
-      "partnercentral:GetRelationship": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${ProgramManagementAccountId}/relationship/${RelationshipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRelationship",
 }));
@@ -1049,14 +978,6 @@ export const listChannelHandshakes: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListChannelHandshakes"],
-    resources: {
-      "partnercentral:ListChannelHandshakes": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/channel-handshake/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannelHandshakes",
 })) as any;
@@ -1096,14 +1017,6 @@ export const listProgramManagementAccounts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListProgramManagementAccounts"],
-    resources: {
-      "partnercentral:ListProgramManagementAccounts": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProgramManagementAccounts",
 })) as any;
@@ -1143,14 +1056,6 @@ export const listRelationships: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListRelationships"],
-    resources: {
-      "partnercentral:ListRelationships": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${ProgramManagementAccountId}/relationship/${RelationshipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRelationships",
 })) as any;
@@ -1183,7 +1088,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["partnercentral:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1216,14 +1120,6 @@ export const rejectChannelHandshake: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectChannelHandshake",
-  iam: {
-    actions: ["partnercentral:RejectChannelHandshake"],
-    resources: {
-      "partnercentral:RejectChannelHandshake": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/channel-handshake/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectChannelHandshake",
 }));
@@ -1258,7 +1154,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["partnercentral:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1293,7 +1188,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["partnercentral:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1328,14 +1222,6 @@ export const updateProgramManagementAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProgramManagementAccount",
-  iam: {
-    actions: ["partnercentral:UpdateProgramManagementAccount"],
-    resources: {
-      "partnercentral:UpdateProgramManagementAccount": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProgramManagementAccount",
 }));
@@ -1370,14 +1256,6 @@ export const updateRelationship: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelationship",
-  iam: {
-    actions: ["partnercentral:UpdateRelationship"],
-    resources: {
-      "partnercentral:UpdateRelationship": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/program-management-account/${ProgramManagementAccountId}/relationship/${RelationshipId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRelationship",
 }));

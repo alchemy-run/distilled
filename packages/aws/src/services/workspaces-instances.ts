@@ -658,14 +658,6 @@ export const associateVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVolume",
-  iam: {
-    actions: ["workspaces-instances:AssociateVolume"],
-    resources: {
-      "workspaces-instances:AssociateVolume": [
-        "arn:${Partition}:workspaces-instances:${Region}:${Account}:workspaceinstance/${WorkspaceInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateVolume",
 }));
@@ -700,7 +692,6 @@ export const createVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVolume",
-  iam: { actions: ["workspaces-instances:CreateVolume"] },
   telemetry: TELEMETRY,
   span: "CreateVolume",
 }));
@@ -735,15 +726,6 @@ export const createWorkspaceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkspaceInstance",
-  iam: {
-    actions: ["workspaces-instances:CreateWorkspaceInstance", "workspaces-instances:TagResource"],
-    resources: {
-      "workspaces-instances:TagResource": [
-        "arn:${Partition}:workspaces-instances:${Region}:${Account}:workspaceinstance/${WorkspaceInstanceId}",
-      ],
-    },
-    conditional: { "workspaces-instances:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkspaceInstance",
 }));
@@ -778,14 +760,6 @@ export const deleteVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVolume",
-  iam: {
-    actions: ["workspaces-instances:DeleteVolume"],
-    resources: {
-      "workspaces-instances:DeleteVolume": [
-        "arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVolume",
 }));
@@ -822,14 +796,6 @@ export const deleteWorkspaceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkspaceInstance",
-  iam: {
-    actions: ["workspaces-instances:DeleteWorkspaceInstance"],
-    resources: {
-      "workspaces-instances:DeleteWorkspaceInstance": [
-        "arn:${Partition}:workspaces-instances:${Region}:${Account}:workspaceinstance/${WorkspaceInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkspaceInstance",
 }));
@@ -864,14 +830,6 @@ export const disassociateVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVolume",
-  iam: {
-    actions: ["workspaces-instances:DisassociateVolume"],
-    resources: {
-      "workspaces-instances:DisassociateVolume": [
-        "arn:${Partition}:workspaces-instances:${Region}:${Account}:workspaceinstance/${WorkspaceInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateVolume",
 }));
@@ -904,14 +862,6 @@ export const getWorkspaceInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkspaceInstance",
-  iam: {
-    actions: ["workspaces-instances:GetWorkspaceInstance"],
-    resources: {
-      "workspaces-instances:GetWorkspaceInstance": [
-        "arn:${Partition}:workspaces-instances:${Region}:${Account}:workspaceinstance/${WorkspaceInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetWorkspaceInstance",
 }));
@@ -949,7 +899,6 @@ export const listInstanceTypes: API.PaginatedOperationMethod<
     items: "InstanceTypes",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["workspaces-instances:ListInstanceTypes"] },
   telemetry: TELEMETRY,
   span: "ListInstanceTypes",
 })) as any;
@@ -987,7 +936,6 @@ export const listRegions: API.PaginatedOperationMethod<
     items: "Regions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["workspaces-instances:ListRegions"] },
   telemetry: TELEMETRY,
   span: "ListRegions",
 })) as any;
@@ -1020,14 +968,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["workspaces-instances:ListTagsForResource"],
-    resources: {
-      "workspaces-instances:ListTagsForResource": [
-        "arn:${Partition}:workspaces-instances:${Region}:${Account}:workspaceinstance/${WorkspaceInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1065,7 +1005,6 @@ export const listWorkspaceInstances: API.PaginatedOperationMethod<
     items: "WorkspaceInstances",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["workspaces-instances:ListWorkspaceInstances"] },
   telemetry: TELEMETRY,
   span: "ListWorkspaceInstances",
 })) as any;
@@ -1108,14 +1047,6 @@ export const modifyVolume: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyVolume",
-  iam: {
-    actions: ["workspaces-instances:ModifyVolume"],
-    resources: {
-      "workspaces-instances:ModifyVolume": [
-        "arn:${Partition}:ec2:${Region}:${Account}:volume/${VolumeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyVolume",
 }));
@@ -1148,14 +1079,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["workspaces-instances:TagResource"],
-    resources: {
-      "workspaces-instances:TagResource": [
-        "arn:${Partition}:workspaces-instances:${Region}:${Account}:workspaceinstance/${WorkspaceInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1188,14 +1111,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["workspaces-instances:UntagResource"],
-    resources: {
-      "workspaces-instances:UntagResource": [
-        "arn:${Partition}:workspaces-instances:${Region}:${Account}:workspaceinstance/${WorkspaceInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

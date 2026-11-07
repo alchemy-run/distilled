@@ -441,14 +441,6 @@ export const createCliToken: API.OperationMethod<
   retry: Retry,
   operationName: "CreateCliToken",
   endpointHostPrefix: "env.",
-  iam: {
-    actions: ["airflow:CreateCliToken"],
-    resources: {
-      "airflow:CreateCliToken": [
-        "arn:${Partition}:airflow:${Region}:${Account}:environment/${EnvironmentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCliToken",
 }));
@@ -480,16 +472,6 @@ export const createEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "CreateEnvironment",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["airflow:CreateEnvironment", "iam:PassRole", "airflow:TagResource"],
-    resources: {
-      "airflow:CreateEnvironment": [
-        "arn:${Partition}:airflow:${Region}:${Account}:environment/${EnvironmentName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "airflow:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -521,14 +503,6 @@ export const createWebLoginToken: API.OperationMethod<
   retry: Retry,
   operationName: "CreateWebLoginToken",
   endpointHostPrefix: "env.",
-  iam: {
-    actions: ["airflow:CreateWebLoginToken"],
-    resources: {
-      "airflow:CreateWebLoginToken": [
-        "arn:${Partition}:airflow:${Region}:${Account}:role/${EnvironmentName}/${RoleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateWebLoginToken",
 }));
@@ -560,14 +534,6 @@ export const deleteEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "DeleteEnvironment",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["airflow:DeleteEnvironment"],
-    resources: {
-      "airflow:DeleteEnvironment": [
-        "arn:${Partition}:airflow:${Region}:${Account}:environment/${EnvironmentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -593,14 +559,6 @@ export const getEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "GetEnvironment",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["airflow:GetEnvironment"],
-    resources: {
-      "airflow:GetEnvironment": [
-        "arn:${Partition}:airflow:${Region}:${Account}:environment/${EnvironmentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -636,14 +594,6 @@ export const invokeRestApi: API.OperationMethod<
   retry: Retry,
   operationName: "InvokeRestApi",
   endpointHostPrefix: "env.",
-  iam: {
-    actions: ["airflow:InvokeRestApi"],
-    resources: {
-      "airflow:InvokeRestApi": [
-        "arn:${Partition}:airflow:${Region}:${Account}:role/${EnvironmentName}/${RoleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "InvokeRestApi",
 }));
@@ -672,7 +622,6 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "Environments",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["airflow:ListEnvironments"] },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -698,7 +647,6 @@ export const listTagsForResource: API.OperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["airflow:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -720,14 +668,6 @@ export const publishMetrics: API.OperationMethod<
   retry: Retry,
   operationName: "PublishMetrics",
   endpointHostPrefix: "ops.",
-  iam: {
-    actions: ["airflow:PublishMetrics"],
-    resources: {
-      "airflow:PublishMetrics": [
-        "arn:${Partition}:airflow:${Region}:${Account}:environment/${EnvironmentName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PublishMetrics",
 }));
@@ -753,7 +693,6 @@ export const tagResource: API.OperationMethod<
   retry: Retry,
   operationName: "TagResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["airflow:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -779,7 +718,6 @@ export const untagResource: API.OperationMethod<
   retry: Retry,
   operationName: "UntagResource",
   endpointHostPrefix: "api.",
-  iam: { actions: ["airflow:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -811,16 +749,6 @@ export const updateEnvironment: API.OperationMethod<
   retry: Retry,
   operationName: "UpdateEnvironment",
   endpointHostPrefix: "api.",
-  iam: {
-    actions: ["iam:PassRole", "airflow:UpdateEnvironment"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "airflow:UpdateEnvironment": [
-        "arn:${Partition}:airflow:${Region}:${Account}:environment/${EnvironmentName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "ExecutionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));

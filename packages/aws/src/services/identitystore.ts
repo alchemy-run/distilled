@@ -625,14 +625,6 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-  iam: {
-    actions: ["identitystore:CreateGroup"],
-    resources: {
-      "identitystore:CreateGroup": [
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -663,16 +655,6 @@ export const createGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroupMembership",
-  iam: {
-    actions: ["identitystore:CreateGroupMembership"],
-    resources: {
-      "identitystore:CreateGroupMembership": [
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroupMembership",
 }));
@@ -703,14 +685,6 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
-  iam: {
-    actions: ["identitystore:CreateUser"],
-    resources: {
-      "identitystore:CreateUser": [
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -735,15 +709,6 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-  iam: {
-    actions: ["identitystore:DeleteGroup"],
-    resources: {
-      "identitystore:DeleteGroup": [
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -768,17 +733,6 @@ export const deleteGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroupMembership",
-  iam: {
-    actions: ["identitystore:DeleteGroupMembership"],
-    resources: {
-      "identitystore:DeleteGroupMembership": [
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore:::membership/${MembershipId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroupMembership",
 }));
@@ -803,15 +757,6 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-  iam: {
-    actions: ["identitystore:DeleteUser"],
-    resources: {
-      "identitystore:DeleteUser": [
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -834,15 +779,6 @@ export const describeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroup",
-  iam: {
-    actions: ["identitystore:DescribeGroup"],
-    resources: {
-      "identitystore:DescribeGroup": [
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeGroup",
 }));
@@ -868,17 +804,6 @@ export const describeGroupMembership: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeGroupMembership",
-  iam: {
-    actions: ["identitystore:DescribeGroupMembership"],
-    resources: {
-      "identitystore:DescribeGroupMembership": [
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore:::membership/${MembershipId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeGroupMembership",
 }));
@@ -902,14 +827,6 @@ export const describeIdentityStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityStore",
-  iam: {
-    actions: ["identitystore:DescribeIdentityStore"],
-    resources: {
-      "identitystore:DescribeIdentityStore": [
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeIdentityStore",
 }));
@@ -932,15 +849,6 @@ export const describeUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUser",
-  iam: {
-    actions: ["identitystore:DescribeUser"],
-    resources: {
-      "identitystore:DescribeUser": [
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUser",
 }));
@@ -963,15 +871,6 @@ export const getGroupId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupId",
-  iam: {
-    actions: ["identitystore:GetGroupId"],
-    resources: {
-      "identitystore:GetGroupId": [
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroupId",
 }));
@@ -997,17 +896,6 @@ export const getGroupMembershipId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroupMembershipId",
-  iam: {
-    actions: ["identitystore:GetGroupMembershipId"],
-    resources: {
-      "identitystore:GetGroupMembershipId": [
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore:::membership/${MembershipId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroupMembershipId",
 }));
@@ -1030,15 +918,6 @@ export const getUserId: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserId",
-  iam: {
-    actions: ["identitystore:GetUserId"],
-    resources: {
-      "identitystore:GetUserId": [
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUserId",
 }));
@@ -1061,17 +940,6 @@ export const isMemberInGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IsMemberInGroups",
-  iam: {
-    actions: ["identitystore:IsMemberInGroups"],
-    resources: {
-      "identitystore:IsMemberInGroups": [
-        "arn:${Partition}:identitystore:::membership/*",
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "IsMemberInGroups",
 }));
@@ -1104,16 +972,6 @@ export const listGroupMemberships: API.PaginatedOperationMethod<
     items: "GroupMemberships",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["identitystore:ListGroupMemberships"],
-    resources: {
-      "identitystore:ListGroupMemberships": [
-        "arn:${Partition}:identitystore:::membership/*",
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupMemberships",
 })) as any;
@@ -1146,16 +1004,6 @@ export const listGroupMembershipsForMember: API.PaginatedOperationMethod<
     items: "GroupMemberships",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["identitystore:ListGroupMembershipsForMember"],
-    resources: {
-      "identitystore:ListGroupMembershipsForMember": [
-        "arn:${Partition}:identitystore:::membership/*",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupMembershipsForMember",
 })) as any;
@@ -1185,15 +1033,6 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["identitystore:ListGroups"],
-    resources: {
-      "identitystore:ListGroups": [
-        "arn:${Partition}:identitystore:::group/*",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -1223,7 +1062,6 @@ export const listIdentityStores: API.PaginatedOperationMethod<
     items: "IdentityStores",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["identitystore:ListIdentityStores"] },
   telemetry: TELEMETRY,
   span: "ListIdentityStores",
 })) as any;
@@ -1253,15 +1091,6 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["identitystore:ListUsers"],
-    resources: {
-      "identitystore:ListUsers": [
-        "arn:${Partition}:identitystore:::user/*",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -1292,15 +1121,6 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
-  iam: {
-    actions: ["identitystore:UpdateGroup"],
-    resources: {
-      "identitystore:UpdateGroup": [
-        "arn:${Partition}:identitystore:::group/${GroupId}",
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -1325,14 +1145,6 @@ export const updateIdentityStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityStore",
-  iam: {
-    actions: ["identitystore:UpdateIdentityStore"],
-    resources: {
-      "identitystore:UpdateIdentityStore": [
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIdentityStore",
 }));
@@ -1363,15 +1175,6 @@ export const updateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUser",
-  iam: {
-    actions: ["identitystore:UpdateUser"],
-    resources: {
-      "identitystore:UpdateUser": [
-        "arn:${Partition}:identitystore::${Account}:identitystore/${IdentityStoreId}",
-        "arn:${Partition}:identitystore:::user/${UserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUser",
 }));

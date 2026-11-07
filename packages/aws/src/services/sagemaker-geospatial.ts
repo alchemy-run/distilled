@@ -838,14 +838,6 @@ export const deleteEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEarthObservationJob",
-  iam: {
-    actions: ["sagemaker-geospatial:DeleteEarthObservationJob"],
-    resources: {
-      "sagemaker-geospatial:DeleteEarthObservationJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:earth-observation-job/${JobID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEarthObservationJob",
 }));
@@ -880,14 +872,6 @@ export const deleteVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVectorEnrichmentJob",
-  iam: {
-    actions: ["sagemaker-geospatial:DeleteVectorEnrichmentJob"],
-    resources: {
-      "sagemaker-geospatial:DeleteVectorEnrichmentJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:vector-enrichment-job/${JobID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVectorEnrichmentJob",
 }));
@@ -924,15 +908,6 @@ export const exportEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportEarthObservationJob",
-  iam: {
-    actions: ["sagemaker-geospatial:ExportEarthObservationJob", "iam:PassRole"],
-    resources: {
-      "sagemaker-geospatial:ExportEarthObservationJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:earth-observation-job/${JobID}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExportEarthObservationJob",
 }));
@@ -969,15 +944,6 @@ export const exportVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExportVectorEnrichmentJob",
-  iam: {
-    actions: ["sagemaker-geospatial:ExportVectorEnrichmentJob", "iam:PassRole"],
-    resources: {
-      "sagemaker-geospatial:ExportVectorEnrichmentJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:vector-enrichment-job/${JobID}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExportVectorEnrichmentJob",
 }));
@@ -1010,14 +976,6 @@ export const getEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEarthObservationJob",
-  iam: {
-    actions: ["sagemaker-geospatial:GetEarthObservationJob"],
-    resources: {
-      "sagemaker-geospatial:GetEarthObservationJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:earth-observation-job/${JobID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEarthObservationJob",
 }));
@@ -1050,14 +1008,6 @@ export const getRasterDataCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRasterDataCollection",
-  iam: {
-    actions: ["sagemaker-geospatial:GetRasterDataCollection"],
-    resources: {
-      "sagemaker-geospatial:GetRasterDataCollection": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:raster-data-collection/${CollectionID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRasterDataCollection",
 }));
@@ -1090,16 +1040,6 @@ export const getTile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTile",
-  iam: {
-    actions: ["sagemaker-geospatial:GetTile", "iam:PassRole"],
-    resources: {
-      "sagemaker-geospatial:GetTile": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:earth-observation-job/${JobID}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "ExecutionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "GetTile",
 }));
@@ -1132,14 +1072,6 @@ export const getVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVectorEnrichmentJob",
-  iam: {
-    actions: ["sagemaker-geospatial:GetVectorEnrichmentJob"],
-    resources: {
-      "sagemaker-geospatial:GetVectorEnrichmentJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:vector-enrichment-job/${JobID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVectorEnrichmentJob",
 }));
@@ -1178,7 +1110,6 @@ export const listEarthObservationJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "EarthObservationJobSummaries",
   } as const,
-  iam: { actions: ["sagemaker-geospatial:ListEarthObservationJobs"] },
   telemetry: TELEMETRY,
   span: "ListEarthObservationJobs",
 })) as any;
@@ -1217,7 +1148,6 @@ export const listRasterDataCollections: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "RasterDataCollectionSummaries",
   } as const,
-  iam: { actions: ["sagemaker-geospatial:ListRasterDataCollections"] },
   telemetry: TELEMETRY,
   span: "ListRasterDataCollections",
 })) as any;
@@ -1250,7 +1180,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["sagemaker-geospatial:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1289,7 +1218,6 @@ export const listVectorEnrichmentJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "VectorEnrichmentJobSummaries",
   } as const,
-  iam: { actions: ["sagemaker-geospatial:ListVectorEnrichmentJobs"] },
   telemetry: TELEMETRY,
   span: "ListVectorEnrichmentJobs",
 })) as any;
@@ -1324,7 +1252,6 @@ export const searchRasterDataCollection: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "SearchRasterDataCollection",
   pagination: { inputToken: "NextToken", outputToken: "NextToken" } as const,
-  iam: { actions: ["sagemaker-geospatial:SearchRasterDataCollection"] },
   telemetry: TELEMETRY,
   span: "SearchRasterDataCollection",
 })) as any;
@@ -1361,20 +1288,6 @@ export const startEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartEarthObservationJob",
-  iam: {
-    actions: [
-      "iam:PassRole",
-      "sagemaker-geospatial:StartEarthObservationJob",
-      "sagemaker-geospatial:TagResource",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker-geospatial:StartEarthObservationJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:earth-observation-job/${JobID}",
-      ],
-    },
-    conditional: { "sagemaker-geospatial:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartEarthObservationJob",
 }));
@@ -1411,20 +1324,6 @@ export const startVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartVectorEnrichmentJob",
-  iam: {
-    actions: [
-      "iam:PassRole",
-      "sagemaker-geospatial:StartVectorEnrichmentJob",
-      "sagemaker-geospatial:TagResource",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "sagemaker-geospatial:StartVectorEnrichmentJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:vector-enrichment-job/${JobID}",
-      ],
-    },
-    conditional: { "sagemaker-geospatial:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartVectorEnrichmentJob",
 }));
@@ -1459,14 +1358,6 @@ export const stopEarthObservationJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopEarthObservationJob",
-  iam: {
-    actions: ["sagemaker-geospatial:StopEarthObservationJob"],
-    resources: {
-      "sagemaker-geospatial:StopEarthObservationJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:earth-observation-job/${JobID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopEarthObservationJob",
 }));
@@ -1501,14 +1392,6 @@ export const stopVectorEnrichmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopVectorEnrichmentJob",
-  iam: {
-    actions: ["sagemaker-geospatial:StopVectorEnrichmentJob"],
-    resources: {
-      "sagemaker-geospatial:StopVectorEnrichmentJob": [
-        "arn:${Partition}:sagemaker-geospatial:${Region}:${Account}:vector-enrichment-job/${JobID}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopVectorEnrichmentJob",
 }));
@@ -1541,7 +1424,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["sagemaker-geospatial:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1574,7 +1456,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["sagemaker-geospatial:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));

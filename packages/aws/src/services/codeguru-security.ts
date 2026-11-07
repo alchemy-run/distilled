@@ -453,14 +453,6 @@ export const batchGetFindings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFindings",
-  iam: {
-    actions: ["codeguru-security:BatchGetFindings"],
-    resources: {
-      "codeguru-security:BatchGetFindings": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetFindings",
 }));
@@ -495,18 +487,6 @@ export const createScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateScan",
-  iam: {
-    actions: ["codeguru-security:CreateScan", "codeguru-security:TagResource"],
-    resources: {
-      "codeguru-security:CreateScan": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-      "codeguru-security:TagResource": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-    },
-    conditional: { "codeguru-security:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateScan",
 }));
@@ -539,14 +519,6 @@ export const createUploadUrl: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUploadUrl",
-  iam: {
-    actions: ["codeguru-security:CreateUploadUrl"],
-    resources: {
-      "codeguru-security:CreateUploadUrl": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUploadUrl",
 }));
@@ -577,7 +549,6 @@ export const getAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountConfiguration",
-  iam: { actions: ["codeguru-security:GetAccountConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetAccountConfiguration",
 }));
@@ -619,14 +590,6 @@ export const getFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["codeguru-security:GetFindings"],
-    resources: {
-      "codeguru-security:GetFindings": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFindings",
 })) as any;
@@ -657,7 +620,6 @@ export const getMetricsSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMetricsSummary",
-  iam: { actions: ["codeguru-security:GetMetricsSummary"] },
   telemetry: TELEMETRY,
   span: "GetMetricsSummary",
 }));
@@ -690,14 +652,6 @@ export const getScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetScan",
-  iam: {
-    actions: ["codeguru-security:GetScan"],
-    resources: {
-      "codeguru-security:GetScan": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetScan",
 }));
@@ -735,7 +689,6 @@ export const listFindingsMetrics: API.PaginatedOperationMethod<
     items: "findingsMetrics",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["codeguru-security:ListFindingsMetrics"] },
   telemetry: TELEMETRY,
   span: "ListFindingsMetrics",
 })) as any;
@@ -773,7 +726,6 @@ export const listScans: API.PaginatedOperationMethod<
     items: "summaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["codeguru-security:ListScans"] },
   telemetry: TELEMETRY,
   span: "ListScans",
 })) as any;
@@ -808,14 +760,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["codeguru-security:ListTagsForResource"],
-    resources: {
-      "codeguru-security:ListTagsForResource": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -850,14 +794,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["codeguru-security:TagResource"],
-    resources: {
-      "codeguru-security:TagResource": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -892,14 +828,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["codeguru-security:UntagResource"],
-    resources: {
-      "codeguru-security:UntagResource": [
-        "arn:${Partition}:codeguru-security:${Region}:${Account}:scans/${ScanName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -932,7 +860,6 @@ export const updateAccountConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccountConfiguration",
-  iam: { actions: ["codeguru-security:UpdateAccountConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateAccountConfiguration",
 }));

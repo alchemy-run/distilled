@@ -838,14 +838,6 @@ export const associateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateChannel",
-  iam: {
-    actions: ["notifications:AssociateChannel"],
-    resources: {
-      "notifications:AssociateChannel": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateChannel",
 }));
@@ -882,20 +874,6 @@ export const associateManagedNotificationAccountContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateManagedNotificationAccountContact",
-  iam: {
-    actions: [
-      "notifications:AssociateManagedNotificationAccountContact",
-      "notifications:SubscribeSensitiveEvents",
-    ],
-    resources: {
-      "notifications:AssociateManagedNotificationAccountContact": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-      "notifications:SubscribeSensitiveEvents": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateManagedNotificationAccountContact",
 }));
@@ -942,20 +920,6 @@ export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateManagedNotificationAdditionalChannel",
-  iam: {
-    actions: [
-      "notifications:AssociateManagedNotificationAdditionalChannel",
-      "notifications:SubscribeSensitiveEvents",
-    ],
-    resources: {
-      "notifications:AssociateManagedNotificationAdditionalChannel": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-      "notifications:SubscribeSensitiveEvents": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateManagedNotificationAdditionalChannel",
 }));
@@ -992,14 +956,6 @@ export const associateOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateOrganizationalUnit",
-  iam: {
-    actions: ["notifications:AssociateOrganizationalUnit"],
-    resources: {
-      "notifications:AssociateOrganizationalUnit": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateOrganizationalUnit",
 }));
@@ -1036,7 +992,6 @@ export const createEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventRule",
-  iam: { actions: ["notifications:CreateEventRule"] },
   telemetry: TELEMETRY,
   span: "CreateEventRule",
 }));
@@ -1071,15 +1026,6 @@ export const createNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotificationConfiguration",
-  iam: {
-    actions: ["notifications:CreateNotificationConfiguration", "notifications:TagResource"],
-    resources: {
-      "notifications:TagResource": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-    conditional: { "notifications:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateNotificationConfiguration",
 }));
@@ -1114,14 +1060,6 @@ export const deleteEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventRule",
-  iam: {
-    actions: ["notifications:DeleteEventRule"],
-    resources: {
-      "notifications:DeleteEventRule": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}/rule/${EventRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventRule",
 }));
@@ -1156,14 +1094,6 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
-  iam: {
-    actions: ["notifications:DeleteNotificationConfiguration"],
-    resources: {
-      "notifications:DeleteNotificationConfiguration": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNotificationConfiguration",
 }));
@@ -1200,7 +1130,6 @@ export const deregisterNotificationHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterNotificationHub",
-  iam: { actions: ["notifications:DeregisterNotificationHub"] },
   telemetry: TELEMETRY,
   span: "DeregisterNotificationHub",
 }));
@@ -1237,7 +1166,6 @@ export const disableNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableNotificationsAccessForOrganization",
-  iam: { actions: ["notifications:DisableNotificationsAccessForOrganization"] },
   telemetry: TELEMETRY,
   span: "DisableNotificationsAccessForOrganization",
 }));
@@ -1270,14 +1198,6 @@ export const disassociateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateChannel",
-  iam: {
-    actions: ["notifications:DisassociateChannel"],
-    resources: {
-      "notifications:DisassociateChannel": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateChannel",
 }));
@@ -1320,14 +1240,6 @@ export const disassociateManagedNotificationAccountContact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateManagedNotificationAccountContact",
-  iam: {
-    actions: ["notifications:DisassociateManagedNotificationAccountContact"],
-    resources: {
-      "notifications:DisassociateManagedNotificationAccountContact": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateManagedNotificationAccountContact",
 }));
@@ -1370,14 +1282,6 @@ export const disassociateManagedNotificationAdditionalChannel: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateManagedNotificationAdditionalChannel",
-  iam: {
-    actions: ["notifications:DisassociateManagedNotificationAdditionalChannel"],
-    resources: {
-      "notifications:DisassociateManagedNotificationAdditionalChannel": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateManagedNotificationAdditionalChannel",
 }));
@@ -1410,14 +1314,6 @@ export const disassociateOrganizationalUnit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateOrganizationalUnit",
-  iam: {
-    actions: ["notifications:DisassociateOrganizationalUnit"],
-    resources: {
-      "notifications:DisassociateOrganizationalUnit": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateOrganizationalUnit",
 }));
@@ -1454,7 +1350,6 @@ export const enableNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableNotificationsAccessForOrganization",
-  iam: { actions: ["notifications:EnableNotificationsAccessForOrganization"] },
   telemetry: TELEMETRY,
   span: "EnableNotificationsAccessForOrganization",
 }));
@@ -1487,14 +1382,6 @@ export const getEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEventRule",
-  iam: {
-    actions: ["notifications:GetEventRule"],
-    resources: {
-      "notifications:GetEventRule": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}/rule/${EventRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEventRule",
 }));
@@ -1527,7 +1414,6 @@ export const getManagedNotificationChildEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationChildEvent",
-  iam: { actions: ["notifications:GetManagedNotificationChildEvent"] },
   telemetry: TELEMETRY,
   span: "GetManagedNotificationChildEvent",
 }));
@@ -1560,14 +1446,6 @@ export const getManagedNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationConfiguration",
-  iam: {
-    actions: ["notifications:GetManagedNotificationConfiguration"],
-    resources: {
-      "notifications:GetManagedNotificationConfiguration": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetManagedNotificationConfiguration",
 }));
@@ -1600,14 +1478,6 @@ export const getManagedNotificationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedNotificationEvent",
-  iam: {
-    actions: ["notifications:GetManagedNotificationEvent"],
-    resources: {
-      "notifications:GetManagedNotificationEvent": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}/event/${NotificationEventId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetManagedNotificationEvent",
 }));
@@ -1640,14 +1510,6 @@ export const getNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationConfiguration",
-  iam: {
-    actions: ["notifications:GetNotificationConfiguration"],
-    resources: {
-      "notifications:GetNotificationConfiguration": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetNotificationConfiguration",
 }));
@@ -1682,7 +1544,6 @@ export const getNotificationEvent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationEvent",
-  iam: { actions: ["notifications:GetNotificationEvent"] },
   telemetry: TELEMETRY,
   span: "GetNotificationEvent",
 }));
@@ -1713,7 +1574,6 @@ export const getNotificationsAccessForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotificationsAccessForOrganization",
-  iam: { actions: ["notifications:GetNotificationsAccessForOrganization"] },
   telemetry: TELEMETRY,
   span: "GetNotificationsAccessForOrganization",
 }));
@@ -1753,14 +1613,6 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "channels",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["notifications:ListChannels"],
-    resources: {
-      "notifications:ListChannels": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -1800,7 +1652,6 @@ export const listEventRules: API.PaginatedOperationMethod<
     items: "eventRules",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["notifications:ListEventRules"] },
   telemetry: TELEMETRY,
   span: "ListEventRules",
 })) as any;
@@ -1840,14 +1691,6 @@ export const listManagedNotificationChannelAssociations: API.PaginatedOperationM
     items: "channelAssociations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["notifications:ListManagedNotificationChannelAssociations"],
-    resources: {
-      "notifications:ListManagedNotificationChannelAssociations": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListManagedNotificationChannelAssociations",
 })) as any;
@@ -1887,7 +1730,6 @@ export const listManagedNotificationChildEvents: API.PaginatedOperationMethod<
     items: "managedNotificationChildEvents",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["notifications:ListManagedNotificationChildEvents"] },
   telemetry: TELEMETRY,
   span: "ListManagedNotificationChildEvents",
 })) as any;
@@ -1925,7 +1767,6 @@ export const listManagedNotificationConfigurations: API.PaginatedOperationMethod
     items: "managedNotificationConfigurations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["notifications:ListManagedNotificationConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListManagedNotificationConfigurations",
 })) as any;
@@ -1963,7 +1804,6 @@ export const listManagedNotificationEvents: API.PaginatedOperationMethod<
     items: "managedNotificationEvents",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["notifications:ListManagedNotificationEvents"] },
   telemetry: TELEMETRY,
   span: "ListManagedNotificationEvents",
 })) as any;
@@ -2003,14 +1843,6 @@ export const listMemberAccounts: API.PaginatedOperationMethod<
     items: "memberAccounts",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["notifications:ListMemberAccounts"],
-    resources: {
-      "notifications:ListMemberAccounts": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMemberAccounts",
 })) as any;
@@ -2048,7 +1880,6 @@ export const listNotificationConfigurations: API.PaginatedOperationMethod<
     items: "notificationConfigurations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["notifications:ListNotificationConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListNotificationConfigurations",
 })) as any;
@@ -2088,7 +1919,6 @@ export const listNotificationEvents: API.PaginatedOperationMethod<
     items: "notificationEvents",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["notifications:ListNotificationEvents"] },
   telemetry: TELEMETRY,
   span: "ListNotificationEvents",
 })) as any;
@@ -2126,7 +1956,6 @@ export const listNotificationHubs: API.PaginatedOperationMethod<
     items: "notificationHubs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["notifications:ListNotificationHubs"] },
   telemetry: TELEMETRY,
   span: "ListNotificationHubs",
 })) as any;
@@ -2166,14 +1995,6 @@ export const listOrganizationalUnits: API.PaginatedOperationMethod<
     items: "organizationalUnits",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["notifications:ListOrganizationalUnits"],
-    resources: {
-      "notifications:ListOrganizationalUnits": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListOrganizationalUnits",
 })) as any;
@@ -2210,7 +2031,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["notifications:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2247,7 +2067,6 @@ export const registerNotificationHub: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterNotificationHub",
-  iam: { actions: ["notifications:RegisterNotificationHub"] },
   telemetry: TELEMETRY,
   span: "RegisterNotificationHub",
 }));
@@ -2284,14 +2103,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["notifications:TagResource"],
-    resources: {
-      "notifications:TagResource": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2326,14 +2137,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["notifications:UntagResource"],
-    resources: {
-      "notifications:UntagResource": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2368,14 +2171,6 @@ export const updateEventRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEventRule",
-  iam: {
-    actions: ["notifications:UpdateEventRule"],
-    resources: {
-      "notifications:UpdateEventRule": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}/rule/${EventRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEventRule",
 }));
@@ -2414,20 +2209,6 @@ export const updateManagedNotificationChannelAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedNotificationChannelAssociation",
-  iam: {
-    actions: [
-      "notifications:SubscribeSensitiveEvents",
-      "notifications:UpdateManagedNotificationChannelAssociation",
-    ],
-    resources: {
-      "notifications:SubscribeSensitiveEvents": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-      "notifications:UpdateManagedNotificationChannelAssociation": [
-        "arn:${Partition}:notifications::${Account}:managed-notification-configuration/category/${Category}/sub-category/${Subcategory}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateManagedNotificationChannelAssociation",
 }));
@@ -2462,14 +2243,6 @@ export const updateNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotificationConfiguration",
-  iam: {
-    actions: ["notifications:UpdateNotificationConfiguration"],
-    resources: {
-      "notifications:UpdateNotificationConfiguration": [
-        "arn:${Partition}:notifications::${Account}:configuration/${NotificationConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateNotificationConfiguration",
 }));

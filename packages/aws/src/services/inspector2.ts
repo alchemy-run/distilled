@@ -3419,7 +3419,6 @@ export const associateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMember",
-  iam: { actions: ["inspector2:AssociateMember"] },
   telemetry: TELEMETRY,
   span: "AssociateMember",
 }));
@@ -3462,7 +3461,6 @@ export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateCodeSecurityScanConfiguration",
-  iam: { actions: ["inspector2:BatchAssociateCodeSecurityScanConfiguration"] },
   telemetry: TELEMETRY,
   span: "BatchAssociateCodeSecurityScanConfiguration",
 }));
@@ -3501,7 +3499,6 @@ export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateCodeSecurityScanConfiguration",
-  iam: { actions: ["inspector2:BatchDisassociateCodeSecurityScanConfiguration"] },
   telemetry: TELEMETRY,
   span: "BatchDisassociateCodeSecurityScanConfiguration",
 }));
@@ -3534,7 +3531,6 @@ export const batchGetAccountStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetAccountStatus",
-  iam: { actions: ["inspector2:BatchGetAccountStatus"] },
   telemetry: TELEMETRY,
   span: "BatchGetAccountStatus",
 }));
@@ -3565,7 +3561,6 @@ export const batchGetCodeSnippet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetCodeSnippet",
-  iam: { actions: ["inspector2:BatchGetCodeSnippet"] },
   telemetry: TELEMETRY,
   span: "BatchGetCodeSnippet",
 }));
@@ -3596,7 +3591,6 @@ export const batchGetFindingDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFindingDetails",
-  iam: { actions: ["inspector2:BatchGetFindingDetails"] },
   telemetry: TELEMETRY,
   span: "BatchGetFindingDetails",
 }));
@@ -3627,7 +3621,6 @@ export const batchGetFreeTrialInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetFreeTrialInfo",
-  iam: { actions: ["inspector2:BatchGetFreeTrialInfo"] },
   telemetry: TELEMETRY,
   span: "BatchGetFreeTrialInfo",
 }));
@@ -3658,7 +3651,6 @@ export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetMemberEc2DeepInspectionStatus",
-  iam: { actions: ["inspector2:BatchGetMemberEc2DeepInspectionStatus"] },
   telemetry: TELEMETRY,
   span: "BatchGetMemberEc2DeepInspectionStatus",
 }));
@@ -3689,7 +3681,6 @@ export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateMemberEc2DeepInspectionStatus",
-  iam: { actions: ["inspector2:BatchUpdateMemberEc2DeepInspectionStatus"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateMemberEc2DeepInspectionStatus",
 }));
@@ -3722,7 +3713,6 @@ export const cancelFindingsReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelFindingsReport",
-  iam: { actions: ["inspector2:CancelFindingsReport"] },
   telemetry: TELEMETRY,
   span: "CancelFindingsReport",
 }));
@@ -3755,7 +3745,6 @@ export const cancelSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelSbomExport",
-  iam: { actions: ["inspector2:CancelSbomExport"] },
   telemetry: TELEMETRY,
   span: "CancelSbomExport",
 }));
@@ -3786,15 +3775,6 @@ export const createCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCisScanConfiguration",
-  iam: {
-    actions: ["inspector2:CreateCisScanConfiguration", "inspector2:TagResource"],
-    resources: {
-      "inspector2:CreateCisScanConfiguration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/cis-configuration/${CISScanConfigurationId}",
-      ],
-    },
-    conditional: { "inspector2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCisScanConfiguration",
 }));
@@ -3831,15 +3811,6 @@ export const createCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSecurityIntegration",
-  iam: {
-    actions: ["inspector2:CreateCodeSecurityIntegration", "inspector2:TagResource"],
-    resources: {
-      "inspector2:CreateCodeSecurityIntegration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:codesecurity-integration/${CodeSecurityIntegrationId}",
-      ],
-    },
-    conditional: { "inspector2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCodeSecurityIntegration",
 }));
@@ -3874,15 +3845,6 @@ export const createCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeSecurityScanConfiguration",
-  iam: {
-    actions: ["inspector2:CreateCodeSecurityScanConfiguration", "inspector2:TagResource"],
-    resources: {
-      "inspector2:CreateCodeSecurityScanConfiguration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/codesecurity-configuration/${CodeSecurityScanConfigurationId}",
-      ],
-    },
-    conditional: { "inspector2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCodeSecurityScanConfiguration",
 }));
@@ -3917,15 +3879,6 @@ export const createConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnector",
-  iam: {
-    actions: ["inspector2:CreateConnector", "inspector2:TagResource"],
-    resources: {
-      "inspector2:CreateConnector": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-    conditional: { "inspector2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConnector",
 }));
@@ -3960,15 +3913,6 @@ export const createFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFilter",
-  iam: {
-    actions: ["inspector2:CreateFilter", "inspector2:TagResource"],
-    resources: {
-      "inspector2:CreateFilter": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/filter/${FilterId}",
-      ],
-    },
-    conditional: { "inspector2:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFilter",
 }));
@@ -4001,7 +3945,6 @@ export const createFindingsReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFindingsReport",
-  iam: { actions: ["inspector2:CreateFindingsReport"] },
   telemetry: TELEMETRY,
   span: "CreateFindingsReport",
 }));
@@ -4034,7 +3977,6 @@ export const createSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSbomExport",
-  iam: { actions: ["inspector2:CreateSbomExport"] },
   telemetry: TELEMETRY,
   span: "CreateSbomExport",
 }));
@@ -4067,14 +4009,6 @@ export const deleteCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCisScanConfiguration",
-  iam: {
-    actions: ["inspector2:DeleteCisScanConfiguration"],
-    resources: {
-      "inspector2:DeleteCisScanConfiguration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/cis-configuration/${CISScanConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCisScanConfiguration",
 }));
@@ -4107,14 +4041,6 @@ export const deleteCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSecurityIntegration",
-  iam: {
-    actions: ["inspector2:DeleteCodeSecurityIntegration"],
-    resources: {
-      "inspector2:DeleteCodeSecurityIntegration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:codesecurity-integration/${CodeSecurityIntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCodeSecurityIntegration",
 }));
@@ -4147,14 +4073,6 @@ export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeSecurityScanConfiguration",
-  iam: {
-    actions: ["inspector2:DeleteCodeSecurityScanConfiguration"],
-    resources: {
-      "inspector2:DeleteCodeSecurityScanConfiguration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/codesecurity-configuration/${CodeSecurityScanConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCodeSecurityScanConfiguration",
 }));
@@ -4189,14 +4107,6 @@ export const deleteConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnector",
-  iam: {
-    actions: ["inspector2:DeleteConnector"],
-    resources: {
-      "inspector2:DeleteConnector": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConnector",
 }));
@@ -4229,14 +4139,6 @@ export const deleteFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
-  iam: {
-    actions: ["inspector2:DeleteFilter"],
-    resources: {
-      "inspector2:DeleteFilter": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/filter/${FilterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFilter",
 }));
@@ -4267,7 +4169,6 @@ export const describeOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeOrganizationConfiguration",
-  iam: { actions: ["inspector2:DescribeOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "DescribeOrganizationConfiguration",
 }));
@@ -4300,7 +4201,6 @@ export const disable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Disable",
-  iam: { actions: ["inspector2:Disable"] },
   telemetry: TELEMETRY,
   span: "Disable",
 }));
@@ -4335,7 +4235,6 @@ export const disableDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDelegatedAdminAccount",
-  iam: { actions: ["inspector2:DisableDelegatedAdminAccount"] },
   telemetry: TELEMETRY,
   span: "DisableDelegatedAdminAccount",
 }));
@@ -4366,7 +4265,6 @@ export const disassociateMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMember",
-  iam: { actions: ["inspector2:DisassociateMember"] },
   telemetry: TELEMETRY,
   span: "DisassociateMember",
 }));
@@ -4399,7 +4297,6 @@ export const enable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Enable",
-  iam: { actions: ["inspector2:Enable"] },
   telemetry: TELEMETRY,
   span: "Enable",
 }));
@@ -4434,7 +4331,6 @@ export const enableDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDelegatedAdminAccount",
-  iam: { actions: ["inspector2:EnableDelegatedAdminAccount"] },
   telemetry: TELEMETRY,
   span: "EnableDelegatedAdminAccount",
 }));
@@ -4467,7 +4363,6 @@ export const getCisScanReport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCisScanReport",
-  iam: { actions: ["inspector2:GetCisScanReport"] },
   telemetry: TELEMETRY,
   span: "GetCisScanReport",
 }));
@@ -4505,7 +4400,6 @@ export const getCisScanResultDetails: API.PaginatedOperationMethod<
     items: "scanResultDetails",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:GetCisScanResultDetails"] },
   telemetry: TELEMETRY,
   span: "GetCisScanResultDetails",
 })) as any;
@@ -4543,7 +4437,6 @@ export const getClustersForImage: API.PaginatedOperationMethod<
     items: "cluster",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:GetClustersForImage"] },
   telemetry: TELEMETRY,
   span: "GetClustersForImage",
 })) as any;
@@ -4576,7 +4469,6 @@ export const getCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityIntegration",
-  iam: { actions: ["inspector2:GetCodeSecurityIntegration"] },
   telemetry: TELEMETRY,
   span: "GetCodeSecurityIntegration",
 }));
@@ -4611,7 +4503,6 @@ export const getCodeSecurityScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityScan",
-  iam: { actions: ["inspector2:GetCodeSecurityScan"] },
   telemetry: TELEMETRY,
   span: "GetCodeSecurityScan",
 }));
@@ -4644,7 +4535,6 @@ export const getCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeSecurityScanConfiguration",
-  iam: { actions: ["inspector2:GetCodeSecurityScanConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetCodeSecurityScanConfiguration",
 }));
@@ -4677,7 +4567,6 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
-  iam: { actions: ["inspector2:GetConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetConfiguration",
 }));
@@ -4710,7 +4599,6 @@ export const getDelegatedAdminAccount: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDelegatedAdminAccount",
-  iam: { actions: ["inspector2:GetDelegatedAdminAccount"] },
   telemetry: TELEMETRY,
   span: "GetDelegatedAdminAccount",
 }));
@@ -4741,7 +4629,6 @@ export const getEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEc2DeepInspectionConfiguration",
-  iam: { actions: ["inspector2:GetEc2DeepInspectionConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetEc2DeepInspectionConfiguration",
 }));
@@ -4774,7 +4661,6 @@ export const getEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncryptionKey",
-  iam: { actions: ["inspector2:GetEncryptionKey"] },
   telemetry: TELEMETRY,
   span: "GetEncryptionKey",
 }));
@@ -4807,7 +4693,6 @@ export const getFindingsReportStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFindingsReportStatus",
-  iam: { actions: ["inspector2:GetFindingsReportStatus"] },
   telemetry: TELEMETRY,
   span: "GetFindingsReportStatus",
 }));
@@ -4840,7 +4725,6 @@ export const getMember: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMember",
-  iam: { actions: ["inspector2:GetMember"] },
   telemetry: TELEMETRY,
   span: "GetMember",
 }));
@@ -4873,7 +4757,6 @@ export const getOnDemandScanStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnDemandScanStatus",
-  iam: { actions: ["inspector2:GetOnDemandScanStatus"] },
   telemetry: TELEMETRY,
   span: "GetOnDemandScanStatus",
 }));
@@ -4906,7 +4789,6 @@ export const getSbomExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSbomExport",
-  iam: { actions: ["inspector2:GetSbomExport"] },
   telemetry: TELEMETRY,
   span: "GetSbomExport",
 }));
@@ -4944,7 +4826,6 @@ export const listAccountPermissions: API.PaginatedOperationMethod<
     items: "permissions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListAccountPermissions"] },
   telemetry: TELEMETRY,
   span: "ListAccountPermissions",
 })) as any;
@@ -4982,7 +4863,6 @@ export const listCisScanConfigurations: API.PaginatedOperationMethod<
     items: "scanConfigurations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListCisScanConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListCisScanConfigurations",
 })) as any;
@@ -5020,7 +4900,6 @@ export const listCisScanResultsAggregatedByChecks: API.PaginatedOperationMethod<
     items: "checkAggregations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListCisScanResultsAggregatedByChecks"] },
   telemetry: TELEMETRY,
   span: "ListCisScanResultsAggregatedByChecks",
 })) as any;
@@ -5066,7 +4945,6 @@ export const listCisScanResultsAggregatedByTargetResource: API.PaginatedOperatio
     items: "targetResourceAggregations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListCisScanResultsAggregatedByTargetResource"] },
   telemetry: TELEMETRY,
   span: "ListCisScanResultsAggregatedByTargetResource",
 })) as any;
@@ -5104,7 +4982,6 @@ export const listCisScans: API.PaginatedOperationMethod<
     items: "scans",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListCisScans"] },
   telemetry: TELEMETRY,
   span: "ListCisScans",
 })) as any;
@@ -5135,7 +5012,6 @@ export const listCodeSecurityIntegrations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityIntegrations",
-  iam: { actions: ["inspector2:ListCodeSecurityIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListCodeSecurityIntegrations",
 }));
@@ -5176,7 +5052,6 @@ export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityScanConfigurationAssociations",
-  iam: { actions: ["inspector2:ListCodeSecurityScanConfigurationAssociations"] },
   telemetry: TELEMETRY,
   span: "ListCodeSecurityScanConfigurationAssociations",
 }));
@@ -5209,7 +5084,6 @@ export const listCodeSecurityScanConfigurations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCodeSecurityScanConfigurations",
-  iam: { actions: ["inspector2:ListCodeSecurityScanConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListCodeSecurityScanConfigurations",
 }));
@@ -5247,7 +5121,6 @@ export const listConnectors: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListConnectors"] },
   telemetry: TELEMETRY,
   span: "ListConnectors",
 })) as any;
@@ -5285,7 +5158,6 @@ export const listConnectorScanConfigurations: API.PaginatedOperationMethod<
     items: "scanConfigurations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListConnectorScanConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListConnectorScanConfigurations",
 })) as any;
@@ -5317,7 +5189,6 @@ export const listCoverage: API.PaginatedOperationMethod<
     items: "coveredResources",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListCoverage"] },
   telemetry: TELEMETRY,
   span: "ListCoverage",
 })) as any;
@@ -5348,7 +5219,6 @@ export const listCoverageStatistics: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "countsByGroup",
   } as const,
-  iam: { actions: ["inspector2:ListCoverageStatistics"] },
   telemetry: TELEMETRY,
   span: "ListCoverageStatistics",
 })) as any;
@@ -5386,7 +5256,6 @@ export const listDelegatedAdminAccounts: API.PaginatedOperationMethod<
     items: "delegatedAdminAccounts",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListDelegatedAdminAccounts"] },
   telemetry: TELEMETRY,
   span: "ListDelegatedAdminAccounts",
 })) as any;
@@ -5424,7 +5293,6 @@ export const listFilters: API.PaginatedOperationMethod<
     items: "filters",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListFilters"] },
   telemetry: TELEMETRY,
   span: "ListFilters",
 })) as any;
@@ -5456,7 +5324,6 @@ export const listFindingAggregations: API.PaginatedOperationMethod<
     items: "responses",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListFindingAggregations"] },
   telemetry: TELEMETRY,
   span: "ListFindingAggregations",
 })) as any;
@@ -5488,7 +5355,6 @@ export const listFindings: API.PaginatedOperationMethod<
     items: "findings",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListFindings"] },
   telemetry: TELEMETRY,
   span: "ListFindings",
 })) as any;
@@ -5526,7 +5392,6 @@ export const listMembers: API.PaginatedOperationMethod<
     items: "members",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListMembers"] },
   telemetry: TELEMETRY,
   span: "ListMembers",
 })) as any;
@@ -5564,7 +5429,6 @@ export const listOnDemandScans: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListOnDemandScans"] },
   telemetry: TELEMETRY,
   span: "ListOnDemandScans",
 })) as any;
@@ -5595,7 +5459,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["inspector2:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5633,7 +5496,6 @@ export const listUsageTotals: API.PaginatedOperationMethod<
     items: "totals",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["inspector2:ListUsageTotals"] },
   telemetry: TELEMETRY,
   span: "ListUsageTotals",
 })) as any;
@@ -5666,7 +5528,6 @@ export const resetEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetEncryptionKey",
-  iam: { actions: ["inspector2:ResetEncryptionKey"] },
   telemetry: TELEMETRY,
   span: "ResetEncryptionKey",
 }));
@@ -5703,7 +5564,6 @@ export const searchVulnerabilities: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     items: "vulnerabilities",
   } as const,
-  iam: { actions: ["inspector2:SearchVulnerabilities"] },
   telemetry: TELEMETRY,
   span: "SearchVulnerabilities",
 })) as any;
@@ -5736,7 +5596,6 @@ export const sendCisSessionHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCisSessionHealth",
-  iam: { actions: ["inspector2:SendCisSessionHealth"] },
   telemetry: TELEMETRY,
   span: "SendCisSessionHealth",
 }));
@@ -5769,7 +5628,6 @@ export const sendCisSessionTelemetry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendCisSessionTelemetry",
-  iam: { actions: ["inspector2:SendCisSessionTelemetry"] },
   telemetry: TELEMETRY,
   span: "SendCisSessionTelemetry",
 }));
@@ -5802,7 +5660,6 @@ export const startCisSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCisSession",
-  iam: { actions: ["inspector2:StartCisSession"] },
   telemetry: TELEMETRY,
   span: "StartCisSession",
 }));
@@ -5837,7 +5694,6 @@ export const startCodeSecurityScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCodeSecurityScan",
-  iam: { actions: ["inspector2:StartCodeSecurityScan"] },
   telemetry: TELEMETRY,
   span: "StartCodeSecurityScan",
 }));
@@ -5870,7 +5726,6 @@ export const startOnDemandScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartOnDemandScan",
-  iam: { actions: ["inspector2:StartOnDemandScan"] },
   telemetry: TELEMETRY,
   span: "StartOnDemandScan",
 }));
@@ -5903,7 +5758,6 @@ export const stopCisSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCisSession",
-  iam: { actions: ["inspector2:StopCisSession"] },
   telemetry: TELEMETRY,
   span: "StopCisSession",
 }));
@@ -5936,7 +5790,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["inspector2:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5967,7 +5820,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["inspector2:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6000,14 +5852,6 @@ export const updateCisScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCisScanConfiguration",
-  iam: {
-    actions: ["inspector2:UpdateCisScanConfiguration"],
-    resources: {
-      "inspector2:UpdateCisScanConfiguration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/cis-configuration/${CISScanConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCisScanConfiguration",
 }));
@@ -6044,14 +5888,6 @@ export const updateCodeSecurityIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSecurityIntegration",
-  iam: {
-    actions: ["inspector2:UpdateCodeSecurityIntegration"],
-    resources: {
-      "inspector2:UpdateCodeSecurityIntegration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:codesecurity-integration/${CodeSecurityIntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCodeSecurityIntegration",
 }));
@@ -6086,14 +5922,6 @@ export const updateCodeSecurityScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCodeSecurityScanConfiguration",
-  iam: {
-    actions: ["inspector2:UpdateCodeSecurityScanConfiguration"],
-    resources: {
-      "inspector2:UpdateCodeSecurityScanConfiguration": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/codesecurity-configuration/${CodeSecurityScanConfigurationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCodeSecurityScanConfiguration",
 }));
@@ -6126,7 +5954,6 @@ export const updateConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfiguration",
-  iam: { actions: ["inspector2:UpdateConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateConfiguration",
 }));
@@ -6161,14 +5988,6 @@ export const updateConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnector",
-  iam: {
-    actions: ["inspector2:UpdateConnector"],
-    resources: {
-      "inspector2:UpdateConnector": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:connector/${ConnectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConnector",
 }));
@@ -6203,7 +6022,6 @@ export const updateConnectorScanConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectorScanConfiguration",
-  iam: { actions: ["inspector2:UpdateConnectorScanConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateConnectorScanConfiguration",
 }));
@@ -6234,7 +6052,6 @@ export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEc2DeepInspectionConfiguration",
-  iam: { actions: ["inspector2:UpdateEc2DeepInspectionConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateEc2DeepInspectionConfiguration",
 }));
@@ -6267,7 +6084,6 @@ export const updateEncryptionKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEncryptionKey",
-  iam: { actions: ["inspector2:UpdateEncryptionKey"] },
   telemetry: TELEMETRY,
   span: "UpdateEncryptionKey",
 }));
@@ -6300,14 +6116,6 @@ export const updateFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFilter",
-  iam: {
-    actions: ["inspector2:UpdateFilter"],
-    resources: {
-      "inspector2:UpdateFilter": [
-        "arn:${Partition}:inspector2:${Region}:${Account}:owner/${OwnerId}/filter/${FilterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFilter",
 }));
@@ -6338,7 +6146,6 @@ export const updateOrganizationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationConfiguration",
-  iam: { actions: ["inspector2:UpdateOrganizationConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateOrganizationConfiguration",
 }));
@@ -6369,7 +6176,6 @@ export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrgEc2DeepInspectionConfiguration",
-  iam: { actions: ["inspector2:UpdateOrgEc2DeepInspectionConfiguration"] },
   telemetry: TELEMETRY,
   span: "UpdateOrgEc2DeepInspectionConfiguration",
 }));

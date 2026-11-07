@@ -676,14 +676,6 @@ export const configureLogs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfigureLogs",
-  iam: {
-    actions: ["mediapackage-vod:ConfigureLogs"],
-    resources: {
-      "mediapackage-vod:ConfigureLogs": [
-        "arn:${Partition}:mediapackage-vod:${Region}:${Account}:packaging-groups/${PackagingGroupIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ConfigureLogs",
 }));
@@ -718,11 +710,6 @@ export const createAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAsset",
-  iam: {
-    actions: ["mediapackage-vod:CreateAsset", "iam:PassRole", "mediapackage-vod:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "mediapackage-vod:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAsset",
 }));
@@ -757,18 +744,6 @@ export const createPackagingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackagingConfiguration",
-  iam: {
-    actions: [
-      "mediapackage-vod:CreatePackagingConfiguration",
-      "iam:PassRole",
-      "mediapackage-vod:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "a role the request names",
-      "mediapackage-vod:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePackagingConfiguration",
 }));
@@ -803,18 +778,6 @@ export const createPackagingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackagingGroup",
-  iam: {
-    actions: [
-      "mediapackage-vod:CreatePackagingGroup",
-      "iam:PassRole",
-      "mediapackage-vod:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: {
-      "iam:PassRole": "Authorization.SecretsRoleArn",
-      "mediapackage-vod:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePackagingGroup",
 }));
@@ -849,14 +812,6 @@ export const deleteAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAsset",
-  iam: {
-    actions: ["mediapackage-vod:DeleteAsset"],
-    resources: {
-      "mediapackage-vod:DeleteAsset": [
-        "arn:${Partition}:mediapackage-vod:${Region}:${Account}:assets/${AssetIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAsset",
 }));
@@ -891,14 +846,6 @@ export const deletePackagingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackagingConfiguration",
-  iam: {
-    actions: ["mediapackage-vod:DeletePackagingConfiguration"],
-    resources: {
-      "mediapackage-vod:DeletePackagingConfiguration": [
-        "arn:${Partition}:mediapackage-vod:${Region}:${Account}:packaging-configurations/${PackagingConfigurationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePackagingConfiguration",
 }));
@@ -933,14 +880,6 @@ export const deletePackagingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackagingGroup",
-  iam: {
-    actions: ["mediapackage-vod:DeletePackagingGroup"],
-    resources: {
-      "mediapackage-vod:DeletePackagingGroup": [
-        "arn:${Partition}:mediapackage-vod:${Region}:${Account}:packaging-groups/${PackagingGroupIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePackagingGroup",
 }));
@@ -975,14 +914,6 @@ export const describeAsset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAsset",
-  iam: {
-    actions: ["mediapackage-vod:DescribeAsset"],
-    resources: {
-      "mediapackage-vod:DescribeAsset": [
-        "arn:${Partition}:mediapackage-vod:${Region}:${Account}:assets/${AssetIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAsset",
 }));
@@ -1017,14 +948,6 @@ export const describePackagingConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackagingConfiguration",
-  iam: {
-    actions: ["mediapackage-vod:DescribePackagingConfiguration"],
-    resources: {
-      "mediapackage-vod:DescribePackagingConfiguration": [
-        "arn:${Partition}:mediapackage-vod:${Region}:${Account}:packaging-configurations/${PackagingConfigurationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePackagingConfiguration",
 }));
@@ -1059,14 +982,6 @@ export const describePackagingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePackagingGroup",
-  iam: {
-    actions: ["mediapackage-vod:DescribePackagingGroup"],
-    resources: {
-      "mediapackage-vod:DescribePackagingGroup": [
-        "arn:${Partition}:mediapackage-vod:${Region}:${Account}:packaging-groups/${PackagingGroupIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePackagingGroup",
 }));
@@ -1108,7 +1023,6 @@ export const listAssets: API.PaginatedOperationMethod<
     items: "Assets",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediapackage-vod:ListAssets"] },
   telemetry: TELEMETRY,
   span: "ListAssets",
 })) as any;
@@ -1150,7 +1064,6 @@ export const listPackagingConfigurations: API.PaginatedOperationMethod<
     items: "PackagingConfigurations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediapackage-vod:ListPackagingConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListPackagingConfigurations",
 })) as any;
@@ -1192,7 +1105,6 @@ export const listPackagingGroups: API.PaginatedOperationMethod<
     items: "PackagingGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediapackage-vod:ListPackagingGroups"] },
   telemetry: TELEMETRY,
   span: "ListPackagingGroups",
 })) as any;
@@ -1213,7 +1125,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["mediapackage-vod:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1234,7 +1145,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["mediapackage-vod:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1255,7 +1165,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["mediapackage-vod:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1290,16 +1199,6 @@ export const updatePackagingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackagingGroup",
-  iam: {
-    actions: ["iam:PassRole", "mediapackage-vod:UpdatePackagingGroup"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "mediapackage-vod:UpdatePackagingGroup": [
-        "arn:${Partition}:mediapackage-vod:${Region}:${Account}:packaging-groups/${PackagingGroupIdentifier}",
-      ],
-    },
-    conditional: { "iam:PassRole": "Authorization.SecretsRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePackagingGroup",
 }));

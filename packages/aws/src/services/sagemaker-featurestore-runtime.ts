@@ -306,14 +306,6 @@ export const batchGetRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetRecord",
-  iam: {
-    actions: ["sagemaker:BatchGetRecord"],
-    resources: {
-      "sagemaker:BatchGetRecord": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetRecord",
 }));
@@ -347,17 +339,6 @@ export const batchWriteRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchWriteRecord",
-  iam: {
-    actions: ["sagemaker:BatchWriteRecord", "sagemaker:PutRecord"],
-    resources: {
-      "sagemaker:BatchWriteRecord": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-      "sagemaker:PutRecord": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchWriteRecord",
 }));
@@ -420,14 +401,6 @@ export const deleteRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecord",
-  iam: {
-    actions: ["sagemaker:DeleteRecord"],
-    resources: {
-      "sagemaker:DeleteRecord": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecord",
 }));
@@ -464,14 +437,6 @@ export const getRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecord",
-  iam: {
-    actions: ["sagemaker:GetRecord"],
-    resources: {
-      "sagemaker:GetRecord": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecord",
 }));
@@ -507,14 +472,6 @@ export const listRecords: API.PaginatedOperationMethod<
     items: "RecordIdentifiers",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["sagemaker:ListRecords"],
-    resources: {
-      "sagemaker:ListRecords": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRecords",
 })) as any;
@@ -565,14 +522,6 @@ export const putRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutRecord",
-  iam: {
-    actions: ["sagemaker:PutRecord"],
-    resources: {
-      "sagemaker:PutRecord": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutRecord",
 }));
@@ -627,14 +576,6 @@ export const updateRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecord",
-  iam: {
-    actions: ["sagemaker:PutRecord"],
-    resources: {
-      "sagemaker:PutRecord": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:feature-group/${FeatureGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRecord",
 }));

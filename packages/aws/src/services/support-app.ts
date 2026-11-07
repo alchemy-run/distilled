@@ -266,10 +266,6 @@ export const createSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSlackChannelConfiguration",
-  iam: {
-    actions: ["supportapp:CreateSlackChannelConfiguration", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "CreateSlackChannelConfiguration",
 }));
@@ -295,7 +291,6 @@ export const deleteAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccountAlias",
-  iam: { actions: ["supportapp:DeleteAccountAlias"] },
   telemetry: TELEMETRY,
   span: "DeleteAccountAlias",
 }));
@@ -329,7 +324,6 @@ export const deleteSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackChannelConfiguration",
-  iam: { actions: ["supportapp:DeleteSlackChannelConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteSlackChannelConfiguration",
 }));
@@ -363,7 +357,6 @@ export const deleteSlackWorkspaceConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSlackWorkspaceConfiguration",
-  iam: { actions: ["supportapp:DeleteSlackWorkspaceConfiguration"] },
   telemetry: TELEMETRY,
   span: "DeleteSlackWorkspaceConfiguration",
 }));
@@ -385,7 +378,6 @@ export const getAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccountAlias",
-  iam: { actions: ["supportapp:GetAccountAlias"] },
   telemetry: TELEMETRY,
   span: "GetAccountAlias",
 }));
@@ -411,7 +403,6 @@ export const listSlackChannelConfigurations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSlackChannelConfigurations",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  iam: { actions: ["supportapp:ListSlackChannelConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSlackChannelConfigurations",
 })) as any;
@@ -437,7 +428,6 @@ export const listSlackWorkspaceConfigurations: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListSlackWorkspaceConfigurations",
   pagination: { inputToken: "nextToken", outputToken: "nextToken" } as const,
-  iam: { actions: ["supportapp:ListSlackWorkspaceConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListSlackWorkspaceConfigurations",
 })) as any;
@@ -464,7 +454,6 @@ export const putAccountAlias: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountAlias",
-  iam: { actions: ["supportapp:PutAccountAlias"] },
   telemetry: TELEMETRY,
   span: "PutAccountAlias",
 }));
@@ -521,7 +510,6 @@ export const registerSlackWorkspaceForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterSlackWorkspaceForOrganization",
-  iam: { actions: ["supportapp:RegisterSlackWorkspaceForOrganization"] },
   telemetry: TELEMETRY,
   span: "RegisterSlackWorkspaceForOrganization",
 }));
@@ -554,11 +542,6 @@ export const updateSlackChannelConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSlackChannelConfiguration",
-  iam: {
-    actions: ["iam:PassRole", "supportapp:UpdateSlackChannelConfiguration"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "channelRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSlackChannelConfiguration",
 }));

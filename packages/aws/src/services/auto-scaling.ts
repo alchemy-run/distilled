@@ -2005,14 +2005,6 @@ export const attachInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachInstances",
-  iam: {
-    actions: ["autoscaling:AttachInstances"],
-    resources: {
-      "autoscaling:AttachInstances": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AttachInstances",
 }));
@@ -2056,14 +2048,6 @@ export const attachLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancers",
-  iam: {
-    actions: ["autoscaling:AttachLoadBalancers"],
-    resources: {
-      "autoscaling:AttachLoadBalancers": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AttachLoadBalancers",
 }));
@@ -2116,14 +2100,6 @@ export const attachLoadBalancerTargetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachLoadBalancerTargetGroups",
-  iam: {
-    actions: ["autoscaling:AttachLoadBalancerTargetGroups"],
-    resources: {
-      "autoscaling:AttachLoadBalancerTargetGroups": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AttachLoadBalancerTargetGroups",
 }));
@@ -2168,14 +2144,6 @@ export const attachTrafficSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AttachTrafficSources",
-  iam: {
-    actions: ["autoscaling:AttachTrafficSources"],
-    resources: {
-      "autoscaling:AttachTrafficSources": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AttachTrafficSources",
 }));
@@ -2196,14 +2164,6 @@ export const batchDeleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteScheduledAction",
-  iam: {
-    actions: ["autoscaling:BatchDeleteScheduledAction"],
-    resources: {
-      "autoscaling:BatchDeleteScheduledAction": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDeleteScheduledAction",
 }));
@@ -2228,14 +2188,6 @@ export const batchPutScheduledUpdateGroupAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutScheduledUpdateGroupAction",
-  iam: {
-    actions: ["autoscaling:BatchPutScheduledUpdateGroupAction"],
-    resources: {
-      "autoscaling:BatchPutScheduledUpdateGroupAction": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchPutScheduledUpdateGroupAction",
 }));
@@ -2269,14 +2221,6 @@ export const cancelInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelInstanceRefresh",
-  iam: {
-    actions: ["autoscaling:CancelInstanceRefresh"],
-    resources: {
-      "autoscaling:CancelInstanceRefresh": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelInstanceRefresh",
 }));
@@ -2326,14 +2270,6 @@ export const completeLifecycleAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteLifecycleAction",
-  iam: {
-    actions: ["autoscaling:CompleteLifecycleAction"],
-    resources: {
-      "autoscaling:CompleteLifecycleAction": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CompleteLifecycleAction",
 }));
@@ -2382,23 +2318,6 @@ export const createAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutoScalingGroup",
-  iam: {
-    actions: [
-      "autoscaling:CreateAutoScalingGroup",
-      "autoscaling:CreateOrUpdateTags",
-      "iam:PassRole",
-    ],
-    resources: {
-      "autoscaling:CreateAutoScalingGroup": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-      "autoscaling:CreateOrUpdateTags": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "ServiceLinkedRoleARN" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAutoScalingGroup",
 }));
@@ -2436,16 +2355,6 @@ export const createLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLaunchConfiguration",
-  iam: {
-    actions: ["autoscaling:CreateLaunchConfiguration", "iam:PassRole"],
-    resources: {
-      "autoscaling:CreateLaunchConfiguration": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:launchConfiguration:${Id}:launchConfigurationName/${LaunchConfigurationName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLaunchConfiguration",
 }));
@@ -2477,14 +2386,6 @@ export const createOrUpdateTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOrUpdateTags",
-  iam: {
-    actions: ["autoscaling:CreateOrUpdateTags"],
-    resources: {
-      "autoscaling:CreateOrUpdateTags": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateOrUpdateTags",
 }));
@@ -2530,14 +2431,6 @@ export const deleteAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutoScalingGroup",
-  iam: {
-    actions: ["autoscaling:DeleteAutoScalingGroup"],
-    resources: {
-      "autoscaling:DeleteAutoScalingGroup": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAutoScalingGroup",
 }));
@@ -2564,14 +2457,6 @@ export const deleteLaunchConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLaunchConfiguration",
-  iam: {
-    actions: ["autoscaling:DeleteLaunchConfiguration"],
-    resources: {
-      "autoscaling:DeleteLaunchConfiguration": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:launchConfiguration:${Id}:launchConfigurationName/${LaunchConfigurationName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLaunchConfiguration",
 }));
@@ -2599,14 +2484,6 @@ export const deleteLifecycleHook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLifecycleHook",
-  iam: {
-    actions: ["autoscaling:DeleteLifecycleHook"],
-    resources: {
-      "autoscaling:DeleteLifecycleHook": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLifecycleHook",
 }));
@@ -2627,14 +2504,6 @@ export const deleteNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotificationConfiguration",
-  iam: {
-    actions: ["autoscaling:DeleteNotificationConfiguration"],
-    resources: {
-      "autoscaling:DeleteNotificationConfiguration": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNotificationConfiguration",
 }));
@@ -2662,14 +2531,6 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
-  iam: {
-    actions: ["autoscaling:DeletePolicy"],
-    resources: {
-      "autoscaling:DeletePolicy": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -2693,14 +2554,6 @@ export const deleteScheduledAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteScheduledAction",
-  iam: {
-    actions: ["autoscaling:DeleteScheduledAction"],
-    resources: {
-      "autoscaling:DeleteScheduledAction": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteScheduledAction",
 }));
@@ -2721,14 +2574,6 @@ export const deleteTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTags",
-  iam: {
-    actions: ["autoscaling:DeleteTags"],
-    resources: {
-      "autoscaling:DeleteTags": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTags",
 }));
@@ -2762,14 +2607,6 @@ export const deleteWarmPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWarmPool",
-  iam: {
-    actions: ["autoscaling:DeleteWarmPool"],
-    resources: {
-      "autoscaling:DeleteWarmPool": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWarmPool",
 }));
@@ -2795,7 +2632,6 @@ export const describeAccountLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountLimits",
-  iam: { actions: ["autoscaling:DescribeAccountLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountLimits",
 }));
@@ -2816,7 +2652,6 @@ export const describeAccountSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAccountSettings",
-  iam: { actions: ["autoscaling:DescribeAccountSettings"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountSettings",
 }));
@@ -2846,7 +2681,6 @@ export const describeAdjustmentTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAdjustmentTypes",
-  iam: { actions: ["autoscaling:DescribeAdjustmentTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeAdjustmentTypes",
 }));
@@ -2886,7 +2720,6 @@ export const describeAutoScalingGroups: API.PaginatedOperationMethod<
     items: "AutoScalingGroups",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeAutoScalingGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeAutoScalingGroups",
 })) as any;
@@ -2917,7 +2750,6 @@ export const describeAutoScalingInstances: API.PaginatedOperationMethod<
     items: "AutoScalingInstances",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeAutoScalingInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeAutoScalingInstances",
 })) as any;
@@ -2938,7 +2770,6 @@ export const describeAutoScalingNotificationTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAutoScalingNotificationTypes",
-  iam: { actions: ["autoscaling:DescribeAutoScalingNotificationTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeAutoScalingNotificationTypes",
 }));
@@ -2980,7 +2811,6 @@ export const describeInstanceRefreshes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeInstanceRefreshes"] },
   telemetry: TELEMETRY,
   span: "DescribeInstanceRefreshes",
 })) as any;
@@ -3011,7 +2841,6 @@ export const describeLaunchConfigurations: API.PaginatedOperationMethod<
     items: "LaunchConfigurations",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeLaunchConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeLaunchConfigurations",
 })) as any;
@@ -3035,7 +2864,6 @@ export const describeLifecycleHooks: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleHooks",
-  iam: { actions: ["autoscaling:DescribeLifecycleHooks"] },
   telemetry: TELEMETRY,
   span: "DescribeLifecycleHooks",
 }));
@@ -3062,7 +2890,6 @@ export const describeLifecycleHookTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLifecycleHookTypes",
-  iam: { actions: ["autoscaling:DescribeLifecycleHookTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeLifecycleHookTypes",
 }));
@@ -3122,7 +2949,6 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeLoadBalancers"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancers",
 })) as any;
@@ -3185,7 +3011,6 @@ export const describeLoadBalancerTargetGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeLoadBalancerTargetGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancerTargetGroups",
 })) as any;
@@ -3206,7 +3031,6 @@ export const describeMetricCollectionTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricCollectionTypes",
-  iam: { actions: ["autoscaling:DescribeMetricCollectionTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeMetricCollectionTypes",
 }));
@@ -3238,7 +3062,6 @@ export const describeNotificationConfigurations: API.PaginatedOperationMethod<
     items: "NotificationConfigurations",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeNotificationConfigurations"] },
   telemetry: TELEMETRY,
   span: "DescribeNotificationConfigurations",
 })) as any;
@@ -3270,7 +3093,6 @@ export const describePolicies: API.PaginatedOperationMethod<
     items: "ScalingPolicies",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribePolicies"] },
   telemetry: TELEMETRY,
   span: "DescribePolicies",
 })) as any;
@@ -3311,7 +3133,6 @@ export const describeScalingActivities: API.PaginatedOperationMethod<
     items: "Activities",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeScalingActivities"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingActivities",
 })) as any;
@@ -3333,7 +3154,6 @@ export const describeScalingProcessTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeScalingProcessTypes",
-  iam: { actions: ["autoscaling:DescribeScalingProcessTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeScalingProcessTypes",
 }));
@@ -3369,7 +3189,6 @@ export const describeScheduledActions: API.PaginatedOperationMethod<
     items: "ScheduledUpdateGroupActions",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeScheduledActions"] },
   telemetry: TELEMETRY,
   span: "DescribeScheduledActions",
 })) as any;
@@ -3408,7 +3227,6 @@ export const describeTags: API.PaginatedOperationMethod<
     items: "Tags",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 })) as any;
@@ -3433,7 +3251,6 @@ export const describeTerminationPolicyTypes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTerminationPolicyTypes",
-  iam: { actions: ["autoscaling:DescribeTerminationPolicyTypes"] },
   telemetry: TELEMETRY,
   span: "DescribeTerminationPolicyTypes",
 }));
@@ -3466,7 +3283,6 @@ export const describeTrafficSources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeTrafficSources"] },
   telemetry: TELEMETRY,
   span: "DescribeTrafficSources",
 })) as any;
@@ -3501,7 +3317,6 @@ export const describeWarmPool: API.PaginatedOperationMethod<
     items: "Instances",
     pageSize: "MaxRecords",
   } as const,
-  iam: { actions: ["autoscaling:DescribeWarmPool"] },
   telemetry: TELEMETRY,
   span: "DescribeWarmPool",
 })) as any;
@@ -3535,14 +3350,6 @@ export const detachInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachInstances",
-  iam: {
-    actions: ["autoscaling:DetachInstances"],
-    resources: {
-      "autoscaling:DetachInstances": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DetachInstances",
 }));
@@ -3578,14 +3385,6 @@ export const detachLoadBalancers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancers",
-  iam: {
-    actions: ["autoscaling:DetachLoadBalancers"],
-    resources: {
-      "autoscaling:DetachLoadBalancers": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DetachLoadBalancers",
 }));
@@ -3623,14 +3422,6 @@ export const detachLoadBalancerTargetGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachLoadBalancerTargetGroups",
-  iam: {
-    actions: ["autoscaling:DetachLoadBalancerTargetGroups"],
-    resources: {
-      "autoscaling:DetachLoadBalancerTargetGroups": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DetachLoadBalancerTargetGroups",
 }));
@@ -3657,14 +3448,6 @@ export const detachTrafficSources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetachTrafficSources",
-  iam: {
-    actions: ["autoscaling:DetachTrafficSources"],
-    resources: {
-      "autoscaling:DetachTrafficSources": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DetachTrafficSources",
 }));
@@ -3685,14 +3468,6 @@ export const disableMetricsCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableMetricsCollection",
-  iam: {
-    actions: ["autoscaling:DisableMetricsCollection"],
-    resources: {
-      "autoscaling:DisableMetricsCollection": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableMetricsCollection",
 }));
@@ -3719,14 +3494,6 @@ export const enableMetricsCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableMetricsCollection",
-  iam: {
-    actions: ["autoscaling:EnableMetricsCollection"],
-    resources: {
-      "autoscaling:EnableMetricsCollection": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableMetricsCollection",
 }));
@@ -3759,14 +3526,6 @@ export const enterStandby: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnterStandby",
-  iam: {
-    actions: ["autoscaling:EnterStandby"],
-    resources: {
-      "autoscaling:EnterStandby": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnterStandby",
 }));
@@ -3791,14 +3550,6 @@ export const executePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecutePolicy",
-  iam: {
-    actions: ["autoscaling:ExecutePolicy"],
-    resources: {
-      "autoscaling:ExecutePolicy": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExecutePolicy",
 }));
@@ -3826,14 +3577,6 @@ export const exitStandby: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExitStandby",
-  iam: {
-    actions: ["autoscaling:ExitStandby"],
-    resources: {
-      "autoscaling:ExitStandby": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ExitStandby",
 }));
@@ -3865,7 +3608,6 @@ export const getPredictiveScalingForecast: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPredictiveScalingForecast",
-  iam: { actions: ["autoscaling:GetPredictiveScalingForecast"] },
   telemetry: TELEMETRY,
   span: "GetPredictiveScalingForecast",
 }));
@@ -3895,14 +3637,6 @@ export const launchInstances: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "LaunchInstances",
-  iam: {
-    actions: ["autoscaling:LaunchInstances"],
-    resources: {
-      "autoscaling:LaunchInstances": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "LaunchInstances",
 }));
@@ -3923,7 +3657,6 @@ export const putAccountSetting: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutAccountSetting",
-  iam: { actions: ["autoscaling:PutAccountSetting"] },
   telemetry: TELEMETRY,
   span: "PutAccountSetting",
 }));
@@ -3986,16 +3719,6 @@ export const putLifecycleHook: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutLifecycleHook",
-  iam: {
-    actions: ["iam:PassRole", "autoscaling:PutLifecycleHook"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "autoscaling:PutLifecycleHook": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleARN" },
-  },
   telemetry: TELEMETRY,
   span: "PutLifecycleHook",
 }));
@@ -4031,14 +3754,6 @@ export const putNotificationConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutNotificationConfiguration",
-  iam: {
-    actions: ["autoscaling:PutNotificationConfiguration"],
-    resources: {
-      "autoscaling:PutNotificationConfiguration": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutNotificationConfiguration",
 }));
@@ -4076,14 +3791,6 @@ export const putScalingPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScalingPolicy",
-  iam: {
-    actions: ["autoscaling:PutScalingPolicy"],
-    resources: {
-      "autoscaling:PutScalingPolicy": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutScalingPolicy",
 }));
@@ -4125,14 +3832,6 @@ export const putScheduledUpdateGroupAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutScheduledUpdateGroupAction",
-  iam: {
-    actions: ["autoscaling:PutScheduledUpdateGroupAction"],
-    resources: {
-      "autoscaling:PutScheduledUpdateGroupAction": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutScheduledUpdateGroupAction",
 }));
@@ -4169,14 +3868,6 @@ export const putWarmPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutWarmPool",
-  iam: {
-    actions: ["autoscaling:PutWarmPool"],
-    resources: {
-      "autoscaling:PutWarmPool": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutWarmPool",
 }));
@@ -4226,14 +3917,6 @@ export const recordLifecycleActionHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecordLifecycleActionHeartbeat",
-  iam: {
-    actions: ["autoscaling:RecordLifecycleActionHeartbeat"],
-    resources: {
-      "autoscaling:RecordLifecycleActionHeartbeat": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RecordLifecycleActionHeartbeat",
 }));
@@ -4258,14 +3941,6 @@ export const resumeProcesses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResumeProcesses",
-  iam: {
-    actions: ["autoscaling:ResumeProcesses"],
-    resources: {
-      "autoscaling:ResumeProcesses": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResumeProcesses",
 }));
@@ -4317,14 +3992,6 @@ export const rollbackInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RollbackInstanceRefresh",
-  iam: {
-    actions: ["autoscaling:RollbackInstanceRefresh"],
-    resources: {
-      "autoscaling:RollbackInstanceRefresh": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RollbackInstanceRefresh",
 }));
@@ -4355,14 +4022,6 @@ export const setDesiredCapacity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetDesiredCapacity",
-  iam: {
-    actions: ["autoscaling:SetDesiredCapacity"],
-    resources: {
-      "autoscaling:SetDesiredCapacity": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetDesiredCapacity",
 }));
@@ -4387,14 +4046,6 @@ export const setInstanceHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetInstanceHealth",
-  iam: {
-    actions: ["autoscaling:SetInstanceHealth"],
-    resources: {
-      "autoscaling:SetInstanceHealth": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetInstanceHealth",
 }));
@@ -4426,14 +4077,6 @@ export const setInstanceProtection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetInstanceProtection",
-  iam: {
-    actions: ["autoscaling:SetInstanceProtection"],
-    resources: {
-      "autoscaling:SetInstanceProtection": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetInstanceProtection",
 }));
@@ -4484,14 +4127,6 @@ export const startInstanceRefresh: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartInstanceRefresh",
-  iam: {
-    actions: ["autoscaling:StartInstanceRefresh"],
-    resources: {
-      "autoscaling:StartInstanceRefresh": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartInstanceRefresh",
 }));
@@ -4520,14 +4155,6 @@ export const suspendProcesses: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SuspendProcesses",
-  iam: {
-    actions: ["autoscaling:SuspendProcesses"],
-    resources: {
-      "autoscaling:SuspendProcesses": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SuspendProcesses",
 }));
@@ -4571,14 +4198,6 @@ export const terminateInstanceInAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateInstanceInAutoScalingGroup",
-  iam: {
-    actions: ["autoscaling:TerminateInstanceInAutoScalingGroup"],
-    resources: {
-      "autoscaling:TerminateInstanceInAutoScalingGroup": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateInstanceInAutoScalingGroup",
 }));
@@ -4649,16 +4268,6 @@ export const updateAutoScalingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutoScalingGroup",
-  iam: {
-    actions: ["iam:PassRole", "autoscaling:UpdateAutoScalingGroup"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "autoscaling:UpdateAutoScalingGroup": [
-        "arn:${Partition}:autoscaling:${Region}:${Account}:autoScalingGroup:${GroupId}:autoScalingGroupName/${GroupFriendlyName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "ServiceLinkedRoleARN" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAutoScalingGroup",
 }));

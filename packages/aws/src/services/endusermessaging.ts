@@ -662,7 +662,6 @@ export const createBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfile",
-  iam: { actions: ["end-user-messaging:CreateBrandProfile"] },
   telemetry: TELEMETRY,
   span: "CreateBrandProfile",
 }));
@@ -699,14 +698,6 @@ export const createBrandProfileAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfileAttributes",
-  iam: {
-    actions: ["end-user-messaging:CreateBrandProfileAttributes"],
-    resources: {
-      "end-user-messaging:CreateBrandProfileAttributes": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBrandProfileAttributes",
 }));
@@ -743,7 +734,6 @@ export const createBrandProfileFromRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrandProfileFromRegistration",
-  iam: { actions: ["end-user-messaging:CreateBrandProfileFromRegistration"] },
   telemetry: TELEMETRY,
   span: "CreateBrandProfileFromRegistration",
 }));
@@ -778,7 +768,6 @@ export const createNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateNotifyCodeConfiguration",
-  iam: { actions: ["end-user-messaging:CreateNotifyCodeConfiguration"] },
   telemetry: TELEMETRY,
   span: "CreateNotifyCodeConfiguration",
 }));
@@ -813,14 +802,6 @@ export const createRegistrationsFromBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistrationsFromBrandProfile",
-  iam: {
-    actions: ["end-user-messaging:CreateRegistrationsFromBrandProfile"],
-    resources: {
-      "end-user-messaging:CreateRegistrationsFromBrandProfile": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateRegistrationsFromBrandProfile",
 }));
@@ -855,14 +836,6 @@ export const deleteBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrandProfile",
-  iam: {
-    actions: ["end-user-messaging:DeleteBrandProfile"],
-    resources: {
-      "end-user-messaging:DeleteBrandProfile": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBrandProfile",
 }));
@@ -897,14 +870,6 @@ export const deleteBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrandProfileAttribute",
-  iam: {
-    actions: ["end-user-messaging:DeleteBrandProfileAttribute"],
-    resources: {
-      "end-user-messaging:DeleteBrandProfileAttribute": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBrandProfileAttribute",
 }));
@@ -939,14 +904,6 @@ export const deleteNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteNotifyCodeConfiguration",
-  iam: {
-    actions: ["end-user-messaging:DeleteNotifyCodeConfiguration"],
-    resources: {
-      "end-user-messaging:DeleteNotifyCodeConfiguration": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:notify-code-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteNotifyCodeConfiguration",
 }));
@@ -979,14 +936,6 @@ export const getBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrandProfile",
-  iam: {
-    actions: ["end-user-messaging:GetBrandProfile"],
-    resources: {
-      "end-user-messaging:GetBrandProfile": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBrandProfile",
 }));
@@ -1019,14 +968,6 @@ export const getBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrandProfileAttribute",
-  iam: {
-    actions: ["end-user-messaging:GetBrandProfileAttribute"],
-    resources: {
-      "end-user-messaging:GetBrandProfileAttribute": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBrandProfileAttribute",
 }));
@@ -1059,7 +1000,6 @@ export const getJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetJob",
-  iam: { actions: ["end-user-messaging:GetJob"] },
   telemetry: TELEMETRY,
   span: "GetJob",
 }));
@@ -1092,14 +1032,6 @@ export const getNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetNotifyCodeConfiguration",
-  iam: {
-    actions: ["end-user-messaging:GetNotifyCodeConfiguration"],
-    resources: {
-      "end-user-messaging:GetNotifyCodeConfiguration": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:notify-code-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetNotifyCodeConfiguration",
 }));
@@ -1139,14 +1071,6 @@ export const listBrandProfileAttributes: API.PaginatedOperationMethod<
     items: "brandProfileAttributes",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["end-user-messaging:ListBrandProfileAttributes"],
-    resources: {
-      "end-user-messaging:ListBrandProfileAttributes": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBrandProfileAttributes",
 })) as any;
@@ -1184,7 +1108,6 @@ export const listBrandProfiles: API.PaginatedOperationMethod<
     items: "brandProfiles",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["end-user-messaging:ListBrandProfiles"] },
   telemetry: TELEMETRY,
   span: "ListBrandProfiles",
 })) as any;
@@ -1222,7 +1145,6 @@ export const listJobs: API.PaginatedOperationMethod<
     items: "jobs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["end-user-messaging:ListJobs"] },
   telemetry: TELEMETRY,
   span: "ListJobs",
 })) as any;
@@ -1260,7 +1182,6 @@ export const listNotifyCodeConfigurations: API.PaginatedOperationMethod<
     items: "notifyCodeConfigurations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["end-user-messaging:ListNotifyCodeConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListNotifyCodeConfigurations",
 })) as any;
@@ -1300,14 +1221,6 @@ export const listRegistrationsFromBrandProfile: API.PaginatedOperationMethod<
     items: "registrationAssociations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["end-user-messaging:ListRegistrationsFromBrandProfile"],
-    resources: {
-      "end-user-messaging:ListRegistrationsFromBrandProfile": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRegistrationsFromBrandProfile",
 })) as any;
@@ -1340,7 +1253,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["end-user-messaging:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1377,7 +1289,6 @@ export const sendNotifyCodeVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SendNotifyCodeVerification",
-  iam: { actions: ["end-user-messaging:SendNotifyCodeVerification"] },
   telemetry: TELEMETRY,
   span: "SendNotifyCodeVerification",
 }));
@@ -1412,7 +1323,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["end-user-messaging:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1445,7 +1355,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["end-user-messaging:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1480,14 +1389,6 @@ export const updateBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfile",
-  iam: {
-    actions: ["end-user-messaging:UpdateBrandProfile"],
-    resources: {
-      "end-user-messaging:UpdateBrandProfile": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBrandProfile",
 }));
@@ -1522,14 +1423,6 @@ export const updateBrandProfileAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfileAttribute",
-  iam: {
-    actions: ["end-user-messaging:UpdateBrandProfileAttribute"],
-    resources: {
-      "end-user-messaging:UpdateBrandProfileAttribute": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBrandProfileAttribute",
 }));
@@ -1564,14 +1457,6 @@ export const updateBrandProfileFromRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBrandProfileFromRegistration",
-  iam: {
-    actions: ["end-user-messaging:UpdateBrandProfileFromRegistration"],
-    resources: {
-      "end-user-messaging:UpdateBrandProfileFromRegistration": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBrandProfileFromRegistration",
 }));
@@ -1606,14 +1491,6 @@ export const updateNotifyCodeConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateNotifyCodeConfiguration",
-  iam: {
-    actions: ["end-user-messaging:UpdateNotifyCodeConfiguration"],
-    resources: {
-      "end-user-messaging:UpdateNotifyCodeConfiguration": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:notify-code-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateNotifyCodeConfiguration",
 }));
@@ -1648,14 +1525,6 @@ export const updateRegistrationsFromBrandProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistrationsFromBrandProfile",
-  iam: {
-    actions: ["end-user-messaging:UpdateRegistrationsFromBrandProfile"],
-    resources: {
-      "end-user-messaging:UpdateRegistrationsFromBrandProfile": [
-        "arn:${Partition}:end-user-messaging:${Region}:${Account}:brand-profile/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRegistrationsFromBrandProfile",
 }));
@@ -1686,7 +1555,6 @@ export const validateNotifyCodeVerification: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateNotifyCodeVerification",
-  iam: { actions: ["end-user-messaging:ValidateNotifyCodeVerification"] },
   telemetry: TELEMETRY,
   span: "ValidateNotifyCodeVerification",
 }));

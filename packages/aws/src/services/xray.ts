@@ -1051,7 +1051,6 @@ export const batchGetTraces: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "BatchGetTraces",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Traces" } as const,
-  iam: { actions: ["xray:BatchGetTraces"] },
   telemetry: TELEMETRY,
   span: "BatchGetTraces",
 })) as any;
@@ -1076,7 +1075,6 @@ export const cancelTraceRetrieval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelTraceRetrieval",
-  iam: { actions: ["xray:CancelTraceRetrieval"] },
   telemetry: TELEMETRY,
   span: "CancelTraceRetrieval",
 }));
@@ -1101,13 +1099,6 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-  iam: {
-    actions: ["xray:CreateGroup", "xray:TagResource"],
-    resources: {
-      "xray:CreateGroup": ["arn:${Partition}:xray:${Region}:${Account}:group/${GroupName}/${Id}"],
-    },
-    conditional: { "xray:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -1144,15 +1135,6 @@ export const createSamplingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSamplingRule",
-  iam: {
-    actions: ["xray:CreateSamplingRule", "xray:TagResource"],
-    resources: {
-      "xray:CreateSamplingRule": [
-        "arn:${Partition}:xray:${Region}:${Account}:sampling-rule/${SamplingRuleName}",
-      ],
-    },
-    conditional: { "xray:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSamplingRule",
 }));
@@ -1177,12 +1159,6 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-  iam: {
-    actions: ["xray:DeleteGroup"],
-    resources: {
-      "xray:DeleteGroup": ["arn:${Partition}:xray:${Region}:${Account}:group/${GroupName}/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -1207,7 +1183,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: { actions: ["xray:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -1232,14 +1207,6 @@ export const deleteSamplingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSamplingRule",
-  iam: {
-    actions: ["xray:DeleteSamplingRule"],
-    resources: {
-      "xray:DeleteSamplingRule": [
-        "arn:${Partition}:xray:${Region}:${Account}:sampling-rule/${SamplingRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSamplingRule",
 }));
@@ -1260,7 +1227,6 @@ export const getEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncryptionConfig",
-  iam: { actions: ["xray:GetEncryptionConfig"] },
   telemetry: TELEMETRY,
   span: "GetEncryptionConfig",
 }));
@@ -1285,12 +1251,6 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
-  iam: {
-    actions: ["xray:GetGroup"],
-    resources: {
-      "xray:GetGroup": ["arn:${Partition}:xray:${Region}:${Account}:group/${GroupName}/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroup",
 }));
@@ -1313,7 +1273,6 @@ export const getGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetGroups",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Groups" } as const,
-  iam: { actions: ["xray:GetGroups"] },
   telemetry: TELEMETRY,
   span: "GetGroups",
 })) as any;
@@ -1336,7 +1295,6 @@ export const getIndexingRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIndexingRules",
-  iam: { actions: ["xray:GetIndexingRules"] },
   telemetry: TELEMETRY,
   span: "GetIndexingRules",
 }));
@@ -1359,7 +1317,6 @@ export const getInsight: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsight",
-  iam: { actions: ["xray:GetInsight"] },
   telemetry: TELEMETRY,
   span: "GetInsight",
 }));
@@ -1388,7 +1345,6 @@ export const getInsightEvents: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["xray:GetInsightEvents"] },
   telemetry: TELEMETRY,
   span: "GetInsightEvents",
 })) as any;
@@ -1413,7 +1369,6 @@ export const getInsightImpactGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetInsightImpactGraph",
-  iam: { actions: ["xray:GetInsightImpactGraph"] },
   telemetry: TELEMETRY,
   span: "GetInsightImpactGraph",
 }));
@@ -1440,7 +1395,6 @@ export const getInsightSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["xray:GetInsightSummaries"] },
   telemetry: TELEMETRY,
   span: "GetInsightSummaries",
 })) as any;
@@ -1473,7 +1427,6 @@ export const getRetrievedTracesGraph: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRetrievedTracesGraph",
-  iam: { actions: ["xray:GetRetrievedTracesGraph"] },
   telemetry: TELEMETRY,
   span: "GetRetrievedTracesGraph",
 }));
@@ -1500,7 +1453,6 @@ export const getSamplingRules: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "SamplingRuleRecords",
   } as const,
-  iam: { actions: ["xray:GetSamplingRules"] },
   telemetry: TELEMETRY,
   span: "GetSamplingRules",
 })) as any;
@@ -1530,7 +1482,6 @@ export const getSamplingStatisticSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "SamplingStatisticSummaries",
   } as const,
-  iam: { actions: ["xray:GetSamplingStatisticSummaries"] },
   telemetry: TELEMETRY,
   span: "GetSamplingStatisticSummaries",
 })) as any;
@@ -1551,7 +1502,6 @@ export const getSamplingTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSamplingTargets",
-  iam: { actions: ["xray:GetSamplingTargets"] },
   telemetry: TELEMETRY,
   span: "GetSamplingTargets",
 }));
@@ -1578,7 +1528,6 @@ export const getServiceGraph: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetServiceGraph",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Services" } as const,
-  iam: { actions: ["xray:GetServiceGraph"] },
   telemetry: TELEMETRY,
   span: "GetServiceGraph",
 })) as any;
@@ -1609,7 +1558,6 @@ export const getTimeSeriesServiceStatistics: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "TimeSeriesServiceStatistics",
   } as const,
-  iam: { actions: ["xray:GetTimeSeriesServiceStatistics"] },
   telemetry: TELEMETRY,
   span: "GetTimeSeriesServiceStatistics",
 })) as any;
@@ -1632,7 +1580,6 @@ export const getTraceGraph: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "GetTraceGraph",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Services" } as const,
-  iam: { actions: ["xray:GetTraceGraph"] },
   telemetry: TELEMETRY,
   span: "GetTraceGraph",
 })) as any;
@@ -1656,7 +1603,6 @@ export const getTraceSegmentDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTraceSegmentDestination",
-  iam: { actions: ["xray:GetTraceSegmentDestination"] },
   telemetry: TELEMETRY,
   span: "GetTraceSegmentDestination",
 }));
@@ -1700,7 +1646,6 @@ export const getTraceSummaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "TraceSummaries",
   } as const,
-  iam: { actions: ["xray:GetTraceSummaries"] },
   telemetry: TELEMETRY,
   span: "GetTraceSummaries",
 })) as any;
@@ -1727,7 +1672,6 @@ export const listResourcePolicies: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "ResourcePolicies",
   } as const,
-  iam: { actions: ["xray:ListResourcePolicies"] },
   telemetry: TELEMETRY,
   span: "ListResourcePolicies",
 })) as any;
@@ -1760,7 +1704,6 @@ export const listRetrievedTraces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRetrievedTraces",
-  iam: { actions: ["xray:ListRetrievedTraces"] },
   telemetry: TELEMETRY,
   span: "ListRetrievedTraces",
 }));
@@ -1787,7 +1730,6 @@ export const listTagsForResource: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagsForResource",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", items: "Tags" } as const,
-  iam: { actions: ["xray:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 })) as any;
@@ -1808,7 +1750,6 @@ export const putEncryptionConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutEncryptionConfig",
-  iam: { actions: ["xray:PutEncryptionConfig"] },
   telemetry: TELEMETRY,
   span: "PutEncryptionConfig",
 }));
@@ -1846,7 +1787,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: { actions: ["xray:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -1867,7 +1807,6 @@ export const putTelemetryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTelemetryRecords",
-  iam: { actions: ["xray:PutTelemetryRecords"] },
   telemetry: TELEMETRY,
   span: "PutTelemetryRecords",
 }));
@@ -1939,7 +1878,6 @@ export const putTraceSegments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutTraceSegments",
-  iam: { actions: ["xray:PutTraceSegments"] },
   telemetry: TELEMETRY,
   span: "PutTraceSegments",
 }));
@@ -1970,7 +1908,6 @@ export const startTraceRetrieval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTraceRetrieval",
-  iam: { actions: ["xray:StartTraceRetrieval"] },
   telemetry: TELEMETRY,
   span: "StartTraceRetrieval",
 }));
@@ -2001,7 +1938,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["xray:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2027,7 +1963,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["xray:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2052,12 +1987,6 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
-  iam: {
-    actions: ["xray:UpdateGroup"],
-    resources: {
-      "xray:UpdateGroup": ["arn:${Partition}:xray:${Region}:${Account}:group/${GroupName}/${Id}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -2084,7 +2013,6 @@ export const updateIndexingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIndexingRule",
-  iam: { actions: ["xray:UpdateIndexingRule"] },
   telemetry: TELEMETRY,
   span: "UpdateIndexingRule",
 }));
@@ -2109,14 +2037,6 @@ export const updateSamplingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSamplingRule",
-  iam: {
-    actions: ["xray:UpdateSamplingRule"],
-    resources: {
-      "xray:UpdateSamplingRule": [
-        "arn:${Partition}:xray:${Region}:${Account}:sampling-rule/${SamplingRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSamplingRule",
 }));
@@ -2140,7 +2060,6 @@ export const updateTraceSegmentDestination: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTraceSegmentDestination",
-  iam: { actions: ["xray:UpdateTraceSegmentDestination"] },
   telemetry: TELEMETRY,
   span: "UpdateTraceSegmentDestination",
 }));

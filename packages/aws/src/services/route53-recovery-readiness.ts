@@ -572,15 +572,6 @@ export const createCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCell",
-  iam: {
-    actions: ["route53-recovery-readiness:CreateCell", "route53-recovery-readiness:TagResource"],
-    resources: {
-      "route53-recovery-readiness:CreateCell": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:cell/${ResourceId}",
-      ],
-    },
-    conditional: { "route53-recovery-readiness:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCell",
 }));
@@ -613,7 +604,6 @@ export const createCrossAccountAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCrossAccountAuthorization",
-  iam: { actions: ["route53-recovery-readiness:CreateCrossAccountAuthorization"] },
   telemetry: TELEMETRY,
   span: "CreateCrossAccountAuthorization",
 }));
@@ -646,18 +636,6 @@ export const createReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateReadinessCheck",
-  iam: {
-    actions: [
-      "route53-recovery-readiness:CreateReadinessCheck",
-      "route53-recovery-readiness:TagResource",
-    ],
-    resources: {
-      "route53-recovery-readiness:CreateReadinessCheck": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:readiness-check/${ResourceId}",
-      ],
-    },
-    conditional: { "route53-recovery-readiness:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateReadinessCheck",
 }));
@@ -690,18 +668,6 @@ export const createRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecoveryGroup",
-  iam: {
-    actions: [
-      "route53-recovery-readiness:CreateRecoveryGroup",
-      "route53-recovery-readiness:TagResource",
-    ],
-    resources: {
-      "route53-recovery-readiness:CreateRecoveryGroup": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:recovery-group/${ResourceId}",
-      ],
-    },
-    conditional: { "route53-recovery-readiness:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRecoveryGroup",
 }));
@@ -734,18 +700,6 @@ export const createResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceSet",
-  iam: {
-    actions: [
-      "route53-recovery-readiness:CreateResourceSet",
-      "route53-recovery-readiness:TagResource",
-    ],
-    resources: {
-      "route53-recovery-readiness:CreateResourceSet": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:resource-set/${ResourceId}",
-      ],
-    },
-    conditional: { "route53-recovery-readiness:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateResourceSet",
 }));
@@ -778,14 +732,6 @@ export const deleteCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCell",
-  iam: {
-    actions: ["route53-recovery-readiness:DeleteCell"],
-    resources: {
-      "route53-recovery-readiness:DeleteCell": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:cell/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCell",
 }));
@@ -816,7 +762,6 @@ export const deleteCrossAccountAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCrossAccountAuthorization",
-  iam: { actions: ["route53-recovery-readiness:DeleteCrossAccountAuthorization"] },
   telemetry: TELEMETRY,
   span: "DeleteCrossAccountAuthorization",
 }));
@@ -849,14 +794,6 @@ export const deleteReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteReadinessCheck",
-  iam: {
-    actions: ["route53-recovery-readiness:DeleteReadinessCheck"],
-    resources: {
-      "route53-recovery-readiness:DeleteReadinessCheck": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:readiness-check/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteReadinessCheck",
 }));
@@ -889,14 +826,6 @@ export const deleteRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecoveryGroup",
-  iam: {
-    actions: ["route53-recovery-readiness:DeleteRecoveryGroup"],
-    resources: {
-      "route53-recovery-readiness:DeleteRecoveryGroup": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:recovery-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecoveryGroup",
 }));
@@ -929,14 +858,6 @@ export const deleteResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceSet",
-  iam: {
-    actions: ["route53-recovery-readiness:DeleteResourceSet"],
-    resources: {
-      "route53-recovery-readiness:DeleteResourceSet": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:resource-set/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourceSet",
 }));
@@ -969,14 +890,6 @@ export const getArchitectureRecommendations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchitectureRecommendations",
-  iam: {
-    actions: ["route53-recovery-readiness:GetArchitectureRecommendations"],
-    resources: {
-      "route53-recovery-readiness:GetArchitectureRecommendations": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:recovery-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArchitectureRecommendations",
 }));
@@ -1009,14 +922,6 @@ export const getCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCell",
-  iam: {
-    actions: ["route53-recovery-readiness:GetCell"],
-    resources: {
-      "route53-recovery-readiness:GetCell": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:cell/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCell",
 }));
@@ -1056,14 +961,6 @@ export const getCellReadinessSummary: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53-recovery-readiness:GetCellReadinessSummary"],
-    resources: {
-      "route53-recovery-readiness:GetCellReadinessSummary": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:cell/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCellReadinessSummary",
 })) as any;
@@ -1096,14 +993,6 @@ export const getReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetReadinessCheck",
-  iam: {
-    actions: ["route53-recovery-readiness:GetReadinessCheck"],
-    resources: {
-      "route53-recovery-readiness:GetReadinessCheck": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:readiness-check/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReadinessCheck",
 }));
@@ -1143,14 +1032,6 @@ export const getReadinessCheckResourceStatus: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53-recovery-readiness:GetReadinessCheckResourceStatus"],
-    resources: {
-      "route53-recovery-readiness:GetReadinessCheckResourceStatus": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:readiness-check/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReadinessCheckResourceStatus",
 })) as any;
@@ -1190,14 +1071,6 @@ export const getReadinessCheckStatus: API.PaginatedOperationMethod<
     items: "Resources",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53-recovery-readiness:GetReadinessCheckStatus"],
-    resources: {
-      "route53-recovery-readiness:GetReadinessCheckStatus": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:readiness-check/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetReadinessCheckStatus",
 })) as any;
@@ -1230,14 +1103,6 @@ export const getRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecoveryGroup",
-  iam: {
-    actions: ["route53-recovery-readiness:GetRecoveryGroup"],
-    resources: {
-      "route53-recovery-readiness:GetRecoveryGroup": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:recovery-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecoveryGroup",
 }));
@@ -1277,14 +1142,6 @@ export const getRecoveryGroupReadinessSummary: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["route53-recovery-readiness:GetRecoveryGroupReadinessSummary"],
-    resources: {
-      "route53-recovery-readiness:GetRecoveryGroupReadinessSummary": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:recovery-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecoveryGroupReadinessSummary",
 })) as any;
@@ -1317,14 +1174,6 @@ export const getResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourceSet",
-  iam: {
-    actions: ["route53-recovery-readiness:GetResourceSet"],
-    resources: {
-      "route53-recovery-readiness:GetResourceSet": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:resource-set/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourceSet",
 }));
@@ -1362,7 +1211,6 @@ export const listCells: API.PaginatedOperationMethod<
     items: "Cells",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53-recovery-readiness:ListCells"] },
   telemetry: TELEMETRY,
   span: "ListCells",
 })) as any;
@@ -1400,7 +1248,6 @@ export const listCrossAccountAuthorizations: API.PaginatedOperationMethod<
     items: "CrossAccountAuthorizations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53-recovery-readiness:ListCrossAccountAuthorizations"] },
   telemetry: TELEMETRY,
   span: "ListCrossAccountAuthorizations",
 })) as any;
@@ -1438,7 +1285,6 @@ export const listReadinessChecks: API.PaginatedOperationMethod<
     items: "ReadinessChecks",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53-recovery-readiness:ListReadinessChecks"] },
   telemetry: TELEMETRY,
   span: "ListReadinessChecks",
 })) as any;
@@ -1476,7 +1322,6 @@ export const listRecoveryGroups: API.PaginatedOperationMethod<
     items: "RecoveryGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53-recovery-readiness:ListRecoveryGroups"] },
   telemetry: TELEMETRY,
   span: "ListRecoveryGroups",
 })) as any;
@@ -1514,7 +1359,6 @@ export const listResourceSets: API.PaginatedOperationMethod<
     items: "ResourceSets",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53-recovery-readiness:ListResourceSets"] },
   telemetry: TELEMETRY,
   span: "ListResourceSets",
 })) as any;
@@ -1552,7 +1396,6 @@ export const listRules: API.PaginatedOperationMethod<
     items: "Rules",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["route53-recovery-readiness:ListRules"] },
   telemetry: TELEMETRY,
   span: "ListRules",
 })) as any;
@@ -1577,7 +1420,6 @@ export const listTagsForResources: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResources",
-  iam: { actions: ["route53-recovery-readiness:ListTagsForResources"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResources",
 }));
@@ -1602,7 +1444,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["route53-recovery-readiness:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1627,7 +1468,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["route53-recovery-readiness:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1660,14 +1500,6 @@ export const updateCell: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCell",
-  iam: {
-    actions: ["route53-recovery-readiness:UpdateCell"],
-    resources: {
-      "route53-recovery-readiness:UpdateCell": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:cell/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCell",
 }));
@@ -1700,14 +1532,6 @@ export const updateReadinessCheck: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReadinessCheck",
-  iam: {
-    actions: ["route53-recovery-readiness:UpdateReadinessCheck"],
-    resources: {
-      "route53-recovery-readiness:UpdateReadinessCheck": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:readiness-check/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateReadinessCheck",
 }));
@@ -1740,14 +1564,6 @@ export const updateRecoveryGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecoveryGroup",
-  iam: {
-    actions: ["route53-recovery-readiness:UpdateRecoveryGroup"],
-    resources: {
-      "route53-recovery-readiness:UpdateRecoveryGroup": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:recovery-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRecoveryGroup",
 }));
@@ -1780,14 +1596,6 @@ export const updateResourceSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceSet",
-  iam: {
-    actions: ["route53-recovery-readiness:UpdateResourceSet"],
-    resources: {
-      "route53-recovery-readiness:UpdateResourceSet": [
-        "arn:${Partition}:route53-recovery-readiness::${Account}:resource-set/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateResourceSet",
 }));

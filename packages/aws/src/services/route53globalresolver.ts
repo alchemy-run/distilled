@@ -1175,7 +1175,6 @@ export const associateHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateHostedZone",
-  iam: { actions: ["route53globalresolver:AssociateHostedZone"] },
   telemetry: TELEMETRY,
   span: "AssociateHostedZone",
 }));
@@ -1208,7 +1207,6 @@ export const batchCreateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchCreateFirewallRule",
-  iam: { actions: ["route53globalresolver:BatchCreateFirewallRule"] },
   telemetry: TELEMETRY,
   span: "BatchCreateFirewallRule",
 }));
@@ -1241,7 +1239,6 @@ export const batchDeleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDeleteFirewallRule",
-  iam: { actions: ["route53globalresolver:BatchDeleteFirewallRule"] },
   telemetry: TELEMETRY,
   span: "BatchDeleteFirewallRule",
 }));
@@ -1274,7 +1271,6 @@ export const batchUpdateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateFirewallRule",
-  iam: { actions: ["route53globalresolver:BatchUpdateFirewallRule"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateFirewallRule",
 }));
@@ -1313,15 +1309,6 @@ export const createAccessSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessSource",
-  iam: {
-    actions: ["route53globalresolver:CreateAccessSource", "route53globalresolver:TagResource"],
-    resources: {
-      "route53globalresolver:CreateAccessSource": [
-        "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}",
-      ],
-    },
-    conditional: { "route53globalresolver:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAccessSource",
 }));
@@ -1360,15 +1347,6 @@ export const createAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAccessToken",
-  iam: {
-    actions: ["route53globalresolver:CreateAccessToken", "route53globalresolver:TagResource"],
-    resources: {
-      "route53globalresolver:CreateAccessToken": [
-        "arn:${Partition}:route53globalresolver::${Account}:access-token/${Id}",
-      ],
-    },
-    conditional: { "route53globalresolver:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAccessToken",
 }));
@@ -1407,15 +1385,6 @@ export const createDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDNSView",
-  iam: {
-    actions: ["route53globalresolver:CreateDNSView", "route53globalresolver:TagResource"],
-    resources: {
-      "route53globalresolver:CreateDNSView": [
-        "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}",
-      ],
-    },
-    conditional: { "route53globalresolver:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDNSView",
 }));
@@ -1454,18 +1423,6 @@ export const createFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallDomainList",
-  iam: {
-    actions: [
-      "route53globalresolver:CreateFirewallDomainList",
-      "route53globalresolver:TagResource",
-    ],
-    resources: {
-      "route53globalresolver:CreateFirewallDomainList": [
-        "arn:${Partition}:route53globalresolver::${Account}:firewall-domain-list/${Id}",
-      ],
-    },
-    conditional: { "route53globalresolver:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFirewallDomainList",
 }));
@@ -1504,7 +1461,6 @@ export const createFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFirewallRule",
-  iam: { actions: ["route53globalresolver:CreateFirewallRule"] },
   telemetry: TELEMETRY,
   span: "CreateFirewallRule",
 }));
@@ -1541,15 +1497,6 @@ export const createGlobalResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGlobalResolver",
-  iam: {
-    actions: ["route53globalresolver:CreateGlobalResolver", "route53globalresolver:TagResource"],
-    resources: {
-      "route53globalresolver:CreateGlobalResolver": [
-        "arn:${Partition}:route53globalresolver::${Account}:global-resolver/${Id}",
-      ],
-    },
-    conditional: { "route53globalresolver:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGlobalResolver",
 }));
@@ -1586,14 +1533,6 @@ export const deleteAccessSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessSource",
-  iam: {
-    actions: ["route53globalresolver:DeleteAccessSource"],
-    resources: {
-      "route53globalresolver:DeleteAccessSource": [
-        "arn:${Partition}:route53globalresolver::${Account}:access-source/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAccessSource",
 }));
@@ -1630,14 +1569,6 @@ export const deleteAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAccessToken",
-  iam: {
-    actions: ["route53globalresolver:DeleteAccessToken"],
-    resources: {
-      "route53globalresolver:DeleteAccessToken": [
-        "arn:${Partition}:route53globalresolver::${Account}:access-token/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAccessToken",
 }));
@@ -1674,14 +1605,6 @@ export const deleteDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDNSView",
-  iam: {
-    actions: ["route53globalresolver:DeleteDNSView"],
-    resources: {
-      "route53globalresolver:DeleteDNSView": [
-        "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDNSView",
 }));
@@ -1718,14 +1641,6 @@ export const deleteFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallDomainList",
-  iam: {
-    actions: ["route53globalresolver:DeleteFirewallDomainList"],
-    resources: {
-      "route53globalresolver:DeleteFirewallDomainList": [
-        "arn:${Partition}:route53globalresolver::${Account}:firewall-domain-list/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFirewallDomainList",
 }));
@@ -1762,7 +1677,6 @@ export const deleteFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFirewallRule",
-  iam: { actions: ["route53globalresolver:DeleteFirewallRule"] },
   telemetry: TELEMETRY,
   span: "DeleteFirewallRule",
 }));
@@ -1799,14 +1713,6 @@ export const deleteGlobalResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGlobalResolver",
-  iam: {
-    actions: ["route53globalresolver:DeleteGlobalResolver"],
-    resources: {
-      "route53globalresolver:DeleteGlobalResolver": [
-        "arn:${Partition}:route53globalresolver::${Account}:global-resolver/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGlobalResolver",
 }));
@@ -1845,14 +1751,6 @@ export const disableDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableDNSView",
-  iam: {
-    actions: ["route53globalresolver:DisableDNSView"],
-    resources: {
-      "route53globalresolver:DisableDNSView": [
-        "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisableDNSView",
 }));
@@ -1889,7 +1787,6 @@ export const disassociateHostedZone: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateHostedZone",
-  iam: { actions: ["route53globalresolver:DisassociateHostedZone"] },
   telemetry: TELEMETRY,
   span: "DisassociateHostedZone",
 }));
@@ -1928,14 +1825,6 @@ export const enableDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableDNSView",
-  iam: {
-    actions: ["route53globalresolver:EnableDNSView"],
-    resources: {
-      "route53globalresolver:EnableDNSView": [
-        "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EnableDNSView",
 }));
@@ -1970,14 +1859,6 @@ export const getAccessSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessSource",
-  iam: {
-    actions: ["route53globalresolver:GetAccessSource"],
-    resources: {
-      "route53globalresolver:GetAccessSource": [
-        "arn:${Partition}:route53globalresolver::${Account}:access-source/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAccessSource",
 }));
@@ -2012,14 +1893,6 @@ export const getAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAccessToken",
-  iam: {
-    actions: ["route53globalresolver:GetAccessToken"],
-    resources: {
-      "route53globalresolver:GetAccessToken": [
-        "arn:${Partition}:route53globalresolver::${Account}:access-token/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAccessToken",
 }));
@@ -2054,14 +1927,6 @@ export const getDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDNSView",
-  iam: {
-    actions: ["route53globalresolver:GetDNSView"],
-    resources: {
-      "route53globalresolver:GetDNSView": [
-        "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDNSView",
 }));
@@ -2096,14 +1961,6 @@ export const getFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallDomainList",
-  iam: {
-    actions: ["route53globalresolver:GetFirewallDomainList"],
-    resources: {
-      "route53globalresolver:GetFirewallDomainList": [
-        "arn:${Partition}:route53globalresolver::${Account}:firewall-domain-list/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetFirewallDomainList",
 }));
@@ -2138,7 +1995,6 @@ export const getFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFirewallRule",
-  iam: { actions: ["route53globalresolver:GetFirewallRule"] },
   telemetry: TELEMETRY,
   span: "GetFirewallRule",
 }));
@@ -2173,14 +2029,6 @@ export const getGlobalResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGlobalResolver",
-  iam: {
-    actions: ["route53globalresolver:GetGlobalResolver"],
-    resources: {
-      "route53globalresolver:GetGlobalResolver": [
-        "arn:${Partition}:route53globalresolver::${Account}:global-resolver/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGlobalResolver",
 }));
@@ -2215,7 +2063,6 @@ export const getHostedZoneAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHostedZoneAssociation",
-  iam: { actions: ["route53globalresolver:GetHostedZoneAssociation"] },
   telemetry: TELEMETRY,
   span: "GetHostedZoneAssociation",
 }));
@@ -2250,7 +2097,6 @@ export const getManagedFirewallDomainList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetManagedFirewallDomainList",
-  iam: { actions: ["route53globalresolver:GetManagedFirewallDomainList"] },
   telemetry: TELEMETRY,
   span: "GetManagedFirewallDomainList",
 }));
@@ -2289,14 +2135,6 @@ export const importFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportFirewallDomains",
-  iam: {
-    actions: ["route53globalresolver:ImportFirewallDomains"],
-    resources: {
-      "route53globalresolver:ImportFirewallDomains": [
-        "arn:${Partition}:route53globalresolver::${Account}:firewall-domain-list/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportFirewallDomains",
 }));
@@ -2336,7 +2174,6 @@ export const listAccessSources: API.PaginatedOperationMethod<
     items: "accessSources",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["route53globalresolver:ListAccessSources"] },
   telemetry: TELEMETRY,
   span: "ListAccessSources",
 })) as any;
@@ -2378,7 +2215,6 @@ export const listAccessTokens: API.PaginatedOperationMethod<
     items: "accessTokens",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["route53globalresolver:ListAccessTokens"] },
   telemetry: TELEMETRY,
   span: "ListAccessTokens",
 })) as any;
@@ -2420,7 +2256,6 @@ export const listDNSViews: API.PaginatedOperationMethod<
     items: "dnsViews",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["route53globalresolver:ListDNSViews"] },
   telemetry: TELEMETRY,
   span: "ListDNSViews",
 })) as any;
@@ -2462,7 +2297,6 @@ export const listFirewallDomainLists: API.PaginatedOperationMethod<
     items: "firewallDomainLists",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["route53globalresolver:ListFirewallDomainLists"] },
   telemetry: TELEMETRY,
   span: "ListFirewallDomainLists",
 })) as any;
@@ -2504,14 +2338,6 @@ export const listFirewallDomains: API.PaginatedOperationMethod<
     items: "domains",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["route53globalresolver:ListFirewallDomains"],
-    resources: {
-      "route53globalresolver:ListFirewallDomains": [
-        "arn:${Partition}:route53globalresolver::${Account}:firewall-domain-list/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFirewallDomains",
 })) as any;
@@ -2553,14 +2379,6 @@ export const listFirewallRules: API.PaginatedOperationMethod<
     items: "firewallRules",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["route53globalresolver:ListFirewallRules"],
-    resources: {
-      "route53globalresolver:ListFirewallRules": [
-        "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFirewallRules",
 })) as any;
@@ -2600,7 +2418,6 @@ export const listGlobalResolvers: API.PaginatedOperationMethod<
     items: "globalResolvers",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["route53globalresolver:ListGlobalResolvers"] },
   telemetry: TELEMETRY,
   span: "ListGlobalResolvers",
 })) as any;
@@ -2642,7 +2459,6 @@ export const listHostedZoneAssociations: API.PaginatedOperationMethod<
     items: "hostedZoneAssociations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["route53globalresolver:ListHostedZoneAssociations"] },
   telemetry: TELEMETRY,
   span: "ListHostedZoneAssociations",
 })) as any;
@@ -2682,7 +2498,6 @@ export const listManagedFirewallDomainLists: API.PaginatedOperationMethod<
     items: "managedFirewallDomainLists",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["route53globalresolver:ListManagedFirewallDomainLists"] },
   telemetry: TELEMETRY,
   span: "ListManagedFirewallDomainLists",
 })) as any;
@@ -2744,7 +2559,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["route53globalresolver:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2771,7 +2585,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["route53globalresolver:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2794,7 +2607,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["route53globalresolver:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2833,14 +2645,6 @@ export const updateAccessSource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessSource",
-  iam: {
-    actions: ["route53globalresolver:UpdateAccessSource"],
-    resources: {
-      "route53globalresolver:UpdateAccessSource": [
-        "arn:${Partition}:route53globalresolver::${Account}:access-source/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAccessSource",
 }));
@@ -2879,14 +2683,6 @@ export const updateAccessToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAccessToken",
-  iam: {
-    actions: ["route53globalresolver:UpdateAccessToken"],
-    resources: {
-      "route53globalresolver:UpdateAccessToken": [
-        "arn:${Partition}:route53globalresolver::${Account}:access-token/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAccessToken",
 }));
@@ -2925,14 +2721,6 @@ export const updateDNSView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDNSView",
-  iam: {
-    actions: ["route53globalresolver:UpdateDNSView"],
-    resources: {
-      "route53globalresolver:UpdateDNSView": [
-        "arn:${Partition}:route53globalresolver::${Account}:dns-view/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDNSView",
 }));
@@ -2971,14 +2759,6 @@ export const updateFirewallDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallDomains",
-  iam: {
-    actions: ["route53globalresolver:UpdateFirewallDomains"],
-    resources: {
-      "route53globalresolver:UpdateFirewallDomains": [
-        "arn:${Partition}:route53globalresolver::${Account}:firewall-domain-list/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateFirewallDomains",
 }));
@@ -3017,7 +2797,6 @@ export const updateFirewallRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateFirewallRule",
-  iam: { actions: ["route53globalresolver:UpdateFirewallRule"] },
   telemetry: TELEMETRY,
   span: "UpdateFirewallRule",
 }));
@@ -3056,14 +2835,6 @@ export const updateGlobalResolver: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGlobalResolver",
-  iam: {
-    actions: ["route53globalresolver:UpdateGlobalResolver"],
-    resources: {
-      "route53globalresolver:UpdateGlobalResolver": [
-        "arn:${Partition}:route53globalresolver::${Account}:global-resolver/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGlobalResolver",
 }));
@@ -3102,7 +2873,6 @@ export const updateHostedZoneAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHostedZoneAssociation",
-  iam: { actions: ["route53globalresolver:UpdateHostedZoneAssociation"] },
   telemetry: TELEMETRY,
   span: "UpdateHostedZoneAssociation",
 }));

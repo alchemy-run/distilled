@@ -517,7 +517,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: { actions: ["serverlessrepo:CreateApplication"] },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -550,14 +549,6 @@ export const createApplicationVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplicationVersion",
-  iam: {
-    actions: ["serverlessrepo:CreateApplicationVersion"],
-    resources: {
-      "serverlessrepo:CreateApplicationVersion": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplicationVersion",
 }));
@@ -588,14 +579,6 @@ export const createCloudFormationChangeSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFormationChangeSet",
-  iam: {
-    actions: ["serverlessrepo:CreateCloudFormationChangeSet"],
-    resources: {
-      "serverlessrepo:CreateCloudFormationChangeSet": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCloudFormationChangeSet",
 }));
@@ -628,14 +611,6 @@ export const createCloudFormationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudFormationTemplate",
-  iam: {
-    actions: ["serverlessrepo:CreateCloudFormationTemplate"],
-    resources: {
-      "serverlessrepo:CreateCloudFormationTemplate": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCloudFormationTemplate",
 }));
@@ -670,14 +645,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["serverlessrepo:DeleteApplication"],
-    resources: {
-      "serverlessrepo:DeleteApplication": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -710,14 +677,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["serverlessrepo:GetApplication"],
-    resources: {
-      "serverlessrepo:GetApplication": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -750,14 +709,6 @@ export const getApplicationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplicationPolicy",
-  iam: {
-    actions: ["serverlessrepo:GetApplicationPolicy"],
-    resources: {
-      "serverlessrepo:GetApplicationPolicy": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplicationPolicy",
 }));
@@ -790,14 +741,6 @@ export const getCloudFormationTemplate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudFormationTemplate",
-  iam: {
-    actions: ["serverlessrepo:GetCloudFormationTemplate"],
-    resources: {
-      "serverlessrepo:GetCloudFormationTemplate": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCloudFormationTemplate",
 }));
@@ -832,14 +775,6 @@ export const listApplicationDependencies: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationDependencies",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
-  iam: {
-    actions: ["serverlessrepo:ListApplicationDependencies"],
-    resources: {
-      "serverlessrepo:ListApplicationDependencies": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplicationDependencies",
 })) as any;
@@ -872,7 +807,6 @@ export const listApplications: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplications",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
-  iam: { actions: ["serverlessrepo:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -907,14 +841,6 @@ export const listApplicationVersions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListApplicationVersions",
   pagination: { inputToken: "NextToken", outputToken: "NextToken", pageSize: "MaxItems" } as const,
-  iam: {
-    actions: ["serverlessrepo:ListApplicationVersions"],
-    resources: {
-      "serverlessrepo:ListApplicationVersions": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApplicationVersions",
 })) as any;
@@ -950,14 +876,6 @@ export const putApplicationPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutApplicationPolicy",
-  iam: {
-    actions: ["serverlessrepo:PutApplicationPolicy"],
-    resources: {
-      "serverlessrepo:PutApplicationPolicy": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutApplicationPolicy",
 }));
@@ -992,14 +910,6 @@ export const unshareApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UnshareApplication",
-  iam: {
-    actions: ["serverlessrepo:UnshareApplication"],
-    resources: {
-      "serverlessrepo:UnshareApplication": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UnshareApplication",
 }));
@@ -1034,14 +944,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: {
-    actions: ["serverlessrepo:UpdateApplication"],
-    resources: {
-      "serverlessrepo:UpdateApplication": [
-        "arn:${Partition}:serverlessrepo:${Region}:${Account}:applications/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));

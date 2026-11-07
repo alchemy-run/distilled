@@ -1551,15 +1551,6 @@ export const createAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddonInstance",
-  iam: {
-    actions: ["ses:CreateAddonInstance", "ses:TagResource"],
-    resources: {
-      "ses:CreateAddonInstance": [
-        "arn:${Partition}:ses:${Region}:${Account}:addon-instance/${AddonInstanceId}",
-      ],
-    },
-    conditional: { "ses:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAddonInstance",
 }));
@@ -1590,15 +1581,6 @@ export const createAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddonSubscription",
-  iam: {
-    actions: ["ses:CreateAddonSubscription", "ses:TagResource"],
-    resources: {
-      "ses:CreateAddonSubscription": [
-        "arn:${Partition}:ses:${Region}:${Account}:addon-subscription/${AddonSubscriptionId}",
-      ],
-    },
-    conditional: { "ses:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAddonSubscription",
 }));
@@ -1631,15 +1613,6 @@ export const createAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddressList",
-  iam: {
-    actions: ["ses:CreateAddressList", "ses:TagResource"],
-    resources: {
-      "ses:CreateAddressList": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-    conditional: { "ses:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAddressList",
 }));
@@ -1670,14 +1643,6 @@ export const createAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAddressListImportJob",
-  iam: {
-    actions: ["ses:CreateAddressListImportJob"],
-    resources: {
-      "ses:CreateAddressListImportJob": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAddressListImportJob",
 }));
@@ -1710,15 +1675,6 @@ export const createArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateArchive",
-  iam: {
-    actions: ["ses:CreateArchive", "ses:TagResource"],
-    resources: {
-      "ses:CreateArchive": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-    conditional: { "ses:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateArchive",
 }));
@@ -1743,15 +1699,6 @@ export const createIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngressPoint",
-  iam: {
-    actions: ["ses:CreateIngressPoint", "ses:TagResource"],
-    resources: {
-      "ses:CreateIngressPoint": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-ingress-point/${IngressPointId}",
-      ],
-    },
-    conditional: { "ses:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIngressPoint",
 }));
@@ -1776,15 +1723,6 @@ export const createRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRelay",
-  iam: {
-    actions: ["ses:CreateRelay", "ses:TagResource"],
-    resources: {
-      "ses:CreateRelay": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-smtp-relay/${RelayId}",
-      ],
-    },
-    conditional: { "ses:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRelay",
 }));
@@ -1809,16 +1747,6 @@ export const createRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRuleSet",
-  iam: {
-    actions: ["ses:CreateRuleSet", "iam:PassRole", "ses:TagResource"],
-    resources: {
-      "ses:CreateRuleSet": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-rule-set/${RuleSetId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "ses:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRuleSet",
 }));
@@ -1843,15 +1771,6 @@ export const createTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrafficPolicy",
-  iam: {
-    actions: ["ses:CreateTrafficPolicy", "ses:TagResource"],
-    resources: {
-      "ses:CreateTrafficPolicy": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-traffic-policy/${TrafficPolicyId}",
-      ],
-    },
-    conditional: { "ses:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrafficPolicy",
 }));
@@ -1872,14 +1791,6 @@ export const deleteAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddonInstance",
-  iam: {
-    actions: ["ses:DeleteAddonInstance"],
-    resources: {
-      "ses:DeleteAddonInstance": [
-        "arn:${Partition}:ses:${Region}:${Account}:addon-instance/${AddonInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAddonInstance",
 }));
@@ -1900,14 +1811,6 @@ export const deleteAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddonSubscription",
-  iam: {
-    actions: ["ses:DeleteAddonSubscription"],
-    resources: {
-      "ses:DeleteAddonSubscription": [
-        "arn:${Partition}:ses:${Region}:${Account}:addon-subscription/${AddonSubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAddonSubscription",
 }));
@@ -1933,14 +1836,6 @@ export const deleteAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAddressList",
-  iam: {
-    actions: ["ses:DeleteAddressList"],
-    resources: {
-      "ses:DeleteAddressList": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAddressList",
 }));
@@ -1966,14 +1861,6 @@ export const deleteArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteArchive",
-  iam: {
-    actions: ["ses:DeleteArchive"],
-    resources: {
-      "ses:DeleteArchive": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteArchive",
 }));
@@ -1998,14 +1885,6 @@ export const deleteIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngressPoint",
-  iam: {
-    actions: ["ses:DeleteIngressPoint"],
-    resources: {
-      "ses:DeleteIngressPoint": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-ingress-point/${IngressPointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIngressPoint",
 }));
@@ -2030,14 +1909,6 @@ export const deleteRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRelay",
-  iam: {
-    actions: ["ses:DeleteRelay"],
-    resources: {
-      "ses:DeleteRelay": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-smtp-relay/${RelayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRelay",
 }));
@@ -2058,14 +1929,6 @@ export const deleteRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRuleSet",
-  iam: {
-    actions: ["ses:DeleteRuleSet"],
-    resources: {
-      "ses:DeleteRuleSet": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-rule-set/${RuleSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRuleSet",
 }));
@@ -2090,14 +1953,6 @@ export const deleteTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrafficPolicy",
-  iam: {
-    actions: ["ses:DeleteTrafficPolicy"],
-    resources: {
-      "ses:DeleteTrafficPolicy": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-traffic-policy/${TrafficPolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrafficPolicy",
 }));
@@ -2130,14 +1985,6 @@ export const deregisterMemberFromAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterMemberFromAddressList",
-  iam: {
-    actions: ["ses:DeregisterMemberFromAddressList"],
-    resources: {
-      "ses:DeregisterMemberFromAddressList": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterMemberFromAddressList",
 }));
@@ -2158,14 +2005,6 @@ export const getAddonInstance: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddonInstance",
-  iam: {
-    actions: ["ses:GetAddonInstance"],
-    resources: {
-      "ses:GetAddonInstance": [
-        "arn:${Partition}:ses:${Region}:${Account}:addon-instance/${AddonInstanceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAddonInstance",
 }));
@@ -2189,14 +2028,6 @@ export const getAddonSubscription: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddonSubscription",
-  iam: {
-    actions: ["ses:GetAddonSubscription"],
-    resources: {
-      "ses:GetAddonSubscription": [
-        "arn:${Partition}:ses:${Region}:${Account}:addon-subscription/${AddonSubscriptionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAddonSubscription",
 }));
@@ -2227,14 +2058,6 @@ export const getAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddressList",
-  iam: {
-    actions: ["ses:GetAddressList"],
-    resources: {
-      "ses:GetAddressList": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAddressList",
 }));
@@ -2265,14 +2088,6 @@ export const getAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAddressListImportJob",
-  iam: {
-    actions: ["ses:GetAddressListImportJob"],
-    resources: {
-      "ses:GetAddressListImportJob": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAddressListImportJob",
 }));
@@ -2303,14 +2118,6 @@ export const getArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchive",
-  iam: {
-    actions: ["ses:GetArchive"],
-    resources: {
-      "ses:GetArchive": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArchive",
 }));
@@ -2335,14 +2142,6 @@ export const getArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveExport",
-  iam: {
-    actions: ["ses:GetArchiveExport"],
-    resources: {
-      "ses:GetArchiveExport": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArchiveExport",
 }));
@@ -2367,14 +2166,6 @@ export const getArchiveMessage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveMessage",
-  iam: {
-    actions: ["ses:GetArchiveMessage"],
-    resources: {
-      "ses:GetArchiveMessage": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArchiveMessage",
 }));
@@ -2399,14 +2190,6 @@ export const getArchiveMessageContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveMessageContent",
-  iam: {
-    actions: ["ses:GetArchiveMessageContent"],
-    resources: {
-      "ses:GetArchiveMessageContent": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArchiveMessageContent",
 }));
@@ -2431,14 +2214,6 @@ export const getArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveSearch",
-  iam: {
-    actions: ["ses:GetArchiveSearch"],
-    resources: {
-      "ses:GetArchiveSearch": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArchiveSearch",
 }));
@@ -2464,14 +2239,6 @@ export const getArchiveSearchResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetArchiveSearchResults",
-  iam: {
-    actions: ["ses:GetArchiveSearchResults"],
-    resources: {
-      "ses:GetArchiveSearchResults": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetArchiveSearchResults",
 }));
@@ -2492,14 +2259,6 @@ export const getIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngressPoint",
-  iam: {
-    actions: ["ses:GetIngressPoint"],
-    resources: {
-      "ses:GetIngressPoint": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-ingress-point/${IngressPointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIngressPoint",
 }));
@@ -2530,14 +2289,6 @@ export const getMemberOfAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemberOfAddressList",
-  iam: {
-    actions: ["ses:GetMemberOfAddressList"],
-    resources: {
-      "ses:GetMemberOfAddressList": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMemberOfAddressList",
 }));
@@ -2558,14 +2309,6 @@ export const getRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRelay",
-  iam: {
-    actions: ["ses:GetRelay"],
-    resources: {
-      "ses:GetRelay": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-smtp-relay/${RelayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRelay",
 }));
@@ -2586,14 +2329,6 @@ export const getRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRuleSet",
-  iam: {
-    actions: ["ses:GetRuleSet"],
-    resources: {
-      "ses:GetRuleSet": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-rule-set/${RuleSetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRuleSet",
 }));
@@ -2614,14 +2349,6 @@ export const getTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrafficPolicy",
-  iam: {
-    actions: ["ses:GetTrafficPolicy"],
-    resources: {
-      "ses:GetTrafficPolicy": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-traffic-policy/${TrafficPolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTrafficPolicy",
 }));
@@ -2649,7 +2376,6 @@ export const listAddonInstances: API.PaginatedOperationMethod<
     items: "AddonInstances",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListAddonInstances"] },
   telemetry: TELEMETRY,
   span: "ListAddonInstances",
 })) as any;
@@ -2677,7 +2403,6 @@ export const listAddonSubscriptions: API.PaginatedOperationMethod<
     items: "AddonSubscriptions",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListAddonSubscriptions"] },
   telemetry: TELEMETRY,
   span: "ListAddonSubscriptions",
 })) as any;
@@ -2715,14 +2440,6 @@ export const listAddressListImportJobs: API.PaginatedOperationMethod<
     items: "ImportJobs",
     pageSize: "PageSize",
   } as const,
-  iam: {
-    actions: ["ses:ListAddressListImportJobs"],
-    resources: {
-      "ses:ListAddressListImportJobs": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAddressListImportJobs",
 })) as any;
@@ -2754,7 +2471,6 @@ export const listAddressLists: API.PaginatedOperationMethod<
     items: "AddressLists",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListAddressLists"] },
   telemetry: TELEMETRY,
   span: "ListAddressLists",
 })) as any;
@@ -2792,7 +2508,6 @@ export const listArchiveExports: API.PaginatedOperationMethod<
     items: "Exports",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListArchiveExports"] },
   telemetry: TELEMETRY,
   span: "ListArchiveExports",
 })) as any;
@@ -2824,7 +2539,6 @@ export const listArchives: API.PaginatedOperationMethod<
     items: "Archives",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListArchives"] },
   telemetry: TELEMETRY,
   span: "ListArchives",
 })) as any;
@@ -2862,7 +2576,6 @@ export const listArchiveSearches: API.PaginatedOperationMethod<
     items: "Searches",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListArchiveSearches"] },
   telemetry: TELEMETRY,
   span: "ListArchiveSearches",
 })) as any;
@@ -2890,7 +2603,6 @@ export const listIngressPoints: API.PaginatedOperationMethod<
     items: "IngressPoints",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListIngressPoints"] },
   telemetry: TELEMETRY,
   span: "ListIngressPoints",
 })) as any;
@@ -2928,14 +2640,6 @@ export const listMembersOfAddressList: API.PaginatedOperationMethod<
     items: "Addresses",
     pageSize: "PageSize",
   } as const,
-  iam: {
-    actions: ["ses:ListMembersOfAddressList"],
-    resources: {
-      "ses:ListMembersOfAddressList": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListMembersOfAddressList",
 })) as any;
@@ -2963,7 +2667,6 @@ export const listRelays: API.PaginatedOperationMethod<
     items: "Relays",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListRelays"] },
   telemetry: TELEMETRY,
   span: "ListRelays",
 })) as any;
@@ -2991,7 +2694,6 @@ export const listRuleSets: API.PaginatedOperationMethod<
     items: "RuleSets",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListRuleSets"] },
   telemetry: TELEMETRY,
   span: "ListRuleSets",
 })) as any;
@@ -3015,7 +2717,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["ses:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3043,7 +2744,6 @@ export const listTrafficPolicies: API.PaginatedOperationMethod<
     items: "TrafficPolicies",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["ses:ListTrafficPolicies"] },
   telemetry: TELEMETRY,
   span: "ListTrafficPolicies",
 })) as any;
@@ -3078,14 +2778,6 @@ export const registerMemberToAddressList: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterMemberToAddressList",
-  iam: {
-    actions: ["ses:RegisterMemberToAddressList"],
-    resources: {
-      "ses:RegisterMemberToAddressList": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterMemberToAddressList",
 }));
@@ -3120,14 +2812,6 @@ export const startAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAddressListImportJob",
-  iam: {
-    actions: ["ses:StartAddressListImportJob"],
-    resources: {
-      "ses:StartAddressListImportJob": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartAddressListImportJob",
 }));
@@ -3160,14 +2844,6 @@ export const startArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartArchiveExport",
-  iam: {
-    actions: ["ses:StartArchiveExport"],
-    resources: {
-      "ses:StartArchiveExport": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartArchiveExport",
 }));
@@ -3202,14 +2878,6 @@ export const startArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartArchiveSearch",
-  iam: {
-    actions: ["ses:StartArchiveSearch"],
-    resources: {
-      "ses:StartArchiveSearch": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartArchiveSearch",
 }));
@@ -3242,14 +2910,6 @@ export const stopAddressListImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAddressListImportJob",
-  iam: {
-    actions: ["ses:StopAddressListImportJob"],
-    resources: {
-      "ses:StopAddressListImportJob": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-address-list/${AddressListId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopAddressListImportJob",
 }));
@@ -3274,14 +2934,6 @@ export const stopArchiveExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopArchiveExport",
-  iam: {
-    actions: ["ses:StopArchiveExport"],
-    resources: {
-      "ses:StopArchiveExport": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopArchiveExport",
 }));
@@ -3306,14 +2958,6 @@ export const stopArchiveSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopArchiveSearch",
-  iam: {
-    actions: ["ses:StopArchiveSearch"],
-    resources: {
-      "ses:StopArchiveSearch": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopArchiveSearch",
 }));
@@ -3344,7 +2988,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["ses:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3369,7 +3012,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["ses:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3404,14 +3046,6 @@ export const updateArchive: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateArchive",
-  iam: {
-    actions: ["ses:UpdateArchive"],
-    resources: {
-      "ses:UpdateArchive": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-archive/${ArchiveId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateArchive",
 }));
@@ -3436,14 +3070,6 @@ export const updateIngressPoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngressPoint",
-  iam: {
-    actions: ["ses:UpdateIngressPoint"],
-    resources: {
-      "ses:UpdateIngressPoint": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-ingress-point/${IngressPointId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIngressPoint",
 }));
@@ -3468,14 +3094,6 @@ export const updateRelay: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRelay",
-  iam: {
-    actions: ["ses:UpdateRelay"],
-    resources: {
-      "ses:UpdateRelay": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-smtp-relay/${RelayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRelay",
 }));
@@ -3500,16 +3118,6 @@ export const updateRuleSet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRuleSet",
-  iam: {
-    actions: ["iam:PassRole", "ses:UpdateRuleSet"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "ses:UpdateRuleSet": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-rule-set/${RuleSetId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRuleSet",
 }));
@@ -3534,14 +3142,6 @@ export const updateTrafficPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTrafficPolicy",
-  iam: {
-    actions: ["ses:UpdateTrafficPolicy"],
-    resources: {
-      "ses:UpdateTrafficPolicy": [
-        "arn:${Partition}:ses:${Region}:${Account}:mailmanager-traffic-policy/${TrafficPolicyId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTrafficPolicy",
 }));

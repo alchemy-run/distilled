@@ -1103,15 +1103,6 @@ export const createEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEncoderConfiguration",
-  iam: {
-    actions: ["ivs:CreateEncoderConfiguration", "ivs:TagResource"],
-    resources: {
-      "ivs:CreateEncoderConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:encoder-configuration/${ResourceId}",
-      ],
-    },
-    conditional: { "ivs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEncoderConfiguration",
 }));
@@ -1142,15 +1133,6 @@ export const createIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIngestConfiguration",
-  iam: {
-    actions: ["ivs:CreateIngestConfiguration", "ivs:TagResource"],
-    resources: {
-      "ivs:CreateIngestConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:ingest-configuration/${ResourceId}",
-      ],
-    },
-    conditional: { "ivs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateIngestConfiguration",
 }));
@@ -1185,14 +1167,6 @@ export const createParticipantToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateParticipantToken",
-  iam: {
-    actions: ["ivs:CreateParticipantToken"],
-    resources: {
-      "ivs:CreateParticipantToken": [
-        "arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateParticipantToken",
 }));
@@ -1225,13 +1199,6 @@ export const createStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStage",
-  iam: {
-    actions: ["ivs:CreateStage", "ivs:TagResource"],
-    resources: {
-      "ivs:CreateStage": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-    conditional: { "ivs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateStage",
 }));
@@ -1268,15 +1235,6 @@ export const createStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStorageConfiguration",
-  iam: {
-    actions: ["ivs:CreateStorageConfiguration", "ivs:TagResource"],
-    resources: {
-      "ivs:CreateStorageConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:storage-configuration/${ResourceId}",
-      ],
-    },
-    conditional: { "ivs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateStorageConfiguration",
 }));
@@ -1311,14 +1269,6 @@ export const deleteEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEncoderConfiguration",
-  iam: {
-    actions: ["ivs:DeleteEncoderConfiguration"],
-    resources: {
-      "ivs:DeleteEncoderConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:encoder-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEncoderConfiguration",
 }));
@@ -1351,14 +1301,6 @@ export const deleteIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIngestConfiguration",
-  iam: {
-    actions: ["ivs:DeleteIngestConfiguration"],
-    resources: {
-      "ivs:DeleteIngestConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:ingest-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIngestConfiguration",
 }));
@@ -1391,12 +1333,6 @@ export const deletePublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePublicKey",
-  iam: {
-    actions: ["ivs:DeletePublicKey"],
-    resources: {
-      "ivs:DeletePublicKey": ["arn:${Partition}:ivs:${Region}:${Account}:public-key/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePublicKey",
 }));
@@ -1431,12 +1367,6 @@ export const deleteStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStage",
-  iam: {
-    actions: ["ivs:DeleteStage"],
-    resources: {
-      "ivs:DeleteStage": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteStage",
 }));
@@ -1473,14 +1403,6 @@ export const deleteStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStorageConfiguration",
-  iam: {
-    actions: ["ivs:DeleteStorageConfiguration"],
-    resources: {
-      "ivs:DeleteStorageConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:storage-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteStorageConfiguration",
 }));
@@ -1511,14 +1433,6 @@ export const disconnectParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisconnectParticipant",
-  iam: {
-    actions: ["ivs:DisconnectParticipant"],
-    resources: {
-      "ivs:DisconnectParticipant": [
-        "arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisconnectParticipant",
 }));
@@ -1553,12 +1467,6 @@ export const getComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetComposition",
-  iam: {
-    actions: ["ivs:GetComposition"],
-    resources: {
-      "ivs:GetComposition": ["arn:${Partition}:ivs:${Region}:${Account}:composition/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetComposition",
 }));
@@ -1593,14 +1501,6 @@ export const getEncoderConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEncoderConfiguration",
-  iam: {
-    actions: ["ivs:GetEncoderConfiguration"],
-    resources: {
-      "ivs:GetEncoderConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:encoder-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEncoderConfiguration",
 }));
@@ -1625,14 +1525,6 @@ export const getIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIngestConfiguration",
-  iam: {
-    actions: ["ivs:GetIngestConfiguration"],
-    resources: {
-      "ivs:GetIngestConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:ingest-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIngestConfiguration",
 }));
@@ -1657,12 +1549,6 @@ export const getParticipant: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetParticipant",
-  iam: {
-    actions: ["ivs:GetParticipant"],
-    resources: {
-      "ivs:GetParticipant": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetParticipant",
 }));
@@ -1687,12 +1573,6 @@ export const getPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPublicKey",
-  iam: {
-    actions: ["ivs:GetPublicKey"],
-    resources: {
-      "ivs:GetPublicKey": ["arn:${Partition}:ivs:${Region}:${Account}:public-key/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPublicKey",
 }));
@@ -1723,12 +1603,6 @@ export const getStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStage",
-  iam: {
-    actions: ["ivs:GetStage"],
-    resources: {
-      "ivs:GetStage": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetStage",
 }));
@@ -1753,12 +1627,6 @@ export const getStageSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStageSession",
-  iam: {
-    actions: ["ivs:GetStageSession"],
-    resources: {
-      "ivs:GetStageSession": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetStageSession",
 }));
@@ -1793,14 +1661,6 @@ export const getStorageConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStorageConfiguration",
-  iam: {
-    actions: ["ivs:GetStorageConfiguration"],
-    resources: {
-      "ivs:GetStorageConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:storage-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetStorageConfiguration",
 }));
@@ -1833,13 +1693,6 @@ export const importPublicKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportPublicKey",
-  iam: {
-    actions: ["ivs:ImportPublicKey", "ivs:TagResource"],
-    resources: {
-      "ivs:ImportPublicKey": ["arn:${Partition}:ivs:${Region}:${Account}:public-key/${ResourceId}"],
-    },
-    conditional: { "ivs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "ImportPublicKey",
 }));
@@ -1878,7 +1731,6 @@ export const listCompositions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ivs:ListCompositions"] },
   telemetry: TELEMETRY,
   span: "ListCompositions",
 })) as any;
@@ -1917,7 +1769,6 @@ export const listEncoderConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ivs:ListEncoderConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListEncoderConfigurations",
 })) as any;
@@ -1948,7 +1799,6 @@ export const listIngestConfigurations: API.PaginatedOperationMethod<
     items: "ingestConfigurations",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ivs:ListIngestConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListIngestConfigurations",
 })) as any;
@@ -1975,14 +1825,6 @@ export const listParticipantEvents: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ivs:ListParticipantEvents"],
-    resources: {
-      "ivs:ListParticipantEvents": [
-        "arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListParticipantEvents",
 })) as any;
@@ -2013,14 +1855,6 @@ export const listParticipantReplicas: API.PaginatedOperationMethod<
     items: "replicas",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ivs:ListParticipantReplicas"],
-    resources: {
-      "ivs:ListParticipantReplicas": [
-        "arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListParticipantReplicas",
 })) as any;
@@ -2047,12 +1881,6 @@ export const listParticipants: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ivs:ListParticipants"],
-    resources: {
-      "ivs:ListParticipants": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListParticipants",
 })) as any;
@@ -2080,7 +1908,6 @@ export const listPublicKeys: API.PaginatedOperationMethod<
     items: "publicKeys",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ivs:ListPublicKeys"] },
   telemetry: TELEMETRY,
   span: "ListPublicKeys",
 })) as any;
@@ -2112,12 +1939,6 @@ export const listStages: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ivs:ListStages"],
-    resources: {
-      "ivs:ListStages": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListStages",
 })) as any;
@@ -2144,12 +1965,6 @@ export const listStageSessions: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["ivs:ListStageSessions"],
-    resources: {
-      "ivs:ListStageSessions": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListStageSessions",
 })) as any;
@@ -2188,7 +2003,6 @@ export const listStorageConfigurations: API.PaginatedOperationMethod<
     outputToken: "nextToken",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["ivs:ListStorageConfigurations"] },
   telemetry: TELEMETRY,
   span: "ListStorageConfigurations",
 })) as any;
@@ -2219,7 +2033,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["ivs:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2244,7 +2057,6 @@ export const revokeConnectionToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeConnectionToken",
-  iam: { actions: ["ivs:RevokeConnectionToken"] },
   telemetry: TELEMETRY,
   span: "RevokeConnectionToken",
 }));
@@ -2293,10 +2105,6 @@ export const startComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartComposition",
-  iam: {
-    actions: ["ivs:StartComposition", "ivs:TagResource"],
-    conditional: { "ivs:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "StartComposition",
 }));
@@ -2333,14 +2141,6 @@ export const startParticipantReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartParticipantReplication",
-  iam: {
-    actions: ["ivs:StartParticipantReplication"],
-    resources: {
-      "ivs:StartParticipantReplication": [
-        "arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartParticipantReplication",
 }));
@@ -2375,14 +2175,6 @@ export const stopComposition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopComposition",
-  iam: {
-    actions: ["ivs:StopComposition"],
-    resources: {
-      "ivs:StopComposition": [
-        "arn:${Partition}:ivs:${Region}:${Account}:composition/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopComposition",
 }));
@@ -2413,14 +2205,6 @@ export const stopParticipantReplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopParticipantReplication",
-  iam: {
-    actions: ["ivs:StopParticipantReplication"],
-    resources: {
-      "ivs:StopParticipantReplication": [
-        "arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopParticipantReplication",
 }));
@@ -2451,7 +2235,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["ivs:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2482,7 +2265,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["ivs:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2515,14 +2297,6 @@ export const updateIngestConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIngestConfiguration",
-  iam: {
-    actions: ["ivs:UpdateIngestConfiguration"],
-    resources: {
-      "ivs:UpdateIngestConfiguration": [
-        "arn:${Partition}:ivs:${Region}:${Account}:ingest-configuration/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIngestConfiguration",
 }));
@@ -2559,12 +2333,6 @@ export const updateStage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStage",
-  iam: {
-    actions: ["ivs:UpdateStage"],
-    resources: {
-      "ivs:UpdateStage": ["arn:${Partition}:ivs:${Region}:${Account}:stage/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateStage",
 }));

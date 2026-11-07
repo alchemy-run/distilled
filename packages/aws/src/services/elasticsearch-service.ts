@@ -1424,7 +1424,6 @@ export const acceptInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptInboundCrossClusterSearchConnection",
-  iam: { actions: ["es:AcceptInboundConnection", "es:AcceptInboundCrossClusterSearchConnection"] },
   telemetry: TELEMETRY,
   span: "AcceptInboundCrossClusterSearchConnection",
 }));
@@ -1451,16 +1450,6 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-  iam: {
-    actions: ["es:AddTags"],
-    resources: {
-      "es:AddTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -1495,14 +1484,6 @@ export const associatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePackage",
-  iam: {
-    actions: ["es:AssociatePackage", "iam:PassRole"],
-    resources: {
-      "es:AssociatePackage": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "AssociatePackage",
 }));
@@ -1537,7 +1518,6 @@ export const authorizeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AuthorizeVpcEndpointAccess",
-  iam: { actions: ["es:AuthorizeVpcEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "AuthorizeVpcEndpointAccess",
 }));
@@ -1570,14 +1550,6 @@ export const cancelDomainConfigChange: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelDomainConfigChange",
-  iam: {
-    actions: ["es:CancelDomainConfigChange"],
-    resources: {
-      "es:CancelDomainConfigChange": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelDomainConfigChange",
 }));
@@ -1603,17 +1575,6 @@ export const cancelElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelElasticsearchServiceSoftwareUpdate",
-  iam: {
-    actions: ["es:CancelElasticsearchServiceSoftwareUpdate", "es:CancelServiceSoftwareUpdate"],
-    resources: {
-      "es:CancelElasticsearchServiceSoftwareUpdate": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "es:CancelServiceSoftwareUpdate": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelElasticsearchServiceSoftwareUpdate",
 }));
@@ -1651,18 +1612,6 @@ export const createElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateElasticsearchDomain",
-  iam: {
-    actions: ["es:AddTags", "es:CreateDomain", "es:CreateElasticsearchDomain", "iam:PassRole"],
-    resources: {
-      "es:AddTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "CognitoOptions.RoleArn", "es:AddTags": "TagList" },
-  },
   telemetry: TELEMETRY,
   span: "CreateElasticsearchDomain",
 }));
@@ -1693,17 +1642,6 @@ export const createOutboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOutboundCrossClusterSearchConnection",
-  iam: {
-    actions: ["es:CreateOutboundConnection", "es:CreateOutboundCrossClusterSearchConnection"],
-    resources: {
-      "es:CreateOutboundConnection": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "es:CreateOutboundCrossClusterSearchConnection": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateOutboundCrossClusterSearchConnection",
 }));
@@ -1740,7 +1678,6 @@ export const createPackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePackage",
-  iam: { actions: ["es:CreatePackage"] },
   telemetry: TELEMETRY,
   span: "CreatePackage",
 }));
@@ -1775,7 +1712,6 @@ export const createVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateVpcEndpoint",
-  iam: { actions: ["es:CreateVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "CreateVpcEndpoint",
 }));
@@ -1801,15 +1737,6 @@ export const deleteElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteElasticsearchDomain",
-  iam: {
-    actions: ["es:DeleteDomain", "es:DeleteElasticsearchDomain"],
-    resources: {
-      "es:DeleteDomain": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "es:DeleteElasticsearchDomain": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteElasticsearchDomain",
 }));
@@ -1834,7 +1761,6 @@ export const deleteElasticsearchServiceRole: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteElasticsearchServiceRole",
-  iam: { actions: ["es:DeleteElasticsearchServiceRole"] },
   telemetry: TELEMETRY,
   span: "DeleteElasticsearchServiceRole",
 }));
@@ -1858,7 +1784,6 @@ export const deleteInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInboundCrossClusterSearchConnection",
-  iam: { actions: ["es:DeleteInboundCrossClusterSearchConnection"] },
   telemetry: TELEMETRY,
   span: "DeleteInboundCrossClusterSearchConnection",
 }));
@@ -1886,9 +1811,6 @@ export const deleteOutboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOutboundCrossClusterSearchConnection",
-  iam: {
-    actions: ["es:DeleteOutboundConnection", "es:DeleteOutboundCrossClusterSearchConnection"],
-  },
   telemetry: TELEMETRY,
   span: "DeleteOutboundCrossClusterSearchConnection",
 }));
@@ -1923,7 +1845,6 @@ export const deletePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePackage",
-  iam: { actions: ["es:DeletePackage"] },
   telemetry: TELEMETRY,
   span: "DeletePackage",
 }));
@@ -1949,7 +1870,6 @@ export const deleteVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVpcEndpoint",
-  iam: { actions: ["es:DeleteVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "DeleteVpcEndpoint",
 }));
@@ -1981,14 +1901,6 @@ export const describeDomainAutoTunes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:DescribeDomainAutoTunes"],
-    resources: {
-      "es:DescribeDomainAutoTunes": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomainAutoTunes",
 })) as any;
@@ -2015,14 +1927,6 @@ export const describeDomainChangeProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDomainChangeProgress",
-  iam: {
-    actions: ["es:DescribeDomainChangeProgress"],
-    resources: {
-      "es:DescribeDomainChangeProgress": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDomainChangeProgress",
 }));
@@ -2048,15 +1952,6 @@ export const describeElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomain",
-  iam: {
-    actions: ["es:DescribeDomain", "es:DescribeElasticsearchDomain"],
-    resources: {
-      "es:DescribeDomain": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "es:DescribeElasticsearchDomain": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeElasticsearchDomain",
 }));
@@ -2082,15 +1977,6 @@ export const describeElasticsearchDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomainConfig",
-  iam: {
-    actions: ["es:DescribeDomainConfig", "es:DescribeElasticsearchDomainConfig"],
-    resources: {
-      "es:DescribeDomainConfig": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "es:DescribeElasticsearchDomainConfig": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeElasticsearchDomainConfig",
 }));
@@ -2115,15 +2001,6 @@ export const describeElasticsearchDomains: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchDomains",
-  iam: {
-    actions: ["es:DescribeDomains", "es:DescribeElasticsearchDomains"],
-    resources: {
-      "es:DescribeDomains": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "es:DescribeElasticsearchDomains": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeElasticsearchDomains",
 }));
@@ -2163,7 +2040,6 @@ export const describeElasticsearchInstanceTypeLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeElasticsearchInstanceTypeLimits",
-  iam: { actions: ["es:DescribeElasticsearchInstanceTypeLimits", "es:DescribeInstanceTypeLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeElasticsearchInstanceTypeLimits",
 }));
@@ -2201,9 +2077,6 @@ export const describeInboundCrossClusterSearchConnections: API.PaginatedOperatio
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:DescribeInboundConnections", "es:DescribeInboundCrossClusterSearchConnections"],
-  },
   telemetry: TELEMETRY,
   span: "DescribeInboundCrossClusterSearchConnections",
 })) as any;
@@ -2241,9 +2114,6 @@ export const describeOutboundCrossClusterSearchConnections: API.PaginatedOperati
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:DescribeOutboundConnections", "es:DescribeOutboundCrossClusterSearchConnections"],
-  },
   telemetry: TELEMETRY,
   span: "DescribeOutboundCrossClusterSearchConnections",
 })) as any;
@@ -2282,7 +2152,6 @@ export const describePackages: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:DescribePackages"] },
   telemetry: TELEMETRY,
   span: "DescribePackages",
 })) as any;
@@ -2327,12 +2196,6 @@ export const describeReservedElasticsearchInstanceOfferings: API.PaginatedOperat
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: [
-      "es:DescribeReservedElasticsearchInstanceOfferings",
-      "es:DescribeReservedInstanceOfferings",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "DescribeReservedElasticsearchInstanceOfferings",
 })) as any;
@@ -2369,7 +2232,6 @@ export const describeReservedElasticsearchInstances: API.PaginatedOperationMetho
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:DescribeReservedElasticsearchInstances", "es:DescribeReservedInstances"] },
   telemetry: TELEMETRY,
   span: "DescribeReservedElasticsearchInstances",
 })) as any;
@@ -2395,7 +2257,6 @@ export const describeVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVpcEndpoints",
-  iam: { actions: ["es:DescribeVpcEndpoints"] },
   telemetry: TELEMETRY,
   span: "DescribeVpcEndpoints",
 }));
@@ -2430,12 +2291,6 @@ export const dissociatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DissociatePackage",
-  iam: {
-    actions: ["es:DissociatePackage"],
-    resources: {
-      "es:DissociatePackage": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DissociatePackage",
 }));
@@ -2473,15 +2328,6 @@ export const getCompatibleElasticsearchVersions: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCompatibleElasticsearchVersions",
-  iam: {
-    actions: ["es:GetCompatibleElasticsearchVersions", "es:GetCompatibleVersions"],
-    resources: {
-      "es:GetCompatibleElasticsearchVersions": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "es:GetCompatibleVersions": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCompatibleElasticsearchVersions",
 }));
@@ -2520,7 +2366,6 @@ export const getPackageVersionHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:GetPackageVersionHistory"] },
   telemetry: TELEMETRY,
   span: "GetPackageVersionHistory",
 })) as any;
@@ -2559,12 +2404,6 @@ export const getUpgradeHistory: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:GetUpgradeHistory"],
-    resources: {
-      "es:GetUpgradeHistory": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUpgradeHistory",
 })) as any;
@@ -2597,12 +2436,6 @@ export const getUpgradeStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUpgradeStatus",
-  iam: {
-    actions: ["es:GetUpgradeStatus"],
-    resources: {
-      "es:GetUpgradeStatus": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUpgradeStatus",
 }));
@@ -2623,7 +2456,6 @@ export const listDomainNames: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDomainNames",
-  iam: { actions: ["es:ListDomainNames"] },
   telemetry: TELEMETRY,
   span: "ListDomainNames",
 }));
@@ -2662,7 +2494,6 @@ export const listDomainsForPackage: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:ListDomainsForPackage"] },
   telemetry: TELEMETRY,
   span: "ListDomainsForPackage",
 })) as any;
@@ -2694,7 +2525,6 @@ export const listElasticsearchInstanceTypes: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:ListElasticsearchInstanceTypes"] },
   telemetry: TELEMETRY,
   span: "ListElasticsearchInstanceTypes",
 })) as any;
@@ -2726,7 +2556,6 @@ export const listElasticsearchVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["es:ListElasticsearchVersions", "es:ListVersions"] },
   telemetry: TELEMETRY,
   span: "ListElasticsearchVersions",
 })) as any;
@@ -2765,12 +2594,6 @@ export const listPackagesForDomain: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["es:ListPackagesForDomain"],
-    resources: {
-      "es:ListPackagesForDomain": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPackagesForDomain",
 })) as any;
@@ -2796,16 +2619,6 @@ export const listTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTags",
-  iam: {
-    actions: ["es:ListTags"],
-    resources: {
-      "es:ListTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTags",
 }));
@@ -2832,7 +2645,6 @@ export const listVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointAccess",
-  iam: { actions: ["es:ListVpcEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "ListVpcEndpointAccess",
 }));
@@ -2857,7 +2669,6 @@ export const listVpcEndpoints: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpoints",
-  iam: { actions: ["es:ListVpcEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListVpcEndpoints",
 }));
@@ -2883,7 +2694,6 @@ export const listVpcEndpointsForDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVpcEndpointsForDomain",
-  iam: { actions: ["es:ListVpcEndpointsForDomain"] },
   telemetry: TELEMETRY,
   span: "ListVpcEndpointsForDomain",
 }));
@@ -2926,12 +2736,6 @@ export const purchaseReservedElasticsearchInstanceOffering: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PurchaseReservedElasticsearchInstanceOffering",
-  iam: {
-    actions: [
-      "es:PurchaseReservedElasticsearchInstanceOffering",
-      "es:PurchaseReservedInstanceOffering",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "PurchaseReservedElasticsearchInstanceOffering",
 }));
@@ -2955,7 +2759,6 @@ export const rejectInboundCrossClusterSearchConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectInboundCrossClusterSearchConnection",
-  iam: { actions: ["es:RejectInboundConnection", "es:RejectInboundCrossClusterSearchConnection"] },
   telemetry: TELEMETRY,
   span: "RejectInboundCrossClusterSearchConnection",
 }));
@@ -2980,16 +2783,6 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
-  iam: {
-    actions: ["es:RemoveTags"],
-    resources: {
-      "es:RemoveTags": [
-        "arn:${Partition}:opensearch:${Region}:${Account}:application/${AppId}",
-        "arn:${Partition}:opensearch:${Region}:${Account}:datasource/${DataSourceName}",
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveTags",
 }));
@@ -3023,7 +2816,6 @@ export const revokeVpcEndpointAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeVpcEndpointAccess",
-  iam: { actions: ["es:RevokeVpcEndpointAccess"] },
   telemetry: TELEMETRY,
   span: "RevokeVpcEndpointAccess",
 }));
@@ -3049,17 +2841,6 @@ export const startElasticsearchServiceSoftwareUpdate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartElasticsearchServiceSoftwareUpdate",
-  iam: {
-    actions: ["es:StartElasticsearchServiceSoftwareUpdate", "es:StartServiceSoftwareUpdate"],
-    resources: {
-      "es:StartElasticsearchServiceSoftwareUpdate": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-      "es:StartServiceSoftwareUpdate": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartElasticsearchServiceSoftwareUpdate",
 }));
@@ -3094,17 +2875,6 @@ export const updateElasticsearchDomainConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateElasticsearchDomainConfig",
-  iam: {
-    actions: ["iam:PassRole", "es:UpdateDomainConfig", "es:UpdateElasticsearchDomainConfig"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "es:UpdateDomainConfig": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "es:UpdateElasticsearchDomainConfig": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "CognitoOptions.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateElasticsearchDomainConfig",
 }));
@@ -3139,7 +2909,6 @@ export const updatePackage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePackage",
-  iam: { actions: ["es:UpdatePackage"] },
   telemetry: TELEMETRY,
   span: "UpdatePackage",
 }));
@@ -3174,7 +2943,6 @@ export const updateVpcEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVpcEndpoint",
-  iam: { actions: ["es:UpdateVpcEndpoint"] },
   telemetry: TELEMETRY,
   span: "UpdateVpcEndpoint",
 }));
@@ -3209,15 +2977,6 @@ export const upgradeElasticsearchDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpgradeElasticsearchDomain",
-  iam: {
-    actions: ["es:UpgradeDomain", "es:UpgradeElasticsearchDomain"],
-    resources: {
-      "es:UpgradeDomain": ["arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}"],
-      "es:UpgradeElasticsearchDomain": [
-        "arn:${Partition}:es:${Region}:${Account}:domain/${DomainName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpgradeElasticsearchDomain",
 }));

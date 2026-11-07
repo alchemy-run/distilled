@@ -2697,7 +2697,6 @@ export const acceptMarketplaceRegistration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptMarketplaceRegistration",
-  iam: { actions: ["odb:AcceptMarketplaceRegistration"] },
   telemetry: TELEMETRY,
   span: "AcceptMarketplaceRegistration",
 }));
@@ -2732,10 +2731,6 @@ export const associateIamRoleToResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateIamRoleToResource",
-  iam: {
-    actions: ["odb:AssociateIamRoleToResource", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-  },
   telemetry: TELEMETRY,
   span: "AssociateIamRoleToResource",
 }));
@@ -2772,14 +2767,6 @@ export const associateVirtualMachinesToExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVirtualMachinesToExadbVmCluster",
-  iam: {
-    actions: ["odb:AssociateVirtualMachinesToExadbVmCluster"],
-    resources: {
-      "odb:AssociateVirtualMachinesToExadbVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:exadb-vm-cluster/${ExadbVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateVirtualMachinesToExadbVmCluster",
 }));
@@ -2816,10 +2803,6 @@ export const createAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabase",
-  iam: {
-    actions: ["odb:CreateAutonomousDatabase", "odb:TagResource"],
-    conditional: { "odb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAutonomousDatabase",
 }));
@@ -2856,14 +2839,6 @@ export const createAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabaseBackup",
-  iam: {
-    actions: ["odb:CreateAutonomousDatabaseBackup"],
-    resources: {
-      "odb:CreateAutonomousDatabaseBackup": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateAutonomousDatabaseBackup",
 }));
@@ -2896,16 +2871,6 @@ export const createAutonomousDatabaseWallet: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAutonomousDatabaseWallet",
-  iam: {
-    actions: ["odb:CreateAutonomousDatabaseWallet", "iam:PassRole"],
-    resources: {
-      "odb:CreateAutonomousDatabaseWallet": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAutonomousDatabaseWallet",
 }));
@@ -2942,16 +2907,6 @@ export const createCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudAutonomousVmCluster",
-  iam: {
-    actions: ["odb:CreateCloudAutonomousVmCluster", "odb:TagResource"],
-    resources: {
-      "odb:CreateCloudAutonomousVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}",
-        "arn:${Partition}:odb:${Region}:${Account}:odb-network/${OdbNetworkId}",
-      ],
-    },
-    conditional: { "odb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCloudAutonomousVmCluster",
 }));
@@ -2986,10 +2941,6 @@ export const createCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudExadataInfrastructure",
-  iam: {
-    actions: ["odb:CreateCloudExadataInfrastructure", "odb:TagResource"],
-    conditional: { "odb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCloudExadataInfrastructure",
 }));
@@ -3026,13 +2977,6 @@ export const createCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCloudVmCluster",
-  iam: {
-    actions: ["odb:CreateCloudVmCluster", "odb:CreateDbNode", "odb:TagResource"],
-    resources: {
-      "odb:CreateDbNode": ["arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}"],
-    },
-    conditional: { "odb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCloudVmCluster",
 }));
@@ -3069,17 +3013,6 @@ export const createExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExadbVmCluster",
-  iam: {
-    actions: ["odb:CreateDbNode", "odb:CreateExadbVmCluster", "odb:TagResource"],
-    resources: {
-      "odb:CreateDbNode": ["arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}"],
-      "odb:CreateExadbVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:exascale-db-storage-vault/${ExascaleDbStorageVaultId}",
-        "arn:${Partition}:odb:${Region}:${Account}:odb-network/${OdbNetworkId}",
-      ],
-    },
-    conditional: { "odb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExadbVmCluster",
 }));
@@ -3118,10 +3051,6 @@ export const createExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExascaleDbStorageVault",
-  iam: {
-    actions: ["odb:CreateExascaleDbStorageVault", "odb:TagResource"],
-    conditional: { "odb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExascaleDbStorageVault",
 }));
@@ -3156,10 +3085,6 @@ export const createOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOdbNetwork",
-  iam: {
-    actions: ["odb:CreateOdbNetwork", "odb:TagResource"],
-    conditional: { "odb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOdbNetwork",
 }));
@@ -3196,15 +3121,6 @@ export const createOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOdbPeeringConnection",
-  iam: {
-    actions: ["odb:CreateOdbPeeringConnection", "odb:TagResource"],
-    resources: {
-      "odb:CreateOdbPeeringConnection": [
-        "arn:${Partition}:odb:${Region}:${Account}:odb-network/${OdbNetworkId}",
-      ],
-    },
-    conditional: { "odb:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOdbPeeringConnection",
 }));
@@ -3239,14 +3155,6 @@ export const deleteAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutonomousDatabase",
-  iam: {
-    actions: ["odb:DeleteAutonomousDatabase"],
-    resources: {
-      "odb:DeleteAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAutonomousDatabase",
 }));
@@ -3281,14 +3189,6 @@ export const deleteAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAutonomousDatabaseBackup",
-  iam: {
-    actions: ["odb:DeleteAutonomousDatabaseBackup"],
-    resources: {
-      "odb:DeleteAutonomousDatabaseBackup": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database-backup/${AutonomousDatabaseBackupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAutonomousDatabaseBackup",
 }));
@@ -3321,14 +3221,6 @@ export const deleteCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudAutonomousVmCluster",
-  iam: {
-    actions: ["odb:DeleteCloudAutonomousVmCluster"],
-    resources: {
-      "odb:DeleteCloudAutonomousVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-autonomous-vm-cluster/${CloudAutonomousVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCloudAutonomousVmCluster",
 }));
@@ -3363,14 +3255,6 @@ export const deleteCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudExadataInfrastructure",
-  iam: {
-    actions: ["odb:DeleteCloudExadataInfrastructure"],
-    resources: {
-      "odb:DeleteCloudExadataInfrastructure": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCloudExadataInfrastructure",
 }));
@@ -3403,15 +3287,6 @@ export const deleteCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCloudVmCluster",
-  iam: {
-    actions: ["odb:DeleteCloudVmCluster", "odb:DeleteDbNode"],
-    resources: {
-      "odb:DeleteCloudVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-vm-cluster/${CloudVmClusterId}",
-      ],
-      "odb:DeleteDbNode": ["arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCloudVmCluster",
 }));
@@ -3446,15 +3321,6 @@ export const deleteExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExadbVmCluster",
-  iam: {
-    actions: ["odb:DeleteDbNode", "odb:DeleteExadbVmCluster"],
-    resources: {
-      "odb:DeleteDbNode": ["arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}"],
-      "odb:DeleteExadbVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:exadb-vm-cluster/${ExadbVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExadbVmCluster",
 }));
@@ -3489,14 +3355,6 @@ export const deleteExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExascaleDbStorageVault",
-  iam: {
-    actions: ["odb:DeleteExascaleDbStorageVault"],
-    resources: {
-      "odb:DeleteExascaleDbStorageVault": [
-        "arn:${Partition}:odb:${Region}:${Account}:exascale-db-storage-vault/${ExascaleDbStorageVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExascaleDbStorageVault",
 }));
@@ -3529,14 +3387,6 @@ export const deleteOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOdbNetwork",
-  iam: {
-    actions: ["odb:DeleteOdbNetwork"],
-    resources: {
-      "odb:DeleteOdbNetwork": [
-        "arn:${Partition}:odb:${Region}:${Account}:odb-network/${OdbNetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOdbNetwork",
 }));
@@ -3571,14 +3421,6 @@ export const deleteOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOdbPeeringConnection",
-  iam: {
-    actions: ["odb:DeleteOdbPeeringConnection"],
-    resources: {
-      "odb:DeleteOdbPeeringConnection": [
-        "arn:${Partition}:odb:${Region}:${Account}:odb-peering-connection/${OdbPeeringConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOdbPeeringConnection",
 }));
@@ -3613,7 +3455,6 @@ export const disassociateIamRoleFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateIamRoleFromResource",
-  iam: { actions: ["odb:DisassociateIamRoleFromResource"] },
   telemetry: TELEMETRY,
   span: "DisassociateIamRoleFromResource",
 }));
@@ -3652,14 +3493,6 @@ export const disassociateVirtualMachinesFromExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateVirtualMachinesFromExadbVmCluster",
-  iam: {
-    actions: ["odb:DisassociateVirtualMachinesFromExadbVmCluster"],
-    resources: {
-      "odb:DisassociateVirtualMachinesFromExadbVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:exadb-vm-cluster/${ExadbVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateVirtualMachinesFromExadbVmCluster",
 }));
@@ -3694,14 +3527,6 @@ export const failoverAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "FailoverAutonomousDatabase",
-  iam: {
-    actions: ["odb:FailoverAutonomousDatabase"],
-    resources: {
-      "odb:FailoverAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "FailoverAutonomousDatabase",
 }));
@@ -3734,14 +3559,6 @@ export const getAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabase",
-  iam: {
-    actions: ["odb:GetAutonomousDatabase"],
-    resources: {
-      "odb:GetAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAutonomousDatabase",
 }));
@@ -3774,14 +3591,6 @@ export const getAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabaseBackup",
-  iam: {
-    actions: ["odb:GetAutonomousDatabaseBackup"],
-    resources: {
-      "odb:GetAutonomousDatabaseBackup": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database-backup/${AutonomousDatabaseBackupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAutonomousDatabaseBackup",
 }));
@@ -3814,14 +3623,6 @@ export const getAutonomousDatabaseWalletDetails: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAutonomousDatabaseWalletDetails",
-  iam: {
-    actions: ["odb:GetAutonomousDatabaseWalletDetails"],
-    resources: {
-      "odb:GetAutonomousDatabaseWalletDetails": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAutonomousDatabaseWalletDetails",
 }));
@@ -3854,14 +3655,6 @@ export const getCloudAutonomousVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudAutonomousVmCluster",
-  iam: {
-    actions: ["odb:GetCloudAutonomousVmCluster"],
-    resources: {
-      "odb:GetCloudAutonomousVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-autonomous-vm-cluster/${CloudAutonomousVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCloudAutonomousVmCluster",
 }));
@@ -3894,14 +3687,6 @@ export const getCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudExadataInfrastructure",
-  iam: {
-    actions: ["odb:GetCloudExadataInfrastructure"],
-    resources: {
-      "odb:GetCloudExadataInfrastructure": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCloudExadataInfrastructure",
 }));
@@ -3942,14 +3727,6 @@ export const getCloudExadataInfrastructureUnallocatedResources: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudExadataInfrastructureUnallocatedResources",
-  iam: {
-    actions: ["odb:GetCloudExadataInfrastructureUnallocatedResources"],
-    resources: {
-      "odb:GetCloudExadataInfrastructureUnallocatedResources": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCloudExadataInfrastructureUnallocatedResources",
 }));
@@ -3982,14 +3759,6 @@ export const getCloudVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCloudVmCluster",
-  iam: {
-    actions: ["odb:GetCloudVmCluster"],
-    resources: {
-      "odb:GetCloudVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-vm-cluster/${CloudVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCloudVmCluster",
 }));
@@ -4022,15 +3791,6 @@ export const getDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbNode",
-  iam: {
-    actions: ["odb:GetDbNode"],
-    resources: {
-      "odb:GetDbNode": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-vm-cluster/${CloudVmClusterId}",
-        "arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDbNode",
 }));
@@ -4063,14 +3823,6 @@ export const getDbServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDbServer",
-  iam: {
-    actions: ["odb:GetDbServer"],
-    resources: {
-      "odb:GetDbServer": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDbServer",
 }));
@@ -4103,14 +3855,6 @@ export const getExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExadbVmCluster",
-  iam: {
-    actions: ["odb:GetExadbVmCluster"],
-    resources: {
-      "odb:GetExadbVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:exadb-vm-cluster/${ExadbVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExadbVmCluster",
 }));
@@ -4143,14 +3887,6 @@ export const getExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExascaleDbStorageVault",
-  iam: {
-    actions: ["odb:GetExascaleDbStorageVault"],
-    resources: {
-      "odb:GetExascaleDbStorageVault": [
-        "arn:${Partition}:odb:${Region}:${Account}:exascale-db-storage-vault/${ExascaleDbStorageVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExascaleDbStorageVault",
 }));
@@ -4181,7 +3917,6 @@ export const getOciOnboardingStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOciOnboardingStatus",
-  iam: { actions: ["odb:GetOciOnboardingStatus"] },
   telemetry: TELEMETRY,
   span: "GetOciOnboardingStatus",
 }));
@@ -4214,14 +3949,6 @@ export const getOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOdbNetwork",
-  iam: {
-    actions: ["odb:GetOdbNetwork"],
-    resources: {
-      "odb:GetOdbNetwork": [
-        "arn:${Partition}:odb:${Region}:${Account}:odb-network/${OdbNetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOdbNetwork",
 }));
@@ -4254,14 +3981,6 @@ export const getOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOdbPeeringConnection",
-  iam: {
-    actions: ["odb:GetOdbPeeringConnection"],
-    resources: {
-      "odb:GetOdbPeeringConnection": [
-        "arn:${Partition}:odb:${Region}:${Account}:odb-peering-connection/${OdbPeeringConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOdbPeeringConnection",
 }));
@@ -4292,7 +4011,6 @@ export const initializeService: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitializeService",
-  iam: { actions: ["odb:InitializeService"] },
   telemetry: TELEMETRY,
   span: "InitializeService",
 }));
@@ -4332,14 +4050,6 @@ export const listAutonomousDatabaseBackups: API.PaginatedOperationMethod<
     items: "autonomousDatabaseBackups",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["odb:ListAutonomousDatabaseBackups"],
-    resources: {
-      "odb:ListAutonomousDatabaseBackups": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAutonomousDatabaseBackups",
 })) as any;
@@ -4377,7 +4087,6 @@ export const listAutonomousDatabaseCharacterSets: API.PaginatedOperationMethod<
     items: "autonomousDatabaseCharacterSets",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListAutonomousDatabaseCharacterSets"] },
   telemetry: TELEMETRY,
   span: "ListAutonomousDatabaseCharacterSets",
 })) as any;
@@ -4417,14 +4126,6 @@ export const listAutonomousDatabaseClones: API.PaginatedOperationMethod<
     items: "autonomousDatabaseClones",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["odb:ListAutonomousDatabaseClones"],
-    resources: {
-      "odb:ListAutonomousDatabaseClones": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAutonomousDatabaseClones",
 })) as any;
@@ -4464,14 +4165,6 @@ export const listAutonomousDatabasePeers: API.PaginatedOperationMethod<
     items: "autonomousDatabasePeers",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["odb:ListAutonomousDatabasePeers"],
-    resources: {
-      "odb:ListAutonomousDatabasePeers": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAutonomousDatabasePeers",
 })) as any;
@@ -4509,7 +4202,6 @@ export const listAutonomousDatabases: API.PaginatedOperationMethod<
     items: "autonomousDatabases",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListAutonomousDatabases"] },
   telemetry: TELEMETRY,
   span: "ListAutonomousDatabases",
 })) as any;
@@ -4547,7 +4239,6 @@ export const listAutonomousDatabaseVersions: API.PaginatedOperationMethod<
     items: "autonomousDatabaseVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListAutonomousDatabaseVersions"] },
   telemetry: TELEMETRY,
   span: "ListAutonomousDatabaseVersions",
 })) as any;
@@ -4587,7 +4278,6 @@ export const listAutonomousVirtualMachines: API.PaginatedOperationMethod<
     items: "autonomousVirtualMachines",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListAutonomousVirtualMachines"] },
   telemetry: TELEMETRY,
   span: "ListAutonomousVirtualMachines",
 })) as any;
@@ -4627,7 +4317,6 @@ export const listCloudAutonomousVmClusters: API.PaginatedOperationMethod<
     items: "cloudAutonomousVmClusters",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListCloudAutonomousVmClusters"] },
   telemetry: TELEMETRY,
   span: "ListCloudAutonomousVmClusters",
 })) as any;
@@ -4665,7 +4354,6 @@ export const listCloudExadataInfrastructures: API.PaginatedOperationMethod<
     items: "cloudExadataInfrastructures",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListCloudExadataInfrastructures"] },
   telemetry: TELEMETRY,
   span: "ListCloudExadataInfrastructures",
 })) as any;
@@ -4705,7 +4393,6 @@ export const listCloudVmClusters: API.PaginatedOperationMethod<
     items: "cloudVmClusters",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListCloudVmClusters"] },
   telemetry: TELEMETRY,
   span: "ListCloudVmClusters",
 })) as any;
@@ -4745,14 +4432,6 @@ export const listDbNodes: API.PaginatedOperationMethod<
     items: "dbNodes",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["odb:ListDbNodes"],
-    resources: {
-      "odb:ListDbNodes": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-vm-cluster/${CloudVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDbNodes",
 })) as any;
@@ -4792,14 +4471,6 @@ export const listDbServers: API.PaginatedOperationMethod<
     items: "dbServers",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["odb:ListDbServers"],
-    resources: {
-      "odb:ListDbServers": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDbServers",
 })) as any;
@@ -4837,7 +4508,6 @@ export const listDbSystemShapes: API.PaginatedOperationMethod<
     items: "dbSystemShapes",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListDbSystemShapes"] },
   telemetry: TELEMETRY,
   span: "ListDbSystemShapes",
 })) as any;
@@ -4877,7 +4547,6 @@ export const listExadbVmClusters: API.PaginatedOperationMethod<
     items: "exadbVmClusters",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListExadbVmClusters"] },
   telemetry: TELEMETRY,
   span: "ListExadbVmClusters",
 })) as any;
@@ -4917,7 +4586,6 @@ export const listExascaleDbStorageVaults: API.PaginatedOperationMethod<
     items: "exascaleDbStorageVaults",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListExascaleDbStorageVaults"] },
   telemetry: TELEMETRY,
   span: "ListExascaleDbStorageVaults",
 })) as any;
@@ -4955,7 +4623,6 @@ export const listFlexComponents: API.PaginatedOperationMethod<
     items: "flexComponents",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListFlexComponents"] },
   telemetry: TELEMETRY,
   span: "ListFlexComponents",
 })) as any;
@@ -4993,7 +4660,6 @@ export const listGiMinorVersions: API.PaginatedOperationMethod<
     items: "giMinorVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListGiMinorVersions"] },
   telemetry: TELEMETRY,
   span: "ListGiMinorVersions",
 })) as any;
@@ -5031,7 +4697,6 @@ export const listGiVersions: API.PaginatedOperationMethod<
     items: "giVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListGiVersions"] },
   telemetry: TELEMETRY,
   span: "ListGiVersions",
 })) as any;
@@ -5069,7 +4734,6 @@ export const listOdbNetworks: API.PaginatedOperationMethod<
     items: "odbNetworks",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListOdbNetworks"] },
   telemetry: TELEMETRY,
   span: "ListOdbNetworks",
 })) as any;
@@ -5109,7 +4773,6 @@ export const listOdbPeeringConnections: API.PaginatedOperationMethod<
     items: "odbPeeringConnections",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListOdbPeeringConnections"] },
   telemetry: TELEMETRY,
   span: "ListOdbPeeringConnections",
 })) as any;
@@ -5149,7 +4812,6 @@ export const listSystemVersions: API.PaginatedOperationMethod<
     items: "systemVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["odb:ListSystemVersions"] },
   telemetry: TELEMETRY,
   span: "ListSystemVersions",
 })) as any;
@@ -5170,7 +4832,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["odb:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5205,14 +4866,6 @@ export const rebootAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootAutonomousDatabase",
-  iam: {
-    actions: ["odb:RebootAutonomousDatabase"],
-    resources: {
-      "odb:RebootAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootAutonomousDatabase",
 }));
@@ -5245,15 +4898,6 @@ export const rebootDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RebootDbNode",
-  iam: {
-    actions: ["odb:RebootDbNode"],
-    resources: {
-      "odb:RebootDbNode": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-vm-cluster/${CloudVmClusterId}",
-        "arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RebootDbNode",
 }));
@@ -5288,14 +4932,6 @@ export const restoreAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RestoreAutonomousDatabase",
-  iam: {
-    actions: ["odb:RestoreAutonomousDatabase"],
-    resources: {
-      "odb:RestoreAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RestoreAutonomousDatabase",
 }));
@@ -5330,14 +4966,6 @@ export const shrinkAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ShrinkAutonomousDatabase",
-  iam: {
-    actions: ["odb:ShrinkAutonomousDatabase"],
-    resources: {
-      "odb:ShrinkAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ShrinkAutonomousDatabase",
 }));
@@ -5372,14 +5000,6 @@ export const startAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartAutonomousDatabase",
-  iam: {
-    actions: ["odb:StartAutonomousDatabase"],
-    resources: {
-      "odb:StartAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartAutonomousDatabase",
 }));
@@ -5412,15 +5032,6 @@ export const startDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartDbNode",
-  iam: {
-    actions: ["odb:StartDbNode"],
-    resources: {
-      "odb:StartDbNode": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-vm-cluster/${CloudVmClusterId}",
-        "arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartDbNode",
 }));
@@ -5455,14 +5066,6 @@ export const stopAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopAutonomousDatabase",
-  iam: {
-    actions: ["odb:StopAutonomousDatabase"],
-    resources: {
-      "odb:StopAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopAutonomousDatabase",
 }));
@@ -5495,15 +5098,6 @@ export const stopDbNode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopDbNode",
-  iam: {
-    actions: ["odb:StopDbNode"],
-    resources: {
-      "odb:StopDbNode": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-vm-cluster/${CloudVmClusterId}",
-        "arn:${Partition}:odb:${Region}:${Account}:db-node/${DbNodeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopDbNode",
 }));
@@ -5538,14 +5132,6 @@ export const switchoverAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SwitchoverAutonomousDatabase",
-  iam: {
-    actions: ["odb:SwitchoverAutonomousDatabase"],
-    resources: {
-      "odb:SwitchoverAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SwitchoverAutonomousDatabase",
 }));
@@ -5569,7 +5155,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["odb:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -5590,7 +5175,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["odb:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -5625,14 +5209,6 @@ export const updateAutonomousDatabase: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutonomousDatabase",
-  iam: {
-    actions: ["odb:UpdateAutonomousDatabase"],
-    resources: {
-      "odb:UpdateAutonomousDatabase": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database/${AutonomousDatabaseId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAutonomousDatabase",
 }));
@@ -5667,14 +5243,6 @@ export const updateAutonomousDatabaseBackup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAutonomousDatabaseBackup",
-  iam: {
-    actions: ["odb:UpdateAutonomousDatabaseBackup"],
-    resources: {
-      "odb:UpdateAutonomousDatabaseBackup": [
-        "arn:${Partition}:odb:${Region}:${Account}:autonomous-database-backup/${AutonomousDatabaseBackupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAutonomousDatabaseBackup",
 }));
@@ -5709,14 +5277,6 @@ export const updateCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCloudExadataInfrastructure",
-  iam: {
-    actions: ["odb:UpdateCloudExadataInfrastructure"],
-    resources: {
-      "odb:UpdateCloudExadataInfrastructure": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCloudExadataInfrastructure",
 }));
@@ -5751,14 +5311,6 @@ export const updateExadbVmCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExadbVmCluster",
-  iam: {
-    actions: ["odb:UpdateExadbVmCluster"],
-    resources: {
-      "odb:UpdateExadbVmCluster": [
-        "arn:${Partition}:odb:${Region}:${Account}:exadb-vm-cluster/${ExadbVmClusterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateExadbVmCluster",
 }));
@@ -5793,14 +5345,6 @@ export const updateExascaleCloudExadataInfrastructure: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExascaleCloudExadataInfrastructure",
-  iam: {
-    actions: ["odb:UpdateExascaleCloudExadataInfrastructure"],
-    resources: {
-      "odb:UpdateExascaleCloudExadataInfrastructure": [
-        "arn:${Partition}:odb:${Region}:${Account}:cloud-exadata-infrastructure/${CloudExadataInfrastructureId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateExascaleCloudExadataInfrastructure",
 }));
@@ -5835,14 +5379,6 @@ export const updateExascaleDbStorageVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExascaleDbStorageVault",
-  iam: {
-    actions: ["odb:UpdateExascaleDbStorageVault"],
-    resources: {
-      "odb:UpdateExascaleDbStorageVault": [
-        "arn:${Partition}:odb:${Region}:${Account}:exascale-db-storage-vault/${ExascaleDbStorageVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateExascaleDbStorageVault",
 }));
@@ -5877,14 +5413,6 @@ export const updateOdbNetwork: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOdbNetwork",
-  iam: {
-    actions: ["odb:UpdateOdbNetwork"],
-    resources: {
-      "odb:UpdateOdbNetwork": [
-        "arn:${Partition}:odb:${Region}:${Account}:odb-network/${OdbNetworkId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOdbNetwork",
 }));
@@ -5919,14 +5447,6 @@ export const updateOdbPeeringConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOdbPeeringConnection",
-  iam: {
-    actions: ["odb:UpdateOdbPeeringConnection"],
-    resources: {
-      "odb:UpdateOdbPeeringConnection": [
-        "arn:${Partition}:odb:${Region}:${Account}:odb-peering-connection/${OdbPeeringConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOdbPeeringConnection",
 }));

@@ -962,18 +962,6 @@ export const createCentralizationRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCentralizationRuleForOrganization",
-  iam: {
-    actions: [
-      "observabilityadmin:CreateCentralizationRuleForOrganization",
-      "observabilityadmin:TagResource",
-    ],
-    resources: {
-      "observabilityadmin:CreateCentralizationRuleForOrganization": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-centralization-rule/${CentralizationRuleName}",
-      ],
-    },
-    conditional: { "observabilityadmin:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCentralizationRuleForOrganization",
 }));
@@ -1010,20 +998,6 @@ export const createDatasetIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetIntegration",
-  iam: {
-    actions: [
-      "observabilityadmin:CreateDatasetIntegration",
-      "iam:PassRole",
-      "observabilityadmin:TagResource",
-    ],
-    resources: {
-      "observabilityadmin:CreateDatasetIntegration": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:dataset-integration/${DatasetIntegrationIdentifier}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "observabilityadmin:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDatasetIntegration",
 }));
@@ -1058,20 +1032,6 @@ export const createS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateS3TableIntegration",
-  iam: {
-    actions: [
-      "observabilityadmin:CreateS3TableIntegration",
-      "iam:PassRole",
-      "observabilityadmin:TagResource",
-    ],
-    resources: {
-      "observabilityadmin:CreateS3TableIntegration": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:s3tableintegration/${S3TableIntegrationIdentifier}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "observabilityadmin:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateS3TableIntegration",
 }));
@@ -1106,23 +1066,6 @@ export const createTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTelemetryPipeline",
-  iam: {
-    actions: [
-      "observabilityadmin:CreateTelemetryPipeline",
-      "iam:PassRole",
-      "observabilityadmin:TagResource",
-    ],
-    resources: {
-      "observabilityadmin:CreateTelemetryPipeline": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-pipeline/${TelemetryPipelineIdentifier}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "a role the request names",
-      "observabilityadmin:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateTelemetryPipeline",
 }));
@@ -1157,15 +1100,6 @@ export const createTelemetryRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTelemetryRule",
-  iam: {
-    actions: ["observabilityadmin:CreateTelemetryRule", "observabilityadmin:TagResource"],
-    resources: {
-      "observabilityadmin:CreateTelemetryRule": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-rule/${TelemetryRuleName}",
-      ],
-    },
-    conditional: { "observabilityadmin:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTelemetryRule",
 }));
@@ -1200,18 +1134,6 @@ export const createTelemetryRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTelemetryRuleForOrganization",
-  iam: {
-    actions: [
-      "observabilityadmin:CreateTelemetryRuleForOrganization",
-      "observabilityadmin:TagResource",
-    ],
-    resources: {
-      "observabilityadmin:CreateTelemetryRuleForOrganization": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-telemetry-rule/${TelemetryRuleName}",
-      ],
-    },
-    conditional: { "observabilityadmin:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTelemetryRuleForOrganization",
 }));
@@ -1244,14 +1166,6 @@ export const deleteCentralizationRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCentralizationRuleForOrganization",
-  iam: {
-    actions: ["observabilityadmin:DeleteCentralizationRuleForOrganization"],
-    resources: {
-      "observabilityadmin:DeleteCentralizationRuleForOrganization": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-centralization-rule/${CentralizationRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCentralizationRuleForOrganization",
 }));
@@ -1284,14 +1198,6 @@ export const deleteDatasetIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetIntegration",
-  iam: {
-    actions: ["observabilityadmin:DeleteDatasetIntegration"],
-    resources: {
-      "observabilityadmin:DeleteDatasetIntegration": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:dataset-integration/${DatasetIntegrationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDatasetIntegration",
 }));
@@ -1326,14 +1232,6 @@ export const deleteS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteS3TableIntegration",
-  iam: {
-    actions: ["observabilityadmin:DeleteS3TableIntegration"],
-    resources: {
-      "observabilityadmin:DeleteS3TableIntegration": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:s3tableintegration/${S3TableIntegrationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteS3TableIntegration",
 }));
@@ -1368,14 +1266,6 @@ export const deleteTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTelemetryPipeline",
-  iam: {
-    actions: ["observabilityadmin:DeleteTelemetryPipeline"],
-    resources: {
-      "observabilityadmin:DeleteTelemetryPipeline": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-pipeline/${TelemetryPipelineIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTelemetryPipeline",
 }));
@@ -1408,14 +1298,6 @@ export const deleteTelemetryRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTelemetryRule",
-  iam: {
-    actions: ["observabilityadmin:DeleteTelemetryRule"],
-    resources: {
-      "observabilityadmin:DeleteTelemetryRule": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-rule/${TelemetryRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTelemetryRule",
 }));
@@ -1448,14 +1330,6 @@ export const deleteTelemetryRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTelemetryRuleForOrganization",
-  iam: {
-    actions: ["observabilityadmin:DeleteTelemetryRuleForOrganization"],
-    resources: {
-      "observabilityadmin:DeleteTelemetryRuleForOrganization": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-telemetry-rule/${TelemetryRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTelemetryRuleForOrganization",
 }));
@@ -1488,14 +1362,6 @@ export const getCentralizationRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCentralizationRuleForOrganization",
-  iam: {
-    actions: ["observabilityadmin:GetCentralizationRuleForOrganization"],
-    resources: {
-      "observabilityadmin:GetCentralizationRuleForOrganization": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-centralization-rule/${CentralizationRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCentralizationRuleForOrganization",
 }));
@@ -1528,14 +1394,6 @@ export const getDatasetIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDatasetIntegration",
-  iam: {
-    actions: ["observabilityadmin:GetDatasetIntegration"],
-    resources: {
-      "observabilityadmin:GetDatasetIntegration": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:dataset-integration/${DatasetIntegrationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDatasetIntegration",
 }));
@@ -1568,14 +1426,6 @@ export const getS3TableIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetS3TableIntegration",
-  iam: {
-    actions: ["observabilityadmin:GetS3TableIntegration"],
-    resources: {
-      "observabilityadmin:GetS3TableIntegration": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:s3tableintegration/${S3TableIntegrationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetS3TableIntegration",
 }));
@@ -1606,7 +1456,6 @@ export const getTelemetryEnrichmentStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryEnrichmentStatus",
-  iam: { actions: ["observabilityadmin:GetTelemetryEnrichmentStatus"] },
   telemetry: TELEMETRY,
   span: "GetTelemetryEnrichmentStatus",
 }));
@@ -1631,7 +1480,6 @@ export const getTelemetryEvaluationStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryEvaluationStatus",
-  iam: { actions: ["observabilityadmin:GetTelemetryEvaluationStatus"] },
   telemetry: TELEMETRY,
   span: "GetTelemetryEvaluationStatus",
 }));
@@ -1662,7 +1510,6 @@ export const getTelemetryEvaluationStatusForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryEvaluationStatusForOrganization",
-  iam: { actions: ["observabilityadmin:GetTelemetryEvaluationStatusForOrganization"] },
   telemetry: TELEMETRY,
   span: "GetTelemetryEvaluationStatusForOrganization",
 }));
@@ -1695,14 +1542,6 @@ export const getTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryPipeline",
-  iam: {
-    actions: ["observabilityadmin:GetTelemetryPipeline"],
-    resources: {
-      "observabilityadmin:GetTelemetryPipeline": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-pipeline/${TelemetryPipelineIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTelemetryPipeline",
 }));
@@ -1735,14 +1574,6 @@ export const getTelemetryRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryRule",
-  iam: {
-    actions: ["observabilityadmin:GetTelemetryRule"],
-    resources: {
-      "observabilityadmin:GetTelemetryRule": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-rule/${TelemetryRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTelemetryRule",
 }));
@@ -1775,14 +1606,6 @@ export const getTelemetryRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTelemetryRuleForOrganization",
-  iam: {
-    actions: ["observabilityadmin:GetTelemetryRuleForOrganization"],
-    resources: {
-      "observabilityadmin:GetTelemetryRuleForOrganization": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-telemetry-rule/${TelemetryRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTelemetryRuleForOrganization",
 }));
@@ -1820,7 +1643,6 @@ export const listCentralizationRulesForOrganization: API.PaginatedOperationMetho
     items: "CentralizationRuleSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["observabilityadmin:ListCentralizationRulesForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListCentralizationRulesForOrganization",
 })) as any;
@@ -1858,7 +1680,6 @@ export const listDatasetIntegrations: API.PaginatedOperationMethod<
     items: "DatasetIntegrationSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["observabilityadmin:ListDatasetIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListDatasetIntegrations",
 })) as any;
@@ -1896,7 +1717,6 @@ export const listResourceTelemetry: API.PaginatedOperationMethod<
     items: "TelemetryConfigurations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["observabilityadmin:ListResourceTelemetry"] },
   telemetry: TELEMETRY,
   span: "ListResourceTelemetry",
 })) as any;
@@ -1934,7 +1754,6 @@ export const listResourceTelemetryForOrganization: API.PaginatedOperationMethod<
     items: "TelemetryConfigurations",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["observabilityadmin:ListResourceTelemetryForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListResourceTelemetryForOrganization",
 })) as any;
@@ -1972,7 +1791,6 @@ export const listS3TableIntegrations: API.PaginatedOperationMethod<
     items: "IntegrationSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["observabilityadmin:ListS3TableIntegrations"] },
   telemetry: TELEMETRY,
   span: "ListS3TableIntegrations",
 })) as any;
@@ -2005,7 +1823,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["observabilityadmin:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2043,7 +1860,6 @@ export const listTelemetryPipelines: API.PaginatedOperationMethod<
     items: "PipelineSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["observabilityadmin:ListTelemetryPipelines"] },
   telemetry: TELEMETRY,
   span: "ListTelemetryPipelines",
 })) as any;
@@ -2081,7 +1897,6 @@ export const listTelemetryRules: API.PaginatedOperationMethod<
     items: "TelemetryRuleSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["observabilityadmin:ListTelemetryRules"] },
   telemetry: TELEMETRY,
   span: "ListTelemetryRules",
 })) as any;
@@ -2119,7 +1934,6 @@ export const listTelemetryRulesForOrganization: API.PaginatedOperationMethod<
     items: "TelemetryRuleSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["observabilityadmin:ListTelemetryRulesForOrganization"] },
   telemetry: TELEMETRY,
   span: "ListTelemetryRulesForOrganization",
 })) as any;
@@ -2150,7 +1964,6 @@ export const startTelemetryEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTelemetryEnrichment",
-  iam: { actions: ["observabilityadmin:StartTelemetryEnrichment"] },
   telemetry: TELEMETRY,
   span: "StartTelemetryEnrichment",
 }));
@@ -2181,7 +1994,6 @@ export const startTelemetryEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTelemetryEvaluation",
-  iam: { actions: ["observabilityadmin:StartTelemetryEvaluation"] },
   telemetry: TELEMETRY,
   span: "StartTelemetryEvaluation",
 }));
@@ -2212,7 +2024,6 @@ export const startTelemetryEvaluationForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTelemetryEvaluationForOrganization",
-  iam: { actions: ["observabilityadmin:StartTelemetryEvaluationForOrganization"] },
   telemetry: TELEMETRY,
   span: "StartTelemetryEvaluationForOrganization",
 }));
@@ -2243,7 +2054,6 @@ export const stopTelemetryEnrichment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTelemetryEnrichment",
-  iam: { actions: ["observabilityadmin:StopTelemetryEnrichment"] },
   telemetry: TELEMETRY,
   span: "StopTelemetryEnrichment",
 }));
@@ -2274,7 +2084,6 @@ export const stopTelemetryEvaluation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTelemetryEvaluation",
-  iam: { actions: ["observabilityadmin:StopTelemetryEvaluation"] },
   telemetry: TELEMETRY,
   span: "StopTelemetryEvaluation",
 }));
@@ -2305,7 +2114,6 @@ export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopTelemetryEvaluationForOrganization",
-  iam: { actions: ["observabilityadmin:StopTelemetryEvaluationForOrganization"] },
   telemetry: TELEMETRY,
   span: "StopTelemetryEvaluationForOrganization",
 }));
@@ -2340,7 +2148,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["observabilityadmin:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2371,7 +2178,6 @@ export const testTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TestTelemetryPipeline",
-  iam: { actions: ["observabilityadmin:TestTelemetryPipeline"] },
   telemetry: TELEMETRY,
   span: "TestTelemetryPipeline",
 }));
@@ -2404,7 +2210,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["observabilityadmin:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2439,14 +2244,6 @@ export const updateCentralizationRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCentralizationRuleForOrganization",
-  iam: {
-    actions: ["observabilityadmin:UpdateCentralizationRuleForOrganization"],
-    resources: {
-      "observabilityadmin:UpdateCentralizationRuleForOrganization": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-centralization-rule/${CentralizationRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCentralizationRuleForOrganization",
 }));
@@ -2479,15 +2276,6 @@ export const updateDatasetIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetIntegration",
-  iam: {
-    actions: ["iam:PassRole", "observabilityadmin:UpdateDatasetIntegration"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "observabilityadmin:UpdateDatasetIntegration": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:dataset-integration/${DatasetIntegrationIdentifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDatasetIntegration",
 }));
@@ -2568,16 +2356,6 @@ export const updateTelemetryPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTelemetryPipeline",
-  iam: {
-    actions: ["iam:PassRole", "observabilityadmin:UpdateTelemetryPipeline"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "observabilityadmin:UpdateTelemetryPipeline": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-pipeline/${TelemetryPipelineIdentifier}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTelemetryPipeline",
 }));
@@ -2614,14 +2392,6 @@ export const updateTelemetryRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTelemetryRule",
-  iam: {
-    actions: ["observabilityadmin:UpdateTelemetryRule"],
-    resources: {
-      "observabilityadmin:UpdateTelemetryRule": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:telemetry-rule/${TelemetryRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTelemetryRule",
 }));
@@ -2656,14 +2426,6 @@ export const updateTelemetryRuleForOrganization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTelemetryRuleForOrganization",
-  iam: {
-    actions: ["observabilityadmin:UpdateTelemetryRuleForOrganization"],
-    resources: {
-      "observabilityadmin:UpdateTelemetryRuleForOrganization": [
-        "arn:${Partition}:observabilityadmin:${Region}:${Account}:organization-telemetry-rule/${TelemetryRuleName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTelemetryRuleForOrganization",
 }));
@@ -2694,7 +2456,6 @@ export const validateTelemetryPipelineConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidateTelemetryPipelineConfiguration",
-  iam: { actions: ["observabilityadmin:ValidateTelemetryPipelineConfiguration"] },
   telemetry: TELEMETRY,
   span: "ValidateTelemetryPipelineConfiguration",
 }));

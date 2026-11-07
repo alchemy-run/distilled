@@ -491,30 +491,6 @@ export const createCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCluster",
-  iam: {
-    actions: [
-      "dsql:AddPeerCluster",
-      "dsql:CreateCluster",
-      "dsql:DeleteClusterPolicy",
-      "dsql:PutClusterPolicy",
-      "dsql:PutMultiRegionProperties",
-      "dsql:PutWitnessRegion",
-      "dsql:TagResource",
-    ],
-    resources: {
-      "dsql:AddPeerCluster": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-      "dsql:CreateCluster": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-      "dsql:DeleteClusterPolicy": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}",
-      ],
-      "dsql:PutClusterPolicy": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-      "dsql:PutMultiRegionProperties": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}",
-      ],
-      "dsql:PutWitnessRegion": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-    },
-    conditional: { "dsql:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCluster",
 }));
@@ -565,14 +541,6 @@ export const createStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStream",
-  iam: {
-    actions: ["dsql:CreateStream", "iam:PassRole", "dsql:TagResource"],
-    resources: {
-      "dsql:CreateStream": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names", "dsql:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateStream",
 }));
@@ -593,12 +561,6 @@ export const deleteCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCluster",
-  iam: {
-    actions: ["dsql:DeleteCluster"],
-    resources: {
-      "dsql:DeleteCluster": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCluster",
 }));
@@ -623,14 +585,6 @@ export const deleteClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteClusterPolicy",
-  iam: {
-    actions: ["dsql:DeleteClusterPolicy"],
-    resources: {
-      "dsql:DeleteClusterPolicy": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteClusterPolicy",
 }));
@@ -651,14 +605,6 @@ export const deleteStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStream",
-  iam: {
-    actions: ["dsql:DeleteStream"],
-    resources: {
-      "dsql:DeleteStream": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${ClusterId}/stream/${StreamId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteStream",
 }));
@@ -679,12 +625,6 @@ export const getCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCluster",
-  iam: {
-    actions: ["dsql:GetCluster"],
-    resources: {
-      "dsql:GetCluster": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCluster",
 }));
@@ -705,12 +645,6 @@ export const getClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClusterPolicy",
-  iam: {
-    actions: ["dsql:GetClusterPolicy"],
-    resources: {
-      "dsql:GetClusterPolicy": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetClusterPolicy",
 }));
@@ -731,14 +665,6 @@ export const getStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetStream",
-  iam: {
-    actions: ["dsql:GetStream"],
-    resources: {
-      "dsql:GetStream": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${ClusterId}/stream/${StreamId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetStream",
 }));
@@ -769,14 +695,6 @@ export const getVpcEndpointServiceName: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetVpcEndpointServiceName",
-  iam: {
-    actions: ["dsql:GetVpcEndpointServiceName"],
-    resources: {
-      "dsql:GetVpcEndpointServiceName": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetVpcEndpointServiceName",
 }));
@@ -804,7 +722,6 @@ export const listClusters: API.PaginatedOperationMethod<
     items: "clusters",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["dsql:ListClusters"] },
   telemetry: TELEMETRY,
   span: "ListClusters",
 })) as any;
@@ -832,12 +749,6 @@ export const listStreams: API.PaginatedOperationMethod<
     items: "streams",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["dsql:ListStreams"],
-    resources: {
-      "dsql:ListStreams": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListStreams",
 })) as any;
@@ -858,7 +769,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["dsql:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -883,15 +793,6 @@ export const putClusterPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutClusterPolicy",
-  iam: {
-    actions: ["dsql:DeleteClusterPolicy", "dsql:PutClusterPolicy"],
-    resources: {
-      "dsql:DeleteClusterPolicy": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}",
-      ],
-      "dsql:PutClusterPolicy": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutClusterPolicy",
 }));
@@ -915,7 +816,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["dsql:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -936,7 +836,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["dsql:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1015,28 +914,6 @@ export const updateCluster: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCluster",
-  iam: {
-    actions: [
-      "dsql:AddPeerCluster",
-      "dsql:GetCluster",
-      "dsql:PutMultiRegionProperties",
-      "dsql:PutWitnessRegion",
-      "dsql:RemovePeerCluster",
-      "dsql:UpdateCluster",
-    ],
-    resources: {
-      "dsql:AddPeerCluster": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-      "dsql:GetCluster": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-      "dsql:PutMultiRegionProperties": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}",
-      ],
-      "dsql:PutWitnessRegion": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-      "dsql:RemovePeerCluster": [
-        "arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}",
-      ],
-      "dsql:UpdateCluster": ["arn:${Partition}:dsql:${Region}:${Account}:cluster/${Identifier}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCluster",
 }));

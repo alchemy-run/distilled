@@ -1300,14 +1300,6 @@ export const acceptDirectConnectGatewayAssociationProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptDirectConnectGatewayAssociationProposal",
-  iam: {
-    actions: ["directconnect:AcceptDirectConnectGatewayAssociationProposal"],
-    resources: {
-      "directconnect:AcceptDirectConnectGatewayAssociationProposal": [
-        "arn:${Partition}:directconnect::${Account}:dx-gateway/${DirectConnectGatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptDirectConnectGatewayAssociationProposal",
 }));
@@ -1337,14 +1329,6 @@ export const allocateConnectionOnInterconnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateConnectionOnInterconnect",
-  iam: {
-    actions: ["directconnect:AllocateConnectionOnInterconnect"],
-    resources: {
-      "directconnect:AllocateConnectionOnInterconnect": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AllocateConnectionOnInterconnect",
 }));
@@ -1380,10 +1364,6 @@ export const allocateHostedConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateHostedConnection",
-  iam: {
-    actions: ["directconnect:AllocateHostedConnection", "directconnect:TagResource"],
-    conditional: { "directconnect:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "AllocateHostedConnection",
 }));
@@ -1419,7 +1399,6 @@ export const allocatePrivateVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocatePrivateVirtualInterface",
-  iam: { actions: ["directconnect:AllocatePrivateVirtualInterface", "directconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "AllocatePrivateVirtualInterface",
 }));
@@ -1460,7 +1439,6 @@ export const allocatePublicVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocatePublicVirtualInterface",
-  iam: { actions: ["directconnect:AllocatePublicVirtualInterface", "directconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "AllocatePublicVirtualInterface",
 }));
@@ -1497,7 +1475,6 @@ export const allocateTransitVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AllocateTransitVirtualInterface",
-  iam: { actions: ["directconnect:AllocateTransitVirtualInterface", "directconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "AllocateTransitVirtualInterface",
 }));
@@ -1524,15 +1501,6 @@ export const associateConnectionsToResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConnectionsToResiliencyGroup",
-  iam: {
-    actions: ["directconnect:AssociateConnectionsToResiliencyGroup"],
-    resources: {
-      "directconnect:AssociateConnectionsToResiliencyGroup": [
-        "arn:${Partition}:directconnect::${Account}:dx-resiliency-group/${ResiliencyGroupId}",
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateConnectionsToResiliencyGroup",
 }));
@@ -1572,15 +1540,6 @@ export const associateConnectionWithLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateConnectionWithLag",
-  iam: {
-    actions: ["directconnect:AssociateConnectionWithLag"],
-    resources: {
-      "directconnect:AssociateConnectionWithLag": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxlag/${LagId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateConnectionWithLag",
 }));
@@ -1610,7 +1569,6 @@ export const associateHostedConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateHostedConnection",
-  iam: { actions: ["directconnect:AssociateHostedConnection"] },
   telemetry: TELEMETRY,
   span: "AssociateHostedConnection",
 }));
@@ -1638,7 +1596,6 @@ export const associateMacSecKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateMacSecKey",
-  iam: { actions: ["directconnect:AssociateMacSecKey"] },
   telemetry: TELEMETRY,
   span: "AssociateMacSecKey",
 }));
@@ -1673,7 +1630,6 @@ export const associateVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateVirtualInterface",
-  iam: { actions: ["directconnect:AssociateVirtualInterface"] },
   telemetry: TELEMETRY,
   span: "AssociateVirtualInterface",
 }));
@@ -1700,14 +1656,6 @@ export const confirmConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmConnection",
-  iam: {
-    actions: ["directconnect:ConfirmConnection"],
-    resources: {
-      "directconnect:ConfirmConnection": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ConfirmConnection",
 }));
@@ -1731,7 +1679,6 @@ export const confirmCustomerAgreement: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmCustomerAgreement",
-  iam: { actions: ["directconnect:ConfirmCustomerAgreement"] },
   telemetry: TELEMETRY,
   span: "ConfirmCustomerAgreement",
 }));
@@ -1759,14 +1706,6 @@ export const confirmPrivateVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmPrivateVirtualInterface",
-  iam: {
-    actions: ["directconnect:ConfirmPrivateVirtualInterface"],
-    resources: {
-      "directconnect:ConfirmPrivateVirtualInterface": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ConfirmPrivateVirtualInterface",
 }));
@@ -1793,14 +1732,6 @@ export const confirmPublicVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmPublicVirtualInterface",
-  iam: {
-    actions: ["directconnect:ConfirmPublicVirtualInterface"],
-    resources: {
-      "directconnect:ConfirmPublicVirtualInterface": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ConfirmPublicVirtualInterface",
 }));
@@ -1826,14 +1757,6 @@ export const confirmTransitVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmTransitVirtualInterface",
-  iam: {
-    actions: ["directconnect:ConfirmTransitVirtualInterface"],
-    resources: {
-      "directconnect:ConfirmTransitVirtualInterface": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ConfirmTransitVirtualInterface",
 }));
@@ -1875,14 +1798,6 @@ export const createBGPPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBGPPeer",
-  iam: {
-    actions: ["directconnect:CreateBGPPeer"],
-    resources: {
-      "directconnect:CreateBGPPeer": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBGPPeer",
 }));
@@ -1923,10 +1838,6 @@ export const createConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConnection",
-  iam: {
-    actions: ["directconnect:CreateConnection", "directconnect:TagResource"],
-    conditional: { "directconnect:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConnection",
 }));
@@ -1955,10 +1866,6 @@ export const createDirectConnectGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGateway",
-  iam: {
-    actions: ["directconnect:CreateDirectConnectGateway", "directconnect:TagResource"],
-    conditional: { "directconnect:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDirectConnectGateway",
 }));
@@ -1983,14 +1890,6 @@ export const createDirectConnectGatewayAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGatewayAssociation",
-  iam: {
-    actions: ["directconnect:CreateDirectConnectGatewayAssociation"],
-    resources: {
-      "directconnect:CreateDirectConnectGatewayAssociation": [
-        "arn:${Partition}:directconnect::${Account}:dx-gateway/${DirectConnectGatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDirectConnectGatewayAssociation",
 }));
@@ -2024,14 +1923,6 @@ export const createDirectConnectGatewayAssociationProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDirectConnectGatewayAssociationProposal",
-  iam: {
-    actions: ["directconnect:CreateDirectConnectGatewayAssociationProposal"],
-    resources: {
-      "directconnect:CreateDirectConnectGatewayAssociationProposal": [
-        "arn:${Partition}:directconnect::${Account}:dx-gateway/${DirectConnectGatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDirectConnectGatewayAssociationProposal",
 }));
@@ -2079,10 +1970,6 @@ export const createInterconnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateInterconnect",
-  iam: {
-    actions: ["directconnect:CreateInterconnect", "directconnect:TagResource"],
-    conditional: { "directconnect:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateInterconnect",
 }));
@@ -2135,10 +2022,6 @@ export const createLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLag",
-  iam: {
-    actions: ["directconnect:CreateLag", "directconnect:TagResource"],
-    conditional: { "directconnect:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLag",
 }));
@@ -2182,7 +2065,6 @@ export const createPrivateVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePrivateVirtualInterface",
-  iam: { actions: ["directconnect:CreatePrivateVirtualInterface", "directconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreatePrivateVirtualInterface",
 }));
@@ -2219,7 +2101,6 @@ export const createPublicVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePublicVirtualInterface",
-  iam: { actions: ["directconnect:CreatePublicVirtualInterface", "directconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreatePublicVirtualInterface",
 }));
@@ -2253,10 +2134,6 @@ export const createResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResiliencyGroup",
-  iam: {
-    actions: ["directconnect:CreateResiliencyGroup", "directconnect:TagResource"],
-    conditional: { "directconnect:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateResiliencyGroup",
 }));
@@ -2298,7 +2175,6 @@ export const createTransitVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTransitVirtualInterface",
-  iam: { actions: ["directconnect:CreateTransitVirtualInterface", "directconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreateTransitVirtualInterface",
 }));
@@ -2324,14 +2200,6 @@ export const deleteBGPPeer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBGPPeer",
-  iam: {
-    actions: ["directconnect:DeleteBGPPeer"],
-    resources: {
-      "directconnect:DeleteBGPPeer": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBGPPeer",
 }));
@@ -2359,14 +2227,6 @@ export const deleteConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConnection",
-  iam: {
-    actions: ["directconnect:DeleteConnection"],
-    resources: {
-      "directconnect:DeleteConnection": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConnection",
 }));
@@ -2392,14 +2252,6 @@ export const deleteDirectConnectGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectConnectGateway",
-  iam: {
-    actions: ["directconnect:DeleteDirectConnectGateway"],
-    resources: {
-      "directconnect:DeleteDirectConnectGateway": [
-        "arn:${Partition}:directconnect::${Account}:dx-gateway/${DirectConnectGatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDirectConnectGateway",
 }));
@@ -2425,14 +2277,6 @@ export const deleteDirectConnectGatewayAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectConnectGatewayAssociation",
-  iam: {
-    actions: ["directconnect:DeleteDirectConnectGatewayAssociation"],
-    resources: {
-      "directconnect:DeleteDirectConnectGatewayAssociation": [
-        "arn:${Partition}:directconnect::${Account}:dx-gateway/${DirectConnectGatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDirectConnectGatewayAssociation",
 }));
@@ -2464,7 +2308,6 @@ export const deleteDirectConnectGatewayAssociationProposal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDirectConnectGatewayAssociationProposal",
-  iam: { actions: ["directconnect:DeleteDirectConnectGatewayAssociationProposal"] },
   telemetry: TELEMETRY,
   span: "DeleteDirectConnectGatewayAssociationProposal",
 }));
@@ -2491,14 +2334,6 @@ export const deleteInterconnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteInterconnect",
-  iam: {
-    actions: ["directconnect:DeleteInterconnect"],
-    resources: {
-      "directconnect:DeleteInterconnect": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteInterconnect",
 }));
@@ -2523,14 +2358,6 @@ export const deleteLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLag",
-  iam: {
-    actions: ["directconnect:DeleteLag"],
-    resources: {
-      "directconnect:DeleteLag": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxlag/${LagId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteLag",
 }));
@@ -2557,14 +2384,6 @@ export const deleteResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResiliencyGroup",
-  iam: {
-    actions: ["directconnect:DeleteResiliencyGroup"],
-    resources: {
-      "directconnect:DeleteResiliencyGroup": [
-        "arn:${Partition}:directconnect::${Account}:dx-resiliency-group/${ResiliencyGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResiliencyGroup",
 }));
@@ -2588,14 +2407,6 @@ export const deleteVirtualInterface: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteVirtualInterface",
-  iam: {
-    actions: ["directconnect:DeleteVirtualInterface"],
-    resources: {
-      "directconnect:DeleteVirtualInterface": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteVirtualInterface",
 }));
@@ -2626,14 +2437,6 @@ export const describeConnectionLoa: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionLoa",
-  iam: {
-    actions: ["directconnect:DescribeConnectionLoa"],
-    resources: {
-      "directconnect:DescribeConnectionLoa": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeConnectionLoa",
 }));
@@ -2657,7 +2460,6 @@ export const describeConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnections",
-  iam: { actions: ["directconnect:DescribeConnections"] },
   telemetry: TELEMETRY,
   span: "DescribeConnections",
 }));
@@ -2685,14 +2487,6 @@ export const describeConnectionsOnInterconnect: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConnectionsOnInterconnect",
-  iam: {
-    actions: ["directconnect:DescribeConnectionsOnInterconnect"],
-    resources: {
-      "directconnect:DescribeConnectionsOnInterconnect": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeConnectionsOnInterconnect",
 }));
@@ -2716,7 +2510,6 @@ export const describeCustomerMetadata: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCustomerMetadata",
-  iam: { actions: ["directconnect:DescribeCustomerMetadata"] },
   telemetry: TELEMETRY,
   span: "DescribeCustomerMetadata",
 }));
@@ -2748,7 +2541,6 @@ export const describeDirectConnectGatewayAssociationProposals: API.OperationMeth
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectConnectGatewayAssociationProposals",
-  iam: { actions: ["directconnect:DescribeDirectConnectGatewayAssociationProposals"] },
   telemetry: TELEMETRY,
   span: "DescribeDirectConnectGatewayAssociationProposals",
 }));
@@ -2800,7 +2592,6 @@ export const describeDirectConnectGatewayAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectConnectGatewayAssociations",
-  iam: { actions: ["directconnect:DescribeDirectConnectGatewayAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeDirectConnectGatewayAssociations",
 }));
@@ -2828,7 +2619,6 @@ export const describeDirectConnectGatewayAttachments: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectConnectGatewayAttachments",
-  iam: { actions: ["directconnect:DescribeDirectConnectGatewayAttachments"] },
   telemetry: TELEMETRY,
   span: "DescribeDirectConnectGatewayAttachments",
 }));
@@ -2852,7 +2642,6 @@ export const describeDirectConnectGateways: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDirectConnectGateways",
-  iam: { actions: ["directconnect:DescribeDirectConnectGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeDirectConnectGateways",
 }));
@@ -2879,7 +2668,6 @@ export const describeHostedConnections: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeHostedConnections",
-  iam: { actions: ["directconnect:DescribeHostedConnections"] },
   telemetry: TELEMETRY,
   span: "DescribeHostedConnections",
 }));
@@ -2909,14 +2697,6 @@ export const describeInterconnectLoa: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInterconnectLoa",
-  iam: {
-    actions: ["directconnect:DescribeInterconnectLoa"],
-    resources: {
-      "directconnect:DescribeInterconnectLoa": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeInterconnectLoa",
 }));
@@ -2940,7 +2720,6 @@ export const describeInterconnects: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeInterconnects",
-  iam: { actions: ["directconnect:DescribeInterconnects"] },
   telemetry: TELEMETRY,
   span: "DescribeInterconnects",
 }));
@@ -2964,7 +2743,6 @@ export const describeLags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLags",
-  iam: { actions: ["directconnect:DescribeLags"] },
   telemetry: TELEMETRY,
   span: "DescribeLags",
 }));
@@ -2992,7 +2770,6 @@ export const describeLoa: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoa",
-  iam: { actions: ["directconnect:DescribeLoa"] },
   telemetry: TELEMETRY,
   span: "DescribeLoa",
 }));
@@ -3017,7 +2794,6 @@ export const describeLocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLocations",
-  iam: { actions: ["directconnect:DescribeLocations"] },
   telemetry: TELEMETRY,
   span: "DescribeLocations",
 }));
@@ -3041,14 +2817,6 @@ export const describeRouterConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRouterConfiguration",
-  iam: {
-    actions: ["directconnect:DescribeRouterConfiguration"],
-    resources: {
-      "directconnect:DescribeRouterConfiguration": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRouterConfiguration",
 }));
@@ -3072,7 +2840,6 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
-  iam: { actions: ["directconnect:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 }));
@@ -3100,7 +2867,6 @@ export const describeVirtualGateways: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualGateways",
-  iam: { actions: ["directconnect:DescribeVirtualGateways"] },
   telemetry: TELEMETRY,
   span: "DescribeVirtualGateways",
 }));
@@ -3133,7 +2899,6 @@ export const describeVirtualInterfaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeVirtualInterfaces",
-  iam: { actions: ["directconnect:DescribeVirtualInterfaces"] },
   telemetry: TELEMETRY,
   span: "DescribeVirtualInterfaces",
 }));
@@ -3167,15 +2932,6 @@ export const disassociateConnectionFromLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConnectionFromLag",
-  iam: {
-    actions: ["directconnect:DisassociateConnectionFromLag"],
-    resources: {
-      "directconnect:DisassociateConnectionFromLag": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxlag/${LagId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateConnectionFromLag",
 }));
@@ -3201,15 +2957,6 @@ export const disassociateConnectionsFromResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateConnectionsFromResiliencyGroup",
-  iam: {
-    actions: ["directconnect:DisassociateConnectionsFromResiliencyGroup"],
-    resources: {
-      "directconnect:DisassociateConnectionsFromResiliencyGroup": [
-        "arn:${Partition}:directconnect::${Account}:dx-resiliency-group/${ResiliencyGroupId}",
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateConnectionsFromResiliencyGroup",
 }));
@@ -3233,7 +2980,6 @@ export const disassociateMacSecKey: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateMacSecKey",
-  iam: { actions: ["directconnect:DisassociateMacSecKey"] },
   telemetry: TELEMETRY,
   span: "DisassociateMacSecKey",
 }));
@@ -3257,14 +3003,6 @@ export const getResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResiliencyGroup",
-  iam: {
-    actions: ["directconnect:GetResiliencyGroup"],
-    resources: {
-      "directconnect:GetResiliencyGroup": [
-        "arn:${Partition}:directconnect::${Account}:dx-resiliency-group/${ResiliencyGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResiliencyGroup",
 }));
@@ -3288,14 +3026,6 @@ export const listResiliencyGroupAssociations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResiliencyGroupAssociations",
-  iam: {
-    actions: ["directconnect:ListResiliencyGroupAssociations"],
-    resources: {
-      "directconnect:ListResiliencyGroupAssociations": [
-        "arn:${Partition}:directconnect::${Account}:dx-resiliency-group/${ResiliencyGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResiliencyGroupAssociations",
 }));
@@ -3320,7 +3050,6 @@ export const listResiliencyGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListResiliencyGroups",
-  iam: { actions: ["directconnect:ListResiliencyGroups"] },
   telemetry: TELEMETRY,
   span: "ListResiliencyGroups",
 }));
@@ -3350,14 +3079,6 @@ export const listVirtualInterfaceRoutes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVirtualInterfaceRoutes",
-  iam: {
-    actions: ["directconnect:ListVirtualInterfaceRoutes"],
-    resources: {
-      "directconnect:ListVirtualInterfaceRoutes": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListVirtualInterfaceRoutes",
 }));
@@ -3381,14 +3102,6 @@ export const listVirtualInterfaceTestHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListVirtualInterfaceTestHistory",
-  iam: {
-    actions: ["directconnect:ListVirtualInterfaceTestHistory"],
-    resources: {
-      "directconnect:ListVirtualInterfaceTestHistory": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListVirtualInterfaceTestHistory",
 }));
@@ -3418,14 +3131,6 @@ export const startBgpFailoverTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartBgpFailoverTest",
-  iam: {
-    actions: ["directconnect:StartBgpFailoverTest"],
-    resources: {
-      "directconnect:StartBgpFailoverTest": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartBgpFailoverTest",
 }));
@@ -3449,14 +3154,6 @@ export const stopBgpFailoverTest: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopBgpFailoverTest",
-  iam: {
-    actions: ["directconnect:StopBgpFailoverTest"],
-    resources: {
-      "directconnect:StopBgpFailoverTest": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopBgpFailoverTest",
 }));
@@ -3489,7 +3186,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["directconnect:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -3513,7 +3209,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["directconnect:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -3543,14 +3238,6 @@ export const updateConnection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnection",
-  iam: {
-    actions: ["directconnect:UpdateConnection"],
-    resources: {
-      "directconnect:UpdateConnection": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConnection",
 }));
@@ -3575,14 +3262,6 @@ export const updateConnectionsBillingMode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConnectionsBillingMode",
-  iam: {
-    actions: ["directconnect:UpdateConnectionsBillingMode"],
-    resources: {
-      "directconnect:UpdateConnectionsBillingMode": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxcon/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConnectionsBillingMode",
 }));
@@ -3606,14 +3285,6 @@ export const updateDirectConnectGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectConnectGateway",
-  iam: {
-    actions: ["directconnect:UpdateDirectConnectGateway"],
-    resources: {
-      "directconnect:UpdateDirectConnectGateway": [
-        "arn:${Partition}:directconnect::${Account}:dx-gateway/${DirectConnectGatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDirectConnectGateway",
 }));
@@ -3639,7 +3310,6 @@ export const updateDirectConnectGatewayAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDirectConnectGatewayAssociation",
-  iam: { actions: ["directconnect:UpdateDirectConnectGatewayAssociation"] },
   telemetry: TELEMETRY,
   span: "UpdateDirectConnectGatewayAssociation",
 }));
@@ -3680,14 +3350,6 @@ export const updateLag: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateLag",
-  iam: {
-    actions: ["directconnect:UpdateLag"],
-    resources: {
-      "directconnect:UpdateLag": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxlag/${LagId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateLag",
 }));
@@ -3711,14 +3373,6 @@ export const updateResiliencyGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResiliencyGroup",
-  iam: {
-    actions: ["directconnect:UpdateResiliencyGroup"],
-    resources: {
-      "directconnect:UpdateResiliencyGroup": [
-        "arn:${Partition}:directconnect::${Account}:dx-resiliency-group/${ResiliencyGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateResiliencyGroup",
 }));
@@ -3749,14 +3403,6 @@ export const updateVirtualInterfaceAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateVirtualInterfaceAttributes",
-  iam: {
-    actions: ["directconnect:UpdateVirtualInterfaceAttributes"],
-    resources: {
-      "directconnect:UpdateVirtualInterfaceAttributes": [
-        "arn:${Partition}:directconnect:${Region}:${Account}:dxvif/${VirtualInterfaceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateVirtualInterfaceAttributes",
 }));

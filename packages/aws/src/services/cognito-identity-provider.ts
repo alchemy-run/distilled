@@ -2590,14 +2590,6 @@ export const addCustomAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddCustomAttributes",
-  iam: {
-    actions: ["cognito-idp:AddCustomAttributes"],
-    resources: {
-      "cognito-idp:AddCustomAttributes": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddCustomAttributes",
 }));
@@ -2632,14 +2624,6 @@ export const addUserPoolClientSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddUserPoolClientSecret",
-  iam: {
-    actions: ["cognito-idp:AddUserPoolClientSecret"],
-    resources: {
-      "cognito-idp:AddUserPoolClientSecret": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddUserPoolClientSecret",
 }));
@@ -2688,14 +2672,6 @@ export const adminAddUserToGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminAddUserToGroup",
-  iam: {
-    actions: ["cognito-idp:AdminAddUserToGroup"],
-    resources: {
-      "cognito-idp:AdminAddUserToGroup": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminAddUserToGroup",
 }));
@@ -2760,14 +2736,6 @@ export const adminConfirmSignUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminConfirmSignUp",
-  iam: {
-    actions: ["cognito-idp:AdminConfirmSignUp"],
-    resources: {
-      "cognito-idp:AdminConfirmSignUp": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminConfirmSignUp",
 }));
@@ -2869,14 +2837,6 @@ export const adminCreateUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminCreateUser",
-  iam: {
-    actions: ["cognito-idp:AdminCreateUser"],
-    resources: {
-      "cognito-idp:AdminCreateUser": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminCreateUser",
 }));
@@ -2930,14 +2890,6 @@ export const adminDeleteSoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteSoftwareToken",
-  iam: {
-    actions: ["cognito-idp:AdminDeleteSoftwareToken"],
-    resources: {
-      "cognito-idp:AdminDeleteSoftwareToken": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminDeleteSoftwareToken",
 }));
@@ -2984,14 +2936,6 @@ export const adminDeleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteUser",
-  iam: {
-    actions: ["cognito-idp:AdminDeleteUser"],
-    resources: {
-      "cognito-idp:AdminDeleteUser": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminDeleteUser",
 }));
@@ -3040,14 +2984,6 @@ export const adminDeleteUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDeleteUserAttributes",
-  iam: {
-    actions: ["cognito-idp:AdminDeleteUserAttributes"],
-    resources: {
-      "cognito-idp:AdminDeleteUserAttributes": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminDeleteUserAttributes",
 }));
@@ -3122,14 +3058,6 @@ export const adminDisableProviderForUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDisableProviderForUser",
-  iam: {
-    actions: ["cognito-idp:AdminDisableProviderForUser"],
-    resources: {
-      "cognito-idp:AdminDisableProviderForUser": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminDisableProviderForUser",
 }));
@@ -3178,14 +3106,6 @@ export const adminDisableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminDisableUser",
-  iam: {
-    actions: ["cognito-idp:AdminDisableUser"],
-    resources: {
-      "cognito-idp:AdminDisableUser": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminDisableUser",
 }));
@@ -3233,14 +3153,6 @@ export const adminEnableUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminEnableUser",
-  iam: {
-    actions: ["cognito-idp:AdminEnableUser"],
-    resources: {
-      "cognito-idp:AdminEnableUser": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminEnableUser",
 }));
@@ -3291,14 +3203,6 @@ export const adminForgetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminForgetDevice",
-  iam: {
-    actions: ["cognito-idp:AdminForgetDevice"],
-    resources: {
-      "cognito-idp:AdminForgetDevice": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminForgetDevice",
 }));
@@ -3346,14 +3250,6 @@ export const adminGetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetDevice",
-  iam: {
-    actions: ["cognito-idp:AdminGetDevice"],
-    resources: {
-      "cognito-idp:AdminGetDevice": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminGetDevice",
 }));
@@ -3404,14 +3300,6 @@ export const adminGetUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetUser",
-  iam: {
-    actions: ["cognito-idp:AdminGetUser"],
-    resources: {
-      "cognito-idp:AdminGetUser": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminGetUser",
 }));
@@ -3464,14 +3352,6 @@ export const adminGetUserAuthFactors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminGetUserAuthFactors",
-  iam: {
-    actions: ["cognito-idp:AdminGetUserAuthFactors"],
-    resources: {
-      "cognito-idp:AdminGetUserAuthFactors": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminGetUserAuthFactors",
 }));
@@ -3563,14 +3443,6 @@ export const adminInitiateAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminInitiateAuth",
-  iam: {
-    actions: ["cognito-idp:AdminInitiateAuth"],
-    resources: {
-      "cognito-idp:AdminInitiateAuth": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminInitiateAuth",
 }));
@@ -3635,14 +3507,6 @@ export const adminLinkProviderForUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminLinkProviderForUser",
-  iam: {
-    actions: ["cognito-idp:AdminLinkProviderForUser"],
-    resources: {
-      "cognito-idp:AdminLinkProviderForUser": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminLinkProviderForUser",
 }));
@@ -3692,14 +3556,6 @@ export const adminListDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminListDevices",
-  iam: {
-    actions: ["cognito-idp:AdminListDevices"],
-    resources: {
-      "cognito-idp:AdminListDevices": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminListDevices",
 }));
@@ -3755,14 +3611,6 @@ export const adminListGroupsForUser: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["cognito-idp:AdminListGroupsForUser"],
-    resources: {
-      "cognito-idp:AdminListGroupsForUser": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminListGroupsForUser",
 })) as any;
@@ -3819,14 +3667,6 @@ export const adminListUserAuthEvents: API.PaginatedOperationMethod<
     items: "AuthEvents",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["cognito-idp:AdminListUserAuthEvents"],
-    resources: {
-      "cognito-idp:AdminListUserAuthEvents": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminListUserAuthEvents",
 })) as any;
@@ -3875,14 +3715,6 @@ export const adminRemoveUserFromGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminRemoveUserFromGroup",
-  iam: {
-    actions: ["cognito-idp:AdminRemoveUserFromGroup"],
-    resources: {
-      "cognito-idp:AdminRemoveUserFromGroup": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminRemoveUserFromGroup",
 }));
@@ -3968,14 +3800,6 @@ export const adminResetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminResetUserPassword",
-  iam: {
-    actions: ["cognito-idp:AdminResetUserPassword"],
-    resources: {
-      "cognito-idp:AdminResetUserPassword": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminResetUserPassword",
 }));
@@ -4078,14 +3902,6 @@ export const adminRespondToAuthChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminRespondToAuthChallenge",
-  iam: {
-    actions: ["cognito-idp:AdminRespondToAuthChallenge"],
-    resources: {
-      "cognito-idp:AdminRespondToAuthChallenge": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminRespondToAuthChallenge",
 }));
@@ -4138,14 +3954,6 @@ export const adminSetUserMFAPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserMFAPreference",
-  iam: {
-    actions: ["cognito-idp:AdminSetUserMFAPreference"],
-    resources: {
-      "cognito-idp:AdminSetUserMFAPreference": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminSetUserMFAPreference",
 }));
@@ -4224,14 +4032,6 @@ export const adminSetUserPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserPassword",
-  iam: {
-    actions: ["cognito-idp:AdminSetUserPassword"],
-    resources: {
-      "cognito-idp:AdminSetUserPassword": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminSetUserPassword",
 }));
@@ -4278,14 +4078,6 @@ export const adminSetUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminSetUserSettings",
-  iam: {
-    actions: ["cognito-idp:AdminSetUserSettings"],
-    resources: {
-      "cognito-idp:AdminSetUserSettings": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminSetUserSettings",
 }));
@@ -4344,14 +4136,6 @@ export const adminUpdateAuthEventFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateAuthEventFeedback",
-  iam: {
-    actions: ["cognito-idp:AdminUpdateAuthEventFeedback"],
-    resources: {
-      "cognito-idp:AdminUpdateAuthEventFeedback": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminUpdateAuthEventFeedback",
 }));
@@ -4405,14 +4189,6 @@ export const adminUpdateDeviceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateDeviceStatus",
-  iam: {
-    actions: ["cognito-idp:AdminUpdateDeviceStatus"],
-    resources: {
-      "cognito-idp:AdminUpdateDeviceStatus": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminUpdateDeviceStatus",
 }));
@@ -4499,14 +4275,6 @@ export const adminUpdateUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUpdateUserAttributes",
-  iam: {
-    actions: ["cognito-idp:AdminUpdateUserAttributes"],
-    resources: {
-      "cognito-idp:AdminUpdateUserAttributes": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminUpdateUserAttributes",
 }));
@@ -4576,14 +4344,6 @@ export const adminUserGlobalSignOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AdminUserGlobalSignOut",
-  iam: {
-    actions: ["cognito-idp:AdminUserGlobalSignOut"],
-    resources: {
-      "cognito-idp:AdminUserGlobalSignOut": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AdminUserGlobalSignOut",
 }));
@@ -4633,7 +4393,6 @@ export const associateSoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateSoftwareToken",
-  iam: { actions: ["cognito-idp:AssociateSoftwareToken"] },
   telemetry: TELEMETRY,
   span: "AssociateSoftwareToken",
 }));
@@ -4689,7 +4448,6 @@ export const changePassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ChangePassword",
-  iam: { actions: ["cognito-idp:ChangePassword"] },
   telemetry: TELEMETRY,
   span: "ChangePassword",
 }));
@@ -4805,7 +4563,6 @@ export const confirmDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmDevice",
-  iam: { actions: ["cognito-idp:ConfirmDevice"] },
   telemetry: TELEMETRY,
   span: "ConfirmDevice",
 }));
@@ -4870,7 +4627,6 @@ export const confirmForgotPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmForgotPassword",
-  iam: { actions: ["cognito-idp:ConfirmForgotPassword"] },
   telemetry: TELEMETRY,
   span: "ConfirmForgotPassword",
 }));
@@ -4939,7 +4695,6 @@ export const confirmSignUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ConfirmSignUp",
-  iam: { actions: ["cognito-idp:ConfirmSignUp"] },
   telemetry: TELEMETRY,
   span: "ConfirmSignUp",
 }));
@@ -4989,16 +4744,6 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-  iam: {
-    actions: ["cognito-idp:CreateGroup", "iam:PassRole"],
-    resources: {
-      "cognito-idp:CreateGroup": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -5047,14 +4792,6 @@ export const createIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIdentityProvider",
-  iam: {
-    actions: ["cognito-idp:CreateIdentityProvider"],
-    resources: {
-      "cognito-idp:CreateIdentityProvider": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateIdentityProvider",
 }));
@@ -5120,14 +4857,6 @@ export const createManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateManagedLoginBranding",
-  iam: {
-    actions: ["cognito-idp:CreateManagedLoginBranding"],
-    resources: {
-      "cognito-idp:CreateManagedLoginBranding": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateManagedLoginBranding",
 }));
@@ -5176,14 +4905,6 @@ export const createResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateResourceServer",
-  iam: {
-    actions: ["cognito-idp:CreateResourceServer"],
-    resources: {
-      "cognito-idp:CreateResourceServer": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateResourceServer",
 }));
@@ -5247,14 +4968,6 @@ export const createTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTerms",
-  iam: {
-    actions: ["cognito-idp:CreateTerms"],
-    resources: {
-      "cognito-idp:CreateTerms": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateTerms",
 }));
@@ -5304,15 +5017,6 @@ export const createUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserImportJob",
-  iam: {
-    actions: ["cognito-idp:CreateUserImportJob", "iam:PassRole"],
-    resources: {
-      "cognito-idp:CreateUserImportJob": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUserImportJob",
 }));
@@ -5387,11 +5091,6 @@ export const createUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPool",
-  iam: {
-    actions: ["cognito-idp:CreateUserPool", "iam:PassRole", "cognito-idp:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateUserPool",
 }));
@@ -5451,16 +5150,6 @@ export const createUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolClient",
-  iam: {
-    actions: ["cognito-idp:CreateUserPoolClient", "iam:PassRole"],
-    resources: {
-      "cognito-idp:CreateUserPoolClient": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "AnalyticsConfiguration.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "CreateUserPoolClient",
 }));
@@ -5520,14 +5209,6 @@ export const createUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolDomain",
-  iam: {
-    actions: ["cognito-idp:CreateUserPoolDomain"],
-    resources: {
-      "cognito-idp:CreateUserPoolDomain": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUserPoolDomain",
 }));
@@ -5580,14 +5261,6 @@ export const createUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUserPoolReplica",
-  iam: {
-    actions: ["cognito-idp:CreateUserPoolReplica"],
-    resources: {
-      "cognito-idp:CreateUserPoolReplica": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUserPoolReplica",
 }));
@@ -5636,14 +5309,6 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-  iam: {
-    actions: ["cognito-idp:DeleteGroup"],
-    resources: {
-      "cognito-idp:DeleteGroup": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -5692,14 +5357,6 @@ export const deleteIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIdentityProvider",
-  iam: {
-    actions: ["cognito-idp:DeleteIdentityProvider"],
-    resources: {
-      "cognito-idp:DeleteIdentityProvider": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIdentityProvider",
 }));
@@ -5749,14 +5406,6 @@ export const deleteManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteManagedLoginBranding",
-  iam: {
-    actions: ["cognito-idp:DeleteManagedLoginBranding"],
-    resources: {
-      "cognito-idp:DeleteManagedLoginBranding": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteManagedLoginBranding",
 }));
@@ -5805,14 +5454,6 @@ export const deleteResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourceServer",
-  iam: {
-    actions: ["cognito-idp:DeleteResourceServer"],
-    resources: {
-      "cognito-idp:DeleteResourceServer": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteResourceServer",
 }));
@@ -5859,14 +5500,6 @@ export const deleteTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTerms",
-  iam: {
-    actions: ["cognito-idp:DeleteTerms"],
-    resources: {
-      "cognito-idp:DeleteTerms": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTerms",
 }));
@@ -5917,7 +5550,6 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-  iam: { actions: ["cognito-idp:DeleteUser"] },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -5969,7 +5601,6 @@ export const deleteUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserAttributes",
-  iam: { actions: ["cognito-idp:DeleteUserAttributes"] },
   telemetry: TELEMETRY,
   span: "DeleteUserAttributes",
 }));
@@ -6016,14 +5647,6 @@ export const deleteUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPool",
-  iam: {
-    actions: ["cognito-idp:DeleteUserPool"],
-    resources: {
-      "cognito-idp:DeleteUserPool": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserPool",
 }));
@@ -6061,14 +5684,6 @@ export const deleteUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolClient",
-  iam: {
-    actions: ["cognito-idp:DeleteUserPoolClient"],
-    resources: {
-      "cognito-idp:DeleteUserPoolClient": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserPoolClient",
 }));
@@ -6101,14 +5716,6 @@ export const deleteUserPoolClientSecret: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolClientSecret",
-  iam: {
-    actions: ["cognito-idp:DeleteUserPoolClientSecret"],
-    resources: {
-      "cognito-idp:DeleteUserPoolClientSecret": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserPoolClientSecret",
 }));
@@ -6145,14 +5752,6 @@ export const deleteUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolDomain",
-  iam: {
-    actions: ["cognito-idp:DeleteUserPoolDomain"],
-    resources: {
-      "cognito-idp:DeleteUserPoolDomain": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserPoolDomain",
 }));
@@ -6198,14 +5797,6 @@ export const deleteUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUserPoolReplica",
-  iam: {
-    actions: ["cognito-idp:DeleteUserPoolReplica"],
-    resources: {
-      "cognito-idp:DeleteUserPoolReplica": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUserPoolReplica",
 }));
@@ -6287,14 +5878,6 @@ export const describeIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeIdentityProvider",
-  iam: {
-    actions: ["cognito-idp:DescribeIdentityProvider"],
-    resources: {
-      "cognito-idp:DescribeIdentityProvider": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeIdentityProvider",
 }));
@@ -6330,14 +5913,6 @@ export const describeManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedLoginBranding",
-  iam: {
-    actions: ["cognito-idp:DescribeManagedLoginBranding"],
-    resources: {
-      "cognito-idp:DescribeManagedLoginBranding": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeManagedLoginBranding",
 }));
@@ -6373,14 +5948,6 @@ export const describeManagedLoginBrandingByClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeManagedLoginBrandingByClient",
-  iam: {
-    actions: ["cognito-idp:DescribeManagedLoginBrandingByClient"],
-    resources: {
-      "cognito-idp:DescribeManagedLoginBrandingByClient": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeManagedLoginBrandingByClient",
 }));
@@ -6415,14 +5982,6 @@ export const describeResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeResourceServer",
-  iam: {
-    actions: ["cognito-idp:DescribeResourceServer"],
-    resources: {
-      "cognito-idp:DescribeResourceServer": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeResourceServer",
 }));
@@ -6462,14 +6021,6 @@ export const describeRiskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRiskConfiguration",
-  iam: {
-    actions: ["cognito-idp:DescribeRiskConfiguration"],
-    resources: {
-      "cognito-idp:DescribeRiskConfiguration": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRiskConfiguration",
 }));
@@ -6514,14 +6065,6 @@ export const describeTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTerms",
-  iam: {
-    actions: ["cognito-idp:DescribeTerms"],
-    resources: {
-      "cognito-idp:DescribeTerms": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTerms",
 }));
@@ -6573,17 +6116,6 @@ export const describeTermsByClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTermsByClient",
-  iam: {
-    actions: ["cognito-idp:DescribeTerms", "cognito-idp:DescribeTermsByClient"],
-    resources: {
-      "cognito-idp:DescribeTerms": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-      "cognito-idp:DescribeTermsByClient": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeTermsByClient",
 }));
@@ -6618,14 +6150,6 @@ export const describeUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserImportJob",
-  iam: {
-    actions: ["cognito-idp:DescribeUserImportJob"],
-    resources: {
-      "cognito-idp:DescribeUserImportJob": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUserImportJob",
 }));
@@ -6674,14 +6198,6 @@ export const describeUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPool",
-  iam: {
-    actions: ["cognito-idp:DescribeUserPool"],
-    resources: {
-      "cognito-idp:DescribeUserPool": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUserPool",
 }));
@@ -6728,14 +6244,6 @@ export const describeUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPoolClient",
-  iam: {
-    actions: ["cognito-idp:DescribeUserPoolClient"],
-    resources: {
-      "cognito-idp:DescribeUserPoolClient": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeUserPoolClient",
 }));
@@ -6784,7 +6292,6 @@ export const describeUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeUserPoolDomain",
-  iam: { actions: ["cognito-idp:DescribeUserPoolDomain"] },
   telemetry: TELEMETRY,
   span: "DescribeUserPoolDomain",
 }));
@@ -6837,7 +6344,6 @@ export const forgetDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ForgetDevice",
-  iam: { actions: ["cognito-idp:ForgetDevice"] },
   telemetry: TELEMETRY,
   span: "ForgetDevice",
 }));
@@ -6925,7 +6431,6 @@ export const forgotPassword: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ForgotPassword",
-  iam: { actions: ["cognito-idp:ForgotPassword"] },
   telemetry: TELEMETRY,
   span: "ForgotPassword",
 }));
@@ -6975,7 +6480,6 @@ export const getClientToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetClientToken",
-  iam: { actions: ["cognito-idp:GetClientToken"] },
   telemetry: TELEMETRY,
   span: "GetClientToken",
 }));
@@ -7025,14 +6529,6 @@ export const getCSVHeader: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCSVHeader",
-  iam: {
-    actions: ["cognito-idp:GetCSVHeader"],
-    resources: {
-      "cognito-idp:GetCSVHeader": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCSVHeader",
 }));
@@ -7085,7 +6581,6 @@ export const getDevice: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDevice",
-  iam: { actions: ["cognito-idp:GetDevice"] },
   telemetry: TELEMETRY,
   span: "GetDevice",
 }));
@@ -7133,14 +6628,6 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
-  iam: {
-    actions: ["cognito-idp:GetGroup"],
-    resources: {
-      "cognito-idp:GetGroup": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroup",
 }));
@@ -7175,14 +6662,6 @@ export const getIdentityProviderByIdentifier: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIdentityProviderByIdentifier",
-  iam: {
-    actions: ["cognito-idp:GetIdentityProviderByIdentifier"],
-    resources: {
-      "cognito-idp:GetIdentityProviderByIdentifier": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIdentityProviderByIdentifier",
 }));
@@ -7226,14 +6705,6 @@ export const getLogDeliveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetLogDeliveryConfiguration",
-  iam: {
-    actions: ["cognito-idp:GetLogDeliveryConfiguration"],
-    resources: {
-      "cognito-idp:GetLogDeliveryConfiguration": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetLogDeliveryConfiguration",
 }));
@@ -7276,7 +6747,6 @@ export const getProvisionedLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetProvisionedLimit",
-  iam: { actions: ["cognito-idp:GetProvisionedLimit"] },
   telemetry: TELEMETRY,
   span: "GetProvisionedLimit",
 }));
@@ -7324,14 +6794,6 @@ export const getSigningCertificate: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSigningCertificate",
-  iam: {
-    actions: ["cognito-idp:GetSigningCertificate"],
-    resources: {
-      "cognito-idp:GetSigningCertificate": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSigningCertificate",
 }));
@@ -7382,7 +6844,6 @@ export const getTokensFromRefreshToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokensFromRefreshToken",
-  iam: { actions: ["cognito-idp:GetTokensFromRefreshToken"] },
   telemetry: TELEMETRY,
   span: "GetTokensFromRefreshToken",
 }));
@@ -7421,14 +6882,6 @@ export const getUICustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUICustomization",
-  iam: {
-    actions: ["cognito-idp:GetUICustomization"],
-    resources: {
-      "cognito-idp:GetUICustomization": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUICustomization",
 }));
@@ -7478,7 +6931,6 @@ export const getUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUser",
-  iam: { actions: ["cognito-idp:GetUser"] },
   telemetry: TELEMETRY,
   span: "GetUser",
 }));
@@ -7562,7 +7014,6 @@ export const getUserAttributeVerificationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserAttributeVerificationCode",
-  iam: { actions: ["cognito-idp:GetUserAttributeVerificationCode"] },
   telemetry: TELEMETRY,
   span: "GetUserAttributeVerificationCode",
 }));
@@ -7672,14 +7123,6 @@ export const getUserPoolMfaConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetUserPoolMfaConfig",
-  iam: {
-    actions: ["cognito-idp:GetUserPoolMfaConfig"],
-    resources: {
-      "cognito-idp:GetUserPoolMfaConfig": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetUserPoolMfaConfig",
 }));
@@ -7750,7 +7193,6 @@ export const globalSignOut: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GlobalSignOut",
-  iam: { actions: ["cognito-idp:GlobalSignOut"] },
   telemetry: TELEMETRY,
   span: "GlobalSignOut",
 }));
@@ -7837,7 +7279,6 @@ export const initiateAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "InitiateAuth",
-  iam: { actions: ["cognito-idp:InitiateAuth"] },
   telemetry: TELEMETRY,
   span: "InitiateAuth",
 }));
@@ -7890,7 +7331,6 @@ export const listDevices: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDevices",
-  iam: { actions: ["cognito-idp:ListDevices"] },
   telemetry: TELEMETRY,
   span: "ListDevices",
 }));
@@ -7942,14 +7382,6 @@ export const listGroups: API.PaginatedOperationMethod<
     items: "Groups",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["cognito-idp:ListGroups"],
-    resources: {
-      "cognito-idp:ListGroups": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -8000,14 +7432,6 @@ export const listIdentityProviders: API.PaginatedOperationMethod<
     items: "Providers",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["cognito-idp:ListIdentityProviders"],
-    resources: {
-      "cognito-idp:ListIdentityProviders": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIdentityProviders",
 })) as any;
@@ -8060,14 +7484,6 @@ export const listResourceServers: API.PaginatedOperationMethod<
     items: "ResourceServers",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["cognito-idp:ListResourceServers"],
-    resources: {
-      "cognito-idp:ListResourceServers": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourceServers",
 })) as any;
@@ -8104,7 +7520,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["cognito-idp:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -8149,14 +7564,6 @@ export const listTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTerms",
-  iam: {
-    actions: ["cognito-idp:ListTerms"],
-    resources: {
-      "cognito-idp:ListTerms": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTerms",
 }));
@@ -8203,14 +7610,6 @@ export const listUserImportJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserImportJobs",
-  iam: {
-    actions: ["cognito-idp:ListUserImportJobs"],
-    resources: {
-      "cognito-idp:ListUserImportJobs": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUserImportJobs",
 }));
@@ -8263,14 +7662,6 @@ export const listUserPoolClients: API.PaginatedOperationMethod<
     items: "UserPoolClients",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["cognito-idp:ListUserPoolClients"],
-    resources: {
-      "cognito-idp:ListUserPoolClients": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUserPoolClients",
 })) as any;
@@ -8303,14 +7694,6 @@ export const listUserPoolClientSecrets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserPoolClientSecrets",
-  iam: {
-    actions: ["cognito-idp:ListUserPoolClientSecrets"],
-    resources: {
-      "cognito-idp:ListUserPoolClientSecrets": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUserPoolClientSecrets",
 }));
@@ -8357,14 +7740,6 @@ export const listUserPoolReplicas: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListUserPoolReplicas",
-  iam: {
-    actions: ["cognito-idp:ListUserPoolReplicas"],
-    resources: {
-      "cognito-idp:ListUserPoolReplicas": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUserPoolReplicas",
 }));
@@ -8412,7 +7787,6 @@ export const listUserPools: API.PaginatedOperationMethod<
     items: "UserPools",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["cognito-idp:ListUserPools"] },
   telemetry: TELEMETRY,
   span: "ListUserPools",
 })) as any;
@@ -8469,14 +7843,6 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["cognito-idp:ListUsers"],
-    resources: {
-      "cognito-idp:ListUsers": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -8529,14 +7895,6 @@ export const listUsersInGroup: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "Limit",
   } as const,
-  iam: {
-    actions: ["cognito-idp:ListUsersInGroup"],
-    resources: {
-      "cognito-idp:ListUsersInGroup": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUsersInGroup",
 })) as any;
@@ -8663,7 +8021,6 @@ export const resendConfirmationCode: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResendConfirmationCode",
-  iam: { actions: ["cognito-idp:ResendConfirmationCode"] },
   telemetry: TELEMETRY,
   span: "ResendConfirmationCode",
 }));
@@ -8763,7 +8120,6 @@ export const respondToAuthChallenge: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RespondToAuthChallenge",
-  iam: { actions: ["cognito-idp:RespondToAuthChallenge"] },
   telemetry: TELEMETRY,
   span: "RespondToAuthChallenge",
 }));
@@ -8809,7 +8165,6 @@ export const revokeToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RevokeToken",
-  iam: { actions: ["cognito-idp:RevokeToken"] },
   telemetry: TELEMETRY,
   span: "RevokeToken",
 }));
@@ -8847,14 +8202,6 @@ export const setLogDeliveryConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetLogDeliveryConfiguration",
-  iam: {
-    actions: ["cognito-idp:SetLogDeliveryConfiguration"],
-    resources: {
-      "cognito-idp:SetLogDeliveryConfiguration": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetLogDeliveryConfiguration",
 }));
@@ -8919,14 +8266,6 @@ export const setRiskConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRiskConfiguration",
-  iam: {
-    actions: ["cognito-idp:SetRiskConfiguration"],
-    resources: {
-      "cognito-idp:SetRiskConfiguration": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetRiskConfiguration",
 }));
@@ -8977,14 +8316,6 @@ export const setUICustomization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUICustomization",
-  iam: {
-    actions: ["cognito-idp:SetUICustomization"],
-    resources: {
-      "cognito-idp:SetUICustomization": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetUICustomization",
 }));
@@ -9040,7 +8371,6 @@ export const setUserMFAPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserMFAPreference",
-  iam: { actions: ["cognito-idp:SetUserMFAPreference"] },
   telemetry: TELEMETRY,
   span: "SetUserMFAPreference",
 }));
@@ -9101,16 +8431,6 @@ export const setUserPoolMfaConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserPoolMfaConfig",
-  iam: {
-    actions: ["iam:PassRole", "cognito-idp:SetUserPoolMfaConfig"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "cognito-idp:SetUserPoolMfaConfig": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "SetUserPoolMfaConfig",
 }));
@@ -9160,7 +8480,6 @@ export const setUserSettings: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetUserSettings",
-  iam: { actions: ["cognito-idp:SetUserSettings"] },
   telemetry: TELEMETRY,
   span: "SetUserSettings",
 }));
@@ -9246,7 +8565,6 @@ export const signUp: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SignUp",
-  iam: { actions: ["cognito-idp:SignUp"] },
   telemetry: TELEMETRY,
   span: "SignUp",
 }));
@@ -9285,14 +8603,6 @@ export const startUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartUserImportJob",
-  iam: {
-    actions: ["cognito-idp:StartUserImportJob"],
-    resources: {
-      "cognito-idp:StartUserImportJob": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartUserImportJob",
 }));
@@ -9378,14 +8688,6 @@ export const stopUserImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopUserImportJob",
-  iam: {
-    actions: ["cognito-idp:StopUserImportJob"],
-    resources: {
-      "cognito-idp:StopUserImportJob": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopUserImportJob",
 }));
@@ -9436,7 +8738,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["cognito-idp:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -9471,7 +8772,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["cognito-idp:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -9528,14 +8828,6 @@ export const updateAuthEventFeedback: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAuthEventFeedback",
-  iam: {
-    actions: ["cognito-idp:UpdateAuthEventFeedback"],
-    resources: {
-      "cognito-idp:UpdateAuthEventFeedback": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAuthEventFeedback",
 }));
@@ -9592,7 +8884,6 @@ export const updateDeviceStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDeviceStatus",
-  iam: { actions: ["cognito-idp:UpdateDeviceStatus"] },
   telemetry: TELEMETRY,
   span: "UpdateDeviceStatus",
 }));
@@ -9638,16 +8929,6 @@ export const updateGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGroup",
-  iam: {
-    actions: ["iam:PassRole", "cognito-idp:UpdateGroup"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "cognito-idp:UpdateGroup": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGroup",
 }));
@@ -9697,14 +8978,6 @@ export const updateIdentityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIdentityProvider",
-  iam: {
-    actions: ["cognito-idp:UpdateIdentityProvider"],
-    resources: {
-      "cognito-idp:UpdateIdentityProvider": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIdentityProvider",
 }));
@@ -9761,14 +9034,6 @@ export const updateManagedLoginBranding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateManagedLoginBranding",
-  iam: {
-    actions: ["cognito-idp:UpdateManagedLoginBranding"],
-    resources: {
-      "cognito-idp:UpdateManagedLoginBranding": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateManagedLoginBranding",
 }));
@@ -9818,7 +9083,6 @@ export const updateProvisionedLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedLimit",
-  iam: { actions: ["cognito-idp:UpdateProvisionedLimit"] },
   telemetry: TELEMETRY,
   span: "UpdateProvisionedLimit",
 }));
@@ -9867,14 +9131,6 @@ export const updateResourceServer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateResourceServer",
-  iam: {
-    actions: ["cognito-idp:UpdateResourceServer"],
-    resources: {
-      "cognito-idp:UpdateResourceServer": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateResourceServer",
 }));
@@ -9936,14 +9192,6 @@ export const updateTerms: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTerms",
-  iam: {
-    actions: ["cognito-idp:UpdateTerms"],
-    resources: {
-      "cognito-idp:UpdateTerms": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateTerms",
 }));
@@ -10034,7 +9282,6 @@ export const updateUserAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserAttributes",
-  iam: { actions: ["cognito-idp:UpdateUserAttributes"] },
   telemetry: TELEMETRY,
   span: "UpdateUserAttributes",
 }));
@@ -10121,21 +9368,6 @@ export const updateUserPool: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPool",
-  iam: {
-    actions: [
-      "iam:PassRole",
-      "cognito-idp:TagResource",
-      "cognito-idp:UntagResource",
-      "cognito-idp:UpdateUserPool",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "cognito-idp:UpdateUserPool": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUserPool",
 }));
@@ -10197,16 +9429,6 @@ export const updateUserPoolClient: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolClient",
-  iam: {
-    actions: ["iam:PassRole", "cognito-idp:UpdateUserPoolClient"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "cognito-idp:UpdateUserPoolClient": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "AnalyticsConfiguration.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUserPoolClient",
 }));
@@ -10276,14 +9498,6 @@ export const updateUserPoolDomain: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolDomain",
-  iam: {
-    actions: ["cognito-idp:UpdateUserPoolDomain"],
-    resources: {
-      "cognito-idp:UpdateUserPoolDomain": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUserPoolDomain",
 }));
@@ -10330,14 +9544,6 @@ export const updateUserPoolReplica: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateUserPoolReplica",
-  iam: {
-    actions: ["cognito-idp:UpdateUserPoolReplica"],
-    resources: {
-      "cognito-idp:UpdateUserPoolReplica": [
-        "arn:${Partition}:cognito-idp:${Region}:${Account}:userpool/${UserPoolId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateUserPoolReplica",
 }));
@@ -10396,7 +9602,6 @@ export const verifySoftwareToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifySoftwareToken",
-  iam: { actions: ["cognito-idp:VerifySoftwareToken"] },
   telemetry: TELEMETRY,
   span: "VerifySoftwareToken",
 }));
@@ -10460,7 +9665,6 @@ export const verifyUserAttribute: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "VerifyUserAttribute",
-  iam: { actions: ["cognito-idp:VerifyUserAttribute"] },
   telemetry: TELEMETRY,
   span: "VerifyUserAttribute",
 }));

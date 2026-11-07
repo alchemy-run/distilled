@@ -675,14 +675,6 @@ export const associateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResource",
-  iam: {
-    actions: ["synthetics:AssociateResource"],
-    resources: {
-      "synthetics:AssociateResource": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:group:${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateResource",
 }));
@@ -723,11 +715,6 @@ export const createCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCanary",
-  iam: {
-    actions: ["synthetics:CreateCanary", "iam:PassRole", "synthetics:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "synthetics:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCanary",
 }));
@@ -773,10 +760,6 @@ export const createGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGroup",
-  iam: {
-    actions: ["synthetics:CreateGroup", "synthetics:TagResource"],
-    conditional: { "synthetics:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGroup",
 }));
@@ -832,14 +815,6 @@ export const deleteCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCanary",
-  iam: {
-    actions: ["synthetics:DeleteCanary"],
-    resources: {
-      "synthetics:DeleteCanary": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:canary:${CanaryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCanary",
 }));
@@ -874,14 +849,6 @@ export const deleteGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGroup",
-  iam: {
-    actions: ["synthetics:DeleteGroup"],
-    resources: {
-      "synthetics:DeleteGroup": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:group:${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGroup",
 }));
@@ -919,7 +886,6 @@ export const describeCanaries: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["synthetics:DescribeCanaries"] },
   telemetry: TELEMETRY,
   span: "DescribeCanaries",
 })) as any;
@@ -959,7 +925,6 @@ export const describeCanariesLastRun: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["synthetics:DescribeCanariesLastRun"] },
   telemetry: TELEMETRY,
   span: "DescribeCanariesLastRun",
 })) as any;
@@ -991,7 +956,6 @@ export const describeRuntimeVersions: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["synthetics:DescribeRuntimeVersions"] },
   telemetry: TELEMETRY,
   span: "DescribeRuntimeVersions",
 })) as any;
@@ -1022,14 +986,6 @@ export const disassociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResource",
-  iam: {
-    actions: ["synthetics:DisassociateResource"],
-    resources: {
-      "synthetics:DisassociateResource": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:group:${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateResource",
 }));
@@ -1056,14 +1012,6 @@ export const getCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCanary",
-  iam: {
-    actions: ["synthetics:GetCanary"],
-    resources: {
-      "synthetics:GetCanary": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:canary:${CanaryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCanary",
 }));
@@ -1094,14 +1042,6 @@ export const getCanaryRuns: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["synthetics:GetCanaryRuns"],
-    resources: {
-      "synthetics:GetCanaryRuns": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:canary:${CanaryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCanaryRuns",
 })) as any;
@@ -1133,12 +1073,6 @@ export const getGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGroup",
-  iam: {
-    actions: ["synthetics:GetGroup"],
-    resources: {
-      "synthetics:GetGroup": ["arn:${Partition}:synthetics:${Region}:${Account}:group:${GroupId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGroup",
 }));
@@ -1170,14 +1104,6 @@ export const listAssociatedGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["synthetics:ListAssociatedGroups"],
-    resources: {
-      "synthetics:ListAssociatedGroups": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:canary:${CanaryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAssociatedGroups",
 })) as any;
@@ -1214,14 +1140,6 @@ export const listGroupResources: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["synthetics:ListGroupResources"],
-    resources: {
-      "synthetics:ListGroupResources": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:group:${GroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGroupResources",
 })) as any;
@@ -1249,7 +1167,6 @@ export const listGroups: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["synthetics:ListGroups"] },
   telemetry: TELEMETRY,
   span: "ListGroups",
 })) as any;
@@ -1282,7 +1199,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["synthetics:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1315,14 +1231,6 @@ export const startCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCanary",
-  iam: {
-    actions: ["synthetics:StartCanary"],
-    resources: {
-      "synthetics:StartCanary": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:canary:${CanaryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartCanary",
 }));
@@ -1355,16 +1263,6 @@ export const startCanaryDryRun: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCanaryDryRun",
-  iam: {
-    actions: ["iam:PassRole", "synthetics:StartCanaryDryRun"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "synthetics:StartCanaryDryRun": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:canary:${CanaryName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "ExecutionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "StartCanaryDryRun",
 }));
@@ -1400,14 +1298,6 @@ export const stopCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopCanary",
-  iam: {
-    actions: ["synthetics:StopCanary"],
-    resources: {
-      "synthetics:StopCanary": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:canary:${CanaryName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopCanary",
 }));
@@ -1455,7 +1345,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["synthetics:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1488,7 +1377,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["synthetics:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1534,16 +1422,6 @@ export const updateCanary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCanary",
-  iam: {
-    actions: ["iam:PassRole", "synthetics:UpdateCanary"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "synthetics:UpdateCanary": [
-        "arn:${Partition}:synthetics:${Region}:${Account}:canary:${CanaryName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "ExecutionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCanary",
 }));

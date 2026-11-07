@@ -1394,14 +1394,6 @@ export const associateCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateCollector",
-  iam: {
-    actions: ["continuum:AssociateCollector"],
-    resources: {
-      "continuum:AssociateCollector": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateCollector",
 }));
@@ -1436,15 +1428,6 @@ export const createCodeFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeFinding",
-  iam: {
-    actions: ["continuum:CreateCodeFinding"],
-    resources: {
-      "continuum:CreateCodeFinding": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-findings/${FindingId}",
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCodeFinding",
 }));
@@ -1495,15 +1478,6 @@ export const createCodeScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeScan",
-  iam: {
-    actions: ["continuum:CreateCodeScan"],
-    resources: {
-      "continuum:CreateCodeScan": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-scans/${ScanRunId}",
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCodeScan",
 }));
@@ -1538,14 +1512,6 @@ export const createCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollector",
-  iam: {
-    actions: ["continuum:CreateCollector"],
-    resources: {
-      "continuum:CreateCollector": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateCollector",
 }));
@@ -1582,7 +1548,6 @@ export const createEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEnvironment",
-  iam: { actions: ["continuum:CreateEnvironment"] },
   telemetry: TELEMETRY,
   span: "CreateEnvironment",
 }));
@@ -1634,14 +1599,6 @@ export const createIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateIntegration",
-  iam: {
-    actions: ["continuum:CreateIntegration"],
-    resources: {
-      "continuum:CreateIntegration": [
-        "arn:${Partition}:continuum:${Region}:${Account}:integrations/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateIntegration",
 }));
@@ -1676,14 +1633,6 @@ export const deleteCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollector",
-  iam: {
-    actions: ["continuum:DeleteCollector"],
-    resources: {
-      "continuum:DeleteCollector": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCollector",
 }));
@@ -1718,14 +1667,6 @@ export const deleteEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEnvironment",
-  iam: {
-    actions: ["continuum:DeleteEnvironment"],
-    resources: {
-      "continuum:DeleteEnvironment": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEnvironment",
 }));
@@ -1765,14 +1706,6 @@ export const deleteIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteIntegration",
-  iam: {
-    actions: ["continuum:DeleteIntegration"],
-    resources: {
-      "continuum:DeleteIntegration": [
-        "arn:${Partition}:continuum:${Region}:${Account}:integrations/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteIntegration",
 }));
@@ -1805,14 +1738,6 @@ export const disassociateCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateCollector",
-  iam: {
-    actions: ["continuum:DisassociateCollector"],
-    resources: {
-      "continuum:DisassociateCollector": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateCollector",
 }));
@@ -1845,14 +1770,6 @@ export const getCodeFinding: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeFinding",
-  iam: {
-    actions: ["continuum:GetCodeFinding"],
-    resources: {
-      "continuum:GetCodeFinding": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-findings/${FindingId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCodeFinding",
 }));
@@ -1885,14 +1802,6 @@ export const getCodeIssue: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeIssue",
-  iam: {
-    actions: ["continuum:GetCodeIssue"],
-    resources: {
-      "continuum:GetCodeIssue": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-issues/${IssueId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCodeIssue",
 }));
@@ -1925,14 +1834,6 @@ export const getCodeIssueArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeIssueArtifact",
-  iam: {
-    actions: ["continuum:GetCodeIssueArtifact"],
-    resources: {
-      "continuum:GetCodeIssueArtifact": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-issues/${IssueId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCodeIssueArtifact",
 }));
@@ -1965,14 +1866,6 @@ export const getCodeScan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeScan",
-  iam: {
-    actions: ["continuum:GetCodeScan"],
-    resources: {
-      "continuum:GetCodeScan": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-scans/${ScanRunId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCodeScan",
 }));
@@ -2005,14 +1898,6 @@ export const getCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollector",
-  iam: {
-    actions: ["continuum:GetCollector"],
-    resources: {
-      "continuum:GetCollector": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCollector",
 }));
@@ -2053,14 +1938,6 @@ export const getCollectorDataAccessAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCollectorDataAccessAuthorization",
-  iam: {
-    actions: ["continuum:GetCollectorDataAccessAuthorization"],
-    resources: {
-      "continuum:GetCollectorDataAccessAuthorization": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCollectorDataAccessAuthorization",
 }));
@@ -2093,14 +1970,6 @@ export const getEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEnvironment",
-  iam: {
-    actions: ["continuum:GetEnvironment"],
-    resources: {
-      "continuum:GetEnvironment": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEnvironment",
 }));
@@ -2133,14 +2002,6 @@ export const getIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetIntegration",
-  iam: {
-    actions: ["continuum:GetIntegration"],
-    resources: {
-      "continuum:GetIntegration": [
-        "arn:${Partition}:continuum:${Region}:${Account}:integrations/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetIntegration",
 }));
@@ -2173,14 +2034,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: {
-    actions: ["continuum:GetResourcePolicy"],
-    resources: {
-      "continuum:GetResourcePolicy": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -2220,14 +2073,6 @@ export const listAssociatedCollectors: API.PaginatedOperationMethod<
     items: "associatedCollectors",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["continuum:ListAssociatedCollectors"],
-    resources: {
-      "continuum:ListAssociatedCollectors": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAssociatedCollectors",
 })) as any;
@@ -2267,14 +2112,6 @@ export const listAssociatedEnvironments: API.PaginatedOperationMethod<
     items: "associatedEnvironments",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["continuum:ListAssociatedEnvironments"],
-    resources: {
-      "continuum:ListAssociatedEnvironments": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAssociatedEnvironments",
 })) as any;
@@ -2314,14 +2151,6 @@ export const listCodeFindings: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["continuum:ListCodeFindings"],
-    resources: {
-      "continuum:ListCodeFindings": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCodeFindings",
 })) as any;
@@ -2361,14 +2190,6 @@ export const listCodeIssueArtifacts: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["continuum:ListCodeIssueArtifacts"],
-    resources: {
-      "continuum:ListCodeIssueArtifacts": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}/code-issues/${IssueId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCodeIssueArtifacts",
 })) as any;
@@ -2408,14 +2229,6 @@ export const listCodeIssues: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["continuum:ListCodeIssues"],
-    resources: {
-      "continuum:ListCodeIssues": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCodeIssues",
 })) as any;
@@ -2455,14 +2268,6 @@ export const listCodeScans: API.PaginatedOperationMethod<
     items: "scans",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["continuum:ListCodeScans"],
-    resources: {
-      "continuum:ListCodeScans": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCodeScans",
 })) as any;
@@ -2493,14 +2298,6 @@ export const listCollectors: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListCollectors",
-  iam: {
-    actions: ["continuum:ListCollectors"],
-    resources: {
-      "continuum:ListCollectors": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCollectors",
 }));
@@ -2538,14 +2335,6 @@ export const listEnvironments: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["continuum:ListEnvironments"],
-    resources: {
-      "continuum:ListEnvironments": [
-        "arn:${Partition}:continuum:${Region}:${Account}:environments/${EnvironmentId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListEnvironments",
 })) as any;
@@ -2583,14 +2372,6 @@ export const listIntegrations: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["continuum:ListIntegrations"],
-    resources: {
-      "continuum:ListIntegrations": [
-        "arn:${Partition}:continuum:${Region}:${Account}:integrations/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListIntegrations",
 })) as any;
@@ -2625,14 +2406,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: {
-    actions: ["continuum:PutResourcePolicy"],
-    resources: {
-      "continuum:PutResourcePolicy": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -2665,7 +2438,6 @@ export const startIntegrationAuthorization: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartIntegrationAuthorization",
-  iam: { actions: ["continuum:StartIntegrationAuthorization"] },
   telemetry: TELEMETRY,
   span: "StartIntegrationAuthorization",
 }));
@@ -2700,14 +2472,6 @@ export const updateCollector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCollector",
-  iam: {
-    actions: ["continuum:UpdateCollector"],
-    resources: {
-      "continuum:UpdateCollector": [
-        "arn:${Partition}:continuum:${Region}:${Account}:collectors/${CollectorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCollector",
 }));
@@ -2742,7 +2506,6 @@ export const updateEnvironment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEnvironment",
-  iam: { actions: ["continuum:UpdateEnvironment"] },
   telemetry: TELEMETRY,
   span: "UpdateEnvironment",
 }));
@@ -2786,14 +2549,6 @@ export const updateIntegration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateIntegration",
-  iam: {
-    actions: ["continuum:UpdateIntegration"],
-    resources: {
-      "continuum:UpdateIntegration": [
-        "arn:${Partition}:continuum:${Region}:${Account}:integrations/${IntegrationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateIntegration",
 }));

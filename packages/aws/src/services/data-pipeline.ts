@@ -406,16 +406,6 @@ export const activatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ActivatePipeline",
-  iam: {
-    actions: ["datapipeline:ActivatePipeline", "iam:PassRole"],
-    resources: {
-      "datapipeline:ActivatePipeline": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "ActivatePipeline",
 }));
@@ -446,14 +436,6 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-  iam: {
-    actions: ["datapipeline:AddTags"],
-    resources: {
-      "datapipeline:AddTags": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -494,15 +476,6 @@ export const createPipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePipeline",
-  iam: {
-    actions: ["datapipeline:AddTags", "datapipeline:CreatePipeline"],
-    resources: {
-      "datapipeline:AddTags": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-    conditional: { "datapipeline:AddTags": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePipeline",
 }));
@@ -537,14 +510,6 @@ export const deactivatePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeactivatePipeline",
-  iam: {
-    actions: ["datapipeline:DeactivatePipeline"],
-    resources: {
-      "datapipeline:DeactivatePipeline": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeactivatePipeline",
 }));
@@ -591,14 +556,6 @@ export const deletePipeline: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePipeline",
-  iam: {
-    actions: ["datapipeline:DeletePipeline"],
-    resources: {
-      "datapipeline:DeletePipeline": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePipeline",
 }));
@@ -679,14 +636,6 @@ export const describeObjects: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeObjects",
   pagination: { inputToken: "marker", outputToken: "marker", items: "pipelineObjects" } as const,
-  iam: {
-    actions: ["datapipeline:DescribeObjects"],
-    resources: {
-      "datapipeline:DescribeObjects": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeObjects",
 })) as any;
@@ -770,14 +719,6 @@ export const describePipelines: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePipelines",
-  iam: {
-    actions: ["datapipeline:DescribePipelines"],
-    resources: {
-      "datapipeline:DescribePipelines": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePipelines",
 }));
@@ -830,14 +771,6 @@ export const evaluateExpression: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EvaluateExpression",
-  iam: {
-    actions: ["datapipeline:EvaluateExpression"],
-    resources: {
-      "datapipeline:EvaluateExpression": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "EvaluateExpression",
 }));
@@ -922,14 +855,6 @@ export const getPipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPipelineDefinition",
-  iam: {
-    actions: ["datapipeline:GetPipelineDefinition"],
-    resources: {
-      "datapipeline:GetPipelineDefinition": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPipelineDefinition",
 }));
@@ -977,7 +902,6 @@ export const listPipelines: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListPipelines",
   pagination: { inputToken: "marker", outputToken: "marker", items: "pipelineIdList" } as const,
-  iam: { actions: ["datapipeline:ListPipelines"] },
   telemetry: TELEMETRY,
   span: "ListPipelines",
 })) as any;
@@ -1070,7 +994,6 @@ export const pollForTask: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PollForTask",
-  iam: { actions: ["datapipeline:PollForTask"] },
   telemetry: TELEMETRY,
   span: "PollForTask",
 }));
@@ -1240,16 +1163,6 @@ export const putPipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutPipelineDefinition",
-  iam: {
-    actions: ["iam:PassRole", "datapipeline:PutPipelineDefinition"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "datapipeline:PutPipelineDefinition": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "PutPipelineDefinition",
 }));
@@ -1315,14 +1228,6 @@ export const queryObjects: API.PaginatedOperationMethod<
     items: "ids",
     pageSize: "limit",
   } as const,
-  iam: {
-    actions: ["datapipeline:QueryObjects"],
-    resources: {
-      "datapipeline:QueryObjects": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "QueryObjects",
 })) as any;
@@ -1353,14 +1258,6 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
-  iam: {
-    actions: ["datapipeline:RemoveTags"],
-    resources: {
-      "datapipeline:RemoveTags": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveTags",
 }));
@@ -1422,14 +1319,6 @@ export const reportTaskProgress: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportTaskProgress",
-  iam: {
-    actions: ["datapipeline:ReportTaskProgress"],
-    resources: {
-      "datapipeline:ReportTaskProgress": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ReportTaskProgress",
 }));
@@ -1475,7 +1364,6 @@ export const reportTaskRunnerHeartbeat: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ReportTaskRunnerHeartbeat",
-  iam: { actions: ["datapipeline:ReportTaskRunnerHeartbeat"] },
   telemetry: TELEMETRY,
   span: "ReportTaskRunnerHeartbeat",
 }));
@@ -1528,14 +1416,6 @@ export const setStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetStatus",
-  iam: {
-    actions: ["datapipeline:SetStatus"],
-    resources: {
-      "datapipeline:SetStatus": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetStatus",
 }));
@@ -1588,14 +1468,6 @@ export const setTaskStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTaskStatus",
-  iam: {
-    actions: ["datapipeline:SetTaskStatus"],
-    resources: {
-      "datapipeline:SetTaskStatus": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetTaskStatus",
 }));
@@ -1757,16 +1629,6 @@ export const validatePipelineDefinition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ValidatePipelineDefinition",
-  iam: {
-    actions: ["iam:PassRole", "datapipeline:ValidatePipelineDefinition"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "datapipeline:ValidatePipelineDefinition": [
-        "arn:${Partition}:datapipeline:${Region}:${Account}:pipeline/${PipelineId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "ValidatePipelineDefinition",
 }));

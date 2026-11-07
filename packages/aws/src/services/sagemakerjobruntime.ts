@@ -212,14 +212,6 @@ export const completeRollout: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompleteRollout",
-  iam: {
-    actions: ["sagemaker:CallWithBearerToken", "sagemaker:CompleteRollout"],
-    resources: {
-      "sagemaker:CompleteRollout": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CompleteRollout",
 }));
@@ -256,14 +248,6 @@ export const sample: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "Sample",
-  iam: {
-    actions: ["sagemaker:CallWithBearerToken", "sagemaker:Sample"],
-    resources: {
-      "sagemaker:Sample": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "Sample",
 }));
@@ -300,14 +284,6 @@ export const sampleWithResponseStream: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SampleWithResponseStream",
-  iam: {
-    actions: ["sagemaker:CallWithBearerToken", "sagemaker:SampleWithResponseStream"],
-    resources: {
-      "sagemaker:SampleWithResponseStream": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SampleWithResponseStream",
 }));
@@ -346,14 +322,6 @@ export const updateReward: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateReward",
-  iam: {
-    actions: ["sagemaker:CallWithBearerToken", "sagemaker:UpdateReward"],
-    resources: {
-      "sagemaker:UpdateReward": [
-        "arn:${Partition}:sagemaker:${Region}:${Account}:job/${JobCategory}/${JobName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateReward",
 }));

@@ -312,14 +312,6 @@ export const batchGetDiscoverableRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchGetDiscoverableRegistryRecord",
-  iam: {
-    actions: ["agent-registry:GetDiscoverableRegistryRecord"],
-    resources: {
-      "agent-registry:GetDiscoverableRegistryRecord": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchGetDiscoverableRegistryRecord",
 }));
@@ -361,14 +353,6 @@ export const listDiscoverableRegistryRecords: API.PaginatedOperationMethod<
     items: "registryRecords",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["agent-registry:ListDiscoverableRegistryRecords"],
-    resources: {
-      "agent-registry:ListDiscoverableRegistryRecords": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDiscoverableRegistryRecords",
 })) as any;
@@ -403,14 +387,6 @@ export const searchDiscoverableRegistryRecords: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchDiscoverableRegistryRecords",
-  iam: {
-    actions: ["agent-registry:SearchDiscoverableRegistryRecords"],
-    resources: {
-      "agent-registry:SearchDiscoverableRegistryRecords": [
-        "arn:${Partition}:agent-registry:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchDiscoverableRegistryRecords",
 }));

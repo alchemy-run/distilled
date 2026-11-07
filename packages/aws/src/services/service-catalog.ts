@@ -1720,14 +1720,6 @@ export const acceptPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AcceptPortfolioShare",
-  iam: {
-    actions: ["servicecatalog:AcceptPortfolioShare"],
-    resources: {
-      "servicecatalog:AcceptPortfolioShare": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AcceptPortfolioShare",
 }));
@@ -1758,7 +1750,6 @@ export const associateBudgetWithResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBudgetWithResource",
-  iam: { actions: ["servicecatalog:AssociateBudgetWithResource"] },
   telemetry: TELEMETRY,
   span: "AssociateBudgetWithResource",
 }));
@@ -1799,14 +1790,6 @@ export const associatePrincipalWithPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePrincipalWithPortfolio",
-  iam: {
-    actions: ["servicecatalog:AssociatePrincipalWithPortfolio"],
-    resources: {
-      "servicecatalog:AssociatePrincipalWithPortfolio": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociatePrincipalWithPortfolio",
 }));
@@ -1833,7 +1816,6 @@ export const associateProductWithPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateProductWithPortfolio",
-  iam: { actions: ["servicecatalog:AssociateProductWithPortfolio"] },
   telemetry: TELEMETRY,
   span: "AssociateProductWithPortfolio",
 }));
@@ -1868,14 +1850,6 @@ export const associateServiceActionWithProvisioningArtifact: API.OperationMethod
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateServiceActionWithProvisioningArtifact",
-  iam: {
-    actions: ["servicecatalog:AssociateServiceActionWithProvisioningArtifact"],
-    resources: {
-      "servicecatalog:AssociateServiceActionWithProvisioningArtifact": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateServiceActionWithProvisioningArtifact",
 }));
@@ -1910,7 +1884,6 @@ export const associateTagOptionWithResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateTagOptionWithResource",
-  iam: { actions: ["servicecatalog:AssociateTagOptionWithResource"] },
   telemetry: TELEMETRY,
   span: "AssociateTagOptionWithResource",
 }));
@@ -1941,7 +1914,6 @@ export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationM
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateServiceActionWithProvisioningArtifact",
-  iam: { actions: ["servicecatalog:BatchAssociateServiceActionWithProvisioningArtifact"] },
   telemetry: TELEMETRY,
   span: "BatchAssociateServiceActionWithProvisioningArtifact",
 }));
@@ -1972,7 +1944,6 @@ export const batchDisassociateServiceActionFromProvisioningArtifact: API.Operati
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateServiceActionFromProvisioningArtifact",
-  iam: { actions: ["servicecatalog:BatchDisassociateServiceActionFromProvisioningArtifact"] },
   telemetry: TELEMETRY,
   span: "BatchDisassociateServiceActionFromProvisioningArtifact",
 }));
@@ -2004,7 +1975,6 @@ export const copyProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyProduct",
-  iam: { actions: ["servicecatalog:CopyProduct"] },
   telemetry: TELEMETRY,
   span: "CopyProduct",
 }));
@@ -2037,16 +2007,6 @@ export const createConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConstraint",
-  iam: {
-    actions: ["servicecatalog:CreateConstraint", "iam:PassRole"],
-    resources: {
-      "servicecatalog:CreateConstraint": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConstraint",
 }));
@@ -2073,14 +2033,6 @@ export const createPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortfolio",
-  iam: {
-    actions: ["servicecatalog:CreatePortfolio"],
-    resources: {
-      "servicecatalog:CreatePortfolio": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePortfolio",
 }));
@@ -2133,14 +2085,6 @@ export const createPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePortfolioShare",
-  iam: {
-    actions: ["servicecatalog:CreatePortfolioShare"],
-    resources: {
-      "servicecatalog:CreatePortfolioShare": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePortfolioShare",
 }));
@@ -2172,17 +2116,6 @@ export const createProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProduct",
-  iam: {
-    actions: ["servicecatalog:CreateProduct", "codestar-connections:PassConnection"],
-    resources: {
-      "servicecatalog:CreateProduct": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-      "codestar-connections:PassConnection": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateProduct",
 }));
@@ -2217,7 +2150,6 @@ export const createProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisionedProductPlan",
-  iam: { actions: ["servicecatalog:CreateProvisionedProductPlan"] },
   telemetry: TELEMETRY,
   span: "CreateProvisionedProductPlan",
 }));
@@ -2248,14 +2180,6 @@ export const createProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProvisioningArtifact",
-  iam: {
-    actions: ["servicecatalog:CreateProvisioningArtifact"],
-    resources: {
-      "servicecatalog:CreateProvisioningArtifact": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateProvisioningArtifact",
 }));
@@ -2279,11 +2203,6 @@ export const createServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateServiceAction",
-  iam: {
-    actions: ["servicecatalog:CreateServiceAction", "iam:PassRole"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateServiceAction",
 }));
@@ -2308,7 +2227,6 @@ export const createTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTagOption",
-  iam: { actions: ["servicecatalog:CreateTagOption"] },
   telemetry: TELEMETRY,
   span: "CreateTagOption",
 }));
@@ -2334,7 +2252,6 @@ export const deleteConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConstraint",
-  iam: { actions: ["servicecatalog:DeleteConstraint"] },
   telemetry: TELEMETRY,
   span: "DeleteConstraint",
 }));
@@ -2370,14 +2287,6 @@ export const deletePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortfolio",
-  iam: {
-    actions: ["servicecatalog:DeletePortfolio"],
-    resources: {
-      "servicecatalog:DeletePortfolio": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePortfolio",
 }));
@@ -2412,14 +2321,6 @@ export const deletePortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePortfolioShare",
-  iam: {
-    actions: ["servicecatalog:DeletePortfolioShare"],
-    resources: {
-      "servicecatalog:DeletePortfolioShare": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePortfolioShare",
 }));
@@ -2454,14 +2355,6 @@ export const deleteProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProduct",
-  iam: {
-    actions: ["servicecatalog:DeleteProduct"],
-    resources: {
-      "servicecatalog:DeleteProduct": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProduct",
 }));
@@ -2485,7 +2378,6 @@ export const deleteProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisionedProductPlan",
-  iam: { actions: ["servicecatalog:DeleteProvisionedProductPlan"] },
   telemetry: TELEMETRY,
   span: "DeleteProvisionedProductPlan",
 }));
@@ -2514,14 +2406,6 @@ export const deleteProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProvisioningArtifact",
-  iam: {
-    actions: ["servicecatalog:DeleteProvisioningArtifact"],
-    resources: {
-      "servicecatalog:DeleteProvisioningArtifact": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProvisioningArtifact",
 }));
@@ -2546,7 +2430,6 @@ export const deleteServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteServiceAction",
-  iam: { actions: ["servicecatalog:DeleteServiceAction"] },
   telemetry: TELEMETRY,
   span: "DeleteServiceAction",
 }));
@@ -2573,7 +2456,6 @@ export const deleteTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTagOption",
-  iam: { actions: ["servicecatalog:DeleteTagOption"] },
   telemetry: TELEMETRY,
   span: "DeleteTagOption",
 }));
@@ -2594,7 +2476,6 @@ export const describeConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeConstraint",
-  iam: { actions: ["servicecatalog:DescribeConstraint"] },
   telemetry: TELEMETRY,
   span: "DescribeConstraint",
 }));
@@ -2615,7 +2496,6 @@ export const describeCopyProductStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCopyProductStatus",
-  iam: { actions: ["servicecatalog:DescribeCopyProductStatus"] },
   telemetry: TELEMETRY,
   span: "DescribeCopyProductStatus",
 }));
@@ -2638,14 +2518,6 @@ export const describePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolio",
-  iam: {
-    actions: ["servicecatalog:DescribePortfolio"],
-    resources: {
-      "servicecatalog:DescribePortfolio": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePortfolio",
 }));
@@ -2681,14 +2553,6 @@ export const describePortfolioShares: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: {
-    actions: ["servicecatalog:DescribePortfolioShares"],
-    resources: {
-      "servicecatalog:DescribePortfolioShares": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribePortfolioShares",
 })) as any;
@@ -2714,7 +2578,6 @@ export const describePortfolioShareStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribePortfolioShareStatus",
-  iam: { actions: ["servicecatalog:DescribePortfolioShareStatus"] },
   telemetry: TELEMETRY,
   span: "DescribePortfolioShareStatus",
 }));
@@ -2744,14 +2607,6 @@ export const describeProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProduct",
-  iam: {
-    actions: ["servicecatalog:DescribeProduct"],
-    resources: {
-      "servicecatalog:DescribeProduct": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProduct",
 }));
@@ -2775,14 +2630,6 @@ export const describeProductAsAdmin: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductAsAdmin",
-  iam: {
-    actions: ["servicecatalog:DescribeProductAsAdmin"],
-    resources: {
-      "servicecatalog:DescribeProductAsAdmin": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProductAsAdmin",
 }));
@@ -2806,7 +2653,6 @@ export const describeProductView: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProductView",
-  iam: { actions: ["servicecatalog:DescribeProductView"] },
   telemetry: TELEMETRY,
   span: "DescribeProductView",
 }));
@@ -2830,7 +2676,6 @@ export const describeProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisionedProduct",
-  iam: { actions: ["servicecatalog:DescribeProvisionedProduct"] },
   telemetry: TELEMETRY,
   span: "DescribeProvisionedProduct",
 }));
@@ -2854,7 +2699,6 @@ export const describeProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisionedProductPlan",
-  iam: { actions: ["servicecatalog:DescribeProvisionedProductPlan"] },
   telemetry: TELEMETRY,
   span: "DescribeProvisionedProductPlan",
 }));
@@ -2878,14 +2722,6 @@ export const describeProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningArtifact",
-  iam: {
-    actions: ["servicecatalog:DescribeProvisioningArtifact"],
-    resources: {
-      "servicecatalog:DescribeProvisioningArtifact": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProvisioningArtifact",
 }));
@@ -2917,14 +2753,6 @@ export const describeProvisioningParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeProvisioningParameters",
-  iam: {
-    actions: ["servicecatalog:DescribeProvisioningParameters"],
-    resources: {
-      "servicecatalog:DescribeProvisioningParameters": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProvisioningParameters",
 }));
@@ -2952,7 +2780,6 @@ export const describeRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecord",
-  iam: { actions: ["servicecatalog:DescribeRecord"] },
   telemetry: TELEMETRY,
   span: "DescribeRecord",
 }));
@@ -2973,7 +2800,6 @@ export const describeServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceAction",
-  iam: { actions: ["servicecatalog:DescribeServiceAction"] },
   telemetry: TELEMETRY,
   span: "DescribeServiceAction",
 }));
@@ -2997,7 +2823,6 @@ export const describeServiceActionExecutionParameters: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeServiceActionExecutionParameters",
-  iam: { actions: ["servicecatalog:DescribeServiceActionExecutionParameters"] },
   telemetry: TELEMETRY,
   span: "DescribeServiceActionExecutionParameters",
 }));
@@ -3021,7 +2846,6 @@ export const describeTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTagOption",
-  iam: { actions: ["servicecatalog:DescribeTagOption"] },
   telemetry: TELEMETRY,
   span: "DescribeTagOption",
 }));
@@ -3059,7 +2883,6 @@ export const disableAWSOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisableAWSOrganizationsAccess",
-  iam: { actions: ["servicecatalog:DisableAWSOrganizationsAccess"] },
   telemetry: TELEMETRY,
   span: "DisableAWSOrganizationsAccess",
 }));
@@ -3080,7 +2903,6 @@ export const disassociateBudgetFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBudgetFromResource",
-  iam: { actions: ["servicecatalog:DisassociateBudgetFromResource"] },
   telemetry: TELEMETRY,
   span: "DisassociateBudgetFromResource",
 }));
@@ -3123,14 +2945,6 @@ export const disassociatePrincipalFromPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePrincipalFromPortfolio",
-  iam: {
-    actions: ["servicecatalog:DisassociatePrincipalFromPortfolio"],
-    resources: {
-      "servicecatalog:DisassociatePrincipalFromPortfolio": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociatePrincipalFromPortfolio",
 }));
@@ -3157,7 +2971,6 @@ export const disassociateProductFromPortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateProductFromPortfolio",
-  iam: { actions: ["servicecatalog:DisassociateProductFromPortfolio"] },
   telemetry: TELEMETRY,
   span: "DisassociateProductFromPortfolio",
 }));
@@ -3189,14 +3002,6 @@ export const disassociateServiceActionFromProvisioningArtifact: API.OperationMet
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateServiceActionFromProvisioningArtifact",
-  iam: {
-    actions: ["servicecatalog:DisassociateServiceActionFromProvisioningArtifact"],
-    resources: {
-      "servicecatalog:DisassociateServiceActionFromProvisioningArtifact": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateServiceActionFromProvisioningArtifact",
 }));
@@ -3220,7 +3025,6 @@ export const disassociateTagOptionFromResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateTagOptionFromResource",
-  iam: { actions: ["servicecatalog:DisassociateTagOptionFromResource"] },
   telemetry: TELEMETRY,
   span: "DisassociateTagOptionFromResource",
 }));
@@ -3258,7 +3062,6 @@ export const enableAWSOrganizationsAccess: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "EnableAWSOrganizationsAccess",
-  iam: { actions: ["servicecatalog:EnableAWSOrganizationsAccess"] },
   telemetry: TELEMETRY,
   span: "EnableAWSOrganizationsAccess",
 }));
@@ -3283,7 +3086,6 @@ export const executeProvisionedProductPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteProvisionedProductPlan",
-  iam: { actions: ["servicecatalog:ExecuteProvisionedProductPlan"] },
   telemetry: TELEMETRY,
   span: "ExecuteProvisionedProductPlan",
 }));
@@ -3314,7 +3116,6 @@ export const executeProvisionedProductServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ExecuteProvisionedProductServiceAction",
-  iam: { actions: ["servicecatalog:ExecuteProvisionedProductServiceAction"] },
   telemetry: TELEMETRY,
   span: "ExecuteProvisionedProductServiceAction",
 }));
@@ -3339,7 +3140,6 @@ export const getAWSOrganizationsAccessStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAWSOrganizationsAccessStatus",
-  iam: { actions: ["servicecatalog:GetAWSOrganizationsAccessStatus"] },
   telemetry: TELEMETRY,
   span: "GetAWSOrganizationsAccessStatus",
 }));
@@ -3369,7 +3169,6 @@ export const getProvisionedProductOutputs: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:GetProvisionedProductOutputs"] },
   telemetry: TELEMETRY,
   span: "GetProvisionedProductOutputs",
 })) as any;
@@ -3425,14 +3224,6 @@ export const importAsProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportAsProvisionedProduct",
-  iam: {
-    actions: ["servicecatalog:ImportAsProvisionedProduct"],
-    resources: {
-      "servicecatalog:ImportAsProvisionedProduct": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportAsProvisionedProduct",
 }));
@@ -3464,7 +3255,6 @@ export const listAcceptedPortfolioShares: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:ListAcceptedPortfolioShares"] },
   telemetry: TELEMETRY,
   span: "ListAcceptedPortfolioShares",
 })) as any;
@@ -3494,7 +3284,6 @@ export const listBudgetsForResource: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:ListBudgetsForResource"] },
   telemetry: TELEMETRY,
   span: "ListBudgetsForResource",
 })) as any;
@@ -3524,7 +3313,6 @@ export const listConstraintsForPortfolio: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:ListConstraintsForPortfolio"] },
   telemetry: TELEMETRY,
   span: "ListConstraintsForPortfolio",
 })) as any;
@@ -3574,14 +3362,6 @@ export const listLaunchPaths: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: {
-    actions: ["servicecatalog:ListLaunchPaths"],
-    resources: {
-      "servicecatalog:ListLaunchPaths": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListLaunchPaths",
 })) as any;
@@ -3616,7 +3396,6 @@ export const listOrganizationPortfolioAccess: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:ListOrganizationPortfolioAccess"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationPortfolioAccess",
 })) as any;
@@ -3648,14 +3427,6 @@ export const listPortfolioAccess: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: {
-    actions: ["servicecatalog:ListPortfolioAccess"],
-    resources: {
-      "servicecatalog:ListPortfolioAccess": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPortfolioAccess",
 })) as any;
@@ -3682,7 +3453,6 @@ export const listPortfolios: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:ListPortfolios"] },
   telemetry: TELEMETRY,
   span: "ListPortfolios",
 })) as any;
@@ -3712,14 +3482,6 @@ export const listPortfoliosForProduct: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: {
-    actions: ["servicecatalog:ListPortfoliosForProduct"],
-    resources: {
-      "servicecatalog:ListPortfoliosForProduct": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPortfoliosForProduct",
 })) as any;
@@ -3749,14 +3511,6 @@ export const listPrincipalsForPortfolio: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: {
-    actions: ["servicecatalog:ListPrincipalsForPortfolio"],
-    resources: {
-      "servicecatalog:ListPrincipalsForPortfolio": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPrincipalsForPortfolio",
 })) as any;
@@ -3780,7 +3534,6 @@ export const listProvisionedProductPlans: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisionedProductPlans",
-  iam: { actions: ["servicecatalog:ListProvisionedProductPlans"] },
   telemetry: TELEMETRY,
   span: "ListProvisionedProductPlans",
 }));
@@ -3804,14 +3557,6 @@ export const listProvisioningArtifacts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListProvisioningArtifacts",
-  iam: {
-    actions: ["servicecatalog:ListProvisioningArtifacts"],
-    resources: {
-      "servicecatalog:ListProvisioningArtifacts": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProvisioningArtifacts",
 }));
@@ -3841,7 +3586,6 @@ export const listProvisioningArtifactsForServiceAction: API.PaginatedOperationMe
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:ListProvisioningArtifactsForServiceAction"] },
   telemetry: TELEMETRY,
   span: "ListProvisioningArtifactsForServiceAction",
 })) as any;
@@ -3862,7 +3606,6 @@ export const listRecordHistory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListRecordHistory",
-  iam: { actions: ["servicecatalog:ListRecordHistory"] },
   telemetry: TELEMETRY,
   span: "ListRecordHistory",
 }));
@@ -3889,7 +3632,6 @@ export const listResourcesForTagOption: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListResourcesForTagOption",
   pagination: { inputToken: "PageToken", outputToken: "PageToken", pageSize: "PageSize" } as const,
-  iam: { actions: ["servicecatalog:ListResourcesForTagOption"] },
   telemetry: TELEMETRY,
   span: "ListResourcesForTagOption",
 })) as any;
@@ -3916,7 +3658,6 @@ export const listServiceActions: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:ListServiceActions"] },
   telemetry: TELEMETRY,
   span: "ListServiceActions",
 })) as any;
@@ -3946,14 +3687,6 @@ export const listServiceActionsForProvisioningArtifact: API.PaginatedOperationMe
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: {
-    actions: ["servicecatalog:ListServiceActionsForProvisioningArtifact"],
-    resources: {
-      "servicecatalog:ListServiceActionsForProvisioningArtifact": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListServiceActionsForProvisioningArtifact",
 })) as any;
@@ -3977,7 +3710,6 @@ export const listStackInstancesForProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListStackInstancesForProvisionedProduct",
-  iam: { actions: ["servicecatalog:ListStackInstancesForProvisionedProduct"] },
   telemetry: TELEMETRY,
   span: "ListStackInstancesForProvisionedProduct",
 }));
@@ -4003,7 +3735,6 @@ export const listTagOptions: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "ListTagOptions",
   pagination: { inputToken: "PageToken", outputToken: "PageToken", pageSize: "PageSize" } as const,
-  iam: { actions: ["servicecatalog:ListTagOptions"] },
   telemetry: TELEMETRY,
   span: "ListTagOptions",
 })) as any;
@@ -4028,7 +3759,6 @@ export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyProvisionProductEngineWorkflowResult",
-  iam: { actions: ["servicecatalog:NotifyProvisionProductEngineWorkflowResult"] },
   telemetry: TELEMETRY,
   span: "NotifyProvisionProductEngineWorkflowResult",
 }));
@@ -4061,7 +3791,6 @@ export const notifyTerminateProvisionedProductEngineWorkflowResult: API.Operatio
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyTerminateProvisionedProductEngineWorkflowResult",
-  iam: { actions: ["servicecatalog:NotifyTerminateProvisionedProductEngineWorkflowResult"] },
   telemetry: TELEMETRY,
   span: "NotifyTerminateProvisionedProductEngineWorkflowResult",
 }));
@@ -4094,7 +3823,6 @@ export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMe
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "NotifyUpdateProvisionedProductEngineWorkflowResult",
-  iam: { actions: ["servicecatalog:NotifyUpdateProvisionedProductEngineWorkflowResult"] },
   telemetry: TELEMETRY,
   span: "NotifyUpdateProvisionedProductEngineWorkflowResult",
 }));
@@ -4148,32 +3876,6 @@ export const provisionProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ProvisionProduct",
-  iam: {
-    actions: [
-      "servicecatalog:ProvisionProduct",
-      "cloudformation:CreateStack",
-      "cloudformation:DescribeStackEvents",
-      "cloudformation:DescribeStacks",
-      "cloudformation:GetTemplateSummary",
-      "cloudformation:SetStackPolicy",
-      "cloudformation:ValidateTemplate",
-      "s3:GetObject",
-    ],
-    resources: {
-      "servicecatalog:ProvisionProduct": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-      "cloudformation:CreateStack": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:DescribeStackEvents": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:SetStackPolicy": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ProvisionProduct",
 }));
@@ -4194,14 +3896,6 @@ export const rejectPortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RejectPortfolioShare",
-  iam: {
-    actions: ["servicecatalog:RejectPortfolioShare"],
-    resources: {
-      "servicecatalog:RejectPortfolioShare": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RejectPortfolioShare",
 }));
@@ -4224,7 +3918,6 @@ export const scanProvisionedProducts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ScanProvisionedProducts",
-  iam: { actions: ["servicecatalog:ScanProvisionedProducts"] },
   telemetry: TELEMETRY,
   span: "ScanProvisionedProducts",
 }));
@@ -4251,7 +3944,6 @@ export const searchProducts: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:SearchProducts"] },
   telemetry: TELEMETRY,
   span: "SearchProducts",
 })) as any;
@@ -4281,7 +3973,6 @@ export const searchProductsAsAdmin: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:SearchProductsAsAdmin"] },
   telemetry: TELEMETRY,
   span: "SearchProductsAsAdmin",
 })) as any;
@@ -4308,7 +3999,6 @@ export const searchProvisionedProducts: API.PaginatedOperationMethod<
     outputToken: "NextPageToken",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["servicecatalog:SearchProvisionedProducts"] },
   telemetry: TELEMETRY,
   span: "SearchProvisionedProducts",
 })) as any;
@@ -4333,22 +4023,6 @@ export const terminateProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TerminateProvisionedProduct",
-  iam: {
-    actions: [
-      "servicecatalog:TerminateProvisionedProduct",
-      "cloudformation:DeleteStack",
-      "cloudformation:DescribeStackEvents",
-      "cloudformation:DescribeStacks",
-    ],
-    resources: {
-      "cloudformation:DeleteStack": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:DescribeStackEvents": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TerminateProvisionedProduct",
 }));
@@ -4372,11 +4046,6 @@ export const updateConstraint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConstraint",
-  iam: {
-    actions: ["iam:PassRole", "servicecatalog:UpdateConstraint"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConstraint",
 }));
@@ -4409,14 +4078,6 @@ export const updatePortfolio: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortfolio",
-  iam: {
-    actions: ["servicecatalog:UpdatePortfolio"],
-    resources: {
-      "servicecatalog:UpdatePortfolio": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePortfolio",
 }));
@@ -4465,14 +4126,6 @@ export const updatePortfolioShare: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePortfolioShare",
-  iam: {
-    actions: ["servicecatalog:UpdatePortfolioShare"],
-    resources: {
-      "servicecatalog:UpdatePortfolioShare": [
-        "arn:${Partition}:catalog:${Region}:${Account}:portfolio/${PortfolioId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePortfolioShare",
 }));
@@ -4497,17 +4150,6 @@ export const updateProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProduct",
-  iam: {
-    actions: ["codestar-connections:PassConnection", "servicecatalog:UpdateProduct"],
-    resources: {
-      "codestar-connections:PassConnection": [
-        "arn:${Partition}:codestar-connections:${Region}:${Account}:connection/${ConnectionId}",
-      ],
-      "servicecatalog:UpdateProduct": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProduct",
 }));
@@ -4537,45 +4179,6 @@ export const updateProvisionedProduct: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedProduct",
-  iam: {
-    actions: [
-      "servicecatalog:UpdateProvisionedProduct",
-      "cloudformation:CreateChangeSet",
-      "cloudformation:DeleteChangeSet",
-      "cloudformation:DescribeChangeSet",
-      "cloudformation:DescribeStackEvents",
-      "cloudformation:DescribeStacks",
-      "cloudformation:ExecuteChangeSet",
-      "cloudformation:GetTemplateSummary",
-      "cloudformation:SetStackPolicy",
-      "cloudformation:UpdateStack",
-      "cloudformation:ValidateTemplate",
-      "s3:GetObject",
-    ],
-    resources: {
-      "cloudformation:CreateChangeSet": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:DeleteChangeSet": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:DescribeChangeSet": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:DescribeStackEvents": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:ExecuteChangeSet": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:SetStackPolicy": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-      "cloudformation:UpdateStack": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProvisionedProduct",
 }));
@@ -4600,11 +4203,6 @@ export const updateProvisionedProductProperties: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisionedProductProperties",
-  iam: {
-    actions: ["iam:PassRole", "servicecatalog:UpdateProvisionedProductProperties"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProvisionedProductProperties",
 }));
@@ -4630,14 +4228,6 @@ export const updateProvisioningArtifact: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateProvisioningArtifact",
-  iam: {
-    actions: ["servicecatalog:UpdateProvisioningArtifact"],
-    resources: {
-      "servicecatalog:UpdateProvisioningArtifact": [
-        "arn:${Partition}:catalog:${Region}:${Account}:product/${ProductId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateProvisioningArtifact",
 }));
@@ -4661,11 +4251,6 @@ export const updateServiceAction: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateServiceAction",
-  iam: {
-    actions: ["iam:PassRole", "servicecatalog:UpdateServiceAction"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateServiceAction",
 }));
@@ -4696,7 +4281,6 @@ export const updateTagOption: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateTagOption",
-  iam: { actions: ["servicecatalog:UpdateTagOption"] },
   telemetry: TELEMETRY,
   span: "UpdateTagOption",
 }));

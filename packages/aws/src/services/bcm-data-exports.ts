@@ -438,25 +438,6 @@ export const createExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateExport",
-  iam: {
-    actions: [
-      "bcm-data-exports:CreateExport",
-      "sustainability:GetCarbonFootprintSummary",
-      "cost-optimization-hub:GetRecommendation",
-      "cost-optimization-hub:ListRecommendations",
-      "cur:PutReportDefinition",
-      "bcm-data-exports:TagResource",
-    ],
-    resources: {
-      "cur:PutReportDefinition": [
-        "arn:${Partition}:cur:${Region}:${Account}:definition/${ReportName}",
-      ],
-      "bcm-data-exports:TagResource": [
-        "arn:${Partition}:bcm-data-exports:${Region}:${Account}:export/${Identifier}",
-      ],
-    },
-    conditional: { "bcm-data-exports:TagResource": "ResourceTags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateExport",
 }));
@@ -487,14 +468,6 @@ export const deleteExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteExport",
-  iam: {
-    actions: ["bcm-data-exports:DeleteExport"],
-    resources: {
-      "bcm-data-exports:DeleteExport": [
-        "arn:${Partition}:bcm-data-exports:${Region}:${Account}:export/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteExport",
 }));
@@ -525,14 +498,6 @@ export const getExecution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExecution",
-  iam: {
-    actions: ["bcm-data-exports:GetExecution"],
-    resources: {
-      "bcm-data-exports:GetExecution": [
-        "arn:${Partition}:bcm-data-exports:${Region}:${Account}:export/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExecution",
 }));
@@ -563,14 +528,6 @@ export const getExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetExport",
-  iam: {
-    actions: ["bcm-data-exports:GetExport"],
-    resources: {
-      "bcm-data-exports:GetExport": [
-        "arn:${Partition}:bcm-data-exports:${Region}:${Account}:export/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetExport",
 }));
@@ -595,7 +552,6 @@ export const getTable: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTable",
-  iam: { actions: ["bcm-data-exports:GetTable"] },
   telemetry: TELEMETRY,
   span: "GetTable",
 }));
@@ -633,14 +589,6 @@ export const listExecutions: API.PaginatedOperationMethod<
     items: "Executions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["bcm-data-exports:ListExecutions"],
-    resources: {
-      "bcm-data-exports:ListExecutions": [
-        "arn:${Partition}:bcm-data-exports:${Region}:${Account}:export/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListExecutions",
 })) as any;
@@ -672,7 +620,6 @@ export const listExports: API.PaginatedOperationMethod<
     items: "Exports",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["bcm-data-exports:ListExports"] },
   telemetry: TELEMETRY,
   span: "ListExports",
 })) as any;
@@ -704,7 +651,6 @@ export const listTables: API.PaginatedOperationMethod<
     items: "Tables",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["bcm-data-exports:ListTables"] },
   telemetry: TELEMETRY,
   span: "ListTables",
 })) as any;
@@ -737,14 +683,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: {
-    actions: ["bcm-data-exports:ListTagsForResource"],
-    resources: {
-      "bcm-data-exports:ListTagsForResource": [
-        "arn:${Partition}:bcm-data-exports:${Region}:${Account}:export/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -777,14 +715,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: {
-    actions: ["bcm-data-exports:TagResource"],
-    resources: {
-      "bcm-data-exports:TagResource": [
-        "arn:${Partition}:bcm-data-exports:${Region}:${Account}:export/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -817,14 +747,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: {
-    actions: ["bcm-data-exports:UntagResource"],
-    resources: {
-      "bcm-data-exports:UntagResource": [
-        "arn:${Partition}:bcm-data-exports:${Region}:${Account}:export/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -855,7 +777,6 @@ export const updateExport: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateExport",
-  iam: { actions: ["bcm-data-exports:UpdateExport"] },
   telemetry: TELEMETRY,
   span: "UpdateExport",
 }));

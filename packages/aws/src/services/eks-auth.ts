@@ -226,14 +226,6 @@ export const assumeRoleForPodIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssumeRoleForPodIdentity",
-  iam: {
-    actions: ["eks-auth:AssumeRoleForPodIdentity"],
-    resources: {
-      "eks-auth:AssumeRoleForPodIdentity": [
-        "arn:${Partition}:eks:${Region}:${Account}:cluster/${ClusterName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssumeRoleForPodIdentity",
 }));

@@ -1043,14 +1043,6 @@ export const associateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAccounts",
-  iam: {
-    actions: ["billingconductor:AssociateAccounts"],
-    resources: {
-      "billingconductor:AssociateAccounts": [
-        "arn:${Partition}:billingconductor::${Account}:billinggroup/${BillingGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateAccounts",
 }));
@@ -1087,15 +1079,6 @@ export const associatePricingRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociatePricingRules",
-  iam: {
-    actions: ["billingconductor:AssociatePricingRules"],
-    resources: {
-      "billingconductor:AssociatePricingRules": [
-        "arn:${Partition}:billingconductor::${Account}:pricingplan/${PricingPlanId}",
-        "arn:${Partition}:billingconductor::${Account}:pricingrule/${PricingRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociatePricingRules",
 }));
@@ -1132,14 +1115,6 @@ export const batchAssociateResourcesToCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchAssociateResourcesToCustomLineItem",
-  iam: {
-    actions: ["billingconductor:BatchAssociateResourcesToCustomLineItem"],
-    resources: {
-      "billingconductor:BatchAssociateResourcesToCustomLineItem": [
-        "arn:${Partition}:billingconductor::${Account}:customlineitem/${CustomLineItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchAssociateResourcesToCustomLineItem",
 }));
@@ -1174,14 +1149,6 @@ export const batchDisassociateResourcesFromCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchDisassociateResourcesFromCustomLineItem",
-  iam: {
-    actions: ["billingconductor:BatchDisassociateResourcesFromCustomLineItem"],
-    resources: {
-      "billingconductor:BatchDisassociateResourcesFromCustomLineItem": [
-        "arn:${Partition}:billingconductor::${Account}:customlineitem/${CustomLineItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchDisassociateResourcesFromCustomLineItem",
 }));
@@ -1216,15 +1183,6 @@ export const createBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBillingGroup",
-  iam: {
-    actions: ["billingconductor:CreateBillingGroup", "billingconductor:TagResource"],
-    resources: {
-      "billingconductor:CreateBillingGroup": [
-        "arn:${Partition}:billingconductor::${Account}:pricingplan/${PricingPlanId}",
-      ],
-    },
-    conditional: { "billingconductor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBillingGroup",
 }));
@@ -1259,15 +1217,6 @@ export const createCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCustomLineItem",
-  iam: {
-    actions: ["billingconductor:CreateCustomLineItem", "billingconductor:TagResource"],
-    resources: {
-      "billingconductor:CreateCustomLineItem": [
-        "arn:${Partition}:billingconductor::${Account}:billinggroup/${BillingGroupId}",
-      ],
-    },
-    conditional: { "billingconductor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCustomLineItem",
 }));
@@ -1304,15 +1253,6 @@ export const createPricingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePricingPlan",
-  iam: {
-    actions: ["billingconductor:CreatePricingPlan", "billingconductor:TagResource"],
-    resources: {
-      "billingconductor:CreatePricingPlan": [
-        "arn:${Partition}:billingconductor::${Account}:pricingrule/${PricingRuleId}",
-      ],
-    },
-    conditional: { "billingconductor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePricingPlan",
 }));
@@ -1347,10 +1287,6 @@ export const createPricingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePricingRule",
-  iam: {
-    actions: ["billingconductor:CreatePricingRule", "billingconductor:TagResource"],
-    conditional: { "billingconductor:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePricingRule",
 }));
@@ -1381,14 +1317,6 @@ export const deleteBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBillingGroup",
-  iam: {
-    actions: ["billingconductor:DeleteBillingGroup"],
-    resources: {
-      "billingconductor:DeleteBillingGroup": [
-        "arn:${Partition}:billingconductor::${Account}:billinggroup/${BillingGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBillingGroup",
 }));
@@ -1421,14 +1349,6 @@ export const deleteCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCustomLineItem",
-  iam: {
-    actions: ["billingconductor:DeleteCustomLineItem"],
-    resources: {
-      "billingconductor:DeleteCustomLineItem": [
-        "arn:${Partition}:billingconductor::${Account}:customlineitem/${CustomLineItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCustomLineItem",
 }));
@@ -1461,14 +1381,6 @@ export const deletePricingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePricingPlan",
-  iam: {
-    actions: ["billingconductor:DeletePricingPlan"],
-    resources: {
-      "billingconductor:DeletePricingPlan": [
-        "arn:${Partition}:billingconductor::${Account}:pricingplan/${PricingPlanId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePricingPlan",
 }));
@@ -1501,14 +1413,6 @@ export const deletePricingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePricingRule",
-  iam: {
-    actions: ["billingconductor:DeletePricingRule"],
-    resources: {
-      "billingconductor:DeletePricingRule": [
-        "arn:${Partition}:billingconductor::${Account}:pricingrule/${PricingRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePricingRule",
 }));
@@ -1543,14 +1447,6 @@ export const disassociateAccounts: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAccounts",
-  iam: {
-    actions: ["billingconductor:DisassociateAccounts"],
-    resources: {
-      "billingconductor:DisassociateAccounts": [
-        "arn:${Partition}:billingconductor::${Account}:billinggroup/${BillingGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateAccounts",
 }));
@@ -1585,15 +1481,6 @@ export const disassociatePricingRules: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociatePricingRules",
-  iam: {
-    actions: ["billingconductor:DisassociatePricingRules"],
-    resources: {
-      "billingconductor:DisassociatePricingRules": [
-        "arn:${Partition}:billingconductor::${Account}:pricingplan/${PricingPlanId}",
-        "arn:${Partition}:billingconductor::${Account}:pricingrule/${PricingRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociatePricingRules",
 }));
@@ -1633,14 +1520,6 @@ export const getBillingGroupCostReport: API.PaginatedOperationMethod<
     items: "BillingGroupCostReportResults",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["billingconductor:GetBillingGroupCostReport"],
-    resources: {
-      "billingconductor:GetBillingGroupCostReport": [
-        "arn:${Partition}:billingconductor::${Account}:billinggroup/${BillingGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBillingGroupCostReport",
 })) as any;
@@ -1673,7 +1552,6 @@ export const getBillingTransferPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBillingTransferPreference",
-  iam: { actions: ["billingconductor:GetBillingTransferPreference"] },
   telemetry: TELEMETRY,
   span: "GetBillingTransferPreference",
 }));
@@ -1712,7 +1590,6 @@ export const listAccountAssociations: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     items: "LinkedAccounts",
   } as const,
-  iam: { actions: ["billingconductor:ListAccountAssociations", "organizations:ListAccounts"] },
   telemetry: TELEMETRY,
   span: "ListAccountAssociations",
 })) as any;
@@ -1752,7 +1629,6 @@ export const listBillingGroupCostReports: API.PaginatedOperationMethod<
     items: "BillingGroupCostReports",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["billingconductor:ListBillingGroupCostReports"] },
   telemetry: TELEMETRY,
   span: "ListBillingGroupCostReports",
 })) as any;
@@ -1792,7 +1668,6 @@ export const listBillingGroups: API.PaginatedOperationMethod<
     items: "BillingGroups",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["billingconductor:ListBillingGroups"] },
   telemetry: TELEMETRY,
   span: "ListBillingGroups",
 })) as any;
@@ -1832,7 +1707,6 @@ export const listCustomLineItems: API.PaginatedOperationMethod<
     items: "CustomLineItems",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["billingconductor:ListCustomLineItems"] },
   telemetry: TELEMETRY,
   span: "ListCustomLineItems",
 })) as any;
@@ -1870,14 +1744,6 @@ export const listCustomLineItemVersions: API.PaginatedOperationMethod<
     items: "CustomLineItemVersions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["billingconductor:ListCustomLineItemVersions"],
-    resources: {
-      "billingconductor:ListCustomLineItemVersions": [
-        "arn:${Partition}:billingconductor::${Account}:customlineitem/${CustomLineItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListCustomLineItemVersions",
 })) as any;
@@ -1915,7 +1781,6 @@ export const listPricingPlans: API.PaginatedOperationMethod<
     items: "PricingPlans",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["billingconductor:ListPricingPlans"] },
   telemetry: TELEMETRY,
   span: "ListPricingPlans",
 })) as any;
@@ -1955,14 +1820,6 @@ export const listPricingPlansAssociatedWithPricingRule: API.PaginatedOperationMe
     items: "PricingPlanArns",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["billingconductor:ListPricingPlansAssociatedWithPricingRule"],
-    resources: {
-      "billingconductor:ListPricingPlansAssociatedWithPricingRule": [
-        "arn:${Partition}:billingconductor::${Account}:pricingrule/${PricingRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPricingPlansAssociatedWithPricingRule",
 })) as any;
@@ -2000,7 +1857,6 @@ export const listPricingRules: API.PaginatedOperationMethod<
     items: "PricingRules",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["billingconductor:ListPricingRules"] },
   telemetry: TELEMETRY,
   span: "ListPricingRules",
 })) as any;
@@ -2040,14 +1896,6 @@ export const listPricingRulesAssociatedToPricingPlan: API.PaginatedOperationMeth
     items: "PricingRuleArns",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["billingconductor:ListPricingRulesAssociatedToPricingPlan"],
-    resources: {
-      "billingconductor:ListPricingRulesAssociatedToPricingPlan": [
-        "arn:${Partition}:billingconductor::${Account}:pricingplan/${PricingPlanId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPricingRulesAssociatedToPricingPlan",
 })) as any;
@@ -2087,14 +1935,6 @@ export const listResourcesAssociatedToCustomLineItem: API.PaginatedOperationMeth
     items: "AssociatedResources",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["billingconductor:ListResourcesAssociatedToCustomLineItem"],
-    resources: {
-      "billingconductor:ListResourcesAssociatedToCustomLineItem": [
-        "arn:${Partition}:billingconductor::${Account}:customlineitem/${CustomLineItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListResourcesAssociatedToCustomLineItem",
 })) as any;
@@ -2127,7 +1967,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["billingconductor:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2160,7 +1999,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["billingconductor:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2193,7 +2031,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["billingconductor:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2228,14 +2065,6 @@ export const updateBillingGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingGroup",
-  iam: {
-    actions: ["billingconductor:UpdateBillingGroup"],
-    resources: {
-      "billingconductor:UpdateBillingGroup": [
-        "arn:${Partition}:billingconductor::${Account}:billinggroup/${BillingGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBillingGroup",
 }));
@@ -2272,7 +2101,6 @@ export const updateBillingTransferPreference: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBillingTransferPreference",
-  iam: { actions: ["billingconductor:UpdateBillingTransferPreference"] },
   telemetry: TELEMETRY,
   span: "UpdateBillingTransferPreference",
 }));
@@ -2307,14 +2135,6 @@ export const updateCustomLineItem: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCustomLineItem",
-  iam: {
-    actions: ["billingconductor:UpdateCustomLineItem"],
-    resources: {
-      "billingconductor:UpdateCustomLineItem": [
-        "arn:${Partition}:billingconductor::${Account}:customlineitem/${CustomLineItemId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCustomLineItem",
 }));
@@ -2349,14 +2169,6 @@ export const updatePricingPlan: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePricingPlan",
-  iam: {
-    actions: ["billingconductor:UpdatePricingPlan"],
-    resources: {
-      "billingconductor:UpdatePricingPlan": [
-        "arn:${Partition}:billingconductor::${Account}:pricingplan/${PricingPlanId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePricingPlan",
 }));
@@ -2391,14 +2203,6 @@ export const updatePricingRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePricingRule",
-  iam: {
-    actions: ["billingconductor:UpdatePricingRule"],
-    resources: {
-      "billingconductor:UpdatePricingRule": [
-        "arn:${Partition}:billingconductor::${Account}:pricingrule/${PricingRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePricingRule",
 }));

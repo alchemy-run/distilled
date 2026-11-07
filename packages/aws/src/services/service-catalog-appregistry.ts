@@ -503,15 +503,6 @@ export const associateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateAttributeGroup",
-  iam: {
-    actions: ["servicecatalog:AssociateAttributeGroup"],
-    resources: {
-      "servicecatalog:AssociateAttributeGroup": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/attribute-groups/${AttributeGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateAttributeGroup",
 }));
@@ -568,14 +559,6 @@ export const associateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateResource",
-  iam: {
-    actions: ["servicecatalog:AssociateResource"],
-    resources: {
-      "servicecatalog:AssociateResource": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateResource",
 }));
@@ -608,15 +591,6 @@ export const createApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApplication",
-  iam: {
-    actions: ["servicecatalog:CreateApplication", "servicecatalog:TagResource"],
-    resources: {
-      "servicecatalog:CreateApplication": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-    conditional: { "servicecatalog:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApplication",
 }));
@@ -650,15 +624,6 @@ export const createAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAttributeGroup",
-  iam: {
-    actions: ["servicecatalog:CreateAttributeGroup", "servicecatalog:TagResource"],
-    resources: {
-      "servicecatalog:CreateAttributeGroup": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/attribute-groups/${AttributeGroupId}",
-      ],
-    },
-    conditional: { "servicecatalog:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAttributeGroup",
 }));
@@ -683,14 +648,6 @@ export const deleteApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApplication",
-  iam: {
-    actions: ["servicecatalog:DeleteApplication"],
-    resources: {
-      "servicecatalog:DeleteApplication": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApplication",
 }));
@@ -715,14 +672,6 @@ export const deleteAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAttributeGroup",
-  iam: {
-    actions: ["servicecatalog:DeleteAttributeGroup"],
-    resources: {
-      "servicecatalog:DeleteAttributeGroup": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/attribute-groups/${AttributeGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAttributeGroup",
 }));
@@ -747,15 +696,6 @@ export const disassociateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateAttributeGroup",
-  iam: {
-    actions: ["servicecatalog:DisassociateAttributeGroup"],
-    resources: {
-      "servicecatalog:DisassociateAttributeGroup": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/attribute-groups/${AttributeGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateAttributeGroup",
 }));
@@ -807,14 +747,6 @@ export const disassociateResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateResource",
-  iam: {
-    actions: ["servicecatalog:DisassociateResource"],
-    resources: {
-      "servicecatalog:DisassociateResource": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateResource",
 }));
@@ -861,14 +793,6 @@ export const getApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApplication",
-  iam: {
-    actions: ["servicecatalog:GetApplication"],
-    resources: {
-      "servicecatalog:GetApplication": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApplication",
 }));
@@ -893,14 +817,6 @@ export const getAssociatedResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAssociatedResource",
-  iam: {
-    actions: ["servicecatalog:GetAssociatedResource"],
-    resources: {
-      "servicecatalog:GetAssociatedResource": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAssociatedResource",
 }));
@@ -934,14 +850,6 @@ export const getAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAttributeGroup",
-  iam: {
-    actions: ["servicecatalog:GetAttributeGroup"],
-    resources: {
-      "servicecatalog:GetAttributeGroup": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/attribute-groups/${AttributeGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAttributeGroup",
 }));
@@ -963,7 +871,6 @@ export const getConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfiguration",
-  iam: { actions: ["servicecatalog:GetConfiguration"] },
   telemetry: TELEMETRY,
   span: "GetConfiguration",
 }));
@@ -991,7 +898,6 @@ export const listApplications: API.PaginatedOperationMethod<
     items: "applications",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["servicecatalog:ListApplications"] },
   telemetry: TELEMETRY,
   span: "ListApplications",
 })) as any;
@@ -1023,14 +929,6 @@ export const listAssociatedAttributeGroups: API.PaginatedOperationMethod<
     items: "attributeGroups",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["servicecatalog:ListAssociatedAttributeGroups"],
-    resources: {
-      "servicecatalog:ListAssociatedAttributeGroups": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAssociatedAttributeGroups",
 })) as any;
@@ -1077,14 +975,6 @@ export const listAssociatedResources: API.PaginatedOperationMethod<
     items: "resources",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["servicecatalog:ListAssociatedResources"],
-    resources: {
-      "servicecatalog:ListAssociatedResources": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAssociatedResources",
 })) as any;
@@ -1112,7 +1002,6 @@ export const listAttributeGroups: API.PaginatedOperationMethod<
     items: "attributeGroups",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["servicecatalog:ListAttributeGroups"] },
   telemetry: TELEMETRY,
   span: "ListAttributeGroups",
 })) as any;
@@ -1144,14 +1033,6 @@ export const listAttributeGroupsForApplication: API.PaginatedOperationMethod<
     items: "attributeGroupsDetails",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["servicecatalog:ListAttributeGroupsForApplication"],
-    resources: {
-      "servicecatalog:ListAttributeGroupsForApplication": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListAttributeGroupsForApplication",
 })) as any;
@@ -1176,7 +1057,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["servicecatalog:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1202,7 +1082,6 @@ export const putConfiguration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutConfiguration",
-  iam: { actions: ["servicecatalog:PutConfiguration"] },
   telemetry: TELEMETRY,
   span: "PutConfiguration",
 }));
@@ -1237,21 +1116,6 @@ export const syncResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SyncResource",
-  iam: {
-    actions: [
-      "servicecatalog:SyncResource",
-      "cloudformation:DescribeStacks",
-      "cloudformation:UpdateStack",
-      "tag:GetResources",
-      "tag:TagResources",
-      "tag:UntagResources",
-    ],
-    resources: {
-      "cloudformation:UpdateStack": [
-        "arn:${Partition}:cloudformation:${Region}:${Account}:stack/${StackName}/${Id}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SyncResource",
 }));
@@ -1280,7 +1144,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["servicecatalog:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1307,7 +1170,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["servicecatalog:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1340,14 +1202,6 @@ export const updateApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApplication",
-  iam: {
-    actions: ["servicecatalog:UpdateApplication"],
-    resources: {
-      "servicecatalog:UpdateApplication": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/applications/${ApplicationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApplication",
 }));
@@ -1378,14 +1232,6 @@ export const updateAttributeGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAttributeGroup",
-  iam: {
-    actions: ["servicecatalog:UpdateAttributeGroup"],
-    resources: {
-      "servicecatalog:UpdateAttributeGroup": [
-        "arn:${Partition}:servicecatalog:${Region}:${Account}:/attribute-groups/${AttributeGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAttributeGroup",
 }));

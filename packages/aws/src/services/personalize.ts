@@ -1378,17 +1378,6 @@ export const createBatchInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchInferenceJob",
-  iam: {
-    actions: ["personalize:CreateBatchInferenceJob", "iam:PassRole", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateBatchInferenceJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:batch-inference-job/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBatchInferenceJob",
 }));
@@ -1425,16 +1414,6 @@ export const createBatchSegmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBatchSegmentJob",
-  iam: {
-    actions: ["personalize:CreateBatchSegmentJob", "iam:PassRole", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateBatchSegmentJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:batch-segment-job/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBatchSegmentJob",
 }));
@@ -1523,16 +1502,6 @@ export const createCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCampaign",
-  iam: {
-    actions: ["personalize:CreateCampaign", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateCampaign": [
-        "arn:${Partition}:personalize:${Region}:${Account}:campaign/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCampaign",
 }));
@@ -1601,17 +1570,6 @@ export const createDataDeletionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataDeletionJob",
-  iam: {
-    actions: ["personalize:CreateDataDeletionJob", "iam:PassRole", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateDataDeletionJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:data-deletion-job/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataDeletionJob",
 }));
@@ -1683,16 +1641,6 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
-  iam: {
-    actions: ["personalize:CreateDataset", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateDataset": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -1743,17 +1691,6 @@ export const createDatasetExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetExportJob",
-  iam: {
-    actions: ["personalize:CreateDatasetExportJob", "iam:PassRole", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateDatasetExportJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-export-job/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDatasetExportJob",
 }));
@@ -1838,16 +1775,6 @@ export const createDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetGroup",
-  iam: {
-    actions: ["personalize:CreateDatasetGroup", "iam:PassRole", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateDatasetGroup": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "roleArn", "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDatasetGroup",
 }));
@@ -1919,17 +1846,6 @@ export const createDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetImportJob",
-  iam: {
-    actions: ["personalize:CreateDatasetImportJob", "iam:PassRole", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateDatasetImportJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-import-job/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "roleArn", "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDatasetImportJob",
 }));
@@ -1993,16 +1909,6 @@ export const createEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEventTracker",
-  iam: {
-    actions: ["personalize:CreateEventTracker", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateEventTracker": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:event-tracker/${ResourceId}",
-      ],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEventTracker",
 }));
@@ -2035,16 +1941,6 @@ export const createFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFilter",
-  iam: {
-    actions: ["personalize:CreateFilter", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateFilter": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:filter/${ResourceId}",
-      ],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateFilter",
 }));
@@ -2079,16 +1975,6 @@ export const createMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMetricAttribution",
-  iam: {
-    actions: ["personalize:CreateMetricAttribution", "iam:PassRole"],
-    resources: {
-      "personalize:CreateMetricAttribution": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:metric-attribution/${ResourceId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMetricAttribution",
 }));
@@ -2176,16 +2062,6 @@ export const createRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRecommender",
-  iam: {
-    actions: ["personalize:CreateRecommender", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateRecommender": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-        "arn:${Partition}:personalize:${Region}:${Account}:recommender/${ResourceId}",
-      ],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRecommender",
 }));
@@ -2224,14 +2100,6 @@ export const createSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSchema",
-  iam: {
-    actions: ["personalize:CreateSchema"],
-    resources: {
-      "personalize:CreateSchema": [
-        "arn:${Partition}:personalize:${Region}:${Account}:schema/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateSchema",
 }));
@@ -2322,10 +2190,6 @@ export const createSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolution",
-  iam: {
-    actions: ["personalize:CreateSolution", "personalize:TagResource"],
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSolution",
 }));
@@ -2399,15 +2263,6 @@ export const createSolutionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateSolutionVersion",
-  iam: {
-    actions: ["personalize:CreateSolutionVersion", "personalize:TagResource"],
-    resources: {
-      "personalize:CreateSolutionVersion": [
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-    },
-    conditional: { "personalize:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateSolutionVersion",
 }));
@@ -2437,14 +2292,6 @@ export const deleteCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCampaign",
-  iam: {
-    actions: ["personalize:DeleteCampaign"],
-    resources: {
-      "personalize:DeleteCampaign": [
-        "arn:${Partition}:personalize:${Region}:${Account}:campaign/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCampaign",
 }));
@@ -2472,14 +2319,6 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
-  iam: {
-    actions: ["personalize:DeleteDataset"],
-    resources: {
-      "personalize:DeleteDataset": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -2511,14 +2350,6 @@ export const deleteDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetGroup",
-  iam: {
-    actions: ["personalize:DeleteDatasetGroup"],
-    resources: {
-      "personalize:DeleteDatasetGroup": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDatasetGroup",
 }));
@@ -2545,14 +2376,6 @@ export const deleteEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEventTracker",
-  iam: {
-    actions: ["personalize:DeleteEventTracker"],
-    resources: {
-      "personalize:DeleteEventTracker": [
-        "arn:${Partition}:personalize:${Region}:${Account}:event-tracker/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEventTracker",
 }));
@@ -2577,14 +2400,6 @@ export const deleteFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFilter",
-  iam: {
-    actions: ["personalize:DeleteFilter"],
-    resources: {
-      "personalize:DeleteFilter": [
-        "arn:${Partition}:personalize:${Region}:${Account}:filter/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFilter",
 }));
@@ -2609,14 +2424,6 @@ export const deleteMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMetricAttribution",
-  iam: {
-    actions: ["personalize:DeleteMetricAttribution"],
-    resources: {
-      "personalize:DeleteMetricAttribution": [
-        "arn:${Partition}:personalize:${Region}:${Account}:metric-attribution/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMetricAttribution",
 }));
@@ -2642,14 +2449,6 @@ export const deleteRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRecommender",
-  iam: {
-    actions: ["personalize:DeleteRecommender"],
-    resources: {
-      "personalize:DeleteRecommender": [
-        "arn:${Partition}:personalize:${Region}:${Account}:recommender/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRecommender",
 }));
@@ -2676,14 +2475,6 @@ export const deleteSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSchema",
-  iam: {
-    actions: ["personalize:DeleteSchema"],
-    resources: {
-      "personalize:DeleteSchema": [
-        "arn:${Partition}:personalize:${Region}:${Account}:schema/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSchema",
 }));
@@ -2714,14 +2505,6 @@ export const deleteSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSolution",
-  iam: {
-    actions: ["personalize:DeleteSolution"],
-    resources: {
-      "personalize:DeleteSolution": [
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSolution",
 }));
@@ -2745,12 +2528,6 @@ export const describeAlgorithm: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeAlgorithm",
-  iam: {
-    actions: ["personalize:DescribeAlgorithm"],
-    resources: {
-      "personalize:DescribeAlgorithm": ["arn:${Partition}:personalize:::algorithm/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeAlgorithm",
 }));
@@ -2776,14 +2553,6 @@ export const describeBatchInferenceJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchInferenceJob",
-  iam: {
-    actions: ["personalize:DescribeBatchInferenceJob"],
-    resources: {
-      "personalize:DescribeBatchInferenceJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:batch-inference-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeBatchInferenceJob",
 }));
@@ -2809,14 +2578,6 @@ export const describeBatchSegmentJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeBatchSegmentJob",
-  iam: {
-    actions: ["personalize:DescribeBatchSegmentJob"],
-    resources: {
-      "personalize:DescribeBatchSegmentJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:batch-segment-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeBatchSegmentJob",
 }));
@@ -2851,14 +2612,6 @@ export const describeCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCampaign",
-  iam: {
-    actions: ["personalize:DescribeCampaign"],
-    resources: {
-      "personalize:DescribeCampaign": [
-        "arn:${Partition}:personalize:${Region}:${Account}:campaign/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCampaign",
 }));
@@ -2882,14 +2635,6 @@ export const describeDataDeletionJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataDeletionJob",
-  iam: {
-    actions: ["personalize:DescribeDataDeletionJob"],
-    resources: {
-      "personalize:DescribeDataDeletionJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:data-deletion-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDataDeletionJob",
 }));
@@ -2911,14 +2656,6 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
-  iam: {
-    actions: ["personalize:DescribeDataset"],
-    resources: {
-      "personalize:DescribeDataset": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDataset",
 }));
@@ -2942,14 +2679,6 @@ export const describeDatasetExportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetExportJob",
-  iam: {
-    actions: ["personalize:DescribeDatasetExportJob"],
-    resources: {
-      "personalize:DescribeDatasetExportJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-export-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDatasetExportJob",
 }));
@@ -2974,14 +2703,6 @@ export const describeDatasetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetGroup",
-  iam: {
-    actions: ["personalize:DescribeDatasetGroup"],
-    resources: {
-      "personalize:DescribeDatasetGroup": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-group/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDatasetGroup",
 }));
@@ -3005,14 +2726,6 @@ export const describeDatasetImportJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDatasetImportJob",
-  iam: {
-    actions: ["personalize:DescribeDatasetImportJob"],
-    resources: {
-      "personalize:DescribeDatasetImportJob": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset-import-job/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDatasetImportJob",
 }));
@@ -3038,14 +2751,6 @@ export const describeEventTracker: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeEventTracker",
-  iam: {
-    actions: ["personalize:DescribeEventTracker"],
-    resources: {
-      "personalize:DescribeEventTracker": [
-        "arn:${Partition}:personalize:${Region}:${Account}:event-tracker/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeEventTracker",
 }));
@@ -3069,14 +2774,6 @@ export const describeFeatureTransformation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFeatureTransformation",
-  iam: {
-    actions: ["personalize:DescribeFeatureTransformation"],
-    resources: {
-      "personalize:DescribeFeatureTransformation": [
-        "arn:${Partition}:personalize:::feature-transformation/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFeatureTransformation",
 }));
@@ -3097,14 +2794,6 @@ export const describeFilter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeFilter",
-  iam: {
-    actions: ["personalize:DescribeFilter"],
-    resources: {
-      "personalize:DescribeFilter": [
-        "arn:${Partition}:personalize:${Region}:${Account}:filter/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeFilter",
 }));
@@ -3128,14 +2817,6 @@ export const describeMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeMetricAttribution",
-  iam: {
-    actions: ["personalize:DescribeMetricAttribution"],
-    resources: {
-      "personalize:DescribeMetricAttribution": [
-        "arn:${Partition}:personalize:${Region}:${Account}:metric-attribution/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeMetricAttribution",
 }));
@@ -3171,12 +2852,6 @@ export const describeRecipe: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecipe",
-  iam: {
-    actions: ["personalize:DescribeRecipe"],
-    resources: {
-      "personalize:DescribeRecipe": ["arn:${Partition}:personalize:::recipe/${ResourceId}"],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRecipe",
 }));
@@ -3216,14 +2891,6 @@ export const describeRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeRecommender",
-  iam: {
-    actions: ["personalize:DescribeRecommender"],
-    resources: {
-      "personalize:DescribeRecommender": [
-        "arn:${Partition}:personalize:${Region}:${Account}:recommender/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeRecommender",
 }));
@@ -3245,14 +2912,6 @@ export const describeSchema: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSchema",
-  iam: {
-    actions: ["personalize:DescribeSchema"],
-    resources: {
-      "personalize:DescribeSchema": [
-        "arn:${Partition}:personalize:${Region}:${Account}:schema/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSchema",
 }));
@@ -3277,14 +2936,6 @@ export const describeSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSolution",
-  iam: {
-    actions: ["personalize:DescribeSolution"],
-    resources: {
-      "personalize:DescribeSolution": [
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSolution",
 }));
@@ -3308,14 +2959,6 @@ export const describeSolutionVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSolutionVersion",
-  iam: {
-    actions: ["personalize:DescribeSolutionVersion"],
-    resources: {
-      "personalize:DescribeSolutionVersion": [
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeSolutionVersion",
 }));
@@ -3340,14 +2983,6 @@ export const getSolutionMetrics: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetSolutionMetrics",
-  iam: {
-    actions: ["personalize:GetSolutionMetrics"],
-    resources: {
-      "personalize:GetSolutionMetrics": [
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetSolutionMetrics",
 }));
@@ -3379,7 +3014,6 @@ export const listBatchInferenceJobs: API.PaginatedOperationMethod<
     items: "batchInferenceJobs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListBatchInferenceJobs"] },
   telemetry: TELEMETRY,
   span: "ListBatchInferenceJobs",
 })) as any;
@@ -3411,7 +3045,6 @@ export const listBatchSegmentJobs: API.PaginatedOperationMethod<
     items: "batchSegmentJobs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListBatchSegmentJobs"] },
   telemetry: TELEMETRY,
   span: "ListBatchSegmentJobs",
 })) as any;
@@ -3442,7 +3075,6 @@ export const listCampaigns: API.PaginatedOperationMethod<
     items: "campaigns",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListCampaigns"] },
   telemetry: TELEMETRY,
   span: "ListCampaigns",
 })) as any;
@@ -3472,7 +3104,6 @@ export const listDataDeletionJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListDataDeletionJobs",
-  iam: { actions: ["personalize:ListDataDeletionJobs"] },
   telemetry: TELEMETRY,
   span: "ListDataDeletionJobs",
 }));
@@ -3508,7 +3139,6 @@ export const listDatasetExportJobs: API.PaginatedOperationMethod<
     items: "datasetExportJobs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListDatasetExportJobs"] },
   telemetry: TELEMETRY,
   span: "ListDatasetExportJobs",
 })) as any;
@@ -3538,7 +3168,6 @@ export const listDatasetGroups: API.PaginatedOperationMethod<
     items: "datasetGroups",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListDatasetGroups"] },
   telemetry: TELEMETRY,
   span: "ListDatasetGroups",
 })) as any;
@@ -3574,7 +3203,6 @@ export const listDatasetImportJobs: API.PaginatedOperationMethod<
     items: "datasetImportJobs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListDatasetImportJobs"] },
   telemetry: TELEMETRY,
   span: "ListDatasetImportJobs",
 })) as any;
@@ -3604,7 +3232,6 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListDatasets"] },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 })) as any;
@@ -3638,7 +3265,6 @@ export const listEventTrackers: API.PaginatedOperationMethod<
     items: "eventTrackers",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListEventTrackers"] },
   telemetry: TELEMETRY,
   span: "ListEventTrackers",
 })) as any;
@@ -3666,7 +3292,6 @@ export const listFilters: API.PaginatedOperationMethod<
     items: "Filters",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListFilters"] },
   telemetry: TELEMETRY,
   span: "ListFilters",
 })) as any;
@@ -3697,7 +3322,6 @@ export const listMetricAttributionMetrics: API.PaginatedOperationMethod<
     items: "metrics",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListMetricAttributionMetrics"] },
   telemetry: TELEMETRY,
   span: "ListMetricAttributionMetrics",
 })) as any;
@@ -3728,7 +3352,6 @@ export const listMetricAttributions: API.PaginatedOperationMethod<
     items: "metricAttributions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListMetricAttributions"] },
   telemetry: TELEMETRY,
   span: "ListMetricAttributions",
 })) as any;
@@ -3757,7 +3380,6 @@ export const listRecipes: API.PaginatedOperationMethod<
     items: "recipes",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListRecipes"] },
   telemetry: TELEMETRY,
   span: "ListRecipes",
 })) as any;
@@ -3791,7 +3413,6 @@ export const listRecommenders: API.PaginatedOperationMethod<
     items: "recommenders",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListRecommenders"] },
   telemetry: TELEMETRY,
   span: "ListRecommenders",
 })) as any;
@@ -3821,7 +3442,6 @@ export const listSchemas: API.PaginatedOperationMethod<
     items: "schemas",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListSchemas"] },
   telemetry: TELEMETRY,
   span: "ListSchemas",
 })) as any;
@@ -3852,7 +3472,6 @@ export const listSolutions: API.PaginatedOperationMethod<
     items: "solutions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListSolutions"] },
   telemetry: TELEMETRY,
   span: "ListSolutions",
 })) as any;
@@ -3886,7 +3505,6 @@ export const listSolutionVersions: API.PaginatedOperationMethod<
     items: "solutionVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["personalize:ListSolutionVersions"] },
   telemetry: TELEMETRY,
   span: "ListSolutionVersions",
 })) as any;
@@ -3911,7 +3529,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["personalize:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -3937,14 +3554,6 @@ export const startRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartRecommender",
-  iam: {
-    actions: ["personalize:StartRecommender"],
-    resources: {
-      "personalize:StartRecommender": [
-        "arn:${Partition}:personalize:${Region}:${Account}:recommender/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartRecommender",
 }));
@@ -3969,14 +3578,6 @@ export const stopRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopRecommender",
-  iam: {
-    actions: ["personalize:StopRecommender"],
-    resources: {
-      "personalize:StopRecommender": [
-        "arn:${Partition}:personalize:${Region}:${Account}:recommender/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopRecommender",
 }));
@@ -4012,14 +3613,6 @@ export const stopSolutionVersionCreation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopSolutionVersionCreation",
-  iam: {
-    actions: ["personalize:StopSolutionVersionCreation"],
-    resources: {
-      "personalize:StopSolutionVersionCreation": [
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopSolutionVersionCreation",
 }));
@@ -4052,7 +3645,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["personalize:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -4083,7 +3675,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["personalize:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -4125,14 +3716,6 @@ export const updateCampaign: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCampaign",
-  iam: {
-    actions: ["personalize:UpdateCampaign"],
-    resources: {
-      "personalize:UpdateCampaign": [
-        "arn:${Partition}:personalize:${Region}:${Account}:campaign/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCampaign",
 }));
@@ -4157,14 +3740,6 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
-  iam: {
-    actions: ["personalize:UpdateDataset"],
-    resources: {
-      "personalize:UpdateDataset": [
-        "arn:${Partition}:personalize:${Region}:${Account}:dataset/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataset",
 }));
@@ -4195,16 +3770,6 @@ export const updateMetricAttribution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMetricAttribution",
-  iam: {
-    actions: ["iam:PassRole", "personalize:UpdateMetricAttribution"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "personalize:UpdateMetricAttribution": [
-        "arn:${Partition}:personalize:${Region}:${Account}:metric-attribution/${ResourceId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "metricsOutputConfig.roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMetricAttribution",
 }));
@@ -4235,14 +3800,6 @@ export const updateRecommender: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommender",
-  iam: {
-    actions: ["personalize:UpdateRecommender"],
-    resources: {
-      "personalize:UpdateRecommender": [
-        "arn:${Partition}:personalize:${Region}:${Account}:recommender/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRecommender",
 }));
@@ -4285,14 +3842,6 @@ export const updateSolution: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateSolution",
-  iam: {
-    actions: ["personalize:UpdateSolution"],
-    resources: {
-      "personalize:UpdateSolution": [
-        "arn:${Partition}:personalize:${Region}:${Account}:solution/${ResourceId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateSolution",
 }));

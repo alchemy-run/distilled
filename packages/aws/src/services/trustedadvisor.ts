@@ -537,7 +537,6 @@ export const batchUpdateRecommendationResourceExclusion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchUpdateRecommendationResourceExclusion",
-  iam: { actions: ["trustedadvisor:BatchUpdateRecommendationResourceExclusion"] },
   telemetry: TELEMETRY,
   span: "BatchUpdateRecommendationResourceExclusion",
 }));
@@ -570,7 +569,6 @@ export const getOrganizationRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOrganizationRecommendation",
-  iam: { actions: ["trustedadvisor:GetOrganizationRecommendation"] },
   telemetry: TELEMETRY,
   span: "GetOrganizationRecommendation",
 }));
@@ -603,18 +601,6 @@ export const getRecommendation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRecommendation",
-  iam: {
-    actions: [
-      "trustedadvisor:DescribeCheckSummaries",
-      "support:DescribeTrustedAdvisorCheckSummaries",
-      "trustedadvisor:GetRecommendation",
-    ],
-    resources: {
-      "trustedadvisor:DescribeCheckSummaries": [
-        "arn:${Partition}:trustedadvisor:${Region}:${Account}:checks/${CategoryCode}/${CheckId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRecommendation",
 }));
@@ -652,13 +638,6 @@ export const listChecks: API.PaginatedOperationMethod<
     items: "checkSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: [
-      "trustedadvisor:DescribeChecks",
-      "support:DescribeTrustedAdvisorChecks",
-      "trustedadvisor:ListChecks",
-    ],
-  },
   telemetry: TELEMETRY,
   span: "ListChecks",
 })) as any;
@@ -698,7 +677,6 @@ export const listOrganizationRecommendationAccounts: API.PaginatedOperationMetho
     items: "accountRecommendationLifecycleSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["trustedadvisor:ListOrganizationRecommendationAccounts"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationRecommendationAccounts",
 })) as any;
@@ -738,7 +716,6 @@ export const listOrganizationRecommendationResources: API.PaginatedOperationMeth
     items: "organizationRecommendationResourceSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["trustedadvisor:ListOrganizationRecommendationResources"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationRecommendationResources",
 })) as any;
@@ -776,7 +753,6 @@ export const listOrganizationRecommendations: API.PaginatedOperationMethod<
     items: "organizationRecommendationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["trustedadvisor:ListOrganizationRecommendations"] },
   telemetry: TELEMETRY,
   span: "ListOrganizationRecommendations",
 })) as any;
@@ -816,18 +792,6 @@ export const listRecommendationResources: API.PaginatedOperationMethod<
     items: "recommendationResourceSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: [
-      "trustedadvisor:DescribeCheckItems",
-      "support:DescribeTrustedAdvisorCheckResult",
-      "trustedadvisor:ListRecommendationResources",
-    ],
-    resources: {
-      "trustedadvisor:DescribeCheckItems": [
-        "arn:${Partition}:trustedadvisor:${Region}:${Account}:checks/${CategoryCode}/${CheckId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRecommendationResources",
 })) as any;
@@ -865,18 +829,6 @@ export const listRecommendations: API.PaginatedOperationMethod<
     items: "recommendationSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: [
-      "trustedadvisor:DescribeCheckSummaries",
-      "support:DescribeTrustedAdvisorCheckSummaries",
-      "trustedadvisor:ListRecommendations",
-    ],
-    resources: {
-      "trustedadvisor:DescribeCheckSummaries": [
-        "arn:${Partition}:trustedadvisor:${Region}:${Account}:checks/${CategoryCode}/${CheckId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRecommendations",
 })) as any;
@@ -914,18 +866,6 @@ export const listRecommendationsForResource: API.PaginatedOperationMethod<
     items: "recommendationForResourceSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: [
-      "trustedadvisor:DescribeCheckItems",
-      "support:DescribeTrustedAdvisorCheckResult",
-      "trustedadvisor:ListRecommendationsForResource",
-    ],
-    resources: {
-      "trustedadvisor:DescribeCheckItems": [
-        "arn:${Partition}:trustedadvisor:${Region}:${Account}:checks/${CategoryCode}/${CheckId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRecommendationsForResource",
 })) as any;
@@ -960,7 +900,6 @@ export const updateOrganizationRecommendationLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOrganizationRecommendationLifecycle",
-  iam: { actions: ["trustedadvisor:UpdateOrganizationRecommendationLifecycle"] },
   telemetry: TELEMETRY,
   span: "UpdateOrganizationRecommendationLifecycle",
 }));
@@ -995,7 +934,6 @@ export const updateRecommendationLifecycle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRecommendationLifecycle",
-  iam: { actions: ["trustedadvisor:UpdateRecommendationLifecycle"] },
   telemetry: TELEMETRY,
   span: "UpdateRecommendationLifecycle",
 }));

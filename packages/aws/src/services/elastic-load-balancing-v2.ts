@@ -1923,15 +1923,6 @@ export const addListenerCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddListenerCertificates",
-  iam: {
-    actions: ["elasticloadbalancing:AddListenerCertificates"],
-    resources: {
-      "elasticloadbalancing:AddListenerCertificates": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddListenerCertificates",
 }));
@@ -1973,7 +1964,6 @@ export const addTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTags",
-  iam: { actions: ["elasticloadbalancing:AddTags"] },
   telemetry: TELEMETRY,
   span: "AddTags",
 }));
@@ -2004,14 +1994,6 @@ export const addTrustStoreRevocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddTrustStoreRevocations",
-  iam: {
-    actions: ["elasticloadbalancing:AddTrustStoreRevocations"],
-    resources: {
-      "elasticloadbalancing:AddTrustStoreRevocations": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:truststore/${TrustStoreName}/${TrustStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddTrustStoreRevocations",
 }));
@@ -2089,10 +2071,6 @@ export const createListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateListener",
-  iam: {
-    actions: ["elasticloadbalancing:AddTags", "elasticloadbalancing:CreateListener"],
-    conditional: { "elasticloadbalancing:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateListener",
 }));
@@ -2155,10 +2133,6 @@ export const createLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateLoadBalancer",
-  iam: {
-    actions: ["elasticloadbalancing:AddTags", "elasticloadbalancing:CreateLoadBalancer"],
-    conditional: { "elasticloadbalancing:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateLoadBalancer",
 }));
@@ -2218,16 +2192,6 @@ export const createRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRule",
-  iam: {
-    actions: ["elasticloadbalancing:AddTags", "elasticloadbalancing:CreateRule"],
-    resources: {
-      "elasticloadbalancing:CreateRule": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-      ],
-    },
-    conditional: { "elasticloadbalancing:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRule",
 }));
@@ -2272,15 +2236,6 @@ export const createTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTargetGroup",
-  iam: {
-    actions: ["elasticloadbalancing:AddTags", "elasticloadbalancing:CreateTargetGroup"],
-    resources: {
-      "elasticloadbalancing:CreateTargetGroup": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:targetgroup/${TargetGroupName}/${TargetGroupId}",
-      ],
-    },
-    conditional: { "elasticloadbalancing:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTargetGroup",
 }));
@@ -2317,10 +2272,6 @@ export const createTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateTrustStore",
-  iam: {
-    actions: ["elasticloadbalancing:AddTags", "elasticloadbalancing:CreateTrustStore"],
-    conditional: { "elasticloadbalancing:AddTags": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateTrustStore",
 }));
@@ -2344,16 +2295,6 @@ export const deleteListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteListener",
-  iam: {
-    actions: ["elasticloadbalancing:DeleteListener"],
-    resources: {
-      "elasticloadbalancing:DeleteListener": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/gwy/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteListener",
 }));
@@ -2386,7 +2327,6 @@ export const deleteLoadBalancer: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteLoadBalancer",
-  iam: { actions: ["elasticloadbalancing:DeleteLoadBalancer"] },
   telemetry: TELEMETRY,
   span: "DeleteLoadBalancer",
 }));
@@ -2409,15 +2349,6 @@ export const deleteRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRule",
-  iam: {
-    actions: ["elasticloadbalancing:DeleteRule"],
-    resources: {
-      "elasticloadbalancing:DeleteRule": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener-rule/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}/${ListenerRuleId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener-rule/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}/${ListenerRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRule",
 }));
@@ -2446,14 +2377,6 @@ export const deleteSharedTrustStoreAssociation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteSharedTrustStoreAssociation",
-  iam: {
-    actions: ["elasticloadbalancing:DeleteSharedTrustStoreAssociation"],
-    resources: {
-      "elasticloadbalancing:DeleteSharedTrustStoreAssociation": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:truststore/${TrustStoreName}/${TrustStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteSharedTrustStoreAssociation",
 }));
@@ -2479,14 +2402,6 @@ export const deleteTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTargetGroup",
-  iam: {
-    actions: ["elasticloadbalancing:DeleteTargetGroup"],
-    resources: {
-      "elasticloadbalancing:DeleteTargetGroup": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:targetgroup/${TargetGroupName}/${TargetGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTargetGroup",
 }));
@@ -2510,14 +2425,6 @@ export const deleteTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteTrustStore",
-  iam: {
-    actions: ["elasticloadbalancing:DeleteTrustStore"],
-    resources: {
-      "elasticloadbalancing:DeleteTrustStore": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:truststore/${TrustStoreName}/${TrustStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteTrustStore",
 }));
@@ -2559,14 +2466,6 @@ export const deregisterTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeregisterTargets",
-  iam: {
-    actions: ["elasticloadbalancing:DeregisterTargets"],
-    resources: {
-      "elasticloadbalancing:DeregisterTargets": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:targetgroup/${TargetGroupName}/${TargetGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeregisterTargets",
 }));
@@ -2601,7 +2500,6 @@ export const describeAccountLimits: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeAccountLimits",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "Limits" } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeAccountLimits"] },
   telemetry: TELEMETRY,
   span: "DescribeAccountLimits",
 })) as any;
@@ -2622,7 +2520,6 @@ export const describeCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCapacityReservation",
-  iam: { actions: ["elasticloadbalancing:DescribeCapacityReservation"] },
   telemetry: TELEMETRY,
   span: "DescribeCapacityReservation",
 }));
@@ -2643,7 +2540,6 @@ export const describeListenerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeListenerAttributes",
-  iam: { actions: ["elasticloadbalancing:DescribeListenerAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeListenerAttributes",
 }));
@@ -2675,7 +2571,6 @@ export const describeListenerCertificates: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeListenerCertificates",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "Certificates" } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeListenerCertificates"] },
   telemetry: TELEMETRY,
   span: "DescribeListenerCertificates",
 })) as any;
@@ -2704,7 +2599,6 @@ export const describeListeners: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeListeners",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "Listeners" } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeListeners"] },
   telemetry: TELEMETRY,
   span: "DescribeListeners",
 })) as any;
@@ -2737,7 +2631,6 @@ export const describeLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeLoadBalancerAttributes",
-  iam: { actions: ["elasticloadbalancing:DescribeLoadBalancerAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancerAttributes",
 }));
@@ -2760,7 +2653,6 @@ export const describeLoadBalancers: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeLoadBalancers",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "LoadBalancers" } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeLoadBalancers"] },
   telemetry: TELEMETRY,
   span: "DescribeLoadBalancers",
 })) as any;
@@ -2788,7 +2680,6 @@ export const describeRules: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeRules",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "Rules" } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeRules"] },
   telemetry: TELEMETRY,
   span: "DescribeRules",
 })) as any;
@@ -2812,7 +2703,6 @@ export const describeSSLPolicies: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeSSLPolicies",
-  iam: { actions: ["elasticloadbalancing:DescribeSSLPolicies"] },
   telemetry: TELEMETRY,
   span: "DescribeSSLPolicies",
 }));
@@ -2847,7 +2737,6 @@ export const describeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTags",
-  iam: { actions: ["elasticloadbalancing:DescribeTags"] },
   telemetry: TELEMETRY,
   span: "DescribeTags",
 }));
@@ -2879,7 +2768,6 @@ export const describeTargetGroupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetGroupAttributes",
-  iam: { actions: ["elasticloadbalancing:DescribeTargetGroupAttributes"] },
   telemetry: TELEMETRY,
   span: "DescribeTargetGroupAttributes",
 }));
@@ -2908,7 +2796,6 @@ export const describeTargetGroups: API.PaginatedOperationMethod<
   retry: Retry,
   operationName: "DescribeTargetGroups",
   pagination: { inputToken: "Marker", outputToken: "NextMarker", items: "TargetGroups" } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeTargetGroups"] },
   telemetry: TELEMETRY,
   span: "DescribeTargetGroups",
 })) as any;
@@ -2933,7 +2820,6 @@ export const describeTargetHealth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeTargetHealth",
-  iam: { actions: ["elasticloadbalancing:DescribeTargetHealth"] },
   telemetry: TELEMETRY,
   span: "DescribeTargetHealth",
 }));
@@ -2961,7 +2847,6 @@ export const describeTrustStoreAssociations: API.PaginatedOperationMethod<
     items: "TrustStoreAssociations",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeTrustStoreAssociations"] },
   telemetry: TELEMETRY,
   span: "DescribeTrustStoreAssociations",
 })) as any;
@@ -2993,7 +2878,6 @@ export const describeTrustStoreRevocations: API.PaginatedOperationMethod<
     items: "TrustStoreRevocations",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeTrustStoreRevocations"] },
   telemetry: TELEMETRY,
   span: "DescribeTrustStoreRevocations",
 })) as any;
@@ -3021,7 +2905,6 @@ export const describeTrustStores: API.PaginatedOperationMethod<
     items: "TrustStores",
     pageSize: "PageSize",
   } as const,
-  iam: { actions: ["elasticloadbalancing:DescribeTrustStores"] },
   telemetry: TELEMETRY,
   span: "DescribeTrustStores",
 })) as any;
@@ -3042,7 +2925,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: { actions: ["elasticloadbalancing:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -3066,14 +2948,6 @@ export const getTrustStoreCaCertificatesBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreCaCertificatesBundle",
-  iam: {
-    actions: ["elasticloadbalancing:GetTrustStoreCaCertificatesBundle"],
-    resources: {
-      "elasticloadbalancing:GetTrustStoreCaCertificatesBundle": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:truststore/${TrustStoreName}/${TrustStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTrustStoreCaCertificatesBundle",
 }));
@@ -3100,14 +2974,6 @@ export const getTrustStoreRevocationContent: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTrustStoreRevocationContent",
-  iam: {
-    actions: ["elasticloadbalancing:GetTrustStoreRevocationContent"],
-    resources: {
-      "elasticloadbalancing:GetTrustStoreRevocationContent": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:truststore/${TrustStoreName}/${TrustStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTrustStoreRevocationContent",
 }));
@@ -3149,7 +3015,6 @@ export const modifyCapacityReservation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyCapacityReservation",
-  iam: { actions: ["elasticloadbalancing:ModifyCapacityReservation"] },
   telemetry: TELEMETRY,
   span: "ModifyCapacityReservation",
 }));
@@ -3170,7 +3035,6 @@ export const modifyIpPools: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyIpPools",
-  iam: { actions: ["elasticloadbalancing:ModifyIpPools"] },
   telemetry: TELEMETRY,
   span: "ModifyIpPools",
 }));
@@ -3240,16 +3104,6 @@ export const modifyListener: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyListener",
-  iam: {
-    actions: ["elasticloadbalancing:ModifyListener"],
-    resources: {
-      "elasticloadbalancing:ModifyListener": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/gwy/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyListener",
 }));
@@ -3273,16 +3127,6 @@ export const modifyListenerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyListenerAttributes",
-  iam: {
-    actions: ["elasticloadbalancing:ModifyListenerAttributes"],
-    resources: {
-      "elasticloadbalancing:ModifyListenerAttributes": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/gwy/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyListenerAttributes",
 }));
@@ -3310,7 +3154,6 @@ export const modifyLoadBalancerAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyLoadBalancerAttributes",
-  iam: { actions: ["elasticloadbalancing:ModifyLoadBalancerAttributes"] },
   telemetry: TELEMETRY,
   span: "ModifyLoadBalancerAttributes",
 }));
@@ -3360,15 +3203,6 @@ export const modifyRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyRule",
-  iam: {
-    actions: ["elasticloadbalancing:ModifyRule"],
-    resources: {
-      "elasticloadbalancing:ModifyRule": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener-rule/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}/${ListenerRuleId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener-rule/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}/${ListenerRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyRule",
 }));
@@ -3393,14 +3227,6 @@ export const modifyTargetGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTargetGroup",
-  iam: {
-    actions: ["elasticloadbalancing:ModifyTargetGroup"],
-    resources: {
-      "elasticloadbalancing:ModifyTargetGroup": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:targetgroup/${TargetGroupName}/${TargetGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyTargetGroup",
 }));
@@ -3424,14 +3250,6 @@ export const modifyTargetGroupAttributes: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTargetGroupAttributes",
-  iam: {
-    actions: ["elasticloadbalancing:ModifyTargetGroupAttributes"],
-    resources: {
-      "elasticloadbalancing:ModifyTargetGroupAttributes": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:targetgroup/${TargetGroupName}/${TargetGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyTargetGroupAttributes",
 }));
@@ -3460,14 +3278,6 @@ export const modifyTrustStore: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ModifyTrustStore",
-  iam: {
-    actions: ["elasticloadbalancing:ModifyTrustStore"],
-    resources: {
-      "elasticloadbalancing:ModifyTrustStore": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:truststore/${TrustStoreName}/${TrustStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ModifyTrustStore",
 }));
@@ -3517,14 +3327,6 @@ export const registerTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RegisterTargets",
-  iam: {
-    actions: ["elasticloadbalancing:RegisterTargets"],
-    resources: {
-      "elasticloadbalancing:RegisterTargets": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:targetgroup/${TargetGroupName}/${TargetGroupId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RegisterTargets",
 }));
@@ -3549,15 +3351,6 @@ export const removeListenerCertificates: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveListenerCertificates",
-  iam: {
-    actions: ["elasticloadbalancing:RemoveListenerCertificates"],
-    resources: {
-      "elasticloadbalancing:RemoveListenerCertificates": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveListenerCertificates",
 }));
@@ -3594,7 +3387,6 @@ export const removeTags: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTags",
-  iam: { actions: ["elasticloadbalancing:RemoveTags"] },
   telemetry: TELEMETRY,
   span: "RemoveTags",
 }));
@@ -3618,14 +3410,6 @@ export const removeTrustStoreRevocations: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveTrustStoreRevocations",
-  iam: {
-    actions: ["elasticloadbalancing:RemoveTrustStoreRevocations"],
-    resources: {
-      "elasticloadbalancing:RemoveTrustStoreRevocations": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:truststore/${TrustStoreName}/${TrustStoreId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveTrustStoreRevocations",
 }));
@@ -3654,7 +3438,6 @@ export const setIpAddressType: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetIpAddressType",
-  iam: { actions: ["elasticloadbalancing:SetIpAddressType"] },
   telemetry: TELEMETRY,
   span: "SetIpAddressType",
 }));
@@ -3682,15 +3465,6 @@ export const setRulePriorities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetRulePriorities",
-  iam: {
-    actions: ["elasticloadbalancing:SetRulePriorities"],
-    resources: {
-      "elasticloadbalancing:SetRulePriorities": [
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener-rule/app/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}/${ListenerRuleId}",
-        "arn:${Partition}:elasticloadbalancing:${Region}:${Account}:listener-rule/net/${LoadBalancerName}/${LoadBalancerId}/${ListenerId}/${ListenerRuleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetRulePriorities",
 }));
@@ -3726,7 +3500,6 @@ export const setSecurityGroups: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSecurityGroups",
-  iam: { actions: ["elasticloadbalancing:SetSecurityGroups"] },
   telemetry: TELEMETRY,
   span: "SetSecurityGroups",
 }));
@@ -3765,7 +3538,6 @@ export const setSubnets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetSubnets",
-  iam: { actions: ["elasticloadbalancing:SetSubnets"] },
   telemetry: TELEMETRY,
   span: "SetSubnets",
 }));

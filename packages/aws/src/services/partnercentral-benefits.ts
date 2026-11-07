@@ -698,14 +698,6 @@ export const amendBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AmendBenefitApplication",
-  iam: {
-    actions: ["partnercentral:AmendBenefitApplication"],
-    resources: {
-      "partnercentral:AmendBenefitApplication": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AmendBenefitApplication",
 }));
@@ -740,16 +732,6 @@ export const associateBenefitApplicationResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateBenefitApplicationResource",
-  iam: {
-    actions: ["partnercentral:AssociateBenefitApplicationResource"],
-    resources: {
-      "partnercentral:AssociateBenefitApplicationResource": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-allocation/${Identifier}",
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateBenefitApplicationResource",
 }));
@@ -784,14 +766,6 @@ export const cancelBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelBenefitApplication",
-  iam: {
-    actions: ["partnercentral:CancelBenefitApplication"],
-    resources: {
-      "partnercentral:CancelBenefitApplication": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelBenefitApplication",
 }));
@@ -826,10 +800,6 @@ export const createBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBenefitApplication",
-  iam: {
-    actions: ["partnercentral:CreateBenefitApplication", "partnercentral:TagResource"],
-    conditional: { "partnercentral:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBenefitApplication",
 }));
@@ -864,16 +834,6 @@ export const disassociateBenefitApplicationResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateBenefitApplicationResource",
-  iam: {
-    actions: ["partnercentral:DisassociateBenefitApplicationResource"],
-    resources: {
-      "partnercentral:DisassociateBenefitApplicationResource": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-allocation/${Identifier}",
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/opportunity/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateBenefitApplicationResource",
 }));
@@ -906,14 +866,6 @@ export const getBenefit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefit",
-  iam: {
-    actions: ["partnercentral:GetBenefit"],
-    resources: {
-      "partnercentral:GetBenefit": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/benefit/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBenefit",
 }));
@@ -946,14 +898,6 @@ export const getBenefitAllocation: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefitAllocation",
-  iam: {
-    actions: ["partnercentral:GetBenefitAllocation"],
-    resources: {
-      "partnercentral:GetBenefitAllocation": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-allocation/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBenefitAllocation",
 }));
@@ -988,14 +932,6 @@ export const getBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBenefitApplication",
-  iam: {
-    actions: ["partnercentral:GetBenefitApplication"],
-    resources: {
-      "partnercentral:GetBenefitApplication": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBenefitApplication",
 }));
@@ -1035,14 +971,6 @@ export const listBenefitAllocations: API.PaginatedOperationMethod<
     items: "BenefitAllocationSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListBenefitAllocations"],
-    resources: {
-      "partnercentral:ListBenefitAllocations": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-allocation/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBenefitAllocations",
 })) as any;
@@ -1082,14 +1010,6 @@ export const listBenefitApplications: API.PaginatedOperationMethod<
     items: "BenefitApplicationSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListBenefitApplications"],
-    resources: {
-      "partnercentral:ListBenefitApplications": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBenefitApplications",
 })) as any;
@@ -1129,14 +1049,6 @@ export const listBenefits: API.PaginatedOperationMethod<
     items: "BenefitSummaries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["partnercentral:ListBenefits"],
-    resources: {
-      "partnercentral:ListBenefits": [
-        "arn:${Partition}:partnercentral:${Region}::catalog/${Catalog}/benefit/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBenefits",
 })) as any;
@@ -1169,7 +1081,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["partnercentral:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -1204,14 +1115,6 @@ export const recallBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecallBenefitApplication",
-  iam: {
-    actions: ["partnercentral:RecallBenefitApplication"],
-    resources: {
-      "partnercentral:RecallBenefitApplication": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RecallBenefitApplication",
 }));
@@ -1246,14 +1149,6 @@ export const submitBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitBenefitApplication",
-  iam: {
-    actions: ["partnercentral:SubmitBenefitApplication"],
-    resources: {
-      "partnercentral:SubmitBenefitApplication": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SubmitBenefitApplication",
 }));
@@ -1290,7 +1185,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["partnercentral:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -1327,7 +1221,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["partnercentral:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -1362,14 +1255,6 @@ export const updateBenefitApplication: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBenefitApplication",
-  iam: {
-    actions: ["partnercentral:UpdateBenefitApplication"],
-    resources: {
-      "partnercentral:UpdateBenefitApplication": [
-        "arn:${Partition}:partnercentral:${Region}:${Account}:catalog/${Catalog}/benefit-application/${Identifier}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBenefitApplication",
 }));

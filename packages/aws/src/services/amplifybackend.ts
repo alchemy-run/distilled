@@ -801,14 +801,6 @@ export const cloneBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CloneBackend",
-  iam: {
-    actions: ["amplifybackend:CloneBackend"],
-    resources: {
-      "amplifybackend:CloneBackend": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CloneBackend",
 }));
@@ -839,14 +831,6 @@ export const createBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackend",
-  iam: {
-    actions: ["amplifybackend:CreateBackend"],
-    resources: {
-      "amplifybackend:CreateBackend": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBackend",
 }));
@@ -877,16 +861,6 @@ export const createBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendAPI",
-  iam: {
-    actions: ["amplifybackend:CreateBackendAPI"],
-    resources: {
-      "amplifybackend:CreateBackendAPI": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/api/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBackendAPI",
 }));
@@ -917,16 +891,6 @@ export const createBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendAuth",
-  iam: {
-    actions: ["amplifybackend:CreateBackendAuth"],
-    resources: {
-      "amplifybackend:CreateBackendAuth": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/auth/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBackendAuth",
 }));
@@ -957,14 +921,6 @@ export const createBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendConfig",
-  iam: {
-    actions: ["amplifybackend:CreateBackendConfig"],
-    resources: {
-      "amplifybackend:CreateBackendConfig": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/config/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBackendConfig",
 }));
@@ -995,16 +951,6 @@ export const createBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBackendStorage",
-  iam: {
-    actions: ["amplifybackend:CreateBackendStorage"],
-    resources: {
-      "amplifybackend:CreateBackendStorage": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/storage/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateBackendStorage",
 }));
@@ -1035,15 +981,6 @@ export const createToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateToken",
-  iam: {
-    actions: ["amplifybackend:CreateToken"],
-    resources: {
-      "amplifybackend:CreateToken": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/challenge/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateToken",
 }));
@@ -1074,15 +1011,6 @@ export const deleteBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackend",
-  iam: {
-    actions: ["amplifybackend:DeleteBackend"],
-    resources: {
-      "amplifybackend:DeleteBackend": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBackend",
 }));
@@ -1113,16 +1041,6 @@ export const deleteBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendAPI",
-  iam: {
-    actions: ["amplifybackend:DeleteBackendAPI"],
-    resources: {
-      "amplifybackend:DeleteBackendAPI": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/api/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBackendAPI",
 }));
@@ -1153,16 +1071,6 @@ export const deleteBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendAuth",
-  iam: {
-    actions: ["amplifybackend:DeleteBackendAuth"],
-    resources: {
-      "amplifybackend:DeleteBackendAuth": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/auth/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBackendAuth",
 }));
@@ -1193,16 +1101,6 @@ export const deleteBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBackendStorage",
-  iam: {
-    actions: ["amplifybackend:DeleteBackendStorage"],
-    resources: {
-      "amplifybackend:DeleteBackendStorage": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/storage/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBackendStorage",
 }));
@@ -1233,15 +1131,6 @@ export const deleteToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteToken",
-  iam: {
-    actions: ["amplifybackend:DeleteToken"],
-    resources: {
-      "amplifybackend:DeleteToken": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/challenge/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteToken",
 }));
@@ -1272,16 +1161,6 @@ export const generateBackendAPIModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GenerateBackendAPIModels",
-  iam: {
-    actions: ["amplifybackend:GenerateBackendAPIModels"],
-    resources: {
-      "amplifybackend:GenerateBackendAPIModels": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/api/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GenerateBackendAPIModels",
 }));
@@ -1312,15 +1191,6 @@ export const getBackend: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackend",
-  iam: {
-    actions: ["amplifybackend:GetBackend"],
-    resources: {
-      "amplifybackend:GetBackend": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBackend",
 }));
@@ -1351,16 +1221,6 @@ export const getBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAPI",
-  iam: {
-    actions: ["amplifybackend:GetBackendAPI"],
-    resources: {
-      "amplifybackend:GetBackendAPI": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/api/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBackendAPI",
 }));
@@ -1391,16 +1251,6 @@ export const getBackendAPIModels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAPIModels",
-  iam: {
-    actions: ["amplifybackend:GetBackendAPIModels"],
-    resources: {
-      "amplifybackend:GetBackendAPIModels": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/api/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBackendAPIModels",
 }));
@@ -1431,16 +1281,6 @@ export const getBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendAuth",
-  iam: {
-    actions: ["amplifybackend:GetBackendAuth"],
-    resources: {
-      "amplifybackend:GetBackendAuth": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/auth/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBackendAuth",
 }));
@@ -1471,15 +1311,6 @@ export const getBackendJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendJob",
-  iam: {
-    actions: ["amplifybackend:GetBackendJob"],
-    resources: {
-      "amplifybackend:GetBackendJob": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/job/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBackendJob",
 }));
@@ -1510,15 +1341,6 @@ export const getBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBackendStorage",
-  iam: {
-    actions: ["amplifybackend:GetBackendStorage"],
-    resources: {
-      "amplifybackend:GetBackendStorage": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBackendStorage",
 }));
@@ -1549,15 +1371,6 @@ export const getToken: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetToken",
-  iam: {
-    actions: ["amplifybackend:GetToken"],
-    resources: {
-      "amplifybackend:GetToken": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/challenge/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetToken",
 }));
@@ -1588,16 +1401,6 @@ export const importBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportBackendAuth",
-  iam: {
-    actions: ["amplifybackend:ImportBackendAuth"],
-    resources: {
-      "amplifybackend:ImportBackendAuth": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/auth/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportBackendAuth",
 }));
@@ -1628,16 +1431,6 @@ export const importBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ImportBackendStorage",
-  iam: {
-    actions: ["amplifybackend:ImportBackendStorage"],
-    resources: {
-      "amplifybackend:ImportBackendStorage": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/storage/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ImportBackendStorage",
 }));
@@ -1668,15 +1461,6 @@ export const listBackendJobs: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListBackendJobs",
-  iam: {
-    actions: ["amplifybackend:ListBackendJobs"],
-    resources: {
-      "amplifybackend:ListBackendJobs": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/job/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListBackendJobs",
 }));
@@ -1707,7 +1491,6 @@ export const listS3Buckets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListS3Buckets",
-  iam: { actions: ["amplifybackend:ListS3Buckets"] },
   telemetry: TELEMETRY,
   span: "ListS3Buckets",
 }));
@@ -1738,15 +1521,6 @@ export const removeAllBackends: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveAllBackends",
-  iam: {
-    actions: ["amplifybackend:RemoveAllBackends"],
-    resources: {
-      "amplifybackend:RemoveAllBackends": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveAllBackends",
 }));
@@ -1777,14 +1551,6 @@ export const removeBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RemoveBackendConfig",
-  iam: {
-    actions: ["amplifybackend:RemoveBackendConfig"],
-    resources: {
-      "amplifybackend:RemoveBackendConfig": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/config/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "RemoveBackendConfig",
 }));
@@ -1815,16 +1581,6 @@ export const updateBackendAPI: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendAPI",
-  iam: {
-    actions: ["amplifybackend:UpdateBackendAPI"],
-    resources: {
-      "amplifybackend:UpdateBackendAPI": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/api/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBackendAPI",
 }));
@@ -1855,16 +1611,6 @@ export const updateBackendAuth: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendAuth",
-  iam: {
-    actions: ["amplifybackend:UpdateBackendAuth"],
-    resources: {
-      "amplifybackend:UpdateBackendAuth": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/auth/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBackendAuth",
 }));
@@ -1895,14 +1641,6 @@ export const updateBackendConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendConfig",
-  iam: {
-    actions: ["amplifybackend:UpdateBackendConfig"],
-    resources: {
-      "amplifybackend:UpdateBackendConfig": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/config/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBackendConfig",
 }));
@@ -1933,15 +1671,6 @@ export const updateBackendJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendJob",
-  iam: {
-    actions: ["amplifybackend:UpdateBackendJob"],
-    resources: {
-      "amplifybackend:UpdateBackendJob": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/job/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBackendJob",
 }));
@@ -1972,16 +1701,6 @@ export const updateBackendStorage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateBackendStorage",
-  iam: {
-    actions: ["amplifybackend:UpdateBackendStorage"],
-    resources: {
-      "amplifybackend:UpdateBackendStorage": [
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/environments/*",
-        "arn:${Partition}:amplifybackend:${Region}:${Account}:/backend/${AppId}/storage/*",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateBackendStorage",
 }));

@@ -6019,14 +6019,6 @@ export const addDatasetExamples: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AddDatasetExamples",
-  iam: {
-    actions: ["bedrock-agentcore:AddDatasetExamples"],
-    resources: {
-      "bedrock-agentcore:AddDatasetExamples": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AddDatasetExamples",
 }));
@@ -6063,14 +6055,6 @@ export const batchPutGatewayRateLimits: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "BatchPutGatewayRateLimits",
-  iam: {
-    actions: ["bedrock-agentcore:BatchPutGatewayRateLimits"],
-    resources: {
-      "bedrock-agentcore:BatchPutGatewayRateLimits": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "BatchPutGatewayRateLimits",
 }));
@@ -6105,25 +6089,6 @@ export const createAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentRuntime",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateAgentRuntime",
-      "bedrock-agentcore:CreateAgentRuntimeEndpoint",
-      "bedrock-agentcore:PassCapacityProvider",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: {
-      "bedrock-agentcore:CreateAgentRuntimeEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-      ],
-      "bedrock-agentcore:PassCapacityProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAgentRuntime",
 }));
@@ -6160,15 +6125,6 @@ export const createAgentRuntimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateAgentRuntimeEndpoint",
-  iam: {
-    actions: ["bedrock-agentcore:CreateAgentRuntimeEndpoint", "bedrock-agentcore:TagResource"],
-    resources: {
-      "bedrock-agentcore:CreateAgentRuntimeEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-      ],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateAgentRuntimeEndpoint",
 }));
@@ -6213,16 +6169,6 @@ export const createApiKeyCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateApiKeyCredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:CreateApiKeyCredentialProvider", "bedrock-agentcore:TagResource"],
-    resources: {
-      "bedrock-agentcore:CreateApiKeyCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateApiKeyCredentialProvider",
 }));
@@ -6257,11 +6203,6 @@ export const createBrowser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrowser",
-  iam: {
-    actions: ["bedrock-agentcore:CreateBrowser", "iam:PassRole", "bedrock-agentcore:TagResource"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "executionRoleArn", "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBrowser",
 }));
@@ -6296,10 +6237,6 @@ export const createBrowserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateBrowserProfile",
-  iam: {
-    actions: ["bedrock-agentcore:CreateBrowserProfile", "bedrock-agentcore:TagResource"],
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateBrowserProfile",
 }));
@@ -6340,15 +6277,6 @@ export const createCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCapacityProvider",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateCapacityProvider",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCapacityProvider",
 }));
@@ -6383,15 +6311,6 @@ export const createCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCodeInterpreter",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateCodeInterpreter",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "executionRoleArn", "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCodeInterpreter",
 }));
@@ -6426,10 +6345,6 @@ export const createConfigurationBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConfigurationBundle",
-  iam: {
-    actions: ["bedrock-agentcore:CreateConfigurationBundle", "bedrock-agentcore:TagResource"],
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConfigurationBundle",
 }));
@@ -6468,20 +6383,6 @@ export const createConsentPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateConsentPortal",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateConsentPortal",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: {
-      "bedrock-agentcore:CreateConsentPortal": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateConsentPortal",
 }));
@@ -6516,10 +6417,6 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
-  iam: {
-    actions: ["bedrock-agentcore:CreateDataset", "bedrock-agentcore:TagResource"],
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -6556,14 +6453,6 @@ export const createDatasetVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDatasetVersion",
-  iam: {
-    actions: ["bedrock-agentcore:CreateDatasetVersion"],
-    resources: {
-      "bedrock-agentcore:CreateDatasetVersion": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateDatasetVersion",
 }));
@@ -6598,10 +6487,6 @@ export const createEvaluator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateEvaluator",
-  iam: {
-    actions: ["bedrock-agentcore:CreateEvaluator", "bedrock-agentcore:TagResource"],
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateEvaluator",
 }));
@@ -6638,21 +6523,6 @@ export const createGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGateway",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateGateway",
-      "iam:PassRole",
-      "bedrock-agentcore:SynchronizeGatewayTargets",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:SynchronizeGatewayTargets": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateGateway",
 }));
@@ -6689,14 +6559,6 @@ export const createGatewayRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRateLimit",
-  iam: {
-    actions: ["bedrock-agentcore:CreateGatewayRateLimit"],
-    resources: {
-      "bedrock-agentcore:CreateGatewayRateLimit": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateGatewayRateLimit",
 }));
@@ -6733,14 +6595,6 @@ export const createGatewayRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayRule",
-  iam: {
-    actions: ["bedrock-agentcore:CreateGatewayRule"],
-    resources: {
-      "bedrock-agentcore:CreateGatewayRule": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateGatewayRule",
 }));
@@ -6777,20 +6631,6 @@ export const createGatewayTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateGatewayTarget",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateGatewayTarget",
-      "bedrock-agentcore:SynchronizeGatewayTargets",
-    ],
-    resources: {
-      "bedrock-agentcore:CreateGatewayTarget": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-      "bedrock-agentcore:SynchronizeGatewayTargets": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateGatewayTarget",
 }));
@@ -6825,23 +6665,6 @@ export const createHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarness",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateAgentRuntime",
-      "bedrock-agentcore:CreateHarness",
-      "bedrock-agentcore:CreateMemory",
-      "bedrock-agentcore:GetMemory",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: {
-      "bedrock-agentcore:GetMemory": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHarness",
 }));
@@ -6878,15 +6701,6 @@ export const createHarnessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarnessEndpoint",
-  iam: {
-    actions: ["bedrock-agentcore:CreateHarnessEndpoint", "bedrock-agentcore:TagResource"],
-    resources: {
-      "bedrock-agentcore:CreateHarnessEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
-      ],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHarnessEndpoint",
 }));
@@ -6923,24 +6737,6 @@ export const createMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateMemory",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateMemory",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
-      ],
-    },
-    conditional: {
-      "iam:PassRole": "memoryExecutionRoleArn",
-      "bedrock-agentcore:TagResource": "tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateMemory",
 }));
@@ -6985,16 +6781,6 @@ export const createOauth2CredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOauth2CredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:CreateOauth2CredentialProvider", "bedrock-agentcore:TagResource"],
-    resources: {
-      "bedrock-agentcore:CreateOauth2CredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOauth2CredentialProvider",
 }));
@@ -7029,15 +6815,6 @@ export const createOnlineEvaluationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOnlineEvaluationConfig",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateOnlineEvaluationConfig",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateOnlineEvaluationConfig",
 }));
@@ -7076,21 +6853,6 @@ export const createPaymentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentConnector",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreatePaymentConnector",
-      "bedrock-agentcore:GetPaymentCredentialProvider",
-    ],
-    resources: {
-      "bedrock-agentcore:CreatePaymentConnector": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
-      ],
-      "bedrock-agentcore:GetPaymentCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePaymentConnector",
 }));
@@ -7135,16 +6897,6 @@ export const createPaymentCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentCredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:CreatePaymentCredentialProvider", "bedrock-agentcore:TagResource"],
-    resources: {
-      "bedrock-agentcore:CreatePaymentCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePaymentCredentialProvider",
 }));
@@ -7181,15 +6933,6 @@ export const createPaymentManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePaymentManager",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreatePaymentManager",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreatePaymentManager",
 }));
@@ -7228,14 +6971,6 @@ export const createPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicy",
-  iam: {
-    actions: ["bedrock-agentcore:CreatePolicy"],
-    resources: {
-      "bedrock-agentcore:CreatePolicy": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreatePolicy",
 }));
@@ -7270,7 +7005,6 @@ export const createPolicyEngine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreatePolicyEngine",
-  iam: { actions: ["bedrock-agentcore:CreatePolicyEngine"] },
   telemetry: TELEMETRY,
   span: "CreatePolicyEngine",
 }));
@@ -7307,7 +7041,6 @@ export const createRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistry",
-  iam: { actions: ["bedrock-agentcore:CreateRegistry", "bedrock-agentcore:TagResource"] },
   telemetry: TELEMETRY,
   span: "CreateRegistry",
 }));
@@ -7346,20 +7079,6 @@ export const createRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateRegistryRecord",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateRegistryRecord",
-      "iam:PassRole",
-      "bedrock-agentcore:TagResource",
-    ],
-    resources: {
-      "bedrock-agentcore:CreateRegistryRecord": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "CreateRegistryRecord",
 }));
@@ -7396,16 +7115,6 @@ export const createWorkloadIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateWorkloadIdentity",
-  iam: {
-    actions: ["bedrock-agentcore:CreateWorkloadIdentity", "bedrock-agentcore:TagResource"],
-    resources: {
-      "bedrock-agentcore:CreateWorkloadIdentity": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-    },
-    conditional: { "bedrock-agentcore:TagResource": "tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateWorkloadIdentity",
 }));
@@ -7438,26 +7147,6 @@ export const deleteAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentRuntime",
-  iam: {
-    actions: [
-      "bedrock-agentcore:DeleteAgentRuntime",
-      "bedrock-agentcore:DeleteAgentRuntimeEndpoint",
-      "bedrock-agentcore:DeleteWorkloadIdentity",
-    ],
-    resources: {
-      "bedrock-agentcore:DeleteAgentRuntime": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-      ],
-      "bedrock-agentcore:DeleteAgentRuntimeEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
-      ],
-      "bedrock-agentcore:DeleteWorkloadIdentity": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAgentRuntime",
 }));
@@ -7490,15 +7179,6 @@ export const deleteAgentRuntimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteAgentRuntimeEndpoint",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteAgentRuntimeEndpoint"],
-    resources: {
-      "bedrock-agentcore:DeleteAgentRuntimeEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteAgentRuntimeEndpoint",
 }));
@@ -7533,15 +7213,6 @@ export const deleteApiKeyCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteApiKeyCredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteApiKeyCredentialProvider"],
-    resources: {
-      "bedrock-agentcore:DeleteApiKeyCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteApiKeyCredentialProvider",
 }));
@@ -7578,14 +7249,6 @@ export const deleteBrowser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrowser",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteBrowser"],
-    resources: {
-      "bedrock-agentcore:DeleteBrowser": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBrowser",
 }));
@@ -7620,14 +7283,6 @@ export const deleteBrowserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteBrowserProfile",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteBrowserProfile"],
-    resources: {
-      "bedrock-agentcore:DeleteBrowserProfile": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-profile/${BrowserProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteBrowserProfile",
 }));
@@ -7664,14 +7319,6 @@ export const deleteCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCapacityProvider",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteCapacityProvider"],
-    resources: {
-      "bedrock-agentcore:DeleteCapacityProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCapacityProvider",
 }));
@@ -7708,14 +7355,6 @@ export const deleteCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCodeInterpreter",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteCodeInterpreter"],
-    resources: {
-      "bedrock-agentcore:DeleteCodeInterpreter": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCodeInterpreter",
 }));
@@ -7750,14 +7389,6 @@ export const deleteConfigurationBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConfigurationBundle",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteConfigurationBundle"],
-    resources: {
-      "bedrock-agentcore:DeleteConfigurationBundle": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConfigurationBundle",
 }));
@@ -7794,14 +7425,6 @@ export const deleteConsentPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteConsentPortal",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteConsentPortal"],
-    resources: {
-      "bedrock-agentcore:DeleteConsentPortal": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteConsentPortal",
 }));
@@ -7836,14 +7459,6 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteDataset"],
-    resources: {
-      "bedrock-agentcore:DeleteDataset": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -7878,14 +7493,6 @@ export const deleteDatasetExamples: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDatasetExamples",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteDatasetExamples"],
-    resources: {
-      "bedrock-agentcore:DeleteDatasetExamples": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDatasetExamples",
 }));
@@ -7920,14 +7527,6 @@ export const deleteEvaluator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteEvaluator",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteEvaluator"],
-    resources: {
-      "bedrock-agentcore:DeleteEvaluator": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:evaluator/${EvaluatorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteEvaluator",
 }));
@@ -7962,14 +7561,6 @@ export const deleteGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGateway",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteGateway"],
-    resources: {
-      "bedrock-agentcore:DeleteGateway": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGateway",
 }));
@@ -8004,14 +7595,6 @@ export const deleteGatewayRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRateLimit",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteGatewayRateLimit"],
-    resources: {
-      "bedrock-agentcore:DeleteGatewayRateLimit": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGatewayRateLimit",
 }));
@@ -8046,14 +7629,6 @@ export const deleteGatewayRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayRule",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteGatewayRule"],
-    resources: {
-      "bedrock-agentcore:DeleteGatewayRule": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGatewayRule",
 }));
@@ -8090,14 +7665,6 @@ export const deleteGatewayTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteGatewayTarget",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteGatewayTarget"],
-    resources: {
-      "bedrock-agentcore:DeleteGatewayTarget": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteGatewayTarget",
 }));
@@ -8132,17 +7699,6 @@ export const deleteHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHarness",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteAgentRuntime", "bedrock-agentcore:DeleteHarness"],
-    resources: {
-      "bedrock-agentcore:DeleteAgentRuntime": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-      ],
-      "bedrock-agentcore:DeleteHarness": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHarness",
 }));
@@ -8177,15 +7733,6 @@ export const deleteHarnessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteHarnessEndpoint",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteHarnessEndpoint"],
-    resources: {
-      "bedrock-agentcore:DeleteHarnessEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}/harness-endpoint/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteHarnessEndpoint",
 }));
@@ -8220,14 +7767,6 @@ export const deleteMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteMemory",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteMemory"],
-    resources: {
-      "bedrock-agentcore:DeleteMemory": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteMemory",
 }));
@@ -8264,15 +7803,6 @@ export const deleteOauth2CredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOauth2CredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteOauth2CredentialProvider"],
-    resources: {
-      "bedrock-agentcore:DeleteOauth2CredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOauth2CredentialProvider",
 }));
@@ -8307,14 +7837,6 @@ export const deleteOnlineEvaluationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOnlineEvaluationConfig",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteOnlineEvaluationConfig"],
-    resources: {
-      "bedrock-agentcore:DeleteOnlineEvaluationConfig": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:online-evaluation-config/${OnlineEvaluationConfigId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOnlineEvaluationConfig",
 }));
@@ -8347,14 +7869,6 @@ export const deletePaymentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentConnector",
-  iam: {
-    actions: ["bedrock-agentcore:DeletePaymentConnector"],
-    resources: {
-      "bedrock-agentcore:DeletePaymentConnector": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePaymentConnector",
 }));
@@ -8389,15 +7903,6 @@ export const deletePaymentCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentCredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:DeletePaymentCredentialProvider"],
-    resources: {
-      "bedrock-agentcore:DeletePaymentCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePaymentCredentialProvider",
 }));
@@ -8430,14 +7935,6 @@ export const deletePaymentManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePaymentManager",
-  iam: {
-    actions: ["bedrock-agentcore:DeletePaymentManager"],
-    resources: {
-      "bedrock-agentcore:DeletePaymentManager": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePaymentManager",
 }));
@@ -8472,15 +7969,6 @@ export const deletePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicy",
-  iam: {
-    actions: ["bedrock-agentcore:DeletePolicy"],
-    resources: {
-      "bedrock-agentcore:DeletePolicy": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePolicy",
 }));
@@ -8515,14 +8003,6 @@ export const deletePolicyEngine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeletePolicyEngine",
-  iam: {
-    actions: ["bedrock-agentcore:DeletePolicyEngine"],
-    resources: {
-      "bedrock-agentcore:DeletePolicyEngine": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeletePolicyEngine",
 }));
@@ -8557,14 +8037,6 @@ export const deleteRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistry",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteRegistry"],
-    resources: {
-      "bedrock-agentcore:DeleteRegistry": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRegistry",
 }));
@@ -8599,14 +8071,6 @@ export const deleteRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteRegistryRecord",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteRegistryRecord"],
-    resources: {
-      "bedrock-agentcore:DeleteRegistryRecord": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteRegistryRecord",
 }));
@@ -8641,7 +8105,6 @@ export const deleteResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteResourcePolicy",
-  iam: { actions: ["bedrock-agentcore:DeleteResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "DeleteResourcePolicy",
 }));
@@ -8676,15 +8139,6 @@ export const deleteWorkloadIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteWorkloadIdentity",
-  iam: {
-    actions: ["bedrock-agentcore:DeleteWorkloadIdentity"],
-    resources: {
-      "bedrock-agentcore:DeleteWorkloadIdentity": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteWorkloadIdentity",
 }));
@@ -8717,14 +8171,6 @@ export const getAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRuntime",
-  iam: {
-    actions: ["bedrock-agentcore:GetAgentRuntime"],
-    resources: {
-      "bedrock-agentcore:GetAgentRuntime": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAgentRuntime",
 }));
@@ -8757,15 +8203,6 @@ export const getAgentRuntimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetAgentRuntimeEndpoint",
-  iam: {
-    actions: ["bedrock-agentcore:GetAgentRuntimeEndpoint"],
-    resources: {
-      "bedrock-agentcore:GetAgentRuntimeEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetAgentRuntimeEndpoint",
 }));
@@ -8802,15 +8239,6 @@ export const getApiKeyCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetApiKeyCredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:GetApiKeyCredentialProvider"],
-    resources: {
-      "bedrock-agentcore:GetApiKeyCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetApiKeyCredentialProvider",
 }));
@@ -8843,14 +8271,6 @@ export const getBrowser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowser",
-  iam: {
-    actions: ["bedrock-agentcore:GetBrowser"],
-    resources: {
-      "bedrock-agentcore:GetBrowser": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-custom/${BrowserId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBrowser",
 }));
@@ -8883,14 +8303,6 @@ export const getBrowserProfile: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetBrowserProfile",
-  iam: {
-    actions: ["bedrock-agentcore:GetBrowserProfile"],
-    resources: {
-      "bedrock-agentcore:GetBrowserProfile": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:browser-profile/${BrowserProfileId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetBrowserProfile",
 }));
@@ -8923,14 +8335,6 @@ export const getCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCapacityProvider",
-  iam: {
-    actions: ["bedrock-agentcore:GetCapacityProvider"],
-    resources: {
-      "bedrock-agentcore:GetCapacityProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCapacityProvider",
 }));
@@ -8963,14 +8367,6 @@ export const getCodeInterpreter: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCodeInterpreter",
-  iam: {
-    actions: ["bedrock-agentcore:GetCodeInterpreter"],
-    resources: {
-      "bedrock-agentcore:GetCodeInterpreter": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:code-interpreter-custom/${CodeInterpreterId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetCodeInterpreter",
 }));
@@ -9003,14 +8399,6 @@ export const getConfigurationBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationBundle",
-  iam: {
-    actions: ["bedrock-agentcore:GetConfigurationBundle"],
-    resources: {
-      "bedrock-agentcore:GetConfigurationBundle": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConfigurationBundle",
 }));
@@ -9043,14 +8431,6 @@ export const getConfigurationBundleVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConfigurationBundleVersion",
-  iam: {
-    actions: ["bedrock-agentcore:GetConfigurationBundleVersion"],
-    resources: {
-      "bedrock-agentcore:GetConfigurationBundleVersion": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConfigurationBundleVersion",
 }));
@@ -9085,14 +8465,6 @@ export const getConsentPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetConsentPortal",
-  iam: {
-    actions: ["bedrock-agentcore:GetConsentPortal"],
-    resources: {
-      "bedrock-agentcore:GetConsentPortal": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetConsentPortal",
 }));
@@ -9127,14 +8499,6 @@ export const getDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetDataset",
-  iam: {
-    actions: ["bedrock-agentcore:GetDataset"],
-    resources: {
-      "bedrock-agentcore:GetDataset": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetDataset",
 }));
@@ -9167,14 +8531,6 @@ export const getEvaluator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetEvaluator",
-  iam: {
-    actions: ["bedrock-agentcore:GetEvaluator"],
-    resources: {
-      "bedrock-agentcore:GetEvaluator": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:evaluator/${EvaluatorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetEvaluator",
 }));
@@ -9207,14 +8563,6 @@ export const getGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGateway",
-  iam: {
-    actions: ["bedrock-agentcore:GetGateway"],
-    resources: {
-      "bedrock-agentcore:GetGateway": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGateway",
 }));
@@ -9247,14 +8595,6 @@ export const getGatewayRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayRateLimit",
-  iam: {
-    actions: ["bedrock-agentcore:GetGatewayRateLimit"],
-    resources: {
-      "bedrock-agentcore:GetGatewayRateLimit": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGatewayRateLimit",
 }));
@@ -9287,14 +8627,6 @@ export const getGatewayRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayRule",
-  iam: {
-    actions: ["bedrock-agentcore:GetGatewayRule"],
-    resources: {
-      "bedrock-agentcore:GetGatewayRule": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGatewayRule",
 }));
@@ -9327,14 +8659,6 @@ export const getGatewayTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetGatewayTarget",
-  iam: {
-    actions: ["bedrock-agentcore:GetGatewayTarget"],
-    resources: {
-      "bedrock-agentcore:GetGatewayTarget": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetGatewayTarget",
 }));
@@ -9367,14 +8691,6 @@ export const getHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarness",
-  iam: {
-    actions: ["bedrock-agentcore:GetHarness"],
-    resources: {
-      "bedrock-agentcore:GetHarness": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetHarness",
 }));
@@ -9407,15 +8723,6 @@ export const getHarnessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarnessEndpoint",
-  iam: {
-    actions: ["bedrock-agentcore:GetHarnessEndpoint"],
-    resources: {
-      "bedrock-agentcore:GetHarnessEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}/harness-endpoint/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetHarnessEndpoint",
 }));
@@ -9448,14 +8755,6 @@ export const getMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMemory",
-  iam: {
-    actions: ["bedrock-agentcore:GetMemory"],
-    resources: {
-      "bedrock-agentcore:GetMemory": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetMemory",
 }));
@@ -9492,15 +8791,6 @@ export const getOauth2CredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOauth2CredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:GetOauth2CredentialProvider"],
-    resources: {
-      "bedrock-agentcore:GetOauth2CredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOauth2CredentialProvider",
 }));
@@ -9533,14 +8823,6 @@ export const getOnlineEvaluationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOnlineEvaluationConfig",
-  iam: {
-    actions: ["bedrock-agentcore:GetOnlineEvaluationConfig"],
-    resources: {
-      "bedrock-agentcore:GetOnlineEvaluationConfig": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:online-evaluation-config/${OnlineEvaluationConfigId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOnlineEvaluationConfig",
 }));
@@ -9573,14 +8855,6 @@ export const getPaymentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentConnector",
-  iam: {
-    actions: ["bedrock-agentcore:GetPaymentConnector"],
-    resources: {
-      "bedrock-agentcore:GetPaymentConnector": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPaymentConnector",
 }));
@@ -9617,15 +8891,6 @@ export const getPaymentCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentCredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:GetPaymentCredentialProvider"],
-    resources: {
-      "bedrock-agentcore:GetPaymentCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPaymentCredentialProvider",
 }));
@@ -9658,14 +8923,6 @@ export const getPaymentManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPaymentManager",
-  iam: {
-    actions: ["bedrock-agentcore:GetPaymentManager"],
-    resources: {
-      "bedrock-agentcore:GetPaymentManager": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPaymentManager",
 }));
@@ -9698,15 +8955,6 @@ export const getPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicy",
-  iam: {
-    actions: ["bedrock-agentcore:GetPolicy"],
-    resources: {
-      "bedrock-agentcore:GetPolicy": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicy",
 }));
@@ -9739,14 +8987,6 @@ export const getPolicyEngine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyEngine",
-  iam: {
-    actions: ["bedrock-agentcore:GetPolicyEngine"],
-    resources: {
-      "bedrock-agentcore:GetPolicyEngine": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicyEngine",
 }));
@@ -9779,14 +9019,6 @@ export const getPolicyEngineSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyEngineSummary",
-  iam: {
-    actions: ["bedrock-agentcore:GetPolicyEngineSummary"],
-    resources: {
-      "bedrock-agentcore:GetPolicyEngineSummary": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicyEngineSummary",
 }));
@@ -9819,15 +9051,6 @@ export const getPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyGeneration",
-  iam: {
-    actions: ["bedrock-agentcore:GetPolicyGeneration"],
-    resources: {
-      "bedrock-agentcore:GetPolicyGeneration": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy-generation/${PolicyGenerationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicyGeneration",
 }));
@@ -9860,15 +9083,6 @@ export const getPolicyGenerationSummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicyGenerationSummary",
-  iam: {
-    actions: ["bedrock-agentcore:GetPolicyGenerationSummary"],
-    resources: {
-      "bedrock-agentcore:GetPolicyGenerationSummary": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy-generation/${PolicyGenerationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicyGenerationSummary",
 }));
@@ -9901,15 +9115,6 @@ export const getPolicySummary: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetPolicySummary",
-  iam: {
-    actions: ["bedrock-agentcore:GetPolicySummary"],
-    resources: {
-      "bedrock-agentcore:GetPolicySummary": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetPolicySummary",
 }));
@@ -9942,14 +9147,6 @@ export const getRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistry",
-  iam: {
-    actions: ["bedrock-agentcore:GetRegistry"],
-    resources: {
-      "bedrock-agentcore:GetRegistry": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRegistry",
 }));
@@ -9984,14 +9181,6 @@ export const getRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetRegistryRecord",
-  iam: {
-    actions: ["bedrock-agentcore:GetRegistryRecord"],
-    resources: {
-      "bedrock-agentcore:GetRegistryRecord": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetRegistryRecord",
 }));
@@ -10026,7 +9215,6 @@ export const getResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetResourcePolicy",
-  iam: { actions: ["bedrock-agentcore:GetResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "GetResourcePolicy",
 }));
@@ -10061,14 +9249,6 @@ export const getTokenVault: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetTokenVault",
-  iam: {
-    actions: ["bedrock-agentcore:GetTokenVault"],
-    resources: {
-      "bedrock-agentcore:GetTokenVault": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetTokenVault",
 }));
@@ -10103,15 +9283,6 @@ export const getWorkloadIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetWorkloadIdentity",
-  iam: {
-    actions: ["bedrock-agentcore:GetWorkloadIdentity"],
-    resources: {
-      "bedrock-agentcore:GetWorkloadIdentity": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetWorkloadIdentity",
 }));
@@ -10149,7 +9320,6 @@ export const listAgentRuntimeEndpoints: API.PaginatedOperationMethod<
     items: "runtimeEndpoints",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListAgentRuntimeEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListAgentRuntimeEndpoints",
 })) as any;
@@ -10187,7 +9357,6 @@ export const listAgentRuntimes: API.PaginatedOperationMethod<
     items: "agentRuntimes",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListAgentRuntimes"] },
   telemetry: TELEMETRY,
   span: "ListAgentRuntimes",
 })) as any;
@@ -10227,7 +9396,6 @@ export const listAgentRuntimeVersions: API.PaginatedOperationMethod<
     items: "agentRuntimes",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListAgentRuntimeVersions"] },
   telemetry: TELEMETRY,
   span: "ListAgentRuntimeVersions",
 })) as any;
@@ -10265,7 +9433,6 @@ export const listAgentRuntimeVersionsByCapacityProvider: API.PaginatedOperationM
     items: "agentRuntimes",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListAgentRuntimeVersionsByCapacityProvider"] },
   telemetry: TELEMETRY,
   span: "ListAgentRuntimeVersionsByCapacityProvider",
 })) as any;
@@ -10307,15 +9474,6 @@ export const listApiKeyCredentialProviders: API.PaginatedOperationMethod<
     items: "credentialProviders",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListApiKeyCredentialProviders"],
-    resources: {
-      "bedrock-agentcore:ListApiKeyCredentialProviders": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListApiKeyCredentialProviders",
 })) as any;
@@ -10353,7 +9511,6 @@ export const listBrowserProfiles: API.PaginatedOperationMethod<
     items: "profileSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListBrowserProfiles"] },
   telemetry: TELEMETRY,
   span: "ListBrowserProfiles",
 })) as any;
@@ -10391,7 +9548,6 @@ export const listBrowsers: API.PaginatedOperationMethod<
     items: "browserSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListBrowsers"] },
   telemetry: TELEMETRY,
   span: "ListBrowsers",
 })) as any;
@@ -10429,7 +9585,6 @@ export const listCapacityProviders: API.PaginatedOperationMethod<
     items: "capacityProviders",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListCapacityProviders"] },
   telemetry: TELEMETRY,
   span: "ListCapacityProviders",
 })) as any;
@@ -10467,7 +9622,6 @@ export const listCodeInterpreters: API.PaginatedOperationMethod<
     items: "codeInterpreterSummaries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListCodeInterpreters"] },
   telemetry: TELEMETRY,
   span: "ListCodeInterpreters",
 })) as any;
@@ -10505,7 +9659,6 @@ export const listConfigurationBundles: API.PaginatedOperationMethod<
     items: "bundles",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListConfigurationBundles"] },
   telemetry: TELEMETRY,
   span: "ListConfigurationBundles",
 })) as any;
@@ -10545,14 +9698,6 @@ export const listConfigurationBundleVersions: API.PaginatedOperationMethod<
     items: "versions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListConfigurationBundleVersions"],
-    resources: {
-      "bedrock-agentcore:ListConfigurationBundleVersions": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListConfigurationBundleVersions",
 })) as any;
@@ -10592,7 +9737,6 @@ export const listConsentPortals: API.PaginatedOperationMethod<
     items: "consentPortals",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListConsentPortals"] },
   telemetry: TELEMETRY,
   span: "ListConsentPortals",
 })) as any;
@@ -10634,14 +9778,6 @@ export const listDatasetExamples: API.PaginatedOperationMethod<
     items: "examples",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListDatasetExamples"],
-    resources: {
-      "bedrock-agentcore:ListDatasetExamples": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDatasetExamples",
 })) as any;
@@ -10679,7 +9815,6 @@ export const listDatasets: API.PaginatedOperationMethod<
     items: "datasets",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListDatasets"] },
   telemetry: TELEMETRY,
   span: "ListDatasets",
 })) as any;
@@ -10719,14 +9854,6 @@ export const listDatasetVersions: API.PaginatedOperationMethod<
     items: "versions",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListDatasetVersions"],
-    resources: {
-      "bedrock-agentcore:ListDatasetVersions": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDatasetVersions",
 })) as any;
@@ -10764,7 +9891,6 @@ export const listEvaluators: API.PaginatedOperationMethod<
     items: "evaluators",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListEvaluators"] },
   telemetry: TELEMETRY,
   span: "ListEvaluators",
 })) as any;
@@ -10804,14 +9930,6 @@ export const listGatewayRateLimits: API.PaginatedOperationMethod<
     items: "rateLimits",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListGatewayRateLimits"],
-    resources: {
-      "bedrock-agentcore:ListGatewayRateLimits": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGatewayRateLimits",
 })) as any;
@@ -10851,14 +9969,6 @@ export const listGatewayRules: API.PaginatedOperationMethod<
     items: "gatewayRules",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListGatewayRules"],
-    resources: {
-      "bedrock-agentcore:ListGatewayRules": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGatewayRules",
 })) as any;
@@ -10896,7 +10006,6 @@ export const listGateways: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListGateways"] },
   telemetry: TELEMETRY,
   span: "ListGateways",
 })) as any;
@@ -10936,14 +10045,6 @@ export const listGatewayTargets: API.PaginatedOperationMethod<
     items: "items",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListGatewayTargets"],
-    resources: {
-      "bedrock-agentcore:ListGatewayTargets": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListGatewayTargets",
 })) as any;
@@ -10983,7 +10084,6 @@ export const listHarnessEndpoints: API.PaginatedOperationMethod<
     items: "endpoints",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListHarnessEndpoints"] },
   telemetry: TELEMETRY,
   span: "ListHarnessEndpoints",
 })) as any;
@@ -11021,7 +10121,6 @@ export const listHarnesses: API.PaginatedOperationMethod<
     items: "harnesses",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListHarnesses"] },
   telemetry: TELEMETRY,
   span: "ListHarnesses",
 })) as any;
@@ -11061,7 +10160,6 @@ export const listHarnessVersions: API.PaginatedOperationMethod<
     items: "harnessVersions",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListHarnessVersions"] },
   telemetry: TELEMETRY,
   span: "ListHarnessVersions",
 })) as any;
@@ -11101,7 +10199,6 @@ export const listMemories: API.PaginatedOperationMethod<
     items: "memories",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListMemories"] },
   telemetry: TELEMETRY,
   span: "ListMemories",
 })) as any;
@@ -11143,15 +10240,6 @@ export const listOauth2CredentialProviders: API.PaginatedOperationMethod<
     items: "credentialProviders",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListOauth2CredentialProviders"],
-    resources: {
-      "bedrock-agentcore:ListOauth2CredentialProviders": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListOauth2CredentialProviders",
 })) as any;
@@ -11189,7 +10277,6 @@ export const listOnlineEvaluationConfigs: API.PaginatedOperationMethod<
     items: "onlineEvaluationConfigs",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListOnlineEvaluationConfigs"] },
   telemetry: TELEMETRY,
   span: "ListOnlineEvaluationConfigs",
 })) as any;
@@ -11227,14 +10314,6 @@ export const listPaymentConnectors: API.PaginatedOperationMethod<
     items: "paymentConnectors",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListPaymentConnectors"],
-    resources: {
-      "bedrock-agentcore:ListPaymentConnectors": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPaymentConnectors",
 })) as any;
@@ -11276,15 +10355,6 @@ export const listPaymentCredentialProviders: API.PaginatedOperationMethod<
     items: "credentialProviders",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListPaymentCredentialProviders"],
-    resources: {
-      "bedrock-agentcore:ListPaymentCredentialProviders": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPaymentCredentialProviders",
 })) as any;
@@ -11322,7 +10392,6 @@ export const listPaymentManagers: API.PaginatedOperationMethod<
     items: "paymentManagers",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListPaymentManagers"] },
   telemetry: TELEMETRY,
   span: "ListPaymentManagers",
 })) as any;
@@ -11362,14 +10431,6 @@ export const listPolicies: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListPolicies"],
-    resources: {
-      "bedrock-agentcore:ListPolicies": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPolicies",
 })) as any;
@@ -11407,7 +10468,6 @@ export const listPolicyEngines: API.PaginatedOperationMethod<
     items: "policyEngines",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListPolicyEngines"] },
   telemetry: TELEMETRY,
   span: "ListPolicyEngines",
 })) as any;
@@ -11445,7 +10505,6 @@ export const listPolicyEngineSummaries: API.PaginatedOperationMethod<
     items: "policyEngines",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListPolicyEngineSummaries"] },
   telemetry: TELEMETRY,
   span: "ListPolicyEngineSummaries",
 })) as any;
@@ -11485,15 +10544,6 @@ export const listPolicyGenerationAssets: API.PaginatedOperationMethod<
     items: "policyGenerationAssets",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListPolicyGenerationAssets"],
-    resources: {
-      "bedrock-agentcore:ListPolicyGenerationAssets": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy-generation/${PolicyGenerationId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPolicyGenerationAssets",
 })) as any;
@@ -11533,14 +10583,6 @@ export const listPolicyGenerations: API.PaginatedOperationMethod<
     items: "policyGenerations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListPolicyGenerations"],
-    resources: {
-      "bedrock-agentcore:ListPolicyGenerations": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPolicyGenerations",
 })) as any;
@@ -11580,14 +10622,6 @@ export const listPolicyGenerationSummaries: API.PaginatedOperationMethod<
     items: "policyGenerations",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListPolicyGenerationSummaries"],
-    resources: {
-      "bedrock-agentcore:ListPolicyGenerationSummaries": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPolicyGenerationSummaries",
 })) as any;
@@ -11627,14 +10661,6 @@ export const listPolicySummaries: API.PaginatedOperationMethod<
     items: "policies",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListPolicySummaries"],
-    resources: {
-      "bedrock-agentcore:ListPolicySummaries": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListPolicySummaries",
 })) as any;
@@ -11672,7 +10698,6 @@ export const listRegistries: API.PaginatedOperationMethod<
     items: "registries",
     pageSize: "maxResults",
   } as const,
-  iam: { actions: ["bedrock-agentcore:ListRegistries"] },
   telemetry: TELEMETRY,
   span: "ListRegistries",
 })) as any;
@@ -11714,14 +10739,6 @@ export const listRegistryRecords: API.PaginatedOperationMethod<
     items: "registryRecords",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListRegistryRecords"],
-    resources: {
-      "bedrock-agentcore:ListRegistryRecords": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListRegistryRecords",
 })) as any;
@@ -11756,7 +10773,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["bedrock-agentcore:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -11798,15 +10814,6 @@ export const listWorkloadIdentities: API.PaginatedOperationMethod<
     items: "workloadIdentities",
     pageSize: "maxResults",
   } as const,
-  iam: {
-    actions: ["bedrock-agentcore:ListWorkloadIdentities"],
-    resources: {
-      "bedrock-agentcore:ListWorkloadIdentities": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListWorkloadIdentities",
 })) as any;
@@ -11841,7 +10848,6 @@ export const putResourcePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutResourcePolicy",
-  iam: { actions: ["bedrock-agentcore:PutResourcePolicy"] },
   telemetry: TELEMETRY,
   span: "PutResourcePolicy",
 }));
@@ -11882,14 +10888,6 @@ export const resetTokenVaultKeyMaterial: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetTokenVaultKeyMaterial",
-  iam: {
-    actions: ["bedrock-agentcore:ResetTokenVaultKeyMaterial"],
-    resources: {
-      "bedrock-agentcore:ResetTokenVaultKeyMaterial": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetTokenVaultKeyMaterial",
 }));
@@ -11968,14 +10966,6 @@ export const setTokenVaultCMK: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SetTokenVaultCMK",
-  iam: {
-    actions: ["bedrock-agentcore:SetTokenVaultCMK"],
-    resources: {
-      "bedrock-agentcore:SetTokenVaultCMK": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SetTokenVaultCMK",
 }));
@@ -12012,14 +11002,6 @@ export const startPolicyGeneration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPolicyGeneration",
-  iam: {
-    actions: ["bedrock-agentcore:StartPolicyGeneration"],
-    resources: {
-      "bedrock-agentcore:StartPolicyGeneration": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartPolicyGeneration",
 }));
@@ -12054,14 +11036,6 @@ export const submitRegistryRecordForApproval: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SubmitRegistryRecordForApproval",
-  iam: {
-    actions: ["bedrock-agentcore:SubmitRegistryRecordForApproval"],
-    resources: {
-      "bedrock-agentcore:SubmitRegistryRecordForApproval": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SubmitRegistryRecordForApproval",
 }));
@@ -12102,14 +11076,6 @@ export const synchronizeGatewayTargets: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SynchronizeGatewayTargets",
-  iam: {
-    actions: ["bedrock-agentcore:SynchronizeGatewayTargets"],
-    resources: {
-      "bedrock-agentcore:SynchronizeGatewayTargets": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SynchronizeGatewayTargets",
 }));
@@ -12146,7 +11112,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["bedrock-agentcore:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -12181,7 +11146,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["bedrock-agentcore:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -12218,22 +11182,6 @@ export const updateAgentRuntime: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRuntime",
-  iam: {
-    actions: [
-      "bedrock-agentcore:PassCapacityProvider",
-      "iam:PassRole",
-      "bedrock-agentcore:UpdateAgentRuntime",
-    ],
-    resources: {
-      "bedrock-agentcore:PassCapacityProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:UpdateAgentRuntime": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAgentRuntime",
 }));
@@ -12270,15 +11218,6 @@ export const updateAgentRuntimeEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateAgentRuntimeEndpoint",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateAgentRuntimeEndpoint"],
-    resources: {
-      "bedrock-agentcore:UpdateAgentRuntimeEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}/runtime-endpoint/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateAgentRuntimeEndpoint",
 }));
@@ -12321,15 +11260,6 @@ export const updateApiKeyCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateApiKeyCredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateApiKeyCredentialProvider"],
-    resources: {
-      "bedrock-agentcore:UpdateApiKeyCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/apikeycredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateApiKeyCredentialProvider",
 }));
@@ -12366,14 +11296,6 @@ export const updateCapacityProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateCapacityProvider",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateCapacityProvider"],
-    resources: {
-      "bedrock-agentcore:UpdateCapacityProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:capacity-provider/${CapacityProviderId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateCapacityProvider",
 }));
@@ -12408,14 +11330,6 @@ export const updateConfigurationBundle: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConfigurationBundle",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateConfigurationBundle"],
-    resources: {
-      "bedrock-agentcore:UpdateConfigurationBundle": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:configuration-bundle/${ConfigurationBundleId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConfigurationBundle",
 }));
@@ -12452,14 +11366,6 @@ export const updateConsentPortal: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateConsentPortal",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateConsentPortal"],
-    resources: {
-      "bedrock-agentcore:UpdateConsentPortal": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:consent-portal/${ConsentPortalId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateConsentPortal",
 }));
@@ -12494,14 +11400,6 @@ export const updateDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDataset",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateDataset"],
-    resources: {
-      "bedrock-agentcore:UpdateDataset": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDataset",
 }));
@@ -12538,14 +11436,6 @@ export const updateDatasetExamples: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetExamples",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateDatasetExamples"],
-    resources: {
-      "bedrock-agentcore:UpdateDatasetExamples": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:dataset/${DatasetId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDatasetExamples",
 }));
@@ -12582,14 +11472,6 @@ export const updateEvaluator: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateEvaluator",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateEvaluator"],
-    resources: {
-      "bedrock-agentcore:UpdateEvaluator": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:evaluator/${EvaluatorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateEvaluator",
 }));
@@ -12628,15 +11510,6 @@ export const updateGateway: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGateway",
-  iam: {
-    actions: ["iam:PassRole", "bedrock-agentcore:UpdateGateway"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:UpdateGateway": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGateway",
 }));
@@ -12671,14 +11544,6 @@ export const updateGatewayRateLimit: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRateLimit",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateGatewayRateLimit"],
-    resources: {
-      "bedrock-agentcore:UpdateGatewayRateLimit": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayRateLimit",
 }));
@@ -12713,14 +11578,6 @@ export const updateGatewayRule: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayRule",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateGatewayRule"],
-    resources: {
-      "bedrock-agentcore:UpdateGatewayRule": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayRule",
 }));
@@ -12759,20 +11616,6 @@ export const updateGatewayTarget: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateGatewayTarget",
-  iam: {
-    actions: [
-      "bedrock-agentcore:SynchronizeGatewayTargets",
-      "bedrock-agentcore:UpdateGatewayTarget",
-    ],
-    resources: {
-      "bedrock-agentcore:SynchronizeGatewayTargets": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-      "bedrock-agentcore:UpdateGatewayTarget": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:gateway/${GatewayId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateGatewayTarget",
 }));
@@ -12809,32 +11652,6 @@ export const updateHarness: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHarness",
-  iam: {
-    actions: [
-      "bedrock-agentcore:CreateAgentRuntime",
-      "bedrock-agentcore:GetMemory",
-      "iam:PassRole",
-      "bedrock-agentcore:UpdateAgentRuntime",
-      "bedrock-agentcore:UpdateHarness",
-      "bedrock-agentcore:UpdateMemory",
-    ],
-    resources: {
-      "bedrock-agentcore:GetMemory": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:UpdateAgentRuntime": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:runtime/${RuntimeId}",
-      ],
-      "bedrock-agentcore:UpdateHarness": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
-      ],
-      "bedrock-agentcore:UpdateMemory": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "executionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHarness",
 }));
@@ -12871,15 +11688,6 @@ export const updateHarnessEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateHarnessEndpoint",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateHarnessEndpoint"],
-    resources: {
-      "bedrock-agentcore:UpdateHarnessEndpoint": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:harness/${HarnessId}/harness-endpoint/${Name}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateHarnessEndpoint",
 }));
@@ -12916,23 +11724,6 @@ export const updateMemory: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateMemory",
-  iam: {
-    actions: [
-      "iam:PassRole",
-      "bedrock-agentcore:UpdateMemory",
-      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification",
-    ],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:UpdateMemory": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
-      ],
-      "bedrock-agentcore:UpdateMemoryRecordExpirySpecification": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:memory/${MemoryId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "memoryExecutionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateMemory",
 }));
@@ -12975,15 +11766,6 @@ export const updateOauth2CredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOauth2CredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateOauth2CredentialProvider"],
-    resources: {
-      "bedrock-agentcore:UpdateOauth2CredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/oauth2credentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOauth2CredentialProvider",
 }));
@@ -13020,16 +11802,6 @@ export const updateOnlineEvaluationConfig: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOnlineEvaluationConfig",
-  iam: {
-    actions: ["iam:PassRole", "bedrock-agentcore:UpdateOnlineEvaluationConfig"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:UpdateOnlineEvaluationConfig": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:online-evaluation-config/${OnlineEvaluationConfigId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "evaluationExecutionRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOnlineEvaluationConfig",
 }));
@@ -13068,21 +11840,6 @@ export const updatePaymentConnector: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentConnector",
-  iam: {
-    actions: [
-      "bedrock-agentcore:GetPaymentCredentialProvider",
-      "bedrock-agentcore:UpdatePaymentConnector",
-    ],
-    resources: {
-      "bedrock-agentcore:GetPaymentCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-      "bedrock-agentcore:UpdatePaymentConnector": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePaymentConnector",
 }));
@@ -13125,15 +11882,6 @@ export const updatePaymentCredentialProvider: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentCredentialProvider",
-  iam: {
-    actions: ["bedrock-agentcore:UpdatePaymentCredentialProvider"],
-    resources: {
-      "bedrock-agentcore:UpdatePaymentCredentialProvider": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}/paymentcredentialprovider/${Name}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:token-vault/${TokenVaultId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePaymentCredentialProvider",
 }));
@@ -13170,16 +11918,6 @@ export const updatePaymentManager: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePaymentManager",
-  iam: {
-    actions: ["iam:PassRole", "bedrock-agentcore:UpdatePaymentManager"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:UpdatePaymentManager": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:payment-manager/${PaymentManagerId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "roleArn" },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePaymentManager",
 }));
@@ -13218,15 +11956,6 @@ export const updatePolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicy",
-  iam: {
-    actions: ["bedrock-agentcore:UpdatePolicy"],
-    resources: {
-      "bedrock-agentcore:UpdatePolicy": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}/policy/${PolicyId}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePolicy",
 }));
@@ -13261,14 +11990,6 @@ export const updatePolicyEngine: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdatePolicyEngine",
-  iam: {
-    actions: ["bedrock-agentcore:UpdatePolicyEngine"],
-    resources: {
-      "bedrock-agentcore:UpdatePolicyEngine": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:policy-engine/${PolicyEngineId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdatePolicyEngine",
 }));
@@ -13305,14 +12026,6 @@ export const updateRegistry: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistry",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateRegistry"],
-    resources: {
-      "bedrock-agentcore:UpdateRegistry": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRegistry",
 }));
@@ -13347,16 +12060,6 @@ export const updateRegistryRecord: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecord",
-  iam: {
-    actions: ["iam:PassRole", "bedrock-agentcore:UpdateRegistryRecord"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "bedrock-agentcore:UpdateRegistryRecord": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRegistryRecord",
 }));
@@ -13391,14 +12094,6 @@ export const updateRegistryRecordStatus: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateRegistryRecordStatus",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateRegistryRecordStatus"],
-    resources: {
-      "bedrock-agentcore:UpdateRegistryRecordStatus": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:registry/${RegistryId}/record/${RecordId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateRegistryRecordStatus",
 }));
@@ -13435,15 +12130,6 @@ export const updateWorkloadIdentity: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateWorkloadIdentity",
-  iam: {
-    actions: ["bedrock-agentcore:UpdateWorkloadIdentity"],
-    resources: {
-      "bedrock-agentcore:UpdateWorkloadIdentity": [
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}/workload-identity/${WorkloadIdentityName}",
-        "arn:${Partition}:bedrock-agentcore:${Region}:${Account}:workload-identity-directory/${DirectoryId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateWorkloadIdentity",
 }));

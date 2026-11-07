@@ -2199,14 +2199,6 @@ export const associateFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "AssociateFaces",
-  iam: {
-    actions: ["rekognition:AssociateFaces"],
-    resources: {
-      "rekognition:AssociateFaces": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "AssociateFaces",
 }));
@@ -2300,7 +2292,6 @@ export const compareFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CompareFaces",
-  iam: { actions: ["rekognition:CompareFaces"] },
   telemetry: TELEMETRY,
   span: "CompareFaces",
 }));
@@ -2366,23 +2357,6 @@ export const copyProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CopyProjectVersion",
-  iam: {
-    actions: [
-      "rekognition:CopyProjectVersion",
-      "rekognition:CreateProjectVersion",
-      "rekognition:TagResource",
-    ],
-    resources: {
-      "rekognition:CopyProjectVersion": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/version/${VersionName}/${CreationTimestamp}",
-      ],
-      "rekognition:CreateProjectVersion": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-      ],
-    },
-    conditional: { "rekognition:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CopyProjectVersion",
 }));
@@ -2435,10 +2409,6 @@ export const createCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateCollection",
-  iam: {
-    actions: ["rekognition:CreateCollection", "rekognition:TagResource"],
-    conditional: { "rekognition:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateCollection",
 }));
@@ -2502,22 +2472,6 @@ export const createDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateDataset",
-  iam: {
-    actions: [
-      "rekognition:CreateDataset",
-      "rekognition:ListDatasetEntries",
-      "rekognition:TagResource",
-    ],
-    resources: {
-      "rekognition:CreateDataset": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-      ],
-      "rekognition:ListDatasetEntries": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/dataset/${DatasetType}/${CreationTimestamp}",
-      ],
-    },
-    conditional: { "rekognition:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateDataset",
 }));
@@ -2568,7 +2522,6 @@ export const createFaceLivenessSession: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateFaceLivenessSession",
-  iam: { actions: ["rekognition:CreateFaceLivenessSession"] },
   telemetry: TELEMETRY,
   span: "CreateFaceLivenessSession",
 }));
@@ -2610,10 +2563,6 @@ export const createProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProject",
-  iam: {
-    actions: ["rekognition:CreateProject", "rekognition:TagResource"],
-    conditional: { "rekognition:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProject",
 }));
@@ -2682,15 +2631,6 @@ export const createProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateProjectVersion",
-  iam: {
-    actions: ["rekognition:CreateProjectVersion", "rekognition:TagResource"],
-    resources: {
-      "rekognition:CreateProjectVersion": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-      ],
-    },
-    conditional: { "rekognition:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateProjectVersion",
 }));
@@ -2762,16 +2702,6 @@ export const createStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateStreamProcessor",
-  iam: {
-    actions: ["rekognition:CreateStreamProcessor", "iam:PassRole", "rekognition:TagResource"],
-    resources: {
-      "rekognition:CreateStreamProcessor": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: { "rekognition:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateStreamProcessor",
 }));
@@ -2820,14 +2750,6 @@ export const createUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateUser",
-  iam: {
-    actions: ["rekognition:CreateUser"],
-    resources: {
-      "rekognition:CreateUser": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
@@ -2867,14 +2789,6 @@ export const deleteCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteCollection",
-  iam: {
-    actions: ["rekognition:DeleteCollection"],
-    resources: {
-      "rekognition:DeleteCollection": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteCollection",
 }));
@@ -2924,14 +2838,6 @@ export const deleteDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteDataset",
-  iam: {
-    actions: ["rekognition:DeleteDataset"],
-    resources: {
-      "rekognition:DeleteDataset": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/dataset/${DatasetType}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteDataset",
 }));
@@ -2970,14 +2876,6 @@ export const deleteFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteFaces",
-  iam: {
-    actions: ["rekognition:DeleteFaces"],
-    resources: {
-      "rekognition:DeleteFaces": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteFaces",
 }));
@@ -3023,14 +2921,6 @@ export const deleteProject: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProject",
-  iam: {
-    actions: ["rekognition:DeleteProject"],
-    resources: {
-      "rekognition:DeleteProject": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProject",
 }));
@@ -3073,14 +2963,6 @@ export const deleteProjectPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectPolicy",
-  iam: {
-    actions: ["rekognition:DeleteProjectPolicy"],
-    resources: {
-      "rekognition:DeleteProjectPolicy": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProjectPolicy",
 }));
@@ -3125,14 +3007,6 @@ export const deleteProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteProjectVersion",
-  iam: {
-    actions: ["rekognition:DeleteProjectVersion"],
-    resources: {
-      "rekognition:DeleteProjectVersion": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/version/${VersionName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteProjectVersion",
 }));
@@ -3175,14 +3049,6 @@ export const deleteStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteStreamProcessor",
-  iam: {
-    actions: ["rekognition:DeleteStreamProcessor"],
-    resources: {
-      "rekognition:DeleteStreamProcessor": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:streamprocessor/${StreamprocessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteStreamProcessor",
 }));
@@ -3225,14 +3091,6 @@ export const deleteUser: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteUser",
-  iam: {
-    actions: ["rekognition:DeleteUser"],
-    resources: {
-      "rekognition:DeleteUser": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteUser",
 }));
@@ -3272,14 +3130,6 @@ export const describeCollection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeCollection",
-  iam: {
-    actions: ["rekognition:DescribeCollection"],
-    resources: {
-      "rekognition:DescribeCollection": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeCollection",
 }));
@@ -3319,14 +3169,6 @@ export const describeDataset: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeDataset",
-  iam: {
-    actions: ["rekognition:DescribeDataset"],
-    resources: {
-      "rekognition:DescribeDataset": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/dataset/${DatasetType}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeDataset",
 }));
@@ -3370,7 +3212,6 @@ export const describeProjects: API.PaginatedOperationMethod<
     items: "ProjectDescriptions",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:DescribeProjects"] },
   telemetry: TELEMETRY,
   span: "DescribeProjects",
 })) as any;
@@ -3419,14 +3260,6 @@ export const describeProjectVersions: API.PaginatedOperationMethod<
     items: "ProjectVersionDescriptions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["rekognition:DescribeProjectVersions"],
-    resources: {
-      "rekognition:DescribeProjectVersions": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeProjectVersions",
 })) as any;
@@ -3467,14 +3300,6 @@ export const describeStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DescribeStreamProcessor",
-  iam: {
-    actions: ["rekognition:DescribeStreamProcessor"],
-    resources: {
-      "rekognition:DescribeStreamProcessor": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:streamprocessor/${StreamprocessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DescribeStreamProcessor",
 }));
@@ -3560,14 +3385,6 @@ export const detectCustomLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectCustomLabels",
-  iam: {
-    actions: ["rekognition:DetectCustomLabels"],
-    resources: {
-      "rekognition:DetectCustomLabels": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/version/${VersionName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DetectCustomLabels",
 }));
@@ -3626,7 +3443,6 @@ export const detectFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectFaces",
-  iam: { actions: ["rekognition:DetectFaces"] },
   telemetry: TELEMETRY,
   span: "DetectFaces",
 }));
@@ -3768,7 +3584,6 @@ export const detectLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectLabels",
-  iam: { actions: ["rekognition:DetectLabels"] },
   telemetry: TELEMETRY,
   span: "DetectLabels",
 }));
@@ -3831,7 +3646,6 @@ export const detectModerationLabels: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectModerationLabels",
-  iam: { actions: ["rekognition:DetectModerationLabels"] },
   telemetry: TELEMETRY,
   span: "DetectModerationLabels",
 }));
@@ -3901,7 +3715,6 @@ export const detectProtectiveEquipment: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectProtectiveEquipment",
-  iam: { actions: ["rekognition:DetectProtectiveEquipment"] },
   telemetry: TELEMETRY,
   span: "DetectProtectiveEquipment",
 }));
@@ -3969,7 +3782,6 @@ export const detectText: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DetectText",
-  iam: { actions: ["rekognition:DetectText"] },
   telemetry: TELEMETRY,
   span: "DetectText",
 }));
@@ -4015,14 +3827,6 @@ export const disassociateFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DisassociateFaces",
-  iam: {
-    actions: ["rekognition:DisassociateFaces"],
-    resources: {
-      "rekognition:DisassociateFaces": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DisassociateFaces",
 }));
@@ -4073,14 +3877,6 @@ export const distributeDatasetEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DistributeDatasetEntries",
-  iam: {
-    actions: ["rekognition:DistributeDatasetEntries"],
-    resources: {
-      "rekognition:DistributeDatasetEntries": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/dataset/${DatasetType}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DistributeDatasetEntries",
 }));
@@ -4123,7 +3919,6 @@ export const getCelebrityInfo: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetCelebrityInfo",
-  iam: { actions: ["rekognition:GetCelebrityInfo"] },
   telemetry: TELEMETRY,
   span: "GetCelebrityInfo",
 }));
@@ -4209,7 +4004,6 @@ export const getCelebrityRecognition: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:GetCelebrityRecognition"] },
   telemetry: TELEMETRY,
   span: "GetCelebrityRecognition",
 })) as any;
@@ -4282,7 +4076,6 @@ export const getContentModeration: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:GetContentModeration"] },
   telemetry: TELEMETRY,
   span: "GetContentModeration",
 })) as any;
@@ -4342,7 +4135,6 @@ export const getFaceDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:GetFaceDetection"] },
   telemetry: TELEMETRY,
   span: "GetFaceDetection",
 })) as any;
@@ -4390,7 +4182,6 @@ export const getFaceLivenessSessionResults: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetFaceLivenessSessionResults",
-  iam: { actions: ["rekognition:GetFaceLivenessSessionResults"] },
   telemetry: TELEMETRY,
   span: "GetFaceLivenessSessionResults",
 }));
@@ -4463,7 +4254,6 @@ export const getFaceSearch: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:GetFaceSearch"] },
   telemetry: TELEMETRY,
   span: "GetFaceSearch",
 })) as any;
@@ -4571,7 +4361,6 @@ export const getLabelDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:GetLabelDetection"] },
   telemetry: TELEMETRY,
   span: "GetLabelDetection",
 })) as any;
@@ -4612,7 +4401,6 @@ export const getMediaAnalysisJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetMediaAnalysisJob",
-  iam: { actions: ["rekognition:GetMediaAnalysisJob"] },
   telemetry: TELEMETRY,
   span: "GetMediaAnalysisJob",
 }));
@@ -4687,7 +4475,6 @@ export const getPersonTracking: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:GetPersonTracking"] },
   telemetry: TELEMETRY,
   span: "GetPersonTracking",
 })) as any;
@@ -4755,7 +4542,6 @@ export const getSegmentDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:GetSegmentDetection"] },
   telemetry: TELEMETRY,
   span: "GetSegmentDetection",
 })) as any;
@@ -4819,7 +4605,6 @@ export const getTextDetection: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:GetTextDetection"] },
   telemetry: TELEMETRY,
   span: "GetTextDetection",
 })) as any;
@@ -4953,14 +4738,6 @@ export const indexFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "IndexFaces",
-  iam: {
-    actions: ["rekognition:IndexFaces"],
-    resources: {
-      "rekognition:IndexFaces": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "IndexFaces",
 }));
@@ -5012,7 +4789,6 @@ export const listCollections: API.PaginatedOperationMethod<
     items: "CollectionIds",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:ListCollections"] },
   telemetry: TELEMETRY,
   span: "ListCollections",
 })) as any;
@@ -5075,14 +4851,6 @@ export const listDatasetEntries: API.PaginatedOperationMethod<
     items: "DatasetEntries",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["rekognition:ListDatasetEntries"],
-    resources: {
-      "rekognition:ListDatasetEntries": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/dataset/${DatasetType}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDatasetEntries",
 })) as any;
@@ -5136,14 +4904,6 @@ export const listDatasetLabels: API.PaginatedOperationMethod<
     items: "DatasetLabelDescriptions",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["rekognition:ListDatasetLabels"],
-    resources: {
-      "rekognition:ListDatasetLabels": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/dataset/${DatasetType}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListDatasetLabels",
 })) as any;
@@ -5193,14 +4953,6 @@ export const listFaces: API.PaginatedOperationMethod<
     items: "Faces",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["rekognition:ListFaces"],
-    resources: {
-      "rekognition:ListFaces": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListFaces",
 })) as any;
@@ -5246,7 +4998,6 @@ export const listMediaAnalysisJobs: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:ListMediaAnalysisJobs"] },
   telemetry: TELEMETRY,
   span: "ListMediaAnalysisJobs",
 })) as any;
@@ -5296,14 +5047,6 @@ export const listProjectPolicies: API.PaginatedOperationMethod<
     items: "ProjectPolicies",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["rekognition:ListProjectPolicies"],
-    resources: {
-      "rekognition:ListProjectPolicies": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListProjectPolicies",
 })) as any;
@@ -5349,7 +5092,6 @@ export const listStreamProcessors: API.PaginatedOperationMethod<
     outputToken: "NextToken",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["rekognition:ListStreamProcessors"] },
   telemetry: TELEMETRY,
   span: "ListStreamProcessors",
 })) as any;
@@ -5388,7 +5130,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["rekognition:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -5436,14 +5177,6 @@ export const listUsers: API.PaginatedOperationMethod<
     items: "Users",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["rekognition:ListUsers"],
-    resources: {
-      "rekognition:ListUsers": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListUsers",
 })) as any;
@@ -5508,14 +5241,6 @@ export const putProjectPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutProjectPolicy",
-  iam: {
-    actions: ["rekognition:PutProjectPolicy"],
-    resources: {
-      "rekognition:PutProjectPolicy": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutProjectPolicy",
 }));
@@ -5585,7 +5310,6 @@ export const recognizeCelebrities: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "RecognizeCelebrities",
-  iam: { actions: ["rekognition:RecognizeCelebrities"] },
   telemetry: TELEMETRY,
   span: "RecognizeCelebrities",
 }));
@@ -5637,14 +5361,6 @@ export const searchFaces: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchFaces",
-  iam: {
-    actions: ["rekognition:SearchFaces"],
-    resources: {
-      "rekognition:SearchFaces": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchFaces",
 }));
@@ -5726,14 +5442,6 @@ export const searchFacesByImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchFacesByImage",
-  iam: {
-    actions: ["rekognition:SearchFacesByImage"],
-    resources: {
-      "rekognition:SearchFacesByImage": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchFacesByImage",
 }));
@@ -5773,14 +5481,6 @@ export const searchUsers: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchUsers",
-  iam: {
-    actions: ["rekognition:SearchUsers"],
-    resources: {
-      "rekognition:SearchUsers": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchUsers",
 }));
@@ -5831,14 +5531,6 @@ export const searchUsersByImage: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "SearchUsersByImage",
-  iam: {
-    actions: ["rekognition:SearchUsersByImage"],
-    resources: {
-      "rekognition:SearchUsersByImage": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "SearchUsersByImage",
 }));
@@ -5891,11 +5583,6 @@ export const startCelebrityRecognition: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartCelebrityRecognition",
-  iam: {
-    actions: ["iam:PassRole", "rekognition:StartCelebrityRecognition"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "StartCelebrityRecognition",
 }));
@@ -5949,11 +5636,6 @@ export const startContentModeration: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartContentModeration",
-  iam: {
-    actions: ["iam:PassRole", "rekognition:StartContentModeration"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "StartContentModeration",
 }));
@@ -6007,11 +5689,6 @@ export const startFaceDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFaceDetection",
-  iam: {
-    actions: ["iam:PassRole", "rekognition:StartFaceDetection"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "StartFaceDetection",
 }));
@@ -6064,16 +5741,6 @@ export const startFaceSearch: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartFaceSearch",
-  iam: {
-    actions: ["iam:PassRole", "rekognition:StartFaceSearch"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "rekognition:StartFaceSearch": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:collection/${CollectionId}",
-      ],
-    },
-    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "StartFaceSearch",
 }));
@@ -6141,11 +5808,6 @@ export const startLabelDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartLabelDetection",
-  iam: {
-    actions: ["iam:PassRole", "rekognition:StartLabelDetection"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "StartLabelDetection",
 }));
@@ -6196,7 +5858,6 @@ export const startMediaAnalysisJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartMediaAnalysisJob",
-  iam: { actions: ["rekognition:StartMediaAnalysisJob"] },
   telemetry: TELEMETRY,
   span: "StartMediaAnalysisJob",
 }));
@@ -6252,7 +5913,6 @@ export const startPersonTracking: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartPersonTracking",
-  iam: { actions: ["rekognition:StartPersonTracking"] },
   telemetry: TELEMETRY,
   span: "StartPersonTracking",
 }));
@@ -6303,14 +5963,6 @@ export const startProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartProjectVersion",
-  iam: {
-    actions: ["rekognition:StartProjectVersion"],
-    resources: {
-      "rekognition:StartProjectVersion": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/version/${VersionName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartProjectVersion",
 }));
@@ -6368,11 +6020,6 @@ export const startSegmentDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartSegmentDetection",
-  iam: {
-    actions: ["iam:PassRole", "rekognition:StartSegmentDetection"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "StartSegmentDetection",
 }));
@@ -6418,14 +6065,6 @@ export const startStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartStreamProcessor",
-  iam: {
-    actions: ["rekognition:StartStreamProcessor"],
-    resources: {
-      "rekognition:StartStreamProcessor": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:streamprocessor/${StreamprocessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StartStreamProcessor",
 }));
@@ -6475,11 +6114,6 @@ export const startTextDetection: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StartTextDetection",
-  iam: {
-    actions: ["iam:PassRole", "rekognition:StartTextDetection"],
-    resources: { "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"] },
-    conditional: { "iam:PassRole": "NotificationChannel.RoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "StartTextDetection",
 }));
@@ -6522,14 +6156,6 @@ export const stopProjectVersion: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopProjectVersion",
-  iam: {
-    actions: ["rekognition:StopProjectVersion"],
-    resources: {
-      "rekognition:StopProjectVersion": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/version/${VersionName}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopProjectVersion",
 }));
@@ -6571,14 +6197,6 @@ export const stopStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "StopStreamProcessor",
-  iam: {
-    actions: ["rekognition:StopStreamProcessor"],
-    resources: {
-      "rekognition:StopStreamProcessor": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:streamprocessor/${StreamprocessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "StopStreamProcessor",
 }));
@@ -6620,7 +6238,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["rekognition:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -6659,7 +6276,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["rekognition:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -6724,14 +6340,6 @@ export const updateDatasetEntries: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateDatasetEntries",
-  iam: {
-    actions: ["rekognition:UpdateDatasetEntries"],
-    resources: {
-      "rekognition:UpdateDatasetEntries": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:project/${ProjectName}/dataset/${DatasetType}/${CreationTimestamp}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateDatasetEntries",
 }));
@@ -6773,14 +6381,6 @@ export const updateStreamProcessor: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateStreamProcessor",
-  iam: {
-    actions: ["rekognition:UpdateStreamProcessor"],
-    resources: {
-      "rekognition:UpdateStreamProcessor": [
-        "arn:${Partition}:rekognition:${Region}:${Account}:streamprocessor/${StreamprocessorId}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateStreamProcessor",
 }));

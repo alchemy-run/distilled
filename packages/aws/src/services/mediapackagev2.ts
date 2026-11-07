@@ -1239,17 +1239,6 @@ export const cancelHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CancelHarvestJob",
-  iam: {
-    actions: ["mediapackagev2:CancelHarvestJob"],
-    resources: {
-      "mediapackagev2:CancelHarvestJob": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}/harvestJob/${HarvestJobName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "CancelHarvestJob",
 }));
@@ -1286,16 +1275,6 @@ export const createChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannel",
-  iam: {
-    actions: ["mediapackagev2:CreateChannel", "mediapackagev2:TagResource"],
-    resources: {
-      "mediapackagev2:CreateChannel": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-    conditional: { "mediapackagev2:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannel",
 }));
@@ -1332,15 +1311,6 @@ export const createChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateChannelGroup",
-  iam: {
-    actions: ["mediapackagev2:CreateChannelGroup", "mediapackagev2:TagResource"],
-    resources: {
-      "mediapackagev2:CreateChannelGroup": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-    conditional: { "mediapackagev2:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateChannelGroup",
 }));
@@ -1377,18 +1347,6 @@ export const createHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateHarvestJob",
-  iam: {
-    actions: ["mediapackagev2:CreateHarvestJob", "mediapackagev2:TagResource"],
-    resources: {
-      "mediapackagev2:CreateHarvestJob": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}/harvestJob/${HarvestJobName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-    conditional: { "mediapackagev2:TagResource": "Tags" },
-  },
   telemetry: TELEMETRY,
   span: "CreateHarvestJob",
 }));
@@ -1425,21 +1383,6 @@ export const createOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "CreateOriginEndpoint",
-  iam: {
-    actions: ["mediapackagev2:CreateOriginEndpoint", "iam:PassRole", "mediapackagev2:TagResource"],
-    resources: {
-      "mediapackagev2:CreateOriginEndpoint": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-    },
-    conditional: {
-      "iam:PassRole": "a role the request names",
-      "mediapackagev2:TagResource": "Tags",
-    },
-  },
   telemetry: TELEMETRY,
   span: "CreateOriginEndpoint",
 }));
@@ -1472,15 +1415,6 @@ export const deleteChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannel",
-  iam: {
-    actions: ["mediapackagev2:DeleteChannel"],
-    resources: {
-      "mediapackagev2:DeleteChannel": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannel",
 }));
@@ -1513,14 +1447,6 @@ export const deleteChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelGroup",
-  iam: {
-    actions: ["mediapackagev2:DeleteChannelGroup"],
-    resources: {
-      "mediapackagev2:DeleteChannelGroup": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelGroup",
 }));
@@ -1553,15 +1479,6 @@ export const deleteChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteChannelPolicy",
-  iam: {
-    actions: ["mediapackagev2:DeleteChannelPolicy"],
-    resources: {
-      "mediapackagev2:DeleteChannelPolicy": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteChannelPolicy",
 }));
@@ -1592,16 +1509,6 @@ export const deleteOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpoint",
-  iam: {
-    actions: ["mediapackagev2:DeleteOriginEndpoint"],
-    resources: {
-      "mediapackagev2:DeleteOriginEndpoint": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOriginEndpoint",
 }));
@@ -1634,16 +1541,6 @@ export const deleteOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "DeleteOriginEndpointPolicy",
-  iam: {
-    actions: ["mediapackagev2:DeleteOriginEndpointPolicy"],
-    resources: {
-      "mediapackagev2:DeleteOriginEndpointPolicy": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "DeleteOriginEndpointPolicy",
 }));
@@ -1676,15 +1573,6 @@ export const getChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannel",
-  iam: {
-    actions: ["mediapackagev2:GetChannel"],
-    resources: {
-      "mediapackagev2:GetChannel": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannel",
 }));
@@ -1717,14 +1605,6 @@ export const getChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelGroup",
-  iam: {
-    actions: ["mediapackagev2:GetChannelGroup"],
-    resources: {
-      "mediapackagev2:GetChannelGroup": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannelGroup",
 }));
@@ -1757,15 +1637,6 @@ export const getChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetChannelPolicy",
-  iam: {
-    actions: ["mediapackagev2:GetChannelPolicy"],
-    resources: {
-      "mediapackagev2:GetChannelPolicy": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetChannelPolicy",
 }));
@@ -1798,17 +1669,6 @@ export const getHarvestJob: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetHarvestJob",
-  iam: {
-    actions: ["mediapackagev2:GetHarvestJob"],
-    resources: {
-      "mediapackagev2:GetHarvestJob": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}/harvestJob/${HarvestJobName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetHarvestJob",
 }));
@@ -1841,16 +1701,6 @@ export const getOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginEndpoint",
-  iam: {
-    actions: ["mediapackagev2:GetOriginEndpoint"],
-    resources: {
-      "mediapackagev2:GetOriginEndpoint": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOriginEndpoint",
 }));
@@ -1883,16 +1733,6 @@ export const getOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "GetOriginEndpointPolicy",
-  iam: {
-    actions: ["mediapackagev2:GetOriginEndpointPolicy"],
-    resources: {
-      "mediapackagev2:GetOriginEndpointPolicy": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "GetOriginEndpointPolicy",
 }));
@@ -1930,7 +1770,6 @@ export const listChannelGroups: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["mediapackagev2:ListChannelGroups"] },
   telemetry: TELEMETRY,
   span: "ListChannelGroups",
 })) as any;
@@ -1970,14 +1809,6 @@ export const listChannels: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["mediapackagev2:ListChannels"],
-    resources: {
-      "mediapackagev2:ListChannels": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListChannels",
 })) as any;
@@ -2017,14 +1848,6 @@ export const listHarvestJobs: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["mediapackagev2:ListHarvestJobs"],
-    resources: {
-      "mediapackagev2:ListHarvestJobs": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListHarvestJobs",
 })) as any;
@@ -2064,15 +1887,6 @@ export const listOriginEndpoints: API.PaginatedOperationMethod<
     items: "Items",
     pageSize: "MaxResults",
   } as const,
-  iam: {
-    actions: ["mediapackagev2:ListOriginEndpoints"],
-    resources: {
-      "mediapackagev2:ListOriginEndpoints": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ListOriginEndpoints",
 })) as any;
@@ -2093,7 +1907,6 @@ export const listTagsForResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ListTagsForResource",
-  iam: { actions: ["mediapackagev2:ListTagsForResource"] },
   telemetry: TELEMETRY,
   span: "ListTagsForResource",
 }));
@@ -2128,15 +1941,6 @@ export const putChannelPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutChannelPolicy",
-  iam: {
-    actions: ["mediapackagev2:PutChannelPolicy"],
-    resources: {
-      "mediapackagev2:PutChannelPolicy": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "PutChannelPolicy",
 }));
@@ -2171,18 +1975,6 @@ export const putOriginEndpointPolicy: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "PutOriginEndpointPolicy",
-  iam: {
-    actions: ["iam:PassRole", "mediapackagev2:PutOriginEndpointPolicy"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "mediapackagev2:PutOriginEndpointPolicy": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "CdnAuthConfiguration.SecretsRoleArn" },
-  },
   telemetry: TELEMETRY,
   span: "PutOriginEndpointPolicy",
 }));
@@ -2219,15 +2011,6 @@ export const resetChannelState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetChannelState",
-  iam: {
-    actions: ["mediapackagev2:ResetChannelState"],
-    resources: {
-      "mediapackagev2:ResetChannelState": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetChannelState",
 }));
@@ -2264,16 +2047,6 @@ export const resetOriginEndpointState: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "ResetOriginEndpointState",
-  iam: {
-    actions: ["mediapackagev2:ResetOriginEndpointState"],
-    resources: {
-      "mediapackagev2:ResetOriginEndpointState": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "ResetOriginEndpointState",
 }));
@@ -2296,7 +2069,6 @@ export const tagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "TagResource",
-  iam: { actions: ["mediapackagev2:TagResource"] },
   telemetry: TELEMETRY,
   span: "TagResource",
 }));
@@ -2317,7 +2089,6 @@ export const untagResource: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UntagResource",
-  iam: { actions: ["mediapackagev2:UntagResource"] },
   telemetry: TELEMETRY,
   span: "UntagResource",
 }));
@@ -2354,15 +2125,6 @@ export const updateChannel: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannel",
-  iam: {
-    actions: ["mediapackagev2:UpdateChannel"],
-    resources: {
-      "mediapackagev2:UpdateChannel": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannel",
 }));
@@ -2399,14 +2161,6 @@ export const updateChannelGroup: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateChannelGroup",
-  iam: {
-    actions: ["mediapackagev2:UpdateChannelGroup"],
-    resources: {
-      "mediapackagev2:UpdateChannelGroup": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-      ],
-    },
-  },
   telemetry: TELEMETRY,
   span: "UpdateChannelGroup",
 }));
@@ -2445,18 +2199,6 @@ export const updateOriginEndpoint: API.OperationMethod<
   protocol: AwsProtocol,
   retry: Retry,
   operationName: "UpdateOriginEndpoint",
-  iam: {
-    actions: ["iam:PassRole", "mediapackagev2:UpdateOriginEndpoint"],
-    resources: {
-      "iam:PassRole": ["arn:${Partition}:iam::${Account}:role/${RoleNameWithPath}"],
-      "mediapackagev2:UpdateOriginEndpoint": [
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}",
-        "arn:${Partition}:mediapackagev2:${Region}:${Account}:channelGroup/${ChannelGroupName}/channel/${ChannelName}/originEndpoint/${OriginEndpointName}",
-      ],
-    },
-    conditional: { "iam:PassRole": "a role the request names" },
-  },
   telemetry: TELEMETRY,
   span: "UpdateOriginEndpoint",
 }));

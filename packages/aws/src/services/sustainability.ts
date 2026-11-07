@@ -307,7 +307,6 @@ export const getEstimatedCarbonEmissions: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sustainability:GetEstimatedCarbonEmissions"] },
   telemetry: TELEMETRY,
   span: "GetEstimatedCarbonEmissions",
 })) as any;
@@ -345,7 +344,6 @@ export const getEstimatedCarbonEmissionsDimensionValues: API.PaginatedOperationM
     items: "Results",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sustainability:GetEstimatedCarbonEmissionsDimensionValues"] },
   telemetry: TELEMETRY,
   span: "GetEstimatedCarbonEmissionsDimensionValues",
 })) as any;
@@ -383,7 +381,6 @@ export const getEstimatedWaterAllocation: API.PaginatedOperationMethod<
     items: "Results",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sustainability:GetEstimatedWaterAllocation"] },
   telemetry: TELEMETRY,
   span: "GetEstimatedWaterAllocation",
 })) as any;
@@ -421,7 +418,6 @@ export const getEstimatedWaterAllocationDimensionValues: API.PaginatedOperationM
     items: "Results",
     pageSize: "MaxResults",
   } as const,
-  iam: { actions: ["sustainability:GetEstimatedWaterAllocationDimensionValues"] },
   telemetry: TELEMETRY,
   span: "GetEstimatedWaterAllocationDimensionValues",
 })) as any;
