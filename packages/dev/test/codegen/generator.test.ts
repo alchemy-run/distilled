@@ -254,3 +254,83 @@ describe("pagination over a bare-array response", () => {
     expect(code).toContain("resultInfo?: string | null;");
   });
 });
+
+const grpcModel = () => ({
+  smithy: "2.0",
+  shapes: {
+    "com.example.grpc#Echo": {
+      type: "service",
+      version: "1.0",
+      operations: [{ target: "com.example.grpc#Say" }, { target: "com.example.grpc#Count" }],
+    },
+    "com.example.grpc#Say": {
+      type: "operation",
+      input: { target: "com.example.grpc#SayRequest" },
+      output: { target: "com.example.grpc#SayResponse" },
+      traits: { "smithy.api#http": { method: "POST", uri: "/echo.Echo/Say" } },
+    },
+    "com.example.grpc#Count": {
+      type: "operation",
+      input: { target: "com.example.grpc#SayRequest" },
+      output: { target: "com.example.grpc#CountStream" },
+      traits: {
+        "smithy.api#http": { method: "POST", uri: "/echo.Echo/Count" },
+        "com.distilled.grpc#serverStreaming": {},
+      },
+    },
+    "com.example.grpc#SayRequest": {
+      type: "structure",
+      traits: { "smithy.api#input": {} },
+      members: {
+        text: { target: "smithy.api#String", traits: { "smithy.api#default": "" } },
+        shared: { target: "com.example.grpc#Shared" },
+      },
+    },
+    "com.example.grpc#SayResponse": {
+      type: "structure",
+      members: {
+        text: { target: "smithy.api#String", traits: { "smithy.api#default": "" } },
+        note: { target: "smithy.api#String" },
+        shared: { target: "com.example.grpc#Shared" },
+      },
+    },
+    "com.example.grpc#Shared": {
+      type: "structure",
+      members: {
+        label: { target: "smithy.api#String", traits: { "smithy.api#default": "" } },
+      },
+    },
+    "com.example.grpc#CountStream": {
+      type: "structure",
+      members: {
+        items: {
+          target: "com.example.grpc#SayResponseList",
+          traits: { "smithy.api#required": {} },
+        },
+      },
+    },
+    "com.example.grpc#SayResponseList": {
+      type: "list",
+      member: { target: "com.example.grpc#SayResponse" },
+    },
+  },
+});
+
+describe("proto3 defaults and server streams", () => {
+  const { code } = generateService(grpcModel(), { ...spec, streams: true });
+
+  test("a member with a default is required in a response-only shape", () => {
+    expect(code).toMatch(/export interface SayResponse \{\s*text: string;\s*note\?: string;/);
+  });
+
+  test("a member with a default stays optional where a request reaches it", () => {
+    expect(code).toMatch(/export interface SayRequest \{\s*text\?: string;/);
+    expect(code).toMatch(/export interface Shared \{\s*label\?: string;/);
+  });
+
+  test("a server-streaming operation is made with makeStreaming", () => {
+    expect(code).toContain("API.StreamingOperationMethod<");
+    expect(code).toContain("API.makeStreaming(");
+    expect(code).toMatch(/export const say: API\.OperationMethod</);
+  });
+});

@@ -66,6 +66,56 @@ jobs:
       - name: Run tests
         run: pnpm vitest run
 
+  conformance:
+    name: Conformance (gRPC and protobuf)
+    runs-on: blacksmith-4vcpu-ubuntu-2404
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # The suites are the only submodules CI checks out: shallow, one commit.
+      - name: Fetch the conformance suites
+        run: git submodule update --init --depth 1 -- packages/core/conformance/connect packages/core/conformance/protobuf
+
+      - name: Setup pnpm, Node.js and install dependencies
+        uses: pnpm/setup@703c52620218391530e48b9e8870d5c0082e1b9b # v2.1.0
+        with:
+          cache: true
+          install: true
+          require-lockfile: true
+
+      # Building conformance_test_runner takes minutes; key it on the pinned
+      # protobuf commit.
+      - name: Read the pinned protobuf commit
+        id: pin
+        run: echo "sha=$(git rev-parse HEAD:packages/core/conformance/protobuf)" >> "$GITHUB_OUTPUT"
+
+      - name: Restore the protobuf conformance runner
+        id: runner
+        uses: actions/cache/restore@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          # The runner and the jsoncpp it links, found by rpath in the build dir.
+          path: |
+            packages/core/conformance/.build/protobuf/conformance_test_runner
+            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
+          key: protobuf-conformance-runner-v2-${{ runner.os }}-${{ steps.pin.outputs.sha }}
+
+      - name: Run the protobuf conformance suite
+        run: packages/core/conformance/run.sh protobuf
+
+      - name: Save the protobuf conformance runner
+        if: steps.runner.outputs.cache-hit != 'true'
+        uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          # The runner and the jsoncpp it links, found by rpath in the build dir.
+          path: |
+            packages/core/conformance/.build/protobuf/conformance_test_runner
+            packages/core/conformance/.build/protobuf/_deps/jsoncpp-build/src/lib_json
+          key: ${{ steps.runner.outputs.cache-primary-key }}
+
+      - name: Run the gRPC conformance suite
+        run: packages/core/conformance/run.sh grpc
+
   typecheck-stacks:
     name: Typecheck (deployment stacks)
     runs-on: blacksmith-4vcpu-ubuntu-2404

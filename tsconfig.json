@@ -524,6 +524,12 @@
       "path": "./packages/slack/tsconfig.scripts.json"
     },
     {
+      "path": "./packages/rivet/tsconfig.json"
+    },
+    {
+      "path": "./packages/rivet/tsconfig.scripts.json"
+    },
+    {
       "path": "./packages/s2/tsconfig.json"
     },
     {
@@ -539,9 +545,17 @@
     {
       "path": "./packages/daytona/tsconfig.json"
     },
+    { "path": "./packages/daytona/tsconfig.test.json" },
     {
       "path": "./packages/daytona/tsconfig.scripts.json"
     },
+    {
+      "path": "./packages/e2b/tsconfig.json"
+    },
+    {
+      "path": "./packages/e2b/tsconfig.scripts.json"
+    },
+    { "path": "./packages/e2b/tsconfig.test.json" },
     {
       "path": "./packages/boat-dev/tsconfig.json"
     },

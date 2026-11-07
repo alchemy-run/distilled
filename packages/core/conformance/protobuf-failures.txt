@@ -1,0 +1,19 @@
+# Expected failures of core's protobuf codec in the protobuf conformance suite
+# (see README.md). The runner fails on a test missing from this list and on a
+# test in it that passes. The message after `#` must match the runner's.
+#
+# The codec transcodes proto3 JSON *values* (what JSON.parse returns), not
+# JSON text, and decodes into those values:
+#
+# - JSON.parse turns 1.89769e308 into Infinity before the codec sees it.
+# - Original proto field names (`field_name2`) as JSON keys are a text-parser
+#   feature; SDKs build values keyed by JSON name.
+# - Decode fills in every proto3 default, so a decoded value prints them.
+# - Unknown fields are dropped: a JSON value has nowhere to keep them.
+Required.Proto3.JsonInput.DoubleFieldTooLarge # Should have failed to parse, but didn't.
+Required.Proto3.JsonInput.DoubleFieldTooSmall # Should have failed to parse, but didn't.
+Required.Proto3.JsonInput.OriginalProtoFieldName.JsonOutput # Output was not equivalent to reference message: deleted: field_name2: 2deleted: _field_name3: 3deleted: field__name4_: 4deleted:
+Required.Proto3.JsonInput.OriginalProtoFieldName.ProtobufOutput # Output was not equivalent to reference message: deleted: field_name2: 2deleted: _field_name3: 3deleted: field__name4_: 4deleted:
+Required.Proto3.JsonInput.SkipsDefaultPrimitive.Validator # JSON payload validation failed.
+Required.Proto3.ProtobufInput.UnknownOrdering.ProtobufOutput # Unknown field mismatch
+Required.Proto3.ProtobufInput.UnknownVarint.ProtobufOutput # Output was not equivalent to reference message: Expect: \250\037\001, but got: 

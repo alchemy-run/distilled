@@ -16,6 +16,14 @@ import type { SdkSpec } from "@distilled.cloud/dev/codegen/generator";
 
 const SENSITIVE_TRAIT = "smithy.api#sensitive";
 
+/**
+ * Error matchers on patched error shapes. The gRPC protocol hands the REST
+ * decoder `{ code, status, message }` for a non-zero `grpc-status` (`{ code:
+ * 5, status: "NOT_FOUND", ... }`, HTTP 404), so matchers key on the numeric
+ * gRPC `code` and the `message`.
+ */
+const ERROR_MATCHERS_TRAIT = "com.modal.protocols#errorMatchers";
+
 const camel = (slug: string): string =>
   slug
     .split("_")
@@ -26,6 +34,7 @@ const camel = (slug: string): string =>
 const spec: SdkSpec = {
   sourceNote: ".generated-specs (modal_proto → smithy)",
 
+  errorMatchersTrait: ERROR_MATCHERS_TRAIT,
   memberTraitPipes: {
     [SENSITIVE_TRAIT]: "T.SensitiveValue",
   },
@@ -38,6 +47,13 @@ const spec: SdkSpec = {
     `export type ${name} = ${caseTargets.map(tsRef).join(" | ") || "unknown"};`,
     `export const ${name} = S.Unknown as any as S.Schema<${name}>;\n`,
   ],
+
+  // `smithy.api#paginated` comes from patches (proto has no pagination):
+  // keyset `List*` calls and `pageToken` calls.
+  paginationProfiles: { grpc: { itemsFallback: "items" } },
+
+  // ModalProtocol is core's gRPC protocol, which implements `stream`.
+  streams: true,
 
   operationDecl: {
     contextType: "ModalOpContext",

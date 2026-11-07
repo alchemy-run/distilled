@@ -83,6 +83,7 @@ const spec: SdkSpec = {
   paginationProfiles: {
     startAfter: {
       strategy: "paginateStartAfter",
+      requires: () => ["inputToken", "outputToken", "items"],
       itemsFallback: "",
     },
   },

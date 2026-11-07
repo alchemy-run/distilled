@@ -38,6 +38,7 @@ export {
   SensitiveValue,
   RawResponse,
   RawResponseRoot,
+  BinaryResponse,
   sensitiveValueSymbol,
   rawResponseSymbol,
   rawResponseRootSymbol,

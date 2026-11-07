@@ -25,7 +25,7 @@ const TELEMETRY = {
 
 export interface GetAuthTokenRequest {}
 export interface GetAuthTokenResponse {
-  token?: string;
+  token: string;
 }
 export type GetAuthTokenError = ModalOpError;
 /** Auth Token */
@@ -56,7 +56,7 @@ function __c0(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          token: S.optional(S.String),
+          token: S.String,
         }),
       ).annotate({ identifier: "GetAuthTokenResponse" });
   }

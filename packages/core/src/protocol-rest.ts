@@ -5,7 +5,7 @@ import type * as HttpClientRequest from "effect/http/HttpClientRequest";
 import type * as HttpClientResponse from "effect/http/HttpClientResponse";
 import * as Layer from "effect/Layer";
 import type * as AST from "effect/SchemaAST";
-import { rawResponseRootSymbol } from "./annotations.ts";
+import { rawResponseRootSymbol, resolveNode } from "./annotations.ts";
 import * as API from "./api.ts";
 import { HTTP_STATUS_MAP, InternalServerError } from "./errors.ts";
 import { recordPageHeaders } from "./pagination.ts";
@@ -13,6 +13,8 @@ import { unwrapRedactedDeep } from "./plain-values.ts";
 import {
   buildRequest,
   getAnn,
+  getProps,
+  hasPropAnn,
   mapKeys,
   mapsVerbatim,
   matchTypedError,
@@ -41,7 +43,8 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  *             failing with the provider's `parseError` (see
  *             `core/response-validation`) -> `Redacted` wrapping of members
  *             marked with {@link SensitiveValue}; non-2xx -> typed error:
- *             per-op matcher classes (`matchTypedError`), then the status
+ *             the provider's `classifyError`, then per-op matcher
+ *             classes (`matchTypedError`), then the status
  *             map (default `HTTP_STATUS_MAP`), then an `InternalServerError`
  *             for unmapped 5xx, then the provider's `unknownError` fallback
  *             -- with `retryAfter` durations stamped from the standard hint
@@ -178,6 +181,13 @@ export interface RestProtocolOptions<C> {
    * else to {@link unknownError}.
    */
   readonly statusMap?: Readonly<Record<number, new (args: any) => any>>;
+  /**
+   * The provider's own reading of a failure, consulted before per-op typed
+   * matching and the status map: return the error to fail with, or
+   * `undefined` to decode the failure as usual. For rules a status alone
+   * can't express, e.g. a 403 that is a rate limit because of its headers.
+   */
+  readonly classifyError?: (info: RestErrorInfo) => unknown;
   /** Fallback error for failures nothing else matched. */
   readonly unknownError: (info: RestErrorInfo) => unknown;
   /**
@@ -196,6 +206,8 @@ export interface RestProtocolOptions<C> {
   readonly mapMemberHeader?: (name: string, value: string) => string;
   /** Passed through to `buildRequest` (wire names for unmodeled input keys). */
   readonly unknownKeyToWire?: (key: string) => string;
+  /** Passed through to `buildRequest`: send `{}` when a bodied call has no body members. */
+  readonly emptyJsonBody?: boolean;
 }
 
 const defaultErrorEnvelope = (body: unknown): RestErrorEnvelope | undefined => {
@@ -287,6 +299,14 @@ export const validateSuccess = <E>(
 interface DecodePlan {
   readonly binary: boolean;
   readonly verbatim: boolean;
+  /**
+   * A member of a structure output that receives the whole body
+   * (`T.RawResponse()` next to header members), e.g. a bare JSON array with
+   * its next-page token in a response header.
+   */
+  readonly bodyMember: AST.PropertySignature | undefined;
+  /** The output is a bare string, so an empty body decodes to `""`. */
+  readonly text: boolean;
   /** Members read from response headers (`T.Header`). */
   readonly headers: ReadonlyArray<ResponseHeaderMember>;
 }
@@ -298,7 +318,9 @@ const decodePlanFor = (outputAst: AST.AST): DecodePlan => {
     plan = {
       binary: getAnn(outputAst, binaryResponseSymbol) !== undefined,
       verbatim: mapsVerbatim(outputAst, "decode"),
+      text: resolveNode(outputAst)._tag === "String",
       headers: responseHeaderMembers(outputAst),
+      bodyMember: getProps(outputAst).find((prop) => hasPropAnn(prop, rawResponseSymbol)),
     };
     decodePlans.set(outputAst, plan);
   }
@@ -366,6 +388,7 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
       headers: options.headers(creds),
       mapMemberHeader: options.mapMemberHeader,
       unknownKeyToWire: options.unknownKeyToWire,
+      emptyJsonBody: options.emptyJsonBody,
     }) as Effect.Effect<HttpClientRequest.HttpClientRequest>;
   };
 
@@ -392,6 +415,18 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     if (status >= 400) {
       const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
       const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+
+      // 0. The provider's own reading of the failure.
+      if (options.classifyError) {
+        const classified = options.classifyError({
+          status,
+          code: env.code,
+          message,
+          body: nonJson ? text : json,
+          headers,
+        });
+        if (classified !== undefined) return { ok: false, error: classified };
+      }
 
       // 1. Per-operation typed error (matcher metadata on the class).
       const typed = matchTypedError(
@@ -454,14 +489,16 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     // with sensitive members, a non-JSON body fails in every mode and parse
     // errors withhold the body.
     const plan = decodePlanFor(outputAst);
-    let body: unknown = nonJson ? text : (json ?? {});
+    let body: unknown = nonJson ? text : (json ?? (plan.text ? "" : {}));
     if (options.transformResponse) body = options.transformResponse(body);
+    const mapped =
+      plan.bodyMember !== undefined
+        ? { [plan.bodyMember.name]: mapKeys(plan.bodyMember.type, body, "decode") }
+        : plan.verbatim
+          ? body
+          : mapKeys(outputAst, body, "decode");
     const checked = checkSuccess(context, outputAst, {
-      value: withResponseHeaders(
-        plan.headers,
-        plan.verbatim ? body : mapKeys(outputAst, body, "decode"),
-        headers,
-      ),
+      value: withResponseHeaders(plan.headers, mapped, headers),
       body: nonJson ? text : json,
       nonJson,
     });

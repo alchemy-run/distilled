@@ -98,6 +98,7 @@ export type AuditTargetScenarioActionsItem =
   | "update_sso_enabled"
   | "generate_workos_admin_portal_link"
   | "update_scim_enabled"
+  | "mirror_from_workos"
   | "update_otel_config"
   | "delete_otel_config"
   | "update_default_queue_timeout"

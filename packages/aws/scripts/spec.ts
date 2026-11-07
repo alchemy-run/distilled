@@ -31,7 +31,11 @@ import { errorCategories, type SdkSpec } from "@distilled.cloud/dev/codegen/gene
  *   rules via compile-rules) and conditional-import placeholder pruning.
  */
 import { cyclicShapeIds } from "@distilled.cloud/dev/codegen/graph";
-import { mergePaginated } from "@distilled.cloud/dev/codegen/pagination";
+import {
+  assertPaginationFields,
+  defaultStrategyFields,
+  mergePaginated,
+} from "@distilled.cloud/dev/codegen/pagination";
 import { endpointTemplate, generateRuleSetCode, type RuleSetObject } from "./compile-rules.ts";
 import type { SmithyModel, ServiceShape } from "./model-schema.ts";
 import type { ServiceSpec, SyntheticError } from "./spec-schema.ts";
@@ -2241,6 +2245,14 @@ export const awsSpec = (model: SmithyModel, serviceSpec: ServiceSpec): SdkSpec =
         opShape.traits?.["smithy.api#paginated"] as any,
         servicePaginatedTrait as any,
       );
+      if (paginatedTrait) {
+        assertPaginationFields(
+          ctx.op.id,
+          "paginateWithDefaults",
+          defaultStrategyFields(paginatedTrait),
+          paginatedTrait,
+        );
+      }
 
       // smithy.api#endpoint hostPrefix: operations like SFN's
       // StartSyncExecution must target a prefixed host (sync-states.{region})

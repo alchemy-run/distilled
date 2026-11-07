@@ -1,0 +1,40 @@
+{
+  "description": "Type the daemon's git 404 for a repository without commits. Observed live 2026-11-04 (daemon on Daytona Cloud v0.229.2): GET /git/status on a freshly initialized repository answers 404 {\"message\":\"not found: reference not found\",\"source\":\"DAYTONA_DAEMON\",\"code\":\"NOT_FOUND\"}: HEAD names no commit yet.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.git#GitReferenceNotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "smithy.api#documentation": "The repository has no commit for HEAD to name yet (HTTP 404 \"not found: reference not found\").",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404,
+              "message": {
+                "includes": "reference not found"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.daytona.git#GetStatus/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.daytona.git#GitReferenceNotFound"
+        }
+      ]
+    }
+  ]
+}
