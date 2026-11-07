@@ -11,7 +11,7 @@
  * (https://docs.github.com/apps/creating-github-apps/authenticating-with-a-github-app/refreshing-user-access-tokens).
  *
  * GitHub answers a refused exchange with HTTP 200 and an `error` field
- * (`{ "error": "bad_verification_code", "error_description": … }`). Each
+ * (`{ "error": "bad_verification_code", "error_description": "..." }`). Each
  * documented `error` fails with its own tagged error; any other fails with
  * `GithubOAuthError`.
  *

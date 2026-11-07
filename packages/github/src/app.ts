@@ -50,7 +50,7 @@ import { type AppPermissions, createInstallationAccessToken } from "./services/a
 
 export interface AppConfig {
   /**
-   * The App's id, or its client id (`Iv1.…`). Either identifies the App as
+   * The App's id, or its client id (`Iv1.<hex>`). Either identifies the App as
    * the JWT's issuer.
    */
   readonly appId: string | number;
