@@ -30,7 +30,8 @@ const TELEMETRY = {
 export class ApiTokenCreationForbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ApiTokenCreationForbidden>()("ApiTokenCreationForbidden", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
   ) {}
@@ -39,7 +40,8 @@ export class ApiTokenCreationForbidden
 export class ApiTokenNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ApiTokenNotFound>()("ApiTokenNotFound", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -57,7 +59,8 @@ export class BadRequest
 export class BranchConflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BranchConflict>()("BranchConflict", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -66,7 +69,8 @@ export class BranchConflict
 export class BranchNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BranchNotFound>()("BranchNotFound", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -75,7 +79,8 @@ export class BranchNotFound
 export class BranchSourceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<BranchSourceNotFound>()("BranchSourceNotFound", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -84,7 +89,8 @@ export class BranchSourceNotFound
 export class DiskAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DiskAlreadyExists>()("DiskAlreadyExists", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -93,7 +99,8 @@ export class DiskAlreadyExists
 export class DiskNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<DiskNotFound>()("DiskNotFound", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -111,7 +118,8 @@ export class Forbidden
 export class ImageNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ImageNotFound>()("ImageNotFound", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -120,7 +128,8 @@ export class ImageNotFound
 export class SandboxAlreadyExists
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxAlreadyExists>()("SandboxAlreadyExists", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}
@@ -129,7 +138,8 @@ export class SandboxAlreadyExists
 export class SandboxNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxNotFound>()("SandboxNotFound", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -138,7 +148,8 @@ export class SandboxNotFound
 export class SandboxPortTokenNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxPortTokenNotFound>()("SandboxPortTokenNotFound", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -147,7 +158,8 @@ export class SandboxPortTokenNotFound
 export class SandboxSourceNotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxSourceNotFound>()("SandboxSourceNotFound", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
   ) {}
@@ -156,7 +168,8 @@ export class SandboxSourceNotFound
 export class SandboxStateConflict
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxStateConflict>()("SandboxStateConflict", {
-      error: S.String,
+      code: S.String,
+      message: S.String,
     }).pipe(C.withConflictError),
     [{ status: 409 }],
   ) {}

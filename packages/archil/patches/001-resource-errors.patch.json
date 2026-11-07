@@ -1,5 +1,5 @@
 {
-  "description": "Type each operation's 404/409 by what it means for that operation (DiskNotFound, SandboxNotFound, DiskAlreadyExists, SandboxStateConflict, ...) instead of the generic NotFound/Conflict, so callers catch the resource-specific tag. Statuses come from the published spec, plus 404 on addDiskUser/removeDiskUser, which the spec omits (the official SDK documents both against unknown disks). CreateApiToken's 401 is typed ApiTokenCreationForbidden: Archil only mints API keys from a console session, and answers an API key with a bare 401 even though the spec lists ApiKeyAuth.",
+  "description": "Type each operation's 404/409 by what it means for that operation (DiskNotFound, SandboxNotFound, DiskAlreadyExists, SandboxStateConflict, ...) instead of the generic NotFound/Conflict, so callers catch the resource-specific tag. Statuses come from the published spec, plus 404 on addDiskUser/removeDiskUser, which the spec omits (the official SDK documents both against unknown disks). CreateApiToken's 401 is typed ApiTokenCreationForbidden: Archil only mints API keys from a console session, and answers an API key with a bare 401 even though the spec lists ApiKeyAuth. Each error keeps the body's `code`, and its `error` text as `message`: Archil answers `{ success: false, error, code }` (the spec's ErrorResponse). Live: forkSandbox on a sandbox with a mounted disk answered `409 {\"success\":false,\"error\":\"sandbox has mounted disks: disk dsk-… is mounted at /mnt/archil; stop the sandbox before forking it\",\"code\":\"sandbox_fork_mounted\"}`, and getDisk on an unknown id `404 {\"success\":false,\"error\":\"Disk not found\",\"code\":\"not_found\"}`.",
   "patches": [
     {
       "op": "add",
@@ -7,7 +7,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -29,7 +32,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -51,7 +57,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -73,7 +82,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -95,7 +107,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -117,7 +132,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -139,7 +157,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -161,7 +182,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -183,7 +207,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -205,7 +232,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -227,7 +257,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -249,7 +282,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
@@ -742,7 +778,10 @@
       "value": {
         "type": "structure",
         "members": {
-          "error": {
+          "code": {
+            "target": "smithy.api#String"
+          },
+          "message": {
             "target": "smithy.api#String"
           }
         },
