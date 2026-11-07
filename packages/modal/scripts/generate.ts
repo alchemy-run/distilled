@@ -52,6 +52,9 @@ const spec: SdkSpec = {
   // keyset `List*` calls and `pageToken` calls.
   paginationProfiles: { grpc: { itemsFallback: "items" } },
 
+  // ModalProtocol is core's gRPC protocol, which implements `stream`.
+  streams: true,
+
   operationDecl: {
     contextType: "ModalOpContext",
     commonErrorType: "ModalOpError",
