@@ -27,7 +27,7 @@ export const DEFAULT_ORIGIN = "https://boat.dev";
 /** A sign-in request Boat refused, or answered with an unexpected body. */
 export class BoatLoginError extends Data.TaggedError("BoatLoginError")<{
   readonly message: string;
-  /** Boat's OAuth error code (`invalid_grant`, `expired_token`, …). */
+  /** Boat's OAuth error code (`invalid_grant`, `expired_token`, ...). */
   readonly code?: string;
   readonly status?: number;
   readonly cause?: unknown;
