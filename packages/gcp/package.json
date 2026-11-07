@@ -60,6 +60,12 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
+    "./unstable/meta/*": {
+      "types": "./lib/unstable-meta/*.d.ts",
+      "bun": "./src/unstable-meta/*.ts",
+      "worker": "./src/unstable-meta/*.ts",
+      "default": "./lib/unstable-meta/*.js"
+    },
     "./unstable/*": {
       "types": "./lib/unstable-services/*.d.ts",
       "bun": "./src/unstable-services/*.ts",
@@ -73,6 +79,12 @@
       "worker": "./src/index.ts",
       "browser": "./lib/index.browser.js",
       "default": "./lib/index.js"
+    },
+    "./meta/*": {
+      "types": "./lib/meta/*.d.ts",
+      "bun": "./src/meta/*.ts",
+      "worker": "./src/meta/*.ts",
+      "default": "./lib/meta/*.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
@@ -102,7 +114,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-11-06",
+    "generatedAt": "2026-11-07",
     "specUpdatedAt": "2026-10-08"
   }
 }

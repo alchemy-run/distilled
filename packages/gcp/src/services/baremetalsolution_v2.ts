@@ -1360,7 +1360,6 @@ export const createProjectsLocationsSshKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsSshKeys",
-  iam: { actions: ["baremetalsolution.sshKeys.create"], roles: ["roles/baremetalsolution.admin"] },
 }));
 
 export type CreateProjectsLocationsVolumesSnapshotsError =
@@ -1430,7 +1429,6 @@ export const deleteProjectsLocationsSshKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSshKeys",
-  iam: { actions: ["baremetalsolution.sshKeys.delete"], roles: ["roles/baremetalsolution.admin"] },
 }));
 
 export type DeleteProjectsLocationsVolumesSnapshotsError =
@@ -1477,10 +1475,6 @@ export const detachLunProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachLunProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.detachLun"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type DisableHyperthreadingProjectsLocationsInstancesError =
@@ -1508,10 +1502,6 @@ export const disableHyperthreadingProjectsLocationsInstances: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableHyperthreadingProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.update"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type DisableInteractiveSerialConsoleProjectsLocationsInstancesError =
@@ -1539,10 +1529,6 @@ export const disableInteractiveSerialConsoleProjectsLocationsInstances: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableInteractiveSerialConsoleProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.disableInteractiveSerialConsole"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type EnableHyperthreadingProjectsLocationsInstancesError =
@@ -1566,10 +1552,6 @@ export const enableHyperthreadingProjectsLocationsInstances: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableHyperthreadingProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.update"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type EnableInteractiveSerialConsoleProjectsLocationsInstancesError =
@@ -1597,10 +1579,6 @@ export const enableInteractiveSerialConsoleProjectsLocationsInstances: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableInteractiveSerialConsoleProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.enableInteractiveSerialConsole"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type EvictProjectsLocationsVolumesError =
@@ -1624,10 +1602,6 @@ export const evictProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EvictProjectsLocationsVolumes",
-  iam: {
-    actions: ["baremetalsolution.volumes.evict"],
-    roles: ["roles/baremetalsolution.volumesadmin"],
-  },
 }));
 
 export type EvictProjectsLocationsVolumesLunsError =
@@ -1651,10 +1625,6 @@ export const evictProjectsLocationsVolumesLuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EvictProjectsLocationsVolumesLuns",
-  iam: {
-    actions: ["baremetalsolution.luns.evict"],
-    roles: ["roles/baremetalsolution.storageadmin"],
-  },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1693,10 +1663,6 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.get"],
-    roles: ["roles/baremetalsolution.instancesviewer"],
-  },
 }));
 
 export type GetProjectsLocationsNetworksError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1714,7 +1680,6 @@ export const getProjectsLocationsNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNetworks",
-  iam: { actions: ["baremetalsolution.networks.get"], roles: ["roles/baremetalsolution.viewer"] },
 }));
 
 export type GetProjectsLocationsNfsSharesError =
@@ -1736,10 +1701,6 @@ export const getProjectsLocationsNfsShares: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNfsShares",
-  iam: {
-    actions: ["baremetalsolution.nfsshares.get"],
-    roles: ["roles/baremetalsolution.nfssharesviewer"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -1778,10 +1739,6 @@ export const getProjectsLocationsOsImages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsOsImages",
-  iam: {
-    actions: ["baremetalsolution.osimages.list"],
-    roles: ["roles/baremetalsolution.osimagesviewer"],
-  },
 }));
 
 export type GetProjectsLocationsProvisioningConfigsError =
@@ -1820,10 +1777,6 @@ export const getProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVolumes",
-  iam: {
-    actions: ["baremetalsolution.volumes.get"],
-    roles: ["roles/baremetalsolution.volumessviewer"],
-  },
 }));
 
 export type GetProjectsLocationsVolumesLunsError =
@@ -1845,7 +1798,6 @@ export const getProjectsLocationsVolumesLuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVolumesLuns",
-  iam: { actions: ["baremetalsolution.luns.get"], roles: ["roles/baremetalsolution.lunsviewer"] },
 }));
 
 export type GetProjectsLocationsVolumesSnapshotsError =
@@ -1867,10 +1819,6 @@ export const getProjectsLocationsVolumesSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVolumesSnapshots",
-  iam: {
-    actions: ["baremetalsolution.volumes.get"],
-    roles: ["roles/baremetalsolution.volumessviewer"],
-  },
 }));
 
 export type ListNetworkUsageProjectsLocationsNetworksError =
@@ -1892,7 +1840,6 @@ export const listNetworkUsageProjectsLocationsNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListNetworkUsageProjectsLocationsNetworks",
-  iam: { actions: ["baremetalsolution.networks.get"], roles: ["roles/baremetalsolution.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1934,10 +1881,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.list"],
-    roles: ["roles/baremetalsolution.instancesviewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1961,7 +1904,6 @@ export const listProjectsLocationsNetworks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNetworks",
-  iam: { actions: ["baremetalsolution.networks.list"], roles: ["roles/baremetalsolution.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1985,10 +1927,6 @@ export const listProjectsLocationsNfsShares: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNfsShares",
-  iam: {
-    actions: ["baremetalsolution.nfsshares.list"],
-    roles: ["roles/baremetalsolution.nfssharesviewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2012,10 +1950,6 @@ export const listProjectsLocationsOsImages: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsOsImages",
-  iam: {
-    actions: ["baremetalsolution.osimages.list"],
-    roles: ["roles/baremetalsolution.osimagesviewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2058,7 +1992,6 @@ export const listProjectsLocationsSshKeys: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSshKeys",
-  iam: { actions: ["baremetalsolution.sshKeys.list"], roles: ["roles/baremetalsolution.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2078,10 +2011,6 @@ export const listProjectsLocationsVolumes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVolumes",
-  iam: {
-    actions: ["baremetalsolution.volumes.list"],
-    roles: ["roles/baremetalsolution.volumessviewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2105,7 +2034,6 @@ export const listProjectsLocationsVolumesLuns: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVolumesLuns",
-  iam: { actions: ["baremetalsolution.luns.list"], roles: ["roles/baremetalsolution.lunsviewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2129,10 +2057,6 @@ export const listProjectsLocationsVolumesSnapshots: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVolumesSnapshots",
-  iam: {
-    actions: ["baremetalsolution.volumes.get"],
-    roles: ["roles/baremetalsolution.volumessviewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2155,10 +2079,6 @@ export const loadAuthInfoProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LoadAuthInfoProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.update"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type PatchProjectsLocationsInstancesError =
@@ -2182,10 +2102,6 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.update"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type PatchProjectsLocationsNetworksError =
@@ -2209,10 +2125,6 @@ export const patchProjectsLocationsNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsNetworks",
-  iam: {
-    actions: ["baremetalsolution.networks.update"],
-    roles: ["roles/baremetalsolution.networksadmin"],
-  },
 }));
 
 export type PatchProjectsLocationsNfsSharesError =
@@ -2282,10 +2194,6 @@ export const patchProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsVolumes",
-  iam: {
-    actions: ["baremetalsolution.volumes.update"],
-    roles: ["roles/baremetalsolution.volumesadmin"],
-  },
 }));
 
 export type ReimageProjectsLocationsInstancesError =
@@ -2309,10 +2217,6 @@ export const reimageProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReimageProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.update"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type RenameProjectsLocationsInstancesError =
@@ -2336,10 +2240,6 @@ export const renameProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenameProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.rename"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type RenameProjectsLocationsNetworksError =
@@ -2363,10 +2263,6 @@ export const renameProjectsLocationsNetworks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenameProjectsLocationsNetworks",
-  iam: {
-    actions: ["baremetalsolution.networks.rename"],
-    roles: ["roles/baremetalsolution.networksadmin"],
-  },
 }));
 
 export type RenameProjectsLocationsNfsSharesError =
@@ -2390,10 +2286,6 @@ export const renameProjectsLocationsNfsShares: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenameProjectsLocationsNfsShares",
-  iam: {
-    actions: ["baremetalsolution.nfsshares.rename"],
-    roles: ["roles/baremetalsolution.nfssharesadmin"],
-  },
 }));
 
 export type RenameProjectsLocationsVolumesError =
@@ -2417,10 +2309,6 @@ export const renameProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenameProjectsLocationsVolumes",
-  iam: {
-    actions: ["baremetalsolution.volumes.rename"],
-    roles: ["roles/baremetalsolution.volumesadmin"],
-  },
 }));
 
 export type ResetProjectsLocationsInstancesError =
@@ -2444,10 +2332,6 @@ export const resetProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.reset"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type ResizeProjectsLocationsVolumesError =
@@ -2471,10 +2355,6 @@ export const resizeProjectsLocationsVolumes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResizeProjectsLocationsVolumes",
-  iam: {
-    actions: ["baremetalsolution.volumes.resize"],
-    roles: ["roles/baremetalsolution.volumesadmin"],
-  },
 }));
 
 export type RestoreVolumeSnapshotProjectsLocationsVolumesSnapshotsError =
@@ -2502,10 +2382,6 @@ export const restoreVolumeSnapshotProjectsLocationsVolumesSnapshots: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreVolumeSnapshotProjectsLocationsVolumesSnapshots",
-  iam: {
-    actions: ["baremetalsolution.volumes.update"],
-    roles: ["roles/baremetalsolution.volumesadmin"],
-  },
 }));
 
 export type StartProjectsLocationsInstancesError =
@@ -2529,10 +2405,6 @@ export const startProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.start"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type StopProjectsLocationsInstancesError =
@@ -2556,10 +2428,6 @@ export const stopProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsInstances",
-  iam: {
-    actions: ["baremetalsolution.instances.stop"],
-    roles: ["roles/baremetalsolution.instancesadmin"],
-  },
 }));
 
 export type SubmitProjectsLocationsProvisioningConfigsError =

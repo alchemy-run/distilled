@@ -1605,7 +1605,6 @@ export const getProjectsLocationsMembershipsFeatures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMembershipsFeatures",
-  iam: { actions: ["gkehub.features.get"], roles: ["roles/gkehub.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1660,7 +1659,6 @@ export const listProjectsLocationsMembershipsFeatures: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMembershipsFeatures",
-  iam: { actions: ["gkehub.features.list"], roles: ["roles/gkehub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

@@ -2202,10 +2202,6 @@ export const batchCreateProjectsLocationsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsNotes",
-  iam: {
-    actions: ["containeranalysis.notes.update"],
-    roles: ["roles/containeranalysis.notes.editor"],
-  },
 }));
 
 export type BatchCreateProjectsLocationsOccurrencesError =
@@ -2228,10 +2224,6 @@ export const batchCreateProjectsLocationsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsOccurrences",
-  iam: {
-    actions: ["containeranalysis.occurrences.update"],
-    roles: ["roles/containeranalysis.occurrences.editor"],
-  },
 }));
 
 export type BatchCreateProjectsNotesError =
@@ -2254,10 +2246,6 @@ export const batchCreateProjectsNotes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsNotes",
-  iam: {
-    actions: ["containeranalysis.notes.update"],
-    roles: ["roles/containeranalysis.notes.editor"],
-  },
 }));
 
 export type BatchCreateProjectsOccurrencesError =
@@ -2280,10 +2268,6 @@ export const batchCreateProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsOccurrences",
-  iam: {
-    actions: ["containeranalysis.occurrences.update"],
-    roles: ["roles/containeranalysis.occurrences.editor"],
-  },
 }));
 
 export type CreateProjectsLocationsNotesError =
@@ -2599,10 +2583,6 @@ export const getNotesProjectsLocationsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNotesProjectsLocationsOccurrences",
-  iam: {
-    actions: ["containeranalysis.occurrences.get"],
-    roles: ["roles/containeranalysis.occurrences.viewer"],
-  },
 }));
 
 export type GetNotesProjectsOccurrencesError = NotFound | Forbidden | GcpOpError;
@@ -2620,10 +2600,6 @@ export const getNotesProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetNotesProjectsOccurrences",
-  iam: {
-    actions: ["containeranalysis.occurrences.get"],
-    roles: ["roles/containeranalysis.occurrences.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsNotesError = NotFound | Forbidden | GcpOpError;
@@ -2716,10 +2692,6 @@ export const getVulnerabilitySummaryProjectsLocationsOccurrences: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVulnerabilitySummaryProjectsLocationsOccurrences",
-  iam: {
-    actions: ["containeranalysis.occurrences.get"],
-    roles: ["roles/containeranalysis.occurrences.viewer"],
-  },
 }));
 
 export type GetVulnerabilitySummaryProjectsOccurrencesError = NotFound | Forbidden | GcpOpError;
@@ -2737,10 +2709,6 @@ export const getVulnerabilitySummaryProjectsOccurrences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetVulnerabilitySummaryProjectsOccurrences",
-  iam: {
-    actions: ["containeranalysis.occurrences.get"],
-    roles: ["roles/containeranalysis.occurrences.viewer"],
-  },
 }));
 
 export type ListProjectsLocationsNotesError = NotFound | Forbidden | GcpOpError;
@@ -2759,10 +2727,6 @@ export const listProjectsLocationsNotes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNotes",
-  iam: {
-    actions: ["containeranalysis.notes.list"],
-    roles: ["roles/containeranalysis.notes.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2782,10 +2746,6 @@ export const listProjectsLocationsNotesOccurrences: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNotesOccurrences",
-  iam: {
-    actions: ["containeranalysis.notes.listOccurrences"],
-    roles: ["roles/containeranalysis.notes.occurrences.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2805,10 +2765,6 @@ export const listProjectsLocationsOccurrences: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsOccurrences",
-  iam: {
-    actions: ["containeranalysis.occurrences.list"],
-    roles: ["roles/containeranalysis.occurrences.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2828,10 +2784,6 @@ export const listProjectsNotes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsNotes",
-  iam: {
-    actions: ["containeranalysis.notes.list"],
-    roles: ["roles/containeranalysis.notes.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2851,10 +2803,6 @@ export const listProjectsNotesOccurrences: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsNotesOccurrences",
-  iam: {
-    actions: ["containeranalysis.notes.listOccurrences"],
-    roles: ["roles/containeranalysis.notes.occurrences.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2874,10 +2822,6 @@ export const listProjectsOccurrences: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsOccurrences",
-  iam: {
-    actions: ["containeranalysis.occurrences.list"],
-    roles: ["roles/containeranalysis.occurrences.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

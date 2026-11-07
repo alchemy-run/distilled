@@ -453,10 +453,6 @@ export const listVoices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVoices",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type SynthesizeLongAudioProjectsLocationsError =
@@ -496,10 +492,6 @@ export const synthesizeText: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SynthesizeText",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

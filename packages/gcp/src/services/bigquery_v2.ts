@@ -4619,7 +4619,6 @@ export const batchDeleteRowAccessPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteRowAccessPolicies",
-  iam: { actions: ["bigquery.rowAccessPolicies.delete"], roles: ["roles/bigquery.securityAdmin"] },
 }));
 
 export type CancelJobsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4637,7 +4636,6 @@ export const cancelJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelJobs",
-  iam: { actions: ["bigquery.jobs.update"], roles: ["roles/bigquery.admin"] },
 }));
 
 export type DeleteDatasetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4689,7 +4687,6 @@ export const deleteModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteModels",
-  iam: { actions: ["bigquery.models.delete"], roles: ["roles/bigquery.dataEditor"] },
 }));
 
 export type DeleteRoutinesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4763,7 +4760,6 @@ export const getDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatasets",
-  iam: { actions: ["bigquery.datasets.get"], roles: ["roles/bigquery.routineMetadataViewer"] },
 }));
 
 export type GetIamPolicyRoutinesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4833,7 +4829,6 @@ export const getJobs: API.OperationMethod<GetJobsRequest, Job, GetJobsError, Gcp
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetJobs",
-    iam: { actions: ["bigquery.jobs.get"], roles: ["roles/bigquery.resourceViewer"] },
   }));
 
 export type GetModelsError = NotFound | Forbidden | GcpOpError;
@@ -4847,10 +4842,6 @@ export const getModels: API.OperationMethod<GetModelsRequest, Model, GetModelsEr
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetModels",
-    iam: {
-      actions: ["bigquery.models.getMetadata"],
-      roles: ["roles/bigquery.routineMetadataViewer"],
-    },
   }));
 
 export type GetQueryResultsJobsError = NotFound | Forbidden | GcpOpError;
@@ -4885,7 +4876,6 @@ export const getRoutines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRoutines",
-  iam: { actions: ["bigquery.routines.get"], roles: ["roles/bigquery.routineMetadataViewer"] },
 }));
 
 export type GetRowAccessPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -4903,7 +4893,6 @@ export const getRowAccessPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRowAccessPolicies",
-  iam: { actions: ["bigquery.rowAccessPolicies.get"], roles: ["roles/bigquery.securityAdmin"] },
 }));
 
 export type GetServiceAccountProjectsError = NotFound | Forbidden | GcpOpError;
@@ -4985,7 +4974,6 @@ export const insertJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InsertJobs",
-  iam: { actions: ["bigquery.jobs.create"], roles: ["roles/bigquery.jobUser"] },
 }));
 
 export type InsertRoutinesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5060,7 +5048,6 @@ export const listDatasets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatasets",
-  iam: { actions: ["bigquery.datasets.get"], roles: ["roles/bigquery.routineMetadataViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5080,7 +5067,6 @@ export const listJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListJobs",
-  iam: { actions: ["bigquery.jobs.list"], roles: ["roles/bigquery.resourceViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5100,7 +5086,6 @@ export const listModels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListModels",
-  iam: { actions: ["bigquery.models.list"], roles: ["roles/bigquery.metadataViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5139,7 +5124,6 @@ export const listRoutines: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRoutines",
-  iam: { actions: ["bigquery.routines.list"], roles: ["roles/bigquery.routineMetadataViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5159,7 +5143,6 @@ export const listRowAccessPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRowAccessPolicies",
-  iam: { actions: ["bigquery.rowAccessPolicies.list"], roles: ["roles/bigquery.securityAdmin"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5196,7 +5179,6 @@ export const listTables: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTables",
-  iam: { actions: ["bigquery.tables.list"], roles: ["roles/bigquery.routineMetadataViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5232,7 +5214,6 @@ export const patchModels: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchModels",
-  iam: { actions: ["bigquery.models.updateMetadata"], roles: ["roles/bigquery.dataEditor"] },
 }));
 
 export type PatchTablesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5384,7 +5365,6 @@ export const undeleteDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteDatasets",
-  iam: { actions: ["bigquery.datasets.create"], roles: ["roles/bigquery.user"] },
 }));
 
 export type UpdateDatasetsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;

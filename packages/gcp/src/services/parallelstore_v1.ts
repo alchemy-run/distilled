@@ -396,7 +396,6 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstances",
-  iam: { actions: ["parallelstore.instances.create"], roles: ["roles/parallelstore.admin"] },
 }));
 
 export type DeleteProjectsLocationsInstancesError =
@@ -419,7 +418,6 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstances",
-  iam: { actions: ["parallelstore.instances.delete"], roles: ["roles/parallelstore.admin"] },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -464,7 +462,6 @@ export const exportDataProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportDataProjectsLocationsInstances",
-  iam: { actions: ["parallelstore.instances.exportData"], roles: ["roles/parallelstore.admin"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -499,7 +496,6 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
-  iam: { actions: ["parallelstore.instances.get"], roles: ["roles/parallelstore.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -539,7 +535,6 @@ export const importDataProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportDataProjectsLocationsInstances",
-  iam: { actions: ["parallelstore.instances.importData"], roles: ["roles/parallelstore.admin"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -577,7 +572,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: { actions: ["parallelstore.instances.list"], roles: ["roles/parallelstore.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -620,7 +614,6 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsInstances",
-  iam: { actions: ["parallelstore.instances.update"], roles: ["roles/parallelstore.admin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

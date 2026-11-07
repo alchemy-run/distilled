@@ -984,10 +984,6 @@ export const checkAvailabilityProjectsLocationsIpamAdminScopes: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckAvailabilityProjectsLocationsIpamAdminScopes",
-  iam: {
-    actions: ["cloudnumberregistry.ipamAdminScopes.get"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
 }));
 
 export type CleanupProjectsLocationsIpamAdminScopesError =
@@ -1011,10 +1007,6 @@ export const cleanupProjectsLocationsIpamAdminScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CleanupProjectsLocationsIpamAdminScopes",
-  iam: {
-    actions: ["cloudnumberregistry.ipamAdminScopes.update"],
-    roles: ["roles/cloudnumberregistry.ipamAdmin"],
-  },
 }));
 
 export type CreateOrganizationsLocationsOrgNumberRegistriesError =
@@ -1322,10 +1314,6 @@ export const disableProjectsLocationsIpamAdminScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsIpamAdminScopes",
-  iam: {
-    actions: ["cloudnumberregistry.ipamAdminScopes.update"],
-    roles: ["roles/cloudnumberregistry.ipamAdmin"],
-  },
 }));
 
 export type FindFreeIpRangesProjectsLocationsCustomRangesError =
@@ -1351,10 +1339,6 @@ export const findFreeIpRangesProjectsLocationsCustomRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FindFreeIpRangesProjectsLocationsCustomRanges",
-  iam: {
-    actions: ["cloudnumberregistry.customRanges.update"],
-    roles: ["roles/cloudnumberregistry.ipamAdmin"],
-  },
 }));
 
 export type FindFreeIpRangesProjectsLocationsDiscoveredRangesError =
@@ -1380,10 +1364,6 @@ export const findFreeIpRangesProjectsLocationsDiscoveredRanges: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FindFreeIpRangesProjectsLocationsDiscoveredRanges",
-  iam: {
-    actions: ["cloudnumberregistry.discoveredRanges.get"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
 }));
 
 export type GetOrganizationsLocationsOperationsError =
@@ -1464,10 +1444,6 @@ export const getProjectsLocationsCustomRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCustomRanges",
-  iam: {
-    actions: ["cloudnumberregistry.customRanges.get"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDiscoveredRangesError =
@@ -1489,10 +1465,6 @@ export const getProjectsLocationsDiscoveredRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveredRanges",
-  iam: {
-    actions: ["cloudnumberregistry.discoveredRanges.get"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
 }));
 
 export type GetProjectsLocationsIpamAdminScopesError =
@@ -1514,10 +1486,6 @@ export const getProjectsLocationsIpamAdminScopes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsIpamAdminScopes",
-  iam: {
-    actions: ["cloudnumberregistry.ipamAdminScopes.get"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -1556,10 +1524,6 @@ export const getProjectsLocationsRealms: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRealms",
-  iam: {
-    actions: ["cloudnumberregistry.realms.get"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
 }));
 
 export type GetProjectsLocationsRegistryBooksError =
@@ -1581,10 +1545,6 @@ export const getProjectsLocationsRegistryBooks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRegistryBooks",
-  iam: {
-    actions: ["cloudnumberregistry.registryBooks.get"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
 }));
 
 export type GetUtilizationProjectsLocationsCustomRangesError = NotFound | Forbidden | GcpOpError;
@@ -1717,10 +1677,6 @@ export const listProjectsLocationsCustomRanges: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCustomRanges",
-  iam: {
-    actions: ["cloudnumberregistry.customRanges.list"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1744,10 +1700,6 @@ export const listProjectsLocationsDiscoveredRanges: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDiscoveredRanges",
-  iam: {
-    actions: ["cloudnumberregistry.discoveredRanges.list"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1771,10 +1723,6 @@ export const listProjectsLocationsIpamAdminScopes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsIpamAdminScopes",
-  iam: {
-    actions: ["cloudnumberregistry.ipamAdminScopes.list"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1817,10 +1765,6 @@ export const listProjectsLocationsRealms: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRealms",
-  iam: {
-    actions: ["cloudnumberregistry.realms.list"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1844,10 +1788,6 @@ export const listProjectsLocationsRegistryBooks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRegistryBooks",
-  iam: {
-    actions: ["cloudnumberregistry.registryBooks.list"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1968,10 +1908,6 @@ export const searchIpResourcesProjectsLocationsRegistryBooks: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchIpResourcesProjectsLocationsRegistryBooks",
-  iam: {
-    actions: ["cloudnumberregistry.registryBooks.get"],
-    roles: ["roles/cloudnumberregistry.ipamViewer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

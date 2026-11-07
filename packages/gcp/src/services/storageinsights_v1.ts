@@ -599,10 +599,6 @@ export const createProjectsLocationsDatasetConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDatasetConfigs",
-  iam: {
-    actions: ["storageinsights.datasetConfigs.create"],
-    roles: ["roles/storageinsights.admin"],
-  },
 }));
 
 export type CreateProjectsLocationsReportConfigsError =
@@ -647,10 +643,6 @@ export const deleteProjectsLocationsDatasetConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasetConfigs",
-  iam: {
-    actions: ["storageinsights.datasetConfigs.delete"],
-    roles: ["roles/storageinsights.admin"],
-  },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -729,7 +721,6 @@ export const getProjectsLocationsDatasetConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetConfigs",
-  iam: { actions: ["storageinsights.datasetConfigs.get"], roles: ["roles/storageinsights.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -764,7 +755,6 @@ export const getProjectsLocationsReportConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReportConfigs",
-  iam: { actions: ["storageinsights.reportConfigs.get"], roles: ["roles/storageinsights.viewer"] },
 }));
 
 export type GetProjectsLocationsReportConfigsReportDetailsError = NotFound | Forbidden | GcpOpError;
@@ -782,7 +772,6 @@ export const getProjectsLocationsReportConfigsReportDetails: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReportConfigsReportDetails",
-  iam: { actions: ["storageinsights.reportDetails.get"], roles: ["roles/storageinsights.viewer"] },
 }));
 
 export type LinkDatasetProjectsLocationsDatasetConfigsError =
@@ -805,10 +794,6 @@ export const linkDatasetProjectsLocationsDatasetConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LinkDatasetProjectsLocationsDatasetConfigs",
-  iam: {
-    actions: ["storageinsights.datasetConfigs.linkDataset"],
-    roles: ["roles/storageinsights.analyst"],
-  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -846,10 +831,6 @@ export const listProjectsLocationsDatasetConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetConfigs",
-  iam: {
-    actions: ["storageinsights.datasetConfigs.list"],
-    roles: ["roles/storageinsights.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -888,7 +869,6 @@ export const listProjectsLocationsReportConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReportConfigs",
-  iam: { actions: ["storageinsights.reportConfigs.list"], roles: ["roles/storageinsights.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -915,7 +895,6 @@ export const listProjectsLocationsReportConfigsReportDetails: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReportConfigsReportDetails",
-  iam: { actions: ["storageinsights.reportDetails.list"], roles: ["roles/storageinsights.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -939,10 +918,6 @@ export const patchProjectsLocationsDatasetConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDatasetConfigs",
-  iam: {
-    actions: ["storageinsights.datasetConfigs.update"],
-    roles: ["roles/storageinsights.admin"],
-  },
 }));
 
 export type PatchProjectsLocationsReportConfigsError =
@@ -987,10 +962,6 @@ export const unlinkDatasetProjectsLocationsDatasetConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UnlinkDatasetProjectsLocationsDatasetConfigs",
-  iam: {
-    actions: ["storageinsights.datasetConfigs.unlinkDataset"],
-    roles: ["roles/storageinsights.analyst"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

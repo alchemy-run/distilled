@@ -2828,7 +2828,6 @@ export const addAssetsProjectsLocationsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddAssetsProjectsLocationsGroups",
-  iam: { actions: ["migrationcenter.groups.update"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type AggregateValuesProjectsLocationsAssetsError =
@@ -2851,7 +2850,6 @@ export const aggregateValuesProjectsLocationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregateValuesProjectsLocationsAssets",
-  iam: { actions: ["migrationcenter.assets.update"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type BatchDeleteProjectsLocationsAssetsError =
@@ -2874,7 +2872,6 @@ export const batchDeleteProjectsLocationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteProjectsLocationsAssets",
-  iam: { actions: ["migrationcenter.assets.update"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type BatchUpdateProjectsLocationsAssetsError =
@@ -2897,7 +2894,6 @@ export const batchUpdateProjectsLocationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchUpdateProjectsLocationsAssets",
-  iam: { actions: ["migrationcenter.assets.update"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -3144,7 +3140,6 @@ export const deleteProjectsLocationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAssets",
-  iam: { actions: ["migrationcenter.assets.delete"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type DeleteProjectsLocationsAssetsExportJobsError =
@@ -3403,7 +3398,6 @@ export const getProjectsLocationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAssets",
-  iam: { actions: ["migrationcenter.assets.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetProjectsLocationsAssetsExportJobsError = NotFound | Forbidden | GcpOpError;
@@ -3421,10 +3415,6 @@ export const getProjectsLocationsAssetsExportJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAssetsExportJobs",
-  iam: {
-    actions: ["migrationcenter.assetsExportJobs.get"],
-    roles: ["roles/migrationcenter.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsDiscoveryClientsError = NotFound | Forbidden | GcpOpError;
@@ -3442,10 +3432,6 @@ export const getProjectsLocationsDiscoveryClients: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveryClients",
-  iam: {
-    actions: ["migrationcenter.discoveryClients.get"],
-    roles: ["roles/migrationcenter.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsGroupsError = NotFound | Forbidden | GcpOpError;
@@ -3463,7 +3449,6 @@ export const getProjectsLocationsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGroups",
-  iam: { actions: ["migrationcenter.groups.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetProjectsLocationsImportJobsError = NotFound | Forbidden | GcpOpError;
@@ -3481,7 +3466,6 @@ export const getProjectsLocationsImportJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsImportJobs",
-  iam: { actions: ["migrationcenter.importJobs.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetProjectsLocationsImportJobsImportDataFilesError = NotFound | Forbidden | GcpOpError;
@@ -3503,10 +3487,6 @@ export const getProjectsLocationsImportJobsImportDataFiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsImportJobsImportDataFiles",
-  iam: {
-    actions: ["migrationcenter.importDataFiles.get"],
-    roles: ["roles/migrationcenter.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3541,7 +3521,6 @@ export const getProjectsLocationsPreferenceSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPreferenceSets",
-  iam: { actions: ["migrationcenter.preferenceSets.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetProjectsLocationsRelationsError = NotFound | Forbidden | GcpOpError;
@@ -3559,7 +3538,6 @@ export const getProjectsLocationsRelations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRelations",
-  iam: { actions: ["migrationcenter.relations.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetProjectsLocationsReportConfigsError = NotFound | Forbidden | GcpOpError;
@@ -3577,7 +3555,6 @@ export const getProjectsLocationsReportConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReportConfigs",
-  iam: { actions: ["migrationcenter.reportConfigs.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetProjectsLocationsReportConfigsReportsError = NotFound | Forbidden | GcpOpError;
@@ -3595,7 +3572,6 @@ export const getProjectsLocationsReportConfigsReports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsReportConfigsReports",
-  iam: { actions: ["migrationcenter.reports.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetProjectsLocationsSourcesError = NotFound | Forbidden | GcpOpError;
@@ -3613,7 +3589,6 @@ export const getProjectsLocationsSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSources",
-  iam: { actions: ["migrationcenter.sources.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetProjectsLocationsSourcesErrorFramesError = NotFound | Forbidden | GcpOpError;
@@ -3631,7 +3606,6 @@ export const getProjectsLocationsSourcesErrorFrames: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSourcesErrorFrames",
-  iam: { actions: ["migrationcenter.errorFrames.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 export type GetSettingsProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3686,7 +3660,6 @@ export const listProjectsLocationsAssets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAssets",
-  iam: { actions: ["migrationcenter.assets.list"], roles: ["roles/migrationcenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3706,10 +3679,6 @@ export const listProjectsLocationsAssetsExportJobs: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAssetsExportJobs",
-  iam: {
-    actions: ["migrationcenter.assetsExportJobs.list"],
-    roles: ["roles/migrationcenter.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3729,10 +3698,6 @@ export const listProjectsLocationsDiscoveryClients: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDiscoveryClients",
-  iam: {
-    actions: ["migrationcenter.discoveryClients.list"],
-    roles: ["roles/migrationcenter.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3752,7 +3717,6 @@ export const listProjectsLocationsGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGroups",
-  iam: { actions: ["migrationcenter.groups.list"], roles: ["roles/migrationcenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3772,7 +3736,6 @@ export const listProjectsLocationsImportJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsImportJobs",
-  iam: { actions: ["migrationcenter.importJobs.list"], roles: ["roles/migrationcenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3796,10 +3759,6 @@ export const listProjectsLocationsImportJobsImportDataFiles: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsImportJobsImportDataFiles",
-  iam: {
-    actions: ["migrationcenter.importDataFiles.list"],
-    roles: ["roles/migrationcenter.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3838,10 +3797,6 @@ export const listProjectsLocationsPreferenceSets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPreferenceSets",
-  iam: {
-    actions: ["migrationcenter.preferenceSets.list"],
-    roles: ["roles/migrationcenter.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3861,7 +3816,6 @@ export const listProjectsLocationsRelations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRelations",
-  iam: { actions: ["migrationcenter.relations.list"], roles: ["roles/migrationcenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3881,7 +3835,6 @@ export const listProjectsLocationsReportConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReportConfigs",
-  iam: { actions: ["migrationcenter.reportConfigs.list"], roles: ["roles/migrationcenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3901,7 +3854,6 @@ export const listProjectsLocationsReportConfigsReports: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsReportConfigsReports",
-  iam: { actions: ["migrationcenter.reports.list"], roles: ["roles/migrationcenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3921,7 +3873,6 @@ export const listProjectsLocationsSources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSources",
-  iam: { actions: ["migrationcenter.sources.list"], roles: ["roles/migrationcenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3941,7 +3892,6 @@ export const listProjectsLocationsSourcesErrorFrames: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSourcesErrorFrames",
-  iam: { actions: ["migrationcenter.errorFrames.list"], roles: ["roles/migrationcenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3965,7 +3915,6 @@ export const patchProjectsLocationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsAssets",
-  iam: { actions: ["migrationcenter.assets.update"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type PatchProjectsLocationsDiscoveryClientsError =
@@ -4098,7 +4047,6 @@ export const removeAssetsProjectsLocationsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveAssetsProjectsLocationsGroups",
-  iam: { actions: ["migrationcenter.groups.update"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type ReportAssetFramesProjectsLocationsAssetsError =
@@ -4121,7 +4069,6 @@ export const reportAssetFramesProjectsLocationsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportAssetFramesProjectsLocationsAssets",
-  iam: { actions: ["migrationcenter.assets.update"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type RunProjectsLocationsAssetsExportJobsError =
@@ -4144,10 +4091,6 @@ export const runProjectsLocationsAssetsExportJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsAssetsExportJobs",
-  iam: {
-    actions: ["migrationcenter.assetsExportJobs.run"],
-    roles: ["roles/migrationcenter.admin"],
-  },
 }));
 
 export type RunProjectsLocationsImportJobsError =
@@ -4170,7 +4113,6 @@ export const runProjectsLocationsImportJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsImportJobs",
-  iam: { actions: ["migrationcenter.importJobs.update"], roles: ["roles/migrationcenter.admin"] },
 }));
 
 export type SendHeartbeatProjectsLocationsDiscoveryClientsError =
@@ -4197,10 +4139,6 @@ export const sendHeartbeatProjectsLocationsDiscoveryClients: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendHeartbeatProjectsLocationsDiscoveryClients",
-  iam: {
-    actions: ["migrationcenter.discoveryClients.sendHeartbeat"],
-    roles: ["roles/migrationcenter.discoveryClient"],
-  },
 }));
 
 export type UpdateSettingsProjectsLocationsError =
@@ -4245,7 +4183,6 @@ export const validateProjectsLocationsImportJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateProjectsLocationsImportJobs",
-  iam: { actions: ["migrationcenter.importJobs.get"], roles: ["roles/migrationcenter.viewer"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

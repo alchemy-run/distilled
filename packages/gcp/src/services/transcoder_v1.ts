@@ -890,7 +890,6 @@ export const deleteProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsJobs",
-  iam: { actions: ["transcoder.jobs.delete"], roles: ["roles/transcoder.editor"] },
 }));
 
 export type DeleteProjectsLocationsJobTemplatesError =
@@ -930,7 +929,6 @@ export const getProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobs",
-  iam: { actions: ["transcoder.jobs.get"], roles: ["roles/transcoder.viewer"] },
 }));
 
 export type GetProjectsLocationsJobTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -948,7 +946,6 @@ export const getProjectsLocationsJobTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobTemplates",
-  iam: { actions: ["transcoder.jobTemplates.get"], roles: ["roles/transcoder.viewer"] },
 }));
 
 export type ListProjectsLocationsJobsError = NotFound | Forbidden | GcpOpError;
@@ -967,7 +964,6 @@ export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobs",
-  iam: { actions: ["transcoder.jobs.list"], roles: ["roles/transcoder.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -987,7 +983,6 @@ export const listProjectsLocationsJobTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobTemplates",
-  iam: { actions: ["transcoder.jobTemplates.list"], roles: ["roles/transcoder.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

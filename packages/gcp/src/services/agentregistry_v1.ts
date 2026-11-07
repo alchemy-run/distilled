@@ -810,7 +810,6 @@ export const createProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsServices",
-  iam: { actions: ["agentregistry.services.create"], roles: ["roles/agentregistry.editor"] },
 }));
 
 export type DeleteProjectsLocationsBindingsError =
@@ -880,7 +879,6 @@ export const deleteProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServices",
-  iam: { actions: ["agentregistry.services.delete"], roles: ["roles/agentregistry.editor"] },
 }));
 
 export type FetchAvailableProjectsLocationsBindingsError =
@@ -903,10 +901,6 @@ export const fetchAvailableProjectsLocationsBindings: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchAvailableProjectsLocationsBindings",
-  iam: {
-    actions: ["agentregistry.bindings.fetchAvailable"],
-    roles: ["roles/agentregistry.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -959,7 +953,6 @@ export const getProjectsLocationsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAgents",
-  iam: { actions: ["agentregistry.agents.get"], roles: ["roles/agentregistry.viewer"] },
 }));
 
 export type GetProjectsLocationsBindingsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -977,7 +970,6 @@ export const getProjectsLocationsBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBindings",
-  iam: { actions: ["agentregistry.bindings.get"], roles: ["roles/agentregistry.viewer"] },
 }));
 
 export type GetProjectsLocationsEndpointsError =
@@ -999,7 +991,6 @@ export const getProjectsLocationsEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEndpoints",
-  iam: { actions: ["agentregistry.endpoints.get"], roles: ["roles/agentregistry.viewer"] },
 }));
 
 export type GetProjectsLocationsMcpServersError =
@@ -1021,7 +1012,6 @@ export const getProjectsLocationsMcpServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMcpServers",
-  iam: { actions: ["agentregistry.mcpServers.get"], roles: ["roles/agentregistry.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -1060,7 +1050,6 @@ export const getProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServices",
-  iam: { actions: ["agentregistry.services.get"], roles: ["roles/agentregistry.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1098,7 +1087,6 @@ export const listProjectsLocationsAgents: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAgents",
-  iam: { actions: ["agentregistry.agents.list"], roles: ["roles/agentregistry.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1122,7 +1110,6 @@ export const listProjectsLocationsBindings: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBindings",
-  iam: { actions: ["agentregistry.bindings.list"], roles: ["roles/agentregistry.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1146,7 +1133,6 @@ export const listProjectsLocationsEndpoints: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEndpoints",
-  iam: { actions: ["agentregistry.endpoints.list"], roles: ["roles/agentregistry.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1170,7 +1156,6 @@ export const listProjectsLocationsMcpServers: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMcpServers",
-  iam: { actions: ["agentregistry.mcpServers.list"], roles: ["roles/agentregistry.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1217,7 +1202,6 @@ export const listProjectsLocationsServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServices",
-  iam: { actions: ["agentregistry.services.list"], roles: ["roles/agentregistry.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1265,7 +1249,6 @@ export const patchProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsServices",
-  iam: { actions: ["agentregistry.services.update"], roles: ["roles/agentregistry.editor"] },
 }));
 
 export type SearchProjectsLocationsAgentsError =
@@ -1289,7 +1272,6 @@ export const searchProjectsLocationsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsAgents",
-  iam: { actions: ["agentregistry.agents.search"], roles: ["roles/agentregistry.viewer"] },
 }));
 
 export type SearchProjectsLocationsMcpServersError =
@@ -1313,7 +1295,6 @@ export const searchProjectsLocationsMcpServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsMcpServers",
-  iam: { actions: ["agentregistry.mcpServers.search"], roles: ["roles/agentregistry.viewer"] },
 }));
 
 export type SetIamPolicyProjectsLocationsAiApplicationsError =

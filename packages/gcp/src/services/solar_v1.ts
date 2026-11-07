@@ -461,10 +461,6 @@ export const findClosestBuildingInsights: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FindClosestBuildingInsights",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type GetDataLayersError = NotFound | Forbidden | GcpOpError;
@@ -482,10 +478,6 @@ export const getDataLayers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDataLayers",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type GetGeoTiffError = NotFound | Forbidden | GcpOpError;
@@ -503,10 +495,6 @@ export const getGeoTiff: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetGeoTiff",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

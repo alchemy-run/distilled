@@ -1671,7 +1671,6 @@ export const aggregateFleetV1beta: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregateFleetV1beta",
-  iam: { actions: ["databasecenter.fleetStats.list"], roles: ["roles/databasecenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1695,10 +1694,6 @@ export const aggregateIssueStatsV1beta: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregateIssueStatsV1beta",
-  iam: {
-    actions: ["databasecenter.fleetHealthStats.list"],
-    roles: ["roles/databasecenter.viewer"],
-  },
 }));
 
 export type AggregateQueryStatsFoldersError =
@@ -1765,7 +1760,6 @@ export const aggregateQueryStatsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregateQueryStatsProjects",
-  iam: { actions: ["databasecenter.queryStats.list"], roles: ["roles/databasecenter.viewer"] },
 }));
 
 export type QueryDatabaseResourceGroupsV1betaError =
@@ -1788,7 +1782,6 @@ export const queryDatabaseResourceGroupsV1beta: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryDatabaseResourceGroupsV1beta",
-  iam: { actions: ["databasecenter.databaseGroups.list"], roles: ["roles/databasecenter.viewer"] },
 }));
 
 export type QueryIssuesV1betaError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1806,7 +1799,6 @@ export const queryIssuesV1beta: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryIssuesV1beta",
-  iam: { actions: ["databasecenter.fleetInsights.list"], roles: ["roles/databasecenter.viewer"] },
 }));
 
 export type QueryProductsV1betaError = NotFound | Forbidden | GcpOpError;
@@ -1825,7 +1817,6 @@ export const queryProductsV1beta: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryProductsV1beta",
-  iam: { actions: ["databasecenter.products.list"], roles: ["roles/databasecenter.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

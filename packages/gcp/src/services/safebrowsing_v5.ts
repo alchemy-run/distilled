@@ -289,10 +289,6 @@ export const batchGetHashLists: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetHashLists",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type GetHashListError = NotFound | Forbidden | GcpOpError;
@@ -328,10 +324,6 @@ export const listHashLists: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListHashLists",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -350,10 +342,6 @@ export const searchHashes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchHashes",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type SearchUrlsError = NotFound | Forbidden | GcpOpError;
@@ -371,10 +359,6 @@ export const searchUrls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchUrls",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

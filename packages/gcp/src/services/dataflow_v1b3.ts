@@ -3318,7 +3318,6 @@ export const aggregatedProjectsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AggregatedProjectsJobs",
-  iam: { actions: ["dataflow.jobs.list"], roles: ["roles/dataflow.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3385,7 +3384,6 @@ export const createProjectsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsJobs",
-  iam: { actions: ["dataflow.jobs.create"], roles: ["roles/dataflow.developer"] },
 }));
 
 export type CreateProjectsLocationsConfigStoreSettingsError =
@@ -3474,7 +3472,6 @@ export const createProjectsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsTemplates",
-  iam: { actions: ["dataflow.jobs.create"], roles: ["roles/dataflow.developer"] },
 }));
 
 export type DeleteFoldersLocationsConfigStoreSettingsError =
@@ -3589,7 +3586,6 @@ export const deleteSnapshotsProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSnapshotsProjects",
-  iam: { actions: ["dataflow.snapshots.delete"], roles: ["roles/dataflow.developer"] },
 }));
 
 export type GetConfigProjectsJobsDebugError =
@@ -3612,7 +3608,6 @@ export const getConfigProjectsJobsDebug: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConfigProjectsJobsDebug",
-  iam: { actions: ["dataflow.jobs.get"], roles: ["roles/dataflow.viewer"] },
 }));
 
 export type GetConfigProjectsLocationsJobsDebugError =
@@ -3653,7 +3648,6 @@ export const getExecutionDetailsProjectsLocationsJobs: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExecutionDetailsProjectsLocationsJobs",
-  iam: { actions: ["dataflow.jobs.get"], roles: ["roles/dataflow.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3677,7 +3671,6 @@ export const getExecutionDetailsProjectsLocationsJobsStages: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExecutionDetailsProjectsLocationsJobsStages",
-  iam: { actions: ["dataflow.jobs.get"], roles: ["roles/dataflow.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3713,7 +3706,6 @@ export const getMetricsProjectsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMetricsProjectsJobs",
-  iam: { actions: ["dataflow.jobs.get"], roles: ["roles/dataflow.viewer"] },
 }));
 
 export type GetMetricsProjectsLocationsJobsError = NotFound | Forbidden | GcpOpError;
@@ -3765,7 +3757,6 @@ export const getProjectsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsJobs",
-  iam: { actions: ["dataflow.jobs.get"], roles: ["roles/dataflow.viewer"] },
 }));
 
 export type GetProjectsLocationsConfigStoreSettingsError = NotFound | Forbidden | GcpOpError;
@@ -3851,7 +3842,6 @@ export const getProjectsSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSnapshots",
-  iam: { actions: ["dataflow.snapshots.get"], roles: ["roles/dataflow.viewer"] },
 }));
 
 export type GetProjectsTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -3869,7 +3859,6 @@ export const getProjectsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsTemplates",
-  iam: { actions: ["dataflow.jobs.get"], roles: ["roles/dataflow.viewer"] },
 }));
 
 export type GetWorkerStacktracesProjectsLocationsJobsDebugError =
@@ -3896,7 +3885,6 @@ export const getWorkerStacktracesProjectsLocationsJobsDebug: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetWorkerStacktracesProjectsLocationsJobsDebug",
-  iam: { actions: ["dataflow.jobs.get"], roles: ["roles/dataflow.viewer"] },
 }));
 
 export type LaunchProjectsLocationsFlexTemplatesError =
@@ -3919,7 +3907,6 @@ export const launchProjectsLocationsFlexTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LaunchProjectsLocationsFlexTemplates",
-  iam: { actions: ["dataflow.jobs.create"], roles: ["roles/dataflow.developer"] },
 }));
 
 export type LaunchProjectsLocationsTemplatesError =
@@ -3964,7 +3951,6 @@ export const launchProjectsTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LaunchProjectsTemplates",
-  iam: { actions: ["dataflow.jobs.create"], roles: ["roles/dataflow.developer"] },
 }));
 
 export type LeaseProjectsJobsWorkItemsError =
@@ -3987,7 +3973,6 @@ export const leaseProjectsJobsWorkItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LeaseProjectsJobsWorkItems",
-  iam: { actions: ["dataflow.workItems.lease"], roles: ["roles/dataflow.worker"] },
 }));
 
 export type LeaseProjectsLocationsJobsWorkItemsError =
@@ -4070,7 +4055,6 @@ export const listProjectsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsJobs",
-  iam: { actions: ["dataflow.jobs.list"], roles: ["roles/dataflow.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4090,7 +4074,6 @@ export const listProjectsJobsMessages: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsJobsMessages",
-  iam: { actions: ["dataflow.messages.list"], roles: ["roles/dataflow.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4166,7 +4149,6 @@ export const listProjectsLocationsJobsSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobsSnapshots",
-  iam: { actions: ["dataflow.snapshots.list"], roles: ["roles/dataflow.viewer"] },
 }));
 
 export type ListProjectsLocationsSnapshotsError = NotFound | Forbidden | GcpOpError;
@@ -4201,7 +4183,6 @@ export const listProjectsSnapshots: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSnapshots",
-  iam: { actions: ["dataflow.snapshots.list"], roles: ["roles/dataflow.viewer"] },
 }));
 
 export type ReportStatusProjectsJobsWorkItemsError =
@@ -4224,7 +4205,6 @@ export const reportStatusProjectsJobsWorkItems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportStatusProjectsJobsWorkItems",
-  iam: { actions: ["dataflow.workItems.update"], roles: ["roles/dataflow.worker"] },
 }));
 
 export type ReportStatusProjectsLocationsJobsWorkItemsError =
@@ -4378,7 +4358,6 @@ export const snapshotProjectsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SnapshotProjectsJobs",
-  iam: { actions: ["dataflow.jobs.snapshot"], roles: ["roles/dataflow.developer"] },
 }));
 
 export type SnapshotProjectsLocationsJobsError =

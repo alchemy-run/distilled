@@ -471,7 +471,6 @@ export const cancelProjectsLocationsWorkflowsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsWorkflowsExecutions",
-  iam: { actions: ["workflows.executions.cancel"], roles: ["roles/workflows.invoker"] },
 }));
 
 export type CreateProjectsLocationsWorkflowsExecutionsError =
@@ -558,7 +557,6 @@ export const getProjectsLocationsWorkflowsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsWorkflowsExecutions",
-  iam: { actions: ["workflows.executions.get"], roles: ["roles/workflows.viewer"] },
 }));
 
 export type GetProjectsLocationsWorkflowsExecutionsStepEntriesError =
@@ -583,7 +581,6 @@ export const getProjectsLocationsWorkflowsExecutionsStepEntries: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsWorkflowsExecutionsStepEntries",
-  iam: { actions: ["workflows.stepEntries.get"], roles: ["roles/workflows.viewer"] },
 }));
 
 export type ListProjectsLocationsWorkflowsExecutionsError = NotFound | Forbidden | GcpOpError;
@@ -602,7 +599,6 @@ export const listProjectsLocationsWorkflowsExecutions: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkflowsExecutions",
-  iam: { actions: ["workflows.executions.list"], roles: ["roles/workflows.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -655,7 +651,6 @@ export const listProjectsLocationsWorkflowsExecutionsStepEntries: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkflowsExecutionsStepEntries",
-  iam: { actions: ["workflows.stepEntries.list"], roles: ["roles/workflows.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -683,7 +678,6 @@ export const triggerPubsubExecutionProjectsLocationsWorkflows: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TriggerPubsubExecutionProjectsLocationsWorkflows",
-  iam: { actions: ["workflows.executions.create"], roles: ["roles/workflows.invoker"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

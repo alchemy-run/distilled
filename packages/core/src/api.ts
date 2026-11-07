@@ -150,18 +150,6 @@ export type ApiErrorClass = {
 };
 
 /**
- * The shape of a generated SDK operation -- usable two ways (mirrors the
- * distilled repo's OperationMethod):
- *
- * 1. Direct call: `yield* operation(input)` -- an Effect with requirements.
- * 2. Yield first: `const fn = yield* operation` -- captures the current
- *    context and returns a requirement-free call function.
- *
- * Generated service files annotate every exported operation with this type
- * explicitly (against their hand-emitted interfaces), so the compiler never
- * has to infer it back out of the schema generics.
- */
-/**
  * The IAM a call needs: what the cloud's own reference lists for the
  * operation, or what a `com.distilled.iam#operation` trait on the operation
  * shape says (a patch), corrected where live calls disagree. A binding grants
@@ -190,6 +178,28 @@ export interface OperationIam {
   readonly roles?: readonly string[];
 }
 
+/**
+ * What an operation needs, published as data apart from the SDK: an SDK's
+ * `meta/<service>` module maps each operation's export name to one of these,
+ * so a tool (a binding generator) reads it without loading any SDK code.
+ */
+export interface OperationMeta {
+  /** What the call is authorized as, when the SDK publishes it. */
+  readonly iam?: OperationIam;
+}
+
+/**
+ * The shape of a generated SDK operation -- usable two ways (mirrors the
+ * distilled repo's OperationMethod):
+ *
+ * 1. Direct call: `yield* operation(input)` -- an Effect with requirements.
+ * 2. Yield first: `const fn = yield* operation` -- captures the current
+ *    context and returns a requirement-free call function.
+ *
+ * Generated service files annotate every exported operation with this type
+ * explicitly (against their hand-emitted interfaces), so the compiler never
+ * has to infer it back out of the schema generics.
+ */
 export type OperationMethod<I, O, E, R> = Effect.Effect<
   (input: I) => Effect.Effect<O, E, never>,
   never,
@@ -206,8 +216,6 @@ export type OperationMethod<I, O, E, R> = Effect.Effect<
 export interface OperationSchemas<I, O> {
   readonly input: S.Codec<I, any>;
   readonly output: S.Codec<O, any>;
-  /** What the call is authorized as, when the SDK publishes it. */
-  readonly iam: OperationIam | undefined;
 }
 
 // NOTE: request/response ASTs are handed to the protocol RAW (Suspend nodes
@@ -284,11 +292,6 @@ export interface OperationConfig<
   endpointHostPrefix?: string;
   /** The service's `com.distilled.telemetry#service` trait (a module const). */
   telemetry?: Telemetry.ServiceTelemetry;
-  /**
-   * What the operation is authorized as, for SDKs whose cloud publishes it
-   * (AWS's Service Authorization Reference). See {@link OperationIam}.
-   */
-  iam?: OperationIam;
   /**
    * The operation's `com.distilled.telemetry#operation` trait, with its
    * input rules; only what differs from the service's rules when it names
@@ -611,9 +614,6 @@ const OperationProto: object = /*@__PURE__*/ Object.setPrototypeOf(
     },
     get operationName() {
       return prepare(stateOf(this)).cfg.operationName;
-    },
-    get iam() {
-      return prepare(stateOf(this)).cfg.iam;
     },
     get pagination() {
       return (prepare(stateOf(this)).cfg as PaginatedOperationConfig<any, any, any, any>)

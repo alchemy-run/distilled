@@ -1154,10 +1154,6 @@ export const getProjectsLocationsCertificateIssuanceConfigs: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCertificateIssuanceConfigs",
-  iam: {
-    actions: ["certificatemanager.certissuanceconfigs.get"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsCertificateMapsError = NotFound | Forbidden | GcpOpError;
@@ -1175,7 +1171,6 @@ export const getProjectsLocationsCertificateMaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCertificateMaps",
-  iam: { actions: ["certificatemanager.certmaps.get"], roles: ["roles/certificatemanager.viewer"] },
 }));
 
 export type GetProjectsLocationsCertificateMapsCertificateMapEntriesError =
@@ -1200,10 +1195,6 @@ export const getProjectsLocationsCertificateMapsCertificateMapEntries: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCertificateMapsCertificateMapEntries",
-  iam: {
-    actions: ["certificatemanager.certmapentries.get"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsCertificatesError = NotFound | Forbidden | GcpOpError;
@@ -1221,7 +1212,6 @@ export const getProjectsLocationsCertificates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCertificates",
-  iam: { actions: ["certificatemanager.certs.get"], roles: ["roles/certificatemanager.viewer"] },
 }));
 
 export type GetProjectsLocationsDnsAuthorizationsError = NotFound | Forbidden | GcpOpError;
@@ -1239,10 +1229,6 @@ export const getProjectsLocationsDnsAuthorizations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDnsAuthorizations",
-  iam: {
-    actions: ["certificatemanager.dnsauthorizations.get"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1277,10 +1263,6 @@ export const getProjectsLocationsTrustConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTrustConfigs",
-  iam: {
-    actions: ["certificatemanager.trustconfigs.get"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1325,10 +1307,6 @@ export const listProjectsLocationsCertificateIssuanceConfigs: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCertificateIssuanceConfigs",
-  iam: {
-    actions: ["certificatemanager.certissuanceconfigs.list"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1348,10 +1326,6 @@ export const listProjectsLocationsCertificateMaps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCertificateMaps",
-  iam: {
-    actions: ["certificatemanager.certmaps.list"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1378,10 +1352,6 @@ export const listProjectsLocationsCertificateMapsCertificateMapEntries: API.Pagi
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCertificateMapsCertificateMapEntries",
-  iam: {
-    actions: ["certificatemanager.certmapentries.list"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1401,7 +1371,6 @@ export const listProjectsLocationsCertificates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCertificates",
-  iam: { actions: ["certificatemanager.certs.list"], roles: ["roles/certificatemanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1421,10 +1390,6 @@ export const listProjectsLocationsDnsAuthorizations: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDnsAuthorizations",
-  iam: {
-    actions: ["certificatemanager.dnsauthorizations.list"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1463,10 +1428,6 @@ export const listProjectsLocationsTrustConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTrustConfigs",
-  iam: {
-    actions: ["certificatemanager.trustconfigs.list"],
-    roles: ["roles/certificatemanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

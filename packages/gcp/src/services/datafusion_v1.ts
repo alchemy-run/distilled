@@ -675,7 +675,6 @@ export const createProjectsLocationsInstancesDnsPeerings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstancesDnsPeerings",
-  iam: { actions: ["datafusion.instances.update"], roles: ["roles/datafusion.admin"] },
 }));
 
 export type DeleteProjectsLocationsInstancesError =
@@ -720,7 +719,6 @@ export const deleteProjectsLocationsInstancesDnsPeerings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstancesDnsPeerings",
-  iam: { actions: ["datafusion.instances.update"], roles: ["roles/datafusion.admin"] },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -794,7 +792,6 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
-  iam: { actions: ["datafusion.instances.get"], roles: ["roles/datafusion.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -849,7 +846,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: { actions: ["datafusion.instances.list"], roles: ["roles/datafusion.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -869,7 +865,6 @@ export const listProjectsLocationsInstancesDnsPeerings: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstancesDnsPeerings",
-  iam: { actions: ["datafusion.instances.get"], roles: ["roles/datafusion.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -908,7 +903,6 @@ export const listProjectsLocationsVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVersions",
-  iam: { actions: ["datafusion.instances.list"], roles: ["roles/datafusion.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -954,7 +948,6 @@ export const restartProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartProjectsLocationsInstances",
-  iam: { actions: ["datafusion.instances.restart"], roles: ["roles/datafusion.admin"] },
 }));
 
 export type SetIamPolicyProjectsLocationsInstancesError =

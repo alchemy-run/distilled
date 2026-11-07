@@ -3386,10 +3386,6 @@ export const addItemsOrganizationsLocationsAddressGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddItemsOrganizationsLocationsAddressGroups",
-  iam: {
-    actions: ["networksecurity.addressGroups.update"],
-    roles: ["roles/networksecurity.editor"],
-  },
 }));
 
 export type AddItemsProjectsLocationsAddressGroupsError =
@@ -3412,10 +3408,6 @@ export const addItemsProjectsLocationsAddressGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddItemsProjectsLocationsAddressGroups",
-  iam: {
-    actions: ["networksecurity.addressGroups.update"],
-    roles: ["roles/networksecurity.editor"],
-  },
 }));
 
 export type CancelOrganizationsLocationsOperationsError =
@@ -3486,10 +3478,6 @@ export const cloneItemsOrganizationsLocationsAddressGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneItemsOrganizationsLocationsAddressGroups",
-  iam: {
-    actions: ["networksecurity.addressGroups.update"],
-    roles: ["roles/networksecurity.editor"],
-  },
 }));
 
 export type CloneItemsProjectsLocationsAddressGroupsError =
@@ -3512,10 +3500,6 @@ export const cloneItemsProjectsLocationsAddressGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneItemsProjectsLocationsAddressGroups",
-  iam: {
-    actions: ["networksecurity.addressGroups.update"],
-    roles: ["roles/networksecurity.editor"],
-  },
 }));
 
 export type CreateOrganizationsLocationsAddressGroupsError =
@@ -3590,10 +3574,6 @@ export const createOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeR
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequests",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.update"],
-    roles: ["roles/networksecurity.firewallEndpointAdmin"],
-  },
 }));
 
 export type CreateOrganizationsLocationsSecurityProfileGroupsError =
@@ -3860,10 +3840,6 @@ export const createProjectsLocationsFirewallEndpointsWildfireVerdictChangeReques
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequests",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.update"],
-    roles: ["roles/networksecurity.firewallEndpointAdmin"],
-  },
 }));
 
 export type CreateProjectsLocationsGatewaySecurityPoliciesError =
@@ -5175,7 +5151,6 @@ export const getOrganizationsLocationsAddressGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsAddressGroups",
-  iam: { actions: ["networksecurity.addressGroups.get"], roles: ["roles/networksecurity.viewer"] },
 }));
 
 export type GetOrganizationsLocationsFirewallEndpointsError = NotFound | Forbidden | GcpOpError;
@@ -5193,10 +5168,6 @@ export const getOrganizationsLocationsFirewallEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsFirewallEndpoints",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequestsError =
@@ -5221,10 +5192,6 @@ export const getOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequ
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequests",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetOrganizationsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5263,10 +5230,6 @@ export const getOrganizationsLocationsSecurityProfileGroups: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsSecurityProfileGroups",
-  iam: {
-    actions: ["networksecurity.securityProfileGroups.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetOrganizationsLocationsSecurityProfilesError = NotFound | Forbidden | GcpOpError;
@@ -5284,10 +5247,6 @@ export const getOrganizationsLocationsSecurityProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsSecurityProfiles",
-  iam: {
-    actions: ["networksecurity.securityProfiles.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -5322,7 +5281,6 @@ export const getProjectsLocationsAddressGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAddressGroups",
-  iam: { actions: ["networksecurity.addressGroups.get"], roles: ["roles/networksecurity.viewer"] },
 }));
 
 export type GetProjectsLocationsAuthorizationPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -5340,10 +5298,6 @@ export const getProjectsLocationsAuthorizationPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthorizationPolicies",
-  iam: {
-    actions: ["networksecurity.authorizationPolicies.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsAuthzPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -5361,7 +5315,6 @@ export const getProjectsLocationsAuthzPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthzPolicies",
-  iam: { actions: ["networksecurity.authzPolicies.get"], roles: ["roles/networksecurity.viewer"] },
 }));
 
 export type GetProjectsLocationsBackendAuthenticationConfigsError =
@@ -5386,10 +5339,6 @@ export const getProjectsLocationsBackendAuthenticationConfigs: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackendAuthenticationConfigs",
-  iam: {
-    actions: ["networksecurity.backendAuthenticationConfigs.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsClientTlsPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -5407,10 +5356,6 @@ export const getProjectsLocationsClientTlsPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsClientTlsPolicies",
-  iam: {
-    actions: ["networksecurity.clientTlsPolicies.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsDnsThreatDetectorsError = NotFound | Forbidden | GcpOpError;
@@ -5428,10 +5373,6 @@ export const getProjectsLocationsDnsThreatDetectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDnsThreatDetectors",
-  iam: {
-    actions: ["networksecurity.dnsThreatDetectors.get"],
-    roles: ["roles/networksecurity.dnsThreatDetectorViewer"],
-  },
 }));
 
 export type GetProjectsLocationsFirewallEndpointAssociationsError =
@@ -5456,10 +5397,6 @@ export const getProjectsLocationsFirewallEndpointAssociations: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFirewallEndpointAssociations",
-  iam: {
-    actions: ["networksecurity.firewallEndpointAssociations.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsFirewallEndpointsError = NotFound | Forbidden | GcpOpError;
@@ -5477,10 +5414,6 @@ export const getProjectsLocationsFirewallEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFirewallEndpoints",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequestsError =
@@ -5505,10 +5438,6 @@ export const getProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequests:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequests",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsGatewaySecurityPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -5530,10 +5459,6 @@ export const getProjectsLocationsGatewaySecurityPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGatewaySecurityPolicies",
-  iam: {
-    actions: ["networksecurity.gatewaySecurityPolicies.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsGatewaySecurityPoliciesRulesError =
@@ -5558,10 +5483,6 @@ export const getProjectsLocationsGatewaySecurityPoliciesRules: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGatewaySecurityPoliciesRules",
-  iam: {
-    actions: ["networksecurity.gatewaySecurityPolicies.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsInterceptDeploymentGroupsError = NotFound | Forbidden | GcpOpError;
@@ -5583,10 +5504,6 @@ export const getProjectsLocationsInterceptDeploymentGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInterceptDeploymentGroups",
-  iam: {
-    actions: ["networksecurity.interceptDeploymentGroups.get"],
-    roles: ["roles/networksecurity.interceptDeploymentViewer"],
-  },
 }));
 
 export type GetProjectsLocationsInterceptDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -5604,10 +5521,6 @@ export const getProjectsLocationsInterceptDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInterceptDeployments",
-  iam: {
-    actions: ["networksecurity.interceptDeployments.get"],
-    roles: ["roles/networksecurity.interceptDeploymentViewer"],
-  },
 }));
 
 export type GetProjectsLocationsInterceptEndpointGroupAssociationsError =
@@ -5632,10 +5545,6 @@ export const getProjectsLocationsInterceptEndpointGroupAssociations: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInterceptEndpointGroupAssociations",
-  iam: {
-    actions: ["networksecurity.interceptEndpointGroupAssociations.get"],
-    roles: ["roles/networksecurity.interceptEndpointViewer"],
-  },
 }));
 
 export type GetProjectsLocationsInterceptEndpointGroupsError = NotFound | Forbidden | GcpOpError;
@@ -5653,10 +5562,6 @@ export const getProjectsLocationsInterceptEndpointGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInterceptEndpointGroups",
-  iam: {
-    actions: ["networksecurity.interceptEndpointGroups.get"],
-    roles: ["roles/networksecurity.interceptEndpointViewer"],
-  },
 }));
 
 export type GetProjectsLocationsMirroringDeploymentGroupsError = NotFound | Forbidden | GcpOpError;
@@ -5674,10 +5579,6 @@ export const getProjectsLocationsMirroringDeploymentGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMirroringDeploymentGroups",
-  iam: {
-    actions: ["networksecurity.mirroringDeploymentGroups.get"],
-    roles: ["roles/networksecurity.mirroringDeploymentViewer"],
-  },
 }));
 
 export type GetProjectsLocationsMirroringDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -5695,10 +5596,6 @@ export const getProjectsLocationsMirroringDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMirroringDeployments",
-  iam: {
-    actions: ["networksecurity.mirroringDeployments.get"],
-    roles: ["roles/networksecurity.mirroringDeploymentViewer"],
-  },
 }));
 
 export type GetProjectsLocationsMirroringEndpointGroupAssociationsError =
@@ -5723,10 +5620,6 @@ export const getProjectsLocationsMirroringEndpointGroupAssociations: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMirroringEndpointGroupAssociations",
-  iam: {
-    actions: ["networksecurity.mirroringEndpointGroupAssociations.get"],
-    roles: ["roles/networksecurity.mirroringEndpointViewer"],
-  },
 }));
 
 export type GetProjectsLocationsMirroringEndpointGroupsError = NotFound | Forbidden | GcpOpError;
@@ -5744,10 +5637,6 @@ export const getProjectsLocationsMirroringEndpointGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMirroringEndpointGroups",
-  iam: {
-    actions: ["networksecurity.mirroringEndpointGroups.get"],
-    roles: ["roles/networksecurity.mirroringEndpointViewer"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5782,7 +5671,6 @@ export const getProjectsLocationsSacAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSacAttachments",
-  iam: { actions: ["networksecurity.sacAttachments.get"], roles: ["roles/networksecurity.viewer"] },
 }));
 
 export type GetProjectsLocationsSacRealmsError = NotFound | Forbidden | GcpOpError;
@@ -5800,7 +5688,6 @@ export const getProjectsLocationsSacRealms: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSacRealms",
-  iam: { actions: ["networksecurity.sacRealms.get"], roles: ["roles/networksecurity.viewer"] },
 }));
 
 export type GetProjectsLocationsSecurityProfileGroupsError = NotFound | Forbidden | GcpOpError;
@@ -5818,10 +5705,6 @@ export const getProjectsLocationsSecurityProfileGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSecurityProfileGroups",
-  iam: {
-    actions: ["networksecurity.securityProfileGroups.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsSecurityProfilesError = NotFound | Forbidden | GcpOpError;
@@ -5839,10 +5722,6 @@ export const getProjectsLocationsSecurityProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSecurityProfiles",
-  iam: {
-    actions: ["networksecurity.securityProfiles.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsServerTlsPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -5860,10 +5739,6 @@ export const getProjectsLocationsServerTlsPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServerTlsPolicies",
-  iam: {
-    actions: ["networksecurity.serverTlsPolicies.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsTlsInspectionPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -5881,10 +5756,6 @@ export const getProjectsLocationsTlsInspectionPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTlsInspectionPolicies",
-  iam: {
-    actions: ["networksecurity.tlsInspectionPolicies.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsUrlListsError = NotFound | Forbidden | GcpOpError;
@@ -5902,7 +5773,6 @@ export const getProjectsLocationsUrlLists: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsUrlLists",
-  iam: { actions: ["networksecurity.urlLists.get"], roles: ["roles/networksecurity.viewer"] },
 }));
 
 export type ListOrganizationsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -5985,10 +5855,6 @@ export const listOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeReq
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsFirewallEndpointsWildfireVerdictChangeRequests",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6091,7 +5957,6 @@ export const listProjectsLocationsAddressGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAddressGroups",
-  iam: { actions: ["networksecurity.addressGroups.list"], roles: ["roles/networksecurity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6111,10 +5976,6 @@ export const listProjectsLocationsAuthorizationPolicies: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthorizationPolicies",
-  iam: {
-    actions: ["networksecurity.authorizationPolicies.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6134,7 +5995,6 @@ export const listProjectsLocationsAuthzPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthzPolicies",
-  iam: { actions: ["networksecurity.authzPolicies.list"], roles: ["roles/networksecurity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6161,10 +6021,6 @@ export const listProjectsLocationsBackendAuthenticationConfigs: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackendAuthenticationConfigs",
-  iam: {
-    actions: ["networksecurity.backendAuthenticationConfigs.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6184,10 +6040,6 @@ export const listProjectsLocationsClientTlsPolicies: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClientTlsPolicies",
-  iam: {
-    actions: ["networksecurity.clientTlsPolicies.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6207,10 +6059,6 @@ export const listProjectsLocationsDnsThreatDetectors: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDnsThreatDetectors",
-  iam: {
-    actions: ["networksecurity.dnsThreatDetectors.list"],
-    roles: ["roles/networksecurity.dnsThreatDetectorViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6237,10 +6085,6 @@ export const listProjectsLocationsFirewallEndpointAssociations: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFirewallEndpointAssociations",
-  iam: {
-    actions: ["networksecurity.firewallEndpointAssociations.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6260,10 +6104,6 @@ export const listProjectsLocationsFirewallEndpoints: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFirewallEndpoints",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6290,10 +6130,6 @@ export const listProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequests
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFirewallEndpointsWildfireVerdictChangeRequests",
-  iam: {
-    actions: ["networksecurity.firewallEndpoints.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6317,10 +6153,6 @@ export const listProjectsLocationsGatewaySecurityPolicies: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGatewaySecurityPolicies",
-  iam: {
-    actions: ["networksecurity.gatewaySecurityPolicies.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6347,10 +6179,6 @@ export const listProjectsLocationsGatewaySecurityPoliciesRules: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGatewaySecurityPoliciesRules",
-  iam: {
-    actions: ["networksecurity.gatewaySecurityPolicies.get"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6374,10 +6202,6 @@ export const listProjectsLocationsInterceptDeploymentGroups: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInterceptDeploymentGroups",
-  iam: {
-    actions: ["networksecurity.interceptDeploymentGroups.list"],
-    roles: ["roles/networksecurity.interceptDeploymentViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6397,10 +6221,6 @@ export const listProjectsLocationsInterceptDeployments: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInterceptDeployments",
-  iam: {
-    actions: ["networksecurity.interceptDeployments.list"],
-    roles: ["roles/networksecurity.interceptDeploymentViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6427,10 +6247,6 @@ export const listProjectsLocationsInterceptEndpointGroupAssociations: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInterceptEndpointGroupAssociations",
-  iam: {
-    actions: ["networksecurity.interceptEndpointGroupAssociations.list"],
-    roles: ["roles/networksecurity.interceptEndpointViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6454,10 +6270,6 @@ export const listProjectsLocationsInterceptEndpointGroups: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInterceptEndpointGroups",
-  iam: {
-    actions: ["networksecurity.interceptEndpointGroups.list"],
-    roles: ["roles/networksecurity.interceptEndpointViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6481,10 +6293,6 @@ export const listProjectsLocationsMirroringDeploymentGroups: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMirroringDeploymentGroups",
-  iam: {
-    actions: ["networksecurity.mirroringDeploymentGroups.list"],
-    roles: ["roles/networksecurity.mirroringDeploymentViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6504,10 +6312,6 @@ export const listProjectsLocationsMirroringDeployments: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMirroringDeployments",
-  iam: {
-    actions: ["networksecurity.mirroringDeployments.list"],
-    roles: ["roles/networksecurity.mirroringDeploymentViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6534,10 +6338,6 @@ export const listProjectsLocationsMirroringEndpointGroupAssociations: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMirroringEndpointGroupAssociations",
-  iam: {
-    actions: ["networksecurity.mirroringEndpointGroupAssociations.list"],
-    roles: ["roles/networksecurity.mirroringEndpointViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6561,10 +6361,6 @@ export const listProjectsLocationsMirroringEndpointGroups: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMirroringEndpointGroups",
-  iam: {
-    actions: ["networksecurity.mirroringEndpointGroups.list"],
-    roles: ["roles/networksecurity.mirroringEndpointViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6603,10 +6399,6 @@ export const listProjectsLocationsSacAttachments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSacAttachments",
-  iam: {
-    actions: ["networksecurity.sacAttachments.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6626,7 +6418,6 @@ export const listProjectsLocationsSacRealms: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSacRealms",
-  iam: { actions: ["networksecurity.sacRealms.list"], roles: ["roles/networksecurity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6646,10 +6437,6 @@ export const listProjectsLocationsSecurityProfileGroups: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSecurityProfileGroups",
-  iam: {
-    actions: ["networksecurity.securityProfileGroups.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6669,10 +6456,6 @@ export const listProjectsLocationsSecurityProfiles: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSecurityProfiles",
-  iam: {
-    actions: ["networksecurity.securityProfiles.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6692,10 +6475,6 @@ export const listProjectsLocationsServerTlsPolicies: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServerTlsPolicies",
-  iam: {
-    actions: ["networksecurity.serverTlsPolicies.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6715,10 +6494,6 @@ export const listProjectsLocationsTlsInspectionPolicies: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTlsInspectionPolicies",
-  iam: {
-    actions: ["networksecurity.tlsInspectionPolicies.list"],
-    roles: ["roles/networksecurity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6738,7 +6513,6 @@ export const listProjectsLocationsUrlLists: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsUrlLists",
-  iam: { actions: ["networksecurity.urlLists.list"], roles: ["roles/networksecurity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6765,7 +6539,6 @@ export const listReferencesOrganizationsLocationsAddressGroups: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReferencesOrganizationsLocationsAddressGroups",
-  iam: { actions: ["networksecurity.addressGroups.get"], roles: ["roles/networksecurity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6789,7 +6562,6 @@ export const listReferencesProjectsLocationsAddressGroups: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListReferencesProjectsLocationsAddressGroups",
-  iam: { actions: ["networksecurity.addressGroups.get"], roles: ["roles/networksecurity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7459,10 +7231,6 @@ export const removeItemsOrganizationsLocationsAddressGroups: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveItemsOrganizationsLocationsAddressGroups",
-  iam: {
-    actions: ["networksecurity.addressGroups.update"],
-    roles: ["roles/networksecurity.editor"],
-  },
 }));
 
 export type RemoveItemsProjectsLocationsAddressGroupsError =
@@ -7485,10 +7253,6 @@ export const removeItemsProjectsLocationsAddressGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveItemsProjectsLocationsAddressGroups",
-  iam: {
-    actions: ["networksecurity.addressGroups.update"],
-    roles: ["roles/networksecurity.editor"],
-  },
 }));
 
 export type SetIamPolicyProjectsLocationsAddressGroupsError =

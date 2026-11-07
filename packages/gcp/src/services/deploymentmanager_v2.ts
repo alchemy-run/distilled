@@ -1055,10 +1055,6 @@ export const cancelPreviewDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelPreviewDeployments",
-  iam: {
-    actions: ["deploymentmanager.deployments.cancelPreview"],
-    roles: ["roles/deploymentmanager.editor"],
-  },
 }));
 
 export type DeleteDeploymentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1093,10 +1089,6 @@ export const getDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDeployments",
-  iam: {
-    actions: ["deploymentmanager.deployments.get"],
-    roles: ["roles/deploymentmanager.viewer"],
-  },
 }));
 
 export type GetIamPolicyDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -1131,7 +1123,6 @@ export const getManifests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetManifests",
-  iam: { actions: ["deploymentmanager.manifests.get"], roles: ["roles/deploymentmanager.viewer"] },
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1166,7 +1157,6 @@ export const getResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResources",
-  iam: { actions: ["deploymentmanager.resources.get"], roles: ["roles/deploymentmanager.viewer"] },
 }));
 
 export type InsertDeploymentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1202,10 +1192,6 @@ export const listDeployments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDeployments",
-  iam: {
-    actions: ["deploymentmanager.deployments.list"],
-    roles: ["roles/deploymentmanager.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1225,7 +1211,6 @@ export const listManifests: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManifests",
-  iam: { actions: ["deploymentmanager.manifests.list"], roles: ["roles/deploymentmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1264,7 +1249,6 @@ export const listResources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResources",
-  iam: { actions: ["deploymentmanager.resources.list"], roles: ["roles/deploymentmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1284,7 +1268,6 @@ export const listTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTypes",
-  iam: { actions: ["deploymentmanager.types.list"], roles: ["roles/deploymentmanager.typeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1342,10 +1325,6 @@ export const stopDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopDeployments",
-  iam: {
-    actions: ["deploymentmanager.deployments.stop"],
-    roles: ["roles/deploymentmanager.editor"],
-  },
 }));
 
 export type TestIamPermissionsDeploymentsError =

@@ -619,7 +619,6 @@ export const deleteProjectsLocationsAuthProvidersAuthorizations: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAuthProvidersAuthorizations",
-  iam: { actions: ["agentidentity.authorizations.delete"], roles: ["roles/agentidentity.editor"] },
 }));
 
 export type DisableProjectsLocationsAuthProvidersError =
@@ -643,7 +642,6 @@ export const disableProjectsLocationsAuthProviders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsAuthProviders",
-  iam: { actions: ["agentidentity.authProviders.update"], roles: ["roles/agentidentity.editor"] },
 }));
 
 export type EnableProjectsLocationsAuthProvidersError =
@@ -667,7 +665,6 @@ export const enableProjectsLocationsAuthProviders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsLocationsAuthProviders",
-  iam: { actions: ["agentidentity.authProviders.update"], roles: ["roles/agentidentity.editor"] },
 }));
 
 export type GetIamPolicyProjectsLocationsAuthProvidersError =
@@ -751,7 +748,6 @@ export const getProjectsLocationsAccessSummaries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAccessSummaries",
-  iam: { actions: ["agentidentity.accessSummaries.get"], roles: ["roles/agentidentity.viewer"] },
 }));
 
 export type GetProjectsLocationsAuthProvidersError =
@@ -773,7 +769,6 @@ export const getProjectsLocationsAuthProviders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthProviders",
-  iam: { actions: ["agentidentity.authProviders.get"], roles: ["roles/agentidentity.viewer"] },
 }));
 
 export type GetProjectsLocationsAuthProvidersAuthorizationsError =
@@ -799,7 +794,6 @@ export const getProjectsLocationsAuthProvidersAuthorizations: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAuthProvidersAuthorizations",
-  iam: { actions: ["agentidentity.authorizations.get"], roles: ["roles/agentidentity.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -841,7 +835,6 @@ export const listProjectsLocationsAccessSummaries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAccessSummaries",
-  iam: { actions: ["agentidentity.accessSummaries.list"], roles: ["roles/agentidentity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -865,7 +858,6 @@ export const listProjectsLocationsAuthProviders: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthProviders",
-  iam: { actions: ["agentidentity.authProviders.list"], roles: ["roles/agentidentity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -893,7 +885,6 @@ export const listProjectsLocationsAuthProvidersAuthorizations: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAuthProvidersAuthorizations",
-  iam: { actions: ["agentidentity.authorizations.list"], roles: ["roles/agentidentity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -940,7 +931,6 @@ export const queryProjectsLocationsAuthProviders: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryProjectsLocationsAuthProviders",
-  iam: { actions: ["agentidentity.authProviders.get"], roles: ["roles/agentidentity.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -964,10 +954,6 @@ export const queryWorkloadsProjectsLocationsAuthProviders: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryWorkloadsProjectsLocationsAuthProviders",
-  iam: {
-    actions: ["agentidentity.authProviders.queryWorkloads"],
-    roles: ["roles/agentidentity.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -996,7 +982,6 @@ export const revokeAuthorizationProjectsLocationsAuthProviders: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevokeAuthorizationProjectsLocationsAuthProviders",
-  iam: { actions: ["agentidentity.authProviders.update"], roles: ["roles/agentidentity.editor"] },
 }));
 
 export type SetIamPolicyProjectsLocationsAuthProvidersError =
@@ -1122,7 +1107,6 @@ export const undeleteProjectsLocationsAuthProviders: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsLocationsAuthProviders",
-  iam: { actions: ["agentidentity.authProviders.undelete"], roles: ["roles/agentidentity.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

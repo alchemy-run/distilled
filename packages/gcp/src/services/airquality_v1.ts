@@ -407,10 +407,6 @@ export const lookupCurrentConditions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupCurrentConditions",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type LookupForecastError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -428,10 +424,6 @@ export const lookupForecast: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupForecast",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 export type LookupHeatmapTileMapTypesHeatmapTilesError = NotFound | Forbidden | GcpOpError;
@@ -466,10 +458,6 @@ export const lookupHistory: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupHistory",
-  iam: {
-    actions: ["serviceusage.services.use"],
-    roles: ["roles/serviceusage.serviceUsageConsumer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

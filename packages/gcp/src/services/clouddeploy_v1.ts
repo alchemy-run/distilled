@@ -2581,7 +2581,6 @@ export const abandonProjectsLocationsDeliveryPipelinesReleases: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AbandonProjectsLocationsDeliveryPipelinesReleases",
-  iam: { actions: ["clouddeploy.releases.abandon"], roles: ["roles/clouddeploy.developer"] },
 }));
 
 export type AdvanceProjectsLocationsDeliveryPipelinesReleasesRolloutsError =
@@ -2608,7 +2607,6 @@ export const advanceProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AdvanceProjectsLocationsDeliveryPipelinesReleasesRollouts",
-  iam: { actions: ["clouddeploy.rollouts.advance"], roles: ["roles/clouddeploy.releaser"] },
 }));
 
 export type ApproveProjectsLocationsDeliveryPipelinesReleasesRolloutsError =
@@ -2635,7 +2633,6 @@ export const approveProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApproveProjectsLocationsDeliveryPipelinesReleasesRollouts",
-  iam: { actions: ["clouddeploy.rollouts.approve"], roles: ["roles/clouddeploy.approver"] },
 }));
 
 export type CancelProjectsLocationsDeliveryPipelinesAutomationRunsError =
@@ -2662,7 +2659,6 @@ export const cancelProjectsLocationsDeliveryPipelinesAutomationRuns: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsDeliveryPipelinesAutomationRuns",
-  iam: { actions: ["clouddeploy.automationRuns.cancel"], roles: ["roles/clouddeploy.operator"] },
 }));
 
 export type CancelProjectsLocationsDeliveryPipelinesReleasesRolloutsError =
@@ -2689,7 +2685,6 @@ export const cancelProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsDeliveryPipelinesReleasesRollouts",
-  iam: { actions: ["clouddeploy.rollouts.cancel"], roles: ["roles/clouddeploy.releaser"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -2808,7 +2803,6 @@ export const createProjectsLocationsDeliveryPipelinesReleases: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDeliveryPipelinesReleases",
-  iam: { actions: ["clouddeploy.releases.create"], roles: ["roles/clouddeploy.releaser"] },
 }));
 
 export type CreateProjectsLocationsDeliveryPipelinesReleasesRolloutsError =
@@ -2835,7 +2829,6 @@ export const createProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDeliveryPipelinesReleasesRollouts",
-  iam: { actions: ["clouddeploy.rollouts.create"], roles: ["roles/clouddeploy.releaser"] },
 }));
 
 export type CreateProjectsLocationsDeployPoliciesError =
@@ -3143,7 +3136,6 @@ export const getProjectsLocationsCustomTargetTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCustomTargetTypes",
-  iam: { actions: ["clouddeploy.customTargetTypes.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type GetProjectsLocationsDeliveryPipelinesError = NotFound | Forbidden | GcpOpError;
@@ -3161,7 +3153,6 @@ export const getProjectsLocationsDeliveryPipelines: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeliveryPipelines",
-  iam: { actions: ["clouddeploy.deliveryPipelines.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type GetProjectsLocationsDeliveryPipelinesAutomationRunsError =
@@ -3186,7 +3177,6 @@ export const getProjectsLocationsDeliveryPipelinesAutomationRuns: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeliveryPipelinesAutomationRuns",
-  iam: { actions: ["clouddeploy.automationRuns.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type GetProjectsLocationsDeliveryPipelinesAutomationsError =
@@ -3211,7 +3201,6 @@ export const getProjectsLocationsDeliveryPipelinesAutomations: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeliveryPipelinesAutomations",
-  iam: { actions: ["clouddeploy.automations.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type GetProjectsLocationsDeliveryPipelinesReleasesError = NotFound | Forbidden | GcpOpError;
@@ -3233,7 +3222,6 @@ export const getProjectsLocationsDeliveryPipelinesReleases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeliveryPipelinesReleases",
-  iam: { actions: ["clouddeploy.releases.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type GetProjectsLocationsDeliveryPipelinesReleasesRolloutsError =
@@ -3258,7 +3246,6 @@ export const getProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeliveryPipelinesReleasesRollouts",
-  iam: { actions: ["clouddeploy.rollouts.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type GetProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRunsError =
@@ -3283,7 +3270,6 @@ export const getProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns",
-  iam: { actions: ["clouddeploy.jobRuns.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type GetProjectsLocationsDeployPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -3301,7 +3287,6 @@ export const getProjectsLocationsDeployPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeployPolicies",
-  iam: { actions: ["clouddeploy.deployPolicies.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3336,7 +3321,6 @@ export const getProjectsLocationsTargets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTargets",
-  iam: { actions: ["clouddeploy.targets.get"], roles: ["roles/clouddeploy.viewer"] },
 }));
 
 export type IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRolloutsError =
@@ -3363,7 +3347,6 @@ export const ignoreJobProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "IgnoreJobProjectsLocationsDeliveryPipelinesReleasesRollouts",
-  iam: { actions: ["clouddeploy.rollouts.ignoreJob"], roles: ["roles/clouddeploy.operator"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3401,7 +3384,6 @@ export const listProjectsLocationsCustomTargetTypes: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCustomTargetTypes",
-  iam: { actions: ["clouddeploy.customTargetTypes.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3421,7 +3403,6 @@ export const listProjectsLocationsDeliveryPipelines: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeliveryPipelines",
-  iam: { actions: ["clouddeploy.deliveryPipelines.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3448,7 +3429,6 @@ export const listProjectsLocationsDeliveryPipelinesAutomationRuns: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeliveryPipelinesAutomationRuns",
-  iam: { actions: ["clouddeploy.automationRuns.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3475,7 +3455,6 @@ export const listProjectsLocationsDeliveryPipelinesAutomations: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeliveryPipelinesAutomations",
-  iam: { actions: ["clouddeploy.automations.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3499,7 +3478,6 @@ export const listProjectsLocationsDeliveryPipelinesReleases: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeliveryPipelinesReleases",
-  iam: { actions: ["clouddeploy.releases.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3526,7 +3504,6 @@ export const listProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeliveryPipelinesReleasesRollouts",
-  iam: { actions: ["clouddeploy.rollouts.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3553,7 +3530,6 @@ export const listProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns",
-  iam: { actions: ["clouddeploy.jobRuns.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3573,7 +3549,6 @@ export const listProjectsLocationsDeployPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeployPolicies",
-  iam: { actions: ["clouddeploy.deployPolicies.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3612,7 +3587,6 @@ export const listProjectsLocationsTargets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTargets",
-  iam: { actions: ["clouddeploy.targets.list"], roles: ["roles/clouddeploy.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3754,7 +3728,6 @@ export const retryJobProjectsLocationsDeliveryPipelinesReleasesRollouts: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RetryJobProjectsLocationsDeliveryPipelinesReleasesRollouts",
-  iam: { actions: ["clouddeploy.rollouts.retryJob"], roles: ["roles/clouddeploy.operator"] },
 }));
 
 export type RollbackTargetProjectsLocationsDeliveryPipelinesError =
@@ -3781,10 +3754,6 @@ export const rollbackTargetProjectsLocationsDeliveryPipelines: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackTargetProjectsLocationsDeliveryPipelines",
-  iam: {
-    actions: ["clouddeploy.deliveryPipelines.update"],
-    roles: ["roles/clouddeploy.developer"],
-  },
 }));
 
 export type SetIamPolicyProjectsLocationsCustomTargetTypesError =
@@ -3907,7 +3876,6 @@ export const terminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TerminateProjectsLocationsDeliveryPipelinesReleasesRolloutsJobRuns",
-  iam: { actions: ["clouddeploy.jobRuns.terminate"], roles: ["roles/clouddeploy.operator"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsDeliveryPipelinesError =

@@ -563,10 +563,6 @@ export const batchEnableServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchEnableServices",
-  iam: {
-    actions: ["serviceusage.services.enable"],
-    roles: ["roles/serviceusage.serviceUsageAdmin"],
-  },
 }));
 
 export type BatchGetServicesError = NotFound | Forbidden | GcpOpError;
@@ -584,7 +580,6 @@ export const batchGetServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetServices",
-  iam: { actions: ["serviceusage.services.get"], roles: ["roles/serviceusage.serviceUsageViewer"] },
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -636,10 +631,6 @@ export const disableServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableServices",
-  iam: {
-    actions: ["serviceusage.services.disable"],
-    roles: ["roles/serviceusage.serviceUsageAdmin"],
-  },
 }));
 
 export type EnableServicesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -657,10 +648,6 @@ export const enableServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableServices",
-  iam: {
-    actions: ["serviceusage.services.enable"],
-    roles: ["roles/serviceusage.serviceUsageAdmin"],
-  },
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -695,7 +682,6 @@ export const getServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetServices",
-  iam: { actions: ["serviceusage.services.get"], roles: ["roles/serviceusage.serviceUsageViewer"] },
 }));
 
 export type ListOperationsError = NotFound | Forbidden | GcpOpError;
@@ -733,10 +719,6 @@ export const listServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
-  iam: {
-    actions: ["serviceusage.services.list"],
-    roles: ["roles/serviceusage.serviceUsageViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

@@ -456,10 +456,6 @@ export const getProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeys: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProtectedResourcesSummaryProjectsLocationsKeyRingsCryptoKeys",
-  iam: {
-    actions: ["cloudkms.protectedResources.search"],
-    roles: ["roles/cloudkms.protectedResourcesViewer"],
-  },
 }));
 
 export type ListProjectsCryptoKeysError = NotFound | Forbidden | GcpOpError;
@@ -478,10 +474,6 @@ export const listProjectsCryptoKeys: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsCryptoKeys",
-  iam: {
-    actions: ["cloudkms.cryptoKeys.list"],
-    roles: ["roles/cloudkms.encryptionDashboardViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -528,10 +520,6 @@ export const searchProjectsProtectedResources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsProtectedResources",
-  iam: {
-    actions: ["cloudkms.protectedResources.search"],
-    roles: ["roles/cloudkms.protectedResourcesViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

@@ -1325,7 +1325,6 @@ export const addAclEntryProjectsLocationsClustersAcls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddAclEntryProjectsLocationsClustersAcls",
-  iam: { actions: ["managedkafka.acls.update"], roles: ["roles/managedkafka.aclEditor"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1382,10 +1381,6 @@ export const checkCompatibilityProjectsLocationsSchemaRegistriesCompatibility: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckCompatibilityProjectsLocationsSchemaRegistriesCompatibility",
-  iam: {
-    actions: ["managedkafka.schemaRegistries.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type CheckCompatibilityProjectsLocationsSchemaRegistriesContextsCompatibilityError =
@@ -1704,10 +1699,6 @@ export const deleteProjectsLocationsClustersConsumerGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsClustersConsumerGroups",
-  iam: {
-    actions: ["managedkafka.consumerGroups.delete"],
-    roles: ["roles/managedkafka.consumerGroupEditor"],
-  },
 }));
 
 export type DeleteProjectsLocationsClustersTopicsError =
@@ -1864,10 +1855,6 @@ export const deleteProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSchemaRegistriesConfig",
-  iam: {
-    actions: ["managedkafka.config.delete"],
-    roles: ["roles/managedkafka.schemaRegistryAdmin"],
-  },
 }));
 
 export type DeleteProjectsLocationsSchemaRegistriesContextsConfigError =
@@ -1902,10 +1889,6 @@ export const deleteProjectsLocationsSchemaRegistriesContextsConfig: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSchemaRegistriesContextsConfig",
-  iam: {
-    actions: ["managedkafka.config.delete"],
-    roles: ["roles/managedkafka.schemaRegistryAdmin"],
-  },
 }));
 
 export type DeleteProjectsLocationsSchemaRegistriesContextsModeError =
@@ -1940,7 +1923,6 @@ export const deleteProjectsLocationsSchemaRegistriesContextsMode: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSchemaRegistriesContextsMode",
-  iam: { actions: ["managedkafka.mode.delete"], roles: ["roles/managedkafka.schemaRegistryAdmin"] },
 }));
 
 export type DeleteProjectsLocationsSchemaRegistriesContextsSubjectsError =
@@ -1977,10 +1959,6 @@ export const deleteProjectsLocationsSchemaRegistriesContextsSubjects: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSchemaRegistriesContextsSubjects",
-  iam: {
-    actions: ["managedkafka.subjects.delete"],
-    roles: ["roles/managedkafka.schemaRegistryEditor"],
-  },
 }));
 
 export type DeleteProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError =
@@ -2047,7 +2025,6 @@ export const deleteProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSchemaRegistriesMode",
-  iam: { actions: ["managedkafka.mode.delete"], roles: ["roles/managedkafka.schemaRegistryAdmin"] },
 }));
 
 export type DeleteProjectsLocationsSchemaRegistriesSubjectsError =
@@ -2084,10 +2061,6 @@ export const deleteProjectsLocationsSchemaRegistriesSubjects: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsSchemaRegistriesSubjects",
-  iam: {
-    actions: ["managedkafka.subjects.delete"],
-    roles: ["roles/managedkafka.schemaRegistryEditor"],
-  },
 }));
 
 export type DeleteProjectsLocationsSchemaRegistriesSubjectsVersionsError =
@@ -2179,7 +2152,6 @@ export const getProjectsLocationsClustersAcls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsClustersAcls",
-  iam: { actions: ["managedkafka.acls.get"], roles: ["roles/managedkafka.aclViewer"] },
 }));
 
 export type GetProjectsLocationsClustersConsumerGroupsError = NotFound | Forbidden | GcpOpError;
@@ -2197,7 +2169,6 @@ export const getProjectsLocationsClustersConsumerGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsClustersConsumerGroups",
-  iam: { actions: ["managedkafka.consumerGroups.get"], roles: ["roles/managedkafka.viewer"] },
 }));
 
 export type GetProjectsLocationsClustersTopicsError = NotFound | Forbidden | GcpOpError;
@@ -2253,7 +2224,6 @@ export const getProjectsLocationsConnectClustersConnectors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectClustersConnectors",
-  iam: { actions: ["managedkafka.connectors.get"], roles: ["roles/managedkafka.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2313,7 +2283,6 @@ export const getProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesConfig",
-  iam: { actions: ["managedkafka.config.get"], roles: ["roles/managedkafka.schemaRegistryViewer"] },
 }));
 
 export type GetProjectsLocationsSchemaRegistriesContextsError =
@@ -2335,10 +2304,6 @@ export const getProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesContexts",
-  iam: {
-    actions: ["managedkafka.contexts.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type GetProjectsLocationsSchemaRegistriesContextsConfigError =
@@ -2364,7 +2329,6 @@ export const getProjectsLocationsSchemaRegistriesContextsConfig: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesContextsConfig",
-  iam: { actions: ["managedkafka.config.get"], roles: ["roles/managedkafka.schemaRegistryViewer"] },
 }));
 
 export type GetProjectsLocationsSchemaRegistriesContextsModeError =
@@ -2390,7 +2354,6 @@ export const getProjectsLocationsSchemaRegistriesContextsMode: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesContextsMode",
-  iam: { actions: ["managedkafka.mode.get"], roles: ["roles/managedkafka.schemaRegistryViewer"] },
 }));
 
 export type GetProjectsLocationsSchemaRegistriesContextsSchemasError =
@@ -2416,10 +2379,6 @@ export const getProjectsLocationsSchemaRegistriesContextsSchemas: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesContextsSchemas",
-  iam: {
-    actions: ["managedkafka.schemas.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type GetProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError =
@@ -2452,10 +2411,6 @@ export const getProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesContextsSubjectsVersions",
-  iam: {
-    actions: ["managedkafka.versions.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type GetProjectsLocationsSchemaRegistriesModeError =
@@ -2477,7 +2432,6 @@ export const getProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesMode",
-  iam: { actions: ["managedkafka.mode.get"], roles: ["roles/managedkafka.schemaRegistryViewer"] },
 }));
 
 export type GetProjectsLocationsSchemaRegistriesSchemasError =
@@ -2499,10 +2453,6 @@ export const getProjectsLocationsSchemaRegistriesSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesSchemas",
-  iam: {
-    actions: ["managedkafka.schemas.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type GetProjectsLocationsSchemaRegistriesSubjectsVersionsError =
@@ -2535,10 +2485,6 @@ export const getProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSchemaRegistriesSubjectsVersions",
-  iam: {
-    actions: ["managedkafka.versions.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type GetSchemaProjectsLocationsSchemaRegistriesContextsSchemasError =
@@ -2589,10 +2535,6 @@ export const getSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSchemaProjectsLocationsSchemaRegistriesContextsSubjectsVersions",
-  iam: {
-    actions: ["managedkafka.versions.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type GetSchemaProjectsLocationsSchemaRegistriesSchemasError =
@@ -2618,10 +2560,6 @@ export const getSchemaProjectsLocationsSchemaRegistriesSchemas: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSchemaProjectsLocationsSchemaRegistriesSchemas",
-  iam: {
-    actions: ["managedkafka.schemas.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersionsError =
@@ -2647,10 +2585,6 @@ export const getSchemaProjectsLocationsSchemaRegistriesSubjectsVersions: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSchemaProjectsLocationsSchemaRegistriesSubjectsVersions",
-  iam: {
-    actions: ["managedkafka.versions.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2688,7 +2622,6 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClusters",
-  iam: { actions: ["managedkafka.clusters.list"], roles: ["roles/managedkafka.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2712,7 +2645,6 @@ export const listProjectsLocationsClustersAcls: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClustersAcls",
-  iam: { actions: ["managedkafka.acls.list"], roles: ["roles/managedkafka.aclViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2732,7 +2664,6 @@ export const listProjectsLocationsClustersConsumerGroups: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClustersConsumerGroups",
-  iam: { actions: ["managedkafka.consumerGroups.list"], roles: ["roles/managedkafka.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2752,7 +2683,6 @@ export const listProjectsLocationsClustersTopics: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClustersTopics",
-  iam: { actions: ["managedkafka.topics.list"], roles: ["roles/managedkafka.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2772,7 +2702,6 @@ export const listProjectsLocationsConnectClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectClusters",
-  iam: { actions: ["managedkafka.connectClusters.list"], roles: ["roles/managedkafka.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2796,7 +2725,6 @@ export const listProjectsLocationsConnectClustersConnectors: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectClustersConnectors",
-  iam: { actions: ["managedkafka.connectors.list"], roles: ["roles/managedkafka.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2838,10 +2766,6 @@ export const listProjectsLocationsSchemaRegistries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistries",
-  iam: {
-    actions: ["managedkafka.schemaRegistries.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesContextsError =
@@ -2867,10 +2791,6 @@ export const listProjectsLocationsSchemaRegistriesContexts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesContexts",
-  iam: {
-    actions: ["managedkafka.contexts.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasSubjectsError =
@@ -2896,10 +2816,6 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasSubjects: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesContextsSchemasSubjects",
-  iam: {
-    actions: ["managedkafka.subjects.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasTypesError =
@@ -2925,10 +2841,6 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasTypes: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesContextsSchemasTypes",
-  iam: {
-    actions: ["managedkafka.schemas.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesContextsSchemasVersionsError =
@@ -2954,10 +2866,6 @@ export const listProjectsLocationsSchemaRegistriesContextsSchemasVersions: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesContextsSchemasVersions",
-  iam: {
-    actions: ["managedkafka.versions.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsError =
@@ -2983,10 +2891,6 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjects: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesContextsSubjects",
-  iam: {
-    actions: ["managedkafka.subjects.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsError =
@@ -3012,10 +2916,6 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersions: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesContextsSubjectsVersions",
-  iam: {
-    actions: ["managedkafka.versions.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedbyError =
@@ -3041,10 +2941,6 @@ export const listProjectsLocationsSchemaRegistriesContextsSubjectsVersionsRefere
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesContextsSubjectsVersionsReferencedby",
-  iam: {
-    actions: ["managedkafka.versions.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesSchemasSubjectsError =
@@ -3070,10 +2966,6 @@ export const listProjectsLocationsSchemaRegistriesSchemasSubjects: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesSchemasSubjects",
-  iam: {
-    actions: ["managedkafka.subjects.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesSchemasTypesError =
@@ -3099,10 +2991,6 @@ export const listProjectsLocationsSchemaRegistriesSchemasTypes: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesSchemasTypes",
-  iam: {
-    actions: ["managedkafka.schemas.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesSchemasVersionsError =
@@ -3128,10 +3016,6 @@ export const listProjectsLocationsSchemaRegistriesSchemasVersions: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesSchemasVersions",
-  iam: {
-    actions: ["managedkafka.versions.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesSubjectsError =
@@ -3157,10 +3041,6 @@ export const listProjectsLocationsSchemaRegistriesSubjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesSubjects",
-  iam: {
-    actions: ["managedkafka.subjects.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesSubjectsVersionsError =
@@ -3186,10 +3066,6 @@ export const listProjectsLocationsSchemaRegistriesSubjectsVersions: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesSubjectsVersions",
-  iam: {
-    actions: ["managedkafka.versions.list"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedbyError =
@@ -3215,10 +3091,6 @@ export const listProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedby: 
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemaRegistriesSubjectsVersionsReferencedby",
-  iam: {
-    actions: ["managedkafka.versions.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type LookupVersionProjectsLocationsSchemaRegistriesContextsSubjectsError =
@@ -3287,10 +3159,6 @@ export const lookupVersionProjectsLocationsSchemaRegistriesSubjects: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupVersionProjectsLocationsSchemaRegistriesSubjects",
-  iam: {
-    actions: ["managedkafka.schemaRegistries.get"],
-    roles: ["roles/managedkafka.schemaRegistryViewer"],
-  },
 }));
 
 export type PatchProjectsLocationsClustersError =
@@ -3362,10 +3230,6 @@ export const patchProjectsLocationsClustersConsumerGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsClustersConsumerGroups",
-  iam: {
-    actions: ["managedkafka.consumerGroups.update"],
-    roles: ["roles/managedkafka.consumerGroupEditor"],
-  },
 }));
 
 export type PatchProjectsLocationsClustersTopicsError =
@@ -3462,10 +3326,6 @@ export const pauseProjectsLocationsConnectClustersConnectors: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsConnectClustersConnectors",
-  iam: {
-    actions: ["managedkafka.connectors.pause"],
-    roles: ["roles/managedkafka.connectorEditor"],
-  },
 }));
 
 export type RemoveAclEntryProjectsLocationsClustersAclsError =
@@ -3493,7 +3353,6 @@ export const removeAclEntryProjectsLocationsClustersAcls: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveAclEntryProjectsLocationsClustersAcls",
-  iam: { actions: ["managedkafka.acls.update"], roles: ["roles/managedkafka.aclEditor"] },
 }));
 
 export type RestartProjectsLocationsConnectClustersConnectorsError =
@@ -3520,10 +3379,6 @@ export const restartProjectsLocationsConnectClustersConnectors: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartProjectsLocationsConnectClustersConnectors",
-  iam: {
-    actions: ["managedkafka.connectors.restart"],
-    roles: ["roles/managedkafka.connectorEditor"],
-  },
 }));
 
 export type ResumeProjectsLocationsConnectClustersConnectorsError =
@@ -3550,10 +3405,6 @@ export const resumeProjectsLocationsConnectClustersConnectors: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsConnectClustersConnectors",
-  iam: {
-    actions: ["managedkafka.connectors.resume"],
-    roles: ["roles/managedkafka.connectorEditor"],
-  },
 }));
 
 export type StopProjectsLocationsConnectClustersConnectorsError =
@@ -3580,7 +3431,6 @@ export const stopProjectsLocationsConnectClustersConnectors: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsConnectClustersConnectors",
-  iam: { actions: ["managedkafka.connectors.stop"], roles: ["roles/managedkafka.connectorEditor"] },
 }));
 
 export type UpdateProjectsLocationsSchemaRegistriesConfigError =
@@ -3615,10 +3465,6 @@ export const updateProjectsLocationsSchemaRegistriesConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsSchemaRegistriesConfig",
-  iam: {
-    actions: ["managedkafka.config.update"],
-    roles: ["roles/managedkafka.schemaRegistryAdmin"],
-  },
 }));
 
 export type UpdateProjectsLocationsSchemaRegistriesContextsConfigError =
@@ -3653,10 +3499,6 @@ export const updateProjectsLocationsSchemaRegistriesContextsConfig: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsSchemaRegistriesContextsConfig",
-  iam: {
-    actions: ["managedkafka.config.update"],
-    roles: ["roles/managedkafka.schemaRegistryAdmin"],
-  },
 }));
 
 export type UpdateProjectsLocationsSchemaRegistriesContextsModeError =
@@ -3691,7 +3533,6 @@ export const updateProjectsLocationsSchemaRegistriesContextsMode: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsSchemaRegistriesContextsMode",
-  iam: { actions: ["managedkafka.mode.update"], roles: ["roles/managedkafka.schemaRegistryAdmin"] },
 }));
 
 export type UpdateProjectsLocationsSchemaRegistriesModeError =
@@ -3726,7 +3567,6 @@ export const updateProjectsLocationsSchemaRegistriesMode: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsSchemaRegistriesMode",
-  iam: { actions: ["managedkafka.mode.update"], roles: ["roles/managedkafka.schemaRegistryAdmin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

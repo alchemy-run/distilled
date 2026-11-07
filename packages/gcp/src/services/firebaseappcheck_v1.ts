@@ -776,10 +776,6 @@ export const batchGetProjectsAppsAppAttestConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetProjectsAppsAppAttestConfig",
-  iam: {
-    actions: ["firebaseappcheck.appAttestConfig.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type BatchGetProjectsAppsDeviceCheckConfigError =
@@ -805,10 +801,6 @@ export const batchGetProjectsAppsDeviceCheckConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetProjectsAppsDeviceCheckConfig",
-  iam: {
-    actions: ["firebaseappcheck.deviceCheckConfig.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type BatchGetProjectsAppsPlayIntegrityConfigError =
@@ -834,10 +826,6 @@ export const batchGetProjectsAppsPlayIntegrityConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetProjectsAppsPlayIntegrityConfig",
-  iam: {
-    actions: ["firebaseappcheck.playIntegrityConfig.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type BatchGetProjectsAppsRecaptchaEnterpriseConfigError =
@@ -867,10 +855,6 @@ export const batchGetProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetProjectsAppsRecaptchaEnterpriseConfig",
-  iam: {
-    actions: ["firebaseappcheck.recaptchaEnterpriseConfig.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type BatchGetProjectsAppsRecaptchaV3ConfigError =
@@ -896,10 +880,6 @@ export const batchGetProjectsAppsRecaptchaV3Config: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchGetProjectsAppsRecaptchaV3Config",
-  iam: {
-    actions: ["firebaseappcheck.recaptchaV3Config.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type BatchUpdateProjectsServicesError =
@@ -923,7 +903,6 @@ export const batchUpdateProjectsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchUpdateProjectsServices",
-  iam: { actions: ["firebaseappcheck.services.update"], roles: ["roles/firebaseappcheck.admin"] },
 }));
 
 export type BatchUpdateProjectsServicesResourcePoliciesError =
@@ -951,10 +930,6 @@ export const batchUpdateProjectsServicesResourcePolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchUpdateProjectsServicesResourcePolicies",
-  iam: {
-    actions: ["firebaseappcheck.resourcePolicies.update"],
-    roles: ["roles/firebaseappcheck.admin"],
-  },
 }));
 
 export type CreateProjectsAppsDebugTokensError =
@@ -1427,10 +1402,6 @@ export const getProjectsAppsAppAttestConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAppsAppAttestConfig",
-  iam: {
-    actions: ["firebaseappcheck.appAttestConfig.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type GetProjectsAppsDebugTokensError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1448,7 +1419,6 @@ export const getProjectsAppsDebugTokens: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAppsDebugTokens",
-  iam: { actions: ["firebaseappcheck.debugTokens.get"], roles: ["roles/firebaseappcheck.viewer"] },
 }));
 
 export type GetProjectsAppsDeviceCheckConfigError =
@@ -1470,10 +1440,6 @@ export const getProjectsAppsDeviceCheckConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAppsDeviceCheckConfig",
-  iam: {
-    actions: ["firebaseappcheck.deviceCheckConfig.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type GetProjectsAppsPlayIntegrityConfigError =
@@ -1495,10 +1461,6 @@ export const getProjectsAppsPlayIntegrityConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAppsPlayIntegrityConfig",
-  iam: {
-    actions: ["firebaseappcheck.playIntegrityConfig.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type GetProjectsAppsRecaptchaEnterpriseConfigError =
@@ -1520,10 +1482,6 @@ export const getProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAppsRecaptchaEnterpriseConfig",
-  iam: {
-    actions: ["firebaseappcheck.recaptchaEnterpriseConfig.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type GetProjectsAppsRecaptchaV3ConfigError =
@@ -1545,10 +1503,6 @@ export const getProjectsAppsRecaptchaV3Config: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsAppsRecaptchaV3Config",
-  iam: {
-    actions: ["firebaseappcheck.recaptchaV3Config.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type GetProjectsServicesError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1566,7 +1520,6 @@ export const getProjectsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsServices",
-  iam: { actions: ["firebaseappcheck.services.get"], roles: ["roles/firebaseappcheck.viewer"] },
 }));
 
 export type GetProjectsServicesResourcePoliciesError =
@@ -1588,10 +1541,6 @@ export const getProjectsServicesResourcePolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsServicesResourcePolicies",
-  iam: {
-    actions: ["firebaseappcheck.resourcePolicies.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
 }));
 
 export type ListProjectsAppsDebugTokensError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1610,7 +1559,6 @@ export const listProjectsAppsDebugTokens: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAppsDebugTokens",
-  iam: { actions: ["firebaseappcheck.debugTokens.get"], roles: ["roles/firebaseappcheck.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1630,7 +1578,6 @@ export const listProjectsServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsServices",
-  iam: { actions: ["firebaseappcheck.services.get"], roles: ["roles/firebaseappcheck.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1658,10 +1605,6 @@ export const listProjectsServicesResourcePolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsServicesResourcePolicies",
-  iam: {
-    actions: ["firebaseappcheck.resourcePolicies.get"],
-    roles: ["roles/firebaseappcheck.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1686,7 +1629,6 @@ export const mintAppCheckTokenProjectsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MintAppCheckTokenProjectsApps",
-  iam: { actions: ["firebaseappcheck.tokens.mint"], roles: ["roles/firebaseappcheck.admin"] },
 }));
 
 export type PatchProjectsAppsAppAttestConfigError =
@@ -1710,10 +1652,6 @@ export const patchProjectsAppsAppAttestConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsAppsAppAttestConfig",
-  iam: {
-    actions: ["firebaseappcheck.appAttestConfig.update"],
-    roles: ["roles/firebaseappcheck.admin"],
-  },
 }));
 
 export type PatchProjectsAppsDebugTokensError =
@@ -1760,10 +1698,6 @@ export const patchProjectsAppsDeviceCheckConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsAppsDeviceCheckConfig",
-  iam: {
-    actions: ["firebaseappcheck.deviceCheckConfig.update"],
-    roles: ["roles/firebaseappcheck.admin"],
-  },
 }));
 
 export type PatchProjectsAppsPlayIntegrityConfigError =
@@ -1787,10 +1721,6 @@ export const patchProjectsAppsPlayIntegrityConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsAppsPlayIntegrityConfig",
-  iam: {
-    actions: ["firebaseappcheck.playIntegrityConfig.update"],
-    roles: ["roles/firebaseappcheck.admin"],
-  },
 }));
 
 export type PatchProjectsAppsRecaptchaEnterpriseConfigError =
@@ -1814,10 +1744,6 @@ export const patchProjectsAppsRecaptchaEnterpriseConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsAppsRecaptchaEnterpriseConfig",
-  iam: {
-    actions: ["firebaseappcheck.recaptchaEnterpriseConfig.update"],
-    roles: ["roles/firebaseappcheck.admin"],
-  },
 }));
 
 export type PatchProjectsAppsRecaptchaV3ConfigError =
@@ -1841,10 +1767,6 @@ export const patchProjectsAppsRecaptchaV3Config: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsAppsRecaptchaV3Config",
-  iam: {
-    actions: ["firebaseappcheck.recaptchaV3Config.update"],
-    roles: ["roles/firebaseappcheck.admin"],
-  },
 }));
 
 export type PatchProjectsServicesError =
@@ -1868,7 +1790,6 @@ export const patchProjectsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsServices",
-  iam: { actions: ["firebaseappcheck.services.update"], roles: ["roles/firebaseappcheck.admin"] },
 }));
 
 export type PatchProjectsServicesResourcePoliciesError =

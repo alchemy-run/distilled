@@ -2166,7 +2166,6 @@ export const cancelProjectsLocationsJobsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsJobsExecutions",
-  iam: { actions: ["run.executions.cancel"], roles: ["roles/run.jobsExecutor"] },
 }));
 
 export type CreateProjectsLocationsInstancesError =
@@ -2277,7 +2276,6 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstances",
-  iam: { actions: ["run.instances.delete"], roles: ["roles/run.developer"] },
 }));
 
 export type DeleteProjectsLocationsJobsError =
@@ -2322,7 +2320,6 @@ export const deleteProjectsLocationsJobsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsJobsExecutions",
-  iam: { actions: ["run.executions.delete"], roles: ["roles/run.developer"] },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -2389,7 +2386,6 @@ export const deleteProjectsLocationsServicesRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServicesRevisions",
-  iam: { actions: ["run.revisions.delete"], roles: ["roles/run.developer"] },
 }));
 
 export type DeleteProjectsLocationsWorkerPoolsError =
@@ -2434,7 +2430,6 @@ export const deleteProjectsLocationsWorkerPoolsRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsWorkerPoolsRevisions",
-  iam: { actions: ["run.revisions.delete"], roles: ["roles/run.developer"] },
 }));
 
 export type ExportImageMetadataProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2631,7 +2626,6 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
-  iam: { actions: ["run.instances.get"], roles: ["roles/run.viewer"] },
 }));
 
 export type GetProjectsLocationsJobsError = NotFound | Forbidden | GcpOpError;
@@ -2649,7 +2643,6 @@ export const getProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobs",
-  iam: { actions: ["run.jobs.get"], roles: ["roles/run.viewer"] },
 }));
 
 export type GetProjectsLocationsJobsExecutionsError = NotFound | Forbidden | GcpOpError;
@@ -2667,7 +2660,6 @@ export const getProjectsLocationsJobsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobsExecutions",
-  iam: { actions: ["run.executions.get"], roles: ["roles/run.viewer"] },
 }));
 
 export type GetProjectsLocationsJobsExecutionsTasksError = NotFound | Forbidden | GcpOpError;
@@ -2685,7 +2677,6 @@ export const getProjectsLocationsJobsExecutionsTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobsExecutionsTasks",
-  iam: { actions: ["run.tasks.get"], roles: ["roles/run.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2737,7 +2728,6 @@ export const getProjectsLocationsServicesRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServicesRevisions",
-  iam: { actions: ["run.revisions.get"], roles: ["roles/run.viewer"] },
 }));
 
 export type GetProjectsLocationsWorkerPoolsError = NotFound | Forbidden | GcpOpError;
@@ -2772,7 +2762,6 @@ export const getProjectsLocationsWorkerPoolsRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsWorkerPoolsRevisions",
-  iam: { actions: ["run.revisions.get"], roles: ["roles/run.viewer"] },
 }));
 
 export type ListProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -2791,7 +2780,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: { actions: ["run.instances.list"], roles: ["roles/run.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2811,7 +2799,6 @@ export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobs",
-  iam: { actions: ["run.jobs.list"], roles: ["roles/run.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2831,7 +2818,6 @@ export const listProjectsLocationsJobsExecutions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobsExecutions",
-  iam: { actions: ["run.executions.list"], roles: ["roles/run.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2851,7 +2837,6 @@ export const listProjectsLocationsJobsExecutionsTasks: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobsExecutionsTasks",
-  iam: { actions: ["run.tasks.list"], roles: ["roles/run.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2890,7 +2875,6 @@ export const listProjectsLocationsServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServices",
-  iam: { actions: ["run.services.list"], roles: ["roles/run.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2910,7 +2894,6 @@ export const listProjectsLocationsServicesRevisions: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServicesRevisions",
-  iam: { actions: ["run.revisions.list"], roles: ["roles/run.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2934,7 +2917,6 @@ export const listProjectsLocationsWorkerPools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkerPools",
-  iam: { actions: ["run.workerpools.list"], roles: ["roles/run.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2954,7 +2936,6 @@ export const listProjectsLocationsWorkerPoolsRevisions: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkerPoolsRevisions",
-  iam: { actions: ["run.revisions.list"], roles: ["roles/run.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2978,7 +2959,6 @@ export const patchProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsInstances",
-  iam: { actions: ["run.instances.update"], roles: ["roles/run.developer"] },
 }));
 
 export type PatchProjectsLocationsJobsError =
@@ -3177,7 +3157,6 @@ export const startProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsInstances",
-  iam: { actions: ["run.instances.start"], roles: ["roles/run.developer"] },
 }));
 
 export type StopProjectsLocationsInstancesError =
@@ -3200,7 +3179,6 @@ export const stopProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsInstances",
-  iam: { actions: ["run.instances.stop"], roles: ["roles/run.developer"] },
 }));
 
 export type SubmitProjectsLocationsBuildsError =

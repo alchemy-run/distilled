@@ -789,7 +789,6 @@ export const abortFunctionUpgradeProjectsLocationsFunctions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AbortFunctionUpgradeProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.update"], roles: ["roles/cloudfunctions.developer"] },
 }));
 
 export type CommitFunctionUpgradeAsGen2ProjectsLocationsFunctionsError =
@@ -816,7 +815,6 @@ export const commitFunctionUpgradeAsGen2ProjectsLocationsFunctions: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitFunctionUpgradeAsGen2ProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.update"], roles: ["roles/cloudfunctions.developer"] },
 }));
 
 export type CommitFunctionUpgradeProjectsLocationsFunctionsError =
@@ -843,7 +841,6 @@ export const commitFunctionUpgradeProjectsLocationsFunctions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitFunctionUpgradeProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.update"], roles: ["roles/cloudfunctions.developer"] },
 }));
 
 export type CreateProjectsLocationsFunctionsError =
@@ -910,7 +907,6 @@ export const detachFunctionProjectsLocationsFunctions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachFunctionProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.update"], roles: ["roles/cloudfunctions.developer"] },
 }));
 
 export type GenerateDownloadUrlProjectsLocationsFunctionsError =
@@ -955,7 +951,6 @@ export const generateUploadUrlProjectsLocationsFunctions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateUploadUrlProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.update"], roles: ["roles/cloudfunctions.developer"] },
 }));
 
 export type GetIamPolicyProjectsLocationsFunctionsError = NotFound | Forbidden | GcpOpError;
@@ -1044,7 +1039,6 @@ export const listProjectsLocationsFunctions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.list"], roles: ["roles/cloudfunctions.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1082,7 +1076,6 @@ export const listProjectsLocationsRuntimes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRuntimes",
-  iam: { actions: ["cloudfunctions.functions.list"], roles: ["roles/cloudfunctions.viewer"] },
 }));
 
 export type PatchProjectsLocationsFunctionsError =
@@ -1131,7 +1124,6 @@ export const redirectFunctionUpgradeTrafficProjectsLocationsFunctions: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RedirectFunctionUpgradeTrafficProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.update"], roles: ["roles/cloudfunctions.developer"] },
 }));
 
 export type RollbackFunctionUpgradeTrafficProjectsLocationsFunctionsError =
@@ -1158,7 +1150,6 @@ export const rollbackFunctionUpgradeTrafficProjectsLocationsFunctions: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackFunctionUpgradeTrafficProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.update"], roles: ["roles/cloudfunctions.developer"] },
 }));
 
 export type SetIamPolicyProjectsLocationsFunctionsError =
@@ -1207,7 +1198,6 @@ export const setupFunctionUpgradeConfigProjectsLocationsFunctions: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetupFunctionUpgradeConfigProjectsLocationsFunctions",
-  iam: { actions: ["cloudfunctions.functions.update"], roles: ["roles/cloudfunctions.developer"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsFunctionsError =

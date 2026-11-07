@@ -809,10 +809,6 @@ export const attachTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AttachTrustProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.attachTrust"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type CancelProjectsLocationsGlobalOperationsError =
@@ -861,10 +857,6 @@ export const checkMigrationPermissionProjectsLocationsGlobalDomains: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckMigrationPermissionProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.checkMigrationPermission"],
-    roles: ["roles/managedidentities.viewer"],
-  },
 }));
 
 export type CreateProjectsLocationsGlobalDomainsError =
@@ -1041,10 +1033,6 @@ export const detachTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetachTrustProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.detachTrust"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type DisableMigrationProjectsLocationsGlobalDomainsError =
@@ -1067,10 +1055,6 @@ export const disableMigrationProjectsLocationsGlobalDomains: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableMigrationProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.disableMigration"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type DomainJoinMachineProjectsLocationsGlobalDomainsError =
@@ -1097,10 +1081,6 @@ export const domainJoinMachineProjectsLocationsGlobalDomains: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DomainJoinMachineProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.domainJoinMachine"],
-    roles: ["roles/managedidentities.domainJoin"],
-  },
 }));
 
 export type EnableMigrationProjectsLocationsGlobalDomainsError =
@@ -1123,10 +1103,6 @@ export const enableMigrationProjectsLocationsGlobalDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableMigrationProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.enableMigration"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type ExtendSchemaProjectsLocationsGlobalDomainsError =
@@ -1149,10 +1125,6 @@ export const extendSchemaProjectsLocationsGlobalDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExtendSchemaProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.extendSchema"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type GetIamPolicyProjectsLocationsGlobalDomainsError = NotFound | Forbidden | GcpOpError;
@@ -1232,10 +1204,6 @@ export const getLdapssettingsProjectsLocationsGlobalDomains: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLdapssettingsProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.get"],
-    roles: ["roles/managedidentities.backupViewer"],
-  },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1270,10 +1238,6 @@ export const getProjectsLocationsGlobalDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.get"],
-    roles: ["roles/managedidentities.backupViewer"],
-  },
 }));
 
 export type GetProjectsLocationsGlobalDomainsBackupsError = NotFound | Forbidden | GcpOpError;
@@ -1291,10 +1255,6 @@ export const getProjectsLocationsGlobalDomainsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalDomainsBackups",
-  iam: {
-    actions: ["managedidentities.backups.get"],
-    roles: ["roles/managedidentities.backupViewer"],
-  },
 }));
 
 export type GetProjectsLocationsGlobalDomainsSqlIntegrationsError =
@@ -1319,10 +1279,6 @@ export const getProjectsLocationsGlobalDomainsSqlIntegrations: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalDomainsSqlIntegrations",
-  iam: {
-    actions: ["managedidentities.sqlintegrations.get"],
-    roles: ["roles/managedidentities.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsGlobalOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1357,10 +1313,6 @@ export const getProjectsLocationsGlobalPeerings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalPeerings",
-  iam: {
-    actions: ["managedidentities.peerings.get"],
-    roles: ["roles/managedidentities.peeringViewer"],
-  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1398,7 +1350,6 @@ export const listProjectsLocationsGlobalDomains: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalDomains",
-  iam: { actions: ["managedidentities.domains.list"], roles: ["roles/managedidentities.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1418,10 +1369,6 @@ export const listProjectsLocationsGlobalDomainsBackups: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalDomainsBackups",
-  iam: {
-    actions: ["managedidentities.backups.list"],
-    roles: ["roles/managedidentities.backupViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1448,10 +1395,6 @@ export const listProjectsLocationsGlobalDomainsSqlIntegrations: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalDomainsSqlIntegrations",
-  iam: {
-    actions: ["managedidentities.sqlintegrations.list"],
-    roles: ["roles/managedidentities.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1490,10 +1433,6 @@ export const listProjectsLocationsGlobalPeerings: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalPeerings",
-  iam: {
-    actions: ["managedidentities.peerings.list"],
-    roles: ["roles/managedidentities.peeringViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1587,10 +1526,6 @@ export const reconfigureTrustProjectsLocationsGlobalDomains: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReconfigureTrustProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.reconfigureTrust"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type ResetAdminPasswordProjectsLocationsGlobalDomainsError =
@@ -1617,10 +1552,6 @@ export const resetAdminPasswordProjectsLocationsGlobalDomains: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetAdminPasswordProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.update"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type RestoreProjectsLocationsGlobalDomainsError =
@@ -1643,10 +1574,6 @@ export const restoreProjectsLocationsGlobalDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.restore"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type SetIamPolicyProjectsLocationsGlobalDomainsError =
@@ -1821,10 +1748,6 @@ export const updateLdapssettingsProjectsLocationsGlobalDomains: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateLdapssettingsProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.updateLDAPSSettings"],
-    roles: ["roles/managedidentities.domainAdmin"],
-  },
 }));
 
 export type ValidateTrustProjectsLocationsGlobalDomainsError =
@@ -1847,10 +1770,6 @@ export const validateTrustProjectsLocationsGlobalDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateTrustProjectsLocationsGlobalDomains",
-  iam: {
-    actions: ["managedidentities.domains.validateTrust"],
-    roles: ["roles/managedidentities.viewer"],
-  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

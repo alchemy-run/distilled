@@ -3090,10 +3090,6 @@ export const applyProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApplyProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.apply"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -3138,10 +3134,6 @@ export const commitProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CommitProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.commit"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type ConvertProjectsLocationsConversionWorkspacesError =
@@ -3168,10 +3160,6 @@ export const convertProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConvertProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.convert"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type CreateProjectsLocationsConnectionProfilesError =
@@ -3448,10 +3436,6 @@ export const demoteDestinationProjectsLocationsMigrationJobs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DemoteDestinationProjectsLocationsMigrationJobs",
-  iam: {
-    actions: ["datamigration.migrationjobs.demoteDestination"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspacesError =
@@ -3476,10 +3460,6 @@ export const describeConversionWorkspaceRevisionsProjectsLocationsConversionWork
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeConversionWorkspaceRevisionsProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.get"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type DescribeDatabaseEntitiesProjectsLocationsConversionWorkspacesError =
@@ -3505,10 +3485,6 @@ export const describeDatabaseEntitiesProjectsLocationsConversionWorkspaces: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DescribeDatabaseEntitiesProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.get"],
-    roles: ["roles/datamigration.editor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3535,10 +3511,6 @@ export const fetchEntitiesStatusViewProjectsLocationsConversionWorkspaces: API.P
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchEntitiesStatusViewProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.get"],
-    roles: ["roles/datamigration.editor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3565,10 +3537,6 @@ export const fetchIssuesProjectsLocationsConversionWorkspaces: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchIssuesProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.get"],
-    roles: ["roles/datamigration.editor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3594,10 +3562,6 @@ export const fetchSourceObjectsProjectsLocationsMigrationJobs: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchSourceObjectsProjectsLocationsMigrationJobs",
-  iam: {
-    actions: ["datamigration.migrationjobs.fetchSourceObjects"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type FetchStaticIpsProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3643,10 +3607,6 @@ export const generateSshScriptProjectsLocationsMigrationJobs: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateSshScriptProjectsLocationsMigrationJobs",
-  iam: {
-    actions: ["datamigration.migrationjobs.generateSshScript"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type GenerateTcpProxyScriptProjectsLocationsMigrationJobsError =
@@ -3673,10 +3633,6 @@ export const generateTcpProxyScriptProjectsLocationsMigrationJobs: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateTcpProxyScriptProjectsLocationsMigrationJobs",
-  iam: {
-    actions: ["datamigration.migrationjobs.generateTcpProxyScript"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type GetIamPolicyProjectsLocationsConnectionProfilesError =
@@ -3824,7 +3780,6 @@ export const getProjectsLocationsConnectionProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConnectionProfiles",
-  iam: { actions: ["datamigration.connectionprofiles.get"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type GetProjectsLocationsConversionWorkspacesError = NotFound | Forbidden | GcpOpError;
@@ -3842,10 +3797,6 @@ export const getProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.get"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type GetProjectsLocationsConversionWorkspacesMappingRulesError =
@@ -3870,10 +3821,6 @@ export const getProjectsLocationsConversionWorkspacesMappingRules: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsConversionWorkspacesMappingRules",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.get"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type GetProjectsLocationsMigrationJobsError = NotFound | Forbidden | GcpOpError;
@@ -3891,7 +3838,6 @@ export const getProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMigrationJobs",
-  iam: { actions: ["datamigration.migrationjobs.get"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type GetProjectsLocationsMigrationJobsObjectsError = NotFound | Forbidden | GcpOpError;
@@ -3909,7 +3855,6 @@ export const getProjectsLocationsMigrationJobsObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMigrationJobsObjects",
-  iam: { actions: ["datamigration.objects.get"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3944,7 +3889,6 @@ export const getProjectsLocationsPrivateConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPrivateConnections",
-  iam: { actions: ["datamigration.privateconnections.get"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type ImportProjectsLocationsConversionWorkspacesMappingRulesError =
@@ -3971,7 +3915,6 @@ export const importProjectsLocationsConversionWorkspacesMappingRules: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsConversionWorkspacesMappingRules",
-  iam: { actions: ["datamigration.mappingrules.import"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4009,10 +3952,6 @@ export const listProjectsLocationsConnectionProfiles: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConnectionProfiles",
-  iam: {
-    actions: ["datamigration.connectionprofiles.list"],
-    roles: ["roles/datamigration.editor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4032,10 +3971,6 @@ export const listProjectsLocationsConversionWorkspaces: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.list"],
-    roles: ["roles/datamigration.editor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4062,10 +3997,6 @@ export const listProjectsLocationsConversionWorkspacesMappingRules: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsConversionWorkspacesMappingRules",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.list"],
-    roles: ["roles/datamigration.editor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4085,7 +4016,6 @@ export const listProjectsLocationsMigrationJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMigrationJobs",
-  iam: { actions: ["datamigration.migrationjobs.list"], roles: ["roles/datamigration.editor"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4105,7 +4035,6 @@ export const listProjectsLocationsMigrationJobsObjects: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMigrationJobsObjects",
-  iam: { actions: ["datamigration.objects.list"], roles: ["roles/datamigration.editor"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4144,10 +4073,6 @@ export const listProjectsLocationsPrivateConnections: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPrivateConnections",
-  iam: {
-    actions: ["datamigration.privateconnections.list"],
-    roles: ["roles/datamigration.editor"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4171,7 +4096,6 @@ export const lookupProjectsLocationsMigrationJobsObjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupProjectsLocationsMigrationJobsObjects",
-  iam: { actions: ["datamigration.objects.get"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type PatchProjectsLocationsConnectionProfilesError =
@@ -4260,7 +4184,6 @@ export const promoteProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PromoteProjectsLocationsMigrationJobs",
-  iam: { actions: ["datamigration.migrationjobs.promote"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type RestartProjectsLocationsMigrationJobsError =
@@ -4283,7 +4206,6 @@ export const restartProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartProjectsLocationsMigrationJobs",
-  iam: { actions: ["datamigration.migrationjobs.restart"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type ResumeProjectsLocationsMigrationJobsError =
@@ -4306,7 +4228,6 @@ export const resumeProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsMigrationJobs",
-  iam: { actions: ["datamigration.migrationjobs.resume"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type RollbackProjectsLocationsConversionWorkspacesError =
@@ -4333,10 +4254,6 @@ export const rollbackProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.rollback"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type SearchBackgroundJobsProjectsLocationsConversionWorkspacesError =
@@ -4361,10 +4278,6 @@ export const searchBackgroundJobsProjectsLocationsConversionWorkspaces: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchBackgroundJobsProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.get"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type SeedProjectsLocationsConversionWorkspacesError =
@@ -4387,10 +4300,6 @@ export const seedProjectsLocationsConversionWorkspaces: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SeedProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.seed"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type SetDraftEntityDdlProjectsLocationsConversionWorkspacesError =
@@ -4417,10 +4326,6 @@ export const setDraftEntityDdlProjectsLocationsConversionWorkspaces: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDraftEntityDdlProjectsLocationsConversionWorkspaces",
-  iam: {
-    actions: ["datamigration.conversionworkspaces.update"],
-    roles: ["roles/datamigration.editor"],
-  },
 }));
 
 export type SetIamPolicyProjectsLocationsConnectionProfilesError =
@@ -4569,7 +4474,6 @@ export const startProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsMigrationJobs",
-  iam: { actions: ["datamigration.migrationjobs.start"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type StopProjectsLocationsMigrationJobsError =
@@ -4592,7 +4496,6 @@ export const stopProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsMigrationJobs",
-  iam: { actions: ["datamigration.migrationjobs.stop"], roles: ["roles/datamigration.editor"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsConnectionProfilesError =
@@ -4745,7 +4648,6 @@ export const verifyProjectsLocationsMigrationJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VerifyProjectsLocationsMigrationJobs",
-  iam: { actions: ["datamigration.migrationjobs.verify"], roles: ["roles/datamigration.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

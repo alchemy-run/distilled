@@ -2657,7 +2657,6 @@ export const activateProjectsLocationsDatasetsConsentStoresConsents: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ActivateProjectsLocationsDatasetsConsentStoresConsents",
-  iam: { actions: ["healthcare.consents.activate"], roles: ["roles/healthcare.consentEditor"] },
 }));
 
 export type AnalyzeEntitiesProjectsLocationsServicesNlpError =
@@ -2710,7 +2709,6 @@ export const applyAdminConsentsProjectsLocationsDatasetsFhirStores: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApplyAdminConsentsProjectsLocationsDatasetsFhirStores",
-  iam: { actions: ["healthcare.fhirStores.update"], roles: ["roles/healthcare.fhirStoreAdmin"] },
 }));
 
 export type ApplyConsentsProjectsLocationsDatasetsFhirStoresError =
@@ -2737,10 +2735,6 @@ export const applyConsentsProjectsLocationsDatasetsFhirStores: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApplyConsentsProjectsLocationsDatasetsFhirStores",
-  iam: {
-    actions: ["healthcare.fhirStores.applyConsents"],
-    roles: ["roles/healthcare.fhirStoreAdmin"],
-  },
 }));
 
 export type ArchiveProjectsLocationsDatasetsConsentStoresUserDataMappingsError =
@@ -2767,10 +2761,6 @@ export const archiveProjectsLocationsDatasetsConsentStoresUserDataMappings: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ArchiveProjectsLocationsDatasetsConsentStoresUserDataMappings",
-  iam: {
-    actions: ["healthcare.userDataMappings.archive"],
-    roles: ["roles/healthcare.userDataMappingEditor"],
-  },
 }));
 
 export type Binary_vreadProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2817,10 +2807,6 @@ export const bulkDeleteProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkDeleteProjectsLocationsDatasetsFhirStores",
-  iam: {
-    actions: ["healthcare.fhirStores.bulkDelete"],
-    roles: ["roles/healthcare.fhirStoreAdmin"],
-  },
 }));
 
 export type BulkExportGroupProjectsLocationsDatasetsFhirStoresError =
@@ -2915,7 +2901,6 @@ export const capabilitiesProjectsLocationsDatasetsFhirStoresFhir: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CapabilitiesProjectsLocationsDatasetsFhirStoresFhir",
-  iam: { actions: ["healthcare.fhirStores.update"], roles: ["roles/healthcare.fhirStoreAdmin"] },
 }));
 
 export type CheckDataAccessProjectsLocationsDatasetsConsentStoresError =
@@ -2942,10 +2927,6 @@ export const checkDataAccessProjectsLocationsDatasetsConsentStores: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckDataAccessProjectsLocationsDatasetsConsentStores",
-  iam: {
-    actions: ["healthcare.consentStores.checkDataAccess"],
-    roles: ["roles/healthcare.consentStoreViewer"],
-  },
 }));
 
 export type ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhirError =
@@ -2972,10 +2953,6 @@ export const conditionalDeleteProjectsLocationsDatasetsFhirStoresFhir: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConditionalDeleteProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirStores.update"],
-    roles: ["roles/healthcare.fhirResourceEditor"],
-  },
 }));
 
 export type ConditionalPatchProjectsLocationsDatasetsFhirStoresFhirError =
@@ -3002,10 +2979,6 @@ export const conditionalPatchProjectsLocationsDatasetsFhirStoresFhir: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConditionalPatchProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirStores.update"],
-    roles: ["roles/healthcare.fhirResourceEditor"],
-  },
 }));
 
 export type ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhirError =
@@ -3032,10 +3005,6 @@ export const conditionalUpdateProjectsLocationsDatasetsFhirStoresFhir: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConditionalUpdateProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirStores.update"],
-    roles: ["roles/healthcare.fhirResourceEditor"],
-  },
 }));
 
 export type Consent_enforcement_statusProjectsLocationsDatasetsFhirStoresFhirError =
@@ -3308,10 +3277,6 @@ export const createProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirStores.update"],
-    roles: ["roles/healthcare.fhirResourceEditor"],
-  },
 }));
 
 export type CreateProjectsLocationsDatasetsHl7V2StoresError =
@@ -3382,14 +3347,6 @@ export const deidentifyProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeidentifyProjectsLocationsDatasets",
-  iam: {
-    actions: ["healthcare.datasets.deidentify"],
-    roles: [
-      "roles/healthcare.datasetAdmin",
-      "roles/healthcare.dicomEditor",
-      "roles/healthcare.fhirResourceEditor",
-    ],
-  },
 }));
 
 export type DeidentifyProjectsLocationsDatasetsDicomStoresError =
@@ -3416,10 +3373,6 @@ export const deidentifyProjectsLocationsDatasetsDicomStores: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeidentifyProjectsLocationsDatasetsDicomStores",
-  iam: {
-    actions: ["healthcare.dicomStores.deidentify"],
-    roles: ["roles/healthcare.dicomStoreAdmin", "roles/healthcare.dicomEditor"],
-  },
 }));
 
 export type DeidentifyProjectsLocationsDatasetsFhirStoresError =
@@ -3446,10 +3399,6 @@ export const deidentifyProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeidentifyProjectsLocationsDatasetsFhirStores",
-  iam: {
-    actions: ["healthcare.fhirStores.deidentify"],
-    roles: ["roles/healthcare.fhirStoreAdmin", "roles/healthcare.fhirResourceEditor"],
-  },
 }));
 
 export type DeleteFhirOperationProjectsLocationsDatasetsFhirStoresOperationsError =
@@ -3676,7 +3625,6 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudies: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasetsDicomStoresStudies",
-  iam: { actions: ["healthcare.dicomStores.update"], roles: ["roles/healthcare.dicomStoreAdmin"] },
 }));
 
 export type DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
@@ -3703,7 +3651,6 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudiesSeries: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasetsDicomStoresStudiesSeries",
-  iam: { actions: ["healthcare.dicomStores.update"], roles: ["roles/healthcare.dicomStoreAdmin"] },
 }));
 
 export type DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesError =
@@ -3730,7 +3677,6 @@ export const deleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasetsDicomStoresStudiesSeriesInstances",
-  iam: { actions: ["healthcare.dicomStores.update"], roles: ["roles/healthcare.dicomStoreAdmin"] },
 }));
 
 export type DeleteProjectsLocationsDatasetsFhirStoresError =
@@ -3779,10 +3725,6 @@ export const deleteProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirResources.delete"],
-    roles: ["roles/healthcare.fhirResourceEditor"],
-  },
 }));
 
 export type DeleteProjectsLocationsDatasetsHl7V2StoresError =
@@ -3857,7 +3799,6 @@ export const deleteRevisionProjectsLocationsDatasetsConsentStoresConsents: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteRevisionProjectsLocationsDatasetsConsentStoresConsents",
-  iam: { actions: ["healthcare.consents.update"], roles: ["roles/healthcare.consentEditor"] },
 }));
 
 export type EvaluateUserConsentsProjectsLocationsDatasetsConsentStoresError =
@@ -3884,10 +3825,6 @@ export const evaluateUserConsentsProjectsLocationsDatasetsConsentStores: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EvaluateUserConsentsProjectsLocationsDatasetsConsentStores",
-  iam: {
-    actions: ["healthcare.consentStores.evaluateUserConsents"],
-    roles: ["roles/healthcare.consentStoreViewer"],
-  },
 }));
 
 export type ExecuteBundleProjectsLocationsDatasetsFhirStoresFhirError =
@@ -3914,10 +3851,6 @@ export const executeBundleProjectsLocationsDatasetsFhirStoresFhir: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteBundleProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirStores.update"],
-    roles: ["roles/healthcare.fhirResourceReader"],
-  },
 }));
 
 export type ExplainDataAccessProjectsLocationsDatasetsFhirStoresError =
@@ -3942,10 +3875,6 @@ export const explainDataAccessProjectsLocationsDatasetsFhirStores: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExplainDataAccessProjectsLocationsDatasetsFhirStores",
-  iam: {
-    actions: ["healthcare.fhirStores.explainDataAccess"],
-    roles: ["roles/healthcare.fhirStoreAdmin"],
-  },
 }));
 
 export type ExportProjectsLocationsDatasetsDicomStoresError =
@@ -3968,7 +3897,6 @@ export const exportProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.export"], roles: ["roles/healthcare.dicomViewer"] },
 }));
 
 export type ExportProjectsLocationsDatasetsFhirStoresError =
@@ -3991,7 +3919,6 @@ export const exportProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsDatasetsFhirStores",
-  iam: { actions: ["healthcare.fhirStores.export"], roles: ["roles/healthcare.fhirStoreAdmin"] },
 }));
 
 export type ExportProjectsLocationsDatasetsHl7V2StoresError =
@@ -4014,7 +3941,6 @@ export const exportProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsDatasetsHl7V2Stores",
-  iam: { actions: ["healthcare.hl7V2Stores.export"], roles: ["roles/healthcare.hl7V2StoreAdmin"] },
 }));
 
 export type GetBulkdataProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesBulkdataError =
@@ -4063,7 +3989,6 @@ export const getDICOMStoreMetricsProjectsLocationsDatasetsDicomStores: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDICOMStoreMetricsProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.get"], roles: ["roles/healthcare.dicomStoreViewer"] },
 }));
 
 export type GetFhirOperationStatusProjectsLocationsDatasetsFhirStoresOperationsError =
@@ -4112,7 +4037,6 @@ export const getFHIRStoreMetricsProjectsLocationsDatasetsFhirStores: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFHIRStoreMetricsProjectsLocationsDatasetsFhirStores",
-  iam: { actions: ["healthcare.fhirStores.get"], roles: ["roles/healthcare.fhirStoreViewer"] },
 }));
 
 export type GetFramesProjectsLocationsDatasetsDicomStoresStudiesSeriesInstancesFramesError =
@@ -4161,7 +4085,6 @@ export const getHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2Stores: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetHL7v2StoreMetricsProjectsLocationsDatasetsHl7V2Stores",
-  iam: { actions: ["healthcare.hl7V2Stores.get"], roles: ["roles/healthcare.hl7V2StoreViewer"] },
 }));
 
 export type GetIamPolicyProjectsLocationsDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -4429,7 +4352,6 @@ export const getProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasets",
-  iam: { actions: ["healthcare.datasets.get"], roles: ["roles/healthcare.datasetViewer"] },
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresError = NotFound | Forbidden | GcpOpError;
@@ -4447,10 +4369,6 @@ export const getProjectsLocationsDatasetsConsentStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsConsentStores",
-  iam: {
-    actions: ["healthcare.consentStores.get"],
-    roles: ["roles/healthcare.consentStoreViewer"],
-  },
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresAttributeDefinitionsError =
@@ -4475,10 +4393,6 @@ export const getProjectsLocationsDatasetsConsentStoresAttributeDefinitions: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsConsentStoresAttributeDefinitions",
-  iam: {
-    actions: ["healthcare.attributeDefinitions.get"],
-    roles: ["roles/healthcare.attributeDefinitionReader"],
-  },
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresConsentArtifactsError =
@@ -4503,10 +4417,6 @@ export const getProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsConsentStoresConsentArtifacts",
-  iam: {
-    actions: ["healthcare.consentArtifacts.get"],
-    roles: ["roles/healthcare.consentArtifactReader"],
-  },
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -4531,7 +4441,6 @@ export const getProjectsLocationsDatasetsConsentStoresConsents: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsConsentStoresConsents",
-  iam: { actions: ["healthcare.consents.get"], roles: ["roles/healthcare.consentReader"] },
 }));
 
 export type GetProjectsLocationsDatasetsConsentStoresUserDataMappingsError =
@@ -4556,10 +4465,6 @@ export const getProjectsLocationsDatasetsConsentStoresUserDataMappings: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsConsentStoresUserDataMappings",
-  iam: {
-    actions: ["healthcare.userDataMappings.get"],
-    roles: ["roles/healthcare.userDataMappingReader"],
-  },
 }));
 
 export type GetProjectsLocationsDatasetsDicomStoresError = NotFound | Forbidden | GcpOpError;
@@ -4577,7 +4482,6 @@ export const getProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.get"], roles: ["roles/healthcare.dicomStoreViewer"] },
 }));
 
 export type GetProjectsLocationsDatasetsFhirStoresError = NotFound | Forbidden | GcpOpError;
@@ -4595,7 +4499,6 @@ export const getProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsFhirStores",
-  iam: { actions: ["healthcare.fhirStores.get"], roles: ["roles/healthcare.fhirStoreViewer"] },
 }));
 
 export type GetProjectsLocationsDatasetsHl7V2StoresError = NotFound | Forbidden | GcpOpError;
@@ -4613,7 +4516,6 @@ export const getProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsHl7V2Stores",
-  iam: { actions: ["healthcare.hl7V2Stores.get"], roles: ["roles/healthcare.hl7V2StoreViewer"] },
 }));
 
 export type GetProjectsLocationsDatasetsHl7V2StoresMessagesError =
@@ -4638,7 +4540,6 @@ export const getProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasetsHl7V2StoresMessages",
-  iam: { actions: ["healthcare.hl7V2Stores.get"], roles: ["roles/healthcare.hl7V2Consumer"] },
 }));
 
 export type GetProjectsLocationsDatasetsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4845,10 +4746,6 @@ export const historyProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "HistoryProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirResources.get"],
-    roles: ["roles/healthcare.fhirResourceReader"],
-  },
 }));
 
 export type ImportProjectsLocationsDatasetsDicomStoresError =
@@ -4871,7 +4768,6 @@ export const importProjectsLocationsDatasetsDicomStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.import"], roles: ["roles/healthcare.dicomEditor"] },
 }));
 
 export type ImportProjectsLocationsDatasetsFhirStoresError =
@@ -4894,7 +4790,6 @@ export const importProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsDatasetsFhirStores",
-  iam: { actions: ["healthcare.fhirStores.import"], roles: ["roles/healthcare.fhirStoreAdmin"] },
 }));
 
 export type ImportProjectsLocationsDatasetsHl7V2StoresError =
@@ -4917,7 +4812,6 @@ export const importProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsDatasetsHl7V2Stores",
-  iam: { actions: ["healthcare.hl7V2Stores.import"], roles: ["roles/healthcare.hl7V2StoreAdmin"] },
 }));
 
 export type IngestProjectsLocationsDatasetsHl7V2StoresMessagesError =
@@ -4944,7 +4838,6 @@ export const ingestProjectsLocationsDatasetsHl7V2StoresMessages: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "IngestProjectsLocationsDatasetsHl7V2StoresMessages",
-  iam: { actions: ["healthcare.hl7V2Stores.update"], roles: ["roles/healthcare.hl7V2Ingest"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4982,7 +4875,6 @@ export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasets",
-  iam: { actions: ["healthcare.datasets.list"], roles: ["roles/healthcare.datasetViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5002,10 +4894,6 @@ export const listProjectsLocationsDatasetsConsentStores: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsConsentStores",
-  iam: {
-    actions: ["healthcare.consentStores.list"],
-    roles: ["roles/healthcare.consentStoreViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5032,10 +4920,6 @@ export const listProjectsLocationsDatasetsConsentStoresAttributeDefinitions: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsConsentStoresAttributeDefinitions",
-  iam: {
-    actions: ["healthcare.attributeDefinitions.list"],
-    roles: ["roles/healthcare.attributeDefinitionReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5062,10 +4946,6 @@ export const listProjectsLocationsDatasetsConsentStoresConsentArtifacts: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsConsentStoresConsentArtifacts",
-  iam: {
-    actions: ["healthcare.consentArtifacts.list"],
-    roles: ["roles/healthcare.consentArtifactReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5092,7 +4972,6 @@ export const listProjectsLocationsDatasetsConsentStoresConsents: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsConsentStoresConsents",
-  iam: { actions: ["healthcare.consents.list"], roles: ["roles/healthcare.consentReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5119,10 +4998,6 @@ export const listProjectsLocationsDatasetsConsentStoresUserDataMappings: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsConsentStoresUserDataMappings",
-  iam: {
-    actions: ["healthcare.userDataMappings.list"],
-    roles: ["roles/healthcare.userDataMappingReader"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5142,7 +5017,6 @@ export const listProjectsLocationsDatasetsDicomStores: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.list"], roles: ["roles/healthcare.dicomStoreViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5162,7 +5036,6 @@ export const listProjectsLocationsDatasetsFhirStores: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsFhirStores",
-  iam: { actions: ["healthcare.fhirStores.list"], roles: ["roles/healthcare.fhirStoreViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5182,7 +5055,6 @@ export const listProjectsLocationsDatasetsHl7V2Stores: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsHl7V2Stores",
-  iam: { actions: ["healthcare.hl7V2Stores.list"], roles: ["roles/healthcare.hl7V2StoreViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5209,7 +5081,6 @@ export const listProjectsLocationsDatasetsHl7V2StoresMessages: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsHl7V2StoresMessages",
-  iam: { actions: ["healthcare.hl7V2Stores.get"], roles: ["roles/healthcare.hl7V2Consumer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5255,7 +5126,6 @@ export const listRevisionsProjectsLocationsDatasetsConsentStoresConsents: API.Pa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRevisionsProjectsLocationsDatasetsConsentStoresConsents",
-  iam: { actions: ["healthcare.consents.get"], roles: ["roles/healthcare.consentReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5445,10 +5315,6 @@ export const patchProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirResources.patch"],
-    roles: ["roles/healthcare.fhirResourceEditor"],
-  },
 }));
 
 export type PatchProjectsLocationsDatasetsHl7V2StoresError =
@@ -5597,10 +5463,6 @@ export const queryAccessibleDataProjectsLocationsDatasetsConsentStores: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryAccessibleDataProjectsLocationsDatasetsConsentStores",
-  iam: {
-    actions: ["healthcare.consentStores.queryAccessibleData"],
-    roles: ["roles/healthcare.consentStoreViewer"],
-  },
 }));
 
 export type ReadBinaryProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5642,10 +5504,6 @@ export const readProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReadProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirResources.get"],
-    roles: ["roles/healthcare.fhirResourceReader"],
-  },
 }));
 
 export type RejectProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -5672,7 +5530,6 @@ export const rejectProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RejectProjectsLocationsDatasetsConsentStoresConsents",
-  iam: { actions: ["healthcare.consents.reject"], roles: ["roles/healthcare.consentEditor"] },
 }));
 
 export type RevokeProjectsLocationsDatasetsConsentStoresConsentsError =
@@ -5699,7 +5556,6 @@ export const revokeProjectsLocationsDatasetsConsentStoresConsents: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevokeProjectsLocationsDatasetsConsentStoresConsents",
-  iam: { actions: ["healthcare.consents.revoke"], roles: ["roles/healthcare.consentEditor"] },
 }));
 
 export type RollbackProjectsLocationsDatasetsFhirStoresError =
@@ -5722,7 +5578,6 @@ export const rollbackProjectsLocationsDatasetsFhirStores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsDatasetsFhirStores",
-  iam: { actions: ["healthcare.fhirStores.rollback"], roles: ["roles/healthcare.fhirStoreAdmin"] },
 }));
 
 export type RollbackProjectsLocationsDatasetsHl7V2StoresError =
@@ -5749,10 +5604,6 @@ export const rollbackProjectsLocationsDatasetsHl7V2Stores: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsDatasetsHl7V2Stores",
-  iam: {
-    actions: ["healthcare.hl7V2Stores.rollback"],
-    roles: ["roles/healthcare.hl7V2StoreAdmin"],
-  },
 }));
 
 export type SearchForInstancesProjectsLocationsDatasetsDicomStoresError =
@@ -5777,7 +5628,6 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStores: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchForInstancesProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.get"], roles: ["roles/healthcare.dicomStoreViewer"] },
 }));
 
 export type SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -5802,7 +5652,6 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStoresStudies: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchForInstancesProjectsLocationsDatasetsDicomStoresStudies",
-  iam: { actions: ["healthcare.dicomStores.get"], roles: ["roles/healthcare.dicomStoreViewer"] },
 }));
 
 export type SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeriesError =
@@ -5827,7 +5676,6 @@ export const searchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeries
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchForInstancesProjectsLocationsDatasetsDicomStoresStudiesSeries",
-  iam: { actions: ["healthcare.dicomStores.get"], roles: ["roles/healthcare.dicomStoreViewer"] },
 }));
 
 export type SearchForSeriesProjectsLocationsDatasetsDicomStoresError =
@@ -5852,7 +5700,6 @@ export const searchForSeriesProjectsLocationsDatasetsDicomStores: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchForSeriesProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.get"], roles: ["roles/healthcare.dicomStoreViewer"] },
 }));
 
 export type SearchForSeriesProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -5877,7 +5724,6 @@ export const searchForSeriesProjectsLocationsDatasetsDicomStoresStudies: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchForSeriesProjectsLocationsDatasetsDicomStoresStudies",
-  iam: { actions: ["healthcare.dicomStores.get"], roles: ["roles/healthcare.dicomStoreViewer"] },
 }));
 
 export type SearchForStudiesProjectsLocationsDatasetsDicomStoresError =
@@ -5902,7 +5748,6 @@ export const searchForStudiesProjectsLocationsDatasetsDicomStores: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchForStudiesProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.get"], roles: ["roles/healthcare.dicomStoreViewer"] },
 }));
 
 export type SearchProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5929,7 +5774,6 @@ export const searchProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsDatasetsFhirStoresFhir",
-  iam: { actions: ["healthcare.fhirStores.get"], roles: ["roles/healthcare.fhirResourceReader"] },
 }));
 
 export type SearchTypeProjectsLocationsDatasetsFhirStoresFhirError =
@@ -5982,7 +5826,6 @@ export const setBlobStorageSettingsProjectsLocationsDatasetsDicomStores: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetBlobStorageSettingsProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.update"], roles: ["roles/healthcare.dicomStoreAdmin"] },
 }));
 
 export type SetBlobStorageSettingsProjectsLocationsDatasetsDicomStoresDicomWebStudiesError =
@@ -6187,7 +6030,6 @@ export const storeInstancesProjectsLocationsDatasetsDicomStores: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StoreInstancesProjectsLocationsDatasetsDicomStores",
-  iam: { actions: ["healthcare.dicomStores.update"], roles: ["roles/healthcare.dicomStoreAdmin"] },
 }));
 
 export type StoreInstancesProjectsLocationsDatasetsDicomStoresStudiesError =
@@ -6214,7 +6056,6 @@ export const storeInstancesProjectsLocationsDatasetsDicomStoresStudies: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StoreInstancesProjectsLocationsDatasetsDicomStoresStudies",
-  iam: { actions: ["healthcare.dicomStores.update"], roles: ["roles/healthcare.dicomStoreAdmin"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsDatasetsError =
@@ -6419,10 +6260,6 @@ export const updateProjectsLocationsDatasetsFhirStoresFhir: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateProjectsLocationsDatasetsFhirStoresFhir",
-  iam: {
-    actions: ["healthcare.fhirResources.update"],
-    roles: ["roles/healthcare.fhirResourceEditor"],
-  },
 }));
 
 export type ValidateResourceProjectsLocationsDatasetsFhirStoresFhirError =

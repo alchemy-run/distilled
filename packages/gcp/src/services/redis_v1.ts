@@ -1476,7 +1476,6 @@ export const addAuthTokenProjectsLocationsClustersTokenAuthUsers: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddAuthTokenProjectsLocationsClustersTokenAuthUsers",
-  iam: { actions: ["redis.clusters.update"], roles: ["roles/redis.editor"] },
 }));
 
 export type AddTokenAuthUserProjectsLocationsClustersError =
@@ -1499,7 +1498,6 @@ export const addTokenAuthUserProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddTokenAuthUserProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.update"], roles: ["roles/redis.editor"] },
 }));
 
 export type BackupProjectsLocationsClustersError =
@@ -1522,7 +1520,6 @@ export const backupProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BackupProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.backup"], roles: ["roles/redis.editor"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1589,7 +1586,6 @@ export const createProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.create"], roles: ["roles/redis.editor"] },
 }));
 
 export type CreateProjectsLocationsInstancesError =
@@ -1660,7 +1656,6 @@ export const deleteProjectsLocationsBackupCollectionsBackups: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackupCollectionsBackups",
-  iam: { actions: ["redis.backups.delete"], roles: ["roles/redis.editor"] },
 }));
 
 export type DeleteProjectsLocationsClustersError =
@@ -1683,7 +1678,6 @@ export const deleteProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.delete"], roles: ["roles/redis.editor"] },
 }));
 
 export type DeleteProjectsLocationsClustersTokenAuthUsersError =
@@ -1706,7 +1700,6 @@ export const deleteProjectsLocationsClustersTokenAuthUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsClustersTokenAuthUsers",
-  iam: { actions: ["redis.clusters.update"], roles: ["roles/redis.editor"] },
 }));
 
 export type DeleteProjectsLocationsClustersTokenAuthUsersAuthTokensError =
@@ -1733,7 +1726,6 @@ export const deleteProjectsLocationsClustersTokenAuthUsersAuthTokens: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsClustersTokenAuthUsersAuthTokens",
-  iam: { actions: ["redis.clusters.update"], roles: ["roles/redis.editor"] },
 }));
 
 export type DeleteProjectsLocationsInstancesError =
@@ -1804,7 +1796,6 @@ export const exportProjectsLocationsBackupCollectionsBackups: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsBackupCollectionsBackups",
-  iam: { actions: ["redis.backups.export"], roles: ["roles/redis.editor"] },
 }));
 
 export type ExportProjectsLocationsInstancesError =
@@ -1827,7 +1818,6 @@ export const exportProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportProjectsLocationsInstances",
-  iam: { actions: ["redis.instances.export"], roles: ["roles/redis.editor"] },
 }));
 
 export type FailoverProjectsLocationsInstancesError =
@@ -1850,7 +1840,6 @@ export const failoverProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FailoverProjectsLocationsInstances",
-  iam: { actions: ["redis.instances.failover"], roles: ["roles/redis.editor"] },
 }));
 
 export type GetAuthStringProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -1892,7 +1881,6 @@ export const getCertificateAuthorityProjectsLocationsClusters: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCertificateAuthorityProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.get"], roles: ["roles/redis.viewer"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1944,7 +1932,6 @@ export const getProjectsLocationsAclPoliciesRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAclPoliciesRevisions",
-  iam: { actions: ["redis.aclPolicies.get"], roles: ["roles/redis.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupCollectionsError = NotFound | Forbidden | GcpOpError;
@@ -1962,7 +1949,6 @@ export const getProjectsLocationsBackupCollections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupCollections",
-  iam: { actions: ["redis.backupCollections.get"], roles: ["roles/redis.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupCollectionsBackupsError = NotFound | Forbidden | GcpOpError;
@@ -1980,7 +1966,6 @@ export const getProjectsLocationsBackupCollectionsBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupCollectionsBackups",
-  iam: { actions: ["redis.backups.get"], roles: ["roles/redis.viewer"] },
 }));
 
 export type GetProjectsLocationsClustersError = NotFound | Forbidden | GcpOpError;
@@ -1998,7 +1983,6 @@ export const getProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.get"], roles: ["roles/redis.viewer"] },
 }));
 
 export type GetProjectsLocationsClustersTokenAuthUsersError = NotFound | Forbidden | GcpOpError;
@@ -2016,7 +2000,6 @@ export const getProjectsLocationsClustersTokenAuthUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsClustersTokenAuthUsers",
-  iam: { actions: ["redis.clusters.get"], roles: ["roles/redis.viewer"] },
 }));
 
 export type GetProjectsLocationsClustersTokenAuthUsersAuthTokensError =
@@ -2041,7 +2024,6 @@ export const getProjectsLocationsClustersTokenAuthUsersAuthTokens: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsClustersTokenAuthUsersAuthTokens",
-  iam: { actions: ["redis.clusters.get"], roles: ["roles/redis.viewer"] },
 }));
 
 export type GetProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -2122,7 +2104,6 @@ export const importProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportProjectsLocationsInstances",
-  iam: { actions: ["redis.instances.import"], roles: ["roles/redis.editor"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2160,7 +2141,6 @@ export const listProjectsLocationsAclPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAclPolicies",
-  iam: { actions: ["redis.aclPolicies.list"], roles: ["roles/redis.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2180,7 +2160,6 @@ export const listProjectsLocationsAclPoliciesRevisions: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAclPoliciesRevisions",
-  iam: { actions: ["redis.aclPolicies.get"], roles: ["roles/redis.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2200,7 +2179,6 @@ export const listProjectsLocationsBackupCollections: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupCollections",
-  iam: { actions: ["redis.backupCollections.list"], roles: ["roles/redis.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2224,7 +2202,6 @@ export const listProjectsLocationsBackupCollectionsBackups: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupCollectionsBackups",
-  iam: { actions: ["redis.backups.list"], roles: ["roles/redis.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2244,7 +2221,6 @@ export const listProjectsLocationsClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.list"], roles: ["roles/redis.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2264,7 +2240,6 @@ export const listProjectsLocationsClustersTokenAuthUsers: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClustersTokenAuthUsers",
-  iam: { actions: ["redis.clusters.get"], roles: ["roles/redis.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2291,7 +2266,6 @@ export const listProjectsLocationsClustersTokenAuthUsersAuthTokens: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClustersTokenAuthUsersAuthTokens",
-  iam: { actions: ["redis.clusters.get"], roles: ["roles/redis.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2311,7 +2285,6 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
-  iam: { actions: ["redis.instances.list"], roles: ["roles/redis.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2376,7 +2349,6 @@ export const patchProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.update"], roles: ["roles/redis.editor"] },
 }));
 
 export type PatchProjectsLocationsInstancesError =
@@ -2425,7 +2397,6 @@ export const rescheduleClusterMaintenanceProjectsLocationsClusters: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RescheduleClusterMaintenanceProjectsLocationsClusters",
-  iam: { actions: ["redis.clusters.update"], roles: ["roles/redis.editor"] },
 }));
 
 export type RescheduleMaintenanceProjectsLocationsInstancesError =
@@ -2452,7 +2423,6 @@ export const rescheduleMaintenanceProjectsLocationsInstances: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RescheduleMaintenanceProjectsLocationsInstances",
-  iam: { actions: ["redis.instances.rescheduleMaintenance"], roles: ["roles/redis.editor"] },
 }));
 
 export type UpgradeProjectsLocationsInstancesError =
@@ -2475,7 +2445,6 @@ export const upgradeProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpgradeProjectsLocationsInstances",
-  iam: { actions: ["redis.instances.upgrade"], roles: ["roles/redis.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

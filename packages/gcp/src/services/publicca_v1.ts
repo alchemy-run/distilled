@@ -118,7 +118,6 @@ export const createProjectsLocationsExternalAccountKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsExternalAccountKeys",
-  iam: { actions: ["publicca.externalAccountKeys.create"], roles: ["roles/publicca.admin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

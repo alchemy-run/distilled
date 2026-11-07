@@ -3743,7 +3743,6 @@ export const batchDeleteProjectsLocationsAppsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteProjectsLocationsAppsConversations",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type CancelAssistantTurnProjectsLocationsAppsAssistantSessionsError =
@@ -3770,7 +3769,6 @@ export const cancelAssistantTurnProjectsLocationsAppsAssistantSessions: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelAssistantTurnProjectsLocationsAppsAssistantSessions",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -4035,7 +4033,6 @@ export const deleteProjectsLocationsAppsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAppsConversations",
-  iam: { actions: ["ces.conversations.delete"], roles: ["roles/ces.admin"] },
 }));
 
 export type DeleteProjectsLocationsAppsDeploymentsError =
@@ -4213,7 +4210,6 @@ export const executeToolProjectsLocationsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecuteToolProjectsLocationsApps",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type ExportAppProjectsLocationsAppsError =
@@ -4236,7 +4232,6 @@ export const exportAppProjectsLocationsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportAppProjectsLocationsApps",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type GenerateChatTokenProjectsLocationsAppsSessionsError =
@@ -4263,7 +4258,6 @@ export const generateChatTokenProjectsLocationsAppsSessions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateChatTokenProjectsLocationsAppsSessions",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type GenerateOnboardingSuggestionsProjectsLocationsAppsError =
@@ -4290,7 +4284,6 @@ export const generateOnboardingSuggestionsProjectsLocationsApps: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateOnboardingSuggestionsProjectsLocationsApps",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type GetExtendedAgentCardProjectsLocationsAppsError = NotFound | Forbidden | GcpOpError;
@@ -4308,7 +4301,6 @@ export const getExtendedAgentCardProjectsLocationsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExtendedAgentCardProjectsLocationsApps",
-  iam: { actions: ["ces.apps.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetExtendedAgentCardProjectsLocationsAppsDeploymentsError =
@@ -4333,7 +4325,6 @@ export const getExtendedAgentCardProjectsLocationsAppsDeployments: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExtendedAgentCardProjectsLocationsAppsDeployments",
-  iam: { actions: ["ces.deployments.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetExtendedAgentCardProjectsLocationsAppsVersionsError =
@@ -4358,7 +4349,6 @@ export const getExtendedAgentCardProjectsLocationsAppsVersions: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetExtendedAgentCardProjectsLocationsAppsVersions",
-  iam: { actions: ["ces.apps.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4393,7 +4383,6 @@ export const getProjectsLocationsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApps",
-  iam: { actions: ["ces.apps.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsAgentsError = NotFound | Forbidden | GcpOpError;
@@ -4411,7 +4400,6 @@ export const getProjectsLocationsAppsAgents: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsAgents",
-  iam: { actions: ["ces.agents.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsChangelogsError = NotFound | Forbidden | GcpOpError;
@@ -4429,7 +4417,6 @@ export const getProjectsLocationsAppsChangelogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsChangelogs",
-  iam: { actions: ["ces.changelogs.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsConversationsError = NotFound | Forbidden | GcpOpError;
@@ -4447,7 +4434,6 @@ export const getProjectsLocationsAppsConversations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsConversations",
-  iam: { actions: ["ces.conversations.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -4465,7 +4451,6 @@ export const getProjectsLocationsAppsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsDeployments",
-  iam: { actions: ["ces.deployments.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsExamplesError = NotFound | Forbidden | GcpOpError;
@@ -4483,7 +4468,6 @@ export const getProjectsLocationsAppsExamples: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsExamples",
-  iam: { actions: ["ces.examples.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsGuardrailsError = NotFound | Forbidden | GcpOpError;
@@ -4501,7 +4485,6 @@ export const getProjectsLocationsAppsGuardrails: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsGuardrails",
-  iam: { actions: ["ces.guardrails.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsToolsError = NotFound | Forbidden | GcpOpError;
@@ -4519,7 +4502,6 @@ export const getProjectsLocationsAppsTools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsTools",
-  iam: { actions: ["ces.tools.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsToolsetsError = NotFound | Forbidden | GcpOpError;
@@ -4537,7 +4519,6 @@ export const getProjectsLocationsAppsToolsets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsToolsets",
-  iam: { actions: ["ces.toolsets.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsAppsVersionsError = NotFound | Forbidden | GcpOpError;
@@ -4555,7 +4536,6 @@ export const getProjectsLocationsAppsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAppsVersions",
-  iam: { actions: ["ces.apps.get"], roles: ["roles/ces.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4639,7 +4619,6 @@ export const importAppProjectsLocationsApps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportAppProjectsLocationsApps",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4677,7 +4656,6 @@ export const listProjectsLocationsApps: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApps",
-  iam: { actions: ["ces.apps.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4697,7 +4675,6 @@ export const listProjectsLocationsAppsAgents: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsAgents",
-  iam: { actions: ["ces.agents.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4717,7 +4694,6 @@ export const listProjectsLocationsAppsChangelogs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsChangelogs",
-  iam: { actions: ["ces.changelogs.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4737,7 +4713,6 @@ export const listProjectsLocationsAppsConversations: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsConversations",
-  iam: { actions: ["ces.conversations.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4757,7 +4732,6 @@ export const listProjectsLocationsAppsDeployments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsDeployments",
-  iam: { actions: ["ces.deployments.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4777,7 +4751,6 @@ export const listProjectsLocationsAppsExamples: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsExamples",
-  iam: { actions: ["ces.examples.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4797,7 +4770,6 @@ export const listProjectsLocationsAppsGuardrails: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsGuardrails",
-  iam: { actions: ["ces.guardrails.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4817,7 +4789,6 @@ export const listProjectsLocationsAppsTools: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsTools",
-  iam: { actions: ["ces.tools.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4837,7 +4808,6 @@ export const listProjectsLocationsAppsToolsets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsToolsets",
-  iam: { actions: ["ces.toolsets.list"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4857,7 +4827,6 @@ export const listProjectsLocationsAppsVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAppsVersions",
-  iam: { actions: ["ces.apps.get"], roles: ["roles/ces.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5076,7 +5045,6 @@ export const restoreProjectsLocationsAppsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsAppsVersions",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type RunSessionProjectsLocationsAppsSessionsError =
@@ -5099,7 +5067,6 @@ export const runSessionProjectsLocationsAppsSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunSessionProjectsLocationsAppsSessions",
-  iam: { actions: ["ces.sessions.runSession"], roles: ["roles/ces.client"] },
 }));
 
 export type SendProjectsLocationsAppsDeploymentsMessageError =
@@ -5122,7 +5089,6 @@ export const sendProjectsLocationsAppsDeploymentsMessage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendProjectsLocationsAppsDeploymentsMessage",
-  iam: { actions: ["ces.deployments.update"], roles: ["roles/ces.deploymentEditor"] },
 }));
 
 export type SendProjectsLocationsAppsMessageError =
@@ -5145,7 +5111,6 @@ export const sendProjectsLocationsAppsMessage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendProjectsLocationsAppsMessage",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type SendProjectsLocationsAppsVersionsMessageError =
@@ -5168,7 +5133,6 @@ export const sendProjectsLocationsAppsVersionsMessage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendProjectsLocationsAppsVersionsMessage",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type StreamChatAiAssistantProjectsLocationsAppsAssistantSessionsError =
@@ -5195,7 +5159,6 @@ export const streamChatAiAssistantProjectsLocationsAppsAssistantSessions: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamChatAiAssistantProjectsLocationsAppsAssistantSessions",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type StreamProjectsLocationsAppsDeploymentsMessageError =
@@ -5222,7 +5185,6 @@ export const streamProjectsLocationsAppsDeploymentsMessage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamProjectsLocationsAppsDeploymentsMessage",
-  iam: { actions: ["ces.deployments.update"], roles: ["roles/ces.deploymentEditor"] },
 }));
 
 export type StreamProjectsLocationsAppsMessageError =
@@ -5245,7 +5207,6 @@ export const streamProjectsLocationsAppsMessage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamProjectsLocationsAppsMessage",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type StreamProjectsLocationsAppsVersionsMessageError =
@@ -5268,7 +5229,6 @@ export const streamProjectsLocationsAppsVersionsMessage: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamProjectsLocationsAppsVersionsMessage",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 export type StreamRunSessionProjectsLocationsAppsSessionsError =
@@ -5295,7 +5255,6 @@ export const streamRunSessionProjectsLocationsAppsSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StreamRunSessionProjectsLocationsAppsSessions",
-  iam: { actions: ["ces.apps.update"], roles: ["roles/ces.appEditor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

@@ -2625,10 +2625,6 @@ export const downloadInstallScriptProjectsLocationsNetworkMonitoringProvidersMon
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadInstallScriptProjectsLocationsNetworkMonitoringProvidersMonitoringPoints",
-  iam: {
-    actions: ["networkmanagement.monitoringpoints.downloadConfig"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsAdmin"],
-  },
 }));
 
 export type DownloadRecreateInstallScriptProjectsLocationsNetworkMonitoringProvidersMonitoringPointsError =
@@ -2653,10 +2649,6 @@ export const downloadRecreateInstallScriptProjectsLocationsNetworkMonitoringProv
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadRecreateInstallScriptProjectsLocationsNetworkMonitoringProvidersMonitoringPoints",
-  iam: {
-    actions: ["networkmanagement.monitoringpoints.downloadConfig"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsAdmin"],
-  },
 }));
 
 export type DownloadServerConnectConfigProjectsLocationsNetworkMonitoringProvidersMonitoringPointsError =
@@ -2681,10 +2673,6 @@ export const downloadServerConnectConfigProjectsLocationsNetworkMonitoringProvid
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadServerConnectConfigProjectsLocationsNetworkMonitoringProvidersMonitoringPoints",
-  iam: {
-    actions: ["networkmanagement.monitoringpoints.downloadConfig"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsAdmin"],
-  },
 }));
 
 export type GenerateMonitoringPointConfigProjectsLocationsNetworkMonitoringProvidersError =
@@ -2834,10 +2822,6 @@ export const getOrganizationsLocationsVpcFlowLogsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsVpcFlowLogsConfigs",
-  iam: {
-    actions: ["networkmanagement.vpcflowlogsconfigs.get"],
-    roles: ["roles/networkmanagement.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2872,10 +2856,6 @@ export const getProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalConnectivityTests",
-  iam: {
-    actions: ["networkmanagement.connectivitytests.get"],
-    roles: ["roles/networkmanagement.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsGlobalOperationsError = NotFound | Forbidden | GcpOpError;
@@ -2938,10 +2918,6 @@ export const getProjectsLocationsNetworkMonitoringProvidersMonitoringPoints: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNetworkMonitoringProvidersMonitoringPoints",
-  iam: {
-    actions: ["networkmanagement.monitoringpoints.get"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsNetworkMonitoringProvidersNetworkPathsError =
@@ -2966,10 +2942,6 @@ export const getProjectsLocationsNetworkMonitoringProvidersNetworkPaths: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNetworkMonitoringProvidersNetworkPaths",
-  iam: {
-    actions: ["networkmanagement.networkpaths.get"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsNetworkMonitoringProvidersWebPathsError =
@@ -2994,10 +2966,6 @@ export const getProjectsLocationsNetworkMonitoringProvidersWebPaths: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsNetworkMonitoringProvidersWebPaths",
-  iam: {
-    actions: ["networkmanagement.webpaths.get"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsViewer"],
-  },
 }));
 
 export type GetProjectsLocationsVpcFlowLogsConfigsError = NotFound | Forbidden | GcpOpError;
@@ -3015,10 +2983,6 @@ export const getProjectsLocationsVpcFlowLogsConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsVpcFlowLogsConfigs",
-  iam: {
-    actions: ["networkmanagement.vpcflowlogsconfigs.get"],
-    roles: ["roles/networkmanagement.viewer"],
-  },
 }));
 
 export type ListOrganizationsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3121,10 +3085,6 @@ export const listProjectsLocationsGlobalConnectivityTests: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalConnectivityTests",
-  iam: {
-    actions: ["networkmanagement.connectivitytests.list"],
-    roles: ["roles/networkmanagement.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3196,10 +3156,6 @@ export const listProjectsLocationsNetworkMonitoringProvidersMonitoringPoints: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNetworkMonitoringProvidersMonitoringPoints",
-  iam: {
-    actions: ["networkmanagement.monitoringpoints.list"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3226,10 +3182,6 @@ export const listProjectsLocationsNetworkMonitoringProvidersNetworkPaths: API.Pa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNetworkMonitoringProvidersNetworkPaths",
-  iam: {
-    actions: ["networkmanagement.networkpaths.list"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3256,10 +3208,6 @@ export const listProjectsLocationsNetworkMonitoringProvidersWebPaths: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsNetworkMonitoringProvidersWebPaths",
-  iam: {
-    actions: ["networkmanagement.webpaths.list"],
-    roles: ["roles/networkmanagement.CloudNetworkInsightsViewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3279,10 +3227,6 @@ export const listProjectsLocationsVpcFlowLogsConfigs: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsVpcFlowLogsConfigs",
-  iam: {
-    actions: ["networkmanagement.vpcflowlogsconfigs.list"],
-    roles: ["roles/networkmanagement.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3383,10 +3327,6 @@ export const queryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryOrgVpcFlowLogsConfigsProjectsLocationsVpcFlowLogsConfigs",
-  iam: {
-    actions: ["networkmanagement.vpcflowlogsconfigs.get"],
-    roles: ["roles/networkmanagement.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3414,10 +3354,6 @@ export const rerunProjectsLocationsGlobalConnectivityTests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RerunProjectsLocationsGlobalConnectivityTests",
-  iam: {
-    actions: ["networkmanagement.connectivitytests.rerun"],
-    roles: ["roles/networkmanagement.editor"],
-  },
 }));
 
 export type SetIamPolicyProjectsLocationsGlobalConnectivityTestsError =

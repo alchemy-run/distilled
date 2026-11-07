@@ -610,10 +610,6 @@ export const cancelProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsJobs",
-  iam: {
-    actions: ["storagebatchoperations.jobs.cancel"],
-    roles: ["roles/storagebatchoperations.admin"],
-  },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -736,10 +732,6 @@ export const getProjectsLocationsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobs",
-  iam: {
-    actions: ["storagebatchoperations.jobs.get"],
-    roles: ["roles/storagebatchoperations.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsJobsBucketOperationsError = NotFound | Forbidden | GcpOpError;
@@ -757,10 +749,6 @@ export const getProjectsLocationsJobsBucketOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsJobsBucketOperations",
-  iam: {
-    actions: ["storagebatchoperations.bucketOperations.get"],
-    roles: ["roles/storagebatchoperations.viewer"],
-  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -815,10 +803,6 @@ export const listProjectsLocationsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobs",
-  iam: {
-    actions: ["storagebatchoperations.jobs.list"],
-    roles: ["roles/storagebatchoperations.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -838,10 +822,6 @@ export const listProjectsLocationsJobsBucketOperations: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsJobsBucketOperations",
-  iam: {
-    actions: ["storagebatchoperations.bucketOperations.list"],
-    roles: ["roles/storagebatchoperations.viewer"],
-  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
