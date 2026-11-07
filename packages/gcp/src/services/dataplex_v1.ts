@@ -4837,6 +4837,10 @@ export const approveProjectsLocationsChangeRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ApproveProjectsLocationsChangeRequests",
+  iam: {
+    actions: ["dataplex.changeRequests.update"],
+    roles: ["roles/dataplex.changeRequestOwner"],
+  },
 }));
 
 export type CancelOrganizationsLocationsOperationsError =
@@ -4881,6 +4885,7 @@ export const cancelProjectsLocationsDataScansJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsDataScansJobs",
+  iam: { actions: ["dataplex.datascans.cancel"], roles: ["roles/dataplex.dataScanEditor"] },
 }));
 
 export type CancelProjectsLocationsLakesTasksJobsError =
@@ -4903,6 +4908,7 @@ export const cancelProjectsLocationsLakesTasksJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsLakesTasksJobs",
+  iam: { actions: ["dataplex.datascans.cancel"], roles: ["roles/dataplex.dataScanEditor"] },
 }));
 
 export type CancelProjectsLocationsMetadataJobsError =
@@ -4925,6 +4931,7 @@ export const cancelProjectsLocationsMetadataJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsLocationsMetadataJobs",
+  iam: { actions: ["dataplex.metadataJobs.cancel"], roles: ["roles/dataplex.metadataJobOwner"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -5447,6 +5454,7 @@ export const createProjectsLocationsMetadataJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsMetadataJobs",
+  iam: { actions: ["dataplex.metadataJobs.create"], roles: ["roles/dataplex.metadataJobOwner"] },
 }));
 
 export type DeleteOrganizationsLocationsEncryptionConfigsError =
@@ -5539,6 +5547,10 @@ export const deleteProjectsLocationsChangeRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsChangeRequests",
+  iam: {
+    actions: ["dataplex.changeRequests.delete"],
+    roles: ["roles/dataplex.changeRequestOwner"],
+  },
 }));
 
 export type DeleteProjectsLocationsDataDomainsError =
@@ -6025,6 +6037,7 @@ export const generateDataQualityRulesProjectsLocationsDataScans: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateDataQualityRulesProjectsLocationsDataScans",
+  iam: { actions: ["dataplex.datascans.update"], roles: ["roles/dataplex.dataScanEditor"] },
 }));
 
 export type GenerateDataQualityRulesProjectsLocationsDataScansJobsError =
@@ -6055,6 +6068,7 @@ export const generateDataQualityRulesProjectsLocationsDataScansJobs: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateDataQualityRulesProjectsLocationsDataScansJobs",
+  iam: { actions: ["dataplex.datascans.update"], roles: ["roles/dataplex.dataScanEditor"] },
 }));
 
 export type GetIamPolicyOrganizationsLocationsEncryptionConfigsError =
@@ -6481,6 +6495,7 @@ export const getOrganizationsLocationsEncryptionConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsEncryptionConfigs",
+  iam: { actions: ["dataplex.encryptionConfig.get"], roles: ["roles/dataplex.encryptionAdmin"] },
 }));
 
 export type GetOrganizationsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -6532,6 +6547,7 @@ export const getProjectsLocationsAspectTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAspectTypes",
+  iam: { actions: ["dataplex.aspectTypes.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsChangeRequestsError = NotFound | Forbidden | GcpOpError;
@@ -6549,6 +6565,7 @@ export const getProjectsLocationsChangeRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsChangeRequests",
+  iam: { actions: ["dataplex.changeRequests.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsDataDomainsError = NotFound | Forbidden | GcpOpError;
@@ -6566,6 +6583,7 @@ export const getProjectsLocationsDataDomains: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataDomains",
+  iam: { actions: ["dataplex.dataDomains.get"], roles: ["roles/dataplex.dataDomainEntryReader"] },
 }));
 
 export type GetProjectsLocationsDataDomainsBindingsError = NotFound | Forbidden | GcpOpError;
@@ -6583,6 +6601,7 @@ export const getProjectsLocationsDataDomainsBindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataDomainsBindings",
+  iam: { actions: ["dataplex.dataDomains.get"], roles: ["roles/dataplex.dataDomainEntryReader"] },
 }));
 
 export type GetProjectsLocationsDataProductsError = NotFound | Forbidden | GcpOpError;
@@ -6600,6 +6619,7 @@ export const getProjectsLocationsDataProducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataProducts",
+  iam: { actions: ["dataplex.dataProducts.get"], roles: ["roles/dataplex.dataProductsViewer"] },
 }));
 
 export type GetProjectsLocationsDataProductsDataAssetsError = NotFound | Forbidden | GcpOpError;
@@ -6617,6 +6637,7 @@ export const getProjectsLocationsDataProductsDataAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataProductsDataAssets",
+  iam: { actions: ["dataplex.dataAssets.get"], roles: ["roles/dataplex.dataProductsViewer"] },
 }));
 
 export type GetProjectsLocationsDataScansError = NotFound | Forbidden | GcpOpError;
@@ -6634,6 +6655,7 @@ export const getProjectsLocationsDataScans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataScans",
+  iam: { actions: ["dataplex.datascans.get"], roles: ["roles/dataplex.dataScanViewer"] },
 }));
 
 export type GetProjectsLocationsDataScansJobsError = NotFound | Forbidden | GcpOpError;
@@ -6651,6 +6673,7 @@ export const getProjectsLocationsDataScansJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataScansJobs",
+  iam: { actions: ["dataplex.datascans.get"], roles: ["roles/dataplex.dataScanViewer"] },
 }));
 
 export type GetProjectsLocationsEntryGroupsError = NotFound | Forbidden | GcpOpError;
@@ -6668,6 +6691,7 @@ export const getProjectsLocationsEntryGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEntryGroups",
+  iam: { actions: ["dataplex.entryGroups.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsEntryGroupsEntriesError = NotFound | Forbidden | GcpOpError;
@@ -6685,6 +6709,7 @@ export const getProjectsLocationsEntryGroupsEntries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEntryGroupsEntries",
+  iam: { actions: ["dataplex.entries.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsEntryGroupsEntryLinksError = NotFound | Forbidden | GcpOpError;
@@ -6702,6 +6727,7 @@ export const getProjectsLocationsEntryGroupsEntryLinks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEntryGroupsEntryLinks",
+  iam: { actions: ["dataplex.entryLinks.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsEntryTypesError = NotFound | Forbidden | GcpOpError;
@@ -6719,6 +6745,7 @@ export const getProjectsLocationsEntryTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEntryTypes",
+  iam: { actions: ["dataplex.entryTypes.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsGlossariesError = NotFound | Forbidden | GcpOpError;
@@ -6736,6 +6763,7 @@ export const getProjectsLocationsGlossaries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlossaries",
+  iam: { actions: ["dataplex.glossaries.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsGlossariesCategoriesError = NotFound | Forbidden | GcpOpError;
@@ -6753,6 +6781,7 @@ export const getProjectsLocationsGlossariesCategories: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlossariesCategories",
+  iam: { actions: ["dataplex.glossaries.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsGlossariesTermsError = NotFound | Forbidden | GcpOpError;
@@ -6770,6 +6799,7 @@ export const getProjectsLocationsGlossariesTerms: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlossariesTerms",
+  iam: { actions: ["dataplex.glossaries.get"], roles: ["roles/dataplex.catalogViewer"] },
 }));
 
 export type GetProjectsLocationsLakesError = NotFound | Forbidden | GcpOpError;
@@ -6787,6 +6817,7 @@ export const getProjectsLocationsLakes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLakes",
+  iam: { actions: ["dataplex.lakes.get"], roles: ["roles/dataplex.viewer"] },
 }));
 
 export type GetProjectsLocationsLakesTasksError = NotFound | Forbidden | GcpOpError;
@@ -6804,6 +6835,7 @@ export const getProjectsLocationsLakesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLakesTasks",
+  iam: { actions: ["dataplex.tasks.get"], roles: ["roles/dataplex.viewer"] },
 }));
 
 export type GetProjectsLocationsLakesTasksJobsError = NotFound | Forbidden | GcpOpError;
@@ -6821,6 +6853,7 @@ export const getProjectsLocationsLakesTasksJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLakesTasksJobs",
+  iam: { actions: ["dataplex.datascans.get"], roles: ["roles/dataplex.dataScanViewer"] },
 }));
 
 export type GetProjectsLocationsLakesZonesError = NotFound | Forbidden | GcpOpError;
@@ -6838,6 +6871,7 @@ export const getProjectsLocationsLakesZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLakesZones",
+  iam: { actions: ["dataplex.zones.get"], roles: ["roles/dataplex.metadataReader"] },
 }));
 
 export type GetProjectsLocationsLakesZonesAssetsError = NotFound | Forbidden | GcpOpError;
@@ -6855,6 +6889,7 @@ export const getProjectsLocationsLakesZonesAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLakesZonesAssets",
+  iam: { actions: ["dataplex.assets.get"], roles: ["roles/dataplex.metadataReader"] },
 }));
 
 export type GetProjectsLocationsLakesZonesEntitiesError = NotFound | Forbidden | GcpOpError;
@@ -6872,6 +6907,7 @@ export const getProjectsLocationsLakesZonesEntities: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLakesZonesEntities",
+  iam: { actions: ["dataplex.entities.get"], roles: ["roles/dataplex.metadataReader"] },
 }));
 
 export type GetProjectsLocationsLakesZonesEntitiesPartitionsError =
@@ -6896,6 +6932,7 @@ export const getProjectsLocationsLakesZonesEntitiesPartitions: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsLakesZonesEntitiesPartitions",
+  iam: { actions: ["dataplex.partitions.get"], roles: ["roles/dataplex.metadataReader"] },
 }));
 
 export type GetProjectsLocationsMetadataFeedsError = NotFound | Forbidden | GcpOpError;
@@ -6913,6 +6950,7 @@ export const getProjectsLocationsMetadataFeeds: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMetadataFeeds",
+  iam: { actions: ["dataplex.metadataFeeds.get"], roles: ["roles/dataplex.metadataFeedViewer"] },
 }));
 
 export type GetProjectsLocationsMetadataJobsError = NotFound | Forbidden | GcpOpError;
@@ -6930,6 +6968,7 @@ export const getProjectsLocationsMetadataJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMetadataJobs",
+  iam: { actions: ["dataplex.metadataJobs.get"], roles: ["roles/dataplex.metadataJobViewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -7022,6 +7061,7 @@ export const listProjectsLocationsAspectTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAspectTypes",
+  iam: { actions: ["dataplex.aspectTypes.list"], roles: ["roles/dataplex.catalogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7041,6 +7081,7 @@ export const listProjectsLocationsChangeRequests: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsChangeRequests",
+  iam: { actions: ["dataplex.changeRequests.list"], roles: ["roles/dataplex.catalogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7060,6 +7101,7 @@ export const listProjectsLocationsDataDomains: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataDomains",
+  iam: { actions: ["dataplex.dataDomains.list"], roles: ["roles/dataplex.dataDomainEntryReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7083,6 +7125,7 @@ export const listProjectsLocationsDataDomainsBindings: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataDomainsBindings",
+  iam: { actions: ["dataplex.dataDomains.get"], roles: ["roles/dataplex.dataDomainEntryReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7102,6 +7145,7 @@ export const listProjectsLocationsDataProducts: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataProducts",
+  iam: { actions: ["dataplex.dataProducts.list"], roles: ["roles/dataplex.dataProductsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7121,6 +7165,7 @@ export const listProjectsLocationsDataProductsDataAssets: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataProductsDataAssets",
+  iam: { actions: ["dataplex.dataAssets.list"], roles: ["roles/dataplex.dataProductsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7140,6 +7185,7 @@ export const listProjectsLocationsDataScans: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataScans",
+  iam: { actions: ["dataplex.datascans.list"], roles: ["roles/dataplex.dataScanViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7159,6 +7205,7 @@ export const listProjectsLocationsDataScansJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataScansJobs",
+  iam: { actions: ["dataplex.datascans.list"], roles: ["roles/dataplex.dataScanViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7178,6 +7225,7 @@ export const listProjectsLocationsEntryGroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEntryGroups",
+  iam: { actions: ["dataplex.entryGroups.list"], roles: ["roles/dataplex.catalogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7197,6 +7245,7 @@ export const listProjectsLocationsEntryGroupsEntries: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEntryGroupsEntries",
+  iam: { actions: ["dataplex.entries.list"], roles: ["roles/dataplex.catalogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7216,6 +7265,7 @@ export const listProjectsLocationsEntryTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEntryTypes",
+  iam: { actions: ["dataplex.entryTypes.list"], roles: ["roles/dataplex.catalogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7235,6 +7285,7 @@ export const listProjectsLocationsGlossaries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlossaries",
+  iam: { actions: ["dataplex.glossaries.list"], roles: ["roles/dataplex.catalogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7258,6 +7309,7 @@ export const listProjectsLocationsGlossariesCategories: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlossariesCategories",
+  iam: { actions: ["dataplex.glossaries.get"], roles: ["roles/dataplex.catalogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7277,6 +7329,7 @@ export const listProjectsLocationsGlossariesTerms: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlossariesTerms",
+  iam: { actions: ["dataplex.glossaries.get"], roles: ["roles/dataplex.catalogViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7296,6 +7349,7 @@ export const listProjectsLocationsLakes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakes",
+  iam: { actions: ["dataplex.lakes.list"], roles: ["roles/dataplex.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7315,6 +7369,7 @@ export const listProjectsLocationsLakesActions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesActions",
+  iam: { actions: ["dataplex.lakes.get"], roles: ["roles/dataplex.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7334,6 +7389,7 @@ export const listProjectsLocationsLakesTasks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesTasks",
+  iam: { actions: ["dataplex.tasks.list"], roles: ["roles/dataplex.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7353,6 +7409,7 @@ export const listProjectsLocationsLakesTasksJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesTasksJobs",
+  iam: { actions: ["dataplex.datascans.list"], roles: ["roles/dataplex.dataScanViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7372,6 +7429,7 @@ export const listProjectsLocationsLakesZones: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesZones",
+  iam: { actions: ["dataplex.zones.list"], roles: ["roles/dataplex.metadataReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7391,6 +7449,7 @@ export const listProjectsLocationsLakesZonesActions: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesZonesActions",
+  iam: { actions: ["dataplex.zones.get"], roles: ["roles/dataplex.metadataReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7410,6 +7469,7 @@ export const listProjectsLocationsLakesZonesAssets: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesZonesAssets",
+  iam: { actions: ["dataplex.assets.list"], roles: ["roles/dataplex.metadataReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7433,6 +7493,7 @@ export const listProjectsLocationsLakesZonesAssetsActions: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesZonesAssetsActions",
+  iam: { actions: ["dataplex.assets.get"], roles: ["roles/dataplex.metadataReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7452,6 +7513,7 @@ export const listProjectsLocationsLakesZonesEntities: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesZonesEntities",
+  iam: { actions: ["dataplex.entities.list"], roles: ["roles/dataplex.metadataReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7478,6 +7540,7 @@ export const listProjectsLocationsLakesZonesEntitiesPartitions: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsLakesZonesEntitiesPartitions",
+  iam: { actions: ["dataplex.partitions.list"], roles: ["roles/dataplex.metadataReader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7497,6 +7560,7 @@ export const listProjectsLocationsMetadataFeeds: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMetadataFeeds",
+  iam: { actions: ["dataplex.metadataFeeds.list"], roles: ["roles/dataplex.metadataFeedViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7516,6 +7580,7 @@ export const listProjectsLocationsMetadataJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMetadataJobs",
+  iam: { actions: ["dataplex.metadataJobs.list"], roles: ["roles/dataplex.metadataJobViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7686,6 +7751,10 @@ export const patchProjectsLocationsChangeRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsChangeRequests",
+  iam: {
+    actions: ["dataplex.changeRequests.update"],
+    roles: ["roles/dataplex.changeRequestOwner"],
+  },
 }));
 
 export type PatchProjectsLocationsDataDomainsError =
@@ -8064,6 +8133,10 @@ export const rejectProjectsLocationsChangeRequests: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RejectProjectsLocationsChangeRequests",
+  iam: {
+    actions: ["dataplex.changeRequests.update"],
+    roles: ["roles/dataplex.changeRequestOwner"],
+  },
 }));
 
 export type RequestAccessProjectsLocationsDataProductsError =
@@ -8090,6 +8163,7 @@ export const requestAccessProjectsLocationsDataProducts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RequestAccessProjectsLocationsDataProducts",
+  iam: { actions: ["dataplex.dataProducts.update"], roles: ["roles/dataplex.dataProductsEditor"] },
 }));
 
 export type RunProjectsLocationsDataScansError =
@@ -8112,6 +8186,7 @@ export const runProjectsLocationsDataScans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsDataScans",
+  iam: { actions: ["dataplex.datascans.run"], roles: ["roles/dataplex.dataScanEditor"] },
 }));
 
 export type RunProjectsLocationsLakesTasksError =
@@ -8134,6 +8209,7 @@ export const runProjectsLocationsLakesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsLakesTasks",
+  iam: { actions: ["dataplex.tasks.run"], roles: ["roles/dataplex.developer"] },
 }));
 
 export type SearchEntriesProjectsLocationsError =

@@ -1,0 +1,285 @@
+{
+  "description": "What each spanner_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#AddSplitPointsProjectsInstancesDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.addSplitPoints"],
+        "roles": ["roles/spanner.databaseAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#BatchCreateProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.sessions.create"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#BeginTransactionProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.beginOrRollbackReadWriteTransaction"],
+        "roles": ["roles/spanner.databaseUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ChangequorumProjectsInstancesDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.changequorum"],
+        "roles": ["roles/spanner.databaseUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#CommitProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.write"],
+        "roles": ["roles/spanner.databaseUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#CopyProjectsInstancesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.backups.copy"],
+        "roles": ["roles/spanner.backupWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#DeleteProjectsInstanceConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instanceConfigs.delete"],
+        "roles": ["roles/spanner.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#DeleteProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.sessions.delete"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ExecuteBatchDmlProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.write"],
+        "roles": ["roles/spanner.databaseUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#GetProjectsInstanceConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instanceConfigs.get"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#GetProjectsInstancesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.backups.get"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#GetProjectsInstancesDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.get"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#GetProjectsInstancesDatabasesBackupSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.backupSchedules.get"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#GetProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.sessions.get"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#GetProjectsInstancesInstancePartitions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instancePartitions.get"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstanceConfigOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instanceConfigOperations.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstanceConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instanceConfigs.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instances.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesBackupOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.backupOperations.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesBackups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.backups.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesDatabaseOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databaseOperations.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesDatabasesBackupSchedules/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.backupSchedules.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesDatabasesDatabaseRoles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databaseRoles.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.sessions.list"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesInstancePartitionOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instancePartitionOperations.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ListProjectsInstancesInstancePartitions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instancePartitions.list"],
+        "roles": ["roles/spanner.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#MoveProjectsInstances/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instances.update"],
+        "roles": ["roles/spanner.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#PartitionQueryProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.partitionQuery"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#PartitionReadProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.partitionRead"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#PatchProjectsInstanceConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.instanceConfigs.update"],
+        "roles": ["roles/spanner.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#ReadProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.read"],
+        "roles": ["roles/spanner.databaseReader"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#RestoreProjectsInstancesDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.backups.restoreDatabase"],
+        "roles": ["roles/spanner.restoreAdmin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#RollbackProjectsInstancesDatabasesSessions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.beginOrRollbackReadWriteTransaction"],
+        "roles": ["roles/spanner.databaseUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.spanner_v1#UpdateDdlProjectsInstancesDatabases/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["spanner.databases.updateDdl"],
+        "roles": ["roles/spanner.databaseUser"]
+      }
+    }
+  ]
+}

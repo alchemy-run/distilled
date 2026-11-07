@@ -1,0 +1,125 @@
+{
+  "description": "What each datastream_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#DiscoverProjectsLocationsConnectionProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.connectionProfiles.discover"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#GetProjectsLocationsConnectionProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.connectionProfiles.get"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#GetProjectsLocationsPrivateConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.privateConnections.get"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#GetProjectsLocationsPrivateConnectionsRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.routes.get"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#GetProjectsLocationsStreams/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.streams.get"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#GetProjectsLocationsStreamsObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.objects.get"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#ListProjectsLocationsConnectionProfiles/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.connectionProfiles.list"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#ListProjectsLocationsPrivateConnections/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.privateConnections.list"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#ListProjectsLocationsPrivateConnectionsRoutes/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.routes.list"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#ListProjectsLocationsStreams/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.streams.list"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#ListProjectsLocationsStreamsObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.objects.list"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#LookupProjectsLocationsStreamsObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.objects.get"],
+        "roles": ["roles/datastream.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#RunProjectsLocationsStreams/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.streams.update"],
+        "roles": ["roles/datastream.bigqueryWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#StartBackfillJobProjectsLocationsStreamsObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.objects.startBackfillJob"],
+        "roles": ["roles/datastream.bigqueryWriter"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.datastream_v1#StopBackfillJobProjectsLocationsStreamsObjects/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["datastream.objects.stopBackfillJob"],
+        "roles": ["roles/datastream.bigqueryWriter"]
+      }
+    }
+  ]
+}

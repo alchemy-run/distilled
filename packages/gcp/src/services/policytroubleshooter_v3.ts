@@ -581,6 +581,10 @@ export const troubleshootIam: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TroubleshootIam",
+  iam: {
+    actions: ["serviceusage.services.use"],
+    roles: ["roles/serviceusage.serviceUsageConsumer"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

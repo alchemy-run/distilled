@@ -638,6 +638,10 @@ export const closeCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloseCases",
+  iam: {
+    actions: ["cloudsupport.techCases.update"],
+    roles: ["roles/cloudsupport.techSupportEditor"],
+  },
 }));
 
 export type CreateCasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -655,6 +659,10 @@ export const createCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateCases",
+  iam: {
+    actions: ["cloudsupport.techCases.create"],
+    roles: ["roles/cloudsupport.techSupportEditor"],
+  },
 }));
 
 export type CreateCasesCommentsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -672,6 +680,10 @@ export const createCasesComments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateCasesComments",
+  iam: {
+    actions: ["cloudsupport.techCases.update"],
+    roles: ["roles/cloudsupport.techSupportEditor"],
+  },
 }));
 
 export type CreateOrganizationsSupportEventSubscriptionsError =
@@ -733,6 +745,7 @@ export const downloadMedia: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DownloadMedia",
+  iam: { actions: ["cloudsupport.techCases.get"], roles: ["roles/cloudsupport.techSupportViewer"] },
 }));
 
 export type EscalateCasesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -750,6 +763,10 @@ export const escalateCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EscalateCases",
+  iam: {
+    actions: ["cloudsupport.techCases.escalate"],
+    roles: ["roles/cloudsupport.techSupportEditor"],
+  },
 }));
 
 export type ExpungeOrganizationsSupportEventSubscriptionsError =
@@ -785,6 +802,10 @@ export const getCases: API.OperationMethod<GetCasesRequest, Case, GetCasesError,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "GetCases",
+    iam: {
+      actions: ["cloudsupport.techCases.get"],
+      roles: ["roles/cloudsupport.techSupportViewer"],
+    },
   }));
 
 export type GetCasesAttachmentsError = NotFound | Forbidden | GcpOpError;
@@ -802,6 +823,7 @@ export const getCasesAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCasesAttachments",
+  iam: { actions: ["cloudsupport.techCases.get"], roles: ["roles/cloudsupport.techSupportViewer"] },
 }));
 
 export type GetCasesCommentsError = NotFound | Forbidden | GcpOpError;
@@ -819,6 +841,7 @@ export const getCasesComments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCasesComments",
+  iam: { actions: ["cloudsupport.techCases.get"], roles: ["roles/cloudsupport.techSupportViewer"] },
 }));
 
 export type GetOrganizationsSupportEventSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -854,6 +877,10 @@ export const listCases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCases",
+  iam: {
+    actions: ["cloudsupport.techCases.list"],
+    roles: ["roles/cloudsupport.techSupportViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -873,6 +900,7 @@ export const listCasesAttachments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCasesAttachments",
+  iam: { actions: ["cloudsupport.techCases.get"], roles: ["roles/cloudsupport.techSupportViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -892,6 +920,7 @@ export const listCasesComments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListCasesComments",
+  iam: { actions: ["cloudsupport.techCases.get"], roles: ["roles/cloudsupport.techSupportViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -929,6 +958,10 @@ export const patchCases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchCases",
+  iam: {
+    actions: ["cloudsupport.techCases.update"],
+    roles: ["roles/cloudsupport.techSupportEditor"],
+  },
 }));
 
 export type PatchOrganizationsSupportEventSubscriptionsError =
@@ -988,6 +1021,10 @@ export const searchCases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchCases",
+  iam: {
+    actions: ["cloudsupport.techCases.list"],
+    roles: ["roles/cloudsupport.techSupportViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1032,6 +1069,10 @@ export const uploadMedia: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UploadMedia",
+  iam: {
+    actions: ["cloudsupport.techCases.update"],
+    roles: ["roles/cloudsupport.techSupportEditor"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

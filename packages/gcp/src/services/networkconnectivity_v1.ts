@@ -2731,6 +2731,10 @@ export const acceptSpokeProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AcceptSpokeProjectsLocationsGlobalHubs",
+  iam: {
+    actions: ["networkconnectivity.hubs.update"],
+    roles: ["roles/networkconnectivity.hubAdmin"],
+  },
 }));
 
 export type AcceptSpokeUpdateProjectsLocationsGlobalHubsError =
@@ -2757,6 +2761,10 @@ export const acceptSpokeUpdateProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AcceptSpokeUpdateProjectsLocationsGlobalHubs",
+  iam: {
+    actions: ["networkconnectivity.hubs.update"],
+    roles: ["roles/networkconnectivity.hubAdmin"],
+  },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -2967,6 +2975,10 @@ export const createProjectsLocationsPscAuthorizationPolicies: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsPscAuthorizationPolicies",
+  iam: {
+    actions: ["networkconnectivity.pscAuthorizationPolicies.create"],
+    roles: ["roles/networkconnectivity.serviceProducerAdmin"],
+  },
 }));
 
 export type CreateProjectsLocationsRegionalEndpointsError =
@@ -3325,6 +3337,10 @@ export const deleteProjectsLocationsPscAuthorizationPolicies: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsPscAuthorizationPolicies",
+  iam: {
+    actions: ["networkconnectivity.pscAuthorizationPolicies.delete"],
+    roles: ["roles/networkconnectivity.serviceProducerAdmin"],
+  },
 }));
 
 export type DeleteProjectsLocationsRegionalEndpointsError =
@@ -3369,6 +3385,10 @@ export const deleteProjectsLocationsServiceClasses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServiceClasses",
+  iam: {
+    actions: ["networkconnectivity.serviceClasses.delete"],
+    roles: ["roles/networkconnectivity.serviceProducerAdmin"],
+  },
 }));
 
 export type DeleteProjectsLocationsServiceConnectionMapsError =
@@ -3660,6 +3680,10 @@ export const getProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalHubs",
+  iam: {
+    actions: ["networkconnectivity.hubs.get"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
 }));
 
 export type GetProjectsLocationsGlobalHubsGroupsError = NotFound | Forbidden | GcpOpError;
@@ -3677,6 +3701,10 @@ export const getProjectsLocationsGlobalHubsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalHubsGroups",
+  iam: {
+    actions: ["networkconnectivity.groups.get"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
 }));
 
 export type GetProjectsLocationsGlobalHubsRouteTablesError = NotFound | Forbidden | GcpOpError;
@@ -3694,6 +3722,10 @@ export const getProjectsLocationsGlobalHubsRouteTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalHubsRouteTables",
+  iam: {
+    actions: ["networkconnectivity.hubs.get"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
 }));
 
 export type GetProjectsLocationsGlobalHubsRouteTablesRoutesError =
@@ -3718,6 +3750,10 @@ export const getProjectsLocationsGlobalHubsRouteTablesRoutes: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalHubsRouteTablesRoutes",
+  iam: {
+    actions: ["networkconnectivity.hubs.get"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
 }));
 
 export type GetProjectsLocationsGlobalPolicyBasedRoutesError = NotFound | Forbidden | GcpOpError;
@@ -3735,6 +3771,10 @@ export const getProjectsLocationsGlobalPolicyBasedRoutes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlobalPolicyBasedRoutes",
+  iam: {
+    actions: ["networkconnectivity.policyBasedRoutes.get"],
+    roles: ["roles/networkconnectivity.editor"],
+  },
 }));
 
 export type GetProjectsLocationsInternalRangesError = NotFound | Forbidden | GcpOpError;
@@ -3752,6 +3792,10 @@ export const getProjectsLocationsInternalRanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInternalRanges",
+  iam: {
+    actions: ["networkconnectivity.internalRanges.get"],
+    roles: ["roles/networkconnectivity.editor"],
+  },
 }));
 
 export type GetProjectsLocationsMulticloudDataTransferConfigsError =
@@ -3776,6 +3820,10 @@ export const getProjectsLocationsMulticloudDataTransferConfigs: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMulticloudDataTransferConfigs",
+  iam: {
+    actions: ["networkconnectivity.multicloudDataTransferConfigs.get"],
+    roles: ["roles/networkconnectivity.multicloudDataTransferConfigViewer"],
+  },
 }));
 
 export type GetProjectsLocationsMulticloudDataTransferConfigsDestinationsError =
@@ -3800,6 +3848,10 @@ export const getProjectsLocationsMulticloudDataTransferConfigsDestinations: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMulticloudDataTransferConfigsDestinations",
+  iam: {
+    actions: ["networkconnectivity.multicloudDataTransferConfigs.get"],
+    roles: ["roles/networkconnectivity.multicloudDataTransferConfigViewer"],
+  },
 }));
 
 export type GetProjectsLocationsMulticloudDataTransferSupportedServicesError =
@@ -3824,6 +3876,10 @@ export const getProjectsLocationsMulticloudDataTransferSupportedServices: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsMulticloudDataTransferSupportedServices",
+  iam: {
+    actions: ["networkconnectivity.multicloudDataTransferSupportedServices.get"],
+    roles: ["roles/networkconnectivity.multicloudDataTransferDestinationViewer"],
+  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3862,6 +3918,10 @@ export const getProjectsLocationsPscAuthorizationPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPscAuthorizationPolicies",
+  iam: {
+    actions: ["networkconnectivity.pscAuthorizationPolicies.get"],
+    roles: ["roles/networkconnectivity.serviceProducerAdmin"],
+  },
 }));
 
 export type GetProjectsLocationsRegionalEndpointsError = NotFound | Forbidden | GcpOpError;
@@ -3879,6 +3939,10 @@ export const getProjectsLocationsRegionalEndpoints: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRegionalEndpoints",
+  iam: {
+    actions: ["networkconnectivity.regionalEndpoints.get"],
+    roles: ["roles/networkconnectivity.regionalEndpointViewer"],
+  },
 }));
 
 export type GetProjectsLocationsRemoteTransportProfilesError = NotFound | Forbidden | GcpOpError;
@@ -3896,6 +3960,10 @@ export const getProjectsLocationsRemoteTransportProfiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRemoteTransportProfiles",
+  iam: {
+    actions: ["networkconnectivity.remoteTransportProfiles.get"],
+    roles: ["roles/networkconnectivity.transportViewer"],
+  },
 }));
 
 export type GetProjectsLocationsServiceClassesError = NotFound | Forbidden | GcpOpError;
@@ -3913,6 +3981,10 @@ export const getProjectsLocationsServiceClasses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServiceClasses",
+  iam: {
+    actions: ["networkconnectivity.serviceClasses.get"],
+    roles: ["roles/networkconnectivity.serviceClassUser"],
+  },
 }));
 
 export type GetProjectsLocationsServiceConnectionMapsError = NotFound | Forbidden | GcpOpError;
@@ -3930,6 +4002,10 @@ export const getProjectsLocationsServiceConnectionMaps: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServiceConnectionMaps",
+  iam: {
+    actions: ["networkconnectivity.serviceConnectionMaps.get"],
+    roles: ["roles/networkconnectivity.serviceProducerAdmin"],
+  },
 }));
 
 export type GetProjectsLocationsServiceConnectionPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -3951,6 +4027,10 @@ export const getProjectsLocationsServiceConnectionPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServiceConnectionPolicies",
+  iam: {
+    actions: ["networkconnectivity.serviceConnectionPolicies.get"],
+    roles: ["roles/networkconnectivity.consumerNetworkAdmin"],
+  },
 }));
 
 export type GetProjectsLocationsServiceConnectionTokensError = NotFound | Forbidden | GcpOpError;
@@ -3985,6 +4065,10 @@ export const getProjectsLocationsSpokes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSpokes",
+  iam: {
+    actions: ["networkconnectivity.spokes.get"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
 }));
 
 export type GetProjectsLocationsSpokesGatewayAdvertisedRoutesError =
@@ -4009,6 +4093,10 @@ export const getProjectsLocationsSpokesGatewayAdvertisedRoutes: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSpokesGatewayAdvertisedRoutes",
+  iam: {
+    actions: ["networkconnectivity.gatewayAdvertisedRoutes.get"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
 }));
 
 export type GetProjectsLocationsTransportsError = NotFound | Forbidden | GcpOpError;
@@ -4026,6 +4114,10 @@ export const getProjectsLocationsTransports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsTransports",
+  iam: {
+    actions: ["networkconnectivity.transports.get"],
+    roles: ["roles/networkconnectivity.transportViewer"],
+  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -4082,6 +4174,10 @@ export const listProjectsLocationsGlobalHubs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalHubs",
+  iam: {
+    actions: ["networkconnectivity.hubs.list"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4101,6 +4197,10 @@ export const listProjectsLocationsGlobalHubsGroups: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalHubsGroups",
+  iam: {
+    actions: ["networkconnectivity.groups.list"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4120,6 +4220,10 @@ export const listProjectsLocationsGlobalHubsRouteTables: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalHubsRouteTables",
+  iam: {
+    actions: ["networkconnectivity.hubs.get"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4146,6 +4250,10 @@ export const listProjectsLocationsGlobalHubsRouteTablesRoutes: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalHubsRouteTablesRoutes",
+  iam: {
+    actions: ["networkconnectivity.hubs.get"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4169,6 +4277,10 @@ export const listProjectsLocationsGlobalPolicyBasedRoutes: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlobalPolicyBasedRoutes",
+  iam: {
+    actions: ["networkconnectivity.policyBasedRoutes.list"],
+    roles: ["roles/networkconnectivity.editor"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4188,6 +4300,10 @@ export const listProjectsLocationsInternalRanges: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInternalRanges",
+  iam: {
+    actions: ["networkconnectivity.internalRanges.list"],
+    roles: ["roles/networkconnectivity.editor"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4214,6 +4330,10 @@ export const listProjectsLocationsMulticloudDataTransferConfigs: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMulticloudDataTransferConfigs",
+  iam: {
+    actions: ["networkconnectivity.multicloudDataTransferConfigs.list"],
+    roles: ["roles/networkconnectivity.multicloudDataTransferConfigViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4240,6 +4360,10 @@ export const listProjectsLocationsMulticloudDataTransferConfigsDestinations: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMulticloudDataTransferConfigsDestinations",
+  iam: {
+    actions: ["networkconnectivity.multicloudDataTransferConfigs.get"],
+    roles: ["roles/networkconnectivity.multicloudDataTransferConfigViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4270,6 +4394,10 @@ export const listProjectsLocationsMulticloudDataTransferSupportedServices: API.P
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsMulticloudDataTransferSupportedServices",
+  iam: {
+    actions: ["networkconnectivity.multicloudDataTransferSupportedServices.list"],
+    roles: ["roles/networkconnectivity.multicloudDataTransferDestinationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4312,6 +4440,10 @@ export const listProjectsLocationsPscAuthorizationPolicies: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPscAuthorizationPolicies",
+  iam: {
+    actions: ["networkconnectivity.pscAuthorizationPolicies.list"],
+    roles: ["roles/networkconnectivity.serviceProducerAdmin"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4331,6 +4463,10 @@ export const listProjectsLocationsRegionalEndpoints: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRegionalEndpoints",
+  iam: {
+    actions: ["networkconnectivity.regionalEndpoints.list"],
+    roles: ["roles/networkconnectivity.regionalEndpointViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4354,6 +4490,10 @@ export const listProjectsLocationsRemoteTransportProfiles: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRemoteTransportProfiles",
+  iam: {
+    actions: ["networkconnectivity.remoteTransportProfiles.list"],
+    roles: ["roles/networkconnectivity.transportViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4373,6 +4513,10 @@ export const listProjectsLocationsServiceClasses: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServiceClasses",
+  iam: {
+    actions: ["networkconnectivity.serviceClasses.list"],
+    roles: ["roles/networkconnectivity.serviceClassUser"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4392,6 +4536,10 @@ export const listProjectsLocationsServiceConnectionMaps: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServiceConnectionMaps",
+  iam: {
+    actions: ["networkconnectivity.serviceConnectionMaps.list"],
+    roles: ["roles/networkconnectivity.serviceProducerAdmin"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4415,6 +4563,10 @@ export const listProjectsLocationsServiceConnectionPolicies: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServiceConnectionPolicies",
+  iam: {
+    actions: ["networkconnectivity.serviceConnectionPolicies.list"],
+    roles: ["roles/networkconnectivity.consumerNetworkAdmin"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4457,6 +4609,10 @@ export const listProjectsLocationsSpokes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSpokes",
+  iam: {
+    actions: ["networkconnectivity.spokes.list"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4483,6 +4639,10 @@ export const listProjectsLocationsSpokesGatewayAdvertisedRoutes: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSpokesGatewayAdvertisedRoutes",
+  iam: {
+    actions: ["networkconnectivity.gatewayAdvertisedRoutes.list"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4502,6 +4662,10 @@ export const listProjectsLocationsTransports: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsTransports",
+  iam: {
+    actions: ["networkconnectivity.transports.list"],
+    roles: ["roles/networkconnectivity.transportViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4521,6 +4685,10 @@ export const listSpokesProjectsLocationsGlobalHubs: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSpokesProjectsLocationsGlobalHubs",
+  iam: {
+    actions: ["networkconnectivity.hubs.listSpokes"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4566,6 +4734,10 @@ export const patchProjectsLocationsGlobalHubsGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsGlobalHubsGroups",
+  iam: {
+    actions: ["networkconnectivity.hubs.update"],
+    roles: ["roles/networkconnectivity.hubAdmin"],
+  },
 }));
 
 export type PatchProjectsLocationsInternalRangesError =
@@ -4662,6 +4834,10 @@ export const patchProjectsLocationsServiceClasses: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsServiceClasses",
+  iam: {
+    actions: ["networkconnectivity.serviceClasses.update"],
+    roles: ["roles/networkconnectivity.serviceProducerAdmin"],
+  },
 }));
 
 export type PatchProjectsLocationsServiceConnectionMapsError =
@@ -4802,6 +4978,10 @@ export const queryStatusProjectsLocationsGlobalHubs: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryStatusProjectsLocationsGlobalHubs",
+  iam: {
+    actions: ["networkconnectivity.hubs.queryStatus"],
+    roles: ["roles/networkconnectivity.hubViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4825,6 +5005,10 @@ export const rejectSpokeProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RejectSpokeProjectsLocationsGlobalHubs",
+  iam: {
+    actions: ["networkconnectivity.hubs.update"],
+    roles: ["roles/networkconnectivity.hubAdmin"],
+  },
 }));
 
 export type RejectSpokeUpdateProjectsLocationsGlobalHubsError =
@@ -4847,6 +5031,10 @@ export const rejectSpokeUpdateProjectsLocationsGlobalHubs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RejectSpokeUpdateProjectsLocationsGlobalHubs",
+  iam: {
+    actions: ["networkconnectivity.hubs.update"],
+    roles: ["roles/networkconnectivity.hubAdmin"],
+  },
 }));
 
 export type SetIamPolicyProjectsLocationsGlobalHubsError =

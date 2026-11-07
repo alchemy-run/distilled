@@ -1,0 +1,37 @@
+{
+  "description": "What each iamcredentials_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iamcredentials_v1#GenerateAccessTokenProjectsServiceAccounts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["iam.serviceAccounts.getAccessToken"],
+        "roles": ["roles/iam.workloadIdentityUser"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iamcredentials_v1#GenerateIdTokenProjectsServiceAccounts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["iam.serviceAccounts.getOpenIdToken"],
+        "roles": ["roles/iam.serviceAccountOpenIdTokenCreator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iamcredentials_v1#SignBlobProjectsServiceAccounts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["iam.serviceAccounts.signBlob"],
+        "roles": ["roles/iam.serviceAccountTokenCreator"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.iamcredentials_v1#SignJwtProjectsServiceAccounts/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["iam.serviceAccounts.signJwt"],
+        "roles": ["roles/iam.serviceAccountTokenCreator"]
+      }
+    }
+  ]
+}

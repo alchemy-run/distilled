@@ -460,6 +460,10 @@ export const getProjectsLocationsBlockchainNodes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBlockchainNodes",
+  iam: {
+    actions: ["blockchainnodeengine.blockchainNodes.get"],
+    roles: ["roles/blockchainnodeengine.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -514,6 +518,10 @@ export const listProjectsLocationsBlockchainNodes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBlockchainNodes",
+  iam: {
+    actions: ["blockchainnodeengine.blockchainNodes.list"],
+    roles: ["roles/blockchainnodeengine.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

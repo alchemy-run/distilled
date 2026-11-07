@@ -415,6 +415,7 @@ export const getProjectsLocationsWorkflows: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsWorkflows",
+  iam: { actions: ["workflows.workflows.get"], roles: ["roles/workflows.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -471,6 +472,7 @@ export const listProjectsLocationsWorkflows: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkflows",
+  iam: { actions: ["workflows.workflows.list"], roles: ["roles/workflows.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -490,6 +492,7 @@ export const listRevisionsProjectsLocationsWorkflows: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListRevisionsProjectsLocationsWorkflows",
+  iam: { actions: ["workflows.workflows.listRevision"], roles: ["roles/workflows.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

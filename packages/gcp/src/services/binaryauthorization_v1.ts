@@ -874,6 +874,10 @@ export const getPolicyProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPolicyProjects",
+  iam: {
+    actions: ["binaryauthorization.policy.get"],
+    roles: ["roles/binaryauthorization.policyViewer"],
+  },
 }));
 
 export type GetPolicySystempolicyError = NotFound | Forbidden | GcpOpError;
@@ -943,6 +947,10 @@ export const listProjectsAttestors: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAttestors",
+  iam: {
+    actions: ["binaryauthorization.attestors.list"],
+    roles: ["roles/binaryauthorization.attestorsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -962,6 +970,10 @@ export const listProjectsPlatformsPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsPlatformsPolicies",
+  iam: {
+    actions: ["binaryauthorization.platformPolicies.list"],
+    roles: ["roles/binaryauthorization.policyViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -989,6 +1001,10 @@ export const replacePlatformPolicyProjectsPlatformsPolicies: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReplacePlatformPolicyProjectsPlatformsPolicies",
+  iam: {
+    actions: ["binaryauthorization.platformPolicies.replace"],
+    roles: ["roles/binaryauthorization.policyEditor"],
+  },
 }));
 
 export type SetIamPolicyProjectsAttestorsError =

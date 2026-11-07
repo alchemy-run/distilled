@@ -1,0 +1,277 @@
+{
+  "description": "What each pubsub_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#AcknowledgeProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.update"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#CommitProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.commit"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#CreateProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.create"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#CreateProjectsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.snapshots.create"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#CreateProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.create"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#CreateProjectsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.topics.create"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#DeleteProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.delete"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#DeleteProjectsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.snapshots.delete"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#DeleteProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.delete"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#DeleteProjectsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.topics.delete"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#DeleteRevisionProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.commit"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#DetachProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.topics.detachSubscription"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#GetProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.get"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#GetProjectsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.snapshots.get"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#GetProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.get"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#GetProjectsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.topics.get"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ListProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.list"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ListProjectsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.snapshots.list"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ListProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.list"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ListProjectsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.topics.list"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ListProjectsTopicsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.snapshots.list"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ListProjectsTopicsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.list"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ListRevisionsProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.listRevisions"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ModifyAckDeadlineProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.update"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ModifyPushConfigProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.update"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#PatchProjectsSnapshots/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.snapshots.update"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#PatchProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.update"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#PatchProjectsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.topics.update"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#PublishProjectsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.topics.publish"],
+        "roles": ["roles/pubsub.publisher"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#PullProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.update"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#RollbackProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.rollback"],
+        "roles": ["roles/pubsub.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#SeekProjectsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.subscriptions.consume"],
+        "roles": ["roles/pubsub.subscriber"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ValidateMessageProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.get"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsub_v1#ValidateProjectsSchemas/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsub.schemas.validate"],
+        "roles": ["roles/pubsub.viewer"]
+      }
+    }
+  ]
+}

@@ -1209,6 +1209,7 @@ export const getProjectsLocationsApplications: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApplications",
+  iam: { actions: ["apphub.applications.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type GetProjectsLocationsApplicationsServicesError =
@@ -1230,6 +1231,7 @@ export const getProjectsLocationsApplicationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApplicationsServices",
+  iam: { actions: ["apphub.services.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type GetProjectsLocationsApplicationsWorkloadsError =
@@ -1251,6 +1253,7 @@ export const getProjectsLocationsApplicationsWorkloads: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApplicationsWorkloads",
+  iam: { actions: ["apphub.workloads.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type GetProjectsLocationsDiscoveredServicesError =
@@ -1272,6 +1275,7 @@ export const getProjectsLocationsDiscoveredServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveredServices",
+  iam: { actions: ["apphub.discoveredServices.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type GetProjectsLocationsDiscoveredWorkloadsError =
@@ -1293,6 +1297,7 @@ export const getProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveredWorkloads",
+  iam: { actions: ["apphub.discoveredWorkloads.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type GetProjectsLocationsExtendedMetadataSchemasError =
@@ -1314,6 +1319,7 @@ export const getProjectsLocationsExtendedMetadataSchemas: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsExtendedMetadataSchemas",
+  iam: { actions: ["apphub.extendedMetadataSchemas.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -1360,6 +1366,7 @@ export const getProjectsLocationsServiceProjectAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServiceProjectAttachments",
+  iam: { actions: ["apphub.serviceProjectAttachments.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1401,6 +1408,7 @@ export const listProjectsLocationsApplications: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApplications",
+  iam: { actions: ["apphub.applications.list"], roles: ["roles/apphub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1424,6 +1432,7 @@ export const listProjectsLocationsApplicationsServices: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApplicationsServices",
+  iam: { actions: ["apphub.services.list"], roles: ["roles/apphub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1447,6 +1456,7 @@ export const listProjectsLocationsApplicationsWorkloads: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApplicationsWorkloads",
+  iam: { actions: ["apphub.workloads.list"], roles: ["roles/apphub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1470,6 +1480,7 @@ export const listProjectsLocationsDiscoveredServices: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDiscoveredServices",
+  iam: { actions: ["apphub.discoveredServices.list"], roles: ["roles/apphub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1493,6 +1504,7 @@ export const listProjectsLocationsDiscoveredWorkloads: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDiscoveredWorkloads",
+  iam: { actions: ["apphub.discoveredWorkloads.list"], roles: ["roles/apphub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1516,6 +1528,7 @@ export const listProjectsLocationsExtendedMetadataSchemas: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsExtendedMetadataSchemas",
+  iam: { actions: ["apphub.extendedMetadataSchemas.list"], roles: ["roles/apphub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1566,6 +1579,7 @@ export const listProjectsLocationsServiceProjectAttachments: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServiceProjectAttachments",
+  iam: { actions: ["apphub.serviceProjectAttachments.list"], roles: ["roles/apphub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1588,6 +1602,7 @@ export const lookupProjectsLocationsDiscoveredServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupProjectsLocationsDiscoveredServices",
+  iam: { actions: ["apphub.discoveredServices.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type LookupProjectsLocationsDiscoveredWorkloadsError =
@@ -1609,6 +1624,7 @@ export const lookupProjectsLocationsDiscoveredWorkloads: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupProjectsLocationsDiscoveredWorkloads",
+  iam: { actions: ["apphub.discoveredWorkloads.get"], roles: ["roles/apphub.viewer"] },
 }));
 
 export type LookupServiceProjectAttachmentProjectsLocationsError =

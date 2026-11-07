@@ -2150,6 +2150,10 @@ export const asymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AsymmetricDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: {
+    actions: ["cloudkms.cryptoKeyVersions.useToDecrypt"],
+    roles: ["roles/cloudkms.cryptoKeyDecrypter"],
+  },
 }));
 
 export type AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -2176,6 +2180,7 @@ export const asymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AsymmetricSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.useToSign"], roles: ["roles/cloudkms.signer"] },
 }));
 
 export type CreateProjectsLocationsEkmConnectionsError =
@@ -2290,6 +2295,7 @@ export const createProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.create"], roles: ["roles/cloudkms.admin"] },
 }));
 
 export type CreateProjectsLocationsKeyRingsImportJobsError =
@@ -2390,6 +2396,10 @@ export const decapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DecapsulateProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: {
+    actions: ["cloudkms.cryptoKeyVersions.useToDecapsulate"],
+    roles: ["roles/cloudkms.decapsulator"],
+  },
 }));
 
 export type DecryptProjectsLocationsKeyRingsCryptoKeysError =
@@ -2482,6 +2492,7 @@ export const deleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.delete"], roles: ["roles/cloudkms.admin"] },
 }));
 
 export type DeleteProjectsLocationsSingleTenantHsmInstancesProposalsError =
@@ -2534,6 +2545,7 @@ export const destroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DestroyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.destroy"], roles: ["roles/cloudkms.admin"] },
 }));
 
 export type EncryptProjectsLocationsKeyRingsCryptoKeysError =
@@ -2662,6 +2674,7 @@ export const getAutokeyConfigProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetAutokeyConfigProjects",
+  iam: { actions: ["cloudkms.autokeyConfigs.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetEffectiveAutokeyConfigFoldersError = NotFound | Forbidden | GcpOpError;
@@ -2953,6 +2966,7 @@ export const getProjectsLocationsEkmConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEkmConnections",
+  iam: { actions: ["cloudkms.ekmConnections.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetProjectsLocationsKeyHandlesError = NotFound | Forbidden | GcpOpError;
@@ -2970,6 +2984,7 @@ export const getProjectsLocationsKeyHandles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsKeyHandles",
+  iam: { actions: ["cloudkms.keyHandles.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetProjectsLocationsKeyRingsError = NotFound | Forbidden | GcpOpError;
@@ -2987,6 +3002,7 @@ export const getProjectsLocationsKeyRings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsKeyRings",
+  iam: { actions: ["cloudkms.keyRings.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetProjectsLocationsKeyRingsCryptoKeysError = NotFound | Forbidden | GcpOpError;
@@ -3004,6 +3020,7 @@ export const getProjectsLocationsKeyRingsCryptoKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsKeyRingsCryptoKeys",
+  iam: { actions: ["cloudkms.cryptoKeys.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3028,6 +3045,7 @@ export const getProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetProjectsLocationsKeyRingsImportJobsError = NotFound | Forbidden | GcpOpError;
@@ -3045,6 +3063,7 @@ export const getProjectsLocationsKeyRingsImportJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsKeyRingsImportJobs",
+  iam: { actions: ["cloudkms.importJobs.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3079,6 +3098,7 @@ export const getProjectsLocationsRetiredResources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRetiredResources",
+  iam: { actions: ["cloudkms.retiredResources.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetProjectsLocationsSingleTenantHsmInstancesError = NotFound | Forbidden | GcpOpError;
@@ -3096,6 +3116,7 @@ export const getProjectsLocationsSingleTenantHsmInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSingleTenantHsmInstances",
+  iam: { actions: ["cloudkms.singleTenantHsmInstances.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetProjectsLocationsSingleTenantHsmInstancesProposalsError =
@@ -3120,6 +3141,7 @@ export const getProjectsLocationsSingleTenantHsmInstancesProposals: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSingleTenantHsmInstancesProposals",
+  iam: { actions: ["cloudkms.singleTenantHsmInstances.get"], roles: ["roles/cloudkms.viewer"] },
 }));
 
 export type GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3144,6 +3166,10 @@ export const getPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPublicKeyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: {
+    actions: ["cloudkms.cryptoKeyVersions.viewPublicKey"],
+    roles: ["roles/cloudkms.publicKeyViewer"],
+  },
 }));
 
 export type ImportProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3233,6 +3259,7 @@ export const listProjectsLocationsEkmConnections: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEkmConnections",
+  iam: { actions: ["cloudkms.ekmConnections.list"], roles: ["roles/cloudkms.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3252,6 +3279,7 @@ export const listProjectsLocationsKeyHandles: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsKeyHandles",
+  iam: { actions: ["cloudkms.keyHandles.list"], roles: ["roles/cloudkms.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3271,6 +3299,7 @@ export const listProjectsLocationsKeyRings: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsKeyRings",
+  iam: { actions: ["cloudkms.keyRings.list"], roles: ["roles/cloudkms.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3290,6 +3319,10 @@ export const listProjectsLocationsKeyRingsCryptoKeys: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsKeyRingsCryptoKeys",
+  iam: {
+    actions: ["cloudkms.cryptoKeys.list"],
+    roles: ["roles/cloudkms.encryptionDashboardViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3316,6 +3349,7 @@ export const listProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.list"], roles: ["roles/cloudkms.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3335,6 +3369,7 @@ export const listProjectsLocationsKeyRingsImportJobs: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsKeyRingsImportJobs",
+  iam: { actions: ["cloudkms.importJobs.list"], roles: ["roles/cloudkms.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3354,6 +3389,7 @@ export const listProjectsLocationsRetiredResources: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRetiredResources",
+  iam: { actions: ["cloudkms.retiredResources.list"], roles: ["roles/cloudkms.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3377,6 +3413,7 @@ export const listProjectsLocationsSingleTenantHsmInstances: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSingleTenantHsmInstances",
+  iam: { actions: ["cloudkms.singleTenantHsmInstances.list"], roles: ["roles/cloudkms.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3403,6 +3440,7 @@ export const listProjectsLocationsSingleTenantHsmInstancesProposals: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSingleTenantHsmInstancesProposals",
+  iam: { actions: ["cloudkms.singleTenantHsmInstances.get"], roles: ["roles/cloudkms.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3430,6 +3468,7 @@ export const macSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MacSignProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.useToSign"], roles: ["roles/cloudkms.signer"] },
 }));
 
 export type MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3456,6 +3495,7 @@ export const macVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MacVerifyProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.useToVerify"], roles: ["roles/cloudkms.verifier"] },
 }));
 
 export type PatchProjectsLocationsEkmConnectionsError =
@@ -3478,6 +3518,10 @@ export const patchProjectsLocationsEkmConnections: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsEkmConnections",
+  iam: {
+    actions: ["cloudkms.ekmConnections.update"],
+    roles: ["roles/cloudkms.ekmConnectionsAdmin"],
+  },
 }));
 
 export type PatchProjectsLocationsKeyRingsCryptoKeysError =
@@ -3526,6 +3570,7 @@ export const patchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.update"], roles: ["roles/cloudkms.admin"] },
 }));
 
 export type RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3552,6 +3597,10 @@ export const rawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RawDecryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: {
+    actions: ["cloudkms.cryptoKeyVersions.useToDecrypt"],
+    roles: ["roles/cloudkms.cryptoKeyDecrypter"],
+  },
 }));
 
 export type RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3578,6 +3627,10 @@ export const rawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RawEncryptProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: {
+    actions: ["cloudkms.cryptoKeyVersions.useToEncrypt"],
+    roles: ["roles/cloudkms.cryptoKeyEncrypter"],
+  },
 }));
 
 export type RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersionsError =
@@ -3604,6 +3657,7 @@ export const restoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsKeyRingsCryptoKeysCryptoKeyVersions",
+  iam: { actions: ["cloudkms.cryptoKeyVersions.restore"], roles: ["roles/cloudkms.admin"] },
 }));
 
 export type SetIamPolicyProjectsLocationsEkmConfigError =
@@ -3888,6 +3942,7 @@ export const updateAutokeyConfigProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateAutokeyConfigProjects",
+  iam: { actions: ["cloudkms.autokeyConfigs.update"], roles: ["roles/cloudkms.autokeyAdmin"] },
 }));
 
 export type UpdateEkmConfigProjectsLocationsError =
@@ -4002,6 +4057,7 @@ export const updatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePrimaryVersionProjectsLocationsKeyRingsCryptoKeys",
+  iam: { actions: ["cloudkms.cryptoKeys.update"], roles: ["roles/cloudkms.admin"] },
 }));
 
 export type VerifyConnectivityProjectsLocationsEkmConnectionsError =
@@ -4026,6 +4082,10 @@ export const verifyConnectivityProjectsLocationsEkmConnections: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VerifyConnectivityProjectsLocationsEkmConnections",
+  iam: {
+    actions: ["cloudkms.ekmConnections.verifyConnectivity"],
+    roles: ["roles/cloudkms.ekmConnectionsAdmin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

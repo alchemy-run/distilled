@@ -1864,6 +1864,7 @@ export const debugProjectsLocationsApplicationsServicesVersionsInstances: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DebugProjectsLocationsApplicationsServicesVersionsInstances",
+  iam: { actions: ["appengine.versions.update"], roles: ["roles/appengine.serviceAdmin"] },
 }));
 
 export type DeleteAppsAuthorizedCertificatesError =
@@ -2183,6 +2184,7 @@ export const exportAppImageProjectsLocationsApplicationsServicesVersions: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportAppImageProjectsLocationsApplicationsServicesVersions",
+  iam: { actions: ["appengine.versions.exportAppImage"], roles: ["roles/appengine.deployer"] },
 }));
 
 export type GetAppsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -2365,6 +2367,7 @@ export const getProjectsLocationsApplicationsAuthorizedCertificates: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApplicationsAuthorizedCertificates",
+  iam: { actions: ["appengine.applications.get"], roles: ["roles/appengine.codeViewer"] },
 }));
 
 export type GetProjectsLocationsApplicationsDomainMappingsError =
@@ -2390,6 +2393,7 @@ export const getProjectsLocationsApplicationsDomainMappings: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApplicationsDomainMappings",
+  iam: { actions: ["appengine.applications.get"], roles: ["roles/appengine.codeViewer"] },
 }));
 
 export type ListAppsAuthorizedCertificatesError =
@@ -2595,6 +2599,7 @@ export const listProjectsLocationsApplicationsAuthorizedCertificates: API.Pagina
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApplicationsAuthorizedCertificates",
+  iam: { actions: ["appengine.applications.get"], roles: ["roles/appengine.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2622,6 +2627,7 @@ export const listProjectsLocationsApplicationsAuthorizedDomains: API.PaginatedOp
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApplicationsAuthorizedDomains",
+  iam: { actions: ["appengine.applications.get"], roles: ["roles/appengine.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2649,6 +2655,7 @@ export const listProjectsLocationsApplicationsDomainMappings: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApplicationsDomainMappings",
+  iam: { actions: ["appengine.applications.get"], roles: ["roles/appengine.codeViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

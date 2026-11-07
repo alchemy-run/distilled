@@ -1235,6 +1235,7 @@ export const createProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDatasets",
+  iam: { actions: ["cloudtranslate.datasets.create"], roles: ["roles/cloudtranslate.admin"] },
 }));
 
 export type CreateProjectsLocationsGlossariesError =
@@ -1353,6 +1354,10 @@ export const deleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles",
+  iam: {
+    actions: ["cloudtranslate.adaptiveMtFiles.delete"],
+    roles: ["roles/cloudtranslate.admin"],
+  },
 }));
 
 export type DeleteProjectsLocationsDatasetsError =
@@ -1375,6 +1380,7 @@ export const deleteProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDatasets",
+  iam: { actions: ["cloudtranslate.datasets.delete"], roles: ["roles/cloudtranslate.admin"] },
 }));
 
 export type DeleteProjectsLocationsGlossariesError =
@@ -1484,6 +1490,10 @@ export const detectLanguageProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DetectLanguageProjects",
+  iam: {
+    actions: ["cloudtranslate.languageDetectionModels.predict"],
+    roles: ["roles/cloudtranslate.user"],
+  },
 }));
 
 export type DetectLanguageProjectsLocationsError =
@@ -1528,6 +1538,7 @@ export const exportDataProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportDataProjectsLocationsDatasets",
+  iam: { actions: ["cloudtranslate.datasets.export"], roles: ["roles/cloudtranslate.admin"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1586,6 +1597,7 @@ export const getProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles",
+  iam: { actions: ["cloudtranslate.adaptiveMtFiles.get"], roles: ["roles/cloudtranslate.viewer"] },
 }));
 
 export type GetProjectsLocationsDatasetsError = NotFound | Forbidden | GcpOpError;
@@ -1603,6 +1615,7 @@ export const getProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatasets",
+  iam: { actions: ["cloudtranslate.datasets.get"], roles: ["roles/cloudtranslate.viewer"] },
 }));
 
 export type GetProjectsLocationsGlossariesError = NotFound | Forbidden | GcpOpError;
@@ -1620,6 +1633,7 @@ export const getProjectsLocationsGlossaries: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGlossaries",
+  iam: { actions: ["cloudtranslate.glossaries.get"], roles: ["roles/cloudtranslate.viewer"] },
 }));
 
 export type GetProjectsLocationsGlossariesGlossaryEntriesError = NotFound | Forbidden | GcpOpError;
@@ -1692,6 +1706,7 @@ export const getSupportedLanguagesProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSupportedLanguagesProjects",
+  iam: { actions: ["cloudtranslate.generalModels.get"], roles: ["roles/cloudtranslate.viewer"] },
 }));
 
 export type GetSupportedLanguagesProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1735,6 +1750,7 @@ export const importAdaptiveMtFileProjectsLocationsAdaptiveMtDatasets: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportAdaptiveMtFileProjectsLocationsAdaptiveMtDatasets",
+  iam: { actions: ["cloudtranslate.adaptiveMtFiles.list"], roles: ["roles/cloudtranslate.viewer"] },
 }));
 
 export type ImportDataProjectsLocationsDatasetsError =
@@ -1757,6 +1773,7 @@ export const importDataProjectsLocationsDatasets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportDataProjectsLocationsDatasets",
+  iam: { actions: ["cloudtranslate.datasets.import"], roles: ["roles/cloudtranslate.admin"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1794,6 +1811,10 @@ export const listProjectsLocationsAdaptiveMtDatasets: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAdaptiveMtDatasets",
+  iam: {
+    actions: ["cloudtranslate.adaptiveMtDatasets.list"],
+    roles: ["roles/cloudtranslate.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1820,6 +1841,7 @@ export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFiles",
+  iam: { actions: ["cloudtranslate.adaptiveMtFiles.list"], roles: ["roles/cloudtranslate.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1846,6 +1868,10 @@ export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSen
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtFilesAdaptiveMtSentences",
+  iam: {
+    actions: ["cloudtranslate.adaptiveMtSentences.list"],
+    roles: ["roles/cloudtranslate.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1872,6 +1898,10 @@ export const listProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentences: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAdaptiveMtDatasetsAdaptiveMtSentences",
+  iam: {
+    actions: ["cloudtranslate.adaptiveMtSentences.list"],
+    roles: ["roles/cloudtranslate.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1891,6 +1921,7 @@ export const listProjectsLocationsDatasets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasets",
+  iam: { actions: ["cloudtranslate.datasets.list"], roles: ["roles/cloudtranslate.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1910,6 +1941,7 @@ export const listProjectsLocationsDatasetsExamples: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatasetsExamples",
+  iam: { actions: ["cloudtranslate.datasets.get"], roles: ["roles/cloudtranslate.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1929,6 +1961,7 @@ export const listProjectsLocationsGlossaries: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlossaries",
+  iam: { actions: ["cloudtranslate.glossaries.list"], roles: ["roles/cloudtranslate.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1952,6 +1985,7 @@ export const listProjectsLocationsGlossariesGlossaryEntries: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGlossariesGlossaryEntries",
+  iam: { actions: ["cloudtranslate.glossaryentries.list"], roles: ["roles/cloudtranslate.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1971,6 +2005,7 @@ export const listProjectsLocationsModels: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsModels",
+  iam: { actions: ["cloudtranslate.customModels.list"], roles: ["roles/cloudtranslate.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2078,6 +2113,7 @@ export const romanizeTextProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RomanizeTextProjects",
+  iam: { actions: ["cloudtranslate.generalModels.predict"], roles: ["roles/cloudtranslate.user"] },
 }));
 
 export type RomanizeTextProjectsLocationsError =

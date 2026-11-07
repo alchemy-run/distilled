@@ -2533,6 +2533,7 @@ export const abandonBackupProjectsLocationsBackupVaultsDataSources: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AbandonBackupProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -2757,6 +2758,7 @@ export const deleteProjectsLocationsBackupVaultsDataSourcesBackups: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsBackupVaultsDataSourcesBackups",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type DeleteProjectsLocationsManagementServersError =
@@ -2823,6 +2825,7 @@ export const endProjectsLocationsTrial: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EndProjectsLocationsTrial",
+  iam: { actions: ["backupdr.trial.end"], roles: ["roles/backupdr.editor"] },
 }));
 
 export type FetchAccessTokenProjectsLocationsBackupVaultsDataSourcesError =
@@ -2849,6 +2852,7 @@ export const fetchAccessTokenProjectsLocationsBackupVaultsDataSources: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchAccessTokenProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.get"], roles: ["roles/backupdr.backupvaultViewer"] },
 }));
 
 export type FetchFoldersLocationsResourceBackupConfigsError = NotFound | Forbidden | GcpOpError;
@@ -2893,6 +2897,7 @@ export const fetchForResourceTypeProjectsLocationsBackupPlanAssociations: API.Pa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchForResourceTypeProjectsLocationsBackupPlanAssociations",
+  iam: { actions: ["backupdr.backupPlanAssociations.list"], roles: ["roles/backupdr.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2919,6 +2924,7 @@ export const fetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackups
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchForResourceTypeProjectsLocationsBackupVaultsDataSourcesBackups",
+  iam: { actions: ["backupdr.backupVaults.get"], roles: ["roles/backupdr.backupvaultViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2945,6 +2951,7 @@ export const fetchForResourceTypeProjectsLocationsDataSourceReferences: API.Pagi
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchForResourceTypeProjectsLocationsDataSourceReferences",
+  iam: { actions: ["backupdr.dataSourceReferences.list"], roles: ["roles/backupdr.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2990,6 +2997,10 @@ export const fetchProjectsLocationsResourceBackupConfigs: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchProjectsLocationsResourceBackupConfigs",
+  iam: {
+    actions: ["backupdr.resourceBackupConfigs.fetch"],
+    roles: ["roles/backupdr.backupConfigViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3009,6 +3020,7 @@ export const fetchUsableProjectsLocationsBackupVaults: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchUsableProjectsLocationsBackupVaults",
+  iam: { actions: ["backupdr.backupVaults.get"], roles: ["roles/backupdr.backupvaultViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3036,6 +3048,7 @@ export const finalizeBackupProjectsLocationsBackupVaultsDataSources: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FinalizeBackupProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type GetIamPolicyProjectsLocationsManagementServersError = NotFound | Forbidden | GcpOpError;
@@ -3091,6 +3104,7 @@ export const getProjectsLocationsBackupPlanAssociations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupPlanAssociations",
+  iam: { actions: ["backupdr.backupPlanAssociations.list"], roles: ["roles/backupdr.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupPlansError = NotFound | Forbidden | GcpOpError;
@@ -3108,6 +3122,7 @@ export const getProjectsLocationsBackupPlans: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupPlans",
+  iam: { actions: ["backupdr.backupPlans.get"], roles: ["roles/backupdr.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupPlansRevisionsError = NotFound | Forbidden | GcpOpError;
@@ -3125,6 +3140,7 @@ export const getProjectsLocationsBackupPlansRevisions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupPlansRevisions",
+  iam: { actions: ["backupdr.backupPlans.get"], roles: ["roles/backupdr.viewer"] },
 }));
 
 export type GetProjectsLocationsBackupVaultsError = NotFound | Forbidden | GcpOpError;
@@ -3142,6 +3158,7 @@ export const getProjectsLocationsBackupVaults: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupVaults",
+  iam: { actions: ["backupdr.backupVaults.get"], roles: ["roles/backupdr.backupvaultViewer"] },
 }));
 
 export type GetProjectsLocationsBackupVaultsDataSourcesError = NotFound | Forbidden | GcpOpError;
@@ -3159,6 +3176,7 @@ export const getProjectsLocationsBackupVaultsDataSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.get"], roles: ["roles/backupdr.backupvaultViewer"] },
 }));
 
 export type GetProjectsLocationsBackupVaultsDataSourcesBackupsError =
@@ -3183,6 +3201,7 @@ export const getProjectsLocationsBackupVaultsDataSourcesBackups: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBackupVaultsDataSourcesBackups",
+  iam: { actions: ["backupdr.backupVaults.get"], roles: ["roles/backupdr.backupvaultViewer"] },
 }));
 
 export type GetProjectsLocationsDataSourceReferencesError = NotFound | Forbidden | GcpOpError;
@@ -3200,6 +3219,7 @@ export const getProjectsLocationsDataSourceReferences: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDataSourceReferences",
+  iam: { actions: ["backupdr.dataSourceReferences.list"], roles: ["roles/backupdr.viewer"] },
 }));
 
 export type GetProjectsLocationsManagementServersError = NotFound | Forbidden | GcpOpError;
@@ -3217,6 +3237,7 @@ export const getProjectsLocationsManagementServers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsManagementServers",
+  iam: { actions: ["backupdr.managementServers.get"], roles: ["roles/backupdr.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -3273,6 +3294,7 @@ export const initializeProjectsLocationsServiceConfig: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InitializeProjectsLocationsServiceConfig",
+  iam: { actions: ["backupdr.serviceConfig.initialize"], roles: ["roles/backupdr.editor"] },
 }));
 
 export type InitiateBackupProjectsLocationsBackupVaultsDataSourcesError =
@@ -3299,6 +3321,7 @@ export const initiateBackupProjectsLocationsBackupVaultsDataSources: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InitiateBackupProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3336,6 +3359,7 @@ export const listProjectsLocationsBackupPlanAssociations: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupPlanAssociations",
+  iam: { actions: ["backupdr.backupPlanAssociations.list"], roles: ["roles/backupdr.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3355,6 +3379,7 @@ export const listProjectsLocationsBackupPlans: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupPlans",
+  iam: { actions: ["backupdr.backupPlans.list"], roles: ["roles/backupdr.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3374,6 +3399,7 @@ export const listProjectsLocationsBackupPlansRevisions: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupPlansRevisions",
+  iam: { actions: ["backupdr.backupPlans.get"], roles: ["roles/backupdr.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3393,6 +3419,7 @@ export const listProjectsLocationsBackupVaults: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupVaults",
+  iam: { actions: ["backupdr.backupVaults.list"], roles: ["roles/backupdr.backupvaultViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3416,6 +3443,7 @@ export const listProjectsLocationsBackupVaultsDataSources: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.get"], roles: ["roles/backupdr.backupvaultViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3442,6 +3470,7 @@ export const listProjectsLocationsBackupVaultsDataSourcesBackups: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBackupVaultsDataSourcesBackups",
+  iam: { actions: ["backupdr.backupVaults.get"], roles: ["roles/backupdr.backupvaultViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3461,6 +3490,7 @@ export const listProjectsLocationsDataSourceReferences: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDataSourceReferences",
+  iam: { actions: ["backupdr.dataSourceReferences.list"], roles: ["roles/backupdr.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3480,6 +3510,7 @@ export const listProjectsLocationsManagementServers: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsManagementServers",
+  iam: { actions: ["backupdr.managementServers.list"], roles: ["roles/backupdr.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3518,6 +3549,10 @@ export const listProjectsLocationsResourceBackupConfigs: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsResourceBackupConfigs",
+  iam: {
+    actions: ["backupdr.resourceBackupConfigs.list"],
+    roles: ["roles/backupdr.backupConfigViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -3641,6 +3676,7 @@ export const patchProjectsLocationsBackupVaultsDataSources: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type PatchProjectsLocationsBackupVaultsDataSourcesBackupsError =
@@ -3667,6 +3703,7 @@ export const patchProjectsLocationsBackupVaultsDataSourcesBackups: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsBackupVaultsDataSourcesBackups",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type RemoveProjectsLocationsBackupVaultsDataSourcesError =
@@ -3693,6 +3730,7 @@ export const removeProjectsLocationsBackupVaultsDataSources: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type RestoreProjectsLocationsBackupVaultsDataSourcesBackupsError =
@@ -3719,6 +3757,7 @@ export const restoreProjectsLocationsBackupVaultsDataSourcesBackups: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsBackupVaultsDataSourcesBackups",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type SetIamPolicyProjectsLocationsManagementServersError =
@@ -3771,6 +3810,7 @@ export const setInternalStatusProjectsLocationsBackupVaultsDataSources: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetInternalStatusProjectsLocationsBackupVaultsDataSources",
+  iam: { actions: ["backupdr.backupVaults.update"], roles: ["roles/backupdr.backupvaultAdmin"] },
 }));
 
 export type SubscribeProjectsLocationsTrialError =
@@ -3793,6 +3833,7 @@ export const subscribeProjectsLocationsTrial: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubscribeProjectsLocationsTrial",
+  iam: { actions: ["backupdr.trial.subscribe"], roles: ["roles/backupdr.editor"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsBackupVaultsError =

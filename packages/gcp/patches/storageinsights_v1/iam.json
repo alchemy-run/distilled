@@ -1,0 +1,93 @@
+{
+  "description": "What each storageinsights_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#CreateProjectsLocationsDatasetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.datasetConfigs.create"],
+        "roles": ["roles/storageinsights.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#DeleteProjectsLocationsDatasetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.datasetConfigs.delete"],
+        "roles": ["roles/storageinsights.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#GetProjectsLocationsDatasetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.datasetConfigs.get"],
+        "roles": ["roles/storageinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#GetProjectsLocationsReportConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.reportConfigs.get"],
+        "roles": ["roles/storageinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#GetProjectsLocationsReportConfigsReportDetails/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.reportDetails.get"],
+        "roles": ["roles/storageinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#LinkDatasetProjectsLocationsDatasetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.datasetConfigs.linkDataset"],
+        "roles": ["roles/storageinsights.analyst"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#ListProjectsLocationsDatasetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.datasetConfigs.list"],
+        "roles": ["roles/storageinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#ListProjectsLocationsReportConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.reportConfigs.list"],
+        "roles": ["roles/storageinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#ListProjectsLocationsReportConfigsReportDetails/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.reportDetails.list"],
+        "roles": ["roles/storageinsights.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#PatchProjectsLocationsDatasetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.datasetConfigs.update"],
+        "roles": ["roles/storageinsights.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storageinsights_v1#UnlinkDatasetProjectsLocationsDatasetConfigs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storageinsights.datasetConfigs.unlinkDataset"],
+        "roles": ["roles/storageinsights.analyst"]
+      }
+    }
+  ]
+}

@@ -161,6 +161,35 @@ export type ApiErrorClass = {
  * explicitly (against their hand-emitted interfaces), so the compiler never
  * has to infer it back out of the schema generics.
  */
+/**
+ * The IAM a call needs: what the cloud's own reference lists for the
+ * operation, or what a `com.distilled.iam#operation` trait on the operation
+ * shape says (a patch), corrected where live calls disagree. A binding grants
+ * `actions` (except the `conditional` ones) on the ARNs in `resources`, or
+ * the `roles` that hold them.
+ */
+export interface OperationIam {
+  /** The actions the call is authorized as: `"sqs:SendMessage"`. */
+  readonly actions: readonly string[];
+  /**
+   * Action → the ARN formats a grant may name for it
+   * (`"arn:${Partition}:sqs:${Region}:${Account}:${QueueName}"`). An action
+   * without an entry is authorized only on `"*"`.
+   */
+  readonly resources?: Readonly<Record<string, readonly string[]>>;
+  /**
+   * Action → the request field that makes the call need it
+   * (`"iam:PassRole": "NotificationChannel.RoleArn"`). A call without that
+   * field doesn't.
+   */
+  readonly conditional?: Readonly<Record<string, string>>;
+  /**
+   * Predefined roles that grant `actions`, smallest first, for clouds that
+   * grant roles rather than actions (GCP: `"roles/pubsub.publisher"`).
+   */
+  readonly roles?: readonly string[];
+}
+
 export type OperationMethod<I, O, E, R> = Effect.Effect<
   (input: I) => Effect.Effect<O, E, never>,
   never,
@@ -177,6 +206,8 @@ export type OperationMethod<I, O, E, R> = Effect.Effect<
 export interface OperationSchemas<I, O> {
   readonly input: S.Codec<I, any>;
   readonly output: S.Codec<O, any>;
+  /** What the call is authorized as, when the SDK publishes it. */
+  readonly iam: OperationIam | undefined;
 }
 
 // NOTE: request/response ASTs are handed to the protocol RAW (Suspend nodes
@@ -253,6 +284,11 @@ export interface OperationConfig<
   endpointHostPrefix?: string;
   /** The service's `com.distilled.telemetry#service` trait (a module const). */
   telemetry?: Telemetry.ServiceTelemetry;
+  /**
+   * What the operation is authorized as, for SDKs whose cloud publishes it
+   * (AWS's Service Authorization Reference). See {@link OperationIam}.
+   */
+  iam?: OperationIam;
   /**
    * The operation's `com.distilled.telemetry#operation` trait, with its
    * input rules; only what differs from the service's rules when it names
@@ -575,6 +611,9 @@ const OperationProto: object = /*@__PURE__*/ Object.setPrototypeOf(
     },
     get operationName() {
       return prepare(stateOf(this)).cfg.operationName;
+    },
+    get iam() {
+      return prepare(stateOf(this)).cfg.iam;
     },
     get pagination() {
       return (prepare(stateOf(this)).cfg as PaginatedOperationConfig<any, any, any, any>)

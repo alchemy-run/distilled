@@ -867,6 +867,7 @@ export const checkAuthorizationProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckAuthorizationProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.get"], roles: ["roles/notebooks.legacyViewer"] },
 }));
 
 export type CheckUpgradabilityProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -884,6 +885,10 @@ export const checkUpgradabilityProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckUpgradabilityProjectsLocationsInstances",
+  iam: {
+    actions: ["notebooks.instances.checkUpgradability"],
+    roles: ["roles/notebooks.legacyViewer"],
+  },
 }));
 
 export type CreateProjectsLocationsInstancesError =
@@ -972,6 +977,7 @@ export const diagnoseProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DiagnoseProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.diagnose"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type GenerateAccessTokenProjectsLocationsInstancesError =
@@ -994,6 +1000,7 @@ export const generateAccessTokenProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateAccessTokenProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.update"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type GetConfigProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -1011,6 +1018,7 @@ export const getConfigProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConfigProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.get"], roles: ["roles/notebooks.legacyViewer"] },
 }));
 
 export type GetIamPolicyProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -1062,6 +1070,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.get"], roles: ["roles/notebooks.legacyViewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1116,6 +1125,7 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.list"], roles: ["roles/notebooks.legacyViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1180,6 +1190,7 @@ export const reportInfoSystemProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReportInfoSystemProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.update"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type ResetProjectsLocationsInstancesError =
@@ -1202,6 +1213,7 @@ export const resetProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.reset"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type ResizeDiskProjectsLocationsInstancesError =
@@ -1224,6 +1236,7 @@ export const resizeDiskProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResizeDiskProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.update"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type RestoreProjectsLocationsInstancesError =
@@ -1246,6 +1259,7 @@ export const restoreProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.update"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type RollbackProjectsLocationsInstancesError =
@@ -1268,6 +1282,7 @@ export const rollbackProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.update"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type SetIamPolicyProjectsLocationsInstancesError =
@@ -1312,6 +1327,7 @@ export const startProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.start"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type StopProjectsLocationsInstancesError =
@@ -1334,6 +1350,7 @@ export const stopProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.stop"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsInstancesError =
@@ -1378,6 +1395,7 @@ export const upgradeProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpgradeProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.upgrade"], roles: ["roles/notebooks.editor"] },
 }));
 
 export type UpgradeSystemProjectsLocationsInstancesError =
@@ -1400,6 +1418,7 @@ export const upgradeSystemProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpgradeSystemProjectsLocationsInstances",
+  iam: { actions: ["notebooks.instances.update"], roles: ["roles/notebooks.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

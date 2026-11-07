@@ -367,6 +367,10 @@ export const createProjectsRegistrationsTopicSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsRegistrationsTopicSubscriptions",
+  iam: {
+    actions: ["cloudmessaging.topicSubscriptions.create"],
+    roles: ["roles/cloudmessaging.editor"],
+  },
 }));
 
 export type DeleteProjectsRegistrationsTopicSubscriptionsError =
@@ -389,6 +393,10 @@ export const deleteProjectsRegistrationsTopicSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsRegistrationsTopicSubscriptions",
+  iam: {
+    actions: ["cloudmessaging.topicSubscriptions.delete"],
+    roles: ["roles/cloudmessaging.editor"],
+  },
 }));
 
 export type GetProjectsRegistrationsTopicSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -406,6 +414,10 @@ export const getProjectsRegistrationsTopicSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsRegistrationsTopicSubscriptions",
+  iam: {
+    actions: ["cloudmessaging.topicSubscriptions.get"],
+    roles: ["roles/cloudmessaging.editor"],
+  },
 }));
 
 export type ListProjectsRegistrationsTopicSubscriptionsError = NotFound | Forbidden | GcpOpError;
@@ -424,6 +436,10 @@ export const listProjectsRegistrationsTopicSubscriptions: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsRegistrationsTopicSubscriptions",
+  iam: {
+    actions: ["cloudmessaging.topicSubscriptions.list"],
+    roles: ["roles/cloudmessaging.editor"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -447,6 +463,10 @@ export const patchProjectsRegistrationsTopicSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsRegistrationsTopicSubscriptions",
+  iam: {
+    actions: ["cloudmessaging.topicSubscriptions.update"],
+    roles: ["roles/cloudmessaging.editor"],
+  },
 }));
 
 export type SendProjectsMessagesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -464,6 +484,7 @@ export const sendProjectsMessages: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SendProjectsMessages",
+  iam: { actions: ["cloudmessaging.messages.create"], roles: ["roles/cloudmessaging.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

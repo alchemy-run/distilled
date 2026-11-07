@@ -4425,6 +4425,10 @@ export const configureExascaleProjectsLocationsCloudExadataInfrastructures: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ConfigureExascaleProjectsLocationsCloudExadataInfrastructures",
+  iam: {
+    actions: ["oracledatabase.cloudExadataInfrastructures.update"],
+    roles: ["roles/oracledatabase.cloudExadataInfrastructureAdmin"],
+  },
 }));
 
 export type CreateProjectsLocationsAutonomousDatabasesError =
@@ -5005,6 +5009,10 @@ export const failoverProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FailoverProjectsLocationsAutonomousDatabases",
+  iam: {
+    actions: ["oracledatabase.autonomousDatabases.failover"],
+    roles: ["roles/oracledatabase.autonomousDatabaseAdmin"],
+  },
 }));
 
 export type GenerateWalletProjectsLocationsAutonomousDatabasesError =
@@ -5137,6 +5145,10 @@ export const getProjectsLocationsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDatabases",
+  iam: {
+    actions: ["oracledatabase.databases.get"],
+    roles: ["roles/oracledatabase.databaseViewer"],
+  },
 }));
 
 export type GetProjectsLocationsDbSystemsError =
@@ -5351,6 +5363,10 @@ export const getProjectsLocationsPluggableDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPluggableDatabases",
+  iam: {
+    actions: ["oracledatabase.pluggableDatabases.get"],
+    roles: ["roles/oracledatabase.pluggableDatabaseViewer"],
+  },
 }));
 
 export type GetRefreshableClonesProjectsLocationsAutonomousDatabasesError =
@@ -5376,6 +5392,10 @@ export const getRefreshableClonesProjectsLocationsAutonomousDatabases: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetRefreshableClonesProjectsLocationsAutonomousDatabases",
+  iam: {
+    actions: ["oracledatabase.autonomousDatabases.get"],
+    roles: ["roles/oracledatabase.autonomousDatabaseViewer"],
+  },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -5421,6 +5441,10 @@ export const listProjectsLocationsAutonomousDatabaseBackups: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAutonomousDatabaseBackups",
+  iam: {
+    actions: ["oracledatabase.autonomousDatabaseBackups.list"],
+    roles: ["roles/oracledatabase.autonomousDatabaseViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5448,6 +5472,10 @@ export const listProjectsLocationsAutonomousDatabaseCharacterSets: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAutonomousDatabaseCharacterSets",
+  iam: {
+    actions: ["oracledatabase.autonomousDatabaseCharacterSets.list"],
+    roles: ["roles/oracledatabase.autonomousDatabaseViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5471,6 +5499,10 @@ export const listProjectsLocationsAutonomousDatabases: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAutonomousDatabases",
+  iam: {
+    actions: ["oracledatabase.autonomousDatabases.list"],
+    roles: ["roles/oracledatabase.autonomousDatabaseViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5494,6 +5526,10 @@ export const listProjectsLocationsAutonomousDbVersions: API.PaginatedOperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAutonomousDbVersions",
+  iam: {
+    actions: ["oracledatabase.autonomousDbVersions.list"],
+    roles: ["roles/oracledatabase.autonomousDatabaseViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5521,6 +5557,10 @@ export const listProjectsLocationsCloudExadataInfrastructures: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCloudExadataInfrastructures",
+  iam: {
+    actions: ["oracledatabase.cloudExadataInfrastructures.list"],
+    roles: ["roles/oracledatabase.cloudExadataInfrastructureViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5548,6 +5588,10 @@ export const listProjectsLocationsCloudExadataInfrastructuresDbServers: API.Pagi
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCloudExadataInfrastructuresDbServers",
+  iam: {
+    actions: ["oracledatabase.dbServers.list"],
+    roles: ["roles/oracledatabase.cloudExadataInfrastructureViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5571,6 +5615,10 @@ export const listProjectsLocationsCloudVmClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCloudVmClusters",
+  iam: {
+    actions: ["oracledatabase.cloudVmClusters.list"],
+    roles: ["roles/oracledatabase.cloudVmClusterViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5594,6 +5642,10 @@ export const listProjectsLocationsCloudVmClustersDbNodes: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCloudVmClustersDbNodes",
+  iam: {
+    actions: ["oracledatabase.dbNodes.list"],
+    roles: ["roles/oracledatabase.cloudVmClusterViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5617,6 +5669,10 @@ export const listProjectsLocationsDatabaseCharacterSets: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatabaseCharacterSets",
+  iam: {
+    actions: ["oracledatabase.databaseCharacterSets.list"],
+    roles: ["roles/oracledatabase.dbSystemViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5640,6 +5696,10 @@ export const listProjectsLocationsDatabases: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDatabases",
+  iam: {
+    actions: ["oracledatabase.databases.list"],
+    roles: ["roles/oracledatabase.databaseViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5667,6 +5727,10 @@ export const listProjectsLocationsDbSystemInitialStorageSizes: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDbSystemInitialStorageSizes",
+  iam: {
+    actions: ["oracledatabase.dbSystemInitialStorageSizes.list"],
+    roles: ["roles/oracledatabase.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5690,6 +5754,10 @@ export const listProjectsLocationsDbSystems: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDbSystems",
+  iam: {
+    actions: ["oracledatabase.dbSystems.list"],
+    roles: ["roles/oracledatabase.dbSystemViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5713,6 +5781,10 @@ export const listProjectsLocationsDbSystemShapes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDbSystemShapes",
+  iam: {
+    actions: ["oracledatabase.dbSystemShapes.list"],
+    roles: ["roles/oracledatabase.cloudExadataInfrastructureViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5736,6 +5808,7 @@ export const listProjectsLocationsDbVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDbVersions",
+  iam: { actions: ["oracledatabase.dbVersions.list"], roles: ["roles/oracledatabase.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5759,6 +5832,10 @@ export const listProjectsLocationsEntitlements: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEntitlements",
+  iam: {
+    actions: ["oracledatabase.entitlements.list"],
+    roles: ["roles/oracledatabase.odbNetworkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5782,6 +5859,10 @@ export const listProjectsLocationsExadbVmClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsExadbVmClusters",
+  iam: {
+    actions: ["oracledatabase.exadbVmClusters.list"],
+    roles: ["roles/oracledatabase.exadbVmClusterViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5805,6 +5886,10 @@ export const listProjectsLocationsExadbVmClustersDbNodes: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsExadbVmClustersDbNodes",
+  iam: {
+    actions: ["oracledatabase.dbNodes.list"],
+    roles: ["roles/oracledatabase.cloudVmClusterViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5832,6 +5917,10 @@ export const listProjectsLocationsExascaleDbStorageVaults: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsExascaleDbStorageVaults",
+  iam: {
+    actions: ["oracledatabase.exascaleDbStorageVaults.list"],
+    roles: ["roles/oracledatabase.exascaleDbStorageVaultViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5855,6 +5944,10 @@ export const listProjectsLocationsGiVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGiVersions",
+  iam: {
+    actions: ["oracledatabase.giVersions.list"],
+    roles: ["roles/oracledatabase.cloudExadataInfrastructureViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5882,6 +5975,10 @@ export const listProjectsLocationsGiVersionsMinorVersions: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGiVersionsMinorVersions",
+  iam: {
+    actions: ["oracledatabase.minorVersions.list"],
+    roles: ["roles/oracledatabase.exadbVmClusterViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5909,6 +6006,10 @@ export const listProjectsLocationsGoldengateConnectionAssignments: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGoldengateConnectionAssignments",
+  iam: {
+    actions: ["oracledatabase.goldenGateConnectionAssignments.list"],
+    roles: ["roles/oracledatabase.goldenGateConnectionAssignmentViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5932,6 +6033,10 @@ export const listProjectsLocationsGoldengateConnections: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGoldengateConnections",
+  iam: {
+    actions: ["oracledatabase.goldenGateConnections.list"],
+    roles: ["roles/oracledatabase.goldenGateConnectionViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5959,6 +6064,10 @@ export const listProjectsLocationsGoldengateConnectionTypes: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGoldengateConnectionTypes",
+  iam: {
+    actions: ["oracledatabase.goldenGateConnectionTypes.list"],
+    roles: ["roles/oracledatabase.goldenGateConnectionAdmin"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5986,6 +6095,10 @@ export const listProjectsLocationsGoldengateDeploymentEnvironments: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGoldengateDeploymentEnvironments",
+  iam: {
+    actions: ["oracledatabase.goldenGateDeploymentEnvironments.list"],
+    roles: ["roles/oracledatabase.goldenGateDeploymentAdmin"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6009,6 +6122,10 @@ export const listProjectsLocationsGoldengateDeployments: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGoldengateDeployments",
+  iam: {
+    actions: ["oracledatabase.goldenGateDeployments.list"],
+    roles: ["roles/oracledatabase.goldenGateDeploymentViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6036,6 +6153,10 @@ export const listProjectsLocationsGoldengateDeploymentTypes: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGoldengateDeploymentTypes",
+  iam: {
+    actions: ["oracledatabase.goldenGateDeploymentTypes.list"],
+    roles: ["roles/oracledatabase.goldenGateDeploymentAdmin"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6063,6 +6184,10 @@ export const listProjectsLocationsGoldengateDeploymentVersions: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGoldengateDeploymentVersions",
+  iam: {
+    actions: ["oracledatabase.goldenGateDeploymentVersions.list"],
+    roles: ["roles/oracledatabase.goldenGateDeploymentAdmin"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6086,6 +6211,10 @@ export const listProjectsLocationsOdbNetworks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsOdbNetworks",
+  iam: {
+    actions: ["oracledatabase.odbNetworks.list"],
+    roles: ["roles/oracledatabase.odbNetworkViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6109,6 +6238,10 @@ export const listProjectsLocationsOdbNetworksOdbSubnets: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsOdbNetworksOdbSubnets",
+  iam: {
+    actions: ["oracledatabase.odbSubnets.list"],
+    roles: ["roles/oracledatabase.odbSubnetViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6155,6 +6288,10 @@ export const listProjectsLocationsPluggableDatabases: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPluggableDatabases",
+  iam: {
+    actions: ["oracledatabase.pluggableDatabases.list"],
+    roles: ["roles/oracledatabase.pluggableDatabaseViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6229,6 +6366,10 @@ export const refreshProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RefreshProjectsLocationsAutonomousDatabases",
+  iam: {
+    actions: ["oracledatabase.autonomousDatabases.refresh"],
+    roles: ["roles/oracledatabase.autonomousDatabaseAdmin"],
+  },
 }));
 
 export type RemoveVirtualMachineProjectsLocationsExadbVmClustersError =
@@ -6256,6 +6397,10 @@ export const removeVirtualMachineProjectsLocationsExadbVmClusters: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveVirtualMachineProjectsLocationsExadbVmClusters",
+  iam: {
+    actions: ["oracledatabase.exadbVmClusters.update"],
+    roles: ["roles/oracledatabase.exadbVmClusterAdmin"],
+  },
 }));
 
 export type RestartProjectsLocationsAutonomousDatabasesError =
@@ -6310,6 +6455,10 @@ export const restoreProjectsLocationsAutonomousDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsAutonomousDatabases",
+  iam: {
+    actions: ["oracledatabase.autonomousDatabases.restore"],
+    roles: ["roles/oracledatabase.autonomousDatabaseAdmin"],
+  },
 }));
 
 export type StartProjectsLocationsAutonomousDatabasesError =
@@ -6360,6 +6509,10 @@ export const startProjectsLocationsGoldengateDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsLocationsGoldengateDeployments",
+  iam: {
+    actions: ["oracledatabase.goldenGateDeployments.start"],
+    roles: ["roles/oracledatabase.goldenGateDeploymentAdmin"],
+  },
 }));
 
 export type StopProjectsLocationsAutonomousDatabasesError =
@@ -6406,6 +6559,10 @@ export const stopProjectsLocationsGoldengateDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsLocationsGoldengateDeployments",
+  iam: {
+    actions: ["oracledatabase.goldenGateDeployments.stop"],
+    roles: ["roles/oracledatabase.goldenGateDeploymentAdmin"],
+  },
 }));
 
 export type SwitchoverProjectsLocationsAutonomousDatabasesError =
@@ -6433,6 +6590,10 @@ export const switchoverProjectsLocationsAutonomousDatabases: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SwitchoverProjectsLocationsAutonomousDatabases",
+  iam: {
+    actions: ["oracledatabase.autonomousDatabases.switchover"],
+    roles: ["roles/oracledatabase.autonomousDatabaseAdmin"],
+  },
 }));
 
 export type TestProjectsLocationsGoldengateConnectionAssignmentsError =
@@ -6460,6 +6621,10 @@ export const testProjectsLocationsGoldengateConnectionAssignments: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TestProjectsLocationsGoldengateConnectionAssignments",
+  iam: {
+    actions: ["oracledatabase.goldenGateConnectionAssignments.test"],
+    roles: ["roles/oracledatabase.goldenGateConnectionAssignmentAdmin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

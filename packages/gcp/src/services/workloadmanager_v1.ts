@@ -1907,6 +1907,7 @@ export const createProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsDeployments",
+  iam: { actions: ["workloadmanager.deployments.create"], roles: ["roles/workloadmanager.worker"] },
 }));
 
 export type CreateProjectsLocationsDeploymentsActuationsError =
@@ -1980,6 +1981,7 @@ export const deleteProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsDeployments",
+  iam: { actions: ["workloadmanager.deployments.delete"], roles: ["roles/workloadmanager.worker"] },
 }));
 
 export type DeleteProjectsLocationsDeploymentsActuationsError =
@@ -2049,6 +2051,10 @@ export const deleteProjectsLocationsEvaluationsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsEvaluationsExecutions",
+  iam: {
+    actions: ["workloadmanager.executions.delete"],
+    roles: ["roles/workloadmanager.evaluationAdmin"],
+  },
 }));
 
 export type DeleteProjectsLocationsInsightsError =
@@ -2072,6 +2078,10 @@ export const deleteProjectsLocationsInsights: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInsights",
+  iam: {
+    actions: ["workloadmanager.insights.delete"],
+    roles: ["roles/workloadmanager.insightWriter"],
+  },
 }));
 
 export type DeleteProjectsLocationsOperationsError =
@@ -2133,6 +2143,10 @@ export const getProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeployments",
+  iam: {
+    actions: ["workloadmanager.deployments.get"],
+    roles: ["roles/workloadmanager.deploymentViewer"],
+  },
 }));
 
 export type GetProjectsLocationsDeploymentsActuationsError =
@@ -2154,6 +2168,10 @@ export const getProjectsLocationsDeploymentsActuations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeploymentsActuations",
+  iam: {
+    actions: ["workloadmanager.actuations.get"],
+    roles: ["roles/workloadmanager.deploymentViewer"],
+  },
 }));
 
 export type GetProjectsLocationsDiscoveredprofilesError =
@@ -2175,6 +2193,10 @@ export const getProjectsLocationsDiscoveredprofiles: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveredprofiles",
+  iam: {
+    actions: ["workloadmanager.discoveredprofiles.get"],
+    roles: ["roles/workloadmanager.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsDiscoveredprofilesHealthError =
@@ -2196,6 +2218,10 @@ export const getProjectsLocationsDiscoveredprofilesHealth: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveredprofilesHealth",
+  iam: {
+    actions: ["workloadmanager.discoveredprofiles.get"],
+    roles: ["roles/workloadmanager.viewer"],
+  },
 }));
 
 export type GetProjectsLocationsEvaluationsError =
@@ -2217,6 +2243,10 @@ export const getProjectsLocationsEvaluations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEvaluations",
+  iam: {
+    actions: ["workloadmanager.evaluations.get"],
+    roles: ["roles/workloadmanager.evaluationViewer"],
+  },
 }));
 
 export type GetProjectsLocationsEvaluationsExecutionsError =
@@ -2238,6 +2268,10 @@ export const getProjectsLocationsEvaluationsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsEvaluationsExecutions",
+  iam: {
+    actions: ["workloadmanager.executions.get"],
+    roles: ["roles/workloadmanager.evaluationViewer"],
+  },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -2300,6 +2334,10 @@ export const listProjectsLocationsDeployments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeployments",
+  iam: {
+    actions: ["workloadmanager.deployments.list"],
+    roles: ["roles/workloadmanager.deploymentViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2323,6 +2361,10 @@ export const listProjectsLocationsDeploymentsActuations: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeploymentsActuations",
+  iam: {
+    actions: ["workloadmanager.actuations.list"],
+    roles: ["roles/workloadmanager.deploymentViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2346,6 +2388,10 @@ export const listProjectsLocationsDiscoveredprofiles: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDiscoveredprofiles",
+  iam: {
+    actions: ["workloadmanager.discoveredprofiles.list"],
+    roles: ["roles/workloadmanager.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2369,6 +2415,10 @@ export const listProjectsLocationsEvaluations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvaluations",
+  iam: {
+    actions: ["workloadmanager.evaluations.list"],
+    roles: ["roles/workloadmanager.evaluationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2392,6 +2442,10 @@ export const listProjectsLocationsEvaluationsExecutions: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvaluationsExecutions",
+  iam: {
+    actions: ["workloadmanager.executions.list"],
+    roles: ["roles/workloadmanager.evaluationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2419,6 +2473,10 @@ export const listProjectsLocationsEvaluationsExecutionsResults: API.PaginatedOpe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvaluationsExecutionsResults",
+  iam: {
+    actions: ["workloadmanager.results.list"],
+    roles: ["roles/workloadmanager.evaluationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2446,6 +2504,10 @@ export const listProjectsLocationsEvaluationsExecutionsScannedResources: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsEvaluationsExecutionsScannedResources",
+  iam: {
+    actions: ["workloadmanager.executions.get"],
+    roles: ["roles/workloadmanager.evaluationViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2487,6 +2549,10 @@ export const listProjectsLocationsRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRules",
+  iam: {
+    actions: ["workloadmanager.rules.list"],
+    roles: ["roles/workloadmanager.evaluationViewer"],
+  },
 }));
 
 export type PatchProjectsLocationsEvaluationsError =
@@ -2533,6 +2599,10 @@ export const runProjectsLocationsEvaluationsExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsEvaluationsExecutions",
+  iam: {
+    actions: ["workloadmanager.evaluations.update"],
+    roles: ["roles/workloadmanager.evaluationAdmin"],
+  },
 }));
 
 export type WriteInsightProjectsLocationsInsightsError =
@@ -2556,6 +2626,10 @@ export const writeInsightProjectsLocationsInsights: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "WriteInsightProjectsLocationsInsights",
+  iam: {
+    actions: ["workloadmanager.insights.write"],
+    roles: ["roles/workloadmanager.insightWriter"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

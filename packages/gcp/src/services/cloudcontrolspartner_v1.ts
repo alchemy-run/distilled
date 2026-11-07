@@ -578,6 +578,10 @@ export const getOrganizationsLocationsCustomers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsCustomers",
+  iam: {
+    actions: ["cloudcontrolspartner.customers.get"],
+    roles: ["roles/cloudcontrolspartner.inspectabilityReader"],
+  },
 }));
 
 export type GetOrganizationsLocationsCustomersWorkloadsError = NotFound | Forbidden | GcpOpError;
@@ -595,6 +599,10 @@ export const getOrganizationsLocationsCustomersWorkloads: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsCustomersWorkloads",
+  iam: {
+    actions: ["cloudcontrolspartner.workloads.get"],
+    roles: ["roles/cloudcontrolspartner.monitoringReader"],
+  },
 }));
 
 export type GetOrganizationsLocationsCustomersWorkloadsViolationsError =
@@ -619,6 +627,10 @@ export const getOrganizationsLocationsCustomersWorkloadsViolations: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsLocationsCustomersWorkloadsViolations",
+  iam: {
+    actions: ["cloudcontrolspartner.violations.get"],
+    roles: ["roles/cloudcontrolspartner.monitoringReader"],
+  },
 }));
 
 export type GetPartnerOrganizationsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -697,6 +709,10 @@ export const listOrganizationsLocationsCustomersWorkloads: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsCustomersWorkloads",
+  iam: {
+    actions: ["cloudcontrolspartner.workloads.list"],
+    roles: ["roles/cloudcontrolspartner.monitoringReader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -723,6 +739,10 @@ export const listOrganizationsLocationsCustomersWorkloadsAccessApprovalRequests:
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsCustomersWorkloadsAccessApprovalRequests",
+  iam: {
+    actions: ["cloudcontrolspartner.accessapprovalrequests.list"],
+    roles: ["roles/cloudcontrolspartner.reader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -749,6 +769,10 @@ export const listOrganizationsLocationsCustomersWorkloadsViolations: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListOrganizationsLocationsCustomersWorkloadsViolations",
+  iam: {
+    actions: ["cloudcontrolspartner.violations.list"],
+    roles: ["roles/cloudcontrolspartner.monitoringReader"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

@@ -1063,6 +1063,7 @@ export const getBillingInfoProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBillingInfoProjects",
+  iam: { actions: ["resourcemanager.projects.get"], roles: ["roles/browser"] },
 }));
 
 export type GetCardV1Error = NotFound | Forbidden | GcpOpError;
@@ -1221,6 +1222,10 @@ export const listServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServices",
+  iam: {
+    actions: ["serviceusage.services.use"],
+    roles: ["roles/serviceusage.serviceUsageConsumer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1428,6 +1433,10 @@ export const updateBillingInfoProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateBillingInfoProjects",
+  iam: {
+    actions: ["resourcemanager.projects.createBillingAssignment"],
+    roles: ["roles/billing.projectManager"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

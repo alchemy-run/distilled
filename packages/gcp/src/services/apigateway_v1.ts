@@ -827,6 +827,7 @@ export const getProjectsLocationsApis: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApis",
+  iam: { actions: ["apigateway.apis.get"], roles: ["roles/apigateway.viewer"] },
 }));
 
 export type GetProjectsLocationsApisConfigsError = NotFound | Forbidden | GcpOpError;
@@ -844,6 +845,7 @@ export const getProjectsLocationsApisConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApisConfigs",
+  iam: { actions: ["apigateway.apis.get"], roles: ["roles/apigateway.viewer"] },
 }));
 
 export type GetProjectsLocationsGatewaysError = NotFound | Forbidden | GcpOpError;
@@ -861,6 +863,7 @@ export const getProjectsLocationsGateways: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsGateways",
+  iam: { actions: ["apigateway.gateways.get"], roles: ["roles/apigateway.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -915,6 +918,7 @@ export const listProjectsLocationsApis: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApis",
+  iam: { actions: ["apigateway.apis.list"], roles: ["roles/apigateway.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -934,6 +938,7 @@ export const listProjectsLocationsApisConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApisConfigs",
+  iam: { actions: ["apigateway.apis.get"], roles: ["roles/apigateway.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -953,6 +958,7 @@ export const listProjectsLocationsGateways: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsGateways",
+  iam: { actions: ["apigateway.gateways.list"], roles: ["roles/apigateway.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 

@@ -1373,6 +1373,7 @@ export const createChanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateChanges",
+  iam: { actions: ["dns.changes.create"], roles: ["roles/dns.editor"] },
 }));
 
 export type CreateManagedZonesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1451,6 +1452,7 @@ export const createResourceRecordSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateResourceRecordSets",
+  iam: { actions: ["dns.resourceRecordSets.create"], roles: ["roles/dns.editor"] },
 }));
 
 export type CreateResponsePoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1490,6 +1492,7 @@ export const createResponsePolicyRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateResponsePolicyRules",
+  iam: { actions: ["dns.responsePolicyRules.create"], roles: ["roles/dns.editor"] },
 }));
 
 export type DeleteManagedZonesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1585,6 +1588,7 @@ export const deleteResourceRecordSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteResourceRecordSets",
+  iam: { actions: ["dns.resourceRecordSets.delete"], roles: ["roles/dns.editor"] },
 }));
 
 export type DeleteResponsePoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -1624,6 +1628,7 @@ export const deleteResponsePolicyRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteResponsePolicyRules",
+  iam: { actions: ["dns.responsePolicyRules.delete"], roles: ["roles/dns.editor"] },
 }));
 
 export type GetChangesError = NotFound | Forbidden | GcpOpError;
@@ -1641,6 +1646,7 @@ export const getChanges: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetChanges",
+  iam: { actions: ["dns.changes.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type GetDnsKeysError = NotFound | Forbidden | GcpOpError;
@@ -1658,6 +1664,7 @@ export const getDnsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDnsKeys",
+  iam: { actions: ["dns.dnsKeys.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type GetIamPolicyManagedZonesError =
@@ -1714,6 +1721,7 @@ export const getManagedZoneOperations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetManagedZoneOperations",
+  iam: { actions: ["dns.managedZoneOperations.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type GetManagedZonesError = NotFound | Forbidden | GcpOpError;
@@ -1731,6 +1739,7 @@ export const getManagedZones: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetManagedZones",
+  iam: { actions: ["dns.managedZones.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -1782,6 +1791,7 @@ export const getPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPolicies",
+  iam: { actions: ["dns.policies.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type GetProjectsError = NotFound | Forbidden | GcpOpError;
@@ -1799,6 +1809,7 @@ export const getProjects: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjects",
+  iam: { actions: ["dns.projects.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type GetResourceRecordSetsError = NotFound | Forbidden | GcpOpError;
@@ -1816,6 +1827,7 @@ export const getResourceRecordSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResourceRecordSets",
+  iam: { actions: ["dns.resourceRecordSets.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type GetResponsePoliciesError = NotFound | Forbidden | GcpOpError;
@@ -1833,6 +1845,7 @@ export const getResponsePolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResponsePolicies",
+  iam: { actions: ["dns.responsePolicies.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type GetResponsePolicyRulesError = NotFound | Forbidden | GcpOpError;
@@ -1850,6 +1863,7 @@ export const getResponsePolicyRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetResponsePolicyRules",
+  iam: { actions: ["dns.responsePolicyRules.get"], roles: ["roles/dns.reader"] },
 }));
 
 export type ListChangesError = NotFound | Forbidden | GcpOpError;
@@ -1868,6 +1882,7 @@ export const listChanges: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListChanges",
+  iam: { actions: ["dns.changes.list"], roles: ["roles/dns.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1887,6 +1902,7 @@ export const listDnsKeys: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDnsKeys",
+  iam: { actions: ["dns.dnsKeys.list"], roles: ["roles/dns.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1925,6 +1941,7 @@ export const listManagedZoneOperations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedZoneOperations",
+  iam: { actions: ["dns.managedZoneOperations.list"], roles: ["roles/dns.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1944,6 +1961,7 @@ export const listManagedZones: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListManagedZones",
+  iam: { actions: ["dns.managedZones.list"], roles: ["roles/dns.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2001,6 +2019,7 @@ export const listPolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListPolicies",
+  iam: { actions: ["dns.policies.list"], roles: ["roles/dns.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2020,6 +2039,7 @@ export const listResourceRecordSets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResourceRecordSets",
+  iam: { actions: ["dns.resourceRecordSets.list"], roles: ["roles/dns.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2039,6 +2059,7 @@ export const listResponsePolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResponsePolicies",
+  iam: { actions: ["dns.responsePolicies.list"], roles: ["roles/dns.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2058,6 +2079,7 @@ export const listResponsePolicyRules: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListResponsePolicyRules",
+  iam: { actions: ["dns.responsePolicyRules.list"], roles: ["roles/dns.reader"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2132,6 +2154,7 @@ export const patchResourceRecordSets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchResourceRecordSets",
+  iam: { actions: ["dns.resourceRecordSets.update"], roles: ["roles/dns.editor"] },
 }));
 
 export type PatchResponsePoliciesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -2171,6 +2194,7 @@ export const patchResponsePolicyRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchResponsePolicyRules",
+  iam: { actions: ["dns.responsePolicyRules.update"], roles: ["roles/dns.editor"] },
 }));
 
 export type SetIamPolicyManagedZonesError =
@@ -2288,6 +2312,7 @@ export const updateResponsePolicyRules: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateResponsePolicyRules",
+  iam: { actions: ["dns.responsePolicyRules.update"], roles: ["roles/dns.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

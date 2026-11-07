@@ -1,0 +1,149 @@
+{
+  "description": "What each pubsublite_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#ComputeMessageStatsTopicStatsProjectsLocationsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.topics.computeMessageStats"],
+        "roles": ["roles/pubsublite.subscriber"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#ComputeTimeCursorTopicStatsProjectsLocationsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.topics.computeTimeCursor"],
+        "roles": ["roles/pubsublite.subscriber"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#CreateAdminProjectsLocationsReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.reservations.create"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#CreateAdminProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.subscriptions.create"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#CreateAdminProjectsLocationsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.topics.create"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#DeleteAdminProjectsLocationsReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.reservations.delete"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#DeleteAdminProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.subscriptions.delete"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#DeleteAdminProjectsLocationsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.topics.delete"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#ListAdminProjectsLocationsReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.reservations.list"],
+        "roles": ["roles/pubsublite.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#ListAdminProjectsLocationsReservationsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.topics.list"],
+        "roles": ["roles/pubsublite.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#ListAdminProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.subscriptions.list"],
+        "roles": ["roles/pubsublite.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#ListAdminProjectsLocationsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.topics.list"],
+        "roles": ["roles/pubsublite.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#ListAdminProjectsLocationsTopicsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.subscriptions.list"],
+        "roles": ["roles/pubsublite.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#ListCursorProjectsLocationsSubscriptionsCursors/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.subscriptions.get"],
+        "roles": ["roles/pubsublite.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#PatchAdminProjectsLocationsReservations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.reservations.update"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#PatchAdminProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.subscriptions.update"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#PatchAdminProjectsLocationsTopics/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.topics.update"],
+        "roles": ["roles/pubsublite.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.pubsublite_v1#SeekAdminProjectsLocationsSubscriptions/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["pubsublite.subscriptions.seek"],
+        "roles": ["roles/pubsublite.subscriber"]
+      }
+    }
+  ]
+}

@@ -1265,6 +1265,10 @@ export const addIpOverrideProjectsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddIpOverrideProjectsKeys",
+  iam: {
+    actions: ["recaptchaenterprise.keys.update"],
+    roles: ["roles/recaptchaenterprise.editor"],
+  },
 }));
 
 export type AnnotateProjectsAssessmentsError =
@@ -1291,6 +1295,10 @@ export const annotateProjectsAssessments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnnotateProjectsAssessments",
+  iam: {
+    actions: ["recaptchaenterprise.assessments.annotate"],
+    roles: ["roles/recaptchaenterprise.agent"],
+  },
 }));
 
 export type CreateProjectsAssessmentsError =
@@ -1446,6 +1454,7 @@ export const getMetricsProjectsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMetricsProjectsKeys",
+  iam: { actions: ["recaptchaenterprise.keys.get"], roles: ["roles/recaptchaenterprise.viewer"] },
 }));
 
 export type GetPolicyProjectsKeysError = NotFound | Forbidden | GcpOpError;
@@ -1463,6 +1472,7 @@ export const getPolicyProjectsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetPolicyProjectsKeys",
+  iam: { actions: ["recaptchaenterprise.keys.get"], roles: ["roles/recaptchaenterprise.viewer"] },
 }));
 
 export type GetProjectsFirewallpoliciesError =
@@ -1484,6 +1494,10 @@ export const getProjectsFirewallpolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsFirewallpolicies",
+  iam: {
+    actions: ["recaptchaenterprise.firewallpolicies.get"],
+    roles: ["roles/recaptchaenterprise.viewer"],
+  },
 }));
 
 export type GetProjectsKeysError = NotFound | Forbidden | GcpOpError;
@@ -1501,6 +1515,7 @@ export const getProjectsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsKeys",
+  iam: { actions: ["recaptchaenterprise.keys.get"], roles: ["roles/recaptchaenterprise.viewer"] },
 }));
 
 export type ListIpOverridesProjectsKeysError = NotFound | Forbidden | GcpOpError;
@@ -1523,6 +1538,7 @@ export const listIpOverridesProjectsKeys: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListIpOverridesProjectsKeys",
+  iam: { actions: ["recaptchaenterprise.keys.get"], roles: ["roles/recaptchaenterprise.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1550,6 +1566,10 @@ export const listProjectsFirewallpolicies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsFirewallpolicies",
+  iam: {
+    actions: ["recaptchaenterprise.firewallpolicies.list"],
+    roles: ["roles/recaptchaenterprise.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1569,6 +1589,7 @@ export const listProjectsKeys: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsKeys",
+  iam: { actions: ["recaptchaenterprise.keys.list"], roles: ["roles/recaptchaenterprise.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1592,6 +1613,10 @@ export const listProjectsRelatedaccountgroups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsRelatedaccountgroups",
+  iam: {
+    actions: ["recaptchaenterprise.relatedaccountgroups.list"],
+    roles: ["roles/recaptchaenterprise.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1615,6 +1640,10 @@ export const listProjectsRelatedaccountgroupsMemberships: API.PaginatedOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsRelatedaccountgroupsMemberships",
+  iam: {
+    actions: ["recaptchaenterprise.relatedaccountgroupmemberships.list"],
+    roles: ["roles/recaptchaenterprise.viewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1633,6 +1662,10 @@ export const migrateProjectsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MigrateProjectsKeys",
+  iam: {
+    actions: ["recaptchaenterprise.keys.update"],
+    roles: ["roles/recaptchaenterprise.editor"],
+  },
 }));
 
 export type PatchProjectsFirewallpoliciesError =
@@ -1706,6 +1739,10 @@ export const removeIpOverrideProjectsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveIpOverrideProjectsKeys",
+  iam: {
+    actions: ["recaptchaenterprise.keys.update"],
+    roles: ["roles/recaptchaenterprise.editor"],
+  },
 }));
 
 export type ReorderProjectsFirewallpoliciesError =
@@ -1740,6 +1777,10 @@ export const reorderProjectsFirewallpolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReorderProjectsFirewallpolicies",
+  iam: {
+    actions: ["recaptchaenterprise.firewallpolicies.update"],
+    roles: ["roles/recaptchaenterprise.editor"],
+  },
 }));
 
 export type SearchProjectsRelatedaccountgroupmembershipsError =
@@ -1766,6 +1807,10 @@ export const searchProjectsRelatedaccountgroupmemberships: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsRelatedaccountgroupmemberships",
+  iam: {
+    actions: ["recaptchaenterprise.relatedaccountgroupmemberships.list"],
+    roles: ["roles/recaptchaenterprise.viewer"],
+  },
 }));
 
 export type UpdatePolicyProjectsKeysError =
@@ -1788,6 +1833,10 @@ export const updatePolicyProjectsKeys: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdatePolicyProjectsKeys",
+  iam: {
+    actions: ["recaptchaenterprise.keys.update"],
+    roles: ["roles/recaptchaenterprise.editor"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

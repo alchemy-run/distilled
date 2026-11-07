@@ -659,6 +659,7 @@ export const getProjectsLocationsCatalogs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCatalogs",
+  iam: { actions: ["biglake.catalogs.get"], roles: ["roles/biglake.metadataViewer"] },
 }));
 
 export type GetProjectsLocationsCatalogsDatabasesError =
@@ -680,6 +681,7 @@ export const getProjectsLocationsCatalogsDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCatalogsDatabases",
+  iam: { actions: ["biglake.databases.get"], roles: ["roles/biglake.viewer"] },
 }));
 
 export type GetProjectsLocationsCatalogsDatabasesTablesError =
@@ -701,6 +703,7 @@ export const getProjectsLocationsCatalogsDatabasesTables: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCatalogsDatabasesTables",
+  iam: { actions: ["biglake.tables.get"], roles: ["roles/biglake.metadataViewer"] },
 }));
 
 export type ListProjectsLocationsCatalogsError =
@@ -723,6 +726,7 @@ export const listProjectsLocationsCatalogs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogs",
+  iam: { actions: ["biglake.catalogs.list"], roles: ["roles/biglake.metadataViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -746,6 +750,7 @@ export const listProjectsLocationsCatalogsDatabases: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogsDatabases",
+  iam: { actions: ["biglake.databases.list"], roles: ["roles/biglake.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -769,6 +774,7 @@ export const listProjectsLocationsCatalogsDatabasesTables: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCatalogsDatabasesTables",
+  iam: { actions: ["biglake.tables.list"], roles: ["roles/biglake.metadataViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -847,6 +853,7 @@ export const renameProjectsLocationsCatalogsDatabasesTables: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RenameProjectsLocationsCatalogsDatabasesTables",
+  iam: { actions: ["biglake.tables.update"], roles: ["roles/biglake.editor"] },
 }));
 
 export type SetIamPolicyProjectsCatalogsError =

@@ -2036,6 +2036,7 @@ export const batchProcessProjectsLocationsProcessors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchProcessProjectsLocationsProcessors",
+  iam: { actions: ["documentai.processors.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type BatchProcessProjectsLocationsProcessorsProcessorVersionsError =
@@ -2062,6 +2063,7 @@ export const batchProcessProjectsLocationsProcessorsProcessorVersions: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchProcessProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -2219,6 +2221,7 @@ export const deleteProjectsLocationsProcessorsProcessorVersions: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.delete"], roles: ["roles/documentai.admin"] },
 }));
 
 export type DeleteProjectsLocationsSchemasError =
@@ -2289,6 +2292,7 @@ export const deployProjectsLocationsProcessorsProcessorVersions: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeployProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type DisableProjectsLocationsProcessorsError =
@@ -2311,6 +2315,7 @@ export const disableProjectsLocationsProcessors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsProcessors",
+  iam: { actions: ["documentai.processors.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type EnableProjectsLocationsProcessorsError =
@@ -2333,6 +2338,7 @@ export const enableProjectsLocationsProcessors: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsLocationsProcessors",
+  iam: { actions: ["documentai.processors.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersionsError =
@@ -2359,6 +2365,7 @@ export const evaluateProcessorVersionProjectsLocationsProcessorsProcessorVersion
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EvaluateProcessorVersionProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type FetchProcessorTypesProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2406,6 +2413,7 @@ export const generateProjectsLocationsSchemasSchemaVersions: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateProjectsLocationsSchemasSchemaVersions",
+  iam: { actions: ["documentai.schemaVersions.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -2481,6 +2489,7 @@ export const getProjectsLocationsProcessorsProcessorVersions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.get"], roles: ["roles/documentai.viewer"] },
 }));
 
 export type GetProjectsLocationsProcessorsProcessorVersionsEvaluationsError =
@@ -2505,6 +2514,7 @@ export const getProjectsLocationsProcessorsProcessorVersionsEvaluations: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProcessorsProcessorVersionsEvaluations",
+  iam: { actions: ["documentai.evaluations.get"], roles: ["roles/documentai.viewer"] },
 }));
 
 export type GetProjectsLocationsProcessorTypesError = NotFound | Forbidden | GcpOpError;
@@ -2522,6 +2532,7 @@ export const getProjectsLocationsProcessorTypes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsProcessorTypes",
+  iam: { actions: ["documentai.processorTypes.get"], roles: ["roles/documentai.viewer"] },
 }));
 
 export type GetProjectsLocationsSchemasError = NotFound | Forbidden | GcpOpError;
@@ -2629,6 +2640,7 @@ export const listProjectsLocationsProcessors: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProcessors",
+  iam: { actions: ["documentai.processors.list"], roles: ["roles/documentai.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2659,6 +2671,7 @@ export const listProjectsLocationsProcessorsProcessorVersions: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.list"], roles: ["roles/documentai.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2685,6 +2698,7 @@ export const listProjectsLocationsProcessorsProcessorVersionsEvaluations: API.Pa
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProcessorsProcessorVersionsEvaluations",
+  iam: { actions: ["documentai.evaluations.list"], roles: ["roles/documentai.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2704,6 +2718,7 @@ export const listProjectsLocationsProcessorTypes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsProcessorTypes",
+  iam: { actions: ["documentai.processorTypes.list"], roles: ["roles/documentai.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2723,6 +2738,7 @@ export const listProjectsLocationsSchemas: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemas",
+  iam: { actions: ["documentai.schemas.list"], roles: ["roles/documentai.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2742,6 +2758,7 @@ export const listProjectsLocationsSchemasSchemaVersions: API.PaginatedOperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSchemasSchemaVersions",
+  iam: { actions: ["documentai.schemaVersions.list"], roles: ["roles/documentai.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2835,6 +2852,7 @@ export const processProjectsLocationsProcessorsProcessorVersions: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ProcessProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type ReviewDocumentProjectsLocationsProcessorsHumanReviewConfigError =
@@ -2861,6 +2879,7 @@ export const reviewDocumentProjectsLocationsProcessorsHumanReviewConfig: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReviewDocumentProjectsLocationsProcessorsHumanReviewConfig",
+  iam: { actions: ["documentai.humanReviewConfigs.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type SetDefaultProcessorVersionProjectsLocationsProcessorsError =
@@ -2887,6 +2906,7 @@ export const setDefaultProcessorVersionProjectsLocationsProcessors: API.Operatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetDefaultProcessorVersionProjectsLocationsProcessors",
+  iam: { actions: ["documentai.processors.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type TrainProjectsLocationsProcessorsProcessorVersionsError =
@@ -2913,6 +2933,7 @@ export const trainProjectsLocationsProcessorsProcessorVersions: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TrainProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.update"], roles: ["roles/documentai.admin"] },
 }));
 
 export type UndeployProjectsLocationsProcessorsProcessorVersionsError =
@@ -2939,6 +2960,7 @@ export const undeployProjectsLocationsProcessorsProcessorVersions: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeployProjectsLocationsProcessorsProcessorVersions",
+  iam: { actions: ["documentai.processorVersions.update"], roles: ["roles/documentai.admin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

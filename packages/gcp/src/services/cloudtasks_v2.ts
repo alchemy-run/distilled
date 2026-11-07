@@ -665,6 +665,7 @@ export const batchCreateProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchCreateProjectsLocationsQueuesTasks",
+  iam: { actions: ["cloudtasks.tasks.create"], roles: ["roles/cloudtasks.enqueuer"] },
 }));
 
 export type BatchDeleteProjectsLocationsQueuesTasksError =
@@ -687,6 +688,7 @@ export const batchDeleteProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BatchDeleteProjectsLocationsQueuesTasks",
+  iam: { actions: ["cloudtasks.tasks.delete"], roles: ["roles/cloudtasks.taskDeleter"] },
 }));
 
 export type BufferProjectsLocationsQueuesTasksError =
@@ -709,6 +711,7 @@ export const bufferProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BufferProjectsLocationsQueuesTasks",
+  iam: { actions: ["cloudtasks.tasks.create"], roles: ["roles/cloudtasks.enqueuer"] },
 }));
 
 export type CreateProjectsLocationsQueuesError =
@@ -797,6 +800,7 @@ export const deleteProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsQueuesTasks",
+  iam: { actions: ["cloudtasks.tasks.delete"], roles: ["roles/cloudtasks.taskDeleter"] },
 }));
 
 export type GetCmekConfigProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -887,6 +891,7 @@ export const getProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsQueues",
+  iam: { actions: ["cloudtasks.queues.get"], roles: ["roles/cloudtasks.viewer"] },
 }));
 
 export type GetProjectsLocationsQueuesTasksError = NotFound | Forbidden | GcpOpError;
@@ -904,6 +909,7 @@ export const getProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsQueuesTasks",
+  iam: { actions: ["cloudtasks.tasks.get"], roles: ["roles/cloudtasks.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -941,6 +947,7 @@ export const listProjectsLocationsQueues: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsQueues",
+  iam: { actions: ["cloudtasks.queues.list"], roles: ["roles/cloudtasks.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -960,6 +967,7 @@ export const listProjectsLocationsQueuesTasks: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsQueuesTasks",
+  iam: { actions: ["cloudtasks.tasks.list"], roles: ["roles/cloudtasks.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1005,6 +1013,7 @@ export const pauseProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseProjectsLocationsQueues",
+  iam: { actions: ["cloudtasks.queues.pause"], roles: ["roles/cloudtasks.queueAdmin"] },
 }));
 
 export type PurgeProjectsLocationsQueuesError =
@@ -1027,6 +1036,7 @@ export const purgeProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PurgeProjectsLocationsQueues",
+  iam: { actions: ["cloudtasks.queues.purge"], roles: ["roles/cloudtasks.queueAdmin"] },
 }));
 
 export type ResumeProjectsLocationsQueuesError =
@@ -1049,6 +1059,7 @@ export const resumeProjectsLocationsQueues: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeProjectsLocationsQueues",
+  iam: { actions: ["cloudtasks.queues.resume"], roles: ["roles/cloudtasks.queueAdmin"] },
 }));
 
 export type RunProjectsLocationsQueuesTasksError =
@@ -1071,6 +1082,7 @@ export const runProjectsLocationsQueuesTasks: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RunProjectsLocationsQueuesTasks",
+  iam: { actions: ["cloudtasks.tasks.run"], roles: ["roles/cloudtasks.taskRunner"] },
 }));
 
 export type SetIamPolicyProjectsLocationsQueuesError =

@@ -2873,6 +2873,10 @@ export const createProjectsLocationsHostProjectRegistrations: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsHostProjectRegistrations",
+  iam: {
+    actions: ["apihub.hostProjectRegistrations.create"],
+    roles: ["roles/apihub.provisioningAdmin"],
+  },
 }));
 
 export type CreateProjectsLocationsPluginsError =
@@ -3326,6 +3330,7 @@ export const disableProjectsLocationsPlugins: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsPlugins",
+  iam: { actions: ["apihub.plugins.disable"], roles: ["roles/apihub.pluginAdmin"] },
 }));
 
 export type EnableActionProjectsLocationsPluginsInstancesError =
@@ -3376,6 +3381,7 @@ export const enableProjectsLocationsPlugins: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsLocationsPlugins",
+  iam: { actions: ["apihub.plugins.enable"], roles: ["roles/apihub.pluginAdmin"] },
 }));
 
 export type ExecuteActionProjectsLocationsPluginsInstancesError =
@@ -3432,6 +3438,7 @@ export const fetchAdditionalSpecContentProjectsLocationsApisVersionsSpecs: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchAdditionalSpecContentProjectsLocationsApisVersionsSpecs",
+  iam: { actions: ["apihub.specs.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetApiViewsProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -3476,6 +3483,7 @@ export const getContentsProjectsLocationsApisVersionsSpecs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetContentsProjectsLocationsApisVersionsSpecs",
+  iam: { actions: ["apihub.specs.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetContentsProjectsLocationsPluginsStyleGuideError =
@@ -3501,6 +3509,7 @@ export const getContentsProjectsLocationsPluginsStyleGuide: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetContentsProjectsLocationsPluginsStyleGuide",
+  iam: { actions: ["apihub.styleGuides.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsError = NotFound | Forbidden | ApiHubNotProvisioned | GcpOpError;
@@ -3539,6 +3548,7 @@ export const getProjectsLocationsAddons: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAddons",
+  iam: { actions: ["apihub.addons.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsApiHubInstancesError =
@@ -3560,6 +3570,7 @@ export const getProjectsLocationsApiHubInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApiHubInstances",
+  iam: { actions: ["apihub.apiHubInstances.get"], roles: ["roles/apihub.apiInsightsViewer"] },
 }));
 
 export type GetProjectsLocationsApisError =
@@ -3581,6 +3592,7 @@ export const getProjectsLocationsApis: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApis",
+  iam: { actions: ["apihub.apis.get"], roles: ["roles/apihub.apiInsightsViewer"] },
 }));
 
 export type GetProjectsLocationsApisVersionsError =
@@ -3602,6 +3614,7 @@ export const getProjectsLocationsApisVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApisVersions",
+  iam: { actions: ["apihub.versions.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsApisVersionsDefinitionsError =
@@ -3623,6 +3636,7 @@ export const getProjectsLocationsApisVersionsDefinitions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApisVersionsDefinitions",
+  iam: { actions: ["apihub.definitions.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsApisVersionsOperationsError =
@@ -3665,6 +3679,7 @@ export const getProjectsLocationsApisVersionsSpecs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsApisVersionsSpecs",
+  iam: { actions: ["apihub.specs.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsAttributesError =
@@ -3686,6 +3701,7 @@ export const getProjectsLocationsAttributes: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAttributes",
+  iam: { actions: ["apihub.attributes.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsCurationsError =
@@ -3707,6 +3723,7 @@ export const getProjectsLocationsCurations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsCurations",
+  iam: { actions: ["apihub.curations.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsDependenciesError =
@@ -3728,6 +3745,7 @@ export const getProjectsLocationsDependencies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDependencies",
+  iam: { actions: ["apihub.dependencies.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsDeploymentsError =
@@ -3749,6 +3767,7 @@ export const getProjectsLocationsDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDeployments",
+  iam: { actions: ["apihub.deployments.get"], roles: ["roles/apihub.apiInsightsViewer"] },
 }));
 
 export type GetProjectsLocationsDiscoveredApiObservationsError =
@@ -3774,6 +3793,7 @@ export const getProjectsLocationsDiscoveredApiObservations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveredApiObservations",
+  iam: { actions: ["apihub.discoveredApiObservations.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperationsError =
@@ -3799,6 +3819,7 @@ export const getProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations",
+  iam: { actions: ["apihub.discoveredApiOperations.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsExternalApisError =
@@ -3820,6 +3841,7 @@ export const getProjectsLocationsExternalApis: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsExternalApis",
+  iam: { actions: ["apihub.externalApis.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsHostProjectRegistrationsError =
@@ -3845,6 +3867,7 @@ export const getProjectsLocationsHostProjectRegistrations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsHostProjectRegistrations",
+  iam: { actions: ["apihub.hostProjectRegistrations.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -3887,6 +3910,7 @@ export const getProjectsLocationsPlugins: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPlugins",
+  iam: { actions: ["apihub.plugins.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsPluginsInstancesError =
@@ -3908,6 +3932,7 @@ export const getProjectsLocationsPluginsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsPluginsInstances",
+  iam: { actions: ["apihub.plugins.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetProjectsLocationsRuntimeProjectAttachmentsError =
@@ -3933,6 +3958,7 @@ export const getProjectsLocationsRuntimeProjectAttachments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsRuntimeProjectAttachments",
+  iam: { actions: ["apihub.runTimeProjectAttachments.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type GetStyleGuideProjectsLocationsPluginsError =
@@ -3954,6 +3980,7 @@ export const getStyleGuideProjectsLocationsPlugins: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetStyleGuideProjectsLocationsPlugins",
+  iam: { actions: ["apihub.plugins.get"], roles: ["roles/apihub.viewer"] },
 }));
 
 export type LintProjectsLocationsApisVersionsSpecsError =
@@ -3977,6 +4004,7 @@ export const lintProjectsLocationsApisVersionsSpecs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LintProjectsLocationsApisVersionsSpecs",
+  iam: { actions: ["apihub.specs.lint"], roles: ["roles/apihub.pluginAdmin"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | ApiHubNotProvisioned | GcpOpError;
@@ -4018,6 +4046,7 @@ export const listProjectsLocationsAddons: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAddons",
+  iam: { actions: ["apihub.addons.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4041,6 +4070,7 @@ export const listProjectsLocationsApis: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApis",
+  iam: { actions: ["apihub.apis.list"], roles: ["roles/apihub.apiInsightsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4064,6 +4094,7 @@ export const listProjectsLocationsApisVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApisVersions",
+  iam: { actions: ["apihub.versions.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4114,6 +4145,7 @@ export const listProjectsLocationsApisVersionsSpecs: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsApisVersionsSpecs",
+  iam: { actions: ["apihub.specs.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4137,6 +4169,7 @@ export const listProjectsLocationsAttributes: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAttributes",
+  iam: { actions: ["apihub.attributes.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4160,6 +4193,7 @@ export const listProjectsLocationsCurations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsCurations",
+  iam: { actions: ["apihub.curations.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4183,6 +4217,7 @@ export const listProjectsLocationsDependencies: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDependencies",
+  iam: { actions: ["apihub.dependencies.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4206,6 +4241,7 @@ export const listProjectsLocationsDeployments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDeployments",
+  iam: { actions: ["apihub.deployments.list"], roles: ["roles/apihub.apiInsightsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4237,6 +4273,7 @@ export const listProjectsLocationsDiscoveredApiObservations: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDiscoveredApiObservations",
+  iam: { actions: ["apihub.discoveredApiObservations.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4268,6 +4305,7 @@ export const listProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsDiscoveredApiObservationsDiscoveredApiOperations",
+  iam: { actions: ["apihub.discoveredApiOperations.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4291,6 +4329,7 @@ export const listProjectsLocationsExternalApis: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsExternalApis",
+  iam: { actions: ["apihub.externalApis.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4322,6 +4361,7 @@ export const listProjectsLocationsHostProjectRegistrations: API.PaginatedOperati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsHostProjectRegistrations",
+  iam: { actions: ["apihub.hostProjectRegistrations.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4368,6 +4408,7 @@ export const listProjectsLocationsPlugins: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPlugins",
+  iam: { actions: ["apihub.plugins.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4391,6 +4432,7 @@ export const listProjectsLocationsPluginsInstances: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsPluginsInstances",
+  iam: { actions: ["apihub.plugins.get"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4422,6 +4464,7 @@ export const listProjectsLocationsRuntimeProjectAttachments: API.PaginatedOperat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsRuntimeProjectAttachments",
+  iam: { actions: ["apihub.runTimeProjectAttachments.list"], roles: ["roles/apihub.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4444,6 +4487,7 @@ export const lookupProjectsLocationsApiHubInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "LookupProjectsLocationsApiHubInstances",
+  iam: { actions: ["apihub.apiHubInstances.get"], roles: ["roles/apihub.apiInsightsViewer"] },
 }));
 
 export type LookupRuntimeProjectAttachmentProjectsLocationsError =
@@ -4496,6 +4540,7 @@ export const manageConfigProjectsLocationsAddons: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ManageConfigProjectsLocationsAddons",
+  iam: { actions: ["apihub.addons.manage"], roles: ["roles/apihub.addonsAdmin"] },
 }));
 
 export type ManageSourceDataProjectsLocationsPluginsInstancesError =
@@ -4830,6 +4875,7 @@ export const updateStyleGuideProjectsLocationsPlugins: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateStyleGuideProjectsLocationsPlugins",
+  iam: { actions: ["apihub.styleGuides.update"], roles: ["roles/apihub.pluginAdmin"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

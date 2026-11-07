@@ -1236,6 +1236,10 @@ export const alterLocationProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AlterLocationProjectsLocationsServices",
+  iam: {
+    actions: ["metastore.services.mutateMetadata"],
+    roles: ["roles/metastore.metadataMutateAdmin"],
+  },
 }));
 
 export type AlterTablePropertiesProjectsLocationsServicesError =
@@ -1263,6 +1267,10 @@ export const alterTablePropertiesProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AlterTablePropertiesProjectsLocationsServices",
+  iam: {
+    actions: ["metastore.services.mutateMetadata"],
+    roles: ["roles/metastore.metadataMutateAdmin"],
+  },
 }));
 
 export type CancelMigrationProjectsLocationsServicesError =
@@ -1286,6 +1294,7 @@ export const cancelMigrationProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelMigrationProjectsLocationsServices",
+  iam: { actions: ["metastore.services.update"], roles: ["roles/metastore.editor"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -1332,6 +1341,7 @@ export const completeMigrationProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteMigrationProjectsLocationsServices",
+  iam: { actions: ["metastore.services.update"], roles: ["roles/metastore.editor"] },
 }));
 
 export type CreateProjectsLocationsFederationsError =
@@ -1428,6 +1438,7 @@ export const createProjectsLocationsServicesMetadataImports: API.OperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsServicesMetadataImports",
+  iam: { actions: ["metastore.services.update"], roles: ["roles/metastore.editor"] },
 }));
 
 export type DeleteProjectsLocationsFederationsError =
@@ -1547,6 +1558,7 @@ export const deleteProjectsLocationsServicesMigrationExecutions: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsServicesMigrationExecutions",
+  iam: { actions: ["metastore.services.update"], roles: ["roles/metastore.editor"] },
 }));
 
 export type ExportMetadataProjectsLocationsServicesError =
@@ -1570,6 +1582,7 @@ export const exportMetadataProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportMetadataProjectsLocationsServices",
+  iam: { actions: ["metastore.services.update"], roles: ["roles/metastore.editor"] },
 }));
 
 export type GetIamPolicyProjectsLocationsFederationsError =
@@ -1721,6 +1734,7 @@ export const getProjectsLocationsFederations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsFederations",
+  iam: { actions: ["metastore.federations.get"], roles: ["roles/metastore.viewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError =
@@ -1759,6 +1773,7 @@ export const getProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServices",
+  iam: { actions: ["metastore.services.get"], roles: ["roles/metastore.metadataViewer"] },
 }));
 
 export type GetProjectsLocationsServicesBackupsError =
@@ -1780,6 +1795,7 @@ export const getProjectsLocationsServicesBackups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServicesBackups",
+  iam: { actions: ["metastore.backups.get"], roles: ["roles/metastore.viewer"] },
 }));
 
 export type GetProjectsLocationsServicesMetadataImportsError =
@@ -1801,6 +1817,7 @@ export const getProjectsLocationsServicesMetadataImports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServicesMetadataImports",
+  iam: { actions: ["metastore.services.get"], roles: ["roles/metastore.metadataViewer"] },
 }));
 
 export type GetProjectsLocationsServicesMigrationExecutionsError =
@@ -1826,6 +1843,7 @@ export const getProjectsLocationsServicesMigrationExecutions: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsServicesMigrationExecutions",
+  iam: { actions: ["metastore.services.get"], roles: ["roles/metastore.metadataViewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | ServiceDisabled | GcpOpError;
@@ -1867,6 +1885,7 @@ export const listProjectsLocationsFederations: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsFederations",
+  iam: { actions: ["metastore.federations.list"], roles: ["roles/metastore.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1913,6 +1932,7 @@ export const listProjectsLocationsServices: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServices",
+  iam: { actions: ["metastore.services.list"], roles: ["roles/metastore.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1936,6 +1956,7 @@ export const listProjectsLocationsServicesBackups: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServicesBackups",
+  iam: { actions: ["metastore.backups.list"], roles: ["roles/metastore.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1963,6 +1984,7 @@ export const listProjectsLocationsServicesMetadataImports: API.PaginatedOperatio
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServicesMetadataImports",
+  iam: { actions: ["metastore.services.get"], roles: ["roles/metastore.metadataViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1990,6 +2012,7 @@ export const listProjectsLocationsServicesMigrationExecutions: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsServicesMigrationExecutions",
+  iam: { actions: ["metastore.services.get"], roles: ["roles/metastore.metadataViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -2018,6 +2041,10 @@ export const moveTableToDatabaseProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "MoveTableToDatabaseProjectsLocationsServices",
+  iam: {
+    actions: ["metastore.services.mutateMetadata"],
+    roles: ["roles/metastore.metadataMutateAdmin"],
+  },
 }));
 
 export type PatchProjectsLocationsFederationsError =
@@ -2091,6 +2118,7 @@ export const patchProjectsLocationsServicesMetadataImports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsServicesMetadataImports",
+  iam: { actions: ["metastore.services.update"], roles: ["roles/metastore.editor"] },
 }));
 
 export type QueryMetadataProjectsLocationsServicesError =
@@ -2114,6 +2142,10 @@ export const queryMetadataProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "QueryMetadataProjectsLocationsServices",
+  iam: {
+    actions: ["metastore.services.queryMetadata"],
+    roles: ["roles/metastore.metadataQueryAdmin"],
+  },
 }));
 
 export type RestoreProjectsLocationsServicesError =
@@ -2137,6 +2169,7 @@ export const restoreProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreProjectsLocationsServices",
+  iam: { actions: ["metastore.services.restore"], roles: ["roles/metastore.metadataOperator"] },
 }));
 
 export type SetIamPolicyProjectsLocationsFederationsError =
@@ -2287,6 +2320,7 @@ export const startMigrationProjectsLocationsServices: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartMigrationProjectsLocationsServices",
+  iam: { actions: ["metastore.services.update"], roles: ["roles/metastore.editor"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsFederationsError =

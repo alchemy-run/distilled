@@ -4078,6 +4078,7 @@ export const checkAutopilotCompatibilityProjectsLocationsClusters: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CheckAutopilotCompatibilityProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.get"], roles: ["roles/container.clusterViewer"] },
 }));
 
 export type CompleteControlPlaneUpgradeProjectsLocationsClustersError =
@@ -4104,6 +4105,7 @@ export const completeControlPlaneUpgradeProjectsLocationsClusters: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteControlPlaneUpgradeProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type CompleteControlPlaneUpgradeProjectsZonesClustersError =
@@ -4152,6 +4154,7 @@ export const completeIpRotationProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteIpRotationProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type CompleteIpRotationProjectsZonesClustersError =
@@ -4200,6 +4203,7 @@ export const completeUpgradeProjectsLocationsClustersNodePools: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CompleteUpgradeProjectsLocationsClustersNodePools",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type CreateProjectsLocationsClustersError =
@@ -4403,6 +4407,7 @@ export const fetchClusterUpgradeInfoProjectsLocationsClusters: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchClusterUpgradeInfoProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.get"], roles: ["roles/container.clusterViewer"] },
 }));
 
 export type FetchClusterUpgradeInfoProjectsZonesClustersError = NotFound | Forbidden | GcpOpError;
@@ -4448,6 +4453,7 @@ export const fetchNodePoolUpgradeInfoProjectsLocationsClustersNodePools: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FetchNodePoolUpgradeInfoProjectsLocationsClustersNodePools",
+  iam: { actions: ["container.clusters.get"], roles: ["roles/container.clusterViewer"] },
 }));
 
 export type FetchNodePoolUpgradeInfoProjectsZonesClustersNodePoolsError =
@@ -4489,6 +4495,7 @@ export const getJwksProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetJwksProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.get"], roles: ["roles/container.clusterViewer"] },
 }));
 
 export type GetOpenid_configurationProjectsLocationsClustersWell_knownError =
@@ -4513,6 +4520,7 @@ export const getOpenid_configurationProjectsLocationsClustersWell_known: API.Ope
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOpenid_configurationProjectsLocationsClustersWell_known",
+  iam: { actions: ["container.clusters.get"], roles: ["roles/container.clusterViewer"] },
 }));
 
 export type GetProjectsLocationsClustersError = NotFound | Forbidden | GcpOpError;
@@ -4689,6 +4697,7 @@ export const listProjectsAggregatedUsableSubnetworks: API.PaginatedOperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAggregatedUsableSubnetworks",
+  iam: { actions: ["container.clusters.list"], roles: ["roles/container.clusterViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4707,6 +4716,7 @@ export const listProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.list"], roles: ["roles/container.clusterViewer"] },
 }));
 
 export type ListProjectsLocationsClustersNodePoolsError = NotFound | Forbidden | GcpOpError;
@@ -4724,6 +4734,7 @@ export const listProjectsLocationsClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsClustersNodePools",
+  iam: { actions: ["container.clusters.get"], roles: ["roles/container.clusterViewer"] },
 }));
 
 export type ListProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4924,6 +4935,7 @@ export const rollbackProjectsLocationsClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RollbackProjectsLocationsClustersNodePools",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type RollbackProjectsZonesClustersNodePoolsError =
@@ -4968,6 +4980,7 @@ export const setAddonsProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAddonsProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetAutoscalingProjectsLocationsClustersNodePoolsError =
@@ -4994,6 +5007,7 @@ export const setAutoscalingProjectsLocationsClustersNodePools: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAutoscalingProjectsLocationsClustersNodePools",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetLegacyAbacProjectsLocationsClustersError =
@@ -5016,6 +5030,7 @@ export const setLegacyAbacProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLegacyAbacProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetLocationsProjectsLocationsClustersError =
@@ -5038,6 +5053,7 @@ export const setLocationsProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLocationsProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetLoggingProjectsLocationsClustersError =
@@ -5060,6 +5076,7 @@ export const setLoggingProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetLoggingProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetMaintenancePolicyProjectsLocationsClustersError =
@@ -5086,6 +5103,7 @@ export const setMaintenancePolicyProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMaintenancePolicyProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetMaintenancePolicyProjectsZonesClustersError =
@@ -5134,6 +5152,7 @@ export const setManagementProjectsLocationsClustersNodePools: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetManagementProjectsLocationsClustersNodePools",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetManagementProjectsZonesClustersNodePoolsError =
@@ -5178,6 +5197,7 @@ export const setMasterAuthProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMasterAuthProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetMasterAuthProjectsZonesClustersError =
@@ -5222,6 +5242,7 @@ export const setMonitoringProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMonitoringProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetNetworkPolicyProjectsLocationsClustersError =
@@ -5244,6 +5265,7 @@ export const setNetworkPolicyProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetNetworkPolicyProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetNetworkPolicyProjectsZonesClustersError =
@@ -5288,6 +5310,7 @@ export const setResourceLabelsProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetResourceLabelsProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetSizeProjectsLocationsClustersNodePoolsError =
@@ -5310,6 +5333,7 @@ export const setSizeProjectsLocationsClustersNodePools: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSizeProjectsLocationsClustersNodePools",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type SetSizeProjectsZonesClustersNodePoolsError =
@@ -5354,6 +5378,7 @@ export const startIpRotationProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartIpRotationProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type StartIpRotationProjectsZonesClustersError =
@@ -5398,6 +5423,7 @@ export const updateMasterProjectsLocationsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateMasterProjectsLocationsClusters",
+  iam: { actions: ["container.clusters.update"], roles: ["roles/container.clusterAdmin"] },
 }));
 
 export type UpdateProjectsLocationsClustersError =

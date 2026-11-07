@@ -50,6 +50,9 @@ import {
   snakeCase as telemetrySnakeCase,
 } from "./telemetry.ts";
 
+/** The operation trait a patch sets to give an operation its `iam` (core `OperationIam`). */
+export const IAM_OPERATION_TRAIT = "com.distilled.iam#operation";
+
 const PAGINATED_TRAIT = "smithy.api#paginated";
 
 /**
@@ -1150,6 +1153,7 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
         (decl.retry ? `  retry: ${decl.retry},\n` : "") +
         (decl.extraConfig?.(ctx) ?? []).map((l) => `  ${l},\n`).join("") +
         ctx.telemetry.map((l) => `  ${l},\n`).join("") +
+        (iamOf(ctx.op) ? `  iam: ${JSON.stringify(iamOf(ctx.op))},\n` : "") +
         (paginated ? `  pagination: ${JSON.stringify(ctx.pagination)} as const,\n` : "") +
         `}`;
       return [
@@ -1277,6 +1281,11 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
     if (extra.length === 0) return json;
     return `${json.slice(0, -1)}${json === "{}" ? "" : ", "}${extra.join(", ")}}`;
   };
+  // `com.distilled.iam#operation`: what the call is authorized as (core
+  // `OperationIam`), set on the operation shape by a patch. Emitted as the
+  // op's `iam`, read lazily like its schemas.
+  const iamOf = (op: OpEntry): unknown => op.def?.traits?.[IAM_OPERATION_TRAIT];
+
   const telemetryLines = (op: OpEntry): string[] => {
     const trait = op.def.traits?.[TELEMETRY_OPERATION_TRAIT];
     if (trait === undefined) return [];

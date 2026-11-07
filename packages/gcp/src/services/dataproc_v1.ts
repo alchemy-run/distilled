@@ -4287,6 +4287,7 @@ export const accessEnvironmentInfoProjectsLocationsBatchesSparkApplications: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessEnvironmentInfoProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessEnvironmentInfoProjectsLocationsSessionsSparkApplicationsError =
@@ -4315,6 +4316,7 @@ export const accessEnvironmentInfoProjectsLocationsSessionsSparkApplications: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessEnvironmentInfoProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessJobProjectsLocationsBatchesSparkApplicationsError =
@@ -4339,6 +4341,7 @@ export const accessJobProjectsLocationsBatchesSparkApplications: API.OperationMe
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessJobProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessJobProjectsLocationsSessionsSparkApplicationsError =
@@ -4363,6 +4366,7 @@ export const accessJobProjectsLocationsSessionsSparkApplications: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessJobProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessNativeBuildInfoProjectsLocationsBatchesSparkApplicationsError =
@@ -4387,6 +4391,7 @@ export const accessNativeBuildInfoProjectsLocationsBatchesSparkApplications: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessNativeBuildInfoProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessNativeBuildInfoProjectsLocationsSessionsSparkApplicationsError =
@@ -4415,6 +4420,7 @@ export const accessNativeBuildInfoProjectsLocationsSessionsSparkApplications: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessNativeBuildInfoProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessNativeSqlQueryProjectsLocationsBatchesSparkApplicationsError =
@@ -4439,6 +4445,7 @@ export const accessNativeSqlQueryProjectsLocationsBatchesSparkApplications: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessNativeSqlQueryProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessNativeSqlQueryProjectsLocationsSessionsSparkApplicationsError =
@@ -4463,6 +4470,7 @@ export const accessNativeSqlQueryProjectsLocationsSessionsSparkApplications: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessNativeSqlQueryProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessProjectsLocationsBatchesSparkApplicationsError =
@@ -4487,6 +4495,7 @@ export const accessProjectsLocationsBatchesSparkApplications: API.OperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessProjectsLocationsSessionsSparkApplicationsError =
@@ -4511,6 +4520,7 @@ export const accessProjectsLocationsSessionsSparkApplications: API.OperationMeth
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessSqlPlanProjectsLocationsBatchesSparkApplicationsError =
@@ -4535,6 +4545,7 @@ export const accessSqlPlanProjectsLocationsBatchesSparkApplications: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessSqlPlanProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessSqlPlanProjectsLocationsSessionsSparkApplicationsError =
@@ -4563,6 +4574,7 @@ export const accessSqlPlanProjectsLocationsSessionsSparkApplications: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessSqlPlanProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessSqlQueryProjectsLocationsBatchesSparkApplicationsError =
@@ -4587,6 +4599,7 @@ export const accessSqlQueryProjectsLocationsBatchesSparkApplications: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessSqlQueryProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessSqlQueryProjectsLocationsSessionsSparkApplicationsError =
@@ -4611,6 +4624,7 @@ export const accessSqlQueryProjectsLocationsSessionsSparkApplications: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessSqlQueryProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessStageAttemptProjectsLocationsBatchesSparkApplicationsError =
@@ -4635,6 +4649,7 @@ export const accessStageAttemptProjectsLocationsBatchesSparkApplications: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessStageAttemptProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessStageAttemptProjectsLocationsSessionsSparkApplicationsError =
@@ -4659,6 +4674,7 @@ export const accessStageAttemptProjectsLocationsSessionsSparkApplications: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessStageAttemptProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessStageRddGraphProjectsLocationsBatchesSparkApplicationsError =
@@ -4687,6 +4703,7 @@ export const accessStageRddGraphProjectsLocationsBatchesSparkApplications: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessStageRddGraphProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AccessStageRddGraphProjectsLocationsSessionsSparkApplicationsError =
@@ -4715,6 +4732,7 @@ export const accessStageRddGraphProjectsLocationsSessionsSparkApplications: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AccessStageRddGraphProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type AnalyzeProjectsLocationsBatchesError =
@@ -4737,6 +4755,7 @@ export const analyzeProjectsLocationsBatches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AnalyzeProjectsLocationsBatches",
+  iam: { actions: ["dataproc.batches.analyze"], roles: ["roles/dataproc.viewer"] },
 }));
 
 export type CancelProjectsLocationsOperationsError =
@@ -4781,6 +4800,7 @@ export const cancelProjectsRegionsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CancelProjectsRegionsJobs",
+  iam: { actions: ["dataproc.jobs.cancel"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type CancelProjectsRegionsOperationsError =
@@ -4827,6 +4847,7 @@ export const computeTuningConfigProjectsLocationsBatchesSparkApplications: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ComputeTuningConfigProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type CreateProjectsLocationsAutoscalingPoliciesError =
@@ -5003,6 +5024,7 @@ export const createProjectsRegionsClustersNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsRegionsClustersNodeGroups",
+  iam: { actions: ["dataproc.nodeGroups.create"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type CreateProjectsRegionsWorkflowTemplatesError =
@@ -5289,6 +5311,7 @@ export const diagnoseProjectsRegionsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DiagnoseProjectsRegionsClusters",
+  iam: { actions: ["dataproc.clusters.update"], roles: ["roles/dataproc.hubAgent"] },
 }));
 
 export type GetIamPolicyProjectsLocationsAutoscalingPoliciesError =
@@ -5476,6 +5499,7 @@ export const getProjectsLocationsAutoscalingPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsAutoscalingPolicies",
+  iam: { actions: ["dataproc.autoscalingPolicies.get"], roles: ["roles/dataproc.viewer"] },
 }));
 
 export type GetProjectsLocationsBatchesError = NotFound | Forbidden | GcpOpError;
@@ -5493,6 +5517,7 @@ export const getProjectsLocationsBatches: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsBatches",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type GetProjectsLocationsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5527,6 +5552,7 @@ export const getProjectsLocationsSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSessions",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type GetProjectsLocationsSessionTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -5544,6 +5570,7 @@ export const getProjectsLocationsSessionTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSessionTemplates",
+  iam: { actions: ["dataproc.sessionTemplates.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type GetProjectsLocationsWorkflowTemplatesError = NotFound | Forbidden | GcpOpError;
@@ -5561,6 +5588,7 @@ export const getProjectsLocationsWorkflowTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsWorkflowTemplates",
+  iam: { actions: ["dataproc.workflowTemplates.get"], roles: ["roles/dataproc.viewer"] },
 }));
 
 export type GetProjectsRegionsAutoscalingPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -5578,6 +5606,7 @@ export const getProjectsRegionsAutoscalingPolicies: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsRegionsAutoscalingPolicies",
+  iam: { actions: ["dataproc.autoscalingPolicies.get"], roles: ["roles/dataproc.viewer"] },
 }));
 
 export type GetProjectsRegionsClustersError = NotFound | Forbidden | GcpOpError;
@@ -5612,6 +5641,7 @@ export const getProjectsRegionsClustersNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsRegionsClustersNodeGroups",
+  iam: { actions: ["dataproc.nodeGroups.get"], roles: ["roles/dataproc.viewer"] },
 }));
 
 export type GetProjectsRegionsJobsError = NotFound | Forbidden | GcpOpError;
@@ -5629,6 +5659,7 @@ export const getProjectsRegionsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsRegionsJobs",
+  iam: { actions: ["dataproc.jobs.get"], roles: ["roles/dataproc.viewer"] },
 }));
 
 export type GetProjectsRegionsOperationsError = NotFound | Forbidden | GcpOpError;
@@ -5663,6 +5694,7 @@ export const getProjectsRegionsWorkflowTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsRegionsWorkflowTemplates",
+  iam: { actions: ["dataproc.workflowTemplates.get"], roles: ["roles/dataproc.viewer"] },
 }));
 
 export type InjectCredentialsProjectsRegionsClustersError =
@@ -5685,6 +5717,7 @@ export const injectCredentialsProjectsRegionsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InjectCredentialsProjectsRegionsClusters",
+  iam: { actions: ["dataproc.clusters.update"], roles: ["roles/dataproc.hubAgent"] },
 }));
 
 export type InstantiateInlineProjectsLocationsWorkflowTemplatesError =
@@ -5711,6 +5744,10 @@ export const instantiateInlineProjectsLocationsWorkflowTemplates: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InstantiateInlineProjectsLocationsWorkflowTemplates",
+  iam: {
+    actions: ["dataproc.workflowTemplates.instantiateInline"],
+    roles: ["roles/dataproc.editor"],
+  },
 }));
 
 export type InstantiateInlineProjectsRegionsWorkflowTemplatesError =
@@ -5737,6 +5774,10 @@ export const instantiateInlineProjectsRegionsWorkflowTemplates: API.OperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InstantiateInlineProjectsRegionsWorkflowTemplates",
+  iam: {
+    actions: ["dataproc.workflowTemplates.instantiateInline"],
+    roles: ["roles/dataproc.editor"],
+  },
 }));
 
 export type InstantiateProjectsLocationsWorkflowTemplatesError =
@@ -5763,6 +5804,7 @@ export const instantiateProjectsLocationsWorkflowTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InstantiateProjectsLocationsWorkflowTemplates",
+  iam: { actions: ["dataproc.workflowTemplates.instantiate"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type InstantiateProjectsRegionsWorkflowTemplatesError =
@@ -5789,6 +5831,7 @@ export const instantiateProjectsRegionsWorkflowTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "InstantiateProjectsRegionsWorkflowTemplates",
+  iam: { actions: ["dataproc.workflowTemplates.instantiate"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type ListProjectsLocationsAutoscalingPoliciesError = NotFound | Forbidden | GcpOpError;
@@ -5807,6 +5850,7 @@ export const listProjectsLocationsAutoscalingPolicies: API.PaginatedOperationMet
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsAutoscalingPolicies",
+  iam: { actions: ["dataproc.autoscalingPolicies.list"], roles: ["roles/dataproc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5826,6 +5870,7 @@ export const listProjectsLocationsBatches: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsBatches",
+  iam: { actions: ["dataproc.batches.list"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5864,6 +5909,7 @@ export const listProjectsLocationsSessions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSessions",
+  iam: { actions: ["dataproc.sessions.list"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5883,6 +5929,7 @@ export const listProjectsLocationsSessionTemplates: API.PaginatedOperationMethod
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSessionTemplates",
+  iam: { actions: ["dataproc.sessionTemplates.list"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5902,6 +5949,7 @@ export const listProjectsLocationsWorkflowTemplates: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsWorkflowTemplates",
+  iam: { actions: ["dataproc.workflowTemplates.list"], roles: ["roles/dataproc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5921,6 +5969,7 @@ export const listProjectsRegionsAutoscalingPolicies: API.PaginatedOperationMetho
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsRegionsAutoscalingPolicies",
+  iam: { actions: ["dataproc.autoscalingPolicies.list"], roles: ["roles/dataproc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5940,6 +5989,7 @@ export const listProjectsRegionsClusters: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsRegionsClusters",
+  iam: { actions: ["dataproc.clusters.list"], roles: ["roles/dataproc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5959,6 +6009,7 @@ export const listProjectsRegionsJobs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsRegionsJobs",
+  iam: { actions: ["dataproc.jobs.list"], roles: ["roles/dataproc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -5997,6 +6048,7 @@ export const listProjectsRegionsWorkflowTemplates: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsRegionsWorkflowTemplates",
+  iam: { actions: ["dataproc.workflowTemplates.list"], roles: ["roles/dataproc.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6086,6 +6138,7 @@ export const repairProjectsRegionsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RepairProjectsRegionsClusters",
+  iam: { actions: ["dataproc.clusters.repair"], roles: ["roles/dataproc.hubAgent"] },
 }));
 
 export type RepairProjectsRegionsClustersNodeGroupsError =
@@ -6108,6 +6161,7 @@ export const repairProjectsRegionsClustersNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RepairProjectsRegionsClustersNodeGroups",
+  iam: { actions: ["dataproc.nodeGroups.update"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type ResizeProjectsRegionsClustersNodeGroupsError =
@@ -6130,6 +6184,7 @@ export const resizeProjectsRegionsClustersNodeGroups: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResizeProjectsRegionsClustersNodeGroups",
+  iam: { actions: ["dataproc.nodeGroups.update"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type SearchExecutorsProjectsLocationsBatchesSparkApplicationsError =
@@ -6155,6 +6210,7 @@ export const searchExecutorsProjectsLocationsBatchesSparkApplications: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchExecutorsProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6181,6 +6237,7 @@ export const searchExecutorsProjectsLocationsSessionsSparkApplications: API.Pagi
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchExecutorsProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6211,6 +6268,7 @@ export const searchExecutorStageSummaryProjectsLocationsBatchesSparkApplications
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchExecutorStageSummaryProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6241,6 +6299,7 @@ export const searchExecutorStageSummaryProjectsLocationsSessionsSparkApplication
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchExecutorStageSummaryProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6267,6 +6326,7 @@ export const searchJobsProjectsLocationsBatchesSparkApplications: API.PaginatedO
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchJobsProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6293,6 +6353,7 @@ export const searchJobsProjectsLocationsSessionsSparkApplications: API.Paginated
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchJobsProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6319,6 +6380,7 @@ export const searchNativeSqlQueriesProjectsLocationsBatchesSparkApplications: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchNativeSqlQueriesProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6349,6 +6411,7 @@ export const searchNativeSqlQueriesProjectsLocationsSessionsSparkApplications: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchNativeSqlQueriesProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6375,6 +6438,7 @@ export const searchProjectsLocationsBatchesSparkApplications: API.PaginatedOpera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6401,6 +6465,7 @@ export const searchProjectsLocationsSessionsSparkApplications: API.PaginatedOper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6427,6 +6492,7 @@ export const searchSqlQueriesProjectsLocationsBatchesSparkApplications: API.Pagi
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchSqlQueriesProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6453,6 +6519,7 @@ export const searchSqlQueriesProjectsLocationsSessionsSparkApplications: API.Pag
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchSqlQueriesProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6479,6 +6546,7 @@ export const searchStageAttemptsProjectsLocationsBatchesSparkApplications: API.P
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchStageAttemptsProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6505,6 +6573,7 @@ export const searchStageAttemptsProjectsLocationsSessionsSparkApplications: API.
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchStageAttemptsProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6531,6 +6600,7 @@ export const searchStageAttemptTasksProjectsLocationsBatchesSparkApplications: A
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchStageAttemptTasksProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6561,6 +6631,7 @@ export const searchStageAttemptTasksProjectsLocationsSessionsSparkApplications: 
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchStageAttemptTasksProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6587,6 +6658,7 @@ export const searchStagesProjectsLocationsBatchesSparkApplications: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchStagesProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6613,6 +6685,7 @@ export const searchStagesProjectsLocationsSessionsSparkApplications: API.Paginat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SearchStagesProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6802,6 +6875,7 @@ export const startProjectsRegionsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartProjectsRegionsClusters",
+  iam: { actions: ["dataproc.clusters.start"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type StopProjectsRegionsClustersError =
@@ -6824,6 +6898,7 @@ export const stopProjectsRegionsClusters: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopProjectsRegionsClusters",
+  iam: { actions: ["dataproc.clusters.stop"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type SubmitAsOperationProjectsRegionsJobsError =
@@ -6846,6 +6921,7 @@ export const submitAsOperationProjectsRegionsJobs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SubmitAsOperationProjectsRegionsJobs",
+  iam: { actions: ["dataproc.jobs.update"], roles: ["roles/dataproc.editor"] },
 }));
 
 export type SubmitProjectsRegionsJobsError =
@@ -6892,6 +6968,7 @@ export const summarizeExecutorsProjectsLocationsBatchesSparkApplications: API.Op
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SummarizeExecutorsProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type SummarizeExecutorsProjectsLocationsSessionsSparkApplicationsError =
@@ -6916,6 +6993,7 @@ export const summarizeExecutorsProjectsLocationsSessionsSparkApplications: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SummarizeExecutorsProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type SummarizeJobsProjectsLocationsBatchesSparkApplicationsError =
@@ -6940,6 +7018,7 @@ export const summarizeJobsProjectsLocationsBatchesSparkApplications: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SummarizeJobsProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type SummarizeJobsProjectsLocationsSessionsSparkApplicationsError =
@@ -6964,6 +7043,7 @@ export const summarizeJobsProjectsLocationsSessionsSparkApplications: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SummarizeJobsProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplicationsError =
@@ -6992,6 +7072,7 @@ export const summarizeStageAttemptTasksProjectsLocationsBatchesSparkApplications
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SummarizeStageAttemptTasksProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplicationsError =
@@ -7020,6 +7101,7 @@ export const summarizeStageAttemptTasksProjectsLocationsSessionsSparkApplication
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SummarizeStageAttemptTasksProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type SummarizeStagesProjectsLocationsBatchesSparkApplicationsError =
@@ -7044,6 +7126,7 @@ export const summarizeStagesProjectsLocationsBatchesSparkApplications: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SummarizeStagesProjectsLocationsBatchesSparkApplications",
+  iam: { actions: ["dataproc.batches.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type SummarizeStagesProjectsLocationsSessionsSparkApplicationsError =
@@ -7068,6 +7151,7 @@ export const summarizeStagesProjectsLocationsSessionsSparkApplications: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SummarizeStagesProjectsLocationsSessionsSparkApplications",
+  iam: { actions: ["dataproc.sessions.get"], roles: ["roles/dataproc.serverlessViewer"] },
 }));
 
 export type TerminateProjectsLocationsSessionsError =
@@ -7090,6 +7174,7 @@ export const terminateProjectsLocationsSessions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TerminateProjectsLocationsSessions",
+  iam: { actions: ["dataproc.sessions.terminate"], roles: ["roles/dataproc.serverlessEditor"] },
 }));
 
 export type TestIamPermissionsProjectsLocationsAutoscalingPoliciesError =

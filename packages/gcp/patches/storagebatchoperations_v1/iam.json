@@ -1,0 +1,45 @@
+{
+  "description": "What each storagebatchoperations_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagebatchoperations_v1#CancelProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storagebatchoperations.jobs.cancel"],
+        "roles": ["roles/storagebatchoperations.admin"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagebatchoperations_v1#GetProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storagebatchoperations.jobs.get"],
+        "roles": ["roles/storagebatchoperations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagebatchoperations_v1#GetProjectsLocationsJobsBucketOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storagebatchoperations.bucketOperations.get"],
+        "roles": ["roles/storagebatchoperations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagebatchoperations_v1#ListProjectsLocationsJobs/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storagebatchoperations.jobs.list"],
+        "roles": ["roles/storagebatchoperations.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.storagebatchoperations_v1#ListProjectsLocationsJobsBucketOperations/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["storagebatchoperations.bucketOperations.list"],
+        "roles": ["roles/storagebatchoperations.viewer"]
+      }
+    }
+  ]
+}

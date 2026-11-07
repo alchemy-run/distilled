@@ -2978,6 +2978,10 @@ export const bulkMuteProjectsFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "BulkMuteProjectsFindings",
+  iam: {
+    actions: ["securitycenter.findings.update"],
+    roles: ["roles/securitycenter.findingsEditor"],
+  },
 }));
 
 export type CancelOrganizationsOperationsError =
@@ -4119,6 +4123,10 @@ export const deleteProjectsLocationsMuteConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsMuteConfigs",
+  iam: {
+    actions: ["securitycenter.muteconfigs.delete"],
+    roles: ["roles/securitycenter.muteConfigsEditor"],
+  },
 }));
 
 export type DeleteProjectsMuteConfigsError =
@@ -4243,6 +4251,10 @@ export const getFoldersBigQueryExports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersBigQueryExports",
+  iam: {
+    actions: ["securitycenter.bigQueryExports.get"],
+    roles: ["roles/securitycenter.bigQueryExportsViewer"],
+  },
 }));
 
 export type GetFoldersEventThreatDetectionSettingsCustomModulesError =
@@ -4274,6 +4286,10 @@ export const getFoldersEventThreatDetectionSettingsCustomModules: API.OperationM
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersEventThreatDetectionSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.eventthreatdetectionsettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
 }));
 
 export type GetFoldersEventThreatDetectionSettingsEffectiveCustomModulesError =
@@ -4359,6 +4375,10 @@ export const getFoldersMuteConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersMuteConfigs",
+  iam: {
+    actions: ["securitycenter.muteconfigs.get"],
+    roles: ["roles/securitycenter.muteConfigsViewer"],
+  },
 }));
 
 export type GetFoldersNotificationConfigsError =
@@ -4386,6 +4406,10 @@ export const getFoldersNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersNotificationConfigs",
+  iam: {
+    actions: ["securitycenter.notificationconfig.get"],
+    roles: ["roles/securitycenter.notificationConfigViewer"],
+  },
 }));
 
 export type GetFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -4421,6 +4445,10 @@ export const getFoldersSecurityHealthAnalyticsSettingsCustomModules: API.Operati
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetFoldersSecurityHealthAnalyticsSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.securityhealthanalyticssettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
 }));
 
 export type GetFoldersSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
@@ -4514,6 +4542,10 @@ export const getOrganizationsBigQueryExports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsBigQueryExports",
+  iam: {
+    actions: ["securitycenter.bigQueryExports.get"],
+    roles: ["roles/securitycenter.bigQueryExportsViewer"],
+  },
 }));
 
 export type GetOrganizationSettingsOrganizationsError =
@@ -4572,6 +4604,10 @@ export const getOrganizationsEventThreatDetectionSettingsCustomModules: API.Oper
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsEventThreatDetectionSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.eventthreatdetectionsettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
 }));
 
 export type GetOrganizationsEventThreatDetectionSettingsEffectiveCustomModulesError =
@@ -4657,6 +4693,10 @@ export const getOrganizationsMuteConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsMuteConfigs",
+  iam: {
+    actions: ["securitycenter.muteconfigs.get"],
+    roles: ["roles/securitycenter.muteConfigsViewer"],
+  },
 }));
 
 export type GetOrganizationsNotificationConfigsError =
@@ -4684,6 +4724,10 @@ export const getOrganizationsNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsNotificationConfigs",
+  iam: {
+    actions: ["securitycenter.notificationconfig.get"],
+    roles: ["roles/securitycenter.notificationConfigViewer"],
+  },
 }));
 
 export type GetOrganizationsOperationsError =
@@ -4773,6 +4817,10 @@ export const getOrganizationsSecurityHealthAnalyticsSettingsCustomModules: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetOrganizationsSecurityHealthAnalyticsSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.securityhealthanalyticssettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
 }));
 
 export type GetOrganizationsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
@@ -4916,6 +4964,10 @@ export const getProjectsBigQueryExports: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsBigQueryExports",
+  iam: {
+    actions: ["securitycenter.bigQueryExports.get"],
+    roles: ["roles/securitycenter.bigQueryExportsViewer"],
+  },
 }));
 
 export type GetProjectsEventThreatDetectionSettingsCustomModulesError =
@@ -4947,6 +4999,10 @@ export const getProjectsEventThreatDetectionSettingsCustomModules: API.Operation
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsEventThreatDetectionSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.eventthreatdetectionsettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
 }));
 
 export type GetProjectsEventThreatDetectionSettingsEffectiveCustomModulesError =
@@ -5032,6 +5088,10 @@ export const getProjectsMuteConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsMuteConfigs",
+  iam: {
+    actions: ["securitycenter.muteconfigs.get"],
+    roles: ["roles/securitycenter.muteConfigsViewer"],
+  },
 }));
 
 export type GetProjectsNotificationConfigsError =
@@ -5059,6 +5119,10 @@ export const getProjectsNotificationConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsNotificationConfigs",
+  iam: {
+    actions: ["securitycenter.notificationconfig.get"],
+    roles: ["roles/securitycenter.notificationConfigViewer"],
+  },
 }));
 
 export type GetProjectsSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -5094,6 +5158,10 @@ export const getProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Operat
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSecurityHealthAnalyticsSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.securityhealthanalyticssettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
 }));
 
 export type GetProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModulesError =
@@ -5284,6 +5352,7 @@ export const groupProjectsAssets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GroupProjectsAssets",
+  iam: { actions: ["securitycenter.assets.group"], roles: ["roles/securitycenter.assetsViewer"] },
 }));
 
 export type GroupProjectsSourcesFindingsError =
@@ -5315,6 +5384,10 @@ export const groupProjectsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GroupProjectsSourcesFindings",
+  iam: {
+    actions: ["securitycenter.findings.group"],
+    roles: ["roles/securitycenter.findingsViewer"],
+  },
 }));
 
 export type ListDescendantFoldersEventThreatDetectionSettingsCustomModulesError =
@@ -5499,6 +5572,10 @@ export const listDescendantProjectsEventThreatDetectionSettingsCustomModules: AP
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDescendantProjectsEventThreatDetectionSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.eventthreatdetectionsettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6466,6 +6543,7 @@ export const listProjectsAssets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsAssets",
+  iam: { actions: ["securitycenter.assets.list"], roles: ["roles/securitycenter.assetsViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6495,6 +6573,10 @@ export const listProjectsBigQueryExports: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsBigQueryExports",
+  iam: {
+    actions: ["securitycenter.bigQueryExports.list"],
+    roles: ["roles/securitycenter.bigQueryExportsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6528,6 +6610,10 @@ export const listProjectsEventThreatDetectionSettingsCustomModules: API.Paginate
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsEventThreatDetectionSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.eventthreatdetectionsettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6565,6 +6651,10 @@ export const listProjectsEventThreatDetectionSettingsEffectiveCustomModules: API
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsEventThreatDetectionSettingsEffectiveCustomModules",
+  iam: {
+    actions: ["securitycenter.eventthreatdetectionsettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6594,6 +6684,10 @@ export const listProjectsMuteConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsMuteConfigs",
+  iam: {
+    actions: ["securitycenter.muteconfigs.list"],
+    roles: ["roles/securitycenter.muteConfigsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6623,6 +6717,10 @@ export const listProjectsNotificationConfigs: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsNotificationConfigs",
+  iam: {
+    actions: ["securitycenter.notificationconfig.list"],
+    roles: ["roles/securitycenter.notificationConfigViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6656,6 +6754,10 @@ export const listProjectsSecurityHealthAnalyticsSettingsCustomModules: API.Pagin
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSecurityHealthAnalyticsSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.securityhealthanalyticssettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6693,6 +6795,10 @@ export const listProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules: 
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSecurityHealthAnalyticsSettingsEffectiveCustomModules",
+  iam: {
+    actions: ["securitycenter.securityhealthanalyticssettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6722,6 +6828,7 @@ export const listProjectsSources: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSources",
+  iam: { actions: ["securitycenter.sources.list"], roles: ["roles/securitycenter.sourcesViewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -6751,6 +6858,10 @@ export const listProjectsSourcesFindings: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSourcesFindings",
+  iam: {
+    actions: ["securitycenter.findings.list"],
+    roles: ["roles/securitycenter.findingsViewer"],
+  },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -7435,6 +7546,10 @@ export const patchProjectsLocationsMuteConfigs: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsLocationsMuteConfigs",
+  iam: {
+    actions: ["securitycenter.muteconfigs.update"],
+    roles: ["roles/securitycenter.muteConfigsEditor"],
+  },
 }));
 
 export type PatchProjectsMuteConfigsError =
@@ -7567,6 +7682,10 @@ export const patchProjectsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSourcesFindings",
+  iam: {
+    actions: ["securitycenter.findings.update"],
+    roles: ["roles/securitycenter.findingsEditor"],
+  },
 }));
 
 export type PatchProjectsSourcesFindingsExternalSystemsError =
@@ -7598,6 +7717,10 @@ export const patchProjectsSourcesFindingsExternalSystems: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PatchProjectsSourcesFindingsExternalSystems",
+  iam: {
+    actions: ["securitycenter.findings.update"],
+    roles: ["roles/securitycenter.findingsEditor"],
+  },
 }));
 
 export type RunDiscoveryOrganizationsAssetsError =
@@ -7753,6 +7876,10 @@ export const setMuteProjectsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetMuteProjectsSourcesFindings",
+  iam: {
+    actions: ["securitycenter.findings.setMute"],
+    roles: ["roles/securitycenter.findingsMuteSetter"],
+  },
 }));
 
 export type SetStateFoldersSourcesFindingsError =
@@ -7846,6 +7973,10 @@ export const setStateProjectsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetStateProjectsSourcesFindings",
+  iam: {
+    actions: ["securitycenter.findings.setState"],
+    roles: ["roles/securitycenter.findingsStateSetter"],
+  },
 }));
 
 export type SimulateFoldersSecurityHealthAnalyticsSettingsCustomModulesError =
@@ -7963,6 +8094,10 @@ export const simulateProjectsSecurityHealthAnalyticsSettingsCustomModules: API.O
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SimulateProjectsSecurityHealthAnalyticsSettingsCustomModules",
+  iam: {
+    actions: ["securitycenter.securityhealthanalyticssettings.update"],
+    roles: ["roles/securitycenter.settingsAdmin"],
+  },
 }));
 
 export type TestIamPermissionsOrganizationsSourcesError =
@@ -8215,6 +8350,10 @@ export const updateSecurityMarksProjectsSourcesFindings: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateSecurityMarksProjectsSourcesFindings",
+  iam: {
+    actions: ["securitycenter.findings.update"],
+    roles: ["roles/securitycenter.findingsEditor"],
+  },
 }));
 
 export type ValidateCustomModuleFoldersEventThreatDetectionSettingsError =
@@ -8320,6 +8459,10 @@ export const validateCustomModuleProjectsEventThreatDetectionSettings: API.Opera
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ValidateCustomModuleProjectsEventThreatDetectionSettings",
+  iam: {
+    actions: ["securitycenter.eventthreatdetectionsettings.get"],
+    roles: ["roles/securitycenter.settingsViewer"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

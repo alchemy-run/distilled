@@ -185,6 +185,7 @@ export const createProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateProjectsLocationsInstances",
+  iam: { actions: ["firebasedatabase.instances.create"], roles: ["roles/firebasedatabase.admin"] },
 }));
 
 export type DeleteProjectsLocationsInstancesError =
@@ -207,6 +208,7 @@ export const deleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteProjectsLocationsInstances",
+  iam: { actions: ["firebasedatabase.instances.delete"], roles: ["roles/firebasedatabase.admin"] },
 }));
 
 export type DisableProjectsLocationsInstancesError =
@@ -229,6 +231,7 @@ export const disableProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DisableProjectsLocationsInstances",
+  iam: { actions: ["firebasedatabase.instances.disable"], roles: ["roles/firebasedatabase.admin"] },
 }));
 
 export type GetProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -246,6 +249,7 @@ export const getProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsInstances",
+  iam: { actions: ["firebasedatabase.instances.get"], roles: ["roles/firebasedatabase.viewer"] },
 }));
 
 export type ListProjectsLocationsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -264,6 +268,7 @@ export const listProjectsLocationsInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsInstances",
+  iam: { actions: ["firebasedatabase.instances.list"], roles: ["roles/firebasedatabase.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -287,6 +292,10 @@ export const reenableProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReenableProjectsLocationsInstances",
+  iam: {
+    actions: ["firebasedatabase.instances.reenable"],
+    roles: ["roles/firebasedatabase.admin"],
+  },
 }));
 
 export type UndeleteProjectsLocationsInstancesError =
@@ -309,6 +318,10 @@ export const undeleteProjectsLocationsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UndeleteProjectsLocationsInstances",
+  iam: {
+    actions: ["firebasedatabase.instances.undelete"],
+    roles: ["roles/firebasedatabase.admin"],
+  },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.

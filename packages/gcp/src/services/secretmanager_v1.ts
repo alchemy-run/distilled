@@ -928,6 +928,10 @@ export const enableManagedRotationProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableManagedRotationProjectsLocationsSecrets",
+  iam: {
+    actions: ["secretmanager.secrets.enableManagedRotation"],
+    roles: ["roles/secretmanager.editor"],
+  },
 }));
 
 export type EnableManagedRotationProjectsSecretsError =
@@ -950,6 +954,10 @@ export const enableManagedRotationProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableManagedRotationProjectsSecrets",
+  iam: {
+    actions: ["secretmanager.secrets.enableManagedRotation"],
+    roles: ["roles/secretmanager.editor"],
+  },
 }));
 
 export type EnableProjectsLocationsSecretsVersionsError =
@@ -972,6 +980,10 @@ export const enableProjectsLocationsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsLocationsSecretsVersions",
+  iam: {
+    actions: ["secretmanager.versions.enable"],
+    roles: ["roles/secretmanager.secretVersionManager"],
+  },
 }));
 
 export type EnableProjectsSecretsVersionsError =
@@ -994,6 +1006,10 @@ export const enableProjectsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "EnableProjectsSecretsVersions",
+  iam: {
+    actions: ["secretmanager.versions.enable"],
+    roles: ["roles/secretmanager.secretVersionManager"],
+  },
 }));
 
 export type GetIamPolicyProjectsLocationsSecretsError = NotFound | Forbidden | GcpOpError;
@@ -1062,6 +1078,7 @@ export const getProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSecrets",
+  iam: { actions: ["secretmanager.secrets.get"], roles: ["roles/secretmanager.viewer"] },
 }));
 
 export type GetProjectsLocationsSecretsVersionsError = NotFound | Forbidden | GcpOpError;
@@ -1079,6 +1096,7 @@ export const getProjectsLocationsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsLocationsSecretsVersions",
+  iam: { actions: ["secretmanager.versions.get"], roles: ["roles/secretmanager.viewer"] },
 }));
 
 export type GetProjectsSecretsError = NotFound | Forbidden | GcpOpError;
@@ -1096,6 +1114,7 @@ export const getProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSecrets",
+  iam: { actions: ["secretmanager.secrets.get"], roles: ["roles/secretmanager.viewer"] },
 }));
 
 export type GetProjectsSecretsVersionsError = NotFound | Forbidden | GcpOpError;
@@ -1113,6 +1132,7 @@ export const getProjectsSecretsVersions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetProjectsSecretsVersions",
+  iam: { actions: ["secretmanager.versions.get"], roles: ["roles/secretmanager.viewer"] },
 }));
 
 export type ListProjectsLocationsError = NotFound | Forbidden | GcpOpError;
@@ -1150,6 +1170,7 @@ export const listProjectsLocationsSecrets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSecrets",
+  iam: { actions: ["secretmanager.secrets.list"], roles: ["roles/secretmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1169,6 +1190,7 @@ export const listProjectsLocationsSecretsVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsLocationsSecretsVersions",
+  iam: { actions: ["secretmanager.versions.list"], roles: ["roles/secretmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1188,6 +1210,7 @@ export const listProjectsSecrets: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSecrets",
+  iam: { actions: ["secretmanager.secrets.list"], roles: ["roles/secretmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1207,6 +1230,7 @@ export const listProjectsSecretsVersions: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListProjectsSecretsVersions",
+  iam: { actions: ["secretmanager.versions.list"], roles: ["roles/secretmanager.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -1269,6 +1293,10 @@ export const rotateSecretProjectsLocationsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RotateSecretProjectsLocationsSecrets",
+  iam: {
+    actions: ["secretmanager.secrets.rotate"],
+    roles: ["roles/secretmanager.secretVersionAdder"],
+  },
 }));
 
 export type RotateSecretProjectsSecretsError =
@@ -1291,6 +1319,10 @@ export const rotateSecretProjectsSecrets: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RotateSecretProjectsSecrets",
+  iam: {
+    actions: ["secretmanager.secrets.rotate"],
+    roles: ["roles/secretmanager.secretVersionAdder"],
+  },
 }));
 
 export type SetIamPolicyProjectsLocationsSecretsError =

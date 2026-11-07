@@ -1,0 +1,133 @@
+{
+  "description": "What each recaptchaenterprise_v1 operation is authorized as (core OperationIam): the IAM permission the method checks and the smallest predefined role that holds it, as Alchemy's GCP bindings grant them and their live probe suites verify (alchemy-run/alchemy#2753). Discovery documents carry no IAM, so this is the record; correct a method here when a live call disagrees.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#AddIpOverrideProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.update"],
+        "roles": ["roles/recaptchaenterprise.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#AnnotateProjectsAssessments/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.assessments.annotate"],
+        "roles": ["roles/recaptchaenterprise.agent"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#GetMetricsProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.get"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#GetPolicyProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.get"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#GetProjectsFirewallpolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.firewallpolicies.get"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#GetProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.get"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#ListIpOverridesProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.get"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#ListProjectsFirewallpolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.firewallpolicies.list"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#ListProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.list"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#ListProjectsRelatedaccountgroups/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.relatedaccountgroups.list"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#ListProjectsRelatedaccountgroupsMemberships/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.relatedaccountgroupmemberships.list"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#MigrateProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.update"],
+        "roles": ["roles/recaptchaenterprise.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#RemoveIpOverrideProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.update"],
+        "roles": ["roles/recaptchaenterprise.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#ReorderProjectsFirewallpolicies/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.firewallpolicies.update"],
+        "roles": ["roles/recaptchaenterprise.editor"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#SearchProjectsRelatedaccountgroupmemberships/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.relatedaccountgroupmemberships.list"],
+        "roles": ["roles/recaptchaenterprise.viewer"]
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.gcp.recaptchaenterprise_v1#UpdatePolicyProjectsKeys/traits/com.distilled.iam#operation",
+      "value": {
+        "actions": ["recaptchaenterprise.keys.update"],
+        "roles": ["roles/recaptchaenterprise.editor"]
+      }
+    }
+  ]
+}

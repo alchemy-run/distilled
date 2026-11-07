@@ -3792,6 +3792,7 @@ export const acquireSsrsLeaseInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AcquireSsrsLeaseInstances",
+  iam: { actions: ["cloudsql.instances.update"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type AddEntraIdCertificateInstancesError =
@@ -3814,6 +3815,7 @@ export const addEntraIdCertificateInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddEntraIdCertificateInstances",
+  iam: { actions: ["cloudsql.instances.addEntraIdCertificate"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type AddServerCaInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3831,6 +3833,7 @@ export const addServerCaInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddServerCaInstances",
+  iam: { actions: ["cloudsql.instances.addServerCa"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type AddServerCertificateInstancesError =
@@ -3853,6 +3856,7 @@ export const addServerCertificateInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "AddServerCertificateInstances",
+  iam: { actions: ["cloudsql.instances.addServerCertificate"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type CancelOperationsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -3887,6 +3891,7 @@ export const cloneInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CloneInstances",
+  iam: { actions: ["cloudsql.instances.clone"], roles: ["roles/cloudsql.admin"] },
 }));
 
 export type ConnectResolveError = NotFound | Forbidden | GcpOpError;
@@ -3943,6 +3948,7 @@ export const createBlueGreenDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBlueGreenDeployments",
+  iam: { actions: ["cloudsql.blueGreenDeployments.create"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type CreateEphemeralSslCertsError =
@@ -3966,6 +3972,7 @@ export const createEphemeralSslCerts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateEphemeralSslCerts",
+  iam: { actions: ["cloudsql.instances.connect"], roles: ["roles/cloudsql.client"] },
 }));
 
 export type DeleteBackupBackupsError =
@@ -4034,6 +4041,7 @@ export const deleteBlueGreenDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteBlueGreenDeployments",
+  iam: { actions: ["cloudsql.blueGreenDeployments.delete"], roles: ["roles/cloudsql.admin"] },
 }));
 
 export type DeleteDatabasesError =
@@ -4120,6 +4128,7 @@ export const deleteUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteUsers",
+  iam: { actions: ["cloudsql.users.delete"], roles: ["roles/cloudsql.admin"] },
 }));
 
 export type DemoteInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4137,6 +4146,7 @@ export const demoteInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DemoteInstances",
+  iam: { actions: ["cloudsql.instances.update"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type DemoteMasterInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4154,6 +4164,7 @@ export const demoteMasterInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DemoteMasterInstances",
+  iam: { actions: ["cloudsql.instances.demoteMaster"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type ExecuteSqlInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4188,6 +4199,7 @@ export const exportInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExportInstances",
+  iam: { actions: ["cloudsql.instances.export"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type FailoverInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4205,6 +4217,7 @@ export const failoverInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "FailoverInstances",
+  iam: { actions: ["cloudsql.instances.failover"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type GenerateEphemeralCertConnectError =
@@ -4227,6 +4240,7 @@ export const generateEphemeralCertConnect: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GenerateEphemeralCertConnect",
+  iam: { actions: ["cloudsql.instances.connect"], roles: ["roles/cloudsql.client"] },
 }));
 
 export type GetBackupBackupsError = NotFound | Forbidden | SqlBackupAccessDenied | GcpOpError;
@@ -4261,6 +4275,7 @@ export const getBackupRuns: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBackupRuns",
+  iam: { actions: ["cloudsql.backupRuns.get"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type GetBlueGreenDeploymentsError = NotFound | Forbidden | GcpOpError;
@@ -4278,6 +4293,7 @@ export const getBlueGreenDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBlueGreenDeployments",
+  iam: { actions: ["cloudsql.blueGreenDeployments.get"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type GetConnectError = NotFound | Forbidden | GcpOpError;
@@ -4295,6 +4311,7 @@ export const getConnect: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetConnect",
+  iam: { actions: ["cloudsql.instances.connect"], roles: ["roles/cloudsql.client"] },
 }));
 
 export type GetDatabasesError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4312,6 +4329,7 @@ export const getDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDatabases",
+  iam: { actions: ["cloudsql.databases.get"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type GetDiskShrinkConfigProjectsInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4329,6 +4347,7 @@ export const getDiskShrinkConfigProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDiskShrinkConfigProjectsInstances",
+  iam: { actions: ["cloudsql.instances.getDiskShrinkConfig"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type GetInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4363,6 +4382,7 @@ export const getLatestRecoveryTimeProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetLatestRecoveryTimeProjectsInstances",
+  iam: { actions: ["cloudsql.instances.get"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type GetOperationsError = NotFound | Forbidden | GcpOpError;
@@ -4397,6 +4417,7 @@ export const getSslCerts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSslCerts",
+  iam: { actions: ["cloudsql.sslCerts.get"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type GetUsersError = NotFound | Forbidden | SqlInstanceNotAuthorized | GcpOpError;
@@ -4427,6 +4448,7 @@ export const importInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ImportInstances",
+  iam: { actions: ["cloudsql.instances.import"], roles: ["roles/cloudsql.admin"] },
 }));
 
 export type InsertBackupRunsError =
@@ -4554,6 +4576,7 @@ export const listBackupRuns: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBackupRuns",
+  iam: { actions: ["cloudsql.backupRuns.list"], roles: ["roles/cloudsql.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -4592,6 +4615,7 @@ export const listBlueGreenDeployments: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBlueGreenDeployments",
+  iam: { actions: ["cloudsql.blueGreenDeployments.list"], roles: ["roles/cloudsql.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken" } as const,
 })) as any;
 
@@ -4610,6 +4634,7 @@ export const listDatabases: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListDatabases",
+  iam: { actions: ["cloudsql.databases.list"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type ListEntraIdCertificatesInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4662,6 +4687,7 @@ export const listInstances: API.PaginatedOperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListInstances",
+  iam: { actions: ["cloudsql.instances.list"], roles: ["roles/cloudsql.viewer"] },
   pagination: { inputToken: "pageToken", outputToken: "nextPageToken", items: "items" } as const,
 })) as any;
 
@@ -4699,6 +4725,7 @@ export const listServerCasInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListServerCasInstances",
+  iam: { actions: ["cloudsql.instances.listServerCas"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type ListServerCertificatesInstancesError = NotFound | Forbidden | GcpOpError;
@@ -4733,6 +4760,7 @@ export const listSslCerts: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSslCerts",
+  iam: { actions: ["cloudsql.sslCerts.list"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type ListTiersError = NotFound | Forbidden | GcpOpError;
@@ -4767,6 +4795,7 @@ export const listUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListUsers",
+  iam: { actions: ["cloudsql.users.list"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type ListWorkloadCapturesError = NotFound | Forbidden | GcpOpError;
@@ -4784,6 +4813,7 @@ export const listWorkloadCaptures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListWorkloadCaptures",
+  iam: { actions: ["cloudsql.workloadCaptures.list"], roles: ["roles/cloudsql.viewer"] },
 }));
 
 export type PatchDatabasesError =
@@ -4846,6 +4876,7 @@ export const performDiskShrinkProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PerformDiskShrinkProjectsInstances",
+  iam: { actions: ["cloudsql.instances.performDiskShrink"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type PointInTimeRestoreInstancesError =
@@ -4868,6 +4899,7 @@ export const pointInTimeRestoreInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PointInTimeRestoreInstances",
+  iam: { actions: ["cloudsql.instances.update"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type PreCheckMajorVersionUpgradeInstancesError =
@@ -4890,6 +4922,10 @@ export const preCheckMajorVersionUpgradeInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PreCheckMajorVersionUpgradeInstances",
+  iam: {
+    actions: ["cloudsql.instances.preCheckMajorVersionUpgrade"],
+    roles: ["roles/cloudsql.viewer"],
+  },
 }));
 
 export type PromoteReplicaInstancesError =
@@ -4912,6 +4948,7 @@ export const promoteReplicaInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PromoteReplicaInstances",
+  iam: { actions: ["cloudsql.instances.promoteReplica"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type ReencryptInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -4929,6 +4966,7 @@ export const reencryptInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReencryptInstances",
+  iam: { actions: ["cloudsql.instances.reencrypt"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type ReleaseSsrsLeaseInstancesError =
@@ -4951,6 +4989,7 @@ export const releaseSsrsLeaseInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ReleaseSsrsLeaseInstances",
+  iam: { actions: ["cloudsql.instances.update"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type RescheduleMaintenanceProjectsInstancesError =
@@ -4973,6 +5012,7 @@ export const rescheduleMaintenanceProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RescheduleMaintenanceProjectsInstances",
+  iam: { actions: ["cloudsql.instances.update"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type ResetReplicaSizeProjectsInstancesError =
@@ -4995,6 +5035,7 @@ export const resetReplicaSizeProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetReplicaSizeProjectsInstances",
+  iam: { actions: ["cloudsql.instances.resetReplicaSize"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type ResetSslConfigInstancesError =
@@ -5017,6 +5058,7 @@ export const resetSslConfigInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResetSslConfigInstances",
+  iam: { actions: ["cloudsql.instances.resetSslConfig"], roles: ["roles/cloudsql.admin"] },
 }));
 
 export type RestartInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5034,6 +5076,7 @@ export const restartInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestartInstances",
+  iam: { actions: ["cloudsql.instances.restart"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type RestoreBackupInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5051,6 +5094,7 @@ export const restoreBackupInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RestoreBackupInstances",
+  iam: { actions: ["cloudsql.instances.restoreBackup"], roles: ["roles/cloudsql.admin"] },
 }));
 
 export type RotateEntraIdCertificateInstancesError =
@@ -5095,6 +5139,7 @@ export const rotateServerCaInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RotateServerCaInstances",
+  iam: { actions: ["cloudsql.instances.rotateServerCa"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type RotateServerCertificateInstancesError =
@@ -5139,6 +5184,7 @@ export const startExternalSyncProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartExternalSyncProjectsInstances",
+  iam: { actions: ["cloudsql.instances.update"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type StartReplayWorkloadCapturesError =
@@ -5161,6 +5207,7 @@ export const startReplayWorkloadCaptures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartReplayWorkloadCaptures",
+  iam: { actions: ["cloudsql.workloadCaptures.startReplay"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type StartReplicaInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5178,6 +5225,7 @@ export const startReplicaInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartReplicaInstances",
+  iam: { actions: ["cloudsql.instances.startReplica"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type StartWorkloadCapturesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5195,6 +5243,7 @@ export const startWorkloadCaptures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartWorkloadCaptures",
+  iam: { actions: ["cloudsql.workloadCaptures.start"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type StopReplayWorkloadCapturesError =
@@ -5217,6 +5266,7 @@ export const stopReplayWorkloadCaptures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopReplayWorkloadCaptures",
+  iam: { actions: ["cloudsql.workloadCaptures.stopReplay"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type StopReplicaInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5234,6 +5284,7 @@ export const stopReplicaInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopReplicaInstances",
+  iam: { actions: ["cloudsql.instances.stopReplica"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type StopWorkloadCapturesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5251,6 +5302,7 @@ export const stopWorkloadCaptures: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopWorkloadCaptures",
+  iam: { actions: ["cloudsql.workloadCaptures.stop"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type SwitchoverBlueGreenDeploymentsError =
@@ -5273,6 +5325,7 @@ export const switchoverBlueGreenDeployments: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SwitchoverBlueGreenDeployments",
+  iam: { actions: ["cloudsql.blueGreenDeployments.switchover"], roles: ["roles/cloudsql.admin"] },
 }));
 
 export type SwitchoverInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5290,6 +5343,7 @@ export const switchoverInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SwitchoverInstances",
+  iam: { actions: ["cloudsql.instances.update"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type TruncateLogInstancesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
@@ -5307,6 +5361,7 @@ export const truncateLogInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TruncateLogInstances",
+  iam: { actions: ["cloudsql.instances.truncateLog"], roles: ["roles/cloudsql.editor"] },
 }));
 
 export type UpdateBackupBackupsError =
@@ -5393,6 +5448,7 @@ export const updateUsers: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "UpdateUsers",
+  iam: { actions: ["cloudsql.users.update"], roles: ["roles/cloudsql.admin"] },
 }));
 
 export type VerifyExternalSyncSettingsProjectsInstancesError =
@@ -5419,6 +5475,7 @@ export const verifyExternalSyncSettingsProjectsInstances: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "VerifyExternalSyncSettingsProjectsInstances",
+  iam: { actions: ["cloudsql.instances.update"], roles: ["roles/cloudsql.editor"] },
 }));
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
