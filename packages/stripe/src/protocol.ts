@@ -528,7 +528,7 @@ const matchStripeError = (
     case "idempotency_error":
       return new IdempotencyError(common);
     case "invalid_request_error":
-      return new InvalidRequestError({ ...common, param: str(err.param) });
+      return new InvalidRequestError({ ...common, param: str(err.param), status });
     case "api_error":
       return new ApiError({ ...common, param: str(err.param) });
   }
