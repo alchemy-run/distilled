@@ -48,6 +48,56 @@ export interface ValidatedPagination {
   readonly itemsRoot: string;
 }
 
+/** A trait field a pagination strategy reads to walk the pages. */
+export type PaginationField = "inputToken" | "outputToken" | "items";
+
+/**
+ * The trait fields each core strategy reads (`core/src/pagination.ts`).
+ * A strategy given a trait without them dies on the first page.
+ */
+export const CORE_STRATEGY_FIELDS: Readonly<Record<string, readonly PaginationField[]>> = {
+  paginateToken: ["inputToken", "outputToken"],
+  paginatePageNumber: ["inputToken", "outputToken"],
+  paginateCursor: ["inputToken", "outputToken"],
+  paginateRelay: ["inputToken", "outputToken"],
+  paginateKeyset: ["inputToken", "outputToken", "items"],
+  paginateLink: ["inputToken"],
+  paginateSingle: [],
+};
+
+const MODE_STRATEGY: Readonly<Record<string, string>> = {
+  token: "paginateToken",
+  page: "paginatePageNumber",
+  cursor: "paginateCursor",
+  relay: "paginateRelay",
+  link: "paginateLink",
+  keyset: "paginateKeyset",
+  single: "paginateSingle",
+};
+
+/** The fields core's `paginateWithDefaults` reads for the trait's mode (default `token`). */
+export const defaultStrategyFields = (trait: Partial<PaginatedTrait>): readonly PaginationField[] =>
+  CORE_STRATEGY_FIELDS[MODE_STRATEGY[trait.mode ?? "token"] ?? "paginateToken"]!;
+
+/**
+ * Throws when a paginated op's trait lacks a field its strategy reads: the
+ * op would otherwise ship and die on its first `.pages()` call.
+ */
+export const assertPaginationFields = (
+  operation: string,
+  strategy: string,
+  fields: readonly PaginationField[],
+  trait: Partial<PaginatedTrait>,
+): void => {
+  const missing = fields.filter((f) => typeof trait[f] !== "string" || trait[f] === "");
+  if (missing.length > 0) {
+    throw new Error(
+      `${operation}: ${strategy} needs ${missing.join(", ")} in smithy.api#paginated ` +
+        `(has ${JSON.stringify(trait)}). Patch the operation's trait.`,
+    );
+  }
+};
+
 /**
  * A paginated op must actually carry its page/cursor token on the input
  * and its items member on the output — otherwise `.pages()` would loop or
