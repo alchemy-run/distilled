@@ -310,6 +310,14 @@ export interface SdkSpec {
   readonly paginationProfileFor?: (trait: any, op: OpEntry) => string | undefined;
 
   /**
+   * The operations' protocol implements `stream` (core's gRPC protocol
+   * does), so server-streaming operations may be emitted as
+   * `API.makeStreaming`. Without it, generation fails on one: its
+   * `.stream()` would die on every call.
+   */
+  readonly streams?: boolean;
+
+  /**
    * Service-wide fallback key dictionary stamped on op I/O roots (emitted
    * as a `KEY_DICTIONARY` header const + `T.KeyDictionary(KEY_DICTIONARY)`
    * root pipe). `doc` is the const's doc comment. An entry may list several
@@ -1152,6 +1160,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       const contextType = overrides?.contextType ?? decl.contextType;
       const paginated = ctx.pagination !== undefined;
       const streaming = !paginated && SERVER_STREAMING_TRAIT in (ctx.op.def.traits ?? {});
+      if (streaming && !spec.streams) {
+        throw new Error(
+          `${ctx.op.id}: a server-streaming operation needs a protocol that streams; ` +
+            "set `streams: true` on the SdkSpec only if its protocol implements `stream`",
+        );
+      }
       const itemTsType = paginated
         ? paginatedItemTsType(ctx.op.def.__output, paginatedItemsPath.get(ctx.op.id) ?? "")
         : undefined;
