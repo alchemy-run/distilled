@@ -131,13 +131,19 @@ export class SandboxNotRunning
     [{ status: 409, body: { "/code": "machine_not_running" } }],
   ) {}
 
-/** The account used every sandbox start its plan includes in the last hour (resumes and forks count). The message says when starts are available again; extra starts can be enabled in Boat's billing settings. */
+/** The account used every sandbox start its plan includes in the last hour (resumes and forks count). The message says when starts are available again; extra starts can be enabled in Boat's billing settings. The per-minute limit is the generic TooManyRequests, which is retried. */
 export class SandboxStartLimitExceeded
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<SandboxStartLimitExceeded>()("SandboxStartLimitExceeded", {
       message: S.String,
     }),
-    [{ status: 429, body: { "/code": "rate_limited" }, message: { includes: "sandbox starts" } }],
+    [
+      {
+        status: 429,
+        body: { "/code": "rate_limited" },
+        message: { includes: "sandbox starts included in the last hour" },
+      },
+    ],
   ) {}
 
 /** One AI credential in a credential profile. The `*-api-key` ids are API keys you can set with `PUT /credential-profiles/{profile}/keys/{credential}`. The sign-ins (`*-subscription`) and Bedrock (`*-bedrock`) are connected on the dashboard Agents & Proxying page, with the profile picked at the top; you can remove them here. */
