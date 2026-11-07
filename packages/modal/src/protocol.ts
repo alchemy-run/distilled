@@ -36,6 +36,9 @@ export const CLIENT_VERSION = "1.6.3";
 /** `CLIENT_TYPE_LIBMODAL_JS` in modal_proto. */
 export const CLIENT_TYPE_LIBMODAL_JS = "8";
 
+/** `CLIENT_TYPE_CONTAINER` in modal_proto: a call from inside a Modal container. */
+export const CLIENT_TYPE_CONTAINER = "3";
+
 /**
  * The official JS client (`modal` on npm) whose wire behavior this SDK
  * matches. Modal reads the SDK version from `x-modal-libmodal-version` as
@@ -79,17 +82,22 @@ export const ModalProtocol: Layer.Layer<API.Protocol> = /*@__PURE__*/ makeGrpcPr
   headers: (creds) => ({
     ...(creds.bearerToken !== undefined
       ? { authorization: `Bearer ${Redacted.value(creds.bearerToken)}` }
-      : Redacted.value(creds.tokenId) === ""
-        ? // Anonymous (see `anonymous`): the token flow runs before a token exists.
-          {}
-        : {
-            "x-modal-token-id": Redacted.value(creds.tokenId),
-            "x-modal-token-secret": Redacted.value(creds.tokenSecret),
-            ...(creds.authToken !== undefined
-              ? { "x-modal-auth-token": Redacted.value(creds.authToken) }
-              : {}),
-          }),
-    "x-modal-client-type": CLIENT_TYPE_LIBMODAL_JS,
+      : creds.container
+        ? // The container's own socket: Modal knows the caller, no token.
+          creds.authToken !== undefined
+          ? { "x-modal-auth-token": Redacted.value(creds.authToken) }
+          : {}
+        : Redacted.value(creds.tokenId) === ""
+          ? // Anonymous (see `anonymous`): the token flow runs before a token exists.
+            {}
+          : {
+              "x-modal-token-id": Redacted.value(creds.tokenId),
+              "x-modal-token-secret": Redacted.value(creds.tokenSecret),
+              ...(creds.authToken !== undefined
+                ? { "x-modal-auth-token": Redacted.value(creds.authToken) }
+                : {}),
+            }),
+    "x-modal-client-type": creds.container ? CLIENT_TYPE_CONTAINER : CLIENT_TYPE_LIBMODAL_JS,
     "x-modal-client-version": CLIENT_VERSION,
     "x-modal-libmodal-version": `modal-js/${LIBMODAL_JS_VERSION}`,
   }),
