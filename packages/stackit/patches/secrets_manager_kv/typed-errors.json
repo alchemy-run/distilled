@@ -1,0 +1,50 @@
+{
+  "description": "Vault's refusals that a caller acts on and that a bare status can't tell apart. A KV v2 write whose `cas` doesn't match answers 400 `check-and-set parameter did not match the current version` (hashicorp/vault-plugin-secrets-kv path_data.go, read 2026-11-01), which Vault's own docs tell clients to re-read and retry. A login during a lockout answers 429 `user is temporarily locked...` or `approle is temporarily locked due to too many failed login attempts`, has no Retry-After, and the docs say to stop retrying for 10 minutes (docs.stackit.cloud/products/security/secrets-manager/how-tos/handle-authentication-lockouts, read 2026-11-01): typed so it isn't the retryable TooManyRequests.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.secrets_manager_kv#CheckAndSetMismatch",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 400, "message": { "includes": "check-and-set parameter did not match" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.secrets_manager_kv#PutSecret/errors/-",
+      "value": { "target": "com.stackit.secrets_manager_kv#CheckAndSetMismatch" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.secrets_manager_kv#AuthenticationLocked",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 400,
+          "com.distilled.openapi#errorMatchers": [
+            { "status": 429, "message": { "includes": "temporarily locked" } }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.secrets_manager_kv#LoginWithAppRole/errors/-",
+      "value": { "target": "com.stackit.secrets_manager_kv#AuthenticationLocked" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.secrets_manager_kv#LoginWithUserpass/errors/-",
+      "value": { "target": "com.stackit.secrets_manager_kv#AuthenticationLocked" }
+    }
+  ]
+}

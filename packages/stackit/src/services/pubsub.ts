@@ -438,6 +438,7 @@ export type DeleteTopicError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | Conflict
   | StackitOpError;
 /** Deletes the given topic. */
 export const deleteTopic: API.OperationMethod<
@@ -448,7 +449,7 @@ export const deleteTopic: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(96, __c24, 0) as any as S.Schema<DeleteTopicRequest>,
   output: __S(92, __c23, 0) as any as S.Schema<DeleteTopicResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -535,12 +536,13 @@ export const grantTopicPublisherAccess: API.OperationMethod<
 
 export type ListSubscriptionsError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Returns a list of all topic subscriptions. */
-export const listSubscriptions: API.OperationMethod<
+export const listSubscriptions: API.PaginatedOperationMethod<
   ListSubscriptionsRequest,
   ListSubscriptionsResponse,
   ListSubscriptionsError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  StackitOpContext,
+  SubscriptionResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<ListSubscriptionsRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<ListSubscriptionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
@@ -548,7 +550,13 @@ export const listSubscriptions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSubscriptions",
-}));
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "subscriptions",
+    pageSize: "pageSize",
+  } as const,
+})) as any;
 
 export type ListSubscriptionSubscribersError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Returns a list of emailAddresses that are allowed to pull from the given subscription. */
@@ -586,12 +594,13 @@ export const listTopicPublishers: API.OperationMethod<
 
 export type ListTopicsError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Returns a list of all topics within the PubSub project. */
-export const listTopics: API.OperationMethod<
+export const listTopics: API.PaginatedOperationMethod<
   ListTopicsRequest,
   ListTopicsResponse,
   ListTopicsError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  StackitOpContext,
+  TopicResponse
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListTopicsRequest>,
   output: __S(30, __c7, 2) as any as S.Schema<ListTopicsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
@@ -599,7 +608,13 @@ export const listTopics: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListTopics",
-}));
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "topics",
+    pageSize: "pageSize",
+  } as const,
+})) as any;
 
 export type RevokeSubscriptionSubscriberAccessError =
   | BadRequest

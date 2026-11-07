@@ -1,0 +1,67 @@
+{
+  "description": "The logme spec (v2) documents 410 on GetInstance (`responses.410`, sharing the NotFound response), but convert keeps one error shape per named response and drops the status, so a deleted instance surfaces as UnknownStackitError. STACKIT's Go SDK (stackit-sdk-go services/logme/v2api/wait/wait.go, read 2026-11-01): DeleteInstanceWaitHandler finishes on http.StatusGone, and DeleteCredentialsWaitHandler finishes on http.StatusNotFound or http.StatusGone from GetCredentials. No live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#InstanceGone",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 410,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 410
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#CredentialsGone",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 410,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 410
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#GetInstance/errors/-",
+      "value": {
+        "target": "com.stackit.logme#InstanceGone"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#GetCredentials/errors/-",
+      "value": {
+        "target": "com.stackit.logme#CredentialsGone"
+      }
+    }
+  ]
+}

@@ -11,8 +11,10 @@ import { Credentials, credentials } from "../src/credentials.ts";
 import { StackitParseError, UnknownStackitError } from "../src/errors.ts";
 import { applyRegion } from "../src/protocol.ts";
 import * as Retry from "../src/retry.ts";
+import { getVolumeAutomation } from "../src/services/automation.ts";
 import { listServers } from "../src/services/iaas.ts";
 import { getAccessToken } from "../src/services/logs.ts";
+import { downloadBackup } from "../src/services/mariadb.ts";
 import {
   BadRequest,
   Conflict,
@@ -81,13 +83,17 @@ const projectId = "11111111-2222-3333-4444-555555555555";
 const SECRET = "sentinel-secret-7f3a";
 
 describe("applyRegion", () => {
-  test("inserts the region into a version-less product host", () => {
-    expect(applyRegion("https://ske.api.stackit.cloud", "eu01")).toBe(
-      "https://ske.api.eu01.stackit.cloud",
-    );
-    expect(applyRegion("https://load-balancer.api.stackit.cloud/", "eu02")).toBe(
-      "https://load-balancer.api.eu02.stackit.cloud/",
-    );
+  test("leaves a global host alone, as the Go SDK's ConfigureRegion does", () => {
+    for (const host of [
+      "https://ske.api.stackit.cloud",
+      "https://dns.api.stackit.cloud",
+      "https://authorization.api.stackit.cloud",
+      "https://resource-manager.api.stackit.cloud",
+      "https://load-balancer.api.stackit.cloud/",
+    ]) {
+      expect(applyRegion(host, "eu01")).toBe(host);
+      expect(applyRegion(host, "eu02")).toBe(host);
+    }
   });
 
   test("substitutes a glued {region} template, adding the trailing dot", () => {
@@ -123,16 +129,16 @@ describe("applyRegion", () => {
 });
 
 describe("request encoding", () => {
-  test("sends Bearer auth to the product host in the default region (eu01)", async () => {
+  test("sends Bearer auth to the global product host", async () => {
     const { calls, layer } = fakeStackit(200, JSON.stringify({}));
     await run(getProject({ id: projectId }), layer);
     expect(calls[0].headers.authorization).toBe("Bearer stackit-token");
     expect(calls[0].url.href).toBe(
-      `https://resource-manager.api.eu01.stackit.cloud/v2/projects/${projectId}`,
+      `https://resource-manager.api.stackit.cloud/v2/projects/${projectId}`,
     );
   });
 
-  test("each product uses its own host; the configured region is applied", async () => {
+  test("each product uses its own host; the region reaches the path or the {region} host", async () => {
     const iaas = fakeStackit(200, JSON.stringify({ items: [] }));
     await run(
       listServers({ projectId, region: "eu02", details: true }),
@@ -140,7 +146,7 @@ describe("request encoding", () => {
       creds({ region: "eu02" }),
     );
     expect(iaas.calls[0].url.href).toBe(
-      `https://iaas.api.eu02.stackit.cloud/v2/projects/${projectId}/regions/eu02/servers?details=true`,
+      `https://iaas.api.stackit.cloud/v2/projects/${projectId}/regions/eu02/servers?details=true`,
     );
 
     const secrets = fakeStackit(200, JSON.stringify({}));
@@ -177,11 +183,11 @@ describe("request encoding", () => {
       Credentials,
       Effect.sync(() => ({ token: Redacted.make(`t${++n}`), region: n === 1 ? "eu01" : "eu02" })),
     );
-    await run(getProject({ id: projectId }), layer, rotating);
-    await run(getProject({ id: projectId }), layer, rotating);
+    await run(getInstance({ projectId, instanceId: "i-1" }), layer, rotating);
+    await run(getInstance({ projectId, instanceId: "i-1" }), layer, rotating);
     expect(calls.map((c) => [c.headers.authorization, c.url.host])).toEqual([
-      ["Bearer t1", "resource-manager.api.eu01.stackit.cloud"],
-      ["Bearer t2", "resource-manager.api.eu02.stackit.cloud"],
+      ["Bearer t1", "secrets-manager.api.eu01.stackit.cloud"],
+      ["Bearer t2", "secrets-manager.api.eu02.stackit.cloud"],
     ]);
   });
 
@@ -324,5 +330,52 @@ describe("success decoding", () => {
     expect(error).toBeInstanceOf(StackitParseError);
     expect(error).toMatchObject({ body: "[REDACTED]" });
     expect(inspect(error, { depth: Infinity })).not.toContain(SECRET);
+  });
+});
+
+describe("binary downloads", () => {
+  const request = {
+    projectId,
+    regionId: "eu01",
+    instanceId: "instance-1",
+    backupId: 7,
+  };
+
+  test("returns the bytes of a binary response untouched", async () => {
+    // Not valid UTF-8, so a round trip through text would change them.
+    const bytes = new Uint8Array([0xff, 0xfe, 0x00, 0x80, 0x41]);
+    const layer = Layer.succeed(
+      HttpClient.HttpClient,
+      HttpClient.make((incoming) =>
+        Effect.succeed(HttpClientResponse.fromWeb(incoming, new Response(bytes, { status: 200 }))),
+      ),
+    );
+    const archive = await run(downloadBackup(request), layer);
+    expect(archive).toBeInstanceOf(Uint8Array);
+    expect([...archive]).toEqual([...bytes]);
+  });
+
+  test("still fails a binary operation with its typed error", async () => {
+    const { layer } = fakeStackit(404, '{"error":"not-found","description":"no backup"}');
+    const error = await runFlip(downloadBackup(request), layer);
+    expect(error).toMatchObject({ _tag: "NotFound" });
+  });
+});
+
+describe("nested error envelope", () => {
+  test("surfaces the code and message of `automation`'s `{ error: { ... } }`", async () => {
+    const { layer } = fakeStackit(
+      404,
+      '{"error":{"code":404,"status":"NOT_FOUND","message":"The requested resource could not be found."}}',
+    );
+    const error = await runFlip(
+      getVolumeAutomation({ projectId: "p", region: "eu01", automationId: "a" }),
+      layer,
+    );
+    expect(error).toMatchObject({
+      _tag: "NotFound",
+      code: 404,
+      message: "The requested resource could not be found.",
+    });
   });
 });

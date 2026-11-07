@@ -1,0 +1,23 @@
+{
+  "description": "DeleteOrgManager documents 410 (\"this happens even if the org manager never existed\", spec read 2026-11-01), and STACKIT's Terraform provider treats http.StatusGone as success (stackit/internal/services/scf/organizationmanager/resource.go, read 2026-11-01), but core's status map has no 410 class and the converter only keeps the shared error shapes, so it surfaces as UnknownStackitError. Type it so an idempotent delete can tell it from a failure.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.scf#OrgManagerGone",
+      "value": {
+        "type": "structure",
+        "members": { "message": { "target": "smithy.api#String" } },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 410,
+          "com.distilled.openapi#errorMatchers": [{ "status": 410 }]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.scf#DeleteOrgManager/errors/-",
+      "value": { "target": "com.stackit.scf#OrgManagerGone" }
+    }
+  ]
+}

@@ -62,6 +62,8 @@ export interface CloneInstanceRequest {
   /** instance id */
   instanceId: string;
   timestamp?: string;
+  /** Instance the clone is applied to, in the request body. The path's `instanceId` is the instance holding the backups. Use the same id to apply it to that instance. */
+  targetInstanceId: string;
 }
 export interface CloneInstanceResponse {
   instanceId?: string;
@@ -123,7 +125,7 @@ export interface User {
   port?: number;
   /** The roles defined for a user. Currently only one role in the list is supported, therefore only the first role from this list is used. The *roles* attribute can contain the following values: 'read', 'readWrite', 'readAnyDatabase', 'readWriteAnyDatabase', 'stackitAdmin'. **The 'readAnyDatabase', 'readWriteAnyDatabase' and 'stackitAdmin' roles will always be created in the admin database.** */
   roles?: UserRolesList;
-  uri?: string;
+  uri?: string | Redacted.Redacted<string>;
   username?: string;
 }
 export interface CreateUserResponse {
@@ -493,6 +495,11 @@ export type PartialUpdateInstanceRequestRegion = "eu01" | "eu02";
 /** Labels field is not certain/clear */
 export type PartialUpdateInstanceRequestLabelsMap = { [key: string]: string | undefined };
 export type PartialUpdateInstanceRequestOptionsMap = { [key: string]: string | undefined };
+export interface StorageUpdate {
+  /** DEPRECATED: Starting November 2026, the API will reject requests that attempt to modify the storage class. */
+  class?: string;
+  size?: number;
+}
 export interface PartialUpdateInstanceRequest {
   /** project id */
   projectId: string;
@@ -508,7 +515,7 @@ export interface PartialUpdateInstanceRequest {
   name?: string;
   options?: PartialUpdateInstanceRequestOptionsMap;
   replicas?: number;
-  storage?: Storage;
+  storage?: StorageUpdate;
   version?: string;
 }
 export interface UpdateInstanceResponse {
@@ -551,6 +558,8 @@ export interface RestoreInstanceRequest {
   /** instance id */
   instanceId: string;
   backupId: string;
+  /** Instance the backup is restored to, in the request body. The path's `instanceId` is the instance holding the backup. Use the same id to restore it in place. */
+  targetInstanceId: string;
 }
 export interface RestoreInstanceResponse {
   item?: RestoreInstanceStatus;
@@ -597,7 +606,7 @@ export interface UpdateInstanceRequest {
   name: string;
   options: UpdateInstanceRequestOptionsMap;
   replicas: number;
-  storage: Storage;
+  storage: StorageUpdate;
   version: string;
 }
 export type UpdateUserRequestRegion = "eu01" | "eu02";
@@ -719,7 +728,7 @@ export const getBackup: API.OperationMethod<
   span: "GetBackup",
 }));
 
-export type GetInstanceError = BadRequest | StackitOpError;
+export type GetInstanceError = BadRequest | NotFound | StackitOpError;
 /** Get instance gets information of an instance */
 export const getInstance: API.OperationMethod<
   GetInstanceRequest,
@@ -729,7 +738,7 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(514, __c32, 2) as any as S.Schema<InstanceResponse>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1560,6 +1569,7 @@ function __c15(j: number): any {
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           backupId: S.String,
+          targetInstanceId: S.String.pipe(T.Body("instanceId")),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1672,6 +1682,7 @@ function __c19(j: number): any {
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           timestamp: S.optional(S.String),
+          targetInstanceId: S.String.pipe(T.Body("instanceId")),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1790,7 +1801,7 @@ function __c25(j: number): any {
           password: S.optional(S.String.pipe(T.SensitiveValue({}))),
           port: S.optional(S.Number),
           roles: S.optional(__S(336, __c21, 0)),
-          uri: S.optional(S.String),
+          uri: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.optional(S.String),
         }),
       ).annotate({ identifier: "User" });

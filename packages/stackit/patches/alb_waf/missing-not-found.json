@@ -1,0 +1,10 @@
+{
+  "description": "The ALB WAF spec documents no 404 on DeleteCustomRuleGroup, but the API returns 404 for a custom rule group that does not exist: STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/albwaf/custom_rule_group/resource.go, Delete, read 2026-11-01) treats http.StatusNotFound as already deleted. Type it as the model's NotFound so callers can tell a missing rule group from other failures.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.alb_waf#DeleteCustomRuleGroup/errors/-",
+      "value": { "target": "com.stackit.alb_waf#NotFound" }
+    }
+  ]
+}

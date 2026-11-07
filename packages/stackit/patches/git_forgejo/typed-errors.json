@@ -1,0 +1,15 @@
+{
+  "description": "Forgejo's swagger leaves off errors createOrgRepo returns (forgejo/forgejo v17.0.1, routers/api/v1/repo/repo.go, read 2026-11-01). CreateOrgRepo goes through CreateUserRepo, which answers 409 for a name that exists and 422 for a reserved name or one that breaks the name pattern, and answers 422 itself when the organization doesn't exist. createCurrentUserRepo declares both. Typed so a create can tell its own race from a failure.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#CreateOrgRepo/errors/-",
+      "value": { "target": "com.stackit.git_forgejo#Conflict" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.git_forgejo#CreateOrgRepo/errors/-",
+      "value": { "target": "com.stackit.git_forgejo#UnprocessableEntity" }
+    }
+  ]
+}

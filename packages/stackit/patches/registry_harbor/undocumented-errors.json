@@ -1,0 +1,24 @@
+{
+  "description": "Harbor's swagger omits errors its handlers return (goharbor/harbor v2.15.4, read 2026-11-01). GetProject declares only 200/401/500, but src/server/v2.0/handler/project.go returns RequireProjectAccess's 403 and SendError's 404 from projectCtl.Get. ListRobot declares no 403, but src/server/v2.0/handler/robot.go calls requireAccess, which returns errors.ForbiddenError. CreateRobot declares no 409, but src/pkg/robot/dao/dao.go maps a duplicate name to orm.WrapConflictError. Type them with the model's status errors so callers can tell a missing project or a name race from other failures.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.registry_harbor#GetProject/errors",
+      "before": "traits",
+      "value": [
+        { "target": "com.stackit.registry_harbor#Forbidden" },
+        { "target": "com.stackit.registry_harbor#NotFound" }
+      ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.registry_harbor#ListRobot/errors/-",
+      "value": { "target": "com.stackit.registry_harbor#Forbidden" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.registry_harbor#CreateRobot/errors/-",
+      "value": { "target": "com.stackit.registry_harbor#Conflict" }
+    }
+  ]
+}

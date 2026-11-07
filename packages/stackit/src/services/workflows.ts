@@ -463,6 +463,7 @@ export interface OAuth2IdentityProviderPatch {
   rolesClaim?: string;
   /** Updated scopes to request for Authorization Code Flows. (UI login) */
   scope?: string;
+  type: OAuth2IdentityProviderType;
 }
 /** Request to update an identity provider configuration */
 export type UpdateIdentityProviderPayload = StackITIdentityProvider | OAuth2IdentityProviderPatch;

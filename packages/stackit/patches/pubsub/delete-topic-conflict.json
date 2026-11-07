@@ -1,0 +1,10 @@
+{
+  "description": "The spec's `force` parameter of `delete-topic` says it \"returns a 409 conflict if active subscriptions exist\", but the operation's responses list no 409. `Conflict` is already in the module, from the other operations.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub#DeleteTopic/errors/-",
+      "value": { "target": "com.stackit.pubsub#Conflict" }
+    }
+  ]
+}

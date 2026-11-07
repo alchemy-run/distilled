@@ -53,7 +53,18 @@ export class NotFound
     [{ status: 404 }],
   ) {}
 
+export class UnprocessableEntity
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<UnprocessableEntity>()("UnprocessableEntity", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 422 }],
+  ) {}
+
 export type CreateDremioInstanceRequestRegionId = "eu01" | "eu02";
+/** The Access Control List (ACL) defining the IPv4 or IPv6 CIDR ranges allowed to connect to the Dremio instance. An empty list allows access from any address. Omitting this field on creation allows access from any address. Omitting it on update preserves the current list. Updates replace the entire list and take effect asynchronously. */
+export type Acl = Array<string>;
 /** Azure Active Directory authentication configuration. */
 export interface AzureadInput {
   /** The Azure AD authority URL. */
@@ -101,6 +112,7 @@ export interface CreateDremioInstanceRequest {
   projectId: string;
   /** The STACKIT region name the resource is located in. */
   regionId: CreateDremioInstanceRequestRegionId | (string & {});
+  acl?: Acl;
   authentication?: AuthenticationInput;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
   description?: string;
@@ -154,6 +166,7 @@ export interface Endpoints {
 /** The current state of the resource. */
 export type DremioResponseOutputState = "reconciling" | "active" | "deleting" | "error";
 export interface DremioResponseOutput {
+  acl: Acl;
   authentication: AuthenticationOutput;
   /** The point in time the resource was created. */
   create_time: string;
@@ -298,13 +311,18 @@ export interface UpdateDremioInstanceRequest {
   regionId: UpdateDremioInstanceRequestRegionId | (string & {});
   /** The Dremio instance UUID. */
   dremioId: string;
+  acl?: Acl;
   authentication?: AuthenticationInput;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
   description?: string;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName?: string;
 }
-export type CreateDremioInstanceError = BadRequest | Conflict | StackitOpError;
+export type CreateDremioInstanceError =
+  | BadRequest
+  | Conflict
+  | UnprocessableEntity
+  | StackitOpError;
 /** Creates a new Dremio instance within the project. */
 export const createDremioInstance: API.OperationMethod<
   CreateDremioInstanceRequest,
@@ -312,16 +330,16 @@ export const createDremioInstance: API.OperationMethod<
   CreateDremioInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<CreateDremioInstanceRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<DremioResponseOutput>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  input: __S(48, __c3, 0) as any as S.Schema<CreateDremioInstanceRequest>,
+  output: __S(88, __c5, 8) as any as S.Schema<DremioResponseOutput>,
+  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDremioInstance",
 }));
 
-export type CreateDremioUserError = BadRequest | Conflict | StackitOpError;
+export type CreateDremioUserError = BadRequest | Conflict | UnprocessableEntity | StackitOpError;
 /** Creates a new Dremio admin user for the given Dremio instance. */
 export const createDremioUser: API.OperationMethod<
   CreateDremioUserRequest,
@@ -329,16 +347,21 @@ export const createDremioUser: API.OperationMethod<
   CreateDremioUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<CreateDremioUserRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DremioUserResponse>,
-  errors: [BadRequest, Conflict, UnknownStackitError],
+  input: __S(96, __c6, 0) as any as S.Schema<CreateDremioUserRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DremioUserResponse>,
+  errors: [BadRequest, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDremioUser",
 }));
 
-export type DeleteDremioInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
+export type DeleteDremioInstanceError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | StackitOpError;
 /** Deletes the given Dremio instance. */
 export const deleteDremioInstance: API.OperationMethod<
   DeleteDremioInstanceRequest,
@@ -346,16 +369,21 @@ export const deleteDremioInstance: API.OperationMethod<
   DeleteDremioInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<DeleteDremioInstanceRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<DeleteDremioInstanceResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  input: __S(128, __c8, 0) as any as S.Schema<DeleteDremioInstanceRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteDremioInstanceResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDremioInstance",
 }));
 
-export type DeleteDremioUserError = BadRequest | NotFound | Conflict | StackitOpError;
+export type DeleteDremioUserError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | StackitOpError;
 /** Deletes the given dremio admin user. */
 export const deleteDremioUser: API.OperationMethod<
   DeleteDremioUserRequest,
@@ -363,9 +391,9 @@ export const deleteDremioUser: API.OperationMethod<
   DeleteDremioUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<DeleteDremioUserRequest>,
-  output: __S(64, __c8, 0) as any as S.Schema<DeleteDremioUserResponse>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  input: __S(160, __c10, 0) as any as S.Schema<DeleteDremioUserRequest>,
+  output: __S(144, __c9, 0) as any as S.Schema<DeleteDremioUserResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -380,8 +408,8 @@ export const getDremioInstance: API.OperationMethod<
   GetDremioInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<GetDremioInstanceRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<DremioResponseOutput>,
+  input: __S(176, __c11, 0) as any as S.Schema<GetDremioInstanceRequest>,
+  output: __S(88, __c5, 8) as any as S.Schema<DremioResponseOutput>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -397,8 +425,8 @@ export const getDremioUser: API.OperationMethod<
   GetDremioUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<GetDremioUserRequest>,
-  output: __S(48, __c6, 0) as any as S.Schema<DremioUserResponse>,
+  input: __S(192, __c12, 0) as any as S.Schema<GetDremioUserRequest>,
+  output: __S(112, __c7, 0) as any as S.Schema<DremioUserResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -414,8 +442,8 @@ export const listDremioInstances: API.OperationMethod<
   ListDremioInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<ListDremioInstancesRequest>,
-  output: __S(98, __c12, 2) as any as S.Schema<ListDremiosResponseOutput>,
+  input: __S(0, __c0, 0) as any as S.Schema<ListDremioInstancesRequest>,
+  output: __S(2, __c0, 2) as any as S.Schema<ListDremiosResponseOutput>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -431,8 +459,8 @@ export const listDremioUsers: API.OperationMethod<
   ListDremioUsersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<ListDremioUsersRequest>,
-  output: __S(2, __c0, 2) as any as S.Schema<ListDremioUsersResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<ListDremioUsersRequest>,
+  output: __S(18, __c1, 2) as any as S.Schema<ListDremioUsersResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -440,7 +468,12 @@ export const listDremioUsers: API.OperationMethod<
   span: "ListDremioUsers",
 }));
 
-export type UpdateDremioInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
+export type UpdateDremioInstanceError =
+  | BadRequest
+  | NotFound
+  | Conflict
+  | UnprocessableEntity
+  | StackitOpError;
 /** Updates the given Dremio instance. Please note that changing certain fields will trigger a Dremio restart and will incur downtime. See the request body information for more details. */
 export const updateDremioInstance: API.OperationMethod<
   UpdateDremioInstanceRequest,
@@ -448,9 +481,9 @@ export const updateDremioInstance: API.OperationMethod<
   UpdateDremioInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(8, __c1, 0) as any as S.Schema<UpdateDremioInstanceRequest>,
-  output: __S(39, __c4, 7) as any as S.Schema<DremioResponseOutput>,
-  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  input: __S(32, __c2, 0) as any as S.Schema<UpdateDremioInstanceRequest>,
+  output: __S(88, __c5, 8) as any as S.Schema<DremioResponseOutput>,
+  errors: [BadRequest, NotFound, Conflict, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -459,6 +492,35 @@ export const updateDremioInstance: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          pageToken: S.optional(S.String.pipe(T.Query())),
+          pageSize: S.optional(S.Number.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios",
+            code: 200,
+            baseUrl: "https://dremio.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListDremioInstancesRequest" });
+    case 1:
+      return S.Array(__S(88, __c5, 8));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          dremios: __S(1, __c0, 1),
+          nextPageToken: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "ListDremiosResponseOutput" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -478,17 +540,17 @@ function __c0(j: number): any {
         ),
       ).annotate({ identifier: "ListDremioUsersRequest" });
     case 1:
-      return S.Array(__S(48, __c6, 0));
+      return S.Array(__S(112, __c7, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          dremioUsers: __S(1, __c0, 1),
+          dremioUsers: __S(17, __c1, 1),
           nextPageToken: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDremioUsersResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -496,7 +558,8 @@ function __c1(j: number): any {
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
           dremioId: S.String.pipe(T.Label()),
-          authentication: S.optional(__S(26, __c3, 2)),
+          acl: S.optional(__S(80, __c5, 0)),
+          authentication: S.optional(__S(66, __c4, 2)),
           description: S.optional(S.String),
           displayName: S.optional(S.String),
         }).pipe(
@@ -510,14 +573,15 @@ function __c1(j: number): any {
       ).annotate({ identifier: "UpdateDremioInstanceRequest" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
-          authentication: S.optional(__S(26, __c3, 2)),
+          acl: S.optional(__S(80, __c5, 0)),
+          authentication: S.optional(__S(66, __c4, 2)),
           description: S.optional(S.String),
           displayName: S.String,
         }).pipe(
@@ -531,7 +595,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "CreateDremioInstanceRequest" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -547,39 +611,41 @@ function __c3(j: number): any {
           authorityUrl: S.String,
           clientId: S.String,
           clientSecret: S.optional(S.String.pipe(T.SensitiveValue({}))),
-          jwtClaims: __S(32, __c4, 0),
-          parameters: S.optional(__S(34, __c4, 2)),
+          jwtClaims: __S(81, __c5, 1),
+          parameters: S.optional(__S(83, __c5, 3)),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "OauthInput" });
     case 2:
       return S.suspend(() =>
         S.Struct({
-          azuread: S.optional(__S(24, __c3, 0)),
-          oauth: S.optional(__S(25, __c3, 1)),
+          azuread: S.optional(__S(64, __c4, 0)),
+          oauth: S.optional(__S(65, __c4, 1)),
           type: S.String,
         }),
       ).annotate({ identifier: "AuthenticationInput" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
+      return S.Array(S.String);
+    case 1:
       return S.suspend(() =>
         S.Struct({
           userName: S.String,
         }),
       ).annotate({ identifier: "OauthInputJwtClaims" });
-    case 1:
+    case 2:
       return S.suspend(() =>
         S.Struct({
           name: S.String,
           value: S.String,
         }),
       ).annotate({ identifier: "AuthParameters" });
-    case 2:
-      return S.Array(__S(33, __c4, 1));
     case 3:
+      return S.Array(__S(82, __c5, 2));
+    case 4:
       return S.suspend(() =>
         S.Struct({
           authorityUrl: S.String,
@@ -587,26 +653,26 @@ function __c4(j: number): any {
           redirectUrl: S.optional(S.String),
         }),
       ).annotate({ identifier: "AzureadOutput" });
-    case 4:
+    case 5:
       return S.suspend(() =>
         S.Struct({
           authorityUrl: S.String,
           clientId: S.String,
-          jwtClaims: __S(32, __c4, 0),
-          parameters: S.optional(__S(34, __c4, 2)),
+          jwtClaims: __S(81, __c5, 1),
+          parameters: S.optional(__S(83, __c5, 3)),
           redirectUrl: S.optional(S.String),
           scope: S.optional(S.String),
         }),
       ).annotate({ identifier: "OauthOutput" });
-    case 5:
+    case 6:
       return S.suspend(() =>
         S.Struct({
-          azuread: S.optional(__S(35, __c4, 3)),
-          oauth: S.optional(__S(36, __c4, 4)),
+          azuread: S.optional(__S(84, __c5, 4)),
+          oauth: S.optional(__S(85, __c5, 5)),
           type: S.String,
         }),
       ).annotate({ identifier: "AuthenticationOutput" });
-    case 6:
+    case 7:
       return S.suspend(() =>
         S.Struct({
           arrowFlight: S.String,
@@ -614,14 +680,15 @@ function __c4(j: number): any {
           ui: S.String,
         }),
       ).annotate({ identifier: "Endpoints" });
-    case 7:
+    case 8:
       return S.suspend(() =>
         S.Struct({
-          authentication: __S(37, __c4, 5),
+          acl: __S(80, __c5, 0),
+          authentication: __S(86, __c5, 6),
           create_time: S.String,
           description: S.optional(S.String),
           displayName: S.String,
-          endpoints: __S(38, __c4, 6),
+          endpoints: __S(87, __c5, 7),
           errorMessage: S.optional(S.String),
           id: S.String,
           state: S.String,
@@ -629,7 +696,7 @@ function __c4(j: number): any {
       ).annotate({ identifier: "DremioResponseOutput" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -654,7 +721,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "CreateDremioUserRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -672,7 +739,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "DremioUserResponse" });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -691,13 +758,13 @@ function __c7(j: number): any {
       ).annotate({ identifier: "DeleteDremioInstanceRequest" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDremioInstanceResponse" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -717,7 +784,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "DeleteDremioUserRequest" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -736,7 +803,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "GetDremioInstanceRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -754,35 +821,6 @@ function __c11(j: number): any {
           }),
         ),
       ).annotate({ identifier: "GetDremioUserRequest" });
-  }
-}
-function __c12(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          regionId: S.String.pipe(T.Label()),
-          pageToken: S.optional(S.String.pipe(T.Query())),
-          pageSize: S.optional(S.Number.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1beta/projects/{projectId}/regions/{regionId}/dremios",
-            code: 200,
-            baseUrl: "https://dremio.api.{region}stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "ListDremioInstancesRequest" });
-    case 1:
-      return S.Array(__S(39, __c4, 7));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          dremios: __S(97, __c12, 1),
-          nextPageToken: S.optional(S.String),
-        }),
-      ).annotate({ identifier: "ListDremiosResponseOutput" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

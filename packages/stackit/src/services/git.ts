@@ -175,12 +175,16 @@ export interface CreateRunnerRequest {
   projectId: string;
   /** Instance identifier. */
   instanceId: string;
+  /** The runner's job family name. */
+  familyName?: string;
   labels: CreateRunnerRequestLabelsList;
 }
 export type RunnerLabelsList = Array<string>;
 /** Describes a runner associated to a STACKIT Git instance. */
 export interface Runner {
   created_at: string;
+  /** The runner's job family name. */
+  familyName?: string;
   id: string;
   labels: RunnerLabelsList;
   /** The current status of the runner. */
@@ -273,7 +277,6 @@ export interface GetUserRequest {
   /** Instance User identifier. */
   username: string;
 }
-export interface GetUserResponse {}
 export interface GetUsersRequest {
   /** Project identifier. */
   projectId: string;
@@ -323,19 +326,45 @@ export interface Flavor {
   /** SAP article number. */
   sku: string;
 }
-export type ListFlavorsFlavorsList = Array<Flavor>;
+export type FlavorListFlavorsList = Array<Flavor>;
 /** A list of STACKIT Git Flavors. */
-export interface ListFlavors {
-  flavors: ListFlavorsFlavorsList;
+export interface FlavorList {
+  flavors: FlavorListFlavorsList;
 }
 export interface ListInstancesRequest {
   /** Project identifier. */
   projectId: string;
 }
-export type ListInstancesInstancesList = Array<Instance>;
+export type InstanceListInstancesList = Array<Instance>;
 /** A list of STACKIT Git instances. */
-export interface ListInstances {
-  instances: ListInstancesInstancesList;
+export interface InstanceList {
+  instances: InstanceListInstancesList;
+}
+export interface ListRunnerFamiliesRequest {
+  /** Project identifier. */
+  projectId: string;
+}
+/** Describes a STACKIT Git Runner Family. */
+export interface RunnerFamily {
+  /** Indicates the runner image architecture. */
+  arch: string;
+  /** Indicates the availability of the runner label */
+  availability: string;
+  /** CPU virtual cores resource limit of jobs. */
+  cpu: string;
+  /** Disk size limit of jobs. */
+  disk: string;
+  /** Human-friendly name of the runtime. */
+  display_name: string;
+  /** Family name identifier. */
+  name: string;
+  /** RAM resource limit of jobs. */
+  ram: string;
+}
+export type RunnerFamilyListItemsList = Array<RunnerFamily>;
+/** A list of STACKIT Git RunnerFamily. */
+export interface RunnerFamilyList {
+  items: RunnerFamilyListItemsList;
 }
 export interface ListRunnerRuntimesRequest {
   /** Project identifier. */
@@ -343,9 +372,11 @@ export interface ListRunnerRuntimesRequest {
 }
 /** Describes a STACKIT Git Runner runtime. */
 export interface RunnerRuntime {
+  /** Indicates the runner image architecture. */
+  arch: string;
   /** Indicates the availability of the runner label */
   availability: string;
-  /** Human-friendly description of the runtime and its capabilities. */
+  /** Human-friendly description of the runtime and it's capabilities. */
   description: string;
   /** Human-friendly name of the runtime. */
   display_name: string;
@@ -412,8 +443,8 @@ export const createAuthentication: API.OperationMethod<
   CreateAuthenticationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(52, __c13, 0) as any as S.Schema<CreateAuthenticationRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<Authentication>,
+  input: __S(56, __c14, 0) as any as S.Schema<CreateAuthenticationRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<Authentication>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -429,8 +460,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(60, __c15, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(67, __c16, 3) as any as S.Schema<Instance>,
+  input: __S(64, __c16, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(71, __c17, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -446,8 +477,8 @@ export const createRunner: API.OperationMethod<
   CreateRunnerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c18, 0) as any as S.Schema<CreateRunnerRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<Runner>,
+  input: __S(76, __c19, 0) as any as S.Schema<CreateRunnerRequest>,
+  output: __S(80, __c20, 0) as any as S.Schema<Runner>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -463,8 +494,8 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c20, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<User>,
+  input: __S(84, __c21, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<User>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -480,8 +511,8 @@ export const deleteAuthentication: API.OperationMethod<
   DeleteAuthenticationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c22, 0) as any as S.Schema<DeleteAuthenticationRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DeleteAuthenticationResponse>,
+  input: __S(92, __c23, 0) as any as S.Schema<DeleteAuthenticationRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteAuthenticationResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -497,8 +528,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c24, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(100, __c25, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -514,8 +545,8 @@ export const deleteRunner: API.OperationMethod<
   DeleteRunnerError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(100, __c25, 0) as any as S.Schema<DeleteRunnerRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DeleteRunnerResponse>,
+  input: __S(104, __c26, 0) as any as S.Schema<DeleteRunnerRequest>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteRunnerResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -532,7 +563,7 @@ export const deleteUser: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<DeleteUserResponse>,
+  output: __S(96, __c24, 0) as any as S.Schema<DeleteUserResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -540,7 +571,7 @@ export const deleteUser: API.OperationMethod<
   span: "DeleteUser",
 }));
 
-export type GetAuthenticationError = BadRequest | StackitOpError;
+export type GetAuthenticationError = BadRequest | NotFound | StackitOpError;
 /** Get authentication provider Get authentication provider */
 export const getAuthentication: API.OperationMethod<
   GetAuthenticationRequest,
@@ -549,8 +580,8 @@ export const getAuthentication: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(4, __c1, 0) as any as S.Schema<GetAuthenticationRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<Authentication>,
-  errors: [BadRequest, UnknownStackitError],
+  output: __S(60, __c15, 0) as any as S.Schema<Authentication>,
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -566,7 +597,7 @@ export const getInstance: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(8, __c2, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(67, __c16, 3) as any as S.Schema<Instance>,
+  output: __S(71, __c17, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -583,7 +614,7 @@ export const getRunner: API.OperationMethod<
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetRunnerRequest>,
-  output: __S(76, __c19, 0) as any as S.Schema<Runner>,
+  output: __S(80, __c20, 0) as any as S.Schema<Runner>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -593,22 +624,18 @@ export const getRunner: API.OperationMethod<
 
 export type GetUserError = BadRequest | NotFound | StackitOpError;
 /** Get Instance User information. Retrieves information about a STACKIT Git instance User. */
-export const getUser: API.OperationMethod<
-  GetUserRequest,
-  GetUserResponse,
-  GetUserError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c4, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(92, __c23, 0) as any as S.Schema<GetUserResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetUser",
-}));
+export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, StackitOpContext> =
+  /*@__PURE__*/ API.make(() => ({
+    input: __S(16, __c4, 0) as any as S.Schema<GetUserRequest>,
+    output: __S(88, __c22, 0) as any as S.Schema<User>,
+    errors: [BadRequest, NotFound, UnknownStackitError],
+    protocol: StackitProtocol,
+    retry: Retry.Retry,
+    telemetry: TELEMETRY,
+    span: "GetUser",
+  }));
 
-export type GetUsersError = BadRequest | StackitOpError;
+export type GetUsersError = BadRequest | NotFound | StackitOpError;
 /** Get instance Users. Lists STACKIT Git Users within an instance. Supports pagination via the optional `page` query parameter. Each page returns up to 50 users. */
 export const getUsers: API.OperationMethod<
   GetUsersRequest,
@@ -618,14 +645,14 @@ export const getUsers: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(20, __c5, 0) as any as S.Schema<GetUsersRequest>,
   output: __S(22, __c5, 2) as any as S.Schema<ListUsers>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetUsers",
 }));
 
-export type ListAuthenticationError = BadRequest | StackitOpError;
+export type ListAuthenticationError = BadRequest | NotFound | StackitOpError;
 /** List authentication sources Lists all authentication sources belonging to a specific instance */
 export const listAuthentication: API.OperationMethod<
   ListAuthenticationRequest,
@@ -635,45 +662,62 @@ export const listAuthentication: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(24, __c6, 0) as any as S.Schema<ListAuthenticationRequest>,
   output: __S(26, __c6, 2) as any as S.Schema<AuthenticationList>,
-  errors: [BadRequest, UnknownStackitError],
+  errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListAuthentication",
 }));
 
-export type ListFlavors2Error = BadRequest | NotFound | StackitOpError;
+export type ListFlavorsError = BadRequest | NotFound | StackitOpError;
 /** Returns the details for the given STACKIT Git flavors. Provides detailed information about possible Git Flavors. */
-export const listFlavors2: API.OperationMethod<
+export const listFlavors: API.OperationMethod<
   ListFlavorsRequest,
-  ListFlavors,
-  ListFlavors2Error,
+  FlavorList,
+  ListFlavorsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(28, __c7, 0) as any as S.Schema<ListFlavorsRequest>,
-  output: __S(31, __c7, 3) as any as S.Schema<ListFlavors>,
+  output: __S(31, __c7, 3) as any as S.Schema<FlavorList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListFlavors2",
+  span: "ListFlavors",
 }));
 
-export type ListInstances2Error = BadRequest | StackitOpError;
+export type ListInstancesError = BadRequest | StackitOpError;
 /** List Instances. Lists all STACKIT Git instances within a project. */
-export const listInstances2: API.OperationMethod<
+export const listInstances: API.OperationMethod<
   ListInstancesRequest,
-  ListInstances,
-  ListInstances2Error,
+  InstanceList,
+  ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(32, __c8, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(34, __c8, 2) as any as S.Schema<ListInstances>,
+  output: __S(34, __c8, 2) as any as S.Schema<InstanceList>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListInstances2",
+  span: "ListInstances",
+}));
+
+export type ListRunnerFamiliesError = BadRequest | NotFound | StackitOpError;
+/** A list of runner job families that are available for the project. */
+export const listRunnerFamilies: API.OperationMethod<
+  ListRunnerFamiliesRequest,
+  RunnerFamilyList,
+  ListRunnerFamiliesError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(36, __c9, 0) as any as S.Schema<ListRunnerFamiliesRequest>,
+  output: __S(39, __c9, 3) as any as S.Schema<RunnerFamilyList>,
+  errors: [BadRequest, NotFound, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListRunnerFamilies",
 }));
 
 export type ListRunnerRuntimesError = BadRequest | NotFound | StackitOpError;
@@ -684,8 +728,8 @@ export const listRunnerRuntimes: API.OperationMethod<
   ListRunnerRuntimesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListRunnerRuntimesRequest>,
-  output: __S(39, __c9, 3) as any as S.Schema<RunnerRuntimeList>,
+  input: __S(40, __c10, 0) as any as S.Schema<ListRunnerRuntimesRequest>,
+  output: __S(43, __c10, 3) as any as S.Schema<RunnerRuntimeList>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -701,8 +745,8 @@ export const patchAuthentication: API.OperationMethod<
   PatchAuthenticationError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c10, 0) as any as S.Schema<PatchAuthenticationRequest>,
-  output: __S(56, __c14, 0) as any as S.Schema<Authentication>,
+  input: __S(44, __c11, 0) as any as S.Schema<PatchAuthenticationRequest>,
+  output: __S(60, __c15, 0) as any as S.Schema<Authentication>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -718,8 +762,8 @@ export const patchInstance: API.OperationMethod<
   PatchInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(44, __c11, 0) as any as S.Schema<PatchInstanceRequest>,
-  output: __S(67, __c16, 3) as any as S.Schema<Instance>,
+  input: __S(48, __c12, 0) as any as S.Schema<PatchInstanceRequest>,
+  output: __S(71, __c17, 3) as any as S.Schema<Instance>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -735,8 +779,8 @@ export const updateUser: API.OperationMethod<
   UpdateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c12, 0) as any as S.Schema<UpdateUserRequest>,
-  output: __S(84, __c21, 0) as any as S.Schema<User>,
+  input: __S(52, __c13, 0) as any as S.Schema<UpdateUserRequest>,
+  output: __S(88, __c22, 0) as any as S.Schema<User>,
   errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -856,7 +900,7 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "GetUsersRequest" });
     case 1:
-      return S.Array(__S(84, __c21, 0));
+      return S.Array(__S(88, __c22, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -885,7 +929,7 @@ function __c6(j: number): any {
         ),
       ).annotate({ identifier: "ListAuthenticationRequest" });
     case 1:
-      return S.Array(__S(56, __c14, 0));
+      return S.Array(__S(60, __c15, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -926,7 +970,7 @@ function __c7(j: number): any {
         S.Struct({
           flavors: __S(30, __c7, 2),
         }),
-      ).annotate({ identifier: "ListFlavors" });
+      ).annotate({ identifier: "FlavorList" });
   }
 }
 function __c8(j: number): any {
@@ -945,16 +989,53 @@ function __c8(j: number): any {
         ),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
-      return S.Array(__S(67, __c16, 3));
+      return S.Array(__S(71, __c17, 3));
     case 2:
       return S.suspend(() =>
         S.Struct({
           instances: __S(33, __c8, 1),
         }),
-      ).annotate({ identifier: "ListInstances" });
+      ).annotate({ identifier: "InstanceList" });
   }
 }
 function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1beta/projects/{projectId}/runner-families",
+            code: 200,
+            baseUrl: "https://git.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListRunnerFamiliesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          arch: S.String,
+          availability: S.String,
+          cpu: S.String,
+          disk: S.String,
+          display_name: S.String,
+          name: S.String,
+          ram: S.String,
+        }),
+      ).annotate({ identifier: "RunnerFamily" });
+    case 2:
+      return S.Array(__S(37, __c9, 1));
+    case 3:
+      return S.suspend(() =>
+        S.Struct({
+          items: __S(38, __c9, 2),
+        }),
+      ).annotate({ identifier: "RunnerFamilyList" });
+  }
+}
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -972,6 +1053,7 @@ function __c9(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
+          arch: S.String,
           availability: S.String,
           description: S.String,
           display_name: S.String,
@@ -980,16 +1062,16 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "RunnerRuntime" });
     case 2:
-      return S.Array(__S(37, __c9, 1));
+      return S.Array(__S(41, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          items: __S(38, __c9, 2),
+          items: __S(42, __c10, 2),
         }),
       ).annotate({ identifier: "RunnerRuntimeList" });
   }
 }
-function __c10(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1014,17 +1096,17 @@ function __c10(j: number): any {
       ).annotate({ identifier: "PatchAuthenticationRequest" });
   }
 }
-function __c11(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          acl: S.optional(S.NullOr(__S(68, __c17, 0))),
+          acl: S.optional(S.NullOr(__S(72, __c18, 0))),
           admin_login: S.optional(S.Boolean),
-          feature_toggle: S.optional(__S(65, __c16, 1)),
-          labels: S.optional(__S(66, __c16, 2)),
+          feature_toggle: S.optional(__S(69, __c17, 1)),
+          labels: S.optional(__S(70, __c17, 2)),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1036,7 +1118,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "PatchInstanceRequest" });
   }
 }
-function __c12(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1058,7 +1140,7 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdateUserRequest" });
   }
 }
-function __c13(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1083,7 +1165,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateAuthenticationRequest" });
   }
 }
-function __c14(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1102,13 +1184,13 @@ function __c14(j: number): any {
       ).annotate({ identifier: "Authentication" });
   }
 }
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
-          acl: S.optional(__S(68, __c17, 0)),
+          acl: S.optional(__S(72, __c18, 0)),
           flavor: S.optional(S.String),
           name: S.String,
         }).pipe(
@@ -1122,7 +1204,7 @@ function __c15(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1136,7 +1218,7 @@ function __c16(j: number): any {
         S.Struct({
           default_email_notifications: S.optional(S.NullOr(S.String)),
           enable_local_login: S.optional(S.NullOr(S.Boolean)),
-          pipelines: S.optional(__S(64, __c16, 0)),
+          pipelines: S.optional(__S(68, __c17, 0)),
         }),
       ).annotate({ identifier: "FeatureToggle" });
     case 2:
@@ -1144,15 +1226,15 @@ function __c16(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          acl: __S(68, __c17, 0),
+          acl: __S(72, __c18, 0),
           admin_login: S.Boolean,
           consumed_disk: S.String,
           consumed_object_storage: S.String,
           created: S.String,
-          feature_toggle: __S(65, __c16, 1),
+          feature_toggle: __S(69, __c17, 1),
           flavor: S.String,
           id: S.String,
-          labels: S.optional(__S(66, __c16, 2)),
+          labels: S.optional(__S(70, __c17, 2)),
           name: S.String,
           state: S.String,
           url: S.String,
@@ -1161,20 +1243,21 @@ function __c16(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          labels: __S(68, __c17, 0),
+          familyName: S.optional(S.String),
+          labels: __S(72, __c18, 0),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1186,20 +1269,21 @@ function __c18(j: number): any {
       ).annotate({ identifier: "CreateRunnerRequest" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           created_at: S.String,
+          familyName: S.optional(S.String),
           id: S.String,
-          labels: __S(68, __c17, 0),
+          labels: __S(72, __c18, 0),
           status: S.String,
         }),
       ).annotate({ identifier: "Runner" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1222,7 +1306,7 @@ function __c20(j: number): any {
       ).annotate({ identifier: "CreateUserRequest" });
   }
 }
-function __c21(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1235,7 +1319,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "User" });
   }
 }
-function __c22(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1254,13 +1338,13 @@ function __c22(j: number): any {
       ).annotate({ identifier: "DeleteAuthenticationRequest" });
   }
 }
-function __c23(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteAuthenticationResponse" });
   }
 }
-function __c24(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1278,7 +1362,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "DeleteInstanceRequest" });
   }
 }
-function __c25(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>

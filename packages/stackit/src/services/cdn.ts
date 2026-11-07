@@ -35,6 +35,14 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+export class CustomDomainCnameMissing
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CustomDomainCnameMissing>()("CustomDomainCnameMissing", {
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ body: { "/details/0/key": "CUSTOM_DOMAIN_CNAME_MISSING" } }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -129,7 +137,7 @@ export type OtlpLogSinkBearerCredentialsType = "bearer";
 /** Bearer token authentication credentials for OTLP. */
 export interface OtlpLogSinkBearerCredentials {
   /** The bearer token used to authenticate against your OTLP endpoint. */
-  token: string;
+  token: string | Redacted.Redacted<string>;
   /** Defines bearer token authentication. */
   type: OtlpLogSinkBearerCredentialsType;
 }
@@ -995,7 +1003,7 @@ export interface PutCustomDomainCustomCertificate {
   /** base64-encoded PEM-encoded certificate */
   certificate: string;
   /** base64-encoded PEM encoded key */
-  key: string;
+  key: string | Redacted.Redacted<string>;
   /** When adding a new custom domain, we do a check to verify that your Domain points to the managed domain via a CNAME or ALIAS. If this is not the case, the call would usually reject. This additional property is an escape hatch to this functionality. It's useful for when you are migrating onto STACKIT CDN. It allows you to migrate without downtime. By providing a custom certificate with `skipDnsCheck` set to `true`, we will not check the Record for correctness. Then, once the CDN is set up, you can change the CNAME Record on your DNS and update the Custom Domain entry to disable this check, or switch to a managed certificate. This field is optional. If not set, the check is **not** skipped. */
   skipDnsCheck?: boolean;
   type: string;
@@ -1031,8 +1039,8 @@ export const createDistribution: API.OperationMethod<
   CreateDistributionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c8, 0) as any as S.Schema<CreateDistributionRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<CreateDistributionResponse>,
+  input: __S(144, __c9, 0) as any as S.Schema<CreateDistributionRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<CreateDistributionResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1040,7 +1048,7 @@ export const createDistribution: API.OperationMethod<
   span: "CreateDistribution",
 }));
 
-export type DeleteCustomDomainError = UnprocessableEntity | StackitOpError;
+export type DeleteCustomDomainError = UnprocessableEntity | NotFound | StackitOpError;
 /** Delete a custom domain Removes a custom domain */
 export const deleteCustomDomain: API.OperationMethod<
   DeleteCustomDomainRequest,
@@ -1048,9 +1056,9 @@ export const deleteCustomDomain: API.OperationMethod<
   DeleteCustomDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(240, __c15, 0) as any as S.Schema<DeleteCustomDomainRequest>,
-  output: __S(241, __c15, 1) as any as S.Schema<DeleteCustomDomainResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  input: __S(256, __c16, 0) as any as S.Schema<DeleteCustomDomainRequest>,
+  output: __S(257, __c16, 1) as any as S.Schema<DeleteCustomDomainResponse>,
+  errors: [UnprocessableEntity, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1065,8 +1073,8 @@ export const deleteDistribution: API.OperationMethod<
   DeleteDistributionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c17, 0) as any as S.Schema<DeleteDistributionRequest>,
-  output: __S(273, __c17, 1) as any as S.Schema<DeleteDistributionResponse>,
+  input: __S(288, __c18, 0) as any as S.Schema<DeleteDistributionRequest>,
+  output: __S(289, __c18, 1) as any as S.Schema<DeleteDistributionResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1082,8 +1090,8 @@ export const findCachePaths: API.OperationMethod<
   FindCachePathsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(288, __c18, 0) as any as S.Schema<FindCachePathsRequest>,
-  output: __S(291, __c18, 3) as any as S.Schema<FindCachePathsResponse>,
+  input: __S(304, __c19, 0) as any as S.Schema<FindCachePathsRequest>,
+  output: __S(307, __c19, 3) as any as S.Schema<FindCachePathsResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1099,8 +1107,8 @@ export const getCacheInfo: API.OperationMethod<
   GetCacheInfoError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(304, __c19, 0) as any as S.Schema<GetCacheInfoRequest>,
-  output: __S(307, __c19, 3) as any as S.Schema<GetCacheInfoResponse>,
+  input: __S(320, __c20, 0) as any as S.Schema<GetCacheInfoRequest>,
+  output: __S(323, __c20, 3) as any as S.Schema<GetCacheInfoResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1116,8 +1124,8 @@ export const getCustomDomain: API.OperationMethod<
   GetCustomDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(320, __c20, 0) as any as S.Schema<GetCustomDomainRequest>,
-  output: __S(321, __c20, 1) as any as S.Schema<GetCustomDomainResponse>,
+  input: __S(336, __c21, 0) as any as S.Schema<GetCustomDomainRequest>,
+  output: __S(337, __c21, 1) as any as S.Schema<GetCustomDomainResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1133,8 +1141,8 @@ export const getDistribution: API.OperationMethod<
   GetDistributionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(336, __c21, 0) as any as S.Schema<GetDistributionRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<GetDistributionResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<GetDistributionRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<GetDistributionResponse>,
   errors: [NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1150,8 +1158,8 @@ export const getLogs: API.OperationMethod<
   GetLogsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetLogsRequest>,
-  output: __S(4, __c0, 4) as any as S.Schema<GetLogsResponse>,
+  input: __S(16, __c1, 0) as any as S.Schema<GetLogsRequest>,
+  output: __S(20, __c1, 4) as any as S.Schema<GetLogsResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1167,8 +1175,8 @@ export const getLogsSearchFilters: API.OperationMethod<
   GetLogsSearchFiltersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c1, 0) as any as S.Schema<GetLogsSearchFiltersRequest>,
-  output: __S(21, __c1, 5) as any as S.Schema<GetLogsSearchFiltersResponse>,
+  input: __S(32, __c2, 0) as any as S.Schema<GetLogsSearchFiltersRequest>,
+  output: __S(37, __c2, 5) as any as S.Schema<GetLogsSearchFiltersResponse>,
   errors: [BadRequest, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1184,8 +1192,8 @@ export const getStatistics: API.OperationMethod<
   GetStatisticsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c2, 0) as any as S.Schema<GetStatisticsRequest>,
-  output: __S(37, __c2, 5) as any as S.Schema<GetStatisticsResponse>,
+  input: __S(48, __c3, 0) as any as S.Schema<GetStatisticsRequest>,
+  output: __S(53, __c3, 5) as any as S.Schema<GetStatisticsResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1201,8 +1209,8 @@ export const listDistributions: API.OperationMethod<
   ListDistributionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c3, 0) as any as S.Schema<ListDistributionsRequest>,
-  output: __S(50, __c3, 2) as any as S.Schema<ListDistributionsResponse>,
+  input: __S(64, __c4, 0) as any as S.Schema<ListDistributionsRequest>,
+  output: __S(66, __c4, 2) as any as S.Schema<ListDistributionsResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1218,8 +1226,8 @@ export const listWafCollections: API.OperationMethod<
   ListWafCollectionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c4, 0) as any as S.Schema<ListWafCollectionsRequest>,
-  output: __S(71, __c4, 7) as any as S.Schema<ListWafCollectionsResponse>,
+  input: __S(80, __c5, 0) as any as S.Schema<ListWafCollectionsRequest>,
+  output: __S(87, __c5, 7) as any as S.Schema<ListWafCollectionsResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1235,8 +1243,8 @@ export const patchDistribution: API.OperationMethod<
   PatchDistributionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(85, __c5, 5) as any as S.Schema<PatchDistributionRequest>,
-  output: __S(224, __c14, 0) as any as S.Schema<PatchDistributionResponse>,
+  input: __S(101, __c6, 5) as any as S.Schema<PatchDistributionRequest>,
+  output: __S(160, __c10, 0) as any as S.Schema<PatchDistributionResponse>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1252,8 +1260,8 @@ export const purgeCache: API.OperationMethod<
   PurgeCacheError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c6, 0) as any as S.Schema<PurgeCacheRequest>,
-  output: __S(97, __c6, 1) as any as S.Schema<PurgeCacheResponse2>,
+  input: __S(112, __c7, 0) as any as S.Schema<PurgeCacheRequest>,
+  output: __S(113, __c7, 1) as any as S.Schema<PurgeCacheResponse2>,
   errors: [UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1261,7 +1269,7 @@ export const purgeCache: API.OperationMethod<
   span: "PurgeCache",
 }));
 
-export type PutCustomDomainError = UnprocessableEntity | StackitOpError;
+export type PutCustomDomainError = CustomDomainCnameMissing | UnprocessableEntity | StackitOpError;
 /** Create or update a custom domain Creates a new custom domain. If it already exists, this will overwrite the previous custom domain's properties. */
 export const putCustomDomain: API.OperationMethod<
   PutCustomDomainRequest,
@@ -1269,9 +1277,9 @@ export const putCustomDomain: API.OperationMethod<
   PutCustomDomainError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c7, 0) as any as S.Schema<PutCustomDomainRequest>,
-  output: __S(113, __c7, 1) as any as S.Schema<PutCustomDomainResponse>,
-  errors: [UnprocessableEntity, UnknownStackitError],
+  input: __S(128, __c8, 0) as any as S.Schema<PutCustomDomainRequest>,
+  output: __S(129, __c8, 1) as any as S.Schema<PutCustomDomainResponse>,
+  errors: [CustomDomainCnameMissing, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1280,6 +1288,25 @@ export const putCustomDomain: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          distributionId: S.String.pipe(T.Label()),
+          withWafStatus: S.optional(S.Boolean.pipe(T.Query())),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectId}/distributions/{distributionId}",
+            code: 200,
+            baseUrl: "https://cdn.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "GetDistributionRequest" });
+  }
+}
+function __c1(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1313,7 +1340,7 @@ function __c0(j: number): any {
           asn: S.String,
           message: S.String,
           method: S.String,
-          requestHeaders: __S(176, __c11, 0),
+          requestHeaders: __S(208, __c13, 0),
           ruleId: S.String,
         }),
       ).annotate({ identifier: "WAFViolation" });
@@ -1329,21 +1356,21 @@ function __c0(j: number): any {
           size: S.Number,
           statusCode: S.Number,
           timestamp: S.String,
-          wafViolation: S.optional(__S(1, __c0, 1)),
+          wafViolation: S.optional(__S(17, __c1, 1)),
         }),
       ).annotate({ identifier: "DistributionLogsRecord" });
     case 3:
-      return S.Array(__S(2, __c0, 2));
+      return S.Array(__S(18, __c1, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          logs: __S(3, __c0, 3),
+          logs: __S(19, __c1, 3),
           nextPageIdentifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetLogsResponse" });
   }
 }
-function __c1(j: number): any {
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1368,15 +1395,15 @@ function __c1(j: number): any {
         }),
       ).annotate({ identifier: "GetLogsSearchFiltersResponseDatacenterBlockItem" });
     case 2:
-      return S.Array(__S(17, __c1, 1));
+      return S.Array(__S(33, __c2, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          AF: __S(18, __c1, 2),
-          ASIA: __S(18, __c1, 2),
-          EU: __S(18, __c1, 2),
-          NA: __S(18, __c1, 2),
-          SA: __S(18, __c1, 2),
+          AF: __S(34, __c2, 2),
+          ASIA: __S(34, __c2, 2),
+          EU: __S(34, __c2, 2),
+          NA: __S(34, __c2, 2),
+          SA: __S(34, __c2, 2),
         }),
       ).annotate({ identifier: "GetLogsSearchFiltersResponseDatacenterBlock" });
     case 4:
@@ -1384,15 +1411,15 @@ function __c1(j: number): any {
     case 5:
       return S.suspend(() =>
         S.Struct({
-          cache: __S(193, __c12, 1),
-          dataCenter: __S(19, __c1, 3),
-          remoteCountry: __S(192, __c12, 0),
-          status: __S(20, __c1, 4),
+          cache: __S(225, __c14, 1),
+          dataCenter: __S(35, __c2, 3),
+          remoteCountry: __S(224, __c14, 0),
+          status: __S(36, __c2, 4),
         }),
       ).annotate({ identifier: "GetLogsSearchFiltersResponse" });
   }
 }
-function __c2(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1422,11 +1449,11 @@ function __c2(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          AF: __S(33, __c2, 1),
-          ASIA: __S(33, __c2, 1),
-          EU: __S(33, __c2, 1),
-          SA: __S(33, __c2, 1),
-          US: __S(33, __c2, 1),
+          AF: __S(49, __c3, 1),
+          ASIA: __S(49, __c3, 1),
+          EU: __S(49, __c3, 1),
+          SA: __S(49, __c3, 1),
+          US: __S(49, __c3, 1),
         }),
       ).annotate({ identifier: "DistributionStatisticsRecordRegions" });
     case 3:
@@ -1436,21 +1463,21 @@ function __c2(j: number): any {
           totalRequests: S.Number,
           totalTrafficBytes: S.Number,
           end: S.String,
-          regions: __S(34, __c2, 2),
+          regions: __S(50, __c3, 2),
           start: S.String,
         }),
       ).annotate({ identifier: "DistributionStatisticsRecord" });
     case 4:
-      return S.Array(__S(35, __c2, 3));
+      return S.Array(__S(51, __c3, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          records: __S(36, __c2, 4),
+          records: __S(52, __c3, 4),
         }),
       ).annotate({ identifier: "GetStatisticsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1471,17 +1498,17 @@ function __c3(j: number): any {
         ),
       ).annotate({ identifier: "ListDistributionsRequest" });
     case 1:
-      return S.Array(__S(223, __c13, 15));
+      return S.Array(__S(255, __c15, 15));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          distributions: __S(49, __c3, 1),
+          distributions: __S(65, __c4, 1),
           nextPageIdentifier: S.optional(S.String),
         }),
       ).annotate({ identifier: "ListDistributionsResponse" });
   }
 }
-function __c4(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1500,41 +1527,41 @@ function __c4(j: number): any {
       return S.suspend(() =>
         S.Struct({
           code: S.optional(S.String),
-          description: __S(176, __c11, 0),
+          description: __S(208, __c13, 0),
           id: S.String,
         }),
       ).annotate({ identifier: "WafRule" });
     case 2:
-      return S.Array(__S(65, __c4, 1));
+      return S.Array(__S(81, __c5, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          description: __S(176, __c11, 0),
-          name: __S(176, __c11, 0),
-          rules: __S(66, __c4, 2),
+          description: __S(208, __c13, 0),
+          name: __S(208, __c13, 0),
+          rules: __S(82, __c5, 2),
         }),
       ).annotate({ identifier: "WafRuleGroup" });
     case 4:
-      return S.Array(__S(67, __c4, 3));
+      return S.Array(__S(83, __c5, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          groups: __S(68, __c4, 4),
+          groups: __S(84, __c5, 4),
           id: S.String,
-          name: __S(176, __c11, 0),
+          name: __S(208, __c13, 0),
         }),
       ).annotate({ identifier: "WafRuleCollection" });
     case 6:
-      return S.Array(__S(69, __c4, 5));
+      return S.Array(__S(85, __c5, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          collections: __S(70, __c4, 6),
+          collections: __S(86, __c5, 6),
         }),
       ).annotate({ identifier: "ListWafCollectionsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
@@ -1554,18 +1581,18 @@ function __c5(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          allowedHttpMethods: S.optional(__S(192, __c12, 0)),
-          allowedHttpVersions: S.optional(__S(192, __c12, 0)),
-          allowedRequestContentTypes: S.optional(__S(192, __c12, 0)),
-          disabledRuleCollectionIds: S.optional(__S(192, __c12, 0)),
-          disabledRuleGroupIds: S.optional(__S(192, __c12, 0)),
-          disabledRuleIds: S.optional(__S(192, __c12, 0)),
-          enabledRuleCollectionIds: S.optional(__S(192, __c12, 0)),
-          enabledRuleGroupIds: S.optional(__S(192, __c12, 0)),
-          enabledRuleIds: S.optional(__S(192, __c12, 0)),
-          logOnlyRuleCollectionIds: S.optional(__S(192, __c12, 0)),
-          logOnlyRuleGroupIds: S.optional(__S(192, __c12, 0)),
-          logOnlyRuleIds: S.optional(__S(192, __c12, 0)),
+          allowedHttpMethods: S.optional(__S(224, __c14, 0)),
+          allowedHttpVersions: S.optional(__S(224, __c14, 0)),
+          allowedRequestContentTypes: S.optional(__S(224, __c14, 0)),
+          disabledRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          disabledRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          disabledRuleIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleIds: S.optional(__S(224, __c14, 0)),
           mode: S.optional(S.String),
           paranoiaLevel: S.optional(S.String),
           type: S.optional(S.String),
@@ -1575,20 +1602,20 @@ function __c5(j: number): any {
       return S.suspend(() =>
         S.Struct({
           backend: S.optional(S.Unknown),
-          blockedCountries: S.optional(__S(192, __c12, 0)),
-          blockedIps: S.optional(__S(192, __c12, 0)),
-          cacheConfig: S.optional(__S(144, __c9, 0)),
+          blockedCountries: S.optional(__S(224, __c14, 0)),
+          blockedIps: S.optional(__S(224, __c14, 0)),
+          cacheConfig: S.optional(__S(176, __c11, 0)),
           defaultCacheDuration: S.optional(S.NullOr(S.String)),
           forwardHostHeader: S.optional(S.Boolean),
-          labels: S.optional(__S(80, __c5, 0)),
+          labels: S.optional(__S(96, __c6, 0)),
           logSink: S.optional(S.NullOr(S.Unknown)),
           monthlyLimitBytes: S.optional(S.NullOr(S.Number)),
-          optimizer: S.optional(__S(81, __c5, 1)),
-          redirects: S.optional(__S(213, __c13, 5)),
-          regions: S.optional(__S(193, __c12, 1)),
+          optimizer: S.optional(__S(97, __c6, 1)),
+          redirects: S.optional(__S(245, __c15, 5)),
+          regions: S.optional(__S(225, __c14, 1)),
           stripResponseCookies: S.optional(S.Boolean),
-          tls: S.optional(__S(82, __c5, 2)),
-          waf: S.optional(__S(83, __c5, 3)),
+          tls: S.optional(__S(98, __c6, 2)),
+          waf: S.optional(__S(99, __c6, 3)),
         }),
       ).annotate({ identifier: "ConfigPatch" });
     case 5:
@@ -1596,7 +1623,7 @@ function __c5(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           distributionId: S.String.pipe(T.Label()),
-          config: S.optional(__S(84, __c5, 4)),
+          config: S.optional(__S(100, __c6, 4)),
           intentId: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1609,7 +1636,7 @@ function __c5(j: number): any {
       ).annotate({ identifier: "PatchDistributionRequest" });
   }
 }
-function __c6(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1632,7 +1659,7 @@ function __c6(j: number): any {
       });
   }
 }
-function __c7(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1655,33 +1682,33 @@ function __c7(j: number): any {
       return S.suspend(() =>
         S.Struct({
           certificate: S.optional(S.Unknown),
-          customDomain: __S(256, __c16, 0),
+          customDomain: __S(272, __c17, 0),
         }),
       ).annotate({ identifier: "PutCustomDomainResponse" });
   }
 }
-function __c8(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           backend: S.Unknown,
-          blockedCountries: S.optional(__S(192, __c12, 0)),
-          blockedIps: S.optional(__S(192, __c12, 0)),
-          cacheConfig: S.optional(__S(144, __c9, 0)),
+          blockedCountries: S.optional(__S(224, __c14, 0)),
+          blockedIps: S.optional(__S(224, __c14, 0)),
+          cacheConfig: S.optional(__S(176, __c11, 0)),
           defaultCacheDuration: S.optional(S.String),
           forwardHostHeader: S.optional(S.Boolean),
           intentId: S.optional(S.String),
-          labels: S.optional(__S(176, __c11, 0)),
+          labels: S.optional(__S(208, __c13, 0)),
           logSink: S.optional(S.Unknown),
           monthlyLimitBytes: S.optional(S.Number),
-          optimizer: S.optional(__S(208, __c13, 0)),
-          redirects: S.optional(__S(213, __c13, 5)),
-          regions: __S(193, __c12, 1),
+          optimizer: S.optional(__S(240, __c15, 0)),
+          redirects: S.optional(__S(245, __c15, 5)),
+          regions: __S(225, __c14, 1),
           stripResponseCookies: S.optional(S.Boolean),
-          tls: S.optional(__S(214, __c13, 6)),
-          waf: S.optional(__S(215, __c13, 7)),
+          tls: S.optional(__S(246, __c15, 6)),
+          waf: S.optional(__S(247, __c15, 7)),
         }).pipe(
           T.Http({
             method: "POST",
@@ -1693,19 +1720,29 @@ function __c8(j: number): any {
       ).annotate({ identifier: "CreateDistributionRequest" });
   }
 }
-function __c9(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          cacheKeyHeaders: S.optional(__S(192, __c12, 0)),
+          distribution: __S(255, __c15, 15),
+        }),
+      ).annotate({ identifier: "CreateDistributionResponse" });
+  }
+}
+function __c11(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          cacheKeyHeaders: S.optional(__S(224, __c14, 0)),
           queryStringVaryEnabled: S.optional(S.Boolean),
-          queryStringVaryParameters: S.optional(__S(192, __c12, 0)),
+          queryStringVaryParameters: S.optional(__S(224, __c14, 0)),
         }),
       ).annotate({ identifier: "CacheConfigCreate" });
   }
 }
-function __c10(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1716,16 +1753,16 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "StatusError" });
     case 1:
-      return S.Array(__S(160, __c10, 0));
+      return S.Array(__S(192, __c12, 0));
   }
 }
-function __c11(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.String);
   }
 }
-function __c12(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
@@ -1733,7 +1770,7 @@ function __c12(j: number): any {
       return S.Array(S.String);
   }
 }
-function __c13(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1745,28 +1782,28 @@ function __c13(j: number): any {
       return S.suspend(() =>
         S.Struct({
           valueMatchCondition: S.optional(S.String),
-          values: __S(192, __c12, 0),
+          values: __S(224, __c14, 0),
         }),
       ).annotate({ identifier: "Matcher" });
     case 2:
-      return S.Array(__S(209, __c13, 1));
+      return S.Array(__S(241, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
           description: S.optional(S.String),
           enabled: S.optional(S.Boolean),
-          matchers: __S(210, __c13, 2),
+          matchers: __S(242, __c15, 2),
           ruleMatchCondition: S.optional(S.String),
           statusCode: S.Number,
           targetUrl: S.String,
         }),
       ).annotate({ identifier: "RedirectRule" });
     case 4:
-      return S.Array(__S(211, __c13, 3));
+      return S.Array(__S(243, __c15, 3));
     case 5:
       return S.suspend(() =>
         S.Struct({
-          rules: S.optional(__S(212, __c13, 4)),
+          rules: S.optional(__S(244, __c15, 4)),
         }),
       ).annotate({ identifier: "RedirectConfig" });
     case 6:
@@ -1779,18 +1816,18 @@ function __c13(j: number): any {
     case 7:
       return S.suspend(() =>
         S.Struct({
-          allowedHttpMethods: S.optional(__S(192, __c12, 0)),
-          allowedHttpVersions: S.optional(__S(192, __c12, 0)),
-          allowedRequestContentTypes: S.optional(__S(192, __c12, 0)),
-          disabledRuleCollectionIds: S.optional(__S(192, __c12, 0)),
-          disabledRuleGroupIds: S.optional(__S(192, __c12, 0)),
-          disabledRuleIds: S.optional(__S(192, __c12, 0)),
-          enabledRuleCollectionIds: S.optional(__S(192, __c12, 0)),
-          enabledRuleGroupIds: S.optional(__S(192, __c12, 0)),
-          enabledRuleIds: __S(192, __c12, 0),
-          logOnlyRuleCollectionIds: S.optional(__S(192, __c12, 0)),
-          logOnlyRuleGroupIds: S.optional(__S(192, __c12, 0)),
-          logOnlyRuleIds: S.optional(__S(192, __c12, 0)),
+          allowedHttpMethods: S.optional(__S(224, __c14, 0)),
+          allowedHttpVersions: S.optional(__S(224, __c14, 0)),
+          allowedRequestContentTypes: S.optional(__S(224, __c14, 0)),
+          disabledRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          disabledRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          disabledRuleIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          enabledRuleIds: __S(224, __c14, 0),
+          logOnlyRuleCollectionIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleGroupIds: S.optional(__S(224, __c14, 0)),
+          logOnlyRuleIds: S.optional(__S(224, __c14, 0)),
           mode: S.String,
           paranoiaLevel: S.optional(S.String),
           type: S.String,
@@ -1799,43 +1836,43 @@ function __c13(j: number): any {
     case 8:
       return S.suspend(() =>
         S.Struct({
-          cacheKeyHeaders: __S(192, __c12, 0),
+          cacheKeyHeaders: __S(224, __c14, 0),
           queryStringVaryEnabled: S.Boolean,
-          queryStringVaryParameters: __S(192, __c12, 0),
+          queryStringVaryParameters: __S(224, __c14, 0),
         }),
       ).annotate({ identifier: "CacheConfig" });
     case 9:
       return S.suspend(() =>
         S.Struct({
           backend: S.Unknown,
-          blockedCountries: __S(192, __c12, 0),
-          blockedIps: __S(192, __c12, 0),
-          cacheConfig: __S(216, __c13, 8),
+          blockedCountries: __S(224, __c14, 0),
+          blockedIps: __S(224, __c14, 0),
+          cacheConfig: __S(248, __c15, 8),
           defaultCacheDuration: S.optional(S.NullOr(S.String)),
           forwardHostHeader: S.Boolean,
-          labels: S.optional(__S(176, __c11, 0)),
+          labels: S.optional(__S(208, __c13, 0)),
           logSink: S.optional(S.Unknown),
           monthlyLimitBytes: S.optional(S.NullOr(S.Number)),
-          optimizer: S.optional(__S(208, __c13, 0)),
-          redirects: S.optional(__S(213, __c13, 5)),
-          regions: __S(193, __c12, 1),
+          optimizer: S.optional(__S(240, __c15, 0)),
+          redirects: S.optional(__S(245, __c15, 5)),
+          regions: __S(225, __c14, 1),
           stripResponseCookies: S.Boolean,
-          tls: __S(214, __c13, 6),
-          waf: __S(215, __c13, 7),
+          tls: __S(246, __c15, 6),
+          waf: __S(247, __c15, 7),
         }),
       ).annotate({ identifier: "Config" });
     case 10:
       return S.suspend(() =>
         S.Struct({
           certificateType: S.String,
-          errors: S.optional(__S(161, __c10, 1)),
+          errors: S.optional(__S(193, __c12, 1)),
           name: S.String,
           status: S.String,
           type: S.String,
         }),
       ).annotate({ identifier: "Domain" });
     case 11:
-      return S.Array(__S(218, __c13, 10));
+      return S.Array(__S(250, __c15, 10));
     case 12:
       return S.suspend(() =>
         S.Struct({
@@ -1844,42 +1881,32 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "WafStatusRuleBlock" });
     case 13:
-      return S.Array(__S(220, __c13, 12));
+      return S.Array(__S(252, __c15, 12));
     case 14:
       return S.suspend(() =>
         S.Struct({
-          disabledRules: __S(221, __c13, 13),
-          enabledRules: __S(221, __c13, 13),
-          logOnlyRules: __S(221, __c13, 13),
+          disabledRules: __S(253, __c15, 13),
+          enabledRules: __S(253, __c15, 13),
+          logOnlyRules: __S(253, __c15, 13),
         }),
       ).annotate({ identifier: "DistributionWaf" });
     case 15:
       return S.suspend(() =>
         S.Struct({
-          config: __S(217, __c13, 9),
+          config: __S(249, __c15, 9),
           createdAt: S.String,
-          domains: __S(219, __c13, 11),
-          errors: S.optional(__S(161, __c10, 1)),
+          domains: __S(251, __c15, 11),
+          errors: S.optional(__S(193, __c12, 1)),
           id: S.String,
           projectId: S.String,
           status: S.String,
           updatedAt: S.String,
-          waf: S.optional(__S(222, __c13, 14)),
+          waf: S.optional(__S(254, __c15, 14)),
         }),
       ).annotate({ identifier: "Distribution" });
   }
 }
-function __c14(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          distribution: __S(223, __c13, 15),
-        }),
-      ).annotate({ identifier: "CreateDistributionResponse" });
-  }
-}
-function __c15(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1900,24 +1927,24 @@ function __c15(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          customDomain: S.optional(__S(256, __c16, 0)),
+          customDomain: S.optional(__S(272, __c17, 0)),
         }),
       ).annotate({ identifier: "DeleteCustomDomainResponse" });
   }
 }
-function __c16(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          errors: S.optional(__S(161, __c10, 1)),
+          errors: S.optional(__S(193, __c12, 1)),
           name: S.String,
           status: S.String,
         }),
       ).annotate({ identifier: "CustomDomain" });
   }
 }
-function __c17(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1937,12 +1964,12 @@ function __c17(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          distribution: S.optional(__S(223, __c13, 15)),
+          distribution: S.optional(__S(255, __c15, 15)),
         }),
       ).annotate({ identifier: "DeleteDistributionResponse" });
   }
 }
-function __c18(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1966,16 +1993,16 @@ function __c18(j: number): any {
         }),
       ).annotate({ identifier: "FindCachePathsResponseEntry" });
     case 2:
-      return S.Array(__S(289, __c18, 1));
+      return S.Array(__S(305, __c19, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          response: __S(290, __c18, 2),
+          response: __S(306, __c19, 2),
         }),
       ).annotate({ identifier: "FindCachePathsResponse" });
   }
 }
-function __c19(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2000,17 +2027,17 @@ function __c19(j: number): any {
         }),
       ).annotate({ identifier: "GetCacheInfoResponseHistoryEntry" });
     case 2:
-      return S.Array(__S(305, __c19, 1));
+      return S.Array(__S(321, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          history: __S(306, __c19, 2),
+          history: __S(322, __c20, 2),
           lastPurgeTime: S.NullOr(S.String),
         }),
       ).annotate({ identifier: "GetCacheInfoResponse" });
   }
 }
-function __c20(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2031,28 +2058,9 @@ function __c20(j: number): any {
       return S.suspend(() =>
         S.Struct({
           certificate: S.Unknown,
-          customDomain: __S(256, __c16, 0),
+          customDomain: __S(272, __c17, 0),
         }),
       ).annotate({ identifier: "GetCustomDomainResponse" });
-  }
-}
-function __c21(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          distributionId: S.String.pipe(T.Label()),
-          withWafStatus: S.optional(S.Boolean.pipe(T.Query())),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/distributions/{distributionId}",
-            code: 200,
-            baseUrl: "https://cdn.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "GetDistributionRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

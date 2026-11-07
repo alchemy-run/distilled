@@ -1,0 +1,35 @@
+{
+  "description": "PutCustomDomain checks that the domain points at the distribution's managed domain and rejects the call when it does not (the spec's `skipDnsCheck` text: `If this is not the case, the call would usually reject`). The spec's error body, GenericJsonResponse, lists `details[].key`, and `CUSTOM_DOMAIN_CNAME_MISSING` is one of its enum values. A caller retries this one while DNS propagates: STACKIT's Terraform acceptance test blocks until the CNAME resolves before adding the domain (stackitcloud/terraform-provider-stackit, stackit/internal/services/cdn/cdn_acc_test.go, `blockUntilDomainResolves`, read 2026-11-01). Typed from the body key so it stands apart from other 422s, without a status because the spec doesn't say which one carries it. No live probe. Listed first: a tie with UnprocessableEntity's bare status matcher goes to the class declared first.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cdn#CustomDomainCnameMissing",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 422,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "body": {
+                "/details/0/key": "CUSTOM_DOMAIN_CNAME_MISSING"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cdn#PutCustomDomain/errors/0",
+      "value": {
+        "target": "com.stackit.cdn#CustomDomainCnameMissing"
+      }
+    }
+  ]
+}

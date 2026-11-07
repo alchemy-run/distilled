@@ -54,6 +54,7 @@ export class NotFound
 
 export interface VolumeAutomationInput {
   kind: string;
+  [key: string]: unknown;
 }
 export interface AutomationScheduleTrigger {
   /** An rrule (Recurrence Rule) is a standardized string format used in iCalendar (RFC 5545) to define repeating events, and you can generate one by using a dedicated library or by using online generator tools to specify parameters like frequency, interval, and end dates */
@@ -381,12 +382,13 @@ export const getVolumeTemplate: API.OperationMethod<
 
 export type ListVolumeAutomationsError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** List volume automations Retrieves a list of volume automations. */
-export const listVolumeAutomations: API.OperationMethod<
+export const listVolumeAutomations: API.PaginatedOperationMethod<
   ListVolumeAutomationsRequest,
   ListAutomationsResponse,
   ListVolumeAutomationsError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  StackitOpContext,
+  ListAutomationsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(104, __c13, 0) as any as S.Schema<ListVolumeAutomationsRequest>,
   output: __S(107, __c13, 3) as any as S.Schema<ListAutomationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
@@ -394,16 +396,23 @@ export const listVolumeAutomations: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeAutomations",
-}));
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "items",
+    pageSize: "pageSize",
+  } as const,
+})) as any;
 
 export type ListVolumeExecutionsError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** List volume automation executions Get a list of all executions for a specific volume automation. */
-export const listVolumeExecutions: API.OperationMethod<
+export const listVolumeExecutions: API.PaginatedOperationMethod<
   ListVolumeExecutionsRequest,
   ListExecutionsResponse,
   ListVolumeExecutionsError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  StackitOpContext,
+  ListExecutionsItem
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<ListVolumeExecutionsRequest>,
   output: __S(3, __c0, 3) as any as S.Schema<ListExecutionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
@@ -411,16 +420,23 @@ export const listVolumeExecutions: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeExecutions",
-}));
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "items",
+    pageSize: "pageSize",
+  } as const,
+})) as any;
 
 export type ListVolumeTemplatesError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** List volume templates Lists all volume templates for the specified service */
-export const listVolumeTemplates: API.OperationMethod<
+export const listVolumeTemplates: API.PaginatedOperationMethod<
   ListVolumeTemplatesRequest,
   ListTemplatesResponse,
   ListVolumeTemplatesError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
+  StackitOpContext,
+  Template
+> = /*@__PURE__*/ API.makePaginated(() => ({
   input: __S(8, __c1, 0) as any as S.Schema<ListVolumeTemplatesRequest>,
   output: __S(11, __c1, 3) as any as S.Schema<ListTemplatesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
@@ -428,7 +444,13 @@ export const listVolumeTemplates: API.OperationMethod<
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListVolumeTemplates",
-}));
+  pagination: {
+    inputToken: "pageToken",
+    outputToken: "nextPageToken",
+    items: "items",
+    pageSize: "pageSize",
+  } as const,
+})) as any;
 
 export type PartialUpdateVolumeAutomationError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Patch volume automation Partially updates a specific volume automation. Specify the fields to update in the `updateMask` query parameter. */
@@ -576,9 +598,12 @@ function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
-        S.Struct({
-          kind: S.String,
-        }),
+        S.StructWithRest(
+          S.Struct({
+            kind: S.String,
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "VolumeAutomationInput" });
     case 1:
       return S.suspend(() =>

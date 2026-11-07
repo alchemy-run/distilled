@@ -1,0 +1,10 @@
+{
+  "description": "GetUser documents its `User` body under `302 FOUND`, the only non-error status it declares, which the converter's success statuses leave out, so the operation came out returning nothing. The protocol decodes anything below 400 as the output, so pointing the output at `User` reads the body whether the service answers 302 as documented or 200. Read from the spec (git.json 1beta.0.4); the Go SDK has no user operations to compare with, and the wire is not confirmed: no credentials exist yet.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.git#GetUser/output/target",
+      "value": "com.stackit.git#User"
+    }
+  ]
+}

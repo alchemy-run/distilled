@@ -1,0 +1,99 @@
+{
+  "description": "A session Airflow can't verify any more, from responses of the apache/airflow:3.1.8 image, read 2026-11-01: a `_token` cookie or Bearer token that isn't a valid JWT answers 403 `{ \"detail\": \"Invalid JWT token\" }`, not 401. A caller holding a session has to tell that from a role that doesn't allow the call, also a 403, because only the first goes away with a new session. STACKIT's own instances have not been probed.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#InvalidSession",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 403,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 403,
+              "message": {
+                "includes": "Invalid JWT token"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#GetDag/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#PatchDag/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#TriggerDagRun/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#GetDagRun/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#ListDagRuns/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#ListTaskInstances/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#CreateVariable/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#PatchVariable/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#CreateConnection/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#PatchConnection/errors/-",
+      "value": {
+        "target": "com.stackit.workflows_airflow#InvalidSession"
+      }
+    }
+  ]
+}

@@ -22,17 +22,41 @@
       "distilled-lazy": "./lib/index.lazy.js",
       "default": "./lib/index.js"
     },
+    "./CloudFoundry": {
+      "types": "./lib/cloud-foundry.d.ts",
+      "bun": "./src/cloud-foundry.ts",
+      "worker": "./src/cloud-foundry.ts",
+      "default": "./lib/cloud-foundry.js"
+    },
     "./Credentials": {
       "types": "./lib/credentials.d.ts",
       "bun": "./src/credentials.ts",
       "worker": "./src/credentials.ts",
       "default": "./lib/credentials.js"
     },
+    "./Dremio": {
+      "types": "./lib/dremio.d.ts",
+      "bun": "./src/dremio.ts",
+      "worker": "./src/dremio.ts",
+      "default": "./lib/dremio.js"
+    },
     "./Errors": {
       "types": "./lib/errors.d.ts",
       "bun": "./src/errors.ts",
       "worker": "./src/errors.ts",
       "default": "./lib/errors.js"
+    },
+    "./Forgejo": {
+      "types": "./lib/forgejo.d.ts",
+      "bun": "./src/forgejo.ts",
+      "worker": "./src/forgejo.ts",
+      "default": "./lib/forgejo.js"
+    },
+    "./OpenSearch": {
+      "types": "./lib/opensearch.d.ts",
+      "bun": "./src/opensearch.ts",
+      "worker": "./src/opensearch.ts",
+      "default": "./lib/opensearch.js"
     },
     "./Pagination": {
       "types": "./lib/pagination.d.ts",
@@ -57,6 +81,18 @@
       "bun": "./src/traits.ts",
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
+    },
+    "./WorkflowsAirflow": {
+      "types": "./lib/workflows-airflow.d.ts",
+      "bun": "./src/workflows-airflow.ts",
+      "worker": "./src/workflows-airflow.ts",
+      "default": "./lib/workflows-airflow.js"
+    },
+    "./Vault": {
+      "types": "./lib/vault.d.ts",
+      "bun": "./src/vault.ts",
+      "worker": "./src/vault.ts",
+      "default": "./lib/vault.js"
     },
     "./*": {
       "types": "./lib/services/*.d.ts",
@@ -85,7 +121,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-10-03"
+    "generatedAt": "2026-11-01",
+    "specUpdatedAt": "2026-10-30"
   }
 }

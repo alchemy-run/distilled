@@ -13,16 +13,27 @@
  * over beta over alpha, then the highest version number. Adding a product
  * upstream is picked up on the next daily refetch.
  *
+ * STACKIT Container Registry is Harbor: its management API creates Harbor
+ * projects, and robot accounts, repositories, artifacts and scan reports live
+ * on Harbor's own REST API, which STACKIT does not publish. So the mirror also
+ * snapshots Harbor's Swagger 2.0 document (`api/v2.0/swagger.yaml` in
+ * goharbor/harbor) at a release tag, trimmed to the operations in
+ * HARBOR_OPERATIONS and the definitions they reach. It is a separate file, not
+ * in the manifest: it has no `servers` and a different auth scheme. Bump
+ * HARBOR_VERSION to move the SDK to a newer release.
+ *
  * Usage:
  *   node fetch-specs.ts
  *
  * Specs are saved to:
  *   ../specs/<service>.json
  *   ../specs/_manifest.json
+ *   ../specs/registry_harbor.json
  */
 
 import { mkdirSync } from "fs";
 import { writeFile } from "fs/promises";
+import YAML from "yaml";
 
 /** Upstream repository, as `<owner>/<repo>`. */
 const REPO = "stackitcloud/stackit-api-specifications";
@@ -115,7 +126,114 @@ async function fetchOk(url: string, accept: string): Promise<Response> {
   return response;
 }
 
+/** The Harbor release the data-plane module is generated from. */
+const HARBOR_VERSION = "v2.15.4";
+const HARBOR_SPEC_URL = `https://raw.githubusercontent.com/goharbor/harbor/${HARBOR_VERSION}/api/v2.0/swagger.yaml`;
+
+/**
+ * Harbor operations the SDK keeps, by `operationId`: robot accounts,
+ * repositories, artifacts, tags and scan reports. `getProject` is here because
+ * listing a project's robots needs the Harbor project's numeric id.
+ */
+const HARBOR_OPERATIONS: ReadonlySet<string> = new Set([
+  "getProject",
+  "ListRobot",
+  "CreateRobot",
+  "GetRobotByID",
+  "UpdateRobot",
+  "RefreshSec",
+  "DeleteRobot",
+  "listRepositories",
+  "getRepository",
+  "updateRepository",
+  "deleteRepository",
+  "listArtifacts",
+  "getArtifact",
+  "deleteArtifact",
+  "createTag",
+  "listTags",
+  "deleteTag",
+  "getVulnerabilitiesAddition",
+  "scanArtifact",
+  "stopScanArtifact",
+  "getReportLog",
+]);
+
+/** Every `#/<section>/<name>` reference inside a JSON value. */
+const refsIn = (value: unknown, found: Set<string>): void => {
+  if (Array.isArray(value)) {
+    for (const item of value) refsIn(item, found);
+  } else if (value !== null && typeof value === "object") {
+    for (const [key, item] of Object.entries(value)) {
+      if (key === "$ref" && typeof item === "string") found.add(item);
+      else refsIn(item, found);
+    }
+  }
+};
+
+/** Keep the listed operations and the definitions they reach, transitively. */
+const trimHarborSpec = (spec: Record<string, any>): Record<string, unknown> => {
+  const paths: Record<string, Record<string, unknown>> = {};
+  const kept = new Set<string>();
+  for (const [route, item] of Object.entries<Record<string, any>>(spec.paths)) {
+    for (const [method, op] of Object.entries<any>(item)) {
+      if (!HARBOR_OPERATIONS.has(op?.operationId)) continue;
+      (paths[route] ??= {})[method] = op;
+      kept.add(op.operationId);
+    }
+  }
+  const missing = [...HARBOR_OPERATIONS].filter((id) => !kept.has(id));
+  if (missing.length > 0) {
+    throw new Error(`Harbor ${HARBOR_VERSION} has no operation ${missing.join(", ")}`);
+  }
+
+  const sections: Record<string, Record<string, unknown>> = {
+    parameters: {},
+    responses: {},
+    definitions: {},
+  };
+  const seen = new Set<string>();
+  const queue = new Set<string>();
+  refsIn(paths, queue);
+  for (const ref of queue) {
+    if (seen.has(ref)) continue;
+    seen.add(ref);
+    const [, section, name] = ref.split("/");
+    const value = spec[section!]?.[name!];
+    if (value === undefined) throw new Error(`Harbor spec has a dangling $ref ${ref}`);
+    sections[section!]![name!] = value;
+    refsIn(value, queue);
+  }
+
+  return {
+    swagger: spec.swagger,
+    info: { ...spec.info, "x-harbor-release": HARBOR_VERSION },
+    basePath: spec.basePath,
+    schemes: ["https"],
+    produces: spec.produces,
+    consumes: spec.consumes,
+    securityDefinitions: spec.securityDefinitions,
+    security: spec.security,
+    paths,
+    ...sections,
+  };
+};
+
+async function fetchHarborSpec(): Promise<void> {
+  console.log(`Fetching ${HARBOR_SPEC_URL}...`);
+  const spec = YAML.parse(await (await fetchOk(HARBOR_SPEC_URL, "application/yaml")).text());
+  if (spec?.swagger !== "2.0" || spec.paths === undefined || spec.definitions === undefined) {
+    throw new Error(`${HARBOR_SPEC_URL} is not a Swagger 2.0 document`);
+  }
+  const outputPath = `${SPECS_DIR}/registry_harbor.json`;
+  await writeFile(outputPath, JSON.stringify(trimHarborSpec(spec), null, 2) + "\n");
+  console.log(
+    `Writing ${outputPath} (Harbor ${HARBOR_VERSION}, ${HARBOR_OPERATIONS.size} operations)...`,
+  );
+}
+
 async function main() {
+  await fetchHarborSpec();
   console.log(`Listing ${REPO}@${REF} …`);
   const tree = (await (
     await fetchOk(treeUrl, "application/vnd.github+json")

@@ -1,0 +1,22 @@
+{
+  "description": "Secret values, the client token and the AppRole secret id, which the trimmed Vault spec types as plain values: the point of the API is that they stay secret, and a secret id logs in as the role until it expires. Keeps KV data, the token and the secret id Redacted through distilled. Nothing on the wire changes.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.secrets_manager_kv#SecretData/value/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.secrets_manager_kv#LoginAuth/members/client_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.secrets_manager_kv#LoginWithAppRoleRequest/members/secret_id/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

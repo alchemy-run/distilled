@@ -1,0 +1,10 @@
+{
+  "description": "The cdn spec documents no 404 on DeleteCustomDomain, but the API returns one for a custom domain that does not exist: STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/cdn/customdomain/resource.go, read 2026-11-01) treats http.StatusNotFound as already deleted in its Delete handler. GetCustomDomain documents the same 404. Type it as the model's NotFound so a delete can tell a missing domain from other failures.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cdn#DeleteCustomDomain/errors/-",
+      "value": { "target": "com.stackit.cdn#NotFound" }
+    }
+  ]
+}

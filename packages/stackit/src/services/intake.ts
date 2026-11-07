@@ -56,7 +56,7 @@ export class NotFound
 export type CreateIntakeRequestRegionId = "eu01" | "eu02";
 export interface DremioAuth {
   /** A Dremio personal access token for authentication */
-  personalAccessToken: string;
+  personalAccessToken: string | Redacted.Redacted<string>;
   /** The URL to the Dremio instance's OAuth 2.0 token endpoint */
   tokenEndpoint: string;
 }
@@ -156,7 +156,7 @@ export interface CreateIntakeRunnerRequest {
 /** Labels are a set of key-value pairs assigned to resources. */
 export type IntakeRunnerResponseLabelsMap = { [key: string]: string | undefined };
 /** The current state of the resource. */
-export type IntakeRunnerResponseState = "reconciling" | "active" | "deleting";
+export type IntakeRunnerResponseState = "reconciling" | "active" | "deleting" | "failed";
 export interface IntakeRunnerResponse {
   /** The point in time the resource was created. */
   create_time: string;
@@ -209,7 +209,7 @@ export interface ClientConfig {
 /** Labels are a set of key-value pairs assigned to resources. */
 export type IntakeUserResponseLabelsMap = { [key: string]: string | undefined };
 /** The current state of the resource. */
-export type IntakeUserResponseState = "reconciling" | "active" | "deleting";
+export type IntakeUserResponseState = "reconciling" | "active" | "deleting" | "failed";
 export interface IntakeUserResponse {
   clientConfig?: ClientConfig;
   /** The point in time the resource was created. */
@@ -349,7 +349,7 @@ export interface ListIntakeUsersResponse {
 export type UpdateIntakeRequestRegionId = "eu01" | "eu02";
 export interface DremioAuthPatch {
   /** A Dremio personal access token for authentication */
-  personalAccessToken?: string;
+  personalAccessToken?: string | Redacted.Redacted<string>;
   /** The URL to the Dremio instance's OAuth 2.0 token endpoint */
   tokenEndpoint?: string;
 }
@@ -827,7 +827,7 @@ function __c5(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          personalAccessToken: S.optional(S.String),
+          personalAccessToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           tokenEndpoint: S.optional(S.String),
         }),
       ).annotate({ identifier: "DremioAuthPatch" });
@@ -955,7 +955,7 @@ function __c10(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          personalAccessToken: S.String,
+          personalAccessToken: S.String.pipe(T.SensitiveValue({})),
           tokenEndpoint: S.String,
         }),
       ).annotate({ identifier: "DremioAuth" });

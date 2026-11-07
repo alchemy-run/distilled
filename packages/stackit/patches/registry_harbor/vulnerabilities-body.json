@@ -1,0 +1,10 @@
+{
+  "description": "Harbor's swagger declares getVulnerabilitiesAddition's 200 body as `type: string`, but src/server/v2.0/handler/artifact.go (goharbor/harbor v2.15.4, read 2026-11-01) writes json.Marshal of a map keyed by report MIME type, with Content-Type application/json. It is a JSON document, whose shape depends on the requested MIME type.",
+  "patches": [
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.registry_harbor#GetVulnerabilitiesAdditionResponse/members/body/target",
+      "value": "smithy.api#Document"
+    }
+  ]
+}

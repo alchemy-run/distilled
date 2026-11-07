@@ -1,0 +1,15 @@
+{
+  "description": "The service-account spec documents no 404 on GetServiceAccountKey or DeleteServiceAccountKey, but the API returns 404 for a key that does not exist: STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/serviceaccount/key/resource.go, read 2026-11-01) removes the key from state on http.StatusNotFound in Read and treats http.StatusNotFound as already deleted in Delete. Type it as the model's NotFound so callers can tell a missing key from other failures.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.service_account#GetServiceAccountKey/errors/-",
+      "value": { "target": "com.stackit.service_account#NotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.service_account#DeleteServiceAccountKey/errors/-",
+      "value": { "target": "com.stackit.service_account#NotFound" }
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "description": "A DAG's `file_token` is a signed token that reads the DAG's source through `/api/v2/dagSources/{file_token}`, as Airflow's reference for that route says. Keeps it Redacted through distilled. Nothing on the wire changes. A connection's `password` and `extra` hold its credentials, as Airflow's docs on connections say, and a variable's `value` is where Airflow's docs on variables say sensitive values may go. The image masks `password` on read and answers `***`.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#DAGResponse/members/file_token/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#ConnectionResponse/members/password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#ConnectionResponse/members/extra/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#VariableResponse/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#CreateConnectionRequest/members/password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#CreateConnectionRequest/members/extra/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#PatchConnectionRequest/members/password/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#PatchConnectionRequest/members/extra/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#CreateVariableRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.workflows_airflow#PatchVariableRequest/members/value/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

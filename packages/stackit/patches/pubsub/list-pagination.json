@@ -1,0 +1,25 @@
+{
+  "description": "`list-topics` and `list-subscriptions` take `pageToken` and `pageSize` and answer `nextPageToken` beside the collection (spec `listTopicsResponse`, `listSubscriptionsResponse`), but the converter only recognizes page-number pagination, so neither got a paginated surface. Without it `.items` doesn't exist, and a caller reading one page would miss topics. Read from the spec 2026-11-01.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub#ListTopics/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "pageToken",
+        "outputToken": "nextPageToken",
+        "items": "topics",
+        "pageSize": "pageSize"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.pubsub#ListSubscriptions/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "pageToken",
+        "outputToken": "nextPageToken",
+        "items": "subscriptions",
+        "pageSize": "pageSize"
+      }
+    }
+  ]
+}
