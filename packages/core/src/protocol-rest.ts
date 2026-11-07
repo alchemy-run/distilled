@@ -43,7 +43,8 @@ import { holdsSensitive, sensitiveValueSymbol, wrapSensitive } from "./sensitive
  *             failing with the provider's `parseError` (see
  *             `core/response-validation`) -> `Redacted` wrapping of members
  *             marked with {@link SensitiveValue}; non-2xx -> typed error:
- *             per-op matcher classes (`matchTypedError`), then the status
+ *             the provider's `classifyError`, then per-op matcher
+ *             classes (`matchTypedError`), then the status
  *             map (default `HTTP_STATUS_MAP`), then an `InternalServerError`
  *             for unmapped 5xx, then the provider's `unknownError` fallback
  *             -- with `retryAfter` durations stamped from the standard hint
@@ -180,6 +181,13 @@ export interface RestProtocolOptions<C> {
    * else to {@link unknownError}.
    */
   readonly statusMap?: Readonly<Record<number, new (args: any) => any>>;
+  /**
+   * The provider's own reading of a failure, consulted before per-op typed
+   * matching and the status map: return the error to fail with, or
+   * `undefined` to decode the failure as usual. For rules a status alone
+   * can't express, e.g. a 403 that is a rate limit because of its headers.
+   */
+  readonly classifyError?: (info: RestErrorInfo) => unknown;
   /** Fallback error for failures nothing else matched. */
   readonly unknownError: (info: RestErrorInfo) => unknown;
   /**
@@ -407,6 +415,18 @@ export const makeRestProtocol = <C>(options: RestProtocolOptions<C>): Layer.Laye
     if (status >= 400) {
       const env = (nonJson ? undefined : errorEnvelope(json)) ?? {};
       const message = env.message ?? (nonJson && text.trim() ? text.trim() : `HTTP ${status}`);
+
+      // 0. The provider's own reading of the failure.
+      if (options.classifyError) {
+        const classified = options.classifyError({
+          status,
+          code: env.code,
+          message,
+          body: nonJson ? text : json,
+          headers,
+        });
+        if (classified !== undefined) return { ok: false, error: classified };
+      }
 
       // 1. Per-operation typed error (matcher metadata on the class).
       const typed = matchTypedError(

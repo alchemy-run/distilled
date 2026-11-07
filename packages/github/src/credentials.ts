@@ -7,7 +7,9 @@
  *
  * The token may be a personal access token (classic or fine-grained), a
  * GitHub App installation token, or the `GITHUB_TOKEN` an Actions run is
- * handed -- the REST API accepts all of them as bearer tokens.
+ * handed -- the REST API accepts all of them as bearer tokens. To
+ * authenticate as a GitHub App, use `@distilled.cloud/github/App`, which
+ * mints, caches and refreshes the App's JWT and installation tokens.
  */
 import * as EffectConfig from "@distilled.cloud/core/config";
 import { ConfigError } from "@distilled.cloud/core/errors";
@@ -15,6 +17,7 @@ import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Layer from "effect/Layer";
 import * as Redacted from "effect/Redacted";
+import type { GithubAppAuthError } from "./errors.ts";
 
 /** github.com's REST API root. */
 export const DEFAULT_API_BASE_URL = "https://api.github.com";
@@ -30,12 +33,20 @@ export interface Config {
   readonly token: Redacted.Redacted<string>;
   readonly apiBaseUrl: string;
   readonly userAgent: string;
+  /**
+   * When `token` was minted, in epoch milliseconds. GitHub can refuse a
+   * token it minted a moment ago while the token replicates, so the
+   * protocol sends a request that fails with 401 again for up to five
+   * seconds after this time. Leave it out for long-lived tokens.
+   */
+  readonly issuedAt?: number;
 }
 
 export class Credentials
-  extends /*@__PURE__*/ Context.Service<Credentials, Effect.Effect<Config, ConfigError>>()(
-    "GithubCredentials",
-  ) {}
+  extends /*@__PURE__*/ Context.Service<
+    Credentials,
+    Effect.Effect<Config, ConfigError | GithubAppAuthError>
+  >()("GithubCredentials") {}
 
 const envConfig = /*@__PURE__*/ EffectConfig.all({
   // `GITHUB_TOKEN` is what Actions injects; `GH_TOKEN` is the gh CLI's
