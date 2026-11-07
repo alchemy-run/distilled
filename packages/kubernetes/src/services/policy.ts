@@ -530,6 +530,12 @@ export interface ListPolicyV1PodDisruptionBudgetForAllNamespacesRequest {
   /** Watch for changes to the described resources and return them as a stream of add, update, and remove notifications. Specify resourceVersion. */
   watch?: boolean;
 }
+/** How the server applies a PATCH body. */
+export type PatchType =
+  | "application/json-patch+json"
+  | "application/merge-patch+json"
+  | "application/strategic-merge-patch+json"
+  | "application/apply-patch+yaml";
 export interface PatchPolicyV1NamespacedPodDisruptionBudgetRequest {
   /** object name and auth scope, such as for teams and projects */
   namespace: string;
@@ -545,6 +551,10 @@ export interface PatchPolicyV1NamespacedPodDisruptionBudgetRequest {
   fieldValidation?: string;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface PatchPolicyV1NamespacedPodDisruptionBudgetStatusRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -561,6 +571,10 @@ export interface PatchPolicyV1NamespacedPodDisruptionBudgetStatusRequest {
   fieldValidation?: string;
   /** Force is going to "force" Apply requests. It means user will re-acquire conflicting fields owned by other people. Force flag must be unset for non-apply patch requests. */
   force?: boolean;
+  /** Patch type of the body. application/apply-patch+yaml (server-side apply) needs fieldManager; application/strategic-merge-patch+json works for built-in resources only. */
+  contentType: PatchType | (string & {});
+  /** The patch: an object for merge, strategic-merge and apply patches, an array of operations for a JSON patch. */
+  body: unknown;
 }
 export interface ReadPolicyV1NamespacedPodDisruptionBudgetRequest {
   /** object name and auth scope, such as for teams and projects */
@@ -1051,6 +1065,8 @@ function __c0(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1073,6 +1089,8 @@ function __c1(j: number): any {
           fieldManager: S.optional(S.String.pipe(T.Query())),
           fieldValidation: S.optional(S.String.pipe(T.Query())),
           force: S.optional(S.Boolean.pipe(T.Query())),
+          contentType: S.String.pipe(T.Header("Content-Type")),
+          body: S.Unknown.pipe(T.HttpBody()),
         }).pipe(
           T.Http({
             method: "PATCH",
