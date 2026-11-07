@@ -5,6 +5,8 @@
  *
  * Input:  specs/spec-mirror-kubernetes/specs/swagger.json  (spec submodule —
  *         the single aggregated Swagger 2.0 document, ~1069 operations)
+ *         specs/spec-mirror-kubernetes/specs/crds/*.yaml  (the
+ *         CustomResourceDefinition manifests listed in {@link CRDS})
  *         patches/<group>/*.patch.json  (Smithy ops on upstream names,
  *         applied by finalizeConvert; they add the 404/409/422 errors the
  *         upstream spec omits to the per-op typed error unions)
@@ -29,16 +31,36 @@
  *    fields. The 3.0 codepath handles everything k8s uses faithfully, so
  *    params get `schema`, body params become `requestBody`, and responses
  *    get `content` here.
+ *
+ * 3. Custom resources. Each manifest in {@link CRDS} becomes the paths and
+ *    definitions the API server publishes for it (scripts/crds.ts), merged
+ *    into the document before step 2, and its API group one more service
+ *    module (`snapshot.storage.k8s.io` → `snapshot_storage`).
  */
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import { writeModel } from "@distilled.cloud/dev/codegen/models";
 import { convertOpenApiToSmithy } from "@distilled.cloud/dev/codegen/openapi";
 import { finalizeConvert } from "@distilled.cloud/dev/codegen/patches";
+import { resolveSpecPath } from "@distilled.cloud/dev/codegen/spec-path";
+import { crdSpec, groupPascal, readCrds } from "./crds.ts";
 
 const root = path.resolve(import.meta.dirname, "..");
-const specPath = path.join(root, "specs/spec-mirror-kubernetes/specs/swagger.json");
+const specPath = resolveSpecPath(root, "specs/spec-mirror-kubernetes/specs/swagger.json");
 const outDir = path.join(root, ".generated-specs");
+
+/**
+ * CustomResourceDefinition manifests converted alongside the core spec, one
+ * service module per API group. To add a CRD, mirror its manifest (see
+ * stacks/distilled-submodules/spec-repos/kubernetes) and list it here.
+ */
+const CRDS = [
+  "specs/spec-mirror-kubernetes/specs/crds/snapshot.storage.k8s.io_volumesnapshotclasses.yaml",
+  "specs/spec-mirror-kubernetes/specs/crds/snapshot.storage.k8s.io_volumesnapshotcontents.yaml",
+  "specs/spec-mirror-kubernetes/specs/crds/snapshot.storage.k8s.io_volumesnapshots.yaml",
+];
+
+const crds = await readCrds(CRDS.map((file) => resolveSpecPath(root, file)));
 
 // ============================================================================
 // API-group split (ported verbatim from distilled v0 scripts/generate.ts)
@@ -77,6 +99,17 @@ const API_GROUP_MAP: Record<string, string> = {
   Storagemigration: "storagemigration",
   Storage: "storage",
 };
+
+// A custom resource group's module: `SnapshotStorage` → `snapshot_storage`.
+// Several CRDs share a group's module; a built-in group's name is refused.
+const BUILT_IN_GROUPS = new Set(Object.keys(API_GROUP_MAP));
+for (const crd of crds) {
+  const group = groupPascal(crd.spec.group);
+  if (BUILT_IN_GROUPS.has(group)) {
+    throw new Error(`CRD group ${crd.spec.group} has the name of a built-in group (${group})`);
+  }
+  API_GROUP_MAP[group] = group.replace(/(?<!^)([A-Z])/g, "_$1").toLowerCase();
+}
 
 // Sorted list of group prefixes (longer first for correct matching).
 const GROUP_PREFIXES = Object.keys(API_GROUP_MAP).sort((a, b) => b.length - a.length);
@@ -121,6 +154,17 @@ console.log(`   Spec:   ${specPath}`);
 console.log(`   Output: ${outDir}`);
 
 const spec: any = JSON.parse(await fs.readFile(specPath, "utf8"));
+
+// ---- Custom resources (see module doc, item 3) ----
+const custom = crdSpec(spec, crds);
+for (const where of ["paths", "definitions"] as const) {
+  for (const [key, value] of Object.entries(custom[where])) {
+    if (spec[where][key] !== undefined) {
+      throw new Error(`a CRD's ${where} entry ${key} is already in swagger.json`);
+    }
+    spec[where][key] = value;
+  }
+}
 
 // ---- Upgrade Swagger 2.0 → OpenAPI 3.0 (in place; see module doc) ----
 

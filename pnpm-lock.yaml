@@ -1215,6 +1215,9 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 26.6.5
+      yaml:
+        specifier: 'catalog:'
+        version: 2.9.1
 
   packages/launchdarkly:
     dependencies:

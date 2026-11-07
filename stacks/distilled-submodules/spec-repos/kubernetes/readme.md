@@ -1,12 +1,14 @@
 # spec-mirror-kubernetes
 
-A git mirror of the Kubernetes [OpenAPI spec](https://github.com/kubernetes/kubernetes/blob/master/api/openapi-spec/swagger.json), reduced to exactly the file the
+A git mirror of the Kubernetes [OpenAPI spec](https://github.com/kubernetes/kubernetes/blob/master/api/openapi-spec/swagger.json), reduced to exactly the files the
 [`@distilled.cloud/kubernetes`](https://github.com/alchemy-run/distilled) generator reads:
 
 - `specs/swagger.json` — `api/openapi-spec/swagger.json`
+- `specs/crds/snapshot.storage.k8s.io_*.yaml` — the VolumeSnapshot CRDs from
+  [kubernetes-csi/external-snapshotter](https://github.com/kubernetes-csi/external-snapshotter/tree/v8.7.0/client/config/crd) `client/config/crd/` at `v8.7.0`
 
-Nothing else from `kubernetes/kubernetes` is mirrored, so this repository stays small
-enough to use as a git submodule — the upstream repository is never cloned.
+Nothing else from the upstream repositories is mirrored, so this repository stays small
+enough to use as a git submodule — no upstream repository is ever cloned.
 
 The mirror is updated every 24 hours by
 [`.github/workflows/update-specs.yml`](./.github/workflows/update-specs.yml).
