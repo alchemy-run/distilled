@@ -30,18 +30,9 @@ const TELEMETRY = {
 export class ApiTokenCreationForbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<ApiTokenCreationForbidden>()("ApiTokenCreationForbidden", {
-      error: S.String,
+      message: S.String,
     }).pipe(C.withAuthError),
     [{ status: 401 }],
-  ) {}
-
-/** The API token does not exist. */
-export class ApiTokenNotFound
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<ApiTokenNotFound>()("ApiTokenNotFound", {
-      error: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
   ) {}
 
 export class BadRequest
@@ -53,51 +44,6 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
-/** The branch name is taken, or the checkpoint is not committed yet. */
-export class BranchConflict
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<BranchConflict>()("BranchConflict", {
-      error: S.String,
-    }).pipe(C.withConflictError),
-    [{ status: 409 }],
-  ) {}
-
-/** The branch (or its disk) does not exist. */
-export class BranchNotFound
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<BranchNotFound>()("BranchNotFound", {
-      error: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
-  ) {}
-
-/** The disk, the checkpoint, or `from_branch` named by a branch create does not exist. */
-export class BranchSourceNotFound
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<BranchSourceNotFound>()("BranchSourceNotFound", {
-      error: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
-  ) {}
-
-/** A disk with this name already exists in the account. */
-export class DiskAlreadyExists
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<DiskAlreadyExists>()("DiskAlreadyExists", {
-      error: S.String,
-    }).pipe(C.withConflictError),
-    [{ status: 409 }],
-  ) {}
-
-/** The disk does not exist, or the API key cannot see it. */
-export class DiskNotFound
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<DiskNotFound>()("DiskNotFound", {
-      error: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
-  ) {}
-
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -107,58 +53,157 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
-/** The image does not exist. */
-export class ImageNotFound
+/** `image_not_ready`: the sandbox image has no finished build; poll it until it is ready. */
+export class ImageNotReady
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<ImageNotFound>()("ImageNotFound", {
-      error: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
-  ) {}
-
-/** A sandbox with this name already exists in the account. */
-export class SandboxAlreadyExists
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<SandboxAlreadyExists>()("SandboxAlreadyExists", {
-      error: S.String,
+    /*@__PURE__*/ S.TaggedError<ImageNotReady>()("ImageNotReady", {
+      message: S.String,
     }).pipe(C.withConflictError),
-    [{ status: 409 }],
+    [{ status: 409, body: { "/code": "image_not_ready" } }],
   ) {}
 
-/** The sandbox does not exist, or the API key cannot see it. */
-export class SandboxNotFound
+/** `no_capacity`: no sandbox capacity is available; retry. */
+export class NoCapacity
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<SandboxNotFound>()("SandboxNotFound", {
-      error: S.String,
+    /*@__PURE__*/ S.TaggedError<NoCapacity>()("NoCapacity", {
+      message: S.String,
+    }).pipe(C.withServerError, C.withRetryableError, C.withThrottlingError),
+    [{ status: 503, body: { "/code": "no_capacity" } }],
+  ) {}
+
+/** `not_enabled`: sandboxes are not enabled on this control plane. Not retryable. */
+export class NotEnabled
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotEnabled>()("NotEnabled", {
+      message: S.String,
+    }),
+    [{ status: 503, body: { "/code": "not_enabled" } }],
+  ) {}
+
+/** `not_found`: the disk, branch, sandbox, image, port token or API token named by the request does not exist, or the API key cannot see it. The message names which. */
+export class NotFound
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
+      message: S.String,
     }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
+    [{ status: 404, body: { "/code": "not_found" } }],
   ) {}
 
-/** The port token (or its sandbox) does not exist. */
-export class SandboxPortTokenNotFound
+/** `sandbox_fork_checkpoint`: the checkpoint to fork from is unavailable. */
+export class SandboxForkCheckpoint
   extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<SandboxPortTokenNotFound>()("SandboxPortTokenNotFound", {
-      error: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
-  ) {}
-
-/** An image or disk named by a sandbox create does not exist. */
-export class SandboxSourceNotFound
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<SandboxSourceNotFound>()("SandboxSourceNotFound", {
-      error: S.String,
-    }).pipe(C.withBadRequestError),
-    [{ status: 404 }],
-  ) {}
-
-/** The sandbox is in a state that does not allow the operation (e.g. pausing a stopped sandbox). */
-export class SandboxStateConflict
-  extends /*@__PURE__*/ T.applyErrorMatchers(
-    /*@__PURE__*/ S.TaggedError<SandboxStateConflict>()("SandboxStateConflict", {
-      error: S.String,
+    /*@__PURE__*/ S.TaggedError<SandboxForkCheckpoint>()("SandboxForkCheckpoint", {
+      message: S.String,
     }).pipe(C.withConflictError),
-    [{ status: 409 }],
+    [{ status: 409, body: { "/code": "sandbox_fork_checkpoint" } }],
+  ) {}
+
+/** `sandbox_fork_mounted`: the sandbox has a disk mounted; stop it before forking. */
+export class SandboxForkMounted
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxForkMounted>()("SandboxForkMounted", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_fork_mounted" } }],
+  ) {}
+
+/** `sandbox_has_forks`: delete the sandbox's forks first. */
+export class SandboxHasForks
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxHasForks>()("SandboxHasForks", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_has_forks" } }],
+  ) {}
+
+/** `sandbox_mounts_while_active`: mounts can only change on a cold start of an inactive sandbox. */
+export class SandboxMountsWhileActive
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxMountsWhileActive>()("SandboxMountsWhileActive", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_mounts_while_active" } }],
+  ) {}
+
+/** `sandbox_name_conflict`: a sandbox with this name already exists in the account. */
+export class SandboxNameConflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNameConflict>()("SandboxNameConflict", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_name_conflict" } }],
+  ) {}
+
+/** `sandbox_not_deletable`: stop the sandbox before deleting it, unless it has exited or failed. */
+export class SandboxNotDeletable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNotDeletable>()("SandboxNotDeletable", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_not_deletable" } }],
+  ) {}
+
+/** `sandbox_not_forkable`: only a running, paused or stopped sandbox can be forked. */
+export class SandboxNotForkable
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNotForkable>()("SandboxNotForkable", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_not_forkable" } }],
+  ) {}
+
+/** `sandbox_not_ready`: the sandbox is still starting; retry once it is running. */
+export class SandboxNotReady
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxNotReady>()("SandboxNotReady", {
+      message: S.String,
+    }).pipe(C.withConflictError, C.withRetryableError),
+    [{ status: 409, body: { "/code": "sandbox_not_ready" } }],
+  ) {}
+
+/** `sandbox_pausing`: the sandbox is still pausing; retry once it is paused. */
+export class SandboxPausing
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxPausing>()("SandboxPausing", {
+      message: S.String,
+    }).pipe(C.withConflictError, C.withRetryableError),
+    [{ status: 409, body: { "/code": "sandbox_pausing" } }],
+  ) {}
+
+/** `sandbox_start_conflict`: the sandbox is already starting with a different lifecycle intent. */
+export class SandboxStartConflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxStartConflict>()("SandboxStartConflict", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_start_conflict" } }],
+  ) {}
+
+/** `sandbox_stop_conflict`: the sandbox is already shutting down with a different lifecycle intent. */
+export class SandboxStopConflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxStopConflict>()("SandboxStopConflict", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_stop_conflict" } }],
+  ) {}
+
+/** `sandbox_stopping`: the sandbox is still stopping; retry once it is stopped. */
+export class SandboxStopping
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxStopping>()("SandboxStopping", {
+      message: S.String,
+    }).pipe(C.withConflictError, C.withRetryableError),
+    [{ status: 409, body: { "/code": "sandbox_stopping" } }],
+  ) {}
+
+/** `sandbox_terminated`: the sandbox is not accepting requests (it is paused, stopped or gone). */
+export class SandboxTerminated
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<SandboxTerminated>()("SandboxTerminated", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "sandbox_terminated" } }],
   ) {}
 
 export type TokenUserType = "token";
@@ -1362,7 +1407,7 @@ export interface UpdateSandboxNetworkRequest {
   sid: string;
   egress?: SandboxEgressPolicy;
 }
-export type AddDiskUserError = BadRequest | DiskNotFound | ArchilOpError;
+export type AddDiskUserError = BadRequest | NotFound | ArchilOpError;
 /** Add user to disk Adds an authorized user to a disk. Users can authenticate via: - **token**: A shared token with a nickname and 4-character suffix - **awssts**: AWS STS role assumption with an IAM principal ARN - **s3**: An access key pair for the disk's [S3 API](/protocols/s3-api). The server generates both keys and returns the secret key only in this response. The keys reach the whole disk, read-write unless `readOnly` is set, so keep them on your server and give browsers and other untrusted clients presigned URLs instead. */
 export const addDiskUser: API.OperationMethod<
   AddDiskUserRequest,
@@ -1372,7 +1417,7 @@ export const addDiskUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(0, __c0, 0) as any as S.Schema<AddDiskUserRequest>,
   output: __S(1, __c0, 1) as any as S.Schema<ApiResponseAuthorizedUser>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1396,7 +1441,7 @@ export const createApiToken: API.OperationMethod<
   span: "CreateApiToken",
 }));
 
-export type CreateBranchError = BadRequest | BranchSourceNotFound | BranchConflict | ArchilOpError;
+export type CreateBranchError = BadRequest | NotFound | ArchilOpError;
 /** Create a branch Creates an independent, writable fork of the disk that starts from a committed checkpoint. Writes on the branch don't affect its source. Fails with 409 when the branch name exists or the checkpoint is not committed yet, and 404 when the checkpoint or `from_branch` doesn't exist. */
 export const createBranch: API.OperationMethod<
   CreateBranchRequest,
@@ -1406,14 +1451,14 @@ export const createBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateBranchRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<BranchApiResponse>,
-  errors: [BadRequest, BranchSourceNotFound, BranchConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateBranch",
 }));
 
-export type CreateDiskError = BadRequest | Forbidden | DiskAlreadyExists | ArchilOpError;
+export type CreateDiskError = BadRequest | Forbidden | ArchilOpError;
 /** Create a new disk Creates a new disk with the specified configuration. A default disk token user is automatically generated and returned in the response, so the disk is immediately mountable. The one-time disk token appears in `authorizedUsers[].token` and cannot be retrieved again. (This disk token is scoped to the new disk and is separate from the API key you used to make this request.) To provide your own users instead, pass the deprecated `authMethods` field or call AddDiskUser after creation. */
 export const createDisk: API.OperationMethod<
   CreateDiskRequest,
@@ -1423,14 +1468,14 @@ export const createDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(98, __c6, 2) as any as S.Schema<CreateDiskRequest>,
   output: __S(100, __c6, 4) as any as S.Schema<ApiResponseCreateDisk>,
-  errors: [BadRequest, Forbidden, DiskAlreadyExists, UnknownArchilError],
+  errors: [BadRequest, Forbidden, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateDisk",
 }));
 
-export type CreateImageError = BadRequest | ArchilOpError;
+export type CreateImageError = BadRequest | NoCapacity | NotEnabled | ArchilOpError;
 /** Build a sandbox image Builds an OCI image for use by sandboxes. Poll [Get Image](/api-reference/images/get-image) until it is `ready`, then pass its `image_id` when creating a sandbox. Repeated requests join an active build. Completed tags rebuild; completed digest references are reused. During a rebuild, sandboxes can use the last successful digest. Submit the request again to retry a failed or unresponsive build. */
 export const createImage: API.OperationMethod<
   CreateImageRequest,
@@ -1440,7 +1485,7 @@ export const createImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(129, __c8, 1) as any as S.Schema<CreateImageRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<ApiResponseImage>,
-  errors: [BadRequest, UnknownArchilError],
+  errors: [BadRequest, NoCapacity, NotEnabled, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1449,8 +1494,9 @@ export const createImage: API.OperationMethod<
 
 export type CreateSandboxError =
   | BadRequest
-  | SandboxSourceNotFound
-  | SandboxAlreadyExists
+  | NotFound
+  | ImageNotReady
+  | SandboxNameConflict
   | ArchilOpError;
 /** Create a sandbox Provisions a sandbox VM with the requested shape and an internal, persistent Archil disk backing its root filesystem. This backing disk cannot be disabled or replaced with an existing disk. Use `mounts` to attach additional existing disks at guest paths; omit it or pass an empty list to create a sandbox without additional disks. By default the response reports `pending` after the runtime accepts the start. Set `wait=true` to hold for `running`; if the wait budget expires, the response remains `pending` and startup continues. */
 export const createSandbox: API.OperationMethod<
@@ -1461,14 +1507,14 @@ export const createSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(162, __c10, 2) as any as S.Schema<CreateSandboxRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, SandboxSourceNotFound, SandboxAlreadyExists, UnknownArchilError],
+  errors: [BadRequest, NotFound, ImageNotReady, SandboxNameConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSandbox",
 }));
 
-export type CreateSandboxConnectionError = SandboxNotFound | SandboxStateConflict | ArchilOpError;
+export type CreateSandboxConnectionError = NotFound | SandboxTerminated | ArchilOpError;
 /** Create a sandbox process connection Returns a short-lived WebSocket URL used by the sandbox process API. The URL contains a signed token that expires at `expires_at`; an open WebSocket can remain connected after the token expires. */
 export const createSandboxConnection: API.OperationMethod<
   CreateSandboxConnectionRequest,
@@ -1478,14 +1524,14 @@ export const createSandboxConnection: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(272, __c17, 0) as any as S.Schema<CreateSandboxConnectionRequest>,
   output: __S(274, __c17, 2) as any as S.Schema<ApiResponseSandboxConnection>,
-  errors: [SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [NotFound, SandboxTerminated, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSandboxConnection",
 }));
 
-export type CreateSandboxPortTokenError = BadRequest | SandboxNotFound | ArchilOpError;
+export type CreateSandboxPortTokenError = BadRequest | NotFound | ArchilOpError;
 /** Create a private sandbox port token Creates token-authorized HTTP access to one port. Send the raw token returned by this request in the `X-Archil-Token` request header at the stable `<port>-<sandbox-route-id>.<zone>` hostname. Public ports accept connections without a token; otherwise a valid token for that sandbox and port is required. The token is not returned again. */
 export const createSandboxPortToken: API.OperationMethod<
   CreateSandboxPortTokenRequest,
@@ -1495,14 +1541,14 @@ export const createSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(288, __c18, 0) as any as S.Schema<CreateSandboxPortTokenRequest>,
   output: __S(290, __c18, 2) as any as S.Schema<ApiResponseCreatedSandboxPortToken>,
-  errors: [BadRequest, SandboxNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateSandboxPortToken",
 }));
 
-export type CreateShareUrlError = BadRequest | DiskNotFound | ArchilOpError;
+export type CreateShareUrlError = BadRequest | NotFound | ArchilOpError;
 /** Create a share URL for a file Creates a signed, time-limited URL for downloading a file without authentication. The URL expires after 24 hours by default; pass `expiresIn` to set a custom lifetime up to 7 days. The returned URL points to a public endpoint (`GET /api/shared/{token}`) that verifies the signature, checks expiry, and streams the file with a sensible `Content-Type` and `Content-Disposition`. Range requests are supported. No credentials are needed to open the URL. */
 export const createShareUrl: API.OperationMethod<
   CreateShareUrlRequest,
@@ -1512,14 +1558,14 @@ export const createShareUrl: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(304, __c19, 0) as any as S.Schema<CreateShareUrlRequest>,
   output: __S(306, __c19, 2) as any as S.Schema<ApiResponseShareUrl>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateShareUrl",
 }));
 
-export type DeleteDiskError = BadRequest | DiskNotFound | ArchilOpError;
+export type DeleteDiskError = BadRequest | NotFound | ArchilOpError;
 /** Delete a disk Deletes a disk and all associated resources. */
 export const deleteDisk: API.OperationMethod<
   DeleteDiskRequest,
@@ -1529,14 +1575,14 @@ export const deleteDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(320, __c20, 0) as any as S.Schema<DeleteDiskRequest>,
   output: __S(321, __c20, 1) as any as S.Schema<ApiResponseEmpty>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteDisk",
 }));
 
-export type DeleteSandboxError = SandboxNotFound | SandboxStateConflict | ArchilOpError;
+export type DeleteSandboxError = NotFound | SandboxNotDeletable | SandboxHasForks | ArchilOpError;
 /** Delete a sandbox Permanently deletes a stopped, exited, or failed sandbox and its backing disk. A sandbox with child forks cannot be deleted until those children are deleted, starting with the deepest ones. */
 export const deleteSandbox: API.OperationMethod<
   DeleteSandboxRequest,
@@ -1546,14 +1592,14 @@ export const deleteSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(336, __c21, 0) as any as S.Schema<DeleteSandboxRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteSandboxResponse>,
-  errors: [SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [NotFound, SandboxNotDeletable, SandboxHasForks, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSandbox",
 }));
 
-export type DeleteSandboxPortError = BadRequest | SandboxNotFound | ArchilOpError;
+export type DeleteSandboxPortError = BadRequest | NotFound | ArchilOpError;
 /** Stop exposing a sandbox port Removes an explicitly exposed public port. An enabled sandbox service publishing the same TCP port remains publicly reachable. */
 export const deleteSandboxPort: API.OperationMethod<
   DeleteSandboxPortRequest,
@@ -1563,14 +1609,14 @@ export const deleteSandboxPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(368, __c23, 0) as any as S.Schema<DeleteSandboxPortRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteSandboxPortResponse>,
-  errors: [BadRequest, SandboxNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSandboxPort",
 }));
 
-export type DeleteSandboxPortTokenError = SandboxPortTokenNotFound | ArchilOpError;
+export type DeleteSandboxPortTokenError = NotFound | ArchilOpError;
 /** Revoke a sandbox port token New private connections using the token fail after this request completes; established connections remain open. Expired tokens return not found. */
 export const deleteSandboxPortToken: API.OperationMethod<
   DeleteSandboxPortTokenRequest,
@@ -1580,14 +1626,14 @@ export const deleteSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(384, __c24, 0) as any as S.Schema<DeleteSandboxPortTokenRequest>,
   output: __S(352, __c22, 0) as any as S.Schema<DeleteSandboxPortTokenResponse>,
-  errors: [SandboxPortTokenNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteSandboxPortToken",
 }));
 
-export type DeleteTokenError = ApiTokenNotFound | ArchilOpError;
+export type DeleteTokenError = NotFound | ArchilOpError;
 /** Delete API token Revokes and deletes an API token. */
 export const deleteToken: API.OperationMethod<
   DeleteTokenRequest,
@@ -1597,27 +1643,27 @@ export const deleteToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(400, __c25, 0) as any as S.Schema<DeleteTokenRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [ApiTokenNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "DeleteToken",
 }));
 
-export type ExecError = BadRequest | DiskNotFound | ArchilOpError;
+export type ExecError = BadRequest | NotFound | ArchilOpError;
 /** Execute a command with multiple disks mounted Launches a Firecracker microVM with the supplied set of disks each mounted at its own relative path under `/mnt/archil`, runs the command to completion, and shuts down the microVM. Activation is atomic: every disk mounts or none of them do. Relative paths must be non-empty, non-absolute, and contain no `.` / `..` segments. Mounting two disks at the same relative path is an error. */
 export const exec: API.OperationMethod<ExecRequest, ApiResponseExec, ExecError, ArchilOpContext> =
   /*@__PURE__*/ API.make(() => ({
     input: __S(433, __c27, 1) as any as S.Schema<ExecRequest>,
     output: __S(450, __c28, 2) as any as S.Schema<ApiResponseExec>,
-    errors: [BadRequest, DiskNotFound, UnknownArchilError],
+    errors: [BadRequest, NotFound, UnknownArchilError],
     protocol: ArchilProtocol,
     retry: Retry.Retry,
     telemetry: TELEMETRY,
     span: "Exec",
   }));
 
-export type ExecDiskError = BadRequest | DiskNotFound | ArchilOpError;
+export type ExecDiskError = BadRequest | NotFound | ArchilOpError;
 /** Execute a command on a disk Launches a Firecracker microVM with the specified disk mounted, runs the given command to completion, shuts down the microVM, and returns the command result. */
 export const execDisk: API.OperationMethod<
   ExecDiskRequest,
@@ -1627,14 +1673,14 @@ export const execDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(464, __c29, 0) as any as S.Schema<ExecDiskRequest>,
   output: __S(450, __c28, 2) as any as S.Schema<ApiResponseExecDisk>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExecDisk",
 }));
 
-export type ExposeSandboxPortError = BadRequest | SandboxNotFound | ArchilOpError;
+export type ExposeSandboxPortError = BadRequest | NotFound | ArchilOpError;
 /** Expose a sandbox port Creates or returns public access to a TCP port in the sandbox. */
 export const exposeSandboxPort: API.OperationMethod<
   ExposeSandboxPortRequest,
@@ -1644,14 +1690,21 @@ export const exposeSandboxPort: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(480, __c30, 0) as any as S.Schema<ExposeSandboxPortRequest>,
   output: __S(481, __c30, 1) as any as S.Schema<ApiResponseSandboxPort>,
-  errors: [BadRequest, SandboxNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ExposeSandboxPort",
 }));
 
-export type ForkSandboxError = BadRequest | SandboxNotFound | SandboxStateConflict | ArchilOpError;
+export type ForkSandboxError =
+  | BadRequest
+  | NotFound
+  | SandboxNameConflict
+  | SandboxForkMounted
+  | SandboxForkCheckpoint
+  | SandboxNotForkable
+  | ArchilOpError;
 /** Fork a sandbox Checkpoints a running source sandbox and creates an isolated writable disk branch. Forks from running or paused sources resume from the source's CPU, memory, and disk state. Forks from stopped sources cold-boot from the saved disk checkpoint. A running source is resumed after its checkpoint; paused and stopped sources remain inactive. Forked sandboxes may themselves be forked. Passing `checkpoint` forks that saved state without touching the source, so clients can pause once, wait for the checkpoint, and fork it from any number of places. Without `checkpoint` the server pauses a running source inside the request and resumes it afterwards; that path is kept for older clients and is bounded by the request timeout. Sandboxes with additional disk mounts must be stopped before forking. The fork inherits mounts of the same external disks; only the internal root disk is branched, so external disk contents are not isolated. */
 export const forkSandbox: API.OperationMethod<
   ForkSandboxRequest,
@@ -1661,14 +1714,22 @@ export const forkSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(496, __c31, 0) as any as S.Schema<ForkSandboxRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [
+    BadRequest,
+    NotFound,
+    SandboxNameConflict,
+    SandboxForkMounted,
+    SandboxForkCheckpoint,
+    SandboxNotForkable,
+    UnknownArchilError,
+  ],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ForkSandbox",
 }));
 
-export type GetAllowedIpsError = DiskNotFound | ArchilOpError;
+export type GetAllowedIpsError = NotFound | ArchilOpError;
 /** Get a disk's allowed IPs IPv4 addresses and CIDR ranges allowed to mount the disk. An empty list allows any address. */
 export const getAllowedIps: API.OperationMethod<
   GetAllowedIpsRequest,
@@ -1678,7 +1739,7 @@ export const getAllowedIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(512, __c32, 0) as any as S.Schema<GetAllowedIpsRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<ApiResponseAllowedIps>,
-  errors: [DiskNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1736,7 +1797,7 @@ export const getBillingUsage: API.OperationMethod<
   span: "GetBillingUsage",
 }));
 
-export type GetBranchError = BadRequest | BranchNotFound | ArchilOpError;
+export type GetBranchError = BadRequest | NotFound | ArchilOpError;
 /** Get a branch */
 export const getBranch: API.OperationMethod<
   GetBranchRequest,
@@ -1746,14 +1807,14 @@ export const getBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(608, __c38, 0) as any as S.Schema<GetBranchRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<BranchApiResponse>,
-  errors: [BadRequest, BranchNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetBranch",
 }));
 
-export type GetDiskError = BadRequest | DiskNotFound | ArchilOpError;
+export type GetDiskError = BadRequest | NotFound | ArchilOpError;
 /** Get disk details Returns detailed information about a specific disk. */
 export const getDisk: API.OperationMethod<
   GetDiskRequest,
@@ -1763,14 +1824,14 @@ export const getDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(624, __c39, 0) as any as S.Schema<GetDiskRequest>,
   output: __S(625, __c39, 1) as any as S.Schema<ApiResponseDisk>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetDisk",
 }));
 
-export type GetImageError = ImageNotFound | ArchilOpError;
+export type GetImageError = NotFound | NotEnabled | ArchilOpError;
 /** Get a sandbox image Returns the image's build status and latest successful digest, if available. Failed builds include a `failure_reason`. Use [Build Image](/api-reference/images/build-image) (`POST /api/images`) to retry interrupted builds. */
 export const getImage: API.OperationMethod<
   GetImageRequest,
@@ -1780,14 +1841,14 @@ export const getImage: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<GetImageRequest>,
   output: __S(145, __c9, 1) as any as S.Schema<ApiResponseImage>,
-  errors: [ImageNotFound, UnknownArchilError],
+  errors: [NotFound, NotEnabled, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetImage",
 }));
 
-export type GetSandboxError = SandboxNotFound | ArchilOpError;
+export type GetSandboxError = NotFound | ArchilOpError;
 /** Get a sandbox */
 export const getSandbox: API.OperationMethod<
   GetSandboxRequest,
@@ -1797,14 +1858,14 @@ export const getSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<GetSandboxRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [SandboxNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSandbox",
 }));
 
-export type GetSandboxMountError = DiskNotFound | ArchilOpError;
+export type GetSandboxMountError = NotFound | ArchilOpError;
 /** Get whether sandboxes may mount a disk */
 export const getSandboxMount: API.OperationMethod<
   GetSandboxMountRequest,
@@ -1814,14 +1875,14 @@ export const getSandboxMount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<GetSandboxMountRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<ApiResponseSandboxMount>,
-  errors: [DiskNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSandboxMount",
 }));
 
-export type GetSandboxNetworkError = SandboxNotFound | ArchilOpError;
+export type GetSandboxNetworkError = NotFound | ArchilOpError;
 /** Get a sandbox's network policy Returns the last committed network policy for a running, paused, or stopped sandbox. */
 export const getSandboxNetwork: API.OperationMethod<
   GetSandboxNetworkRequest,
@@ -1831,14 +1892,14 @@ export const getSandboxNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(720, __c45, 0) as any as S.Schema<GetSandboxNetworkRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
-  errors: [SandboxNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSandboxNetwork",
 }));
 
-export type GetSandboxPortTokenError = SandboxPortTokenNotFound | ArchilOpError;
+export type GetSandboxPortTokenError = NotFound | ArchilOpError;
 /** Get a sandbox port token Returns token metadata without its raw token. Expired tokens return not found. */
 export const getSandboxPortToken: API.OperationMethod<
   GetSandboxPortTokenRequest,
@@ -1848,14 +1909,14 @@ export const getSandboxPortToken: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(752, __c47, 0) as any as S.Schema<GetSandboxPortTokenRequest>,
   output: __S(753, __c47, 1) as any as S.Schema<ApiResponseSandboxPortToken>,
-  errors: [SandboxPortTokenNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetSandboxPortToken",
 }));
 
-export type GrepDiskError = BadRequest | DiskNotFound | ArchilOpError;
+export type GrepDiskError = BadRequest | NotFound | ArchilOpError;
 /** Parallel grep over a directory on a disk Searches files under a directory on the disk for lines matching a regular expression. Listing and matching are fanned out across ephemeral exec microVMs, so the request finishes within the user's time budget regardless of the size of the directory. The user controls search latency and scope with three knobs: - `maxDurationSeconds` is the wall-clock deadline (capped at 30s). - `concurrency` is the maximum number of parallel grep workers. Higher concurrency finishes larger datasets within the deadline, at proportionally more compute. - `maxResults` causes the search to short-circuit after the aggregator has collected this many matches. With `recursive: false` only files directly under `directory` are searched. With `recursive: true` subdirectories are walked breadth-first and grep workers are dispatched as soon as each level finishes listing -- listing and matching overlap. The matches returned when stopping early on `maxResults` are a sample of whichever workers reported first, not the lexicographically first N. The response surfaces `stoppedReason` so callers can distinguish completion from early termination. */
 export const grepDisk: API.OperationMethod<
   GrepDiskRequest,
@@ -1865,7 +1926,7 @@ export const grepDisk: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(784, __c49, 0) as any as S.Schema<GrepDiskRequest>,
   output: __S(788, __c49, 4) as any as S.Schema<ApiResponseGrepDisk>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1889,7 +1950,7 @@ export const listApiTokens: API.OperationMethod<
   span: "ListApiTokens",
 }));
 
-export type ListBranchesError = BadRequest | DiskNotFound | ArchilOpError;
+export type ListBranchesError = BadRequest | NotFound | ArchilOpError;
 /** List a disk's branches Lists every branch of the disk, including branches of branches, in no particular order. */
 export const listBranches: API.OperationMethod<
   ListBranchesRequest,
@@ -1899,14 +1960,14 @@ export const listBranches: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(816, __c51, 0) as any as S.Schema<ListBranchesRequest>,
   output: __S(818, __c51, 2) as any as S.Schema<BranchListApiResponse>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListBranches",
 }));
 
-export type ListDelegationsError = DiskNotFound | ArchilOpError;
+export type ListDelegationsError = NotFound | ArchilOpError;
 /** List a disk's write delegations Lists every delegation held on the disk. A delegation grants one client exclusive write access to an inode; it is identified by the (clientId, inodeId) pair. `isOrphaned` marks delegations held by clients no longer connected. */
 export const listDelegations: API.OperationMethod<
   ListDelegationsRequest,
@@ -1916,7 +1977,7 @@ export const listDelegations: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(832, __c52, 0) as any as S.Schema<ListDelegationsRequest>,
   output: __S(836, __c52, 4) as any as S.Schema<ApiResponseDelegations>,
-  errors: [DiskNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1957,7 +2018,7 @@ export const listSandboxes: API.OperationMethod<
   span: "ListSandboxes",
 }));
 
-export type ListSandboxPortsError = SandboxNotFound | ArchilOpError;
+export type ListSandboxPortsError = NotFound | ArchilOpError;
 /** List exposed sandbox ports Lists the explicitly exposed public ports for the sandbox. */
 export const listSandboxPorts: API.OperationMethod<
   ListSandboxPortsRequest,
@@ -1967,14 +2028,14 @@ export const listSandboxPorts: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(880, __c55, 0) as any as S.Schema<ListSandboxPortsRequest>,
   output: __S(882, __c55, 2) as any as S.Schema<ApiResponseSandboxPortList>,
-  errors: [SandboxNotFound, UnknownArchilError],
+  errors: [NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSandboxPorts",
 }));
 
-export type ListSandboxPortTokensError = BadRequest | SandboxNotFound | ArchilOpError;
+export type ListSandboxPortTokensError = BadRequest | NotFound | ArchilOpError;
 /** List sandbox port tokens Lists unexpired private port token metadata without returning raw tokens. */
 export const listSandboxPortTokens: API.OperationMethod<
   ListSandboxPortTokensRequest,
@@ -1984,14 +2045,14 @@ export const listSandboxPortTokens: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(896, __c56, 0) as any as S.Schema<ListSandboxPortTokensRequest>,
   output: __S(899, __c56, 3) as any as S.Schema<ApiResponseSandboxPortTokenList>,
-  errors: [BadRequest, SandboxNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListSandboxPortTokens",
 }));
 
-export type PauseSandboxError = BadRequest | SandboxNotFound | SandboxStateConflict | ArchilOpError;
+export type PauseSandboxError = BadRequest | NotFound | SandboxNotReady | ArchilOpError;
 /** Pause a sandbox Snapshot the CPU & memory state, then stop the VM. The sandbox reports `pausing` until the snapshot commit marker is durable and the VM exits, then reports `paused`. Attached process connections close, while agent-owned processes remain available for reattachment after resume. A sandbox that is still `pending` must reach `running` before it can be paused. To restore the snapshot, call `/resume`. */
 export const pauseSandbox: API.OperationMethod<
   PauseSandboxRequest,
@@ -2001,14 +2062,14 @@ export const pauseSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(912, __c57, 0) as any as S.Schema<PauseSandboxRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxNotReady, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "PauseSandbox",
 }));
 
-export type RemoveDiskUserError = BadRequest | DiskNotFound | ArchilOpError;
+export type RemoveDiskUserError = BadRequest | NotFound | ArchilOpError;
 /** Remove user from disk Removes an authorized user from a disk. */
 export const removeDiskUser: API.OperationMethod<
   RemoveDiskUserRequest,
@@ -2018,18 +2079,14 @@ export const removeDiskUser: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(928, __c58, 0) as any as S.Schema<RemoveDiskUserRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RemoveDiskUser",
 }));
 
-export type ResumeSandboxError =
-  | BadRequest
-  | SandboxNotFound
-  | SandboxStateConflict
-  | ArchilOpError;
+export type ResumeSandboxError = BadRequest | NotFound | SandboxStartConflict | ArchilOpError;
 /** Resume a sandbox Restores a paused sandbox's committed CPU and memory snapshot. Resuming a running sandbox or a pending resume is idempotent. Only a `paused` sandbox can begin a new resume; `stopped`, `exited`, `failed`, `stopping`, `pausing`, or a pending cold start returns 409. */
 export const resumeSandbox: API.OperationMethod<
   ResumeSandboxRequest,
@@ -2039,14 +2096,14 @@ export const resumeSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<ResumeSandboxRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxStartConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ResumeSandbox",
 }));
 
-export type RevokeDelegationError = BadRequest | DiskNotFound | ArchilOpError;
+export type RevokeDelegationError = BadRequest | NotFound | ArchilOpError;
 /** Revoke a write delegation Forcibly reclaims write access from a client that is unreachable or crashed without checking its delegation in. */
 export const revokeDelegation: API.OperationMethod<
   RevokeDelegationRequest,
@@ -2056,14 +2113,14 @@ export const revokeDelegation: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(960, __c60, 0) as any as S.Schema<RevokeDelegationRequest>,
   output: __S(417, __c26, 1) as any as S.Schema<ApiResponseMessage>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "RevokeDelegation",
 }));
 
-export type SetAllowedIpsError = BadRequest | DiskNotFound | ArchilOpError;
+export type SetAllowedIpsError = BadRequest | NotFound | ArchilOpError;
 /** Replace a disk's allowed IPs */
 export const setAllowedIps: API.OperationMethod<
   SetAllowedIpsRequest,
@@ -2073,14 +2130,14 @@ export const setAllowedIps: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(976, __c61, 0) as any as S.Schema<SetAllowedIpsRequest>,
   output: __S(529, __c33, 1) as any as S.Schema<ApiResponseAllowedIps>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetAllowedIps",
 }));
 
-export type SetSandboxMountError = BadRequest | DiskNotFound | ArchilOpError;
+export type SetSandboxMountError = BadRequest | NotFound | ArchilOpError;
 /** Set whether sandboxes may mount a disk */
 export const setSandboxMount: API.OperationMethod<
   SetSandboxMountRequest,
@@ -2090,18 +2147,14 @@ export const setSandboxMount: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(992, __c62, 0) as any as S.Schema<SetSandboxMountRequest>,
   output: __S(705, __c44, 1) as any as S.Schema<ApiResponseSandboxMount>,
-  errors: [BadRequest, DiskNotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSandboxMount",
 }));
 
-export type SetSandboxTimeoutError =
-  | BadRequest
-  | SandboxNotFound
-  | SandboxStateConflict
-  | ArchilOpError;
+export type SetSandboxTimeoutError = BadRequest | NotFound | ArchilOpError;
 /** Set a sandbox's timeouts Replaces one or both sandbox timeout settings. Updating `timeout` while the sandbox is running resets its hard expiration deadline to that many seconds from now, capped at 24 hours after the current session started. Updating `idle_ttl_seconds` resets the idle countdown when no direct process connection is active; zero disables idle expiry. Omitted settings remain unchanged. Updates are retained across later stops and starts. For an inactive sandbox, they apply to the next powered-on session. Sandboxes that are starting or shutting down, or whose timeout changes concurrently, return 409. */
 export const setSandboxTimeout: API.OperationMethod<
   SetSandboxTimeoutRequest,
@@ -2111,14 +2164,22 @@ export const setSandboxTimeout: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1008, __c63, 0) as any as S.Schema<SetSandboxTimeoutRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "SetSandboxTimeout",
 }));
 
-export type StartSandboxError = BadRequest | SandboxNotFound | SandboxStateConflict | ArchilOpError;
+export type StartSandboxError =
+  | BadRequest
+  | NotFound
+  | SandboxPausing
+  | SandboxStopping
+  | SandboxStartConflict
+  | SandboxMountsWhileActive
+  | SandboxTerminated
+  | ArchilOpError;
 /** Cold-start a sandbox Cold-boots from the persisted configuration and disks. If the sandbox was paused, its memory snapshot is consumed and discarded before the new VM runs; disk state remains. Without mount changes, starting a running sandbox or a pending cold start is idempotent. A sandbox that is stopping, pausing, or pending a resume returns 409. Providing `mounts` replaces the additional disk mounts for this and later sessions and requires an inactive sandbox; omit it to preserve saved mounts. */
 export const startSandbox: API.OperationMethod<
   StartSandboxRequest,
@@ -2128,14 +2189,23 @@ export const startSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1024, __c64, 0) as any as S.Schema<StartSandboxRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [
+    BadRequest,
+    NotFound,
+    SandboxPausing,
+    SandboxStopping,
+    SandboxStartConflict,
+    SandboxMountsWhileActive,
+    SandboxTerminated,
+    UnknownArchilError,
+  ],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StartSandbox",
 }));
 
-export type StopSandboxError = BadRequest | SandboxNotFound | SandboxStateConflict | ArchilOpError;
+export type StopSandboxError = BadRequest | NotFound | SandboxStopConflict | ArchilOpError;
 /** Stop a sandbox Gracefully shuts down the guest, then checkpoints its disk before entering `stopped`. The sandbox and any forks from it cold-boot from disk state. Stopping a paused sandbox reuses its existing disk checkpoint. In-flight processes receive the guest shutdown signal. */
 export const stopSandbox: API.OperationMethod<
   StopSandboxRequest,
@@ -2145,19 +2215,14 @@ export const stopSandbox: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1040, __c65, 0) as any as S.Schema<StopSandboxRequest>,
   output: __S(224, __c14, 0) as any as S.Schema<ApiResponseSandbox>,
-  errors: [BadRequest, SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [BadRequest, NotFound, SandboxStopConflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "StopSandbox",
 }));
 
-export type UpdateSandboxNetworkError =
-  | BadRequest
-  | Forbidden
-  | SandboxNotFound
-  | SandboxStateConflict
-  | ArchilOpError;
+export type UpdateSandboxNetworkError = BadRequest | Forbidden | NotFound | ArchilOpError;
 /** Replace a running sandbox's network policy Applies the complete replacement policy to a running sandbox, then records it as the current policy. A rejected update leaves the previous policy unchanged. Free-plan accounts cannot update network policies and receive 403 with code sandbox_network_plan_required. For paid accounts, an empty object restores unrestricted egress. Existing network sessions are not terminated; the replacement governs new connections and is retained across later stops and resumes. Sandboxes that are not running, or whose policy changes concurrently, return 409. */
 export const updateSandboxNetwork: API.OperationMethod<
   UpdateSandboxNetworkRequest,
@@ -2167,7 +2232,7 @@ export const updateSandboxNetwork: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1056, __c66, 0) as any as S.Schema<UpdateSandboxNetworkRequest>,
   output: __S(736, __c46, 0) as any as S.Schema<ApiResponseSandboxNetwork>,
-  errors: [BadRequest, Forbidden, SandboxNotFound, SandboxStateConflict, UnknownArchilError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
