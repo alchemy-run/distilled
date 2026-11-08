@@ -39,6 +39,12 @@
       "worker": "./src/traits.ts",
       "default": "./lib/traits.js"
     },
+    "./Login": {
+      "types": "./lib/login.d.ts",
+      "bun": "./src/login.ts",
+      "worker": "./src/login.ts",
+      "default": "./lib/login.js"
+    },
     "./Pagination": {
       "types": "./lib/pagination.d.ts",
       "bun": "./src/pagination.ts",
@@ -84,7 +90,7 @@
     "effect": "catalog:"
   },
   "distilled": {
-    "generatedAt": "2026-10-25",
-    "specUpdatedAt": "2026-10-22"
+    "generatedAt": "2026-11-07",
+    "specUpdatedAt": "2026-11-06"
   }
 }

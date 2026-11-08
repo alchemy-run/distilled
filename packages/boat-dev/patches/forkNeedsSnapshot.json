@@ -1,0 +1,40 @@
+{
+  "description": "Type the 409 a fork gets before the source sandbox has a completed snapshot: {\"code\": \"fork_failed\", \"message\": \"Fork needs a completed snapshot. Snapshots are made periodically and again when a Sandbox stops.\"}. Observed live 2026-11-07.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#ForkNeedsSnapshot",
+      "value": {
+        "type": "structure",
+        "members": {
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 409,
+          "smithy.api#documentation": "The sandbox has no completed snapshot to fork from yet. Snapshots are made periodically and when a sandbox stops; retry later.",
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 409,
+              "body": {
+                "/code": "fork_failed"
+              },
+              "message": {
+                "includes": "completed snapshot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.boat.api#Fork/errors/-",
+      "value": {
+        "target": "com.boat.api#ForkNeedsSnapshot"
+      }
+    }
+  ]
+}

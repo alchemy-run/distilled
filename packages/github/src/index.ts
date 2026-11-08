@@ -11,9 +11,12 @@ export * as T from "./traits.ts";
 export {
   GithubProtocol,
   API_VERSION,
+  paceWrites,
   type GithubOpError,
   type GithubOpContext,
 } from "./protocol.ts";
+export * as App from "./app.ts";
+export * as OAuth from "./oauth.ts";
 export * as Retry from "./retry.ts";
 // Every tag except `credentials`, which collides with the auth helper
 // exported from ./credentials.ts. The Credentials API is
