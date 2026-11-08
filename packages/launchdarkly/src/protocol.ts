@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * LaunchDarklyProtocol -- hand-written.
  *
@@ -38,7 +39,8 @@ export type LaunchDarklyOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | LaunchDarklyParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated LaunchDarkly operation. */
 export type LaunchDarklyOpContext = Credentials | HttpClient.HttpClient;

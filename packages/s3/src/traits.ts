@@ -1,4 +1,5 @@
 import * as S from "@distilled.cloud/core/schema-lite-typed";
+import { SdkError } from "@distilled.cloud/core/sdk-error";
 import {
   all,
   annotationMetaSymbol,
@@ -709,7 +710,11 @@ const codecFor = (eventSchema: unknown): Effect.Effect<EventStreamCodec> => {
       : undefined;
   return load
     ? Effect.promise(load)
-    : Effect.die(new Error("event stream member without an EventStream / InputEventStream schema"));
+    : (Effect.fail(
+        new SdkError({
+          message: "event stream member without an EventStream / InputEventStream schema",
+        }),
+      ) as Effect.Effect<never>);
 };
 
 /** A stream built by the event stream codec registered for `eventSchema`. */

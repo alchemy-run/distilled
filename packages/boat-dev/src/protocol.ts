@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * BoatProtocol -- hand-written.
  *
@@ -38,7 +39,8 @@ export type BoatOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | BoatParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated Boat operation. */
 export type BoatOpContext = Credentials | HttpClient.HttpClient;

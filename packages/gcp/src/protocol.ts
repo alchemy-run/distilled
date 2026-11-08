@@ -10,6 +10,7 @@ import {
 } from "@distilled.cloud/core/protocol-http";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import {
   bodySymbol,
   headerSymbol,
@@ -73,7 +74,8 @@ export type GcpOpError =
   | GCPCredentialsError
   | ConfigError
   | SourceError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | SdkError;
 
 /** Context (requirements) shared by every generated GCP operation. */
 export type GcpOpContext = Credentials | HttpClient.HttpClient;

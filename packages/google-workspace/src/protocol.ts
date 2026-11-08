@@ -4,6 +4,7 @@ import type { ConfigError, DefaultErrors } from "@distilled.cloud/core/errors";
 import { getAnn, getProps, hasPropAnn, nameOf } from "@distilled.cloud/core/protocol-http";
 import { validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import {
   bodySymbol,
   headerSymbol,
@@ -61,7 +62,8 @@ export type GoogleWorkspaceOpError =
   | UnknownGoogleWorkspaceError
   | GoogleWorkspaceParseError
   | ConfigError
-  | HttpClientError.HttpClientError;
+  | HttpClientError.HttpClientError
+  | SdkError;
 
 /** Context (requirements) shared by every generated Google Workspace operation. */
 export type GoogleWorkspaceOpContext = Credentials | HttpClient.HttpClient;

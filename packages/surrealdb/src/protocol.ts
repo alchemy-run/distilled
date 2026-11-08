@@ -1,6 +1,7 @@
 import type * as API from "@distilled.cloud/core/api";
 import type { API_ERRORS, ConfigError, InvalidInput } from "@distilled.cloud/core/errors";
 import { makeRestProtocol } from "@distilled.cloud/core/protocol-rest";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * SurrealdbProtocol -- hand-written.
  *
@@ -39,7 +40,8 @@ export type SurrealdbOpError =
   | ConfigError
   | HttpClientError.HttpClientError
   | SurrealdbParseError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated SurrealDB operation. */
 export type SurrealdbOpContext = Credentials | HttpClient.HttpClient;

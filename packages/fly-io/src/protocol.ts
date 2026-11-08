@@ -17,6 +17,7 @@ import {
   validateSuccess,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * Fly.io protocols -- Machines REST, UI-EX REST (MPG), GraphQL add-ons, and
  * Sprites REST.
@@ -84,7 +85,8 @@ export type FlyIoOpError =
   | ConfigError
   | CreateExtensionTosAgreementNotAuthorized
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by Machines / MPG / GraphQL operations. */
 export type FlyIoOpContext = Credentials | HttpClient.HttpClient;

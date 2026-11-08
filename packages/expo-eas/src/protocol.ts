@@ -3,6 +3,7 @@ import { HTTP_STATUS_MAP, type ConfigError } from "@distilled.cloud/core/errors"
 import { getAnn } from "@distilled.cloud/core/protocol-http";
 import { failUnlessLenient, validateResponse } from "@distilled.cloud/core/response-validation";
 import { parseRetryAfterForStatus } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 /**
  * ExpoGraphqlProtocol -- hand-written.
  *
@@ -63,7 +64,11 @@ import {
  * the GraphQL `errors[]` envelope is matched against `EAS_ERROR_CODE_MAP`
  * regardless of which operation was called.
  */
-export type ExpoEasOpError = DefaultErrors | ConfigError | HttpClientError.HttpClientError;
+export type ExpoEasOpError =
+  | DefaultErrors
+  | ConfigError
+  | HttpClientError.HttpClientError
+  | SdkError;
 
 /** Context (requirements) shared by every generated EAS operation. */
 export type ExpoEasOpContext = Credentials | HttpClient.HttpClient;

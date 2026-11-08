@@ -8,6 +8,7 @@ import {
   type RestErrorInfo,
 } from "@distilled.cloud/core/protocol-rest";
 import { parseRetryAfter } from "@distilled.cloud/core/retry-after";
+import type { SdkError } from "@distilled.cloud/core/sdk-error";
 import { httpSymbol, type HttpTrait } from "@distilled.cloud/core/trait";
 /**
  * GithubProtocol -- the shared bearer-REST protocol instantiated for GitHub.
@@ -58,7 +59,8 @@ export type GithubOpError =
   | DefaultErrors
   | ConfigError
   | HttpClientError.HttpClientError
-  | InvalidInput;
+  | InvalidInput
+  | SdkError;
 
 /** Context (requirements) shared by every generated GitHub operation. */
 export type GithubOpContext = Credentials | HttpClient.HttpClient;
