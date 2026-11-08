@@ -11,6 +11,7 @@
  * @see https://smithy.io/2.0/spec/streaming.html#requireslength-trait
  */
 
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import type * as S from "effect/Schema";
 import type * as AST from "effect/SchemaAST";
@@ -46,7 +47,7 @@ export const makeStreamingBodyMiddleware = (schema: S.Top) => {
   const info = getStreamingPayloadInfo(schema.ast);
 
   // Return the request processor function
-  return (request: ProtocolRequest): Effect.Effect<ProtocolRequest> =>
+  return (request: ProtocolRequest): Effect.Effect<ProtocolRequest, InvalidInput> =>
     Effect.gen(function* () {
       const body = request.body;
 
@@ -104,39 +105,48 @@ const ignoreCancelFailure = () => {};
 /**
  * Buffer a ReadableStream into a Uint8Array.
  */
-const bufferStream = (stream: ReadableStream<Uint8Array>): Effect.Effect<Uint8Array> =>
-  Effect.promise(async (signal) => {
-    const reader = stream.getReader();
-    const chunks: Uint8Array[] = [];
-    let totalLength = 0;
+const bufferStream = (
+  stream: ReadableStream<Uint8Array>,
+): Effect.Effect<Uint8Array, InvalidInput> =>
+  Effect.tryPromise({
+    try: async (signal) => {
+      const reader = stream.getReader();
+      const chunks: Uint8Array[] = [];
+      let totalLength = 0;
 
-    try {
-      while (!signal.aborted) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        chunks.push(value);
-        totalLength += value.byteLength;
+      try {
+        while (!signal.aborted) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunks.push(value);
+          totalLength += value.byteLength;
+        }
+
+        if (signal.aborted) {
+          reader.cancel().catch(ignoreCancelFailure);
+          throw new Error("Stream buffering aborted");
+        }
+      } catch (e) {
+        // `cancel()` on an errored stream rejects with the error rethrown here.
+        reader.cancel(e).catch(ignoreCancelFailure);
+        throw e;
       }
 
-      if (signal.aborted) {
-        reader.cancel().catch(ignoreCancelFailure);
-        throw new Error("Stream buffering aborted");
+      // Combine all chunks into a single Uint8Array
+      const result = new Uint8Array(totalLength);
+      let offset = 0;
+      for (const chunk of chunks) {
+        result.set(chunk, offset);
+        offset += chunk.byteLength;
       }
-    } catch (e) {
-      // `cancel()` on an errored stream rejects with the error rethrown here.
-      reader.cancel(e).catch(ignoreCancelFailure);
-      throw e;
-    }
 
-    // Combine all chunks into a single Uint8Array
-    const result = new Uint8Array(totalLength);
-    let offset = 0;
-    for (const chunk of chunks) {
-      result.set(chunk, offset);
-      offset += chunk.byteLength;
-    }
-
-    return result;
+      return result;
+    },
+    catch: (cause) =>
+      new InvalidInput({
+        member: "body",
+        message: `the request body could not be read: ${cause instanceof Error ? cause.message : String(cause)}`,
+      }),
   });
 
 /**

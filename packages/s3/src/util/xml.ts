@@ -2,7 +2,7 @@
  * Shared XML utilities for AWS protocols (aws-query, ec2-query, rest-xml)
  */
 
-import { parseXmlSync, XmlParseError, type XmlObject } from "@distilled.cloud/core/xml";
+import { parseXmlSync, type XmlObject } from "@distilled.cloud/core/xml";
 import * as Effect from "effect/Effect";
 import type * as AST from "effect/SchemaAST";
 import { Unreadable } from "../client/protocol.ts";
@@ -33,10 +33,12 @@ export const readXml = (xml: string): XmlObject | Unreadable => {
   try {
     return parseXmlSync(xml);
   } catch (error) {
-    if (error instanceof XmlParseError) {
-      return new Unreadable(new ParseError({ message: error.message }), xml);
-    }
-    throw error;
+    // Any parser failure (malformed XML, a stack overflow on deep nesting)
+    // leaves the body unreadable.
+    return new Unreadable(
+      new ParseError({ message: error instanceof Error ? error.message : String(error) }),
+      xml,
+    );
   }
 };
 

@@ -17,6 +17,7 @@ import { getAnn, getProps, resolveNode } from "./annotations.ts";
 import * as Category from "./category.ts";
 import { isOpaqueValue } from "./plain-values.ts";
 import * as Schema from "./schema-lite-typed.ts";
+import { SdkError } from "./sdk-error.ts";
 import { restoreStack, suppressStack } from "./telemetry.ts";
 import {
   bodySymbol,
@@ -508,12 +509,12 @@ interface RequestPlan {
 
 const plans = /*@__PURE__*/ new WeakMap<AST.AST, RequestPlan>();
 
-const planFor = (inputAst: AST.AST): RequestPlan => {
+const planFor = (inputAst: AST.AST): RequestPlan | SdkError => {
   let plan = plans.get(inputAst);
   if (plan !== undefined) return plan;
   const http = getAnn(inputAst, httpSymbol) as HttpTrait | undefined;
   if (!http) {
-    throw new Error("operation input is missing the Http() trait");
+    return new SdkError({ message: "operation input is missing the Http() trait" });
   }
   const rootDict = getAnn(inputAst, keyDictionarySymbol) as KeyDictionaryEntries | undefined;
   const members: MemberPlan[] = [];
@@ -632,14 +633,16 @@ export const invalidLabel = (
  *
  * Fails with {@link InvalidInput}, before anything is sent, when a label is
  * `.` or `..` (for a greedy `{name+}` label, when any of its segments is).
- * Throws when the input schema is missing the `Http()` trait -- a codegen
- * bug, which the calling protocol's Effect surfaces as a defect.
+ * Fails with {@link SdkError} when the input schema is missing the `Http()`
+ * trait (a codegen bug the generator refuses).
  */
 export const buildRequest = (
   options: BuildRequestOptions,
-): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput> => {
+): Effect.Effect<HttpClientRequest.HttpClientRequest, InvalidInput | SdkError> => {
   const request = requestOrInvalid(options);
-  return request instanceof InvalidInput ? Effect.fail(request) : Effect.succeed(request);
+  return request instanceof InvalidInput || request instanceof SdkError
+    ? Effect.fail(request)
+    : Effect.succeed(request);
 };
 
 const requestOrInvalid = ({
@@ -650,9 +653,10 @@ const requestOrInvalid = ({
   mapMemberHeader,
   unknownKeyToWire,
   emptyJsonBody,
-}: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput => {
+}: BuildRequestOptions): HttpClientRequest.HttpClientRequest | InvalidInput | SdkError => {
   const inputObj = (input ?? {}) as Record<string, unknown>;
   const plan = planFor(inputAst);
+  if (plan instanceof SdkError) return plan;
   const { http, rootDict, members, known } = plan;
   let hasBodyMembers = plan.hasBodyMembers;
 

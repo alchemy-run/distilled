@@ -238,15 +238,17 @@ const plainHeaders = (headers: Headers) => {
 const statusOf = (value: string | undefined): number | undefined =>
   value === undefined || value === "" ? undefined : Number(value);
 
-const messageOf = (raw: string | undefined, status: number): string => {
-  let message = raw ?? "";
+/** `text` percent-decoded, or as sent when it is not percent-encoded. */
+const percentDecoded = (text: string): string => {
   try {
-    message = decodeURIComponent(message);
+    return decodeURIComponent(text);
   } catch {
-    // Not percent-encoded: keep it as sent.
+    return text;
   }
-  return message || GRPC_STATUS_NAMES[status] || `gRPC status ${status}`;
 };
+
+const messageOf = (raw: string | undefined, status: number): string =>
+  percentDecoded(raw ?? "") || GRPC_STATUS_NAMES[status] || `gRPC status ${status}`;
 
 /** A `grpc-timeout` value for `ms` (at most 8 digits per the spec). */
 const grpcTimeout = (ms: number): string => {
