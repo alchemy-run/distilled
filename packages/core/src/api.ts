@@ -26,6 +26,7 @@ import {
   resolveServerRetryHintCapMs,
   serverHintMillis,
 } from "./retry.ts";
+import { SdkError } from "./sdk-error.ts";
 import * as Telemetry from "./telemetry.ts";
 
 //#region Protocol
@@ -791,10 +792,10 @@ const streamCall =
         const prepared = prepare(state);
         const run = (service: ProtocolShape) =>
           service.stream === undefined
-            ? Stream.die(
-                new Error(
-                  `${prepared.cfg.operationName ?? "this operation"}: its protocol can't stream`,
-                ),
+            ? Stream.fail(
+                new SdkError({
+                  message: `${prepared.cfg.operationName ?? "this operation"}: its protocol can't stream`,
+                }),
               )
             : service.stream(prepared, input);
         return prepared.service !== undefined

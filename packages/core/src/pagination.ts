@@ -20,6 +20,7 @@ import type * as Arr from "effect/Array";
 import * as Context from "effect/Context";
 import * as Effect from "effect/Effect";
 import * as Stream from "effect/Stream";
+import { SdkError } from "./sdk-error.ts";
 
 /**
  * Get a value from an object using a dot-separated path (e.g.
@@ -107,7 +108,14 @@ export type PaginationStrategy = <Input extends Record<string, unknown>, Output,
   pagination: PaginatedTrait,
 ) => Stream.Stream<Output, E, R>;
 
-const missingPaginationConfig = (kind: string) => Stream.die(new Error(kind));
+/**
+ * The stream of a paginated operation whose trait lacks a field its
+ * strategy reads: it fails with {@link SdkError} (part of every
+ * operation's error channel, so the strategy's `E` is cast to hold it).
+ * The generator refuses such traits.
+ */
+export const missingPaginationConfig = (message: string): Stream.Stream<never> =>
+  Stream.fail(new SdkError({ message })) as Stream.Stream<never>;
 
 /**
  * Whether a continuation token/cursor returned by a paginated operation
