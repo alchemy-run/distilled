@@ -44,6 +44,15 @@ export class BadRequest
     [{ status: 400 }],
   ) {}
 
+/** `conflict`: the name is taken (e.g. a branch that already exists on the disk). */
+export class Conflict
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<Conflict>()("Conflict", {
+      message: S.String,
+    }).pipe(C.withConflictError),
+    [{ status: 409, body: { "/code": "conflict" } }],
+  ) {}
+
 export class Forbidden
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<Forbidden>()("Forbidden", {
@@ -1441,7 +1450,7 @@ export const createApiToken: API.OperationMethod<
   span: "CreateApiToken",
 }));
 
-export type CreateBranchError = BadRequest | NotFound | ArchilOpError;
+export type CreateBranchError = BadRequest | NotFound | Conflict | ArchilOpError;
 /** Create a branch Creates an independent, writable fork of the disk that starts from a committed checkpoint. Writes on the branch don't affect its source. Fails with 409 when the branch name exists or the checkpoint is not committed yet, and 404 when the checkpoint or `from_branch` doesn't exist. */
 export const createBranch: API.OperationMethod<
   CreateBranchRequest,
@@ -1451,7 +1460,7 @@ export const createBranch: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(48, __c3, 0) as any as S.Schema<CreateBranchRequest>,
   output: __S(64, __c4, 0) as any as S.Schema<BranchApiResponse>,
-  errors: [BadRequest, NotFound, UnknownArchilError],
+  errors: [BadRequest, NotFound, Conflict, UnknownArchilError],
   protocol: ArchilProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
