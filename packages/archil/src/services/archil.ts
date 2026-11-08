@@ -304,7 +304,7 @@ export interface CreateApiTokenRequest {
 }
 export interface ApiResponseTokenCreatedData {
   /** Token hash/ID */
-  id?: string;
+  id: string;
   name?: string;
   description?: string;
   /** Last 4 characters of the token */
@@ -312,7 +312,7 @@ export interface ApiResponseTokenCreatedData {
   createdAt?: string;
   lastUsedAt?: string;
   /** Full token value (only shown at creation) */
-  token?: string | Redacted.Redacted<string>;
+  token: string | Redacted.Redacted<string>;
 }
 export interface ApiResponseTokenCreated {
   success: boolean;
@@ -446,7 +446,7 @@ export interface CreateDiskRequest {
 }
 export type ApiResponseCreateDiskDataAuthorizedUsersList = Array<AuthorizedUser>;
 export interface ApiResponseCreateDiskData {
-  diskId?: string;
+  diskId: string;
   authorizedUsers?: ApiResponseCreateDiskDataAuthorizedUsersList;
 }
 export interface ApiResponseCreateDisk {
@@ -2302,13 +2302,13 @@ function __c2(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          id: S.optional(S.String),
+          id: S.String,
           name: S.optional(S.String),
           description: S.optional(S.String),
           tokenSuffix: S.optional(S.String),
           createdAt: S.optional(S.String),
           lastUsedAt: S.optional(S.String),
-          token: S.optional(S.String.pipe(T.SensitiveValue({}))),
+          token: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "ApiResponseTokenCreatedData" });
     case 2:
@@ -2376,7 +2376,7 @@ function __c6(j: number): any {
     case 3:
       return S.suspend(() =>
         S.Struct({
-          diskId: S.optional(S.String),
+          diskId: S.String,
           authorizedUsers: S.optional(__S(112, __c7, 0)),
         }),
       ).annotate({ identifier: "ApiResponseCreateDiskData" });
