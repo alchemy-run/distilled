@@ -956,6 +956,13 @@
           "target": "com.archil.api#NotFound"
         }
       ]
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.archil.api#CreateApiToken/errors/-",
+      "value": {
+        "target": "com.archil.api#ApiTokenCreationForbidden"
+      }
     }
   ]
 }
