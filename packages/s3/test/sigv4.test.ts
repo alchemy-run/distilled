@@ -13,6 +13,7 @@ import * as Credentials from "../src/credentials.ts";
 import * as Endpoint from "../src/endpoint.ts";
 import * as Presign from "../src/presign.ts";
 import * as Region from "../src/region.ts";
+import * as S3 from "../src/services/s3.ts";
 import * as SigV4 from "../src/sigv4.ts";
 import * as Reference from "./fixtures/sigv4-reference.ts";
 
@@ -571,6 +572,202 @@ describe("Presign", () => {
     expect(parsed.searchParams.get("X-Amz-SignedHeaders")).toBe("content-type;host");
     expect(parsed.searchParams.get("X-Amz-Expires")).toBe("60");
     expect(parsed.searchParams.get("X-Amz-Signature")).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  // The signature of a presigned S3 request, from its canonical request
+  // written out by hand: what the signer must produce for these fields.
+  const presignedSignature = (options: {
+    method: string;
+    path: string;
+    query: string;
+    headers: string;
+    signedHeaders: string;
+    region: string;
+  }) => {
+    const sha = (s: string) => createHash("sha256").update(s).digest("hex");
+    const mac = (key: string | Buffer, s: string) => createHmac("sha256", key).update(s).digest();
+    const canonicalRequest = [
+      options.method,
+      options.path,
+      options.query,
+      options.headers + "\n",
+      options.signedHeaders,
+      "UNSIGNED-PAYLOAD",
+    ].join("\n");
+    const scope = `20130524/${options.region}/s3/aws4_request`;
+    const key = ["20130524", options.region, "s3", "aws4_request"].reduce<string | Buffer>(
+      mac,
+      `AWS4${Redacted.value(creds.secretAccessKey)}`,
+    );
+    return createHmac("sha256", key)
+      .update(["AWS4-HMAC-SHA256", datetime, scope, sha(canonicalRequest)].join("\n"))
+      .digest("hex");
+  };
+
+  test("presignRequest signs PutObject's x-amz-* fields into the query and pins the other headers", async () => {
+    const presigned = await Effect.runPromise(
+      Presign.presignRequest(
+        S3.putObject,
+        {
+          Bucket: "examplebucket",
+          Key: "uploads/a b.png",
+          ContentType: "image/png",
+          ContentLength: 1024,
+          ContentMD5: "1B2M2Y8AsgTpgAmY7PhCfg==",
+          ChecksumSHA256: "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+          IfNoneMatch: "*",
+          CacheControl: "no-cache",
+          Metadata: { owner: "u1" },
+          Tagging: "team=a",
+          StorageClass: "STANDARD_IA",
+          ServerSideEncryption: "AES256",
+        },
+        { expiresIn: 300, datetime },
+      ).pipe(Effect.provide(layer)),
+    );
+    expect(presigned.method).toBe("PUT");
+    expect(presigned.headers).toEqual({
+      "cache-control": "no-cache",
+      "content-length": "1024",
+      "content-md5": "1B2M2Y8AsgTpgAmY7PhCfg==",
+      "content-type": "image/png",
+      "if-none-match": "*",
+      "x-amz-checksum-sha256": "47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+      "x-amz-server-side-encryption": "AES256",
+    });
+    const url = new URL(presigned.url);
+    expect(url.origin + url.pathname).toBe(
+      "https://examplebucket.s3.us-east-1.amazonaws.com/uploads/a%20b.png",
+    );
+    const signedHeaders =
+      "cache-control;content-length;content-md5;content-type;host;if-none-match;x-amz-checksum-sha256;x-amz-server-side-encryption";
+    expect(Object.fromEntries(url.searchParams)).toEqual({
+      "x-id": "PutObject",
+      "x-amz-meta-owner": "u1",
+      "x-amz-storage-class": "STANDARD_IA",
+      "x-amz-tagging": "team=a",
+      "X-Amz-Expires": "300",
+      "X-Amz-Date": datetime,
+      "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+      "X-Amz-Credential": "AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3/aws4_request",
+      "X-Amz-SignedHeaders": signedHeaders,
+      "X-Amz-Signature": presignedSignature({
+        method: "PUT",
+        path: "/uploads/a%20b.png",
+        query: [
+          "X-Amz-Algorithm=AWS4-HMAC-SHA256",
+          "X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20130524%2Fus-east-1%2Fs3%2Faws4_request",
+          `X-Amz-Date=${datetime}`,
+          "X-Amz-Expires=300",
+          `X-Amz-SignedHeaders=${signedHeaders.replaceAll(";", "%3B")}`,
+          "x-amz-meta-owner=u1",
+          "x-amz-storage-class=STANDARD_IA",
+          "x-amz-tagging=team%3Da",
+          "x-id=PutObject",
+        ].join("&"),
+        headers: [
+          "cache-control:no-cache",
+          "content-length:1024",
+          "content-md5:1B2M2Y8AsgTpgAmY7PhCfg==",
+          "content-type:image/png",
+          "host:examplebucket.s3.us-east-1.amazonaws.com",
+          "if-none-match:*",
+          "x-amz-checksum-sha256:47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=",
+          "x-amz-server-side-encryption:AES256",
+        ].join("\n"),
+        signedHeaders,
+        region: "us-east-1",
+      }),
+    });
+  });
+
+  test("presignRequest signs GetObject's query fields and pins Range and If-Match in the input's region", async () => {
+    const presigned = await Effect.runPromise(
+      Presign.presignRequest(
+        S3.getObject,
+        {
+          Bucket: "examplebucket",
+          Key: "reports/2026.pdf",
+          VersionId: "v1",
+          PartNumber: 2,
+          ResponseContentDisposition: 'attachment; filename="report.pdf"',
+          Range: "bytes=0-99",
+          IfMatch: '"abc"',
+          region: "eu-west-1",
+        },
+        { datetime },
+      ).pipe(Effect.provide(layer)),
+    );
+    expect(presigned.method).toBe("GET");
+    expect(presigned.headers).toEqual({ "if-match": '"abc"', range: "bytes=0-99" });
+    const url = new URL(presigned.url);
+    expect(url.origin + url.pathname).toBe(
+      "https://examplebucket.s3.eu-west-1.amazonaws.com/reports/2026.pdf",
+    );
+    expect(Object.fromEntries(url.searchParams)).toEqual({
+      "response-content-disposition": 'attachment; filename="report.pdf"',
+      versionId: "v1",
+      partNumber: "2",
+      "x-id": "GetObject",
+      "X-Amz-Expires": "900",
+      "X-Amz-Date": datetime,
+      "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+      "X-Amz-Credential": "AKIAIOSFODNN7EXAMPLE/20130524/eu-west-1/s3/aws4_request",
+      "X-Amz-SignedHeaders": "host;if-match;range",
+      "X-Amz-Signature": presignedSignature({
+        method: "GET",
+        path: "/reports/2026.pdf",
+        query: [
+          "X-Amz-Algorithm=AWS4-HMAC-SHA256",
+          "X-Amz-Credential=AKIAIOSFODNN7EXAMPLE%2F20130524%2Feu-west-1%2Fs3%2Faws4_request",
+          `X-Amz-Date=${datetime}`,
+          "X-Amz-Expires=900",
+          "X-Amz-SignedHeaders=host%3Bif-match%3Brange",
+          "partNumber=2",
+          "response-content-disposition=attachment%3B%20filename%3D%22report.pdf%22",
+          "versionId=v1",
+          "x-id=GetObject",
+        ].join("&"),
+        headers: [
+          "host:examplebucket.s3.eu-west-1.amazonaws.com",
+          'if-match:"abc"',
+          "range:bytes=0-99",
+        ].join("\n"),
+        signedHeaders: "host;if-match;range",
+        region: "eu-west-1",
+      }),
+    });
+  });
+
+  test("presignRequest uses a custom endpoint path-style and refuses a key that addresses another object", async () => {
+    const custom = Layer.succeed(
+      Endpoint.Endpoint,
+      Effect.succeed("https://account.r2.cloudflarestorage.com"),
+    );
+    const presigned = await Effect.runPromise(
+      Presign.presignRequest(
+        S3.putObject,
+        { Bucket: "examplebucket", Key: "a/b.txt", ContentLength: 5, region: "auto" },
+        { datetime },
+      ).pipe(Effect.provide(layer), Effect.provide(custom)),
+    );
+    const url = new URL(presigned.url);
+    expect(url.origin + url.pathname).toBe(
+      "https://account.r2.cloudflarestorage.com/examplebucket/a/b.txt",
+    );
+    expect(url.searchParams.get("X-Amz-Credential")).toBe(
+      "AKIAIOSFODNN7EXAMPLE/20130524/auto/s3/aws4_request",
+    );
+    expect(presigned.headers).toEqual({ "content-length": "5" });
+
+    const error = await Effect.runPromise(
+      Effect.flip(
+        Presign.presignRequest(S3.getObject, { Bucket: "examplebucket", Key: "a/../b" }).pipe(
+          Effect.provide(layer),
+        ),
+      ),
+    );
+    expect(error).toBeInstanceOf(InvalidInput);
   });
 });
 

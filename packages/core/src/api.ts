@@ -449,6 +449,13 @@ const stateOf = (op: unknown): OperationState => (op as Record<symbol, Operation
 export const describeOperation = (op: unknown): Telemetry.OperationInfo =>
   infoOf(prepare(stateOf(op)));
 
+/**
+ * The config an operation's protocol receives on every call (the same
+ * memoized instance), for protocol code that builds an operation's request
+ * without sending it, such as presigning.
+ */
+export const configOf = (op: unknown): ProtocolOperationConfig => prepare(stateOf(op)).cfg;
+
 const defineState = (op: unknown, state: OperationState): OperationState => {
   Object.defineProperty(op, stateKey, { value: state });
   return state;
