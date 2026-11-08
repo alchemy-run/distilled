@@ -102,7 +102,14 @@ function __c0(j: number): any {
           timestamp_format: S.optional(S.String.pipe(T.Query("timestamp-format"))),
           csv_delimiter: S.optional(S.String.pipe(T.Query("csv-delimiter"))),
           body: S.String.pipe(T.HttpBody()),
-        }).pipe(T.Http({ method: "POST", uri: "/v1/datasets/{dataset_id}/ingest", code: 200 })),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v1/ingest/{dataset_id}",
+            code: 200,
+            bodyMediaType: "application/json",
+          }),
+        ),
       ).annotate({ identifier: "IngestToDatasetRequest" });
     case 1:
       return S.suspend(() =>
