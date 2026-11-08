@@ -24,6 +24,26 @@ const creds = {
 };
 const datetime = "20130524T000000Z";
 
+// The signature of a canonical request written out by hand, with `creds`.
+const signatureOf = (canonicalRequest: string, region: string, service: string) => {
+  const sha = (s: string) => createHash("sha256").update(s).digest("hex");
+  const mac = (key: string | Buffer, s: string) => createHmac("sha256", key).update(s).digest();
+  const key = ["20130524", region, service, "aws4_request"].reduce<string | Buffer>(
+    mac,
+    `AWS4${Redacted.value(creds.secretAccessKey)}`,
+  );
+  return createHmac("sha256", key)
+    .update(
+      [
+        "AWS4-HMAC-SHA256",
+        datetime,
+        `20130524/${region}/${service}/aws4_request`,
+        sha(canonicalRequest),
+      ].join("\n"),
+    )
+    .digest("hex");
+};
+
 test("SigV4 re-exports every runtime export of @distilled.cloud/aws4signer", () => {
   expect(Object.keys(SigV4).sort()).toEqual(Object.keys(Signer).sort());
 });
@@ -292,8 +312,6 @@ describe("SigV4.sign", () => {
     service: string,
     payloadHash: string,
   ) => {
-    const sha = (s: string) => createHash("sha256").update(s).digest("hex");
-    const mac = (key: string | Buffer, s: string) => createHmac("sha256", key).update(s).digest();
     const amzHeaders = service === "s3" ? ["x-amz-content-sha256", "x-amz-date"] : ["x-amz-date"];
     const values: Record<string, string> = {
       host,
@@ -309,17 +327,7 @@ describe("SigV4.sign", () => {
       signed.join(";"),
       payloadHash,
     ].join("\n");
-    const scope = `20130524/us-east-1/${service}/aws4_request`;
-    const key = mac(
-      mac(
-        mac(mac(`AWS4${Redacted.value(creds.secretAccessKey)}`, "20130524"), "us-east-1"),
-        service,
-      ),
-      "aws4_request",
-    );
-    return createHmac("sha256", key)
-      .update(["AWS4-HMAC-SHA256", datetime, scope, sha(canonicalRequest)].join("\n"))
-      .digest("hex");
+    return signatureOf(canonicalRequest, "us-east-1", service);
   };
 
   for (const path of [
@@ -583,26 +591,19 @@ describe("Presign", () => {
     headers: string;
     signedHeaders: string;
     region: string;
-  }) => {
-    const sha = (s: string) => createHash("sha256").update(s).digest("hex");
-    const mac = (key: string | Buffer, s: string) => createHmac("sha256", key).update(s).digest();
-    const canonicalRequest = [
-      options.method,
-      options.path,
-      options.query,
-      options.headers + "\n",
-      options.signedHeaders,
-      "UNSIGNED-PAYLOAD",
-    ].join("\n");
-    const scope = `20130524/${options.region}/s3/aws4_request`;
-    const key = ["20130524", options.region, "s3", "aws4_request"].reduce<string | Buffer>(
-      mac,
-      `AWS4${Redacted.value(creds.secretAccessKey)}`,
+  }) =>
+    signatureOf(
+      [
+        options.method,
+        options.path,
+        options.query,
+        options.headers + "\n",
+        options.signedHeaders,
+        "UNSIGNED-PAYLOAD",
+      ].join("\n"),
+      options.region,
+      "s3",
     );
-    return createHmac("sha256", key)
-      .update(["AWS4-HMAC-SHA256", datetime, scope, sha(canonicalRequest)].join("\n"))
-      .digest("hex");
-  };
 
   test("presignRequest signs PutObject's x-amz-* fields into the query and pins the other headers", async () => {
     const presigned = await Effect.runPromise(
@@ -768,6 +769,36 @@ describe("Presign", () => {
       ),
     );
     expect(error).toBeInstanceOf(InvalidInput);
+  });
+
+  test("presignRequest refuses an input with a body and signs access points with UNSIGNED-PAYLOAD", async () => {
+    const error = await Effect.runPromise(
+      Effect.flip(
+        Presign.presignRequest(S3.putObjectTagging, {
+          Bucket: "examplebucket",
+          Key: "k",
+          Tagging: { TagSet: [{ Key: "team", Value: "a" }] },
+        }).pipe(Effect.provide(layer)),
+      ),
+    );
+    expect(error).toBeInstanceOf(InvalidInput);
+
+    const presigned = await Effect.runPromise(
+      Presign.presignRequest(
+        S3.getObject,
+        {
+          Bucket: "arn:aws:s3-object-lambda:us-east-1:123456789012:accesspoint/mybanner",
+          Key: "k",
+        },
+        { datetime },
+      ).pipe(Effect.provide(layer)),
+    );
+    const url = new URL(presigned.url);
+    expect(url.searchParams.get("X-Amz-Credential")).toBe(
+      "AKIAIOSFODNN7EXAMPLE/20130524/us-east-1/s3-object-lambda/aws4_request",
+    );
+    expect(presigned.headers).toEqual({ "x-amz-content-sha256": "UNSIGNED-PAYLOAD" });
+    expect(url.searchParams.get("X-Amz-SignedHeaders")).toBe("host;x-amz-content-sha256");
   });
 });
 

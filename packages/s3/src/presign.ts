@@ -1,5 +1,5 @@
 import * as API from "@distilled.cloud/core/api";
-import type { InvalidInput } from "@distilled.cloud/core/protocol-http";
+import { InvalidInput } from "@distilled.cloud/core/protocol-http";
 import * as Effect from "effect/Effect";
 import * as Option from "effect/Option";
 import * as Redacted from "effect/Redacted";
@@ -32,6 +32,43 @@ const parseUrl = (url: string): Effect.Effect<URL, SigV4.InvalidSigningUrl> =>
     try: () => new URL(url),
     catch: (cause) => new SigV4.InvalidSigningUrl({ url, cause }),
   });
+
+/**
+ * `url` signed into its query string, valid for `expiresIn` seconds (900 by
+ * default). Given headers are signed too and must be sent as given.
+ */
+const signQuery = (
+  credentials: Credentials.ResolvedCredentials,
+  url: URL,
+  options: {
+    readonly method: string;
+    readonly service: string;
+    readonly region: string;
+    readonly expiresIn: number | undefined;
+    readonly headers: Record<string, string> | undefined;
+    readonly datetime: string | undefined;
+  },
+): Effect.Effect<SigV4.SignedRequest, SigV4.SigningError> => {
+  url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
+  return SigV4.sign({
+    method: options.method,
+    url: url.toString(),
+    headers: options.headers,
+    accessKeyId: Redacted.value(credentials.accessKeyId),
+    secretAccessKey: credentials.secretAccessKey,
+    sessionToken: credentials.sessionToken,
+    service: options.service,
+    region: options.region,
+    signQuery: true,
+    datetime: options.datetime,
+    // The signer excludes `content-type` (among others) from the signature by
+    // default (UNSIGNABLE_HEADERS). Callers passing headers here explicitly
+    // want them pinned into the signature -- e.g. the AWS SDK's getSignedUrl
+    // signs `content-type` when a ContentType is given, which is what pins an
+    // uploader to the declared type -- so opt back in.
+    allHeaders: options.headers !== undefined,
+  });
+};
 
 /** Services required by the presigning helpers. */
 export type PresignContext = Credentials.Credentials | Region.Region;
@@ -93,25 +130,13 @@ export const presignUrl: (
     const region = options.region ?? (yield* yield* Region.Region);
 
     const url = yield* parseUrl(options.url);
-    url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
-
-    const signed = yield* SigV4.sign({
+    const signed = yield* signQuery(credentials, url, {
       method: options.method ?? "GET",
-      url: url.toString(),
-      headers: options.headers,
-      accessKeyId: Redacted.value(credentials.accessKeyId),
-      secretAccessKey: credentials.secretAccessKey,
-      sessionToken: credentials.sessionToken,
       service: options.service,
       region,
-      signQuery: true,
+      expiresIn: options.expiresIn,
+      headers: options.headers,
       datetime: options.datetime,
-      // The signer excludes `content-type` (among others) from the signature by
-      // default (UNSIGNABLE_HEADERS). Callers passing headers here explicitly
-      // want them pinned into the signature -- e.g. the AWS SDK's getSignedUrl
-      // signs `content-type` when a ContentType is given, which is what pins an
-      // uploader to the declared type -- so opt back in.
-      allHeaders: options.headers !== undefined,
     });
     return signed.url;
   },
@@ -283,7 +308,10 @@ export interface PresignedRequest {
  *
  * The body is not part of the signature (`UNSIGNED-PAYLOAD`) and no
  * checksum is computed for it; pin it with `ContentLength`, `ContentMD5` or
- * a `Checksum*` member.
+ * a `Checksum*` member. An input that serializes into a body (an XML
+ * payload such as `PutObjectTagging`'s tag set, or an `awsQuery` form) fails
+ * with `InvalidInput`, since a URL cannot carry it, as does an endpoint that
+ * requires SigV4A (an S3 Multi-Region Access Point).
  *
  * Pure client-side computation -- no API call is made. The URL inherits the
  * IAM permissions of the identity resolved from the
@@ -304,6 +332,52 @@ export interface PresignedRequest {
 export const presignRequest = <I, O, E, R>(
   operation: API.OperationMethod<I, O, E, R>,
   input: Omit<I, "Body">,
-  options?: PresignRequestOptions,
+  options: PresignRequestOptions = {},
 ): Effect.Effect<PresignedRequest, PresignRequestError, Credentials.Credentials> =>
-  Protocol.presign(API.configOf(operation), input, options ?? {});
+  Effect.gen(function* () {
+    const config = API.configOf(operation);
+    const request = yield* Protocol.resolveRequest(config, input);
+    const refuse = (message: string) =>
+      Effect.fail(new InvalidInput({ member: config.operationName ?? "input", message }));
+    if (request.signingRegionSet !== undefined) {
+      return yield* refuse(
+        "The endpoint signs with SigV4A (e.g. an S3 Multi-Region Access Point), which presigning does not support.",
+      );
+    }
+    const body = request.body;
+    if (body instanceof ReadableStream || (body !== undefined && body.length > 0)) {
+      return yield* refuse(
+        "The input serializes into a request body, which a presigned URL cannot carry.",
+      );
+    }
+    const url = yield* parseUrl(request.url);
+    const headers: Record<string, string> = {};
+    for (const [name, value] of Object.entries(request.headers)) {
+      const lower = name.toLowerCase();
+      if (lower === "user-agent") continue;
+      if (lower.startsWith("x-amz-") && !UNHOISTABLE.test(lower)) {
+        url.searchParams.set(lower, value);
+      } else {
+        headers[lower] = value;
+      }
+    }
+    // The signer assumes UNSIGNED-PAYLOAD only for the signing name `s3`;
+    // access points sign S3 operations under other names.
+    if (request.serviceSdkId === "S3" && request.signingServiceName !== "s3") {
+      headers["x-amz-content-sha256"] = "UNSIGNED-PAYLOAD";
+    }
+    const credentials = yield* yield* Credentials.Credentials;
+    const signed = yield* signQuery(credentials, url, {
+      method: request.method,
+      service: request.signingServiceName,
+      region: request.signingRegion,
+      expiresIn: options.expiresIn,
+      headers,
+      datetime: options.datetime,
+    });
+    return { method: signed.method, url: signed.url, headers: signed.headers };
+  });
+
+// `x-amz-*` headers S3 reads only as headers, so a presigned request keeps
+// them as signed headers (the AWS SDK's S3 presigner does the same).
+const UNHOISTABLE = /^x-amz-(?:server-side-encryption|checksum-|sdk-checksum-algorithm$)/;

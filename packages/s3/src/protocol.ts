@@ -203,15 +203,21 @@ const withAwsContext = (
       : API.withValue(regionOverride, withRegion);
   });
 
+/**
+ * The input's `region` ({@link Region.RegionInput}), unless the operation
+ * models a `region` member of its own.
+ */
+const callRegionOf = (prepared: Prepared, input: unknown): string | undefined =>
+  prepared.regionInput ? (input as Partial<Region.RegionInput> | undefined)?.region : undefined;
+
 /** Where a serialized request is sent, and how it is signed. */
 interface Target {
   readonly endpoint: string;
-  /** The request path with its query string. */
-  readonly path: string;
+  readonly fullPath: string;
   /** The request, with the path the endpoint rules settled on. */
   readonly request: Request;
   readonly signingRegion: string;
-  readonly signingName: string;
+  readonly signingServiceName: string;
   /**
    * SigV4A region set, when the endpoint rules require the asymmetric signer
    * (EventBridge global endpoints, S3 Multi-Region Access Points).
@@ -328,10 +334,10 @@ const targetOf = (
 
   return {
     endpoint,
-    path: fullPath,
+    fullPath,
     request: resolvedRequest,
     signingRegion,
-    signingName: signingServiceName,
+    signingServiceName,
     signingRegionSet,
   };
 };
@@ -360,10 +366,10 @@ const toHttpRequest = (
   const { sigv2, serviceSdkId } = prepared;
   const {
     endpoint,
-    path: fullPath,
+    fullPath,
     request: resolvedRequest,
     signingRegion,
-    signingName: signingServiceName,
+    signingServiceName,
     signingRegionSet,
   } = target;
 
@@ -590,9 +596,7 @@ const encodeWith = <A>(
 ): Effect.Effect<A, any, any> => {
   const context = fiber.context as Context.Context<any>;
   const traceDebug = Telemetry.isDebug(context);
-  const callRegion = prepared.regionInput
-    ? (input as Partial<Region.RegionInput> | undefined)?.region
-    : undefined;
+  const callRegion = callRegionOf(prepared, input);
   const sendSigned = (request: Request) =>
     withAwsContext(context, callRegion, (credentials, region, custom) => {
       Telemetry.annotate(context, "cloud.region", region);
@@ -721,89 +725,58 @@ const call = (op: API.PreparedOperation, input: unknown): Effect.Effect<unknown>
         );
   }) as Effect.Effect<unknown>;
 
-// `x-amz-*` headers S3 reads only as headers, so a presigned request keeps
-// them as signed headers (the AWS SDK's S3 presigner does the same).
-const UNHOISTABLE = /^x-amz-(?:server-side-encryption|checksum-|sdk-checksum-algorithm$)/;
+/** A serialized request and where a call would send it, for presigning. */
+export interface ResolvedRequest {
+  readonly method: string;
+  /** The endpoint, path and query string. */
+  readonly url: string;
+  readonly headers: Record<string, string>;
+  readonly body: Request["body"];
+  readonly signingRegion: string;
+  readonly signingServiceName: string;
+  /** Set when the endpoint requires SigV4A. */
+  readonly signingRegionSet: readonly string[] | undefined;
+  /** The service's `sdkId`, e.g. `S3`. */
+  readonly serviceSdkId: string | undefined;
+}
 
 /**
- * Presign `input` for the operation `config` belongs to: serialize it,
- * resolve its endpoint as a call would, and sign it into the query string
- * with `UNSIGNED-PAYLOAD`, the way the AWS SDK's `getSignedUrl` does. The
- * body is left to the caller and no checksum is computed. `x-amz-*` headers
- * move into the query string, except those in {@link UNHOISTABLE}. Every
- * other header stays a signed header the caller must send.
+ * `input` serialized for the operation `config` belongs to, without
+ * middleware, and the endpoint and signing scope a call would resolve for it
+ * in the current context (region, `Endpoint`, credentials' region).
  */
-export const presign = (
+export const resolveRequest = (
   config: API.ProtocolOperationConfig,
   input: unknown,
-  options: { readonly expiresIn?: number; readonly datetime?: string },
 ): Effect.Effect<
-  { readonly method: string; readonly url: string; readonly headers: Record<string, string> },
-  Credentials.ProviderError | SigV4.SigningError | ParseError | InvalidInput | EndpointError,
+  ResolvedRequest,
+  ParseError | InvalidInput | EndpointError | Credentials.ProviderError,
   Credentials.Credentials
 > =>
   Effect.withFiber((fiber) => {
     const prepared = prepare(config);
     const handler = prepared.handler;
     if (handler === undefined) return Effect.die(new Error("No protocol found on input schema"));
-    const callRegion = prepared.regionInput
-      ? (input as Partial<Region.RegionInput> | undefined)?.region
-      : undefined;
     return Effect.flatMap(loadHandler(handler), (protocol) =>
       Effect.flatMap(serializeEffect(protocol.serialize)(input), (request) =>
         withAwsContext(
           fiber.context as Context.Context<any>,
-          callRegion,
-          (credentials, region, custom) => {
+          callRegionOf(prepared, input),
+          (_credentials, region, custom) => {
             const target = targetOf(prepared, input, request, region, custom);
             if (target instanceof EndpointError || target instanceof InvalidInput) {
               return Effect.fail(target);
             }
-            if (target.signingRegionSet !== undefined) {
-              return Effect.fail(
-                new InvalidInput({
-                  member: prepared.operationName ?? "input",
-                  message:
-                    "The endpoint signs with SigV4A (e.g. an S3 Multi-Region Access Point), which presigning does not support.",
-                }),
-              );
-            }
-            const href = `${target.endpoint}${target.path}`;
-            let url: URL;
-            try {
-              url = new URL(href);
-            } catch (cause) {
-              return Effect.fail(new SigV4.InvalidSigningUrl({ url: href, cause }));
-            }
-            const headers: Record<string, string> = {};
-            for (const [name, value] of Object.entries(target.request.headers)) {
-              const lower = name.toLowerCase();
-              if (lower === "user-agent") continue;
-              if (lower.startsWith("x-amz-") && !UNHOISTABLE.test(lower)) {
-                url.searchParams.set(lower, value);
-              } else {
-                headers[name] = value;
-              }
-            }
-            url.searchParams.set("X-Amz-Expires", String(options.expiresIn ?? 900));
-            return Effect.map(
-              SigV4.sign({
-                method: target.request.method,
-                url: url.toString(),
-                headers,
-                accessKeyId: Redacted.value(credentials.accessKeyId),
-                secretAccessKey: credentials.secretAccessKey,
-                sessionToken: credentials.sessionToken,
-                service: target.signingName,
-                region: target.signingRegion,
-                signQuery: true,
-                datetime: options.datetime,
-                // Pin every header, including those SigV4 leaves out by default
-                // (content-type, content-length, range).
-                allHeaders: true,
-              }),
-              ({ method, url, headers }) => ({ method, url, headers }),
-            );
+            return Effect.succeed({
+              method: target.request.method,
+              url: `${target.endpoint}${target.fullPath}`,
+              headers: target.request.headers,
+              body: target.request.body,
+              signingRegion: target.signingRegion,
+              signingServiceName: target.signingServiceName,
+              signingRegionSet: target.signingRegionSet,
+              serviceSdkId: prepared.serviceSdkId,
+            } satisfies ResolvedRequest);
           },
         ),
       ),
