@@ -812,10 +812,9 @@ export type WithoutScope<O extends { readonly service: string; readonly region: 
  */
 export const guessScope = <O extends SignOptions>(options: WithoutScope<O>): O => {
   if (options.service && options.region) return options as unknown as O;
-  let guessed: readonly [string, string] = ["", ""];
-  try {
-    guessed = guessServiceRegion(new URL(options.url), options.headers);
-  } catch {}
+  const guessed: readonly [string, string] = URL.canParse(options.url)
+    ? guessServiceRegion(new URL(options.url), options.headers)
+    : ["", ""];
   return {
     ...options,
     service: options.service || guessed[0],
