@@ -1,0 +1,68 @@
+{
+  "description": "Every asynchronous delete answers 202 with an empty body and the job in its `Location` header (v3-apidocs.cloudfoundry.org \"Delete an app\" and \"Jobs\"; `headers.Location` on those responses in the spec, read 2026-11-01), which the converter drops, so a caller can't read why a delete failed. Point their outputs at a structure binding the header. A service instance or credential binding also answers 202 with no body when it is managed, or 201 with the resource when it is user-provided, and the converter types only the 201, so a managed create fails to decode: the same structure replaces those outputs, with `guid` for the 201.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.cloud_foundry#AsyncOperationResponse",
+      "value": {
+        "type": "structure",
+        "members": {
+          "guid": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#documentation": "The resource, when the API finished the operation before answering."
+            }
+          },
+          "location": {
+            "target": "smithy.api#String",
+            "traits": {
+              "smithy.api#httpHeader": "Location",
+              "smithy.api#documentation": "The job running the operation, when the API answered 202."
+            }
+          }
+        },
+        "traits": { "smithy.api#output": {} }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.cloud_foundry#DeleteApp/output",
+      "value": { "target": "com.stackit.cloud_foundry#AsyncOperationResponse" }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.cloud_foundry#DeleteRole/output",
+      "value": { "target": "com.stackit.cloud_foundry#AsyncOperationResponse" }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.cloud_foundry#DeleteRoute/output",
+      "value": { "target": "com.stackit.cloud_foundry#AsyncOperationResponse" }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.cloud_foundry#DeleteServiceInstance/output",
+      "value": { "target": "com.stackit.cloud_foundry#AsyncOperationResponse" }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.cloud_foundry#DeleteServiceCredentialBinding/output",
+      "value": { "target": "com.stackit.cloud_foundry#AsyncOperationResponse" }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.cloud_foundry#CreateServiceInstance/output",
+      "value": { "target": "com.stackit.cloud_foundry#AsyncOperationResponse" }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.cloud_foundry#UpdateServiceInstance/output",
+      "value": { "target": "com.stackit.cloud_foundry#AsyncOperationResponse" }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.cloud_foundry#CreateServiceCredentialBinding/output",
+      "value": { "target": "com.stackit.cloud_foundry#AsyncOperationResponse" }
+    }
+  ]
+}

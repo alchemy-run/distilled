@@ -1,0 +1,891 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Alertmanager API v2",
+    "version": "0.28.1",
+    "description": "Alertmanager's published OpenAPI document (https://github.com/prometheus/alertmanager/blob/main/api/v2/openapi.yaml, read 2026-11-01), rewritten from Swagger 2.0 to OpenAPI 3.0 with `allOf` flattened and `format` dropped, without the `receiver_matchers` and `muted` filters and silences' `annotations` that v0.28.1 doesn't have. `basePath` `/api/v2/` moved into the routes, because each instance's `alertingUrl` is the root. 401 and 403 are added: they come from STACKIT's gateway, not Alertmanager, which has no auth of its own, so their bodies are unknown. Responses checked by running each request against the prom/alertmanager:v0.28.1 image. STACKIT's own instances have not been probed: no credentials exist."
+  },
+  "servers": [
+    {
+      "url": "https://alerting.example.invalid"
+    }
+  ],
+  "paths": {
+    "/api/v2/status": {
+      "get": {
+        "operationId": "GetStatus",
+        "summary": "Get current status of an Alertmanager instance and its cluster",
+        "responses": {
+          "200": {
+            "description": "Get status response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/alertmanagerStatus"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/v2/receivers": {
+      "get": {
+        "operationId": "GetReceivers",
+        "summary": "Get list of all receivers (name of notification integrations)",
+        "responses": {
+          "200": {
+            "description": "Get receivers response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/receiver"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/v2/silences": {
+      "get": {
+        "operationId": "GetSilences",
+        "summary": "Get a list of silences",
+        "parameters": [
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "A matcher expression to filter silences. For example `alertname=\"MyAlert\"`. It can be repeated to apply multiple matchers.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required": false,
+            "explode": true
+          },
+          {
+            "name": "active",
+            "in": "query",
+            "description": "Include active silences in results. If false, excludes active silences.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "expired",
+            "in": "query",
+            "description": "Include expired silences in results. If false, excludes expired silences.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "pending",
+            "in": "query",
+            "description": "Include pending silences in results. If false, excludes pending silences.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get silences response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/gettableSilences"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "post": {
+        "operationId": "PostSilences",
+        "summary": "Post a new silence or update an existing one",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postableSilence"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create / update silence response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "silenceID": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/v2/silence/{silenceID}": {
+      "get": {
+        "operationId": "GetSilence",
+        "summary": "Get a silence by its ID",
+        "parameters": [
+          {
+            "name": "silenceID",
+            "in": "path",
+            "description": "ID of the silence to get",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get silence response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/gettableSilence"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteSilence",
+        "summary": "Delete a silence by its ID",
+        "parameters": [
+          {
+            "name": "silenceID",
+            "in": "path",
+            "description": "ID of the silence to get",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Delete silence response"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          }
+        }
+      }
+    },
+    "/api/v2/alerts": {
+      "get": {
+        "operationId": "GetAlerts",
+        "summary": "Get a list of alerts",
+        "parameters": [
+          {
+            "name": "active",
+            "in": "query",
+            "description": "Include active alerts in results. If false, excludes active alerts and returns only suppressed (silenced or inhibited) alerts.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "silenced",
+            "in": "query",
+            "description": "Include silenced alerts in results. If false, excludes silenced alerts. Note that true (default) shows both silenced and non-silenced alerts.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "inhibited",
+            "in": "query",
+            "description": "Include inhibited alerts in results. If false, excludes inhibited alerts. Note that true (default) shows both inhibited and non-inhibited alerts.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "unprocessed",
+            "in": "query",
+            "description": "Include unprocessed alerts in results. If false, excludes unprocessed alerts. Note that true (default) shows both processed and unprocessed alerts.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "A matcher expression to filter alerts. For example `alertname=\"MyAlert\"`. It can be repeated to apply multiple matchers.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required": false,
+            "explode": true
+          },
+          {
+            "name": "receiver",
+            "in": "query",
+            "description": "A regex matching receivers to filter alerts by",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get alerts response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/gettableAlerts"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "post": {
+        "operationId": "PostAlerts",
+        "summary": "Create new Alerts",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/postableAlerts"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Create alerts response"
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/v2/alerts/groups": {
+      "get": {
+        "operationId": "GetAlertGroups",
+        "summary": "Get a list of alert groups",
+        "parameters": [
+          {
+            "name": "active",
+            "in": "query",
+            "description": "Include active alerts within the returned groups. If false, excludes active alerts from groups and only shows suppressed (silenced or inhibited) alerts.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "silenced",
+            "in": "query",
+            "description": "Include silenced alerts within the returned groups. If false, excludes silenced alerts from groups. Note that true (default) shows both silenced and non-silenced alerts.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "inhibited",
+            "in": "query",
+            "description": "Include inhibited alerts within the returned groups. If false, excludes inhibited alerts from groups. Note that true (default) shows both inhibited and non-inhibited alerts.",
+            "schema": {
+              "type": "boolean",
+              "default": true
+            },
+            "required": false
+          },
+          {
+            "name": "filter",
+            "in": "query",
+            "description": "A matcher expression to filter alert groups. For example `alertname=\"MyAlert\"`. It can be repeated to apply multiple matchers.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "required": false,
+            "explode": true
+          },
+          {
+            "name": "receiver",
+            "in": "query",
+            "description": "A regex matching receivers to filter alerts by",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get alert groups response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/alertGroups"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "A malformed request.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Missing or wrong credentials.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The credential lacks access.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "NotFound": {
+        "description": "No such silence.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "alertmanagerStatus": {
+        "type": "object",
+        "properties": {
+          "cluster": {
+            "$ref": "#/components/schemas/clusterStatus"
+          },
+          "versionInfo": {
+            "$ref": "#/components/schemas/versionInfo"
+          },
+          "config": {
+            "$ref": "#/components/schemas/alertmanagerConfig"
+          },
+          "uptime": {
+            "type": "string"
+          }
+        },
+        "required": ["cluster", "versionInfo", "config", "uptime"]
+      },
+      "clusterStatus": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["ready", "settling", "disabled"]
+          },
+          "peers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/peerStatus"
+            }
+          }
+        },
+        "required": ["status"]
+      },
+      "alertmanagerConfig": {
+        "type": "object",
+        "properties": {
+          "original": {
+            "type": "string"
+          }
+        },
+        "required": ["original"]
+      },
+      "versionInfo": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "revision": {
+            "type": "string"
+          },
+          "branch": {
+            "type": "string"
+          },
+          "buildUser": {
+            "type": "string"
+          },
+          "buildDate": {
+            "type": "string"
+          },
+          "goVersion": {
+            "type": "string"
+          }
+        },
+        "required": ["version", "revision", "branch", "buildUser", "buildDate", "goVersion"]
+      },
+      "peerStatus": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "type": "string"
+          }
+        },
+        "required": ["name", "address"]
+      },
+      "silence": {
+        "type": "object",
+        "properties": {
+          "matchers": {
+            "$ref": "#/components/schemas/matchers"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          }
+        },
+        "required": ["matchers", "startsAt", "endsAt", "createdBy", "comment"]
+      },
+      "gettableSilence": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/silenceStatus"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "matchers": {
+            "$ref": "#/components/schemas/matchers"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "updatedAt",
+          "matchers",
+          "startsAt",
+          "endsAt",
+          "createdBy",
+          "comment"
+        ]
+      },
+      "postableSilence": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "matchers": {
+            "$ref": "#/components/schemas/matchers"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "createdBy": {
+            "type": "string"
+          },
+          "comment": {
+            "type": "string"
+          }
+        },
+        "required": ["matchers", "startsAt", "endsAt", "createdBy", "comment"]
+      },
+      "silenceStatus": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": ["expired", "active", "pending"]
+          }
+        },
+        "required": ["state"]
+      },
+      "gettableSilences": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/gettableSilence"
+        }
+      },
+      "matchers": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/matcher"
+        },
+        "minItems": 1
+      },
+      "matcher": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "string"
+          },
+          "isRegex": {
+            "type": "boolean"
+          },
+          "isEqual": {
+            "type": "boolean",
+            "default": true
+          }
+        },
+        "required": ["name", "value", "isRegex"]
+      },
+      "alert": {
+        "type": "object",
+        "properties": {
+          "labels": {
+            "$ref": "#/components/schemas/labelSet"
+          },
+          "generatorURL": {
+            "type": "string"
+          }
+        },
+        "required": ["labels"]
+      },
+      "gettableAlerts": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/gettableAlert"
+        }
+      },
+      "gettableAlert": {
+        "type": "object",
+        "properties": {
+          "annotations": {
+            "$ref": "#/components/schemas/labelSet"
+          },
+          "receivers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/receiverReference"
+            }
+          },
+          "fingerprint": {
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "status": {
+            "$ref": "#/components/schemas/alertStatus"
+          },
+          "labels": {
+            "$ref": "#/components/schemas/labelSet"
+          },
+          "generatorURL": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "receivers",
+          "fingerprint",
+          "startsAt",
+          "updatedAt",
+          "endsAt",
+          "annotations",
+          "status",
+          "labels"
+        ]
+      },
+      "postableAlerts": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/postableAlert"
+        }
+      },
+      "postableAlert": {
+        "type": "object",
+        "properties": {
+          "startsAt": {
+            "type": "string"
+          },
+          "endsAt": {
+            "type": "string"
+          },
+          "annotations": {
+            "$ref": "#/components/schemas/labelSet"
+          },
+          "labels": {
+            "$ref": "#/components/schemas/labelSet"
+          },
+          "generatorURL": {
+            "type": "string"
+          }
+        },
+        "required": ["labels"]
+      },
+      "alertGroups": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/alertGroup"
+        }
+      },
+      "alertGroup": {
+        "type": "object",
+        "properties": {
+          "labels": {
+            "$ref": "#/components/schemas/labelSet"
+          },
+          "routeLabels": {
+            "$ref": "#/components/schemas/labelSet"
+          },
+          "receiver": {
+            "$ref": "#/components/schemas/receiverReference"
+          },
+          "alerts": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/gettableAlert"
+            }
+          }
+        },
+        "required": ["labels", "routeLabels", "receiver", "alerts"]
+      },
+      "alertStatus": {
+        "type": "object",
+        "properties": {
+          "state": {
+            "type": "string",
+            "enum": ["unprocessed", "active", "suppressed"]
+          },
+          "silencedBy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "inhibitedBy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "mutedBy": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": ["state", "silencedBy", "inhibitedBy", "mutedBy"]
+      },
+      "receiver": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "labels": {
+            "$ref": "#/components/schemas/labelSet"
+          }
+        },
+        "required": ["name"]
+      },
+      "receiverReference": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        },
+        "required": ["name"]
+      },
+      "labelSet": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "string"
+        }
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

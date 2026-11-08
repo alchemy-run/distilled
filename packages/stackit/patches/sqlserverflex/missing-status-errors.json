@@ -1,0 +1,168 @@
+{
+  "description": "The sqlserverflex spec (v3) documents 425 ('Too early: The requested resource is not ready to accept connections') on CreateUser, DeleteUser, ResetUser and ListRoles, and 412 ('Precondition not met') on CreateUser, DeleteUser and ResetUser, but convert drops both statuses because the model has no error shape for them, so they surface as UnknownStackitError. 423 is not in the spec: STACKIT's own Terraform provider retries both 423 and 425 on create and delete of users and databases, with the comment that the instance might be in maintenance mode and the API temporarily unavailable for a moment (stackitcloud/terraform-provider-stackit, stackit/internal/services/sqlserverflex/utils/util.go RetryConfig, used by user/resource.go and database/resource.go, read 2026-11-01). The same RetryConfig is why 425 is also typed on CreateDatabase and DeleteDatabase. No live probe: these come from the spec and the Terraform provider.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#InstanceLocked",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 423,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 423
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#InstanceNotReady",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 425,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 425
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#PreconditionFailed",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 412,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 412
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#CreateUser/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#CreateUser/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#CreateUser/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#DeleteUser/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#DeleteUser/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#DeleteUser/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#ResetUser/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#ResetUser/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#PreconditionFailed"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#ListRoles/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#CreateDatabase/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#CreateDatabase/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceNotReady"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#DeleteDatabase/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceLocked"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sqlserverflex#DeleteDatabase/errors/-",
+      "value": {
+        "target": "com.stackit.sqlserverflex#InstanceNotReady"
+      }
+    }
+  ]
+}

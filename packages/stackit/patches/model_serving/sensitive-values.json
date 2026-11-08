@@ -1,0 +1,10 @@
+{
+  "description": "TokenCreated.content is the auth token itself, typed as a plain string. The spec's createToken is the only operation that returns it, and STACKIT's Terraform provider marks `token` Sensitive (terraform-provider-stackit, stackit/internal/services/modelserving/token/resource.go, read 2026-11-01). STACKIT's docs say it is shown once.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.model_serving#TokenCreated/members/content/traits/smithy.api#sensitive",
+      "value": {}
+    }
+  ]
+}

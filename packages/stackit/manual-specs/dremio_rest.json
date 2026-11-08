@@ -1,0 +1,512 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "Dremio REST API (SQL and jobs)",
+    "version": "26.0.5",
+    "description": "Written by hand from Dremio's HTML reference (docs.dremio.com/current/reference/api/, the authentication section, sql/, job/ and job/job-results/, read 2026-11-01); Dremio publishes no OpenAPI document for this API. Bodies and status codes were checked by running each request against the dremio/dremio-oss image (26.0.5-202509091642240013-f5051a07), read 2026-11-01. The source documents more routes (catalog, reflections, users): this file holds the login, the SQL submission and the job routes the provider's bindings need. Where the wire differs from the reference, this file follows the wire: the login token also works as `Authorization: Bearer`; a failed login answers 401; a job's results answer 400 until the job is COMPLETED. Field types stay open where the source is open: `rows` are objects keyed by column, and a column's `subSchema` is left open because it nests. `apiv2/login` is API v2, which Dremio calls internal and subject to change, and it is the only documented way to turn a password into a token. STACKIT's own instances have not been probed: that `endpoints.ui` serves this API and that its admin users can log in this way are inferred from its service certificate, which says the service is Dremio Software."
+  },
+  "servers": [
+    {
+      "url": "https://dremio.example.invalid"
+    }
+  ],
+  "paths": {
+    "/apiv2/login": {
+      "post": {
+        "operationId": "Login",
+        "summary": "Exchange a user's name and password for an authentication token, valid for 30 hours.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoginResponse"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v3/sql": {
+      "post": {
+        "operationId": "SubmitSql",
+        "summary": "Submit a SQL statement. The job runs asynchronously: a statement that doesn't parse or names a missing table still answers 200 with an id, and the job ends FAILED.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SubmitSqlRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubmitSqlResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/v3/job/{id}": {
+      "get": {
+        "operationId": "GetJob",
+        "summary": "Read a job's state. `COMPLETED`, `CANCELED` and `FAILED` are final; every other state means it is still running.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the job, from `SubmitSql`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Job"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/v3/job/{id}/results": {
+      "get": {
+        "operationId": "GetJobResults",
+        "summary": "Read a `COMPLETED` job's rows, up to 500 at a time.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the job, from `SubmitSql`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Rows to skip. Defaults to 0.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Rows to return. Defaults to 100, at most 500.",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JobResults"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/api/v3/job/{id}/cancel": {
+      "post": {
+        "operationId": "CancelJob",
+        "summary": "Cancel a running job. The job stays readable, with `jobState` `CANCELED`.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Id of the job, from `SubmitSql`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Cancelled."
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "A malformed request, or results of a job that isn't `COMPLETED`.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "A wrong password or a missing or stale token. The token cases answer with no body.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The user lacks permission.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "ErrorResponse": {
+        "type": "object",
+        "description": "The body of a failure.",
+        "properties": {
+          "errorMessage": {
+            "type": "string",
+            "description": "Brief error message."
+          },
+          "moreInfo": {
+            "type": "string",
+            "description": "Detailed error message."
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": ["userName", "password"],
+        "properties": {
+          "userName": {
+            "type": "string",
+            "description": "Login name of the user."
+          },
+          "password": {
+            "type": "string",
+            "description": "The user's password."
+          }
+        }
+      },
+      "LoginResponse": {
+        "type": "object",
+        "required": ["token"],
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "The authentication token. Send it as `Authorization: Bearer <token>`."
+          },
+          "expires": {
+            "type": "integer",
+            "format": "int64",
+            "description": "When the token expires, in milliseconds since the epoch."
+          },
+          "userName": {
+            "type": "string",
+            "description": "Login name of the user."
+          },
+          "userId": {
+            "type": "string",
+            "description": "Id of the user."
+          },
+          "admin": {
+            "type": "boolean",
+            "description": "Whether the user is an administrator."
+          },
+          "version": {
+            "type": "string",
+            "description": "Dremio's version."
+          }
+        }
+      },
+      "SqlReference": {
+        "type": "object",
+        "description": "The branch, tag or commit of a Nessie source to query.",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": ["BRANCH", "TAG", "COMMIT"]
+          },
+          "value": {
+            "type": "string",
+            "description": "The branch or tag name, or the commit hash."
+          }
+        }
+      },
+      "SubmitSqlRequest": {
+        "type": "object",
+        "required": ["sql"],
+        "properties": {
+          "sql": {
+            "type": "string",
+            "description": "The SQL statement to run."
+          },
+          "context": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Path of the container the statement runs in, starting with a source or space."
+          },
+          "references": {
+            "type": "object",
+            "additionalProperties": {
+              "$ref": "#/components/schemas/SqlReference"
+            },
+            "description": "The reference to query per Nessie source, by source name. A source left out runs on its default branch."
+          }
+        }
+      },
+      "SubmitSqlResponse": {
+        "type": "object",
+        "required": ["id"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id of the job."
+          }
+        }
+      },
+      "ReflectionRelationship": {
+        "type": "object",
+        "properties": {
+          "datasetId": {
+            "type": "string"
+          },
+          "reflectionId": {
+            "type": "string"
+          },
+          "relationship": {
+            "type": "string",
+            "enum": ["CONSIDERED", "MATCHED", "CHOSEN"]
+          }
+        }
+      },
+      "JobAcceleration": {
+        "type": "object",
+        "description": "Present when the job could use a Reflection.",
+        "properties": {
+          "reflectionRelationships": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ReflectionRelationship"
+            }
+          }
+        }
+      },
+      "Job": {
+        "type": "object",
+        "required": ["jobState"],
+        "properties": {
+          "jobState": {
+            "type": "string",
+            "enum": [
+              "NOT_SUBMITTED",
+              "STARTING",
+              "RUNNING",
+              "COMPLETED",
+              "CANCELED",
+              "FAILED",
+              "CANCELLATION_REQUESTED",
+              "PLANNING",
+              "PENDING",
+              "METADATA_RETRIEVAL",
+              "QUEUED",
+              "ENGINE_START",
+              "EXECUTION_PLANNING",
+              "INVALID_STATE"
+            ],
+            "description": "`COMPLETED`, `CANCELED` and `FAILED` are final."
+          },
+          "rowCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Rows a `COMPLETED` job returned; otherwise 0."
+          },
+          "errorMessage": {
+            "type": "string",
+            "description": "Why a `FAILED` job failed; otherwise empty."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "When the job started, in UTC."
+          },
+          "endedAt": {
+            "type": "string",
+            "description": "When the job ended, in UTC."
+          },
+          "acceleration": {
+            "$ref": "#/components/schemas/JobAcceleration"
+          },
+          "queryType": {
+            "type": "string",
+            "description": "Where the query came from: `REST` here."
+          },
+          "queueName": {
+            "type": "string",
+            "description": "Name of the workload management queue."
+          },
+          "queueId": {
+            "type": "string",
+            "description": "Id of the workload management queue."
+          },
+          "resourceSchedulingStartedAt": {
+            "type": "string"
+          },
+          "resourceSchedulingEndedAt": {
+            "type": "string"
+          },
+          "cancellationReason": {
+            "type": "string",
+            "description": "Why a `CANCELED` job was canceled; otherwise empty."
+          }
+        }
+      },
+      "ColumnType": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the type, such as `INTEGER`, `VARCHAR`, `DECIMAL`, `LIST` or `STRUCT`."
+          },
+          "precision": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Precision of a `DECIMAL`."
+          },
+          "scale": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Scale of a `DECIMAL`."
+          },
+          "subSchema": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "description": "Members of a `LIST` or `STRUCT`, each with a `type` and, in a `STRUCT`, a `name`."
+          }
+        }
+      },
+      "Column": {
+        "type": "object",
+        "required": ["name", "type"],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/ColumnType"
+          }
+        }
+      },
+      "JobResults": {
+        "type": "object",
+        "required": ["rowCount", "schema", "rows"],
+        "properties": {
+          "rowCount": {
+            "type": "integer",
+            "format": "int64",
+            "description": "All the rows the job returned, not only this page."
+          },
+          "schema": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Column"
+            },
+            "description": "The columns."
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true
+            },
+            "description": "The rows of this page, as objects keyed by column."
+          }
+        }
+      }
+    }
+  }
+}

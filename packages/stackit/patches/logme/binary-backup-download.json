@@ -1,0 +1,25 @@
+{
+  "description": "The logme spec documents DownloadBackup's 200 as `application/octet-stream` with a binary string schema, but convert models the operation with a Unit output, so the bytes are discarded and callers get an empty object. The output now points at a raw blob, which the generator emits as `Uint8Array` with `T.BinaryResponse()`. From the spec; no live probe: no credentials exist for this account.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.logme#BackupArchive",
+      "value": {
+        "type": "structure",
+        "members": {
+          "body": {
+            "target": "smithy.api#Blob",
+            "traits": {
+              "com.distilled.openapi#rawResponse": {}
+            }
+          }
+        }
+      }
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.logme#DownloadBackup/output/target",
+      "value": "com.stackit.logme#BackupArchive"
+    }
+  ]
+}

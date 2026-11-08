@@ -1,0 +1,1080 @@
+{
+  "openapi": "3.0.2",
+  "info": {
+    "title": "OpenSearch REST API (search and documents)",
+    "version": "2.16.0",
+    "description": "Trimmed by hand from opensearch-project/opensearch-api-specification (release main-latest, opensearch-openapi.yaml, info.version 0.3.0, x-api-version 2.16.0, read 2026-11-01) to the document and search routes the provider's bindings need; STACKIT publishes no document for this API. Changes from the source, all to describe the wire: OpenAPI 3.1 `oneOf: [null, ...]` is 3.0 `nullable`; one route per operation, keeping the POST or PUT form; the query DSL, aggregations, highlight, suggest and collapse stay open objects, because the source's recursive types are thousands of lines and a caller writes them as JSON anyway; `hits.total` is only the object form, because the integer form needs `rest_total_hits_as_int`, which isn't exposed; `refresh` is its string spellings; deprecated `_type` fields are gone; `_bulk`'s NDJSON body is one preserialized string (see the `bulk` patch). The error responses, which the source models only as a generic 4XX, are in this file as 400, 401 and 403; the 404 and 409 tags come from a patch. Bodies and status codes were checked by running each request against the opensearchproject/opensearch:2 image (OpenSearch 2.19.7), read 2026-11-01. STACKIT's own instances have not been probed; which OpenSearch version a plan runs is what its offering says."
+  },
+  "servers": [
+    {
+      "url": "https://opensearch.example.invalid"
+    }
+  ],
+  "paths": {
+    "/{index}/_search": {
+      "post": {
+        "operationId": "Search",
+        "summary": "Returns results matching a query.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "description": "Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "allow_no_indices",
+            "in": "query",
+            "description": "If `false`, the request returns an error if any wildcard expression, index alias, or `_all` value targets only missing or closed indexes.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "expand_wildcards",
+            "in": "query",
+            "description": "Type of index that wildcard patterns can match. Supports comma-separated values, such as `open,hidden`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ignore_unavailable",
+            "in": "query",
+            "description": "If `false`, the request returns an error if it targets a missing or closed index.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "preference",
+            "in": "query",
+            "description": "Nodes and shards used for the search. Random by default.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "routing",
+            "in": "query",
+            "description": "A custom value used to route operations to a specific shard.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_pipeline",
+            "in": "query",
+            "description": "Customizable sequence of processing stages applied to search queries.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search_type",
+            "in": "query",
+            "description": "How distributed term frequencies are calculated for relevance scoring.",
+            "schema": {
+              "type": "string",
+              "enum": ["dfs_query_then_fetch", "query_then_fetch"]
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SearchBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/{index}/_doc": {
+      "post": {
+        "operationId": "AddDocument",
+        "summary": "Adds a document to an index under an id OpenSearch generates.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "description": "Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pipeline",
+            "in": "query",
+            "description": "ID of the pipeline to use to preprocess incoming documents. If the index has a default ingest pipeline specified, then setting the value to `_none` disables the default ingest pipeline for this request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "refresh",
+            "in": "query",
+            "description": "If `true`, OpenSearch refreshes the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` do nothing with refreshes.",
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false", "wait_for"]
+            }
+          },
+          {
+            "name": "routing",
+            "in": "query",
+            "description": "A custom value used to route operations to a specific shard.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeout",
+            "in": "query",
+            "description": "Period the request waits for automatic index creation, dynamic mapping updates, and active shards, such as `30s`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "The document."
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WriteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/{index}/_doc/{id}": {
+      "put": {
+        "operationId": "IndexDocument",
+        "summary": "Creates or updates a document in an index.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "description": "Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the document.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "if_primary_term",
+            "in": "query",
+            "description": "Only perform the operation if the document has this primary term.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "if_seq_no",
+            "in": "query",
+            "description": "Only perform the operation if the document has this sequence number.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "op_type",
+            "in": "query",
+            "description": "Set to `create` to only index the document if it does not already exist. If a document with the specified id already exists, the operation fails with `VersionConflict`.",
+            "schema": {
+              "type": "string",
+              "enum": ["index", "create"]
+            }
+          },
+          {
+            "name": "pipeline",
+            "in": "query",
+            "description": "ID of the pipeline to use to preprocess incoming documents. If the index has a default ingest pipeline specified, then setting the value to `_none` disables the default ingest pipeline for this request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "refresh",
+            "in": "query",
+            "description": "If `true`, OpenSearch refreshes the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` do nothing with refreshes.",
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false", "wait_for"]
+            }
+          },
+          {
+            "name": "routing",
+            "in": "query",
+            "description": "A custom value used to route operations to a specific shard.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeout",
+            "in": "query",
+            "description": "Period the request waits for automatic index creation, dynamic mapping updates, and active shards, such as `30s`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "description": "The document."
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WriteResponse"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WriteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "get": {
+        "operationId": "GetDocument",
+        "summary": "Returns a document.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "description": "Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the document.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_source",
+            "in": "query",
+            "description": "`true` or `false` to return the `_source` field or not, or a comma-separated list of fields to return.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_source_excludes",
+            "in": "query",
+            "description": "A comma-separated list of source fields to exclude in the response.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "_source_includes",
+            "in": "query",
+            "description": "A comma-separated list of source fields to include in the response.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "preference",
+            "in": "query",
+            "description": "Specifies the node or shard the operation should be performed on. Random by default.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "realtime",
+            "in": "query",
+            "description": "If `true`, the request is real time as opposed to near real time.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "refresh",
+            "in": "query",
+            "description": "If `true`, OpenSearch refreshes the affected shards to make this operation visible to search.",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "routing",
+            "in": "query",
+            "description": "Target the specified primary shard.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "stored_fields",
+            "in": "query",
+            "description": "Comma-separated list of stored fields to return.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetDocumentResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "DeleteDocument",
+        "summary": "Removes a document from the index.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "description": "Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "Unique identifier of the document.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "if_primary_term",
+            "in": "query",
+            "description": "Only perform the operation if the document has this primary term.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "if_seq_no",
+            "in": "query",
+            "description": "Only perform the operation if the document has this sequence number.",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "refresh",
+            "in": "query",
+            "description": "If `true`, OpenSearch refreshes the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` do nothing with refreshes.",
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false", "wait_for"]
+            }
+          },
+          {
+            "name": "routing",
+            "in": "query",
+            "description": "A custom value used to route operations to a specific shard.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeout",
+            "in": "query",
+            "description": "Period the request waits for automatic index creation, dynamic mapping updates, and active shards, such as `30s`.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/WriteResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    },
+    "/{index}/_bulk": {
+      "post": {
+        "operationId": "Bulk",
+        "summary": "Allows to perform multiple index, create, update and delete operations in a single request. A failed action doesn't fail the request: check `errors` and each item.",
+        "parameters": [
+          {
+            "name": "index",
+            "in": "path",
+            "required": true,
+            "description": "Name of the index. Search accepts a comma-separated list and wildcards, such as `logs-*`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "pipeline",
+            "in": "query",
+            "description": "ID of the pipeline to use to preprocess incoming documents. If the index has a default ingest pipeline specified, then setting the value to `_none` disables the default ingest pipeline for this request.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "refresh",
+            "in": "query",
+            "description": "If `true`, OpenSearch refreshes the affected shards to make this operation visible to search, if `wait_for` then wait for a refresh to make this operation visible to search, if `false` do nothing with refreshes.",
+            "schema": {
+              "type": "string",
+              "enum": ["true", "false", "wait_for"]
+            }
+          },
+          {
+            "name": "routing",
+            "in": "query",
+            "description": "A custom value used to route operations to a specific shard.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "timeout",
+            "in": "query",
+            "description": "Period the request waits for automatic index creation, dynamic mapping updates, and active shards, such as `30s`.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "require_alias",
+            "in": "query",
+            "description": "If `true`, the request's actions must target an index alias.",
+            "schema": {
+              "type": "boolean"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "responses": {
+      "BadRequest": {
+        "description": "A malformed request or query.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Unauthorized": {
+        "description": "Wrong credentials.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      },
+      "Forbidden": {
+        "description": "The user lacks permission.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/ErrorResponse"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "SearchBody": {
+        "type": "object",
+        "title": "SearchBody",
+        "properties": {
+          "query": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The query, in OpenSearch's query DSL. Omit it to match every document."
+          },
+          "size": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Number of hits to return."
+          },
+          "from": {
+            "type": "integer",
+            "format": "int32",
+            "description": "Starting document offset. By default, you cannot page through more than 10,000 hits using `from` and `size`; use `search_after` beyond that."
+          },
+          "sort": {
+            "type": "array",
+            "items": {},
+            "description": "Sort order: field names, or objects such as `{ \"timestamp\": \"desc\" }`."
+          },
+          "_source": {
+            "description": "`false` to leave the document out of each hit, or the list of fields to return."
+          },
+          "fields": {
+            "type": "array",
+            "items": {},
+            "description": "Field patterns to return under each hit's `fields`."
+          },
+          "aggregations": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The aggregations that are run as part of the search request, by name."
+          },
+          "aggs": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Alias of `aggregations`."
+          },
+          "highlight": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "How to highlight matching fields."
+          },
+          "post_filter": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "A filter applied to the hits after aggregations are computed."
+          },
+          "search_after": {
+            "type": "array",
+            "items": {},
+            "description": "The `sort` values of the last hit of the previous page."
+          },
+          "track_total_hits": {
+            "description": "`true` to count every match, `false` to skip counting (then `hits.total` is absent), or the number to count up to."
+          },
+          "min_score": {
+            "type": "number",
+            "format": "float",
+            "description": "Minimum `_score` for matching documents."
+          },
+          "collapse": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Collapse the hits by a field's value."
+          },
+          "suggest": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Suggesters, by name."
+          },
+          "terminate_after": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Maximum number of documents to collect for each shard."
+          },
+          "timeout": {
+            "type": "string",
+            "description": "How long to wait for a response from each shard, such as `30s`."
+          },
+          "seq_no_primary_term": {
+            "type": "boolean",
+            "description": "If `true`, returns the sequence number and primary term of the last modification of each hit."
+          },
+          "version": {
+            "type": "boolean",
+            "description": "If `true`, returns the document version as part of a hit."
+          }
+        }
+      },
+      "ErrorCause": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of error."
+          },
+          "reason": {
+            "type": "string",
+            "nullable": true,
+            "description": "A human-readable explanation of the error, in English."
+          },
+          "caused_by": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The error's cause, in the same shape."
+          }
+        },
+        "required": ["type"]
+      },
+      "ErrorResponse": {
+        "type": "object",
+        "description": "The base structure for error responses.",
+        "properties": {
+          "error": {
+            "description": "The error: an object, or a string on some security plugin failures."
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      },
+      "ShardStatistics": {
+        "type": "object",
+        "properties": {
+          "failed": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "successful": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "total": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "skipped": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "failures": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": true,
+              "description": "A shard's failure."
+            }
+          }
+        },
+        "required": ["failed", "successful", "total"]
+      },
+      "TotalHits": {
+        "type": "object",
+        "properties": {
+          "relation": {
+            "type": "string",
+            "enum": ["eq", "gte"]
+          },
+          "value": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": ["relation", "value"]
+      },
+      "Hit": {
+        "type": "object",
+        "properties": {
+          "_index": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "_score": {
+            "type": "number",
+            "format": "double",
+            "nullable": true,
+            "description": "Relevance score; `null` when sorting by something else."
+          },
+          "_source": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The document."
+          },
+          "fields": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Requested fields."
+          },
+          "highlight": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Highlighted snippets by field."
+          },
+          "sort": {
+            "type": "array",
+            "items": {},
+            "description": "The sort values; pass the last hit's to `search_after`."
+          },
+          "_routing": {
+            "type": "string"
+          },
+          "_version": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "_seq_no": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "_primary_term": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "matched_queries": {
+            "description": "Names of the named queries that matched."
+          }
+        },
+        "required": ["_index", "_id"]
+      },
+      "HitsMetadata": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "$ref": "#/components/schemas/TotalHits"
+          },
+          "max_score": {
+            "type": "number",
+            "format": "float",
+            "nullable": true
+          },
+          "hits": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Hit"
+            }
+          }
+        },
+        "required": ["hits"]
+      },
+      "SearchResponse": {
+        "type": "object",
+        "properties": {
+          "took": {
+            "type": "integer",
+            "format": "int64",
+            "description": "Milliseconds the search took."
+          },
+          "timed_out": {
+            "type": "boolean"
+          },
+          "_shards": {
+            "$ref": "#/components/schemas/ShardStatistics"
+          },
+          "hits": {
+            "$ref": "#/components/schemas/HitsMetadata"
+          },
+          "aggregations": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Aggregation results by name."
+          },
+          "suggest": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Suggester results by name."
+          }
+        },
+        "required": ["took", "timed_out", "_shards", "hits"]
+      },
+      "WriteResponse": {
+        "type": "object",
+        "description": "The base response for write operations.",
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "_index": {
+            "type": "string"
+          },
+          "_primary_term": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "result": {
+            "type": "string",
+            "enum": ["created", "updated", "deleted", "not_found", "noop"]
+          },
+          "_seq_no": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "_shards": {
+            "$ref": "#/components/schemas/ShardStatistics"
+          },
+          "_version": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "forced_refresh": {
+            "type": "boolean"
+          }
+        },
+        "required": ["_id", "_index", "_primary_term", "result", "_seq_no", "_shards", "_version"]
+      },
+      "GetDocumentResponse": {
+        "type": "object",
+        "properties": {
+          "_index": {
+            "type": "string"
+          },
+          "_id": {
+            "type": "string"
+          },
+          "found": {
+            "type": "boolean"
+          },
+          "_source": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The document."
+          },
+          "fields": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Requested stored fields."
+          },
+          "_routing": {
+            "type": "string"
+          },
+          "_version": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "_seq_no": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "_primary_term": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": ["_index", "_id", "found"]
+      },
+      "BulkItemResult": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "string",
+            "nullable": true
+          },
+          "_index": {
+            "type": "string"
+          },
+          "status": {
+            "type": "integer",
+            "format": "int32",
+            "description": "HTTP status code returned for the action."
+          },
+          "error": {
+            "$ref": "#/components/schemas/ErrorCause"
+          },
+          "result": {
+            "type": "string",
+            "description": "Successful values are `created`, `deleted`, and `updated`."
+          },
+          "_primary_term": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "_seq_no": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "_shards": {
+            "$ref": "#/components/schemas/ShardStatistics"
+          },
+          "_version": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "forced_refresh": {
+            "type": "boolean"
+          }
+        },
+        "required": ["_index", "status"]
+      },
+      "BulkResponseItem": {
+        "type": "object",
+        "description": "One action's result, under the action's name.",
+        "properties": {
+          "index": {
+            "$ref": "#/components/schemas/BulkItemResult"
+          },
+          "create": {
+            "$ref": "#/components/schemas/BulkItemResult"
+          },
+          "update": {
+            "$ref": "#/components/schemas/BulkItemResult"
+          },
+          "delete": {
+            "$ref": "#/components/schemas/BulkItemResult"
+          }
+        }
+      },
+      "BulkResponse": {
+        "type": "object",
+        "properties": {
+          "took": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "errors": {
+            "type": "boolean",
+            "description": "`true` if at least one action failed."
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BulkResponseItem"
+            }
+          },
+          "ingest_took": {
+            "type": "integer",
+            "format": "int64"
+          }
+        },
+        "required": ["took", "errors", "items"]
+      }
+    }
+  }
+}

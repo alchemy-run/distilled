@@ -7,9 +7,10 @@
  * hand-written.
  *
  * One module per STACKIT product (IaaS, SKE, DNS, Postgres Flex, ...), using
- * that product's latest published OpenAPI version. Auth is a service-account
- * bearer token (`STACKIT_SERVICE_ACCOUNT_TOKEN`); each product's host is
- * rewritten for `STACKIT_REGION` (default `eu01`).
+ * that product's latest published OpenAPI version. Auth is a bearer access
+ * token minted from a service-account key (`STACKIT_SERVICE_ACCOUNT_KEY_PATH`,
+ * `fromServiceAccountKey`) or given directly (`STACKIT_SERVICE_ACCOUNT_TOKEN`);
+ * each product's host is rewritten for `STACKIT_REGION` (default `eu01`).
  *
  * @example
  * ```ts
@@ -24,11 +25,58 @@ export * from "./credentials.ts";
 export * from "./errors.ts";
 export * as T from "./traits.ts";
 export {
+  CloudFoundryLoginProtocol,
+  CloudFoundryProtocol,
+  CloudFoundryRootProtocol,
+  DremioLoginProtocol,
+  DremioProtocol,
+  ForgejoProtocol,
+  HarborProtocol,
+  MlflowProtocol,
+  ModelServingInferenceProtocol,
+  ModelServingInferenceStreamProtocol,
+  ObservabilityDataProtocol,
+  OpenSearchProtocol,
+  RabbitMQManagementProtocol,
   StackitProtocol,
+  VaultLoginProtocol,
+  VaultProtocol,
+  WorkflowsAirflowProtocol,
   applyRegion,
+  type CloudFoundryOpContext,
+  type CloudFoundryOpError,
+  type CloudFoundryRootContext,
+  type DremioLoginContext,
+  type DremioOpContext,
+  type DremioOpError,
+  type ForgejoOpContext,
+  type ForgejoOpError,
+  type HarborOpContext,
+  type HarborOpError,
+  type MlflowOpContext,
+  type MlflowOpError,
+  type ModelServingInferenceOpContext,
+  type ModelServingInferenceOpError,
+  type ObservabilityDataOpContext,
+  type ObservabilityDataOpError,
+  type OpenSearchOpContext,
+  type OpenSearchOpError,
+  type RabbitMQManagementOpContext,
+  type RabbitMQManagementOpError,
+  type VaultLoginContext,
+  type VaultOpContext,
+  type VaultOpError,
+  type WorkflowsAirflowOpContext,
+  type WorkflowsAirflowOpError,
   type StackitOpError,
   type StackitOpContext,
 } from "./protocol.ts";
 export { paginateByTotalPages } from "./pagination.ts";
 export * as Retry from "./retry.ts";
 export * from "./services/index.ts";
+export * from "./cloud-foundry.ts";
+export * from "./dremio.ts";
+export * from "./forgejo.ts";
+export * from "./opensearch.ts";
+export * from "./vault.ts";
+export * from "./workflows-airflow.ts";

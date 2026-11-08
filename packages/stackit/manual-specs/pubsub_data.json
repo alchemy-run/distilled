@@ -1,0 +1,398 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1alpha.1.0",
+    "title": "STACKIT PubSub Data Plane API",
+    "description": "STACKIT Pub/Sub's data plane: publish, purge, pull, acknowledge and negatively acknowledge. Converted from `api/openapi.yaml` in https://github.com/stackitcloud/pubsub-sdk-go (Apache-2.0), version 1alpha.1.0, read 2026-11-01. The paths, bodies, headers and responses are as published. One change: the document's server is `https://{topicId}.pubsub.eu01.onstackit.cloud`, with the region fixed and the topic a server variable no operation can set. So the region is a variable too, named as in the management API. `patches/pubsub_data/host-labels.json` adds both to each operation's input, and the protocol fills them into the host (see `fillHostLabels` in `src/protocol.ts`)."
+  },
+  "servers": [
+    {
+      "url": "https://{topicId}.pubsub.{regionId}.onstackit.cloud",
+      "description": "Production endpoint.",
+      "variables": {
+        "topicId": {
+          "description": "The Topic UUID.",
+          "default": "00000000-0000-0000-0000-000000000000"
+        },
+        "regionId": {
+          "description": "The STACKIT region name.",
+          "default": "eu01"
+        }
+      }
+    }
+  ],
+  "paths": {
+    "/v1alpha/publish": {
+      "post": {
+        "operationId": "publish-messages",
+        "description": "Publish messages within a topic.",
+        "tags": ["topics"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/publishMessageToTopicRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Messages have been published."
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "413": {
+            "$ref": "#/components/responses/requestEntityTooLarge"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/v1alpha/purge": {
+      "post": {
+        "operationId": "purge-topic",
+        "description": "Purge all messages within a topic without deleting the topic itself.",
+        "tags": ["topics"],
+        "responses": {
+          "204": {
+            "description": "Topic has been purged successfully."
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/v1alpha/subscriptions/{subscriptionId}/pull": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/subscriptionId"
+        }
+      ],
+      "post": {
+        "operationId": "pull-messages",
+        "description": "Pull messages within a topic.",
+        "tags": ["subscriptions"],
+        "parameters": [
+          {
+            "name": "PubSub-Max-Messages",
+            "in": "header",
+            "description": "The maximum number of messages to pull.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 1,
+              "maximum": 32,
+              "default": 16
+            }
+          },
+          {
+            "name": "PubSub-Long-Pull-Duration",
+            "in": "header",
+            "description": "The maximum amount of milliseconds to keep an connection open, awaiting a new message on the server.",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "minimum": 100,
+              "maximum": 5000,
+              "default": 5000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Messages pulled successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/messages"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/v1alpha/subscriptions/{subscriptionId}/ack": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/subscriptionId"
+        }
+      ],
+      "post": {
+        "operationId": "ack-messages",
+        "description": "Acknowledge messages within a topic.",
+        "tags": ["subscriptions"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ackMessagesFromTopicRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Messages have been acknowledged."
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    },
+    "/v1alpha/subscriptions/{subscriptionId}/nack": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/subscriptionId"
+        }
+      ],
+      "post": {
+        "operationId": "nack-messages",
+        "description": "Not acknowledging messages within a topic.",
+        "tags": ["subscriptions"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/nackMessagesFromTopicRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "204": {
+            "description": "Messages have been not acknowledged."
+          },
+          "400": {
+            "$ref": "#/components/responses/badRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/unauthorized"
+          },
+          "404": {
+            "$ref": "#/components/responses/notFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/internalServerError"
+          },
+          "502": {
+            "$ref": "#/components/responses/badGateway"
+          },
+          "503": {
+            "$ref": "#/components/responses/serviceUnavailable"
+          },
+          "504": {
+            "$ref": "#/components/responses/gatewayTimeout"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "subscriptionId": {
+        "name": "subscriptionId",
+        "description": "The Subscription UUID.",
+        "schema": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "in": "path",
+        "required": true
+      }
+    },
+    "responses": {
+      "badRequest": {
+        "description": "Bad Request. The data provided by the client did not match expectations."
+      },
+      "unauthorized": {
+        "description": "Unauthorized. You may have provided no or wrong credentials."
+      },
+      "notFound": {
+        "description": "Not found. The resource has not been found."
+      },
+      "requestEntityTooLarge": {
+        "description": "Request Entity Too Large. The payload size exceeds the maximum allowed limit."
+      },
+      "internalServerError": {
+        "description": "Internal server error. The application experienced some unexpected situation."
+      },
+      "badGateway": {
+        "description": "Bad Gateway. The server encountered an error while communicating with a backend service."
+      },
+      "serviceUnavailable": {
+        "description": "Service Unavailable. The service is temporarily unable to handle the request."
+      },
+      "gatewayTimeout": {
+        "description": "Gateway Timeout. The request to a backend service timed out."
+      }
+    },
+    "schemas": {
+      "publishMessage": {
+        "required": ["data"],
+        "properties": {
+          "data": {
+            "type": "string",
+            "format": "byte",
+            "description": "Base64 encoded message payload."
+          }
+        }
+      },
+      "publishMessageToTopicRequest": {
+        "required": ["messages"],
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/publishMessage"
+            },
+            "description": "The messages to publish."
+          }
+        }
+      },
+      "messages": {
+        "required": ["messages"],
+        "properties": {
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/message"
+            }
+          }
+        }
+      },
+      "message": {
+        "required": ["ackId", "data", "createTime", "deliveryAttempts"],
+        "properties": {
+          "ackId": {
+            "type": "string",
+            "description": "An auto generated unique id for acknowledging the message."
+          },
+          "data": {
+            "type": "string",
+            "format": "byte",
+            "description": "Base64 encoded messages."
+          },
+          "createTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The point in time the resource was created."
+          },
+          "deliveryAttempts": {
+            "type": "integer",
+            "format": "uint64",
+            "minimum": 1,
+            "description": "Number of times the message has been tried to be delivered."
+          }
+        }
+      },
+      "ackMessagesFromTopicRequest": {
+        "required": ["ackIds"],
+        "properties": {
+          "ackIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of ids to acknowledge."
+          }
+        }
+      },
+      "nackMessagesFromTopicRequest": {
+        "required": ["nackIds"],
+        "properties": {
+          "nackIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of ids to not acknowledge."
+          }
+        }
+      }
+    }
+  }
+}

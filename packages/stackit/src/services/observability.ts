@@ -95,7 +95,7 @@ export interface CreateAlertConfigReceiverRequestWebHookConfigsItem {
   /** Whether to notify about resolved alerts. */
   sendResolved?: boolean;
   /** The endpoint to send HTTP POST requests to. `Additional Validators:` * must be a syntactically valid url address */
-  url?: string;
+  url?: string | Redacted.Redacted<string>;
 }
 export type CreateAlertConfigReceiverRequestWebHookConfigsList =
   Array<CreateAlertConfigReceiverRequestWebHookConfigsItem>;
@@ -132,7 +132,7 @@ export interface WebHook {
   googleChat?: boolean;
   msTeams?: boolean;
   sendResolved?: boolean;
-  url: string;
+  url: string | Redacted.Redacted<string>;
 }
 export type ReceiversWebHookConfigsList = Array<WebHook>;
 export interface Receivers {
@@ -720,7 +720,7 @@ export interface CreateScrapeConfigRequest {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
   basicAuth?: CreateScrapeConfigRequestBasicAuth;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string;
+  bearerToken?: string | Redacted.Redacted<string>;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
   honorLabels?: boolean;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
@@ -804,7 +804,7 @@ export interface StaticConfigs {
 export type JobStaticConfigsList = Array<StaticConfigs>;
 export interface Job {
   basicAuth?: BasicAuth;
-  bearerToken?: string;
+  bearerToken?: string | Redacted.Redacted<string>;
   honorLabels?: boolean;
   honorTimeStamps?: boolean;
   httpSdConfigs?: JobHttpSdConfigsList;
@@ -987,7 +987,7 @@ export interface GetAlertConfigsRequest {
   instanceId: string;
 }
 export interface Global {
-  opsgenieApiKey?: string;
+  opsgenieApiKey?: string | Redacted.Redacted<string>;
   opsgenieApiUrl?: string;
   resolveTimeout?: string;
   smtpAuthIdentity?: string;
@@ -1086,7 +1086,7 @@ export interface GrafanaOauth {
   enabled: boolean;
   name?: string;
   oauthClientId: string;
-  oauthClientSecret: string;
+  oauthClientSecret: string | Redacted.Redacted<string>;
   roleAttributePath: string;
   roleAttributeStrict?: boolean;
   scopes?: string;
@@ -1634,7 +1634,7 @@ export interface PartialUpdateScrapeConfigsRequestBodyItem {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
   basicAuth?: CreateScrapeConfigRequestBasicAuth;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string;
+  bearerToken?: string | Redacted.Redacted<string>;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
   honorLabels?: boolean;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
@@ -1778,7 +1778,7 @@ export interface UpdateAlertConfigRouteRequest {
 /** Global config. If nothing passed the default argus config will be used. It is only possible to update the entire global part, not individual attributes. */
 export interface UpdateAlertConfigsRequestGlobal {
   /** Opsgenie api key `Additional Validators:` * should only include the characters: a-zA-Z0-9- */
-  opsgenieApiKey?: string;
+  opsgenieApiKey?: string | Redacted.Redacted<string>;
   /** Opsgenie api url `Additional Validators:` * must be a syntactically valid url address */
   opsgenieApiUrl?: string;
   /** ResolveTimeout is the default value used by alertmanager if the alert does not include EndsAt, after this time passes it can declare the alert as resolved if it has not been updated. This has no impact on alerts from Prometheus, as they always include EndsAt. `Additional Validators:` * must be a valid time format */
@@ -1982,7 +1982,7 @@ export interface UpdateGrafanaConfigsRequestGenericOauth {
   /** Oauth client id for auth endpoint. */
   oauthClientId: string;
   /** Oauth client secret for auth endpoint. */
-  oauthClientSecret: string;
+  oauthClientSecret: string | Redacted.Redacted<string>;
   /** Grafana checks for the presence of a role using the JMESPath specified via the role_attribute_path configuration option. The JMESPath is applied to the id_token first. If there is no match, then the UserInfo endpoint specified via the api_url configuration option is tried next. The result after evaluation of the role_attribute_path JMESPath expression should be a valid Grafana role, for example, Viewer, Editor or Admin For example: contains(roles[\*], 'grafana-admin') && 'Admin' || contains(roles[\*], 'grafana-editor') && 'Editor' || contains(roles[\*], 'grafana-viewer') && 'Viewer' */
   roleAttributePath: string;
   /** If the role_attribute_path property does not return a role, then the user is assigned the Viewer role by default. You can disable the role assignment by setting role_attribute_strict = true. It denies user access if no role or an invalid role is returned. */
@@ -2099,7 +2099,7 @@ export interface UpdateScrapeConfigRequest {
   /** Sets the 'Authorization' header on every scrape request with the configured username and password. `Additional Validators:` * if basicAuth is in the body no other authentication method should be in the body */
   basicAuth?: CreateScrapeConfigRequestBasicAuth;
   /** Sets the 'Authorization' header on every scrape request with the configured bearer token. It is mutually exclusive with 'bearer_token_file'. `Additional Validators:` * needs to be a valid bearer token * if bearerToken is in the body no other authentication method should be in the body */
-  bearerToken?: string;
+  bearerToken?: string | Redacted.Redacted<string>;
   /** Note that any globally configured 'external_labels' are unaffected by this setting. In communication with external systems, they are always applied only when a time series does not have a given label yet and are ignored otherwise. */
   honorLabels?: boolean;
   /** honor_timestamps controls whether Prometheus respects the timestamps present in scraped data. If honor_timestamps is set to 'true', the timestamps of the metrics exposed by the target will be used. */
@@ -2711,7 +2711,7 @@ export const deleteHttpCheck: API.OperationMethod<
   span: "DeleteHttpCheck",
 }));
 
-export type DeleteInstanceError = Forbidden | StackitOpError;
+export type DeleteInstanceError = Forbidden | NotFound | StackitOpError;
 /** Delete instance. */
 export const deleteInstance: API.OperationMethod<
   DeleteInstanceRequest,
@@ -2721,7 +2721,7 @@ export const deleteInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(944, __c59, 0) as any as S.Schema<DeleteInstanceRequest>,
   output: __S(2000, __c125, 0) as any as S.Schema<InstanceResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3051,7 +3051,7 @@ export const getGrafanaConfigs: API.OperationMethod<
   span: "GetGrafanaConfigs",
 }));
 
-export type GetInstanceError = Forbidden | StackitOpError;
+export type GetInstanceError = Forbidden | NotFound | StackitOpError;
 /** Get instance information. */
 export const getInstance: API.OperationMethod<
   GetInstanceRequest,
@@ -3061,7 +3061,7 @@ export const getInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1504, __c94, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(1507, __c94, 3) as any as S.Schema<GetInstanceResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -3119,7 +3119,7 @@ export const getMetricsStorageRetention: API.OperationMethod<
   span: "GetMetricsStorageRetention",
 }));
 
-export type GetScrapeConfigError = Forbidden | StackitOpError;
+export type GetScrapeConfigError = Forbidden | NotFound | StackitOpError;
 /** Get scrape config. */
 export const getScrapeConfig: API.OperationMethod<
   GetScrapeConfigRequest,
@@ -3129,7 +3129,7 @@ export const getScrapeConfig: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1632, __c102, 0) as any as S.Schema<GetScrapeConfigRequest>,
   output: __S(1633, __c102, 1) as any as S.Schema<GetScrapeConfigResponse>,
-  errors: [Forbidden, UnknownStackitError],
+  errors: [Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -4137,7 +4137,7 @@ function __c9(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           jobName: S.String.pipe(T.Label()),
           basicAuth: S.optional(__S(640, __c40, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           metricsPath: S.String,
@@ -4621,7 +4621,7 @@ function __c36(j: number): any {
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           basicAuth: S.optional(__S(640, __c40, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           httpSdConfigs: S.optional(__S(625, __c39, 1)),
@@ -4713,7 +4713,7 @@ function __c37(j: number): any {
       return S.suspend(() =>
         S.Struct({
           basicAuth: S.optional(__S(594, __c37, 2)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           httpSdConfigs: S.optional(__S(596, __c37, 4)),
@@ -4967,7 +4967,7 @@ function __c48(j: number): any {
           googleChat: S.optional(S.Boolean),
           msTeams: S.optional(S.Boolean),
           sendResolved: S.optional(S.Boolean),
-          url: S.String,
+          url: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "WebHook" });
     case 5:
@@ -5022,7 +5022,7 @@ function __c51(j: number): any {
           googleChat: S.optional(S.Boolean),
           msTeams: S.optional(S.Boolean),
           sendResolved: S.optional(S.Boolean),
-          url: S.optional(S.String),
+          url: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }),
       ).annotate({ identifier: "CreateAlertConfigReceiverRequestWebHookConfigsItem" });
     case 3:
@@ -5641,7 +5641,7 @@ function __c84(j: number): any {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          opsgenieApiKey: S.optional(S.String),
+          opsgenieApiKey: S.optional(S.String.pipe(T.SensitiveValue({}))),
           opsgenieApiUrl: S.optional(S.String),
           resolveTimeout: S.optional(S.String),
           smtpAuthIdentity: S.optional(S.String),
@@ -5864,7 +5864,7 @@ function __c93(j: number): any {
           enabled: S.Boolean,
           name: S.optional(S.String),
           oauthClientId: S.String,
-          oauthClientSecret: S.String,
+          oauthClientSecret: S.String.pipe(T.SensitiveValue({})),
           roleAttributePath: S.String,
           roleAttributeStrict: S.optional(S.Boolean),
           scopes: S.optional(S.String),
@@ -6941,7 +6941,7 @@ function __c141(j: number): any {
       return S.suspend(() =>
         S.Struct({
           basicAuth: S.optional(__S(640, __c40, 0)),
-          bearerToken: S.optional(S.String),
+          bearerToken: S.optional(S.String.pipe(T.SensitiveValue({}))),
           honorLabels: S.optional(S.Boolean),
           honorTimeStamps: S.optional(S.Boolean),
           httpSdConfigs: S.optional(__S(625, __c39, 1)),

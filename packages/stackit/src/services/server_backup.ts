@@ -418,7 +418,7 @@ export const disableServiceResource: API.OperationMethod<
   span: "DisableServiceResource",
 }));
 
-export type EnableServiceResourceError = BadRequest | NotFound | StackitOpError;
+export type EnableServiceResourceError = BadRequest | NotFound | Conflict | StackitOpError;
 /** enable backup service */
 export const enableServiceResource: API.OperationMethod<
   EnableServiceResourceRequest,
@@ -428,7 +428,7 @@ export const enableServiceResource: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(152, __c19, 0) as any as S.Schema<EnableServiceResourceRequest>,
   output: __S(120, __c15, 0) as any as S.Schema<EnableServiceResourceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,

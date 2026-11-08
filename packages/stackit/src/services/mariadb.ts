@@ -44,6 +44,24 @@ export class Conflict
     [{ status: 409 }],
   ) {}
 
+export class CredentialsGone
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<CredentialsGone>()("CredentialsGone", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 410 }],
+  ) {}
+
+export class InstanceGone
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InstanceGone>()("InstanceGone", {
+      code: S.Number,
+      message: S.String,
+    }).pipe(C.withBadRequestError),
+    [{ status: 410 }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -81,7 +99,7 @@ export interface Credentials {
   name?: string;
   password: string | Redacted.Redacted<string>;
   port?: number;
-  uri?: string;
+  uri?: string | Redacted.Redacted<string>;
   username: string;
 }
 export interface RawCredentials {
@@ -90,7 +108,7 @@ export interface RawCredentials {
 export interface CredentialsResponse {
   id: string;
   raw?: RawCredentials;
-  uri: string;
+  uri: string | Redacted.Redacted<string>;
 }
 export type InstanceParametersSyslogList = Array<string>;
 export interface InstanceParameters {
@@ -102,7 +120,7 @@ export interface InstanceParameters {
   /** Frequency of metrics being emitted in seconds */
   metrics_frequency?: number;
   /** Depending on your graphite provider, you might need to prefix the metrics with a certain value, like an API key for example. */
-  metrics_prefix?: string;
+  metrics_prefix?: string | Redacted.Redacted<string>;
   monitoring_instance_id?: string;
   /** Comma separated list of IP networks in CIDR notation which are allowed to access this instance. */
   sgw_acl?: string;
@@ -150,7 +168,7 @@ export interface DownloadBackupRequest {
   /** Backup id */
   backupId: number;
 }
-export interface DownloadBackupResponse {}
+export type BackupArchive = Uint8Array;
 export interface GetCredentialsRequest {
   /** Project id on which user has permissions */
   projectId: string;
@@ -169,6 +187,15 @@ export interface GetInstanceRequest {
   /** Instance id */
   instanceId: string;
 }
+/** Current state of a service instance */
+export type InstanceInstanceStatus =
+  | "provisioned"
+  | "available"
+  | "deleted"
+  | "deploying"
+  | "failed"
+  | "stopped"
+  | "unknown";
 export type InstanceLastOperationState = "in progress" | "succeeded" | "failed";
 export type InstanceLastOperationType = "create" | "update" | "delete";
 export interface InstanceLastOperation {
@@ -176,6 +203,7 @@ export interface InstanceLastOperation {
   state: InstanceLastOperationState;
   type: InstanceLastOperationType;
 }
+/** State of the last operation and this instance */
 export type InstanceStatus = "active" | "failed" | "stopped" | "creating" | "deleting" | "updating";
 export interface Instance {
   cfGuid: string;
@@ -184,6 +212,8 @@ export interface Instance {
   dashboardUrl: string;
   imageUrl: string;
   instanceId?: string;
+  /** Current state of a service instance */
+  instanceStatus?: InstanceInstanceStatus;
   lastOperation: InstanceLastOperation;
   name: string;
   offeringName: string;
@@ -191,6 +221,7 @@ export interface Instance {
   parameters: unknown;
   planId: string;
   planName: string;
+  /** State of the last operation and this instance */
   status?: InstanceStatus;
 }
 export interface GetMetricsRequest {
@@ -225,6 +256,20 @@ export interface GetMetricsResponse {
   parachuteDiskPersistentUsed: number;
   parachuteDiskPersistentUsedPercent: number;
   parachuteDiskPersistentUsedThreshold: number;
+}
+export interface GetUpdatesRequest {
+  /** Project id on which user has permissions */
+  projectId: string;
+  /** region in which the project resides */
+  regionId: string;
+  /** Instance id */
+  instanceId: string;
+}
+export interface GetUpdatesResponse {
+  /** Whether automatic updates are allowed. */
+  automaticUpdatesEnabled: boolean;
+  /** Number of available update components. */
+  availableUpdates: number;
 }
 export interface ListBackupsRequest {
   /** Project id on which user has permissions */
@@ -366,6 +411,14 @@ export interface TriggerRestoreRequest {
 export interface TriggerRestoreResponse {
   id: number;
 }
+export interface TriggerUpdateRequest {
+  /** Project id on which user has permissions */
+  projectId: string;
+  /** region in which the project resides */
+  regionId: string;
+  /** Instance id */
+  instanceId: string;
+}
 export interface UpdateBackupsConfigRequest {
   /** Project id on which user has permissions */
   projectId: string;
@@ -373,10 +426,24 @@ export interface UpdateBackupsConfigRequest {
   regionId: string;
   /** Instance id */
   instanceId: string;
-  encryption_key?: string;
+  encryption_key?: string | Redacted.Redacted<string>;
 }
 export interface UpdateBackupsConfigResponse {
   message: string;
+}
+export interface UpdateUpdatesSettingsRequest {
+  /** Project id on which user has permissions */
+  projectId: string;
+  /** region in which the project resides */
+  regionId: string;
+  /** Instance id */
+  instanceId: string;
+  /** Set to true to enable automatic updates or false to disable them. */
+  automaticUpdatesEnabled: boolean;
+}
+export interface UpdateUpdatesSettingsResponse {
+  /** Whether automatic updates are allowed. */
+  automaticUpdatesEnabled: boolean;
 }
 export type CreateBackupError = BadRequest | NotFound | StackitOpError;
 /** create a backup */
@@ -386,8 +453,8 @@ export const createBackup: API.OperationMethod<
   CreateBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<CreateBackupRequest>,
-  output: __S(105, __c13, 1) as any as S.Schema<CreateBackupResponseItem>,
+  input: __S(144, __c18, 0) as any as S.Schema<CreateBackupRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<CreateBackupResponseItem>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -403,8 +470,8 @@ export const createCredentials: API.OperationMethod<
   CreateCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<CreateCredentialsRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<CredentialsResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<CreateCredentialsRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<CredentialsResponse>,
   errors: [BadRequest, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -420,8 +487,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(176, __c22, 0) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -437,8 +504,8 @@ export const deleteCredentials: API.OperationMethod<
   DeleteCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<DeleteCredentialsRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<DeleteCredentialsResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<DeleteCredentialsRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<DeleteCredentialsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -454,8 +521,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -467,12 +534,12 @@ export type DownloadBackupError = BadRequest | NotFound | StackitOpError;
 /** download backup */
 export const downloadBackup: API.OperationMethod<
   DownloadBackupRequest,
-  DownloadBackupResponse,
+  BackupArchive,
   DownloadBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<DownloadBackupRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<DownloadBackupResponse>,
+  input: __S(0, __c0, 0) as any as S.Schema<DownloadBackupRequest>,
+  output: __S(1, __c0, 1) as any as S.Schema<BackupArchive>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -480,7 +547,7 @@ export const downloadBackup: API.OperationMethod<
   span: "DownloadBackup",
 }));
 
-export type GetCredentialsError = BadRequest | NotFound | StackitOpError;
+export type GetCredentialsError = BadRequest | NotFound | CredentialsGone | StackitOpError;
 /** get credentials by id get a service credentials by credentials id */
 export const getCredentials: API.OperationMethod<
   GetCredentialsRequest,
@@ -488,16 +555,16 @@ export const getCredentials: API.OperationMethod<
   GetCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(192, __c24, 0) as any as S.Schema<GetCredentialsRequest>,
-  output: __S(130, __c16, 2) as any as S.Schema<CredentialsResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  input: __S(8, __c1, 0) as any as S.Schema<GetCredentialsRequest>,
+  output: __S(162, __c20, 2) as any as S.Schema<CredentialsResponse>,
+  errors: [BadRequest, NotFound, CredentialsGone, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetCredentials",
 }));
 
-export type GetInstanceError = BadRequest | NotFound | StackitOpError;
+export type GetInstanceError = BadRequest | NotFound | InstanceGone | StackitOpError;
 /** get a service instance get a service instance */
 export const getInstance: API.OperationMethod<
   GetInstanceRequest,
@@ -505,9 +572,9 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(9, __c1, 1) as any as S.Schema<Instance>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  input: __S(16, __c2, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(25, __c3, 1) as any as S.Schema<Instance>,
+  errors: [BadRequest, NotFound, InstanceGone, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -522,13 +589,30 @@ export const getMetrics: API.OperationMethod<
   GetMetricsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetMetricsRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<GetMetricsResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetMetricsRequest>,
+  output: __S(33, __c4, 1) as any as S.Schema<GetMetricsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "GetMetrics",
+}));
+
+export type GetUpdatesError = BadRequest | NotFound | Conflict | StackitOpError;
+/** get update settings Returns whether automatic updates are enabled and the number of available updates. */
+export const getUpdates: API.OperationMethod<
+  GetUpdatesRequest,
+  GetUpdatesResponse,
+  GetUpdatesError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(40, __c5, 0) as any as S.Schema<GetUpdatesRequest>,
+  output: __S(41, __c5, 1) as any as S.Schema<GetUpdatesResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "GetUpdates",
 }));
 
 export type ListBackupsError = BadRequest | NotFound | StackitOpError;
@@ -539,8 +623,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<ListBackupsResponse2>,
+  input: __S(48, __c6, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(51, __c6, 3) as any as S.Schema<ListBackupsResponse2>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -556,8 +640,8 @@ export const listCredentials: API.OperationMethod<
   ListCredentialsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<ListCredentialsRequest>,
-  output: __S(35, __c4, 3) as any as S.Schema<ListCredentialsResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<ListCredentialsRequest>,
+  output: __S(59, __c7, 3) as any as S.Schema<ListCredentialsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -573,8 +657,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(42, __c5, 2) as any as S.Schema<ListInstancesResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(66, __c8, 2) as any as S.Schema<ListInstancesResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -590,8 +674,8 @@ export const listOfferings: API.OperationMethod<
   ListOfferingsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(48, __c6, 0) as any as S.Schema<ListOfferingsRequest>,
-  output: __S(55, __c6, 7) as any as S.Schema<ListOfferingsResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListOfferingsRequest>,
+  output: __S(79, __c9, 7) as any as S.Schema<ListOfferingsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -607,8 +691,8 @@ export const listRestores: API.OperationMethod<
   ListRestoresError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListRestoresRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<ListRestoresResponse>,
+  input: __S(80, __c10, 0) as any as S.Schema<ListRestoresRequest>,
+  output: __S(83, __c10, 3) as any as S.Schema<ListRestoresResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -624,8 +708,8 @@ export const partialUpdateInstance: API.OperationMethod<
   PartialUpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
-  output: __S(168, __c21, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<PartialUpdateInstanceRequest>,
+  output: __S(208, __c26, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -641,8 +725,8 @@ export const triggerRecreate: API.OperationMethod<
   TriggerRecreateError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<TriggerRecreateRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<TriggerRecreateRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -658,8 +742,8 @@ export const triggerRestart: API.OperationMethod<
   TriggerRestartError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<TriggerRestartRequest>,
-  output: __S(152, __c19, 0) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(104, __c13, 0) as any as S.Schema<TriggerRestartRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -675,13 +759,30 @@ export const triggerRestore: API.OperationMethod<
   TriggerRestoreError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<TriggerRestoreRequest>,
-  output: __S(89, __c11, 1) as any as S.Schema<TriggerRestoreResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<TriggerRestoreRequest>,
+  output: __S(113, __c14, 1) as any as S.Schema<TriggerRestoreResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "TriggerRestore",
+}));
+
+export type TriggerUpdateError = BadRequest | NotFound | Conflict | StackitOpError;
+/** start updates Starts all available updates asynchronously using the instance's service offering. No request body is required. */
+export const triggerUpdate: API.OperationMethod<
+  TriggerUpdateRequest,
+  CreateInstanceResponse,
+  TriggerUpdateError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(120, __c15, 0) as any as S.Schema<TriggerUpdateRequest>,
+  output: __S(192, __c24, 0) as any as S.Schema<CreateInstanceResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "TriggerUpdate",
 }));
 
 export type UpdateBackupsConfigError = BadRequest | NotFound | StackitOpError;
@@ -692,8 +793,8 @@ export const updateBackupsConfig: API.OperationMethod<
   UpdateBackupsConfigError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(96, __c12, 0) as any as S.Schema<UpdateBackupsConfigRequest>,
-  output: __S(97, __c12, 1) as any as S.Schema<UpdateBackupsConfigResponse>,
+  input: __S(128, __c16, 0) as any as S.Schema<UpdateBackupsConfigRequest>,
+  output: __S(129, __c16, 1) as any as S.Schema<UpdateBackupsConfigResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -701,8 +802,67 @@ export const updateBackupsConfig: API.OperationMethod<
   span: "UpdateBackupsConfig",
 }));
 
+export type UpdateUpdatesSettingsError = BadRequest | NotFound | Conflict | StackitOpError;
+/** update update settings Enables or disables automatic updates. The platform operator must allow changing this setting. */
+export const updateUpdatesSettings: API.OperationMethod<
+  UpdateUpdatesSettingsRequest,
+  UpdateUpdatesSettingsResponse,
+  UpdateUpdatesSettingsError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(136, __c17, 0) as any as S.Schema<UpdateUpdatesSettingsRequest>,
+  output: __S(137, __c17, 1) as any as S.Schema<UpdateUpdatesSettingsResponse>,
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "UpdateUpdatesSettings",
+}));
+
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+          backupId: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups/{backupId}/download",
+            code: 200,
+            baseUrl: "https://mariadb.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "DownloadBackupRequest" });
+    case 1:
+      return S.instanceOf(Uint8Array).pipe(/*@__PURE__*/ T.BinaryResponse());
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+          credentialsId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials/{credentialsId}",
+            code: 200,
+            baseUrl: "https://mariadb.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "GetCredentialsRequest" });
+  }
+}
+function __c2(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -721,7 +881,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetInstanceRequest" });
   }
 }
-function __c1(j: number): any {
+function __c3(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -740,7 +900,8 @@ function __c1(j: number): any {
           dashboardUrl: S.String,
           imageUrl: S.String,
           instanceId: S.optional(S.String),
-          lastOperation: __S(8, __c1, 0),
+          instanceStatus: S.optional(S.String),
+          lastOperation: __S(24, __c3, 0),
           name: S.String,
           offeringName: S.String,
           offeringVersion: S.String,
@@ -752,7 +913,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "Instance" });
   }
 }
-function __c2(j: number): any {
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -799,7 +960,33 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetMetricsResponse" });
   }
 }
-function __c3(j: number): any {
+function __c5(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/updates",
+            code: 200,
+            baseUrl: "https://mariadb.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "GetUpdatesRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          automaticUpdatesEnabled: S.Boolean,
+          availableUpdates: S.Number,
+        }),
+      ).annotate({ identifier: "GetUpdatesResponse" });
+  }
+}
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -828,14 +1015,14 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "Backup" });
     case 2:
-      return S.Array(__S(25, __c3, 1));
+      return S.Array(__S(49, __c6, 1));
     case 3:
-      return S.suspend(() => __S(26, __c3, 2).pipe(T.RawResponseRoot())).annotate({
+      return S.suspend(() => __S(50, __c6, 2).pipe(T.RawResponseRoot())).annotate({
         identifier: "ListBackupsResponse2",
       });
   }
 }
-function __c4(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -859,16 +1046,16 @@ function __c4(j: number): any {
         }),
       ).annotate({ identifier: "CredentialsListItem" });
     case 2:
-      return S.Array(__S(33, __c4, 1));
+      return S.Array(__S(57, __c7, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          credentialsList: __S(34, __c4, 2),
+          credentialsList: __S(58, __c7, 2),
         }),
       ).annotate({ identifier: "ListCredentialsResponse" });
   }
 }
-function __c5(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -885,16 +1072,16 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListInstancesRequest" });
     case 1:
-      return S.Array(__S(9, __c1, 1));
+      return S.Array(__S(25, __c3, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(41, __c5, 1),
+          instances: __S(65, __c8, 1),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c6(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -921,7 +1108,7 @@ function __c6(j: number): any {
         }),
       ).annotate({ identifier: "Plan" });
     case 2:
-      return S.Array(__S(49, __c6, 1));
+      return S.Array(__S(73, __c9, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -931,8 +1118,8 @@ function __c6(j: number): any {
     case 4:
       return S.suspend(() =>
         S.Struct({
-          create: __S(51, __c6, 3),
-          update: __S(51, __c6, 3),
+          create: __S(75, __c9, 3),
+          update: __S(75, __c9, 3),
         }),
       ).annotate({ identifier: "InstanceSchema" });
     case 5:
@@ -944,23 +1131,23 @@ function __c6(j: number): any {
           latest: S.Boolean,
           lifecycle: S.optional(S.String),
           name: S.String,
-          plans: __S(50, __c6, 2),
+          plans: __S(74, __c9, 2),
           quotaCount: S.Number,
-          schema: S.optional(__S(52, __c6, 4)),
+          schema: S.optional(__S(76, __c9, 4)),
           version: S.String,
         }),
       ).annotate({ identifier: "Offering" });
     case 6:
-      return S.Array(__S(53, __c6, 5));
+      return S.Array(__S(77, __c9, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
-          offerings: __S(54, __c6, 6),
+          offerings: __S(78, __c9, 6),
         }),
       ).annotate({ identifier: "ListOfferingsResponse" });
   }
 }
-function __c7(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -988,16 +1175,16 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "Restore" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(81, __c10, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instanceRestores: __S(58, __c7, 2),
+          instanceRestores: __S(82, __c10, 2),
         }),
       ).annotate({ identifier: "ListRestoresResponse" });
   }
 }
-function __c8(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1006,7 +1193,7 @@ function __c8(j: number): any {
           regionId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           instanceName: S.optional(S.String),
-          parameters: S.optional(__S(144, __c18, 0)),
+          parameters: S.optional(__S(184, __c23, 0)),
           planId: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1019,7 +1206,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "PartialUpdateInstanceRequest" });
   }
 }
-function __c9(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1038,7 +1225,7 @@ function __c9(j: number): any {
       ).annotate({ identifier: "TriggerRecreateRequest" });
   }
 }
-function __c10(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1057,7 +1244,7 @@ function __c10(j: number): any {
       ).annotate({ identifier: "TriggerRestartRequest" });
   }
 }
-function __c11(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1083,7 +1270,7 @@ function __c11(j: number): any {
       ).annotate({ identifier: "TriggerRestoreResponse" });
   }
 }
-function __c12(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1091,7 +1278,26 @@ function __c12(j: number): any {
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-          encryption_key: S.optional(S.String),
+        }).pipe(
+          T.Http({
+            method: "POST",
+            uri: "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/updates/start",
+            code: 200,
+            baseUrl: "https://mariadb.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "TriggerUpdateRequest" });
+  }
+}
+function __c16(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+          encryption_key: S.optional(S.String.pipe(T.SensitiveValue({}))),
         }).pipe(
           T.Http({
             method: "PATCH",
@@ -1109,7 +1315,33 @@ function __c12(j: number): any {
       ).annotate({ identifier: "UpdateBackupsConfigResponse" });
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          regionId: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+          automaticUpdatesEnabled: S.Boolean,
+        }).pipe(
+          T.Http({
+            method: "PATCH",
+            uri: "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/updates",
+            code: 200,
+            baseUrl: "https://mariadb.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "UpdateUpdatesSettingsRequest" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          automaticUpdatesEnabled: S.Boolean,
+        }),
+      ).annotate({ identifier: "UpdateUpdatesSettingsResponse" });
+  }
+}
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1135,7 +1367,7 @@ function __c13(j: number): any {
       ).annotate({ identifier: "CreateBackupResponseItem" });
   }
 }
-function __c14(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1155,43 +1387,43 @@ function __c14(j: number): any {
       ).annotate({ identifier: "CreateCredentialsRequest" });
   }
 }
-function __c15(j: number): any {
-  switch (j) {
-    case 0:
-      return S.Array(S.String);
-  }
-}
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           host: S.String,
-          hosts: S.optional(__S(120, __c15, 0)),
+          hosts: S.optional(__S(168, __c21, 0)),
           name: S.optional(S.String),
           password: S.String.pipe(T.SensitiveValue({})),
           port: S.optional(S.Number),
-          uri: S.optional(S.String),
+          uri: S.optional(S.String.pipe(T.SensitiveValue({}))),
           username: S.String,
         }),
       ).annotate({ identifier: "Credentials" });
     case 1:
       return S.suspend(() =>
         S.Struct({
-          credentials: __S(128, __c16, 0),
+          credentials: __S(160, __c20, 0),
         }),
       ).annotate({ identifier: "RawCredentials" });
     case 2:
       return S.suspend(() =>
         S.Struct({
           id: S.String,
-          raw: S.optional(__S(129, __c16, 1)),
-          uri: S.String,
+          raw: S.optional(__S(161, __c20, 1)),
+          uri: S.String.pipe(T.SensitiveValue({})),
         }),
       ).annotate({ identifier: "CredentialsResponse" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
+  switch (j) {
+    case 0:
+      return S.Array(S.String);
+  }
+}
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1199,7 +1431,7 @@ function __c17(j: number): any {
           projectId: S.String.pipe(T.Label()),
           regionId: S.String.pipe(T.Label()),
           instanceName: S.String,
-          parameters: S.optional(__S(144, __c18, 0)),
+          parameters: S.optional(__S(184, __c23, 0)),
           planId: S.String,
         }).pipe(
           T.Http({
@@ -1212,7 +1444,7 @@ function __c17(j: number): any {
       ).annotate({ identifier: "CreateInstanceRequest" });
   }
 }
-function __c18(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1221,15 +1453,15 @@ function __c18(j: number): any {
           graphite: S.optional(S.String),
           max_disk_threshold: S.optional(S.Number),
           metrics_frequency: S.optional(S.Number),
-          metrics_prefix: S.optional(S.String),
+          metrics_prefix: S.optional(S.String.pipe(T.SensitiveValue({}))),
           monitoring_instance_id: S.optional(S.String),
           sgw_acl: S.optional(S.String),
-          syslog: S.optional(__S(120, __c15, 0)),
+          syslog: S.optional(__S(168, __c21, 0)),
         }),
       ).annotate({ identifier: "InstanceParameters" });
   }
 }
-function __c19(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1239,7 +1471,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c20(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1259,13 +1491,13 @@ function __c20(j: number): any {
       ).annotate({ identifier: "DeleteCredentialsRequest" });
   }
 }
-function __c21(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteCredentialsResponse" });
   }
 }
-function __c22(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1282,46 +1514,6 @@ function __c22(j: number): any {
           }),
         ),
       ).annotate({ identifier: "DeleteInstanceRequest" });
-  }
-}
-function __c23(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          regionId: S.String.pipe(T.Label()),
-          instanceId: S.String.pipe(T.Label()),
-          backupId: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/backups/{backupId}/download",
-            code: 200,
-            baseUrl: "https://mariadb.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "DownloadBackupRequest" });
-  }
-}
-function __c24(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          regionId: S.String.pipe(T.Label()),
-          instanceId: S.String.pipe(T.Label()),
-          credentialsId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v2/projects/{projectId}/regions/{regionId}/instances/{instanceId}/credentials/{credentialsId}",
-            code: 200,
-            baseUrl: "https://mariadb.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "GetCredentialsRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

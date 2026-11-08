@@ -1,0 +1,133 @@
+{
+  "description": "The sfs spec documents only 200/400/401/500 (plus 409 on some writes) on these operations, and only 200 on GetLock, but the API answers 404 for an object that does not exist, and 410 for a resource pool that is gone. STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/sfs, read 2026-11-01) handles http.StatusNotFound as already gone in resourcepool/resource.go (Read, also http.StatusGone; Update; Delete), share/resource.go (Read, Update, Delete), export-policy/resource.go (Read, Delete), project-lock/resource.go (Read) and snapshots/datasource.go (the list). The Go SDK's delete wait handlers (stackit-sdk-go core/wait/waiterhelper.go, services/sfs/v1api/wait/wait.go) poll getResourcePool and getShare until 404 or 410. No source shows a 404 from the single-snapshot operations, or from updateShareExportPolicy, so they aren't patched. No live probe.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#NotFound",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 404,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 404
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#Gone",
+      "value": {
+        "type": "structure",
+        "members": {
+          "code": {
+            "target": "smithy.api#Integer"
+          },
+          "message": {
+            "target": "smithy.api#String"
+          }
+        },
+        "traits": {
+          "smithy.api#error": "client",
+          "smithy.api#httpError": 410,
+          "com.distilled.openapi#errorMatchers": [
+            {
+              "status": 410
+            }
+          ]
+        }
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#GetResourcePool/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#UpdateResourcePool/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#DeleteResourcePool/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#GetShare/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#UpdateShare/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#DeleteShare/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#GetShareExportPolicy/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#DeleteShareExportPolicy/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#ListResourcePoolSnapshots/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#NotFound"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#GetResourcePool/errors/-",
+      "value": {
+        "target": "com.stackit.sfs#Gone"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.sfs#GetLock/errors",
+      "before": "traits",
+      "value": [
+        {
+          "target": "com.stackit.sfs#NotFound"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "description": "The functions spec names both the list operations and their response schemas `ListFunctions`, `ListRevisions` and `ListPullCredentials`. The schemas take the shape ids first, so convert suffixes the operations (`listFunctions2`, `listRevisions2`, `listPullCredentials2`), which `operationNames` can't undo because the id stays taken. Move each response to `<Name>Response` and each operation onto the freed id. The service's operation list follows by itself (`syncServiceOperations`), so nothing here addresses it by index. Naming only: nothing about the wire changes.",
+  "patches": [
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.functions#ListFunctions",
+      "path": "/shapes/com.stackit.functions#ListFunctionsResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.functions#ListFunctions2",
+      "path": "/shapes/com.stackit.functions#ListFunctions"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.functions#ListFunctions/output/target",
+      "value": "com.stackit.functions#ListFunctionsResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.functions#ListRevisions",
+      "path": "/shapes/com.stackit.functions#ListRevisionsResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.functions#ListRevisions2",
+      "path": "/shapes/com.stackit.functions#ListRevisions"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.functions#ListRevisions/output/target",
+      "value": "com.stackit.functions#ListRevisionsResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.functions#ListPullCredentials",
+      "path": "/shapes/com.stackit.functions#ListPullCredentialsResponse"
+    },
+    {
+      "op": "move",
+      "from": "/shapes/com.stackit.functions#ListPullCredentials2",
+      "path": "/shapes/com.stackit.functions#ListPullCredentials"
+    },
+    {
+      "op": "replace",
+      "path": "/shapes/com.stackit.functions#ListPullCredentials/output/target",
+      "value": "com.stackit.functions#ListPullCredentialsResponse"
+    }
+  ]
+}

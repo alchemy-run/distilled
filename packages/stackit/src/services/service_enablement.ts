@@ -102,6 +102,7 @@ export interface ParametersGeneral {
 /** service parameters */
 export interface Parameters {
   general?: ParametersGeneral;
+  [key: string]: unknown;
 }
 export type ServiceStatusScope = "PRIVATE" | "PUBLIC";
 /** the state of a service within a project */
@@ -293,9 +294,12 @@ function __c4(j: number): any {
       ).annotate({ identifier: "ParametersGeneral" });
     case 5:
       return S.suspend(() =>
-        S.Struct({
-          general: S.optional(__S(36, __c4, 4)),
-        }),
+        S.StructWithRest(
+          S.Struct({
+            general: S.optional(__S(36, __c4, 4)),
+          }),
+          [S.Record(S.String, S.Unknown)],
+        ),
       ).annotate({ identifier: "Parameters" });
     case 6:
       return S.suspend(() =>

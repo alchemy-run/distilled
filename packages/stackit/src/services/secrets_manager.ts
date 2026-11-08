@@ -106,7 +106,7 @@ export interface ApproleSecret {
   description: string;
   num_uses: number;
   /** Identifier used for authentication, returned only at creation */
-  secret_id?: string;
+  secret_id?: string | Redacted.Redacted<string>;
   /** Token TTL in time.Duration format (eg 15m for 15 minutes, 1h for 1 hour). */
   ttl: string;
   /** Accessor used for handling secrets */
@@ -234,16 +234,6 @@ export interface GetApproleRequest {
   /** The approle with permissions on the Secrets Manager instance. */
   roleId: string;
 }
-export interface GetApprolesRequest {
-  /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
-  projectId: string;
-  /** The Secrets Manager instance UUID. */
-  instanceId: string;
-}
-export type ApproleListApprolesList = Array<Approle>;
-export interface ApproleList {
-  approles: ApproleListApprolesList;
-}
 export interface GetApproleSecretIdRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
   projectId: string;
@@ -277,6 +267,16 @@ export interface ListACLsRequest {
 export type ListACLsResponseAclsList = Array<ACL>;
 export interface ListACLsResponse {
   acls: ListACLsResponseAclsList;
+}
+export interface ListApprolesRequest {
+  /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
+  projectId: string;
+  /** The Secrets Manager instance UUID. */
+  instanceId: string;
+}
+export type ApproleListApprolesList = Array<Approle>;
+export interface ApproleList {
+  approles: ApproleListApprolesList;
 }
 export interface ListApproleSecretIdsRequest {
   /** The STACKIT portal project UUID the Secrets Manager instance is part of. */
@@ -582,23 +582,6 @@ export const getApprole: API.OperationMethod<
   span: "GetApprole",
 }));
 
-export type GetApprolesError = BadRequest | NotFound | StackitOpError;
-/** Returns the approles for the given Secrets Manager instance. */
-export const getApproles: API.OperationMethod<
-  GetApprolesRequest,
-  ApproleList,
-  GetApprolesError,
-  StackitOpContext
-> = /*@__PURE__*/ API.make(() => ({
-  input: __S(20, __c5, 0) as any as S.Schema<GetApprolesRequest>,
-  output: __S(22, __c5, 2) as any as S.Schema<ApproleList>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
-  protocol: StackitProtocol,
-  retry: Retry.Retry,
-  telemetry: TELEMETRY,
-  span: "GetApproles",
-}));
-
 export type GetApproleSecretIdError = BadRequest | NotFound | StackitOpError;
 /** Read the properties of a given secret id by its given version. */
 export const getApproleSecretId: API.OperationMethod<
@@ -607,7 +590,7 @@ export const getApproleSecretId: API.OperationMethod<
   GetApproleSecretIdError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c6, 0) as any as S.Schema<GetApproleSecretIdRequest>,
+  input: __S(20, __c5, 0) as any as S.Schema<GetApproleSecretIdRequest>,
   output: __S(96, __c24, 0) as any as S.Schema<ApproleSecret>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -624,7 +607,7 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(28, __c7, 0) as any as S.Schema<GetInstanceRequest>,
+  input: __S(24, __c6, 0) as any as S.Schema<GetInstanceRequest>,
   output: __S(104, __c26, 0) as any as S.Schema<Instance>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
@@ -637,7 +620,7 @@ export type GetUserError = BadRequest | NotFound | StackitOpError;
 /** Returns the details for the given user. */
 export const getUser: API.OperationMethod<GetUserRequest, User, GetUserError, StackitOpContext> =
   /*@__PURE__*/ API.make(() => ({
-    input: __S(32, __c8, 0) as any as S.Schema<GetUserRequest>,
+    input: __S(28, __c7, 0) as any as S.Schema<GetUserRequest>,
     output: __S(116, __c29, 0) as any as S.Schema<User>,
     errors: [BadRequest, NotFound, UnknownStackitError],
     protocol: StackitProtocol,
@@ -654,13 +637,30 @@ export const listACLs: API.OperationMethod<
   ListACLsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(36, __c9, 0) as any as S.Schema<ListACLsRequest>,
-  output: __S(38, __c9, 2) as any as S.Schema<ListACLsResponse>,
+  input: __S(32, __c8, 0) as any as S.Schema<ListACLsRequest>,
+  output: __S(34, __c8, 2) as any as S.Schema<ListACLsResponse>,
   errors: [BadRequest, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "ListACLs",
+}));
+
+export type ListApprolesError = BadRequest | NotFound | StackitOpError;
+/** Returns the approles for the given Secrets Manager instance. */
+export const listApproles: API.OperationMethod<
+  ListApprolesRequest,
+  ApproleList,
+  ListApprolesError,
+  StackitOpContext
+> = /*@__PURE__*/ API.make(() => ({
+  input: __S(36, __c9, 0) as any as S.Schema<ListApprolesRequest>,
+  output: __S(38, __c9, 2) as any as S.Schema<ApproleList>,
+  errors: [BadRequest, NotFound, UnknownStackitError],
+  protocol: StackitProtocol,
+  retry: Retry.Retry,
+  telemetry: TELEMETRY,
+  span: "ListApproles",
 }));
 
 export type ListApproleSecretIdsError = BadRequest | NotFound | StackitOpError;
@@ -782,7 +782,7 @@ export const updateApproleSecretId: API.OperationMethod<
   span: "UpdateApproleSecretId",
 }));
 
-export type UpdateInstanceError = BadRequest | NotFound | StackitOpError;
+export type UpdateInstanceError = BadRequest | NotFound | Conflict | StackitOpError;
 /** Updates the given Secrets Manager instance. */
 export const updateInstance: API.OperationMethod<
   UpdateInstanceRequest,
@@ -792,7 +792,7 @@ export const updateInstance: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(68, __c17, 0) as any as S.Schema<UpdateInstanceRequest>,
   output: __S(124, __c31, 0) as any as S.Schema<UpdateInstanceResponse>,
-  errors: [BadRequest, NotFound, UnknownStackitError],
+  errors: [BadRequest, NotFound, Conflict, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -919,32 +919,6 @@ function __c5(j: number): any {
         S.Struct({
           projectId: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "GET",
-            uri: "/v1/projects/{projectId}/instances/{instanceId}/approles",
-            code: 200,
-            baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "GetApprolesRequest" });
-    case 1:
-      return S.Array(__S(88, __c22, 0));
-    case 2:
-      return S.suspend(() =>
-        S.Struct({
-          approles: __S(21, __c5, 1),
-        }),
-      ).annotate({ identifier: "ApproleList" });
-  }
-}
-function __c6(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          instanceId: S.String.pipe(T.Label()),
           roleId: S.String.pipe(T.Label()),
           secretIdVersion: S.Number.pipe(T.Label()),
         }).pipe(
@@ -958,7 +932,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "GetApproleSecretIdRequest" });
   }
 }
-function __c7(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -976,7 +950,7 @@ function __c7(j: number): any {
       ).annotate({ identifier: "GetInstanceRequest" });
   }
 }
-function __c8(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -995,7 +969,7 @@ function __c8(j: number): any {
       ).annotate({ identifier: "GetUserRequest" });
   }
 }
-function __c9(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1016,9 +990,35 @@ function __c9(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          acls: __S(37, __c9, 1),
+          acls: __S(33, __c8, 1),
         }),
       ).annotate({ identifier: "ListACLsResponse" });
+  }
+}
+function __c9(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "GET",
+            uri: "/v1/projects/{projectId}/instances/{instanceId}/approles",
+            code: 200,
+            baseUrl: "https://secrets-manager.api.{region}stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "ListApprolesRequest" });
+    case 1:
+      return S.Array(__S(88, __c22, 0));
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          approles: __S(37, __c9, 1),
+        }),
+      ).annotate({ identifier: "ApproleList" });
   }
 }
 function __c10(j: number): any {
@@ -1324,7 +1324,7 @@ function __c24(j: number): any {
         S.Struct({
           description: S.String,
           num_uses: S.Number,
-          secret_id: S.optional(S.String),
+          secret_id: S.optional(S.String.pipe(T.SensitiveValue({}))),
           ttl: S.String,
           version: S.Number,
         }),

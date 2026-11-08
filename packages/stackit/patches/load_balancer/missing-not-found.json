@@ -1,0 +1,15 @@
+{
+  "description": "The load-balancer spec documents no 404 on DeleteLoadBalancer or DeleteCredentials, but the API returns 404 for a load balancer or credential that does not exist: STACKIT's own Terraform provider (stackitcloud/terraform-provider-stackit, stackit/internal/services/loadbalancer/loadbalancer/resource.go and stackit/internal/services/loadbalancer/observability-credential/resource.go, read 2026-11-01) treats http.StatusNotFound as already deleted in both Delete handlers. Type it as the model's NotFound so callers can tell a missing object from other failures.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.load_balancer#DeleteLoadBalancer/errors/-",
+      "value": { "target": "com.stackit.load_balancer#NotFound" }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.load_balancer#DeleteCredentials/errors/-",
+      "value": { "target": "com.stackit.load_balancer#NotFound" }
+    }
+  ]
+}

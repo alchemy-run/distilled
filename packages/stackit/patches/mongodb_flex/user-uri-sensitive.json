@@ -1,0 +1,12 @@
+{
+  "description": "`User.uri` is the MongoDB connection string CreateUser and ResetUser answer with, and it holds the user's password, but the spec types it as a plain string next to the `password` member convert already marks. STACKIT's Terraform provider marks its `uri` attribute `Sensitive` for the same reason (stackitcloud/terraform-provider-stackit, stackit/internal/services/mongodbflex/user/resource.go, read 2026-11-01). Mark it sensitive.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.mongodb_flex#User/members/uri/traits",
+      "value": {
+        "smithy.api#sensitive": {}
+      }
+    }
+  ]
+}

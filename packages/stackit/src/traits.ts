@@ -38,6 +38,8 @@ export {
 } from "@distilled.cloud/core/trait";
 
 export {
+  BinaryResponse,
+  binaryResponseSymbol,
   SensitiveValue,
   RawResponse,
   RawResponseRoot,

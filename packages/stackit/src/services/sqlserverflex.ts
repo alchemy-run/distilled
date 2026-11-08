@@ -44,6 +44,24 @@ export class Forbidden
     [{ status: 403 }],
   ) {}
 
+export class InstanceLocked
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InstanceLocked>()("InstanceLocked", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 423 }],
+  ) {}
+
+export class InstanceNotReady
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<InstanceNotReady>()("InstanceNotReady", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 425 }],
+  ) {}
+
 export class NotFound
   extends /*@__PURE__*/ T.applyErrorMatchers(
     /*@__PURE__*/ S.TaggedError<NotFound>()("NotFound", {
@@ -51,6 +69,15 @@ export class NotFound
       message: S.String,
     }).pipe(C.withBadRequestError),
     [{ status: 404 }],
+  ) {}
+
+export class PreconditionFailed
+  extends /*@__PURE__*/ T.applyErrorMatchers(
+    /*@__PURE__*/ S.TaggedError<PreconditionFailed>()("PreconditionFailed", {
+      code: S.Number,
+      message: S.String,
+    }),
+    [{ status: 412 }],
   ) {}
 
 export class UnprocessableEntity
@@ -150,7 +177,7 @@ export interface CreateUserResponse {
   port: number;
   roles: CreateUserResponseRolesList;
   status: string;
-  uri: string;
+  uri: string | Redacted.Redacted<string>;
   username: string;
 }
 export type DeleteDatabaseRequestRegion = "eu01";
@@ -408,7 +435,7 @@ export interface BackupRunningRestore {
 }
 /** List of the currently running Restore jobs */
 export type ListCurrentRunningRestoreJobsRunningRestoresList = Array<BackupRunningRestore>;
-export interface ListCurrentRunningRestoreJobs {
+export interface ListCurrentRunningRestoreJobsResponse {
   /** List of the currently running Restore jobs */
   runningRestores: ListCurrentRunningRestoreJobsRunningRestoresList;
 }
@@ -492,7 +519,7 @@ export interface FlavorStorageClassesStorageClass {
 /** maximum storage which can be ordered for the flavor in Gigabyte. */
 export type FlavorStorageClasses = Array<FlavorStorageClassesStorageClass>;
 /** The flavor of the instance containing the technical features. */
-export interface ListFlavors {
+export interface ListFlavorsItem {
   cpu: number;
   description: string;
   id: string;
@@ -503,7 +530,7 @@ export interface ListFlavors {
   storageClasses: FlavorStorageClasses;
 }
 /** List of flavors available for the project. */
-export type ListFlavorsResponseFlavorsList = Array<ListFlavors>;
+export type ListFlavorsResponseFlavorsList = Array<ListFlavorsItem>;
 export interface ListFlavorsResponse {
   /** List of flavors available for the project. */
   flavors: ListFlavorsResponseFlavorsList;
@@ -681,7 +708,7 @@ export interface ResetUserRequest {
 export interface ResetUserResponse {
   password: string | Redacted.Redacted<string>;
   status: string;
-  uri: string;
+  uri: string | Redacted.Redacted<string>;
   username: string;
 }
 export type RestoreDatabaseFromBackupRequestRegion = "eu01";
@@ -800,6 +827,8 @@ export type CreateDatabaseError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | InstanceLocked
+  | InstanceNotReady
   | StackitOpError;
 /** Create Database Create database for a user. Note: The name of a valid user must be provided in the 'options' map field using the key 'owner' */
 export const createDatabase: API.OperationMethod<
@@ -808,9 +837,17 @@ export const createDatabase: API.OperationMethod<
   CreateDatabaseError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(208, __c26, 0) as any as S.Schema<CreateDatabaseRequest>,
-  output: __S(209, __c26, 1) as any as S.Schema<CreateDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  input: __S(240, __c30, 0) as any as S.Schema<CreateDatabaseRequest>,
+  output: __S(241, __c30, 1) as any as S.Schema<CreateDatabaseResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    InstanceLocked,
+    InstanceNotReady,
+    UnknownStackitError,
+  ],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -830,8 +867,8 @@ export const createInstance: API.OperationMethod<
   CreateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(218, __c27, 2) as any as S.Schema<CreateInstanceRequest>,
-  output: __S(219, __c27, 3) as any as S.Schema<CreateInstanceResponse>,
+  input: __S(250, __c31, 2) as any as S.Schema<CreateInstanceRequest>,
+  output: __S(251, __c31, 3) as any as S.Schema<CreateInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -844,6 +881,9 @@ export type CreateUserError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | InstanceLocked
+  | InstanceNotReady
+  | PreconditionFailed
   | StackitOpError;
 /** Create User Create user for an instance. */
 export const createUser: API.OperationMethod<
@@ -852,16 +892,31 @@ export const createUser: API.OperationMethod<
   CreateUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(248, __c31, 0) as any as S.Schema<CreateUserRequest>,
-  output: __S(249, __c31, 1) as any as S.Schema<CreateUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  input: __S(280, __c35, 0) as any as S.Schema<CreateUserRequest>,
+  output: __S(281, __c35, 1) as any as S.Schema<CreateUserResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    InstanceLocked,
+    InstanceNotReady,
+    PreconditionFailed,
+    UnknownStackitError,
+  ],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
   span: "CreateUser",
 }));
 
-export type DeleteDatabaseError = BadRequest | Forbidden | NotFound | StackitOpError;
+export type DeleteDatabaseError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | InstanceLocked
+  | InstanceNotReady
+  | StackitOpError;
 /** Delete Database Delete database for an instance. */
 export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseRequest,
@@ -869,9 +924,9 @@ export const deleteDatabase: API.OperationMethod<
   DeleteDatabaseError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(256, __c32, 0) as any as S.Schema<DeleteDatabaseRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<DeleteDatabaseResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  input: __S(0, __c0, 0) as any as S.Schema<DeleteDatabaseRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteDatabaseResponse>,
+  errors: [BadRequest, Forbidden, NotFound, InstanceLocked, InstanceNotReady, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -886,8 +941,8 @@ export const deleteInstance: API.OperationMethod<
   DeleteInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(272, __c34, 0) as any as S.Schema<DeleteInstanceRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<DeleteInstanceResponse>,
+  input: __S(16, __c2, 0) as any as S.Schema<DeleteInstanceRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -895,7 +950,14 @@ export const deleteInstance: API.OperationMethod<
   span: "DeleteInstance",
 }));
 
-export type DeleteUserError = BadRequest | Forbidden | NotFound | StackitOpError;
+export type DeleteUserError =
+  | BadRequest
+  | Forbidden
+  | NotFound
+  | InstanceLocked
+  | InstanceNotReady
+  | PreconditionFailed
+  | StackitOpError;
 /** Delete User Delete an user from a specific instance. */
 export const deleteUser: API.OperationMethod<
   DeleteUserRequest,
@@ -903,9 +965,17 @@ export const deleteUser: API.OperationMethod<
   DeleteUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(280, __c35, 0) as any as S.Schema<DeleteUserRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<DeleteUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  input: __S(24, __c3, 0) as any as S.Schema<DeleteUserRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<DeleteUserResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    InstanceLocked,
+    InstanceNotReady,
+    PreconditionFailed,
+    UnknownStackitError,
+  ],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -920,8 +990,8 @@ export const getBackup: API.OperationMethod<
   GetBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(0, __c0, 0) as any as S.Schema<GetBackupRequest>,
-  output: __S(8, __c1, 0) as any as S.Schema<GetBackupResponse>,
+  input: __S(32, __c4, 0) as any as S.Schema<GetBackupRequest>,
+  output: __S(40, __c5, 0) as any as S.Schema<GetBackupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -937,8 +1007,8 @@ export const getDatabase: API.OperationMethod<
   GetDatabaseError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(16, __c2, 0) as any as S.Schema<GetDatabaseRequest>,
-  output: __S(17, __c2, 1) as any as S.Schema<GetDatabaseResponse>,
+  input: __S(48, __c6, 0) as any as S.Schema<GetDatabaseRequest>,
+  output: __S(49, __c6, 1) as any as S.Schema<GetDatabaseResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -954,8 +1024,8 @@ export const getInstance: API.OperationMethod<
   GetInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(24, __c3, 0) as any as S.Schema<GetInstanceRequest>,
-  output: __S(27, __c3, 3) as any as S.Schema<GetInstanceResponse>,
+  input: __S(56, __c7, 0) as any as S.Schema<GetInstanceRequest>,
+  output: __S(59, __c7, 3) as any as S.Schema<GetInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -971,8 +1041,8 @@ export const getUser: API.OperationMethod<
   GetUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(32, __c4, 0) as any as S.Schema<GetUserRequest>,
-  output: __S(33, __c4, 1) as any as S.Schema<GetUserResponse>,
+  input: __S(64, __c8, 0) as any as S.Schema<GetUserRequest>,
+  output: __S(65, __c8, 1) as any as S.Schema<GetUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -988,8 +1058,8 @@ export const listBackups: API.OperationMethod<
   ListBackupsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(40, __c5, 0) as any as S.Schema<ListBackupsRequest>,
-  output: __S(44, __c5, 4) as any as S.Schema<ListBackupResponse>,
+  input: __S(72, __c9, 0) as any as S.Schema<ListBackupsRequest>,
+  output: __S(76, __c9, 4) as any as S.Schema<ListBackupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1005,8 +1075,8 @@ export const listCollations: API.OperationMethod<
   ListCollationsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(56, __c7, 0) as any as S.Schema<ListCollationsRequest>,
-  output: __S(59, __c7, 3) as any as S.Schema<ListCollationsResponse>,
+  input: __S(88, __c11, 0) as any as S.Schema<ListCollationsRequest>,
+  output: __S(91, __c11, 3) as any as S.Schema<ListCollationsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1022,8 +1092,8 @@ export const listCompatibilities: API.OperationMethod<
   ListCompatibilitiesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(64, __c8, 0) as any as S.Schema<ListCompatibilitiesRequest>,
-  output: __S(67, __c8, 3) as any as S.Schema<ListCompatibilityResponse>,
+  input: __S(96, __c12, 0) as any as S.Schema<ListCompatibilitiesRequest>,
+  output: __S(99, __c12, 3) as any as S.Schema<ListCompatibilityResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1031,25 +1101,21 @@ export const listCompatibilities: API.OperationMethod<
   span: "ListCompatibilities",
 }));
 
-export type ListCurrentRunningRestoreJobs2Error =
-  | BadRequest
-  | Forbidden
-  | NotFound
-  | StackitOpError;
+export type ListCurrentRunningRestoreJobsError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** List current running restore jobs List all currently running restore jobs which are available for a specific instance */
-export const listCurrentRunningRestoreJobs2: API.OperationMethod<
+export const listCurrentRunningRestoreJobs: API.OperationMethod<
   ListCurrentRunningRestoreJobsRequest,
-  ListCurrentRunningRestoreJobs,
-  ListCurrentRunningRestoreJobs2Error,
+  ListCurrentRunningRestoreJobsResponse,
+  ListCurrentRunningRestoreJobsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(72, __c9, 0) as any as S.Schema<ListCurrentRunningRestoreJobsRequest>,
-  output: __S(75, __c9, 3) as any as S.Schema<ListCurrentRunningRestoreJobs>,
+  input: __S(104, __c13, 0) as any as S.Schema<ListCurrentRunningRestoreJobsRequest>,
+  output: __S(107, __c13, 3) as any as S.Schema<ListCurrentRunningRestoreJobsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListCurrentRunningRestoreJobs2",
+  span: "ListCurrentRunningRestoreJobs",
 }));
 
 export type ListDatabasesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1060,8 +1126,8 @@ export const listDatabases: API.OperationMethod<
   ListDatabasesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(80, __c10, 0) as any as S.Schema<ListDatabasesRequest>,
-  output: __S(83, __c10, 3) as any as S.Schema<ListDatabasesResponse>,
+  input: __S(112, __c14, 0) as any as S.Schema<ListDatabasesRequest>,
+  output: __S(115, __c14, 3) as any as S.Schema<ListDatabasesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1069,21 +1135,21 @@ export const listDatabases: API.OperationMethod<
   span: "ListDatabases",
 }));
 
-export type ListFlavors2Error = BadRequest | Forbidden | NotFound | StackitOpError;
+export type ListFlavorsError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Get Flavors Get all available flavors for a project. */
-export const listFlavors2: API.OperationMethod<
+export const listFlavors: API.OperationMethod<
   ListFlavorsRequest,
   ListFlavorsResponse,
-  ListFlavors2Error,
+  ListFlavorsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(88, __c11, 0) as any as S.Schema<ListFlavorsRequest>,
-  output: __S(91, __c11, 3) as any as S.Schema<ListFlavorsResponse>,
+  input: __S(120, __c15, 0) as any as S.Schema<ListFlavorsRequest>,
+  output: __S(123, __c15, 3) as any as S.Schema<ListFlavorsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
-  span: "ListFlavors2",
+  span: "ListFlavors",
 }));
 
 export type ListInstancesError = BadRequest | Forbidden | NotFound | StackitOpError;
@@ -1094,8 +1160,8 @@ export const listInstances: API.OperationMethod<
   ListInstancesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(104, __c13, 0) as any as S.Schema<ListInstancesRequest>,
-  output: __S(107, __c13, 3) as any as S.Schema<ListInstancesResponse>,
+  input: __S(136, __c17, 0) as any as S.Schema<ListInstancesRequest>,
+  output: __S(139, __c17, 3) as any as S.Schema<ListInstancesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1103,7 +1169,7 @@ export const listInstances: API.OperationMethod<
   span: "ListInstances",
 }));
 
-export type ListRolesError = BadRequest | Forbidden | NotFound | StackitOpError;
+export type ListRolesError = BadRequest | Forbidden | NotFound | InstanceNotReady | StackitOpError;
 /** List Roles List available roles for an instance that can be assigned to a user */
 export const listRoles: API.OperationMethod<
   ListRolesRequest,
@@ -1111,9 +1177,9 @@ export const listRoles: API.OperationMethod<
   ListRolesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(112, __c14, 0) as any as S.Schema<ListRolesRequest>,
-  output: __S(113, __c14, 1) as any as S.Schema<ListRolesResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
+  input: __S(144, __c18, 0) as any as S.Schema<ListRolesRequest>,
+  output: __S(145, __c18, 1) as any as S.Schema<ListRolesResponse>,
+  errors: [BadRequest, Forbidden, NotFound, InstanceNotReady, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1128,8 +1194,8 @@ export const listStorages: API.OperationMethod<
   ListStoragesError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(120, __c15, 0) as any as S.Schema<ListStoragesRequest>,
-  output: __S(122, __c15, 2) as any as S.Schema<ListStoragesResponse>,
+  input: __S(152, __c19, 0) as any as S.Schema<ListStoragesRequest>,
+  output: __S(154, __c19, 2) as any as S.Schema<ListStoragesResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1145,8 +1211,8 @@ export const listUsers: API.OperationMethod<
   ListUsersError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(128, __c16, 0) as any as S.Schema<ListUsersRequest>,
-  output: __S(131, __c16, 3) as any as S.Schema<ListUserResponse>,
+  input: __S(160, __c20, 0) as any as S.Schema<ListUsersRequest>,
+  output: __S(163, __c20, 3) as any as S.Schema<ListUserResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1162,8 +1228,8 @@ export const listVersions: API.OperationMethod<
   ListVersionsError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(136, __c17, 0) as any as S.Schema<ListVersionsRequest>,
-  output: __S(139, __c17, 3) as any as S.Schema<ListVersionsResponse>,
+  input: __S(168, __c21, 0) as any as S.Schema<ListVersionsRequest>,
+  output: __S(171, __c21, 3) as any as S.Schema<ListVersionsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1184,8 +1250,8 @@ export const partialUpdateInstance: API.OperationMethod<
   PartialUpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(145, __c18, 1) as any as S.Schema<PartialUpdateInstanceRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
+  input: __S(177, __c22, 1) as any as S.Schema<PartialUpdateInstanceRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<PartialUpdateInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1198,6 +1264,8 @@ export type ResetUserError =
   | Forbidden
   | NotFound
   | UnprocessableEntity
+  | InstanceNotReady
+  | PreconditionFailed
   | StackitOpError;
 /** Reset User Reset an user from an specific instance. */
 export const resetUser: API.OperationMethod<
@@ -1206,9 +1274,17 @@ export const resetUser: API.OperationMethod<
   ResetUserError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(160, __c20, 0) as any as S.Schema<ResetUserRequest>,
-  output: __S(161, __c20, 1) as any as S.Schema<ResetUserResponse>,
-  errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
+  input: __S(192, __c24, 0) as any as S.Schema<ResetUserRequest>,
+  output: __S(193, __c24, 1) as any as S.Schema<ResetUserResponse>,
+  errors: [
+    BadRequest,
+    Forbidden,
+    NotFound,
+    UnprocessableEntity,
+    InstanceNotReady,
+    PreconditionFailed,
+    UnknownStackitError,
+  ],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -1223,8 +1299,8 @@ export const restoreDatabaseFromBackup: API.OperationMethod<
   RestoreDatabaseFromBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(168, __c21, 0) as any as S.Schema<RestoreDatabaseFromBackupRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<RestoreDatabaseFromBackupResponse>,
+  input: __S(200, __c25, 0) as any as S.Schema<RestoreDatabaseFromBackupRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<RestoreDatabaseFromBackupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1245,8 +1321,8 @@ export const triggerBackup: API.OperationMethod<
   TriggerBackupError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(176, __c22, 0) as any as S.Schema<TriggerBackupRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<TriggerBackupResponse>,
+  input: __S(208, __c26, 0) as any as S.Schema<TriggerBackupRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<TriggerBackupResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1267,8 +1343,8 @@ export const triggerRestore: API.OperationMethod<
   TriggerRestoreError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(184, __c23, 0) as any as S.Schema<TriggerRestoreRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<TriggerRestoreResponse>,
+  input: __S(216, __c27, 0) as any as S.Schema<TriggerRestoreRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<TriggerRestoreResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1289,8 +1365,8 @@ export const updateInstance: API.OperationMethod<
   UpdateInstanceError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(193, __c24, 1) as any as S.Schema<UpdateInstanceRequest>,
-  output: __S(264, __c33, 0) as any as S.Schema<UpdateInstanceResponse>,
+  input: __S(225, __c28, 1) as any as S.Schema<UpdateInstanceRequest>,
+  output: __S(8, __c1, 0) as any as S.Schema<UpdateInstanceResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1311,8 +1387,8 @@ export const updateInstanceProtection: API.OperationMethod<
   UpdateInstanceProtectionError,
   StackitOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(200, __c25, 0) as any as S.Schema<UpdateInstanceProtectionRequest>,
-  output: __S(201, __c25, 1) as any as S.Schema<UpdateInstanceProtectionResponse>,
+  input: __S(232, __c29, 0) as any as S.Schema<UpdateInstanceProtectionRequest>,
+  output: __S(233, __c29, 1) as any as S.Schema<UpdateInstanceProtectionResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnprocessableEntity, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
@@ -1322,6 +1398,71 @@ export const updateInstanceProtection: API.OperationMethod<
 
 // Schema builders: each runs one schema initializer, on that schema's first use.
 function __c0(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+          databaseName: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/databases/{databaseName}",
+            code: 200,
+            baseUrl: "https://mssql-flex-service.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteDatabaseRequest" });
+  }
+}
+function __c1(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDatabaseResponse" });
+  }
+}
+function __c2(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}",
+            code: 200,
+            baseUrl: "https://mssql-flex-service.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteInstanceRequest" });
+  }
+}
+function __c3(j: number): any {
+  switch (j) {
+    case 0:
+      return S.suspend(() =>
+        S.Struct({
+          projectId: S.String.pipe(T.Label()),
+          region: S.String.pipe(T.Label()),
+          instanceId: S.String.pipe(T.Label()),
+          userId: S.Number.pipe(T.Label()),
+        }).pipe(
+          T.Http({
+            method: "DELETE",
+            uri: "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}",
+            code: 200,
+            baseUrl: "https://mssql-flex-service.api.stackit.cloud",
+          }),
+        ),
+      ).annotate({ identifier: "DeleteUserRequest" });
+  }
+}
+function __c4(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1341,7 +1482,7 @@ function __c0(j: number): any {
       ).annotate({ identifier: "GetBackupRequest" });
   }
 }
-function __c1(j: number): any {
+function __c5(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1356,7 +1497,7 @@ function __c1(j: number): any {
       ).annotate({ identifier: "GetBackupResponse" });
   }
 }
-function __c2(j: number): any {
+function __c6(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1386,7 +1527,7 @@ function __c2(j: number): any {
       ).annotate({ identifier: "GetDatabaseResponse" });
   }
 }
-function __c3(j: number): any {
+function __c7(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1407,7 +1548,7 @@ function __c3(j: number): any {
       return S.suspend(() =>
         S.Struct({
           accessScope: S.optional(S.String),
-          acl: S.optional(__S(240, __c30, 0)),
+          acl: S.optional(__S(272, __c34, 0)),
           instanceAddress: S.optional(S.String),
           routerAddress: S.optional(S.String),
         }),
@@ -1424,23 +1565,23 @@ function __c3(j: number): any {
         S.Struct({
           backupSchedule: S.String,
           edition: S.String,
-          encryption: S.optional(__S(224, __c28, 0)),
+          encryption: S.optional(__S(256, __c32, 0)),
           flavorId: S.String,
           id: S.String,
           isDeletable: S.Boolean,
-          labels: S.optional(__S(232, __c29, 0)),
+          labels: S.optional(__S(264, __c33, 0)),
           name: S.String,
-          network: __S(25, __c3, 1),
+          network: __S(57, __c7, 1),
           replicas: S.Number,
           retentionDays: S.Number,
           state: S.String,
-          storage: __S(26, __c3, 2),
+          storage: __S(58, __c7, 2),
           version: S.String,
         }),
       ).annotate({ identifier: "GetInstanceResponse" });
   }
 }
-function __c4(j: number): any {
+function __c8(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1465,14 +1606,14 @@ function __c4(j: number): any {
           host: S.String,
           id: S.Number,
           port: S.Number,
-          roles: __S(240, __c30, 0),
+          roles: __S(272, __c34, 0),
           status: S.String,
           username: S.String,
         }),
       ).annotate({ identifier: "GetUserResponse" });
   }
 }
-function __c5(j: number): any {
+function __c9(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1493,26 +1634,26 @@ function __c5(j: number): any {
         ),
       ).annotate({ identifier: "ListBackupsRequest" });
     case 1:
-      return S.Array(__S(8, __c1, 0));
+      return S.Array(__S(40, __c5, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
-          backups: __S(41, __c5, 1),
+          backups: __S(73, __c9, 1),
           databaseName: S.String,
         }),
       ).annotate({ identifier: "ListBackupsResponse" });
     case 3:
-      return S.Array(__S(42, __c5, 2));
+      return S.Array(__S(74, __c9, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
-          backups: __S(43, __c5, 3),
-          pagination: __S(48, __c6, 0),
+          backups: __S(75, __c9, 3),
+          pagination: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "ListBackupResponse" });
   }
 }
-function __c6(j: number): any {
+function __c10(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1526,7 +1667,7 @@ function __c6(j: number): any {
       ).annotate({ identifier: "Pagination" });
   }
 }
-function __c7(j: number): any {
+function __c11(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1551,16 +1692,16 @@ function __c7(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseGetcollation" });
     case 2:
-      return S.Array(__S(57, __c7, 1));
+      return S.Array(__S(89, __c11, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          collations: __S(58, __c7, 2),
+          collations: __S(90, __c11, 2),
         }),
       ).annotate({ identifier: "ListCollationsResponse" });
   }
 }
-function __c8(j: number): any {
+function __c12(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1585,16 +1726,16 @@ function __c8(j: number): any {
         }),
       ).annotate({ identifier: "DatabaseGetcompatibility" });
     case 2:
-      return S.Array(__S(65, __c8, 1));
+      return S.Array(__S(97, __c12, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          compatibilities: __S(66, __c8, 2),
+          compatibilities: __S(98, __c12, 2),
         }),
       ).annotate({ identifier: "ListCompatibilityResponse" });
   }
 }
-function __c9(j: number): any {
+function __c13(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1622,16 +1763,16 @@ function __c9(j: number): any {
         }),
       ).annotate({ identifier: "BackupRunningRestore" });
     case 2:
-      return S.Array(__S(73, __c9, 1));
+      return S.Array(__S(105, __c13, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          runningRestores: __S(74, __c9, 2),
+          runningRestores: __S(106, __c13, 2),
         }),
-      ).annotate({ identifier: "ListCurrentRunningRestoreJobs" });
+      ).annotate({ identifier: "ListCurrentRunningRestoreJobsResponse" });
   }
 }
-function __c10(j: number): any {
+function __c14(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1661,17 +1802,17 @@ function __c10(j: number): any {
         }),
       ).annotate({ identifier: "ListDatabase" });
     case 2:
-      return S.Array(__S(81, __c10, 1));
+      return S.Array(__S(113, __c14, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          databases: __S(82, __c10, 2),
-          pagination: __S(48, __c6, 0),
+          databases: __S(114, __c14, 2),
+          pagination: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "ListDatabasesResponse" });
   }
 }
-function __c11(j: number): any {
+function __c15(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1700,21 +1841,21 @@ function __c11(j: number): any {
           memory: S.Number,
           minGB: S.Number,
           nodeType: S.String,
-          storageClasses: __S(97, __c12, 1),
+          storageClasses: __S(129, __c16, 1),
         }),
-      ).annotate({ identifier: "ListFlavors" });
+      ).annotate({ identifier: "ListFlavorsItem" });
     case 2:
-      return S.Array(__S(89, __c11, 1));
+      return S.Array(__S(121, __c15, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          flavors: __S(90, __c11, 2),
-          pagination: __S(48, __c6, 0),
+          flavors: __S(122, __c15, 2),
+          pagination: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "ListFlavorsResponse" });
   }
 }
-function __c12(j: number): any {
+function __c16(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1725,10 +1866,10 @@ function __c12(j: number): any {
         }),
       ).annotate({ identifier: "FlavorStorageClassesStorageClass" });
     case 1:
-      return S.Array(__S(96, __c12, 0));
+      return S.Array(__S(128, __c16, 0));
   }
 }
-function __c13(j: number): any {
+function __c17(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1757,17 +1898,17 @@ function __c13(j: number): any {
         }),
       ).annotate({ identifier: "ListInstance" });
     case 2:
-      return S.Array(__S(105, __c13, 1));
+      return S.Array(__S(137, __c17, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          instances: __S(106, __c13, 2),
-          pagination: __S(48, __c6, 0),
+          instances: __S(138, __c17, 2),
+          pagination: __S(80, __c10, 0),
         }),
       ).annotate({ identifier: "ListInstancesResponse" });
   }
 }
-function __c14(j: number): any {
+function __c18(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1787,12 +1928,12 @@ function __c14(j: number): any {
     case 1:
       return S.suspend(() =>
         S.Struct({
-          roles: __S(240, __c30, 0),
+          roles: __S(272, __c34, 0),
         }),
       ).annotate({ identifier: "ListRolesResponse" });
   }
 }
-function __c15(j: number): any {
+function __c19(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1819,13 +1960,13 @@ function __c15(j: number): any {
     case 2:
       return S.suspend(() =>
         S.Struct({
-          storageClasses: __S(97, __c12, 1),
-          storageRange: __S(121, __c15, 1),
+          storageClasses: __S(129, __c16, 1),
+          storageRange: __S(153, __c19, 1),
         }),
       ).annotate({ identifier: "ListStoragesResponse" });
   }
 }
-function __c16(j: number): any {
+function __c20(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1854,17 +1995,17 @@ function __c16(j: number): any {
         }),
       ).annotate({ identifier: "ListUser" });
     case 2:
-      return S.Array(__S(129, __c16, 1));
+      return S.Array(__S(161, __c20, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          pagination: __S(48, __c6, 0),
-          users: __S(130, __c16, 2),
+          pagination: __S(80, __c10, 0),
+          users: __S(162, __c20, 2),
         }),
       ).annotate({ identifier: "ListUserResponse" });
   }
 }
-function __c17(j: number): any {
+function __c21(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1890,21 +2031,21 @@ function __c17(j: number): any {
         }),
       ).annotate({ identifier: "Version" });
     case 2:
-      return S.Array(__S(137, __c17, 1));
+      return S.Array(__S(169, __c21, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
-          versions: __S(138, __c17, 2),
+          versions: __S(170, __c21, 2),
         }),
       ).annotate({ identifier: "ListVersionsResponse" });
   }
 }
-function __c18(j: number): any {
+function __c22(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acl: S.optional(__S(240, __c30, 0)),
+          acl: S.optional(__S(272, __c34, 0)),
         }),
       ).annotate({ identifier: "PartialUpdateInstanceRequestNetwork" });
     case 1:
@@ -1915,11 +2056,11 @@ function __c18(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           backupSchedule: S.optional(S.String),
           flavorId: S.optional(S.String),
-          labels: S.optional(__S(232, __c29, 0)),
+          labels: S.optional(__S(264, __c33, 0)),
           name: S.optional(S.String),
-          network: S.optional(__S(144, __c18, 0)),
+          network: S.optional(__S(176, __c22, 0)),
           retentionDays: S.optional(S.Number),
-          storage: S.optional(__S(152, __c19, 0)),
+          storage: S.optional(__S(184, __c23, 0)),
           version: S.optional(S.String),
         }).pipe(
           T.Http({
@@ -1932,7 +2073,7 @@ function __c18(j: number): any {
       ).annotate({ identifier: "PartialUpdateInstanceRequest" });
   }
 }
-function __c19(j: number): any {
+function __c23(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1942,7 +2083,7 @@ function __c19(j: number): any {
       ).annotate({ identifier: "StorageUpdate" });
   }
 }
-function __c20(j: number): any {
+function __c24(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1965,13 +2106,13 @@ function __c20(j: number): any {
         S.Struct({
           password: S.String.pipe(T.SensitiveValue({})),
           status: S.String,
-          uri: S.String,
+          uri: S.String.pipe(T.SensitiveValue({})),
           username: S.String,
         }),
       ).annotate({ identifier: "ResetUserResponse" });
   }
 }
-function __c21(j: number): any {
+function __c25(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -1992,7 +2133,7 @@ function __c21(j: number): any {
       ).annotate({ identifier: "RestoreDatabaseFromBackupRequest" });
   }
 }
-function __c22(j: number): any {
+function __c26(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2012,7 +2153,7 @@ function __c22(j: number): any {
       ).annotate({ identifier: "TriggerBackupRequest" });
   }
 }
-function __c23(j: number): any {
+function __c27(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2034,12 +2175,12 @@ function __c23(j: number): any {
       ).annotate({ identifier: "TriggerRestoreRequest" });
   }
 }
-function __c24(j: number): any {
+function __c28(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
-          acl: __S(240, __c30, 0),
+          acl: __S(272, __c34, 0),
         }),
       ).annotate({ identifier: "UpdateInstanceRequestNetwork" });
     case 1:
@@ -2050,11 +2191,11 @@ function __c24(j: number): any {
           instanceId: S.String.pipe(T.Label()),
           backupSchedule: S.String,
           flavorId: S.String,
-          labels: S.optional(__S(232, __c29, 0)),
+          labels: S.optional(__S(264, __c33, 0)),
           name: S.String,
-          network: __S(192, __c24, 0),
+          network: __S(224, __c28, 0),
           retentionDays: S.Number,
-          storage: __S(152, __c19, 0),
+          storage: __S(184, __c23, 0),
           version: S.String,
         }).pipe(
           T.Http({
@@ -2067,7 +2208,7 @@ function __c24(j: number): any {
       ).annotate({ identifier: "UpdateInstanceRequest" });
   }
 }
-function __c25(j: number): any {
+function __c29(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2093,7 +2234,7 @@ function __c25(j: number): any {
       ).annotate({ identifier: "UpdateInstanceProtectionResponse" });
   }
 }
-function __c26(j: number): any {
+function __c30(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2122,13 +2263,13 @@ function __c26(j: number): any {
       ).annotate({ identifier: "CreateDatabaseResponse" });
   }
 }
-function __c27(j: number): any {
+function __c31(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
         S.Struct({
           accessScope: S.optional(S.String),
-          acl: __S(240, __c30, 0),
+          acl: __S(272, __c34, 0),
         }),
       ).annotate({ identifier: "CreateInstanceRequestNetwork" });
     case 1:
@@ -2144,13 +2285,13 @@ function __c27(j: number): any {
           projectId: S.String.pipe(T.Label()),
           region: S.String.pipe(T.Label()),
           backupSchedule: S.String,
-          encryption: S.optional(__S(224, __c28, 0)),
+          encryption: S.optional(__S(256, __c32, 0)),
           flavorId: S.String,
-          labels: S.optional(__S(232, __c29, 0)),
+          labels: S.optional(__S(264, __c33, 0)),
           name: S.String,
-          network: __S(216, __c27, 0),
+          network: __S(248, __c31, 0),
           retentionDays: S.Number,
-          storage: __S(217, __c27, 1),
+          storage: __S(249, __c31, 1),
           version: S.String,
         }).pipe(
           T.Http({
@@ -2169,7 +2310,7 @@ function __c27(j: number): any {
       ).annotate({ identifier: "CreateInstanceResponse" });
   }
 }
-function __c28(j: number): any {
+function __c32(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2182,19 +2323,19 @@ function __c28(j: number): any {
       ).annotate({ identifier: "InstanceEncryption" });
   }
 }
-function __c29(j: number): any {
+function __c33(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, /*@__PURE__*/ S.NullOr(S.String));
   }
 }
-function __c30(j: number): any {
+function __c34(j: number): any {
   switch (j) {
     case 0:
       return S.Array(S.String);
   }
 }
-function __c31(j: number): any {
+function __c35(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -2203,7 +2344,7 @@ function __c31(j: number): any {
           region: S.String.pipe(T.Label()),
           instanceId: S.String.pipe(T.Label()),
           default_database: S.optional(S.String),
-          roles: __S(240, __c30, 0),
+          roles: __S(272, __c34, 0),
           username: S.String,
         }).pipe(
           T.Http({
@@ -2222,77 +2363,12 @@ function __c31(j: number): any {
           id: S.Number,
           password: S.String.pipe(T.SensitiveValue({})),
           port: S.Number,
-          roles: __S(240, __c30, 0),
+          roles: __S(272, __c34, 0),
           status: S.String,
-          uri: S.String,
+          uri: S.String.pipe(T.SensitiveValue({})),
           username: S.String,
         }),
       ).annotate({ identifier: "CreateUserResponse" });
-  }
-}
-function __c32(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          instanceId: S.String.pipe(T.Label()),
-          databaseName: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/databases/{databaseName}",
-            code: 200,
-            baseUrl: "https://mssql-flex-service.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteDatabaseRequest" });
-  }
-}
-function __c33(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "DeleteDatabaseResponse" });
-  }
-}
-function __c34(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          instanceId: S.String.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}",
-            code: 200,
-            baseUrl: "https://mssql-flex-service.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteInstanceRequest" });
-  }
-}
-function __c35(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() =>
-        S.Struct({
-          projectId: S.String.pipe(T.Label()),
-          region: S.String.pipe(T.Label()),
-          instanceId: S.String.pipe(T.Label()),
-          userId: S.Number.pipe(T.Label()),
-        }).pipe(
-          T.Http({
-            method: "DELETE",
-            uri: "/v3/projects/{projectId}/regions/{region}/instances/{instanceId}/users/{userId}",
-            code: 200,
-            baseUrl: "https://mssql-flex-service.api.stackit.cloud",
-          }),
-        ),
-      ).annotate({ identifier: "DeleteUserRequest" });
   }
 }
 // Schema table: entry i is schema j of builder f, made on first reach.

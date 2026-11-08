@@ -1,0 +1,35 @@
+{
+  "description": "`listVolumeAutomations`, `listVolumeExecutions` and `listVolumeTemplates` take `pageToken` and `pageSize` and answer `nextPageToken` beside `items`. The spec's text says a response with no `nextPageToken` is the last page. The converter only recognizes page-number pagination, so none of them got a paginated surface, and a caller reading one page would miss what's on the others. Read from the spec 2026-11-01.",
+  "patches": [
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.automation#ListVolumeAutomations/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "pageToken",
+        "outputToken": "nextPageToken",
+        "items": "items",
+        "pageSize": "pageSize"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.automation#ListVolumeExecutions/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "pageToken",
+        "outputToken": "nextPageToken",
+        "items": "items",
+        "pageSize": "pageSize"
+      }
+    },
+    {
+      "op": "add",
+      "path": "/shapes/com.stackit.automation#ListVolumeTemplates/traits/smithy.api#paginated",
+      "value": {
+        "inputToken": "pageToken",
+        "outputToken": "nextPageToken",
+        "items": "items",
+        "pageSize": "pageSize"
+      }
+    }
+  ]
+}

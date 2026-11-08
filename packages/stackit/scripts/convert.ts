@@ -16,6 +16,14 @@
  *      `pageSize` and answer with `totalPages` plus a collection array —
  *      see {@link paginationFor}.
  *
+ * Harbor's API is the data plane of `registry` and isn't in STACKIT's specs:
+ * `specs/spec-mirror-stackit/specs/registry_harbor.json` is Harbor's Swagger
+ * 2.0 document at a release tag, trimmed by the mirror's `fetch-specs.ts`. It
+ * becomes the `registry_harbor` module, with no host stamped because the
+ * registry URL is part of `HarborCredentials`. Until the mirror has run that
+ * script and a submodule bump brings the file in, the same trimmed document in
+ * `manual-specs/` keeps this module reproducible from what's committed.
+ *
  * `scripts/generate.ts` then compiles the models. Patches, when added, live
  * in `patches/<name>/*.json` and apply here via `runOpenApiConvert`.
  */
@@ -130,19 +138,254 @@ const paginationFor = (spec: any, op: any): Record<string, string> | undefined =
   };
 };
 
+/** Harbor's mirrored document, which the manifest doesn't list. */
+const MIRRORED_HARBOR_SPEC = "specs/spec-mirror-stackit/specs/registry_harbor.json";
+
+/** Harbor's document while the mirror predates it. Delete once a bump brings it in. */
+const COMMITTED_HARBOR_SPEC = path.join(root, "manual-specs", "registry_harbor.json");
+
+const HARBOR_SPEC = fs.existsSync(path.join(specsDir, "registry_harbor.json"))
+  ? MIRRORED_HARBOR_SPEC
+  : COMMITTED_HARBOR_SPEC;
+
+/**
+ * Every Harbor operation declares `X-Request-Id`, a tracing header no caller
+ * sets. The other header parameters (`X-Is-Resource-Name`,
+ * `X-Accept-Vulnerabilities`) change the response, so they stay inputs.
+ */
+const dropHarborRequestId = (spec: any): void => {
+  for (const item of Object.values<any>(spec.paths ?? {})) {
+    for (const op of Object.values<any>(item)) {
+      if (Array.isArray(op?.parameters)) {
+        op.parameters = op.parameters.filter((p: any) => p?.$ref !== "#/parameters/requestId");
+      }
+    }
+  }
+  delete spec.parameters?.requestId;
+};
+
+/**
+ * STACKIT Git names the responses of `ListInstances` and `ListFlavors` after the
+ * operations, so the operations come out as `listInstances2` and `listFlavors2`. Their
+ * schemas move out of the way.
+ */
+const renameGitListSchemas = (spec: any): void => {
+  const schemas = spec.components.schemas;
+  const moved: Record<string, string> = {
+    ListInstances: "InstanceList",
+    ListFlavors: "FlavorList",
+  };
+  for (const [from, to] of Object.entries(moved)) {
+    schemas[to] = schemas[from];
+    delete schemas[from];
+  }
+  const text = JSON.stringify(spec.paths).replace(
+    /#\/components\/schemas\/(ListInstances|ListFlavors)"/g,
+    (_, name: string) => `#/components/schemas/${moved[name]}"`,
+  );
+  spec.paths = JSON.parse(text);
+};
+
+/** Spec fixes a product needs before it converts, by slug. */
+const SPEC_PREPROCESS: Record<string, (spec: any) => void> = {
+  git: renameGitListSchemas,
+};
+
+/**
+ * Operation names the verbNoun rewrite gets wrong, per product. `RetrieveZone`
+ * (POST `.../zones/{zoneId}/retrieve`, queue a secondary zone's transfer)
+ * would alias `retrieve` to `get` and collide with `GetZone`, as `getZone2`.
+ */
+const OPERATION_NAMES: Record<string, Record<string, string>> = {
+  secrets_manager: { GetApproles: "listApproles" },
+  dns: { RetrieveZone: "retrieveZone" },
+};
+
 await runOpenApiConvert({
   root,
-  specs: manifest.map((entry) => {
-    const slug = entry.output.replace(/\.json$/, "");
-    return {
-      name: slug,
-      specPath: `specs/spec-mirror-stackit/specs/${entry.output}`,
+  specs: [
+    ...manifest.map((entry) => {
+      const slug = entry.output.replace(/\.json$/, "");
+      return {
+        name: slug,
+        specPath: `specs/spec-mirror-stackit/specs/${entry.output}`,
+        preprocess: SPEC_PREPROCESS[slug],
+        options: {
+          namespace: `com.stackit.${slug}`,
+          serviceName: toPascal(slug),
+          operationNames: OPERATION_NAMES[slug],
+        },
+      };
+    }),
+    {
+      name: "registry_harbor",
+      specPath: HARBOR_SPEC,
+      preprocess: dropHarborRequestId,
       options: {
-        namespace: `com.stackit.${slug}`,
-        serviceName: toPascal(slug),
+        namespace: "com.stackit.registry_harbor",
+        // The definitions include `Project`, `Robot`, `Repository`: keep the
+        // service shape out of their way.
+        serviceName: "RegistryHarbor",
+        headerParams: true,
       },
-    };
-  }),
+    },
+    // Vault's KV v2 and login API, the data plane of `secrets_manager`: its
+    // published OpenAPI document, trimmed by hand (see the file's `info`). No
+    // host is stamped: each instance's URL is part of `VaultCredentials`.
+    {
+      name: "secrets_manager_kv",
+      specPath: path.join(root, "manual-specs", "secrets_manager_kv.json"),
+      options: {
+        namespace: "com.stackit.secrets_manager_kv",
+        serviceName: "SecretsManagerKv",
+      },
+    },
+    // RabbitMQ's management API, the HTTP data plane of `rabbitmq`: written by hand
+    // from its published HTML reference (see the file's `info`). No host is stamped:
+    // each credential's URL is part of `RabbitMQManagementCredentials`.
+    {
+      name: "rabbitmq_management",
+      specPath: path.join(root, "manual-specs", "rabbitmq_management.json"),
+      options: {
+        namespace: "com.stackit.rabbitmq_management",
+        serviceName: "RabbitmqManagement",
+      },
+    },
+    // Dremio's login, SQL and job routes, the data plane of `dremio`: written by hand from
+    // its published reference (see the file's `info`). No host is stamped: each instance's
+    // URL is part of `DremioCredentials`.
+    {
+      name: "dremio_rest",
+      specPath: path.join(root, "manual-specs", "dremio_rest.json"),
+      options: {
+        namespace: "com.stackit.dremio_rest",
+        serviceName: "DremioRest",
+      },
+    },
+    // OpenSearch's REST API, the data plane of `opensearch` and `logme`: trimmed by hand
+    // from its published OpenAPI document (see the file's `info`). No host is stamped:
+    // each credential's URL is part of `OpenSearchCredentials`.
+    {
+      name: "opensearch_data",
+      specPath: path.join(root, "manual-specs", "opensearch_data.json"),
+      options: {
+        namespace: "com.stackit.opensearch_data",
+        serviceName: "OpensearchData",
+      },
+    },
+    // Forgejo's REST API, the data plane of `git`: its published Swagger document, trimmed by a
+    // script (see the file's `info`). No host is stamped: each instance's URL is part of
+    // `ForgejoCredentials`.
+    {
+      name: "git_forgejo",
+      specPath: path.join(root, "manual-specs", "git_forgejo.json"),
+      options: {
+        namespace: "com.stackit.git_forgejo",
+        serviceName: "GitForgejo",
+        operationNames: {
+          userGetCurrent: "getCurrentUser",
+          repoGet: "getRepository",
+          repoEdit: "updateRepository",
+          repoDelete: "deleteRepository",
+          createCurrentUserRepo: "createCurrentUserRepository",
+          createOrgRepo: "createOrgRepository",
+        },
+      },
+    },
+    // Grafana Loki's push and query API, the data plane of `logs`: written by hand from
+    // its published reference (see the file's `info`). No host is stamped: each
+    // instance's URL is part of `LokiCredentials`.
+    {
+      name: "logs_loki",
+      specPath: path.join(root, "manual-specs", "logs_loki.json"),
+      options: {
+        namespace: "com.stackit.logs_loki",
+        serviceName: "LogsLoki",
+      },
+    },
+    // Apache Airflow's REST API, the data plane of `workflows`: Airflow's published OpenAPI
+    // document, trimmed by a script (see the file's `info`). No host is stamped: each
+    // instance's URL is part of `WorkflowsAirflowCredentials`.
+    {
+      name: "workflows_airflow",
+      specPath: path.join(root, "manual-specs", "workflows_airflow.json"),
+      options: {
+        namespace: "com.stackit.workflows_airflow",
+        serviceName: "WorkflowsAirflow",
+        // Airflow's own names. The verbNoun rewrite would call them `updateDag` and so on.
+        operationNames: {
+          PatchDag: "patchDag",
+          PatchVariable: "patchVariable",
+          PatchConnection: "patchConnection",
+        },
+      },
+    },
+    // Alertmanager's API v2, part of the data plane of `observability`: its published
+    // OpenAPI document, trimmed (see the file's `info`). No host is stamped: each instance's
+    // URL is part of `ObservabilityDataCredentials`.
+    {
+      name: "observability_alertmanager",
+      specPath: path.join(root, "manual-specs", "observability_alertmanager.json"),
+      options: {
+        namespace: "com.stackit.observability_alertmanager",
+        serviceName: "ObservabilityAlertmanager",
+      },
+    },
+    // Prometheus's query API, part of the data plane of `observability`: its published
+    // OpenAPI document, trimmed (see the file's `info`). No host is stamped, like Alertmanager.
+    {
+      name: "observability_prometheus",
+      specPath: path.join(root, "manual-specs", "observability_prometheus.json"),
+      options: {
+        namespace: "com.stackit.observability_prometheus",
+        serviceName: "ObservabilityPrometheus",
+      },
+    },
+    // The Cloud Foundry v3 API and UAA's token endpoint, the data plane of `scf`: the document in
+    // `cloudfoundry/cloud_controller_ng`, trimmed by a script (see the file's `info`). No host is
+    // stamped: each platform's `apiUrl` is part of `CloudFoundryCredentials`.
+    {
+      name: "cloud_foundry",
+      specPath: path.join(root, "manual-specs", "cloud_foundry.json"),
+      options: {
+        namespace: "com.stackit.cloud_foundry",
+        serviceName: "CloudFoundry",
+      },
+    },
+    // The OpenAI-compatible inference API of `model_serving`: written by hand from STACKIT's docs
+    // and OpenAI's reference (see the file's `info`). No host is stamped: it is part of
+    // `ModelServingInferenceCredentials`.
+    {
+      name: "model_serving_inference",
+      specPath: path.join(root, "manual-specs", "model_serving_inference.json"),
+      options: {
+        namespace: "com.stackit.model_serving_inference",
+        serviceName: "ModelServingInference",
+      },
+    },
+    // MLflow's tracking REST API, the data plane of `model_experiments`: written by hand from its
+    // published reference (see the file's `info`). No host is stamped: each instance's URL is part
+    // of `MlflowCredentials`.
+    {
+      name: "model_experiments_mlflow",
+      specPath: path.join(root, "manual-specs", "model_experiments_mlflow.json"),
+      options: {
+        namespace: "com.stackit.model_experiments_mlflow",
+        serviceName: "ModelExperimentsMlflow",
+      },
+    },
+    // Pub/Sub's data plane: the OpenAPI document in `stackitcloud/pubsub-sdk-go`, with the
+    // topic and region made host labels (see the file's `info`). Its host is stamped below.
+    {
+      name: "pubsub_data",
+      specPath: path.join(root, "manual-specs", "pubsub_data.json"),
+      options: {
+        namespace: "com.stackit.pubsub_data",
+        serviceName: "PubsubData",
+        headerParams: true,
+      },
+    },
+  ],
   patchesDir: "patches",
   finalize: false,
   options: {
@@ -206,6 +449,25 @@ for (const entry of manifest) {
   }
   stampedPages += paginated;
   writeModel(modelPath, model);
+}
+
+// A manual spec with a real host: `T.Http({ baseUrl })` keeps its `{topicId}` and
+// `{regionId}` labels, and the protocol fills them from the request.
+{
+  const modelPath = path.join(outDir, "pubsub_data.json");
+  if (modelExists(modelPath)) {
+    const spec = JSON.parse(
+      fs.readFileSync(path.join(root, "manual-specs", "pubsub_data.json"), "utf8"),
+    );
+    const model = readModel(modelPath);
+    for (const shape of Object.values<any>(model.shapes ?? {})) {
+      const http = shape?.type === "operation" ? shape.traits?.["smithy.api#http"] : undefined;
+      if (!http || typeof http !== "object") continue;
+      http.baseUrl = specServerUrl(spec);
+      stampedUrls++;
+    }
+    writeModel(modelPath, model);
+  }
 }
 
 console.log(`🔗 stamped ${stampedUrls} operation baseUrl(s), ${stampedPages} paginated`);

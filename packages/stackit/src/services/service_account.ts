@@ -471,7 +471,7 @@ export const deleteServiceAccount: API.OperationMethod<
   span: "DeleteServiceAccount",
 }));
 
-export type DeleteServiceAccountKeyError = BadRequest | Forbidden | StackitOpError;
+export type DeleteServiceAccountKeyError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Delete a service account key Delete a key */
 export const deleteServiceAccountKey: API.OperationMethod<
   DeleteServiceAccountKeyRequest,
@@ -481,7 +481,7 @@ export const deleteServiceAccountKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(76, __c19, 0) as any as S.Schema<DeleteServiceAccountKeyRequest>,
   output: __S(72, __c18, 0) as any as S.Schema<DeleteServiceAccountKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
@@ -535,7 +535,7 @@ export const getJWKS: API.OperationMethod<GetJWKSRequest, JWKS, GetJWKSError, St
     span: "GetJWKS",
   }));
 
-export type GetServiceAccountKeyError = BadRequest | Forbidden | StackitOpError;
+export type GetServiceAccountKeyError = BadRequest | Forbidden | NotFound | StackitOpError;
 /** Get service account key details Get key details */
 export const getServiceAccountKey: API.OperationMethod<
   GetServiceAccountKeyRequest,
@@ -545,7 +545,7 @@ export const getServiceAccountKey: API.OperationMethod<
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(12, __c3, 0) as any as S.Schema<GetServiceAccountKeyRequest>,
   output: __S(14, __c3, 2) as any as S.Schema<GetServiceAccountKeyResponse>,
-  errors: [BadRequest, Forbidden, UnknownStackitError],
+  errors: [BadRequest, Forbidden, NotFound, UnknownStackitError],
   protocol: StackitProtocol,
   retry: Retry.Retry,
   telemetry: TELEMETRY,
