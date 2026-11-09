@@ -4,6 +4,7 @@ import * as C from "@distilled.cloud/core/category";
 import * as S from "@distilled.cloud/core/schema-lite";
 import * as __L from "@distilled.cloud/core/schema-lite";
 import type * as Redacted from "effect/Redacted";
+import type * as Stream from "effect/Stream";
 import { UnknownBoatError } from "../errors.ts";
 import { paginateCursor } from "../pagination.ts";
 import { BoatProtocol, type BoatOpError, type BoatOpContext } from "../protocol.ts";
@@ -150,7 +151,33 @@ export interface AttachCommandRequest {
   /** Start stderr at this byte offset. 0 sends the whole log. */
   stderrOffset?: number;
 }
-export interface AttachCommandResponse {}
+export type CommandAttachFrameType =
+  | "attached"
+  | "stdout"
+  | "stderr"
+  | "heartbeat"
+  | "exit"
+  | "reconnect"
+  | "error";
+export type CommandAttachFrameStatus = "running" | "exited" | "lost";
+/** One line of `GET /sandboxes/{sandboxId}/commands/{processId}/stream` (application/x-ndjson). - `attached`: first line. `processId`, `stdoutOffset`, `stderrOffset` (where the output starts). - `stdout` / `stderr`: a chunk. `data`, and `nextOffset` for that stream. - `heartbeat`: sent after 15 s with no other line. - `exit`: last line when the command ended and all its output was sent. `status`, `exitCode`, `signal`, `stdoutOffset`, `stderrOffset`. - `reconnect`: last line after 10 minutes. Open the stream again with its `stdoutOffset` and `stderrOffset`. Nothing is lost or repeated. - `error`: last line on a failure. `error`, `message`, `stdoutOffset`, `stderrOffset`. */
+export interface CommandAttachFrame {
+  type: CommandAttachFrameType;
+  processId?: number;
+  data?: string;
+  nextOffset?: number;
+  stdoutOffset?: number;
+  stderrOffset?: number;
+  status?: CommandAttachFrameStatus;
+  exitCode?: number | null;
+  signal?: string | null;
+  error?: string;
+  message?: string;
+}
+export interface AttachCommandResponse {
+  /** The output stream, one frame per line, as the command writes it. It ends after an `exit`, `reconnect` or `error` frame. */
+  frames: Stream.Stream<CommandAttachFrame, BoatOpError>;
+}
 export interface CommandHistoryRequest {
   /** Public Sandbox id returned by create/list/get sandbox calls. */
   sandboxId: string;
@@ -2874,8 +2901,8 @@ export const addCredentialAccount: API.OperationMethod<
   AddCredentialAccountError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1040, __c65, 0) as any as S.Schema<AddCredentialAccountRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<AddCredentialAccountResponse>,
+  input: __S(1056, __c66, 0) as any as S.Schema<AddCredentialAccountRequest>,
+  output: __S(1088, __c68, 0) as any as S.Schema<AddCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -2891,8 +2918,8 @@ export const addEnvironmentRepo: API.OperationMethod<
   AddEnvironmentRepoError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1344, __c84, 0) as any as S.Schema<AddEnvironmentRepoRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  input: __S(1360, __c85, 0) as any as S.Schema<AddEnvironmentRepoRequest>,
+  output: __S(1376, __c86, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -2908,8 +2935,8 @@ export const attachCommand: API.OperationMethod<
   AttachCommandError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1568, __c98, 0) as any as S.Schema<AttachCommandRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<AttachCommandResponse>,
+  input: __S(1584, __c99, 0) as any as S.Schema<AttachCommandRequest>,
+  output: __S(1586, __c99, 2) as any as S.Schema<AttachCommandResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3113,7 +3140,7 @@ export const deleteCredentialAccount: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(560, __c35, 0) as any as S.Schema<DeleteCredentialAccountRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<DeleteCredentialAccountResponse>,
+  output: __S(1088, __c68, 0) as any as S.Schema<DeleteCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3198,7 +3225,7 @@ export const deleteEnvironmentRepo: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(656, __c41, 0) as any as S.Schema<DeleteEnvironmentRepoRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  output: __S(1376, __c86, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3215,7 +3242,7 @@ export const deleteEnvironmentSecretFile: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(672, __c42, 0) as any as S.Schema<DeleteEnvironmentSecretFileRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  output: __S(1376, __c86, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3232,7 +3259,7 @@ export const deleteEnvironmentVar: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(688, __c43, 0) as any as S.Schema<DeleteEnvironmentVarRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  output: __S(1376, __c86, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3351,7 +3378,7 @@ export const downloadSandboxArtifact: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(864, __c54, 0) as any as S.Schema<DownloadSandboxArtifactRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<DownloadSandboxArtifactResponse>,
+  output: __S(880, __c55, 0) as any as S.Schema<DownloadSandboxArtifactResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3367,8 +3394,8 @@ export const executeSandboxCommand: API.OperationMethod<
   ExecuteSandboxCommandError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(880, __c55, 0) as any as S.Schema<ExecuteSandboxCommandRequest>,
-  output: __S(881, __c55, 1) as any as S.Schema<ExecuteSandboxCommandResponse>,
+  input: __S(896, __c56, 0) as any as S.Schema<ExecuteSandboxCommandRequest>,
+  output: __S(897, __c56, 1) as any as S.Schema<ExecuteSandboxCommandResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3384,8 +3411,8 @@ export const forkSandbox: API.OperationMethod<
   ForkSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(896, __c56, 0) as any as S.Schema<ForkSandboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ForkSandboxResponse>,
+  input: __S(912, __c57, 0) as any as S.Schema<ForkSandboxRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<ForkSandboxResponse>,
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3401,8 +3428,8 @@ export const getAiProxy: API.OperationMethod<
   GetAiProxyError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(928, __c58, 0) as any as S.Schema<GetAiProxyRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<GetAiProxyResponse>,
+  input: __S(944, __c59, 0) as any as S.Schema<GetAiProxyRequest>,
+  output: __S(961, __c60, 1) as any as S.Schema<GetAiProxyResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3418,8 +3445,8 @@ export const getAiUsage: API.OperationMethod<
   GetAiUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(960, __c60, 0) as any as S.Schema<GetAiUsageRequest>,
-  output: __S(963, __c60, 3) as any as S.Schema<GetAiUsageResponse>,
+  input: __S(976, __c61, 0) as any as S.Schema<GetAiUsageRequest>,
+  output: __S(979, __c61, 3) as any as S.Schema<GetAiUsageResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3435,8 +3462,8 @@ export const getApiKeyUsage: API.OperationMethod<
   GetApiKeyUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(992, __c62, 0) as any as S.Schema<GetApiKeyUsageRequest>,
-  output: __S(996, __c62, 4) as any as S.Schema<GetApiKeyUsageResponse>,
+  input: __S(1008, __c63, 0) as any as S.Schema<GetApiKeyUsageRequest>,
+  output: __S(1012, __c63, 4) as any as S.Schema<GetApiKeyUsageResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3452,8 +3479,8 @@ export const getCommand: API.OperationMethod<
   GetCommandError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1008, __c63, 0) as any as S.Schema<GetCommandRequest>,
-  output: __S(1009, __c63, 1) as any as S.Schema<GetCommandResponse>,
+  input: __S(1024, __c64, 0) as any as S.Schema<GetCommandRequest>,
+  output: __S(1025, __c64, 1) as any as S.Schema<GetCommandResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3469,8 +3496,8 @@ export const getCommandStatus: API.OperationMethod<
   GetCommandStatusError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1024, __c64, 0) as any as S.Schema<GetCommandStatusRequest>,
-  output: __S(1025, __c64, 1) as any as S.Schema<GetCommandStatusResponse>,
+  input: __S(1040, __c65, 0) as any as S.Schema<GetCommandStatusRequest>,
+  output: __S(1041, __c65, 1) as any as S.Schema<GetCommandStatusResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3486,8 +3513,8 @@ export const getCurrentUser: API.OperationMethod<
   GetCurrentUserError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1088, __c68, 0) as any as S.Schema<GetCurrentUserRequest>,
-  output: __S(1090, __c68, 2) as any as S.Schema<GetCurrentUserResponse>,
+  input: __S(1104, __c69, 0) as any as S.Schema<GetCurrentUserRequest>,
+  output: __S(1106, __c69, 2) as any as S.Schema<GetCurrentUserResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3503,8 +3530,8 @@ export const getDataRetention: API.OperationMethod<
   GetDataRetentionError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1104, __c69, 0) as any as S.Schema<GetDataRetentionRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<GetDataRetentionResponse>,
+  input: __S(1120, __c70, 0) as any as S.Schema<GetDataRetentionRequest>,
+  output: __S(1136, __c71, 0) as any as S.Schema<GetDataRetentionResponse>,
   errors: [Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3520,7 +3547,7 @@ export const getDeletionOperation: API.OperationMethod<
   GetDeletionOperationError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1136, __c71, 0) as any as S.Schema<GetDeletionOperationRequest>,
+  input: __S(1152, __c72, 0) as any as S.Schema<GetDeletionOperationRequest>,
   output: __S(752, __c47, 0) as any as S.Schema<GetDeletionOperationResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
@@ -3537,8 +3564,8 @@ export const getDesktopStreamingUrl: API.OperationMethod<
   GetDesktopStreamingUrlError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1152, __c72, 0) as any as S.Schema<GetDesktopStreamingUrlRequest>,
-  output: __S(1153, __c72, 1) as any as S.Schema<GetDesktopStreamingUrlResponse>,
+  input: __S(1168, __c73, 0) as any as S.Schema<GetDesktopStreamingUrlRequest>,
+  output: __S(1169, __c73, 1) as any as S.Schema<GetDesktopStreamingUrlResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3554,8 +3581,8 @@ export const getLatestSandboxSnapshot: API.OperationMethod<
   GetLatestSandboxSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1168, __c73, 0) as any as S.Schema<GetLatestSandboxSnapshotRequest>,
-  output: __S(1169, __c73, 1) as any as S.Schema<GetLatestSandboxSnapshotResponse>,
+  input: __S(1184, __c74, 0) as any as S.Schema<GetLatestSandboxSnapshotRequest>,
+  output: __S(1185, __c74, 1) as any as S.Schema<GetLatestSandboxSnapshotResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3571,8 +3598,8 @@ export const getLimits: API.OperationMethod<
   GetLimitsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1200, __c75, 0) as any as S.Schema<GetLimitsRequest>,
-  output: __S(1210, __c75, 10) as any as S.Schema<GetLimitsResponse>,
+  input: __S(1216, __c76, 0) as any as S.Schema<GetLimitsRequest>,
+  output: __S(1226, __c76, 10) as any as S.Schema<GetLimitsResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3588,8 +3615,8 @@ export const getNamedSnapshot: API.OperationMethod<
   GetNamedSnapshotError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1232, __c77, 0) as any as S.Schema<GetNamedSnapshotRequest>,
-  output: __S(1233, __c77, 1) as any as S.Schema<GetNamedSnapshotResponse>,
+  input: __S(1248, __c78, 0) as any as S.Schema<GetNamedSnapshotRequest>,
+  output: __S(1249, __c78, 1) as any as S.Schema<GetNamedSnapshotResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3605,8 +3632,8 @@ export const getPromptRunStatus: API.OperationMethod<
   GetPromptRunStatusError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1264, __c79, 0) as any as S.Schema<GetPromptRunStatusRequest>,
-  output: __S(1265, __c79, 1) as any as S.Schema<GetPromptRunStatusResponse>,
+  input: __S(1280, __c80, 0) as any as S.Schema<GetPromptRunStatusRequest>,
+  output: __S(1281, __c80, 1) as any as S.Schema<GetPromptRunStatusResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3622,8 +3649,8 @@ export const getSandbox: API.OperationMethod<
   GetSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1296, __c81, 0) as any as S.Schema<GetSandboxRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<GetSandboxResponse>,
+  input: __S(1312, __c82, 0) as any as S.Schema<GetSandboxRequest>,
+  output: __S(1328, __c83, 0) as any as S.Schema<GetSandboxResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3639,8 +3666,8 @@ export const getSandboxAiUsage: API.OperationMethod<
   GetSandboxAiUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1328, __c83, 0) as any as S.Schema<GetSandboxAiUsageRequest>,
-  output: __S(1329, __c83, 1) as any as S.Schema<GetSandboxAiUsageResponse>,
+  input: __S(1344, __c84, 0) as any as S.Schema<GetSandboxAiUsageRequest>,
+  output: __S(1345, __c84, 1) as any as S.Schema<GetSandboxAiUsageResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3656,8 +3683,8 @@ export const getSandboxUsage: API.OperationMethod<
   GetSandboxUsageError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1376, __c86, 0) as any as S.Schema<GetSandboxUsageRequest>,
-  output: __S(1377, __c86, 1) as any as S.Schema<GetSandboxUsageResponse>,
+  input: __S(1392, __c87, 0) as any as S.Schema<GetSandboxUsageRequest>,
+  output: __S(1393, __c87, 1) as any as S.Schema<GetSandboxUsageResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3673,8 +3700,8 @@ export const getSecrets: API.OperationMethod<
   GetSecretsError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1392, __c87, 0) as any as S.Schema<GetSecretsRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<GetSecretsResponse>,
+  input: __S(1408, __c88, 0) as any as S.Schema<GetSecretsRequest>,
+  output: __S(1424, __c89, 0) as any as S.Schema<GetSecretsResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3690,8 +3717,8 @@ export const getSnapshotDownload: API.OperationMethod<
   GetSnapshotDownloadError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1424, __c89, 0) as any as S.Schema<GetSnapshotDownloadRequest>,
-  output: __S(1428, __c89, 4) as any as S.Schema<GetSnapshotDownloadResponse>,
+  input: __S(1440, __c90, 0) as any as S.Schema<GetSnapshotDownloadRequest>,
+  output: __S(1444, __c90, 4) as any as S.Schema<GetSnapshotDownloadResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3707,8 +3734,8 @@ export const getSnapshotFile: API.OperationMethod<
   GetSnapshotFileError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1440, __c90, 0) as any as S.Schema<GetSnapshotFileRequest>,
-  output: __S(1584, __c99, 0) as any as S.Schema<GetSnapshotFileResponse>,
+  input: __S(1456, __c91, 0) as any as S.Schema<GetSnapshotFileRequest>,
+  output: __S(880, __c55, 0) as any as S.Schema<GetSnapshotFileResponse>,
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3724,8 +3751,8 @@ export const getSnapshotTree: API.OperationMethod<
   GetSnapshotTreeError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1456, __c91, 0) as any as S.Schema<GetSnapshotTreeRequest>,
-  output: __S(1459, __c91, 3) as any as S.Schema<GetSnapshotTreeResponse>,
+  input: __S(1472, __c92, 0) as any as S.Schema<GetSnapshotTreeRequest>,
+  output: __S(1475, __c92, 3) as any as S.Schema<GetSnapshotTreeResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3741,8 +3768,8 @@ export const getStop: API.OperationMethod<
   GetStopError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1472, __c92, 0) as any as S.Schema<GetStopRequest>,
-  output: __S(1473, __c92, 1) as any as S.Schema<GetStopResponse>,
+  input: __S(1488, __c93, 0) as any as S.Schema<GetStopRequest>,
+  output: __S(1489, __c93, 1) as any as S.Schema<GetStopResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3758,7 +3785,7 @@ export const getTelemetry: API.OperationMethod<
   GetTelemetryError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1488, __c93, 0) as any as S.Schema<GetTelemetryRequest>,
+  input: __S(1504, __c94, 0) as any as S.Schema<GetTelemetryRequest>,
   output: __S(816, __c51, 0) as any as S.Schema<GetTelemetryResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
@@ -3775,8 +3802,8 @@ export const getWebhook: API.OperationMethod<
   GetWebhookError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1504, __c94, 0) as any as S.Schema<GetWebhookRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<GetWebhookResponse>,
+  input: __S(1520, __c95, 0) as any as S.Schema<GetWebhookRequest>,
+  output: __S(1536, __c96, 0) as any as S.Schema<GetWebhookResponse>,
   errors: [NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3792,8 +3819,8 @@ export const hostPort: API.OperationMethod<
   HostPortError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1536, __c96, 0) as any as S.Schema<HostPortRequest>,
-  output: __S(1537, __c96, 1) as any as S.Schema<HostPortResponse>,
+  input: __S(1552, __c97, 0) as any as S.Schema<HostPortRequest>,
+  output: __S(1553, __c97, 1) as any as S.Schema<HostPortResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3809,8 +3836,8 @@ export const interruptSandbox: API.OperationMethod<
   InterruptSandboxError,
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
-  input: __S(1552, __c97, 0) as any as S.Schema<InterruptSandboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<InterruptSandboxResponse>,
+  input: __S(1568, __c98, 0) as any as S.Schema<InterruptSandboxRequest>,
+  output: __S(928, __c58, 0) as any as S.Schema<InterruptSandboxResponse>,
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -3844,7 +3871,7 @@ export const listCredentialAccounts: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1616, __c101, 0) as any as S.Schema<ListCredentialAccountsRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<ListCredentialAccountsResponse>,
+  output: __S(1088, __c68, 0) as any as S.Schema<ListCredentialAccountsResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4193,7 +4220,7 @@ export const resumeSandbox: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(1952, __c122, 0) as any as S.Schema<ResumeSandboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<ResumeSandboxResponse>,
+  output: __S(928, __c58, 0) as any as S.Schema<ResumeSandboxResponse>,
   errors: [NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4363,7 +4390,7 @@ export const setEnvironmentSecretFile: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2128, __c133, 0) as any as S.Schema<SetEnvironmentSecretFileRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  output: __S(1376, __c86, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4380,7 +4407,7 @@ export const setEnvironmentVar: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2144, __c134, 0) as any as S.Schema<SetEnvironmentVarRequest>,
-  output: __S(1360, __c85, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
+  output: __S(1376, __c86, 0) as any as S.Schema<EnvironmentItemChangeResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4482,7 +4509,7 @@ export const stopSandbox: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2256, __c141, 0) as any as S.Schema<StopSandboxRequest>,
-  output: __S(912, __c57, 0) as any as S.Schema<StopSandboxResponse>,
+  output: __S(928, __c58, 0) as any as S.Schema<StopSandboxResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4499,7 +4526,7 @@ export const switchCredentialAccount: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2272, __c142, 0) as any as S.Schema<SwitchCredentialAccountRequest>,
-  output: __S(1072, __c67, 0) as any as S.Schema<SwitchCredentialAccountResponse>,
+  output: __S(1088, __c68, 0) as any as S.Schema<SwitchCredentialAccountResponse>,
   errors: [BadRequest, Forbidden, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4533,7 +4560,7 @@ export const updateAiProxy: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(2304, __c144, 0) as any as S.Schema<UpdateAiProxyRequest>,
-  output: __S(945, __c59, 1) as any as S.Schema<UpdateAiProxyResponse>,
+  output: __S(961, __c60, 1) as any as S.Schema<UpdateAiProxyResponse>,
   errors: [BadRequest, Forbidden, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4572,7 +4599,7 @@ export const updateDataRetention: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(80, __c5, 0) as any as S.Schema<UpdateDataRetentionRequest>,
-  output: __S(1120, __c70, 0) as any as S.Schema<UpdateDataRetentionResponse>,
+  output: __S(1136, __c71, 0) as any as S.Schema<UpdateDataRetentionResponse>,
   errors: [BadRequest, Forbidden, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4623,7 +4650,7 @@ export const updateSandbox: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(128, __c8, 0) as any as S.Schema<UpdateSandboxRequest>,
-  output: __S(1312, __c82, 0) as any as S.Schema<UpdateSandboxResponse>,
+  output: __S(1328, __c83, 0) as any as S.Schema<UpdateSandboxResponse>,
   errors: [BadRequest, NotFound, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4640,7 +4667,7 @@ export const updateSecrets: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(144, __c9, 0) as any as S.Schema<UpdateSecretsRequest>,
-  output: __S(1408, __c88, 0) as any as S.Schema<UpdateSecretsResponse>,
+  output: __S(1424, __c89, 0) as any as S.Schema<UpdateSecretsResponse>,
   errors: [UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4657,7 +4684,7 @@ export const updateWebhook: API.OperationMethod<
   BoatOpContext
 > = /*@__PURE__*/ API.make(() => ({
   input: __S(160, __c10, 0) as any as S.Schema<UpdateWebhookRequest>,
-  output: __S(1520, __c95, 0) as any as S.Schema<UpdateWebhookResponse>,
+  output: __S(1536, __c96, 0) as any as S.Schema<UpdateWebhookResponse>,
   errors: [BadRequest, NotFound, Conflict, UnknownBoatError],
   protocol: BoatProtocol,
   retry: Retry.Retry,
@@ -4736,7 +4763,7 @@ function __c3(j: number): any {
         }),
       ).annotate({ identifier: "CredentialProfileOwner" });
     case 1:
-      return S.Record(S.String, __S(1057, __c66, 1));
+      return S.Record(S.String, __S(1073, __c67, 1));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5684,6 +5711,14 @@ function __c54(j: number): any {
 function __c55(j: number): any {
   switch (j) {
     case 0:
+      return S.suspend(() => S.Struct({})).annotate({
+        identifier: "DownloadSandboxArtifactResponse",
+      });
+  }
+}
+function __c56(j: number): any {
+  switch (j) {
+    case 0:
       return S.suspend(() =>
         S.Struct({
           sandboxId: S.String.pipe(T.Label()),
@@ -5700,7 +5735,7 @@ function __c55(j: number): any {
       });
   }
 }
-function __c56(j: number): any {
+function __c57(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5718,7 +5753,7 @@ function __c56(j: number): any {
       ).annotate({ identifier: "ForkSandboxRequest" });
   }
 }
-function __c57(j: number): any {
+function __c58(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5734,7 +5769,7 @@ function __c57(j: number): any {
       ).annotate({ identifier: "ForkSandboxResponse" });
   }
 }
-function __c58(j: number): any {
+function __c59(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5745,7 +5780,7 @@ function __c58(j: number): any {
       ).annotate({ identifier: "GetAiProxyRequest" });
   }
 }
-function __c59(j: number): any {
+function __c60(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5764,13 +5799,13 @@ function __c59(j: number): any {
           org: S.Boolean,
           enabled: S.Boolean,
           enabledAt: S.NullOr(S.String),
-          pricing: __S(944, __c59, 0),
+          pricing: __S(960, __c60, 0),
           proxyUrl: S.String,
         }),
       ).annotate({ identifier: "GetAiProxyResponse" });
   }
 }
-function __c60(j: number): any {
+function __c61(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5787,13 +5822,13 @@ function __c60(j: number): any {
           sandboxId: S.NullOr(S.String),
           name: S.NullOr(S.String),
           blocked: S.Boolean,
-          usage: __S(977, __c61, 1),
-          totals: __S(978, __c61, 2),
+          usage: __S(993, __c62, 1),
+          totals: __S(994, __c62, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "SandboxAiUsage" });
     case 2:
-      return S.Array(__S(961, __c60, 1));
+      return S.Array(__S(977, __c61, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -5802,15 +5837,15 @@ function __c60(j: number): any {
           accountId: S.NullOr(S.String),
           profileId: S.NullOr(S.String),
           since: S.String,
-          sandboxes: __S(962, __c60, 2),
-          usage: __S(977, __c61, 1),
-          totals: __S(978, __c61, 2),
+          sandboxes: __S(978, __c61, 2),
+          usage: __S(993, __c62, 1),
+          totals: __S(994, __c62, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "GetAiUsageResponse" });
   }
 }
-function __c61(j: number): any {
+function __c62(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5827,7 +5862,7 @@ function __c61(j: number): any {
         }),
       ).annotate({ identifier: "AiUsageRow" });
     case 1:
-      return S.Array(__S(976, __c61, 0));
+      return S.Array(__S(992, __c62, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -5841,7 +5876,7 @@ function __c61(j: number): any {
       ).annotate({ identifier: "AiUsageTotals" });
   }
 }
-function __c62(j: number): any {
+function __c63(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5870,7 +5905,7 @@ function __c62(j: number): any {
         }),
       ).annotate({ identifier: "ApiKeyCreatedResource" });
     case 3:
-      return S.Array(__S(994, __c62, 2));
+      return S.Array(__S(1010, __c63, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -5889,13 +5924,13 @@ function __c62(j: number): any {
           expiresAt: S.optional(S.NullOr(S.String)),
           expired: S.optional(S.Boolean),
           expiringSoon: S.optional(S.Boolean),
-          scope: S.optional(__S(993, __c62, 1)),
-          createdResources: __S(995, __c62, 3),
+          scope: S.optional(__S(1009, __c63, 1)),
+          createdResources: __S(1011, __c63, 3),
         }),
       ).annotate({ identifier: "GetApiKeyUsageResponse" });
   }
 }
-function __c63(j: number): any {
+function __c64(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5920,7 +5955,7 @@ function __c63(j: number): any {
       ).annotate({ identifier: "GetCommandResponse" });
   }
 }
-function __c64(j: number): any {
+function __c65(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5967,7 +6002,7 @@ function __c64(j: number): any {
       ).annotate({ identifier: "GetCommandStatusResponse" });
   }
 }
-function __c65(j: number): any {
+function __c66(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5986,7 +6021,7 @@ function __c65(j: number): any {
       ).annotate({ identifier: "AddCredentialAccountRequest" });
   }
 }
-function __c66(j: number): any {
+function __c67(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -5998,10 +6033,10 @@ function __c66(j: number): any {
         }),
       ).annotate({ identifier: "CredentialAccount" });
     case 1:
-      return S.Array(__S(1056, __c66, 0));
+      return S.Array(__S(1072, __c67, 0));
   }
 }
-function __c67(j: number): any {
+function __c68(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6011,12 +6046,12 @@ function __c67(j: number): any {
           success: S.Boolean,
           profileId: S.String,
           credential: S.String,
-          accounts: __S(1057, __c66, 1),
+          accounts: __S(1073, __c67, 1),
         }),
       ).annotate({ identifier: "AddCredentialAccountResponse" });
   }
 }
-function __c68(j: number): any {
+function __c69(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6051,12 +6086,12 @@ function __c68(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          user: __S(1089, __c68, 1),
+          user: __S(1105, __c69, 1),
         }),
       ).annotate({ identifier: "GetCurrentUserResponse" });
   }
 }
-function __c69(j: number): any {
+function __c70(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6064,7 +6099,7 @@ function __c69(j: number): any {
       ).annotate({ identifier: "GetDataRetentionRequest" });
   }
 }
-function __c70(j: number): any {
+function __c71(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6083,7 +6118,7 @@ function __c70(j: number): any {
       ).annotate({ identifier: "GetDataRetentionResponse" });
   }
 }
-function __c71(j: number): any {
+function __c72(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6093,7 +6128,7 @@ function __c71(j: number): any {
       ).annotate({ identifier: "GetDeletionOperationRequest" });
   }
 }
-function __c72(j: number): any {
+function __c73(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6119,7 +6154,7 @@ function __c72(j: number): any {
       ).annotate({ identifier: "GetDesktopStreamingUrlResponse" });
   }
 }
-function __c73(j: number): any {
+function __c74(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6134,12 +6169,12 @@ function __c73(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          snapshot: S.NullOr(__S(1184, __c74, 0)),
+          snapshot: S.NullOr(__S(1200, __c75, 0)),
         }),
       ).annotate({ identifier: "GetLatestSandboxSnapshotResponse" });
   }
 }
-function __c74(j: number): any {
+function __c75(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6161,7 +6196,7 @@ function __c74(j: number): any {
       ).annotate({ identifier: "SnapshotSummary" });
   }
 }
-function __c75(j: number): any {
+function __c76(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6203,9 +6238,9 @@ function __c75(j: number): any {
       return S.suspend(() =>
         S.Struct({
           unlimited: S.optional(S.Boolean),
-          minute: S.optional(S.NullOr(__S(1203, __c75, 3))),
-          hour: S.optional(S.NullOr(__S(1203, __c75, 3))),
-          day: S.optional(S.NullOr(__S(1203, __c75, 3))),
+          minute: S.optional(S.NullOr(__S(1219, __c76, 3))),
+          hour: S.optional(S.NullOr(__S(1219, __c76, 3))),
+          day: S.optional(S.NullOr(__S(1219, __c76, 3))),
         }),
       ).annotate({ identifier: "GetLimitsResponseStarts" });
     case 5:
@@ -6223,7 +6258,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "GetLimitsResponseSandboxPlanTiersItem" });
     case 6:
-      return S.Array(__S(1205, __c75, 5));
+      return S.Array(__S(1221, __c76, 5));
     case 7:
       return S.suspend(() =>
         S.Struct({
@@ -6233,7 +6268,7 @@ function __c75(j: number): any {
         }),
       ).annotate({ identifier: "GetLimitsResponseMachineTypesItem" });
     case 8:
-      return S.Array(__S(1207, __c75, 7));
+      return S.Array(__S(1223, __c76, 7));
     case 9:
       return S.suspend(() =>
         S.Struct({
@@ -6250,10 +6285,10 @@ function __c75(j: number): any {
           type: S.String,
           accessTier: S.optional(S.String),
           blockedReason: S.optional(S.NullOr(S.String)),
-          currentLimits: S.optional(__S(1201, __c75, 1)),
-          standardLimits: S.optional(__S(1201, __c75, 1)),
-          trialLimits: S.optional(__S(1201, __c75, 1)),
-          upgradeEffects: S.optional(__S(1216, __c76, 0)),
+          currentLimits: S.optional(__S(1217, __c76, 1)),
+          standardLimits: S.optional(__S(1217, __c76, 1)),
+          trialLimits: S.optional(__S(1217, __c76, 1)),
+          upgradeEffects: S.optional(__S(1232, __c77, 0)),
           canStart: S.Boolean,
           checkoutRequired: S.optional(S.Boolean),
           startBlockedReason: S.optional(S.NullOr(S.String)),
@@ -6263,13 +6298,13 @@ function __c75(j: number): any {
           maxActiveSandboxes: S.Number,
           maxCreationRequestsPerMinute: S.optional(S.Number),
           maxCreationRequestsPerDay: S.optional(S.NullOr(S.Number)),
-          startLimits: S.optional(S.NullOr(__S(1202, __c75, 2))),
-          starts: S.optional(__S(1204, __c75, 4)),
+          startLimits: S.optional(S.NullOr(__S(1218, __c76, 2))),
+          starts: S.optional(__S(1220, __c76, 4)),
           creditBalanceHours: S.optional(S.NullOr(S.Number)),
           packBalanceHours: S.optional(S.Number),
           packBalanceDollars: S.optional(S.Number),
           hasPaymentHistory: S.optional(S.Boolean),
-          package: S.optional(__S(1216, __c76, 0)),
+          package: S.optional(__S(1232, __c77, 0)),
           subscriptionQuotaSeconds: S.optional(S.Number),
           subscriptionRemainingSeconds: S.optional(S.Number),
           packBalanceSeconds: S.optional(S.Number),
@@ -6279,7 +6314,7 @@ function __c75(j: number): any {
           creditSecondsPerDollar: S.optional(S.Number),
           sandboxPlanKey: S.optional(S.String),
           sandboxPlanDollars: S.optional(S.Number),
-          sandboxPlanTiers: S.optional(__S(1206, __c75, 6)),
+          sandboxPlanTiers: S.optional(__S(1222, __c76, 6)),
           accountPlan: S.optional(S.String),
           plan: S.optional(S.NullOr(S.String)),
           planName: S.optional(S.NullOr(S.String)),
@@ -6289,8 +6324,8 @@ function __c75(j: number): any {
           last24hUsageSeconds: S.optional(S.Number),
           trialComputeCapSeconds: S.optional(S.NullOr(S.Number)),
           trialLine: S.optional(S.NullOr(S.String)),
-          machineTypes: S.optional(__S(1208, __c75, 8)),
-          giftLimit: S.optional(S.NullOr(__S(1209, __c75, 9))),
+          machineTypes: S.optional(__S(1224, __c76, 8)),
+          giftLimit: S.optional(S.NullOr(__S(1225, __c76, 9))),
           billingStatus: S.String,
           subscriptionStatus: S.optional(S.NullOr(S.String)),
           subscriptionCancelAtPeriodEnd: S.optional(S.Boolean),
@@ -6304,13 +6339,13 @@ function __c75(j: number): any {
       ).annotate({ identifier: "GetLimitsResponse" });
   }
 }
-function __c76(j: number): any {
+function __c77(j: number): any {
   switch (j) {
     case 0:
       return S.Record(S.String, S.Unknown);
   }
 }
-function __c77(j: number): any {
+function __c78(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6323,12 +6358,12 @@ function __c77(j: number): any {
         S.Struct({
           ok: S.Boolean,
           type: S.String,
-          snapshot: __S(1248, __c78, 0),
+          snapshot: __S(1264, __c79, 0),
         }),
       ).annotate({ identifier: "GetNamedSnapshotResponse" });
   }
 }
-function __c78(j: number): any {
+function __c79(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6345,7 +6380,7 @@ function __c78(j: number): any {
       ).annotate({ identifier: "NamedSnapshot" });
   }
 }
-function __c79(j: number): any {
+function __c80(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6362,12 +6397,12 @@ function __c79(j: number): any {
           ok: S.Boolean,
           type: S.String,
           id: S.String,
-          promptRun: __S(1280, __c80, 0),
+          promptRun: __S(1296, __c81, 0),
         }),
       ).annotate({ identifier: "GetPromptRunStatusResponse" });
   }
 }
-function __c80(j: number): any {
+function __c81(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6386,7 +6421,7 @@ function __c80(j: number): any {
       ).annotate({ identifier: "PromptRun" });
   }
 }
-function __c81(j: number): any {
+function __c82(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6396,7 +6431,7 @@ function __c81(j: number): any {
       ).annotate({ identifier: "GetSandboxRequest" });
   }
 }
-function __c82(j: number): any {
+function __c83(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6409,7 +6444,7 @@ function __c82(j: number): any {
       ).annotate({ identifier: "GetSandboxResponse" });
   }
 }
-function __c83(j: number): any {
+function __c84(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6428,14 +6463,14 @@ function __c83(j: number): any {
           proxied: S.Boolean,
           credentialProfileId: S.NullOr(S.String),
           since: S.String,
-          usage: __S(977, __c61, 1),
-          totals: __S(978, __c61, 2),
+          usage: __S(993, __c62, 1),
+          totals: __S(994, __c62, 2),
           dollars: S.Number,
         }),
       ).annotate({ identifier: "GetSandboxAiUsageResponse" });
   }
 }
-function __c84(j: number): any {
+function __c85(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6448,7 +6483,7 @@ function __c84(j: number): any {
       ).annotate({ identifier: "AddEnvironmentRepoRequest" });
   }
 }
-function __c85(j: number): any {
+function __c86(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6460,7 +6495,7 @@ function __c85(j: number): any {
       ).annotate({ identifier: "EnvironmentItemChangeResponse" });
   }
 }
-function __c86(j: number): any {
+function __c87(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6488,7 +6523,7 @@ function __c86(j: number): any {
       ).annotate({ identifier: "GetSandboxUsageResponse" });
   }
 }
-function __c87(j: number): any {
+function __c88(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6496,7 +6531,7 @@ function __c87(j: number): any {
       ).annotate({ identifier: "GetSecretsRequest" });
   }
 }
-function __c88(j: number): any {
+function __c89(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6508,12 +6543,12 @@ function __c88(j: number): any {
           subenvironmentId: S.optional(S.String),
           envContents: S.String,
           secretFiles: __S(257, __c16, 1),
-          pushed: S.optional(__S(1216, __c76, 0)),
+          pushed: S.optional(__S(1232, __c77, 0)),
         }),
       ).annotate({ identifier: "GetSecretsResponse" });
   }
 }
-function __c89(j: number): any {
+function __c90(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6541,7 +6576,7 @@ function __c89(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotChunk" });
     case 3:
-      return S.Array(__S(1426, __c89, 2));
+      return S.Array(__S(1442, __c90, 2));
     case 4:
       return S.suspend(() =>
         S.Struct({
@@ -6553,13 +6588,13 @@ function __c89(j: number): any {
           generation: S.Number,
           expiresInSeconds: S.Number,
           reconstruct: S.String,
-          inventory: S.optional(S.NullOr(__S(1425, __c89, 1))),
-          chunks: __S(1427, __c89, 3),
+          inventory: S.optional(S.NullOr(__S(1441, __c90, 1))),
+          chunks: __S(1443, __c90, 3),
         }),
       ).annotate({ identifier: "GetSnapshotDownloadResponse" });
   }
 }
-function __c90(j: number): any {
+function __c91(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6570,7 +6605,7 @@ function __c90(j: number): any {
       ).annotate({ identifier: "GetSnapshotFileRequest" });
   }
 }
-function __c91(j: number): any {
+function __c92(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6587,7 +6622,7 @@ function __c91(j: number): any {
         }),
       ).annotate({ identifier: "SnapshotTreeEntry" });
     case 2:
-      return S.Array(__S(1457, __c91, 1));
+      return S.Array(__S(1473, __c92, 1));
     case 3:
       return S.suspend(() =>
         S.Struct({
@@ -6600,13 +6635,13 @@ function __c91(j: number): any {
           truncated: S.Boolean,
           fileCount: S.Number,
           totalSizeBytes: S.Number,
-          entries: __S(1458, __c91, 2),
+          entries: __S(1474, __c92, 2),
           reason: S.optional(S.String),
         }),
       ).annotate({ identifier: "GetSnapshotTreeResponse" });
   }
 }
-function __c92(j: number): any {
+function __c93(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6626,7 +6661,7 @@ function __c92(j: number): any {
       ).annotate({ identifier: "GetStopResponse" });
   }
 }
-function __c93(j: number): any {
+function __c94(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6634,7 +6669,7 @@ function __c93(j: number): any {
       ).annotate({ identifier: "GetTelemetryRequest" });
   }
 }
-function __c94(j: number): any {
+function __c95(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6644,7 +6679,7 @@ function __c94(j: number): any {
       ).annotate({ identifier: "GetWebhookRequest" });
   }
 }
-function __c95(j: number): any {
+function __c96(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6656,7 +6691,7 @@ function __c95(j: number): any {
       ).annotate({ identifier: "GetWebhookResponse" });
   }
 }
-function __c96(j: number): any {
+function __c97(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6683,7 +6718,7 @@ function __c96(j: number): any {
       ).annotate({ identifier: "HostPortResponse" });
   }
 }
-function __c97(j: number): any {
+function __c98(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6694,7 +6729,7 @@ function __c97(j: number): any {
       ).annotate({ identifier: "InterruptSandboxRequest" });
   }
 }
-function __c98(j: number): any {
+function __c99(j: number): any {
   switch (j) {
     case 0:
       return S.suspend(() =>
@@ -6711,12 +6746,28 @@ function __c98(j: number): any {
           }),
         ),
       ).annotate({ identifier: "AttachCommandRequest" });
-  }
-}
-function __c99(j: number): any {
-  switch (j) {
-    case 0:
-      return S.suspend(() => S.Struct({})).annotate({ identifier: "AttachCommandResponse" });
+    case 1:
+      return S.suspend(() =>
+        S.Struct({
+          type: S.String,
+          processId: S.optional(S.Number),
+          data: S.optional(S.String),
+          nextOffset: S.optional(S.Number),
+          stdoutOffset: S.optional(S.Number),
+          stderrOffset: S.optional(S.Number),
+          status: S.optional(S.String),
+          exitCode: S.optional(S.NullOr(S.Number)),
+          signal: S.optional(S.NullOr(S.String)),
+          error: S.optional(S.String),
+          message: S.optional(S.String),
+        }),
+      ).annotate({ identifier: "CommandAttachFrame" });
+    case 2:
+      return S.suspend(() =>
+        S.Struct({
+          frames: S.Unknown.pipe(T.NdjsonStream(__S(1585, __c99, 1))),
+        }),
+      ).annotate({ identifier: "AttachCommandResponse" });
   }
 }
 function __c100(j: number): any {
@@ -6819,7 +6870,7 @@ function __c104(j: number): any {
         S.Struct({}).pipe(T.Http({ method: "GET", uri: "/named-snapshots", code: 200 })),
       ).annotate({ identifier: "ListNamedSnapshotsRequest" });
     case 1:
-      return S.Array(__S(1248, __c78, 0));
+      return S.Array(__S(1264, __c79, 0));
     case 2:
       return S.suspend(() =>
         S.Struct({
@@ -7027,7 +7078,7 @@ function __c110(j: number): any {
             timestamp: S.optional(S.Number),
             taskId: S.optional(S.NullOr(S.String)),
             conversationId: S.optional(S.NullOr(S.String)),
-            data: S.optional(__S(1216, __c76, 0)),
+            data: S.optional(__S(1232, __c77, 0)),
           }),
           [S.Record(S.String, S.Unknown)],
         ),
@@ -7148,7 +7199,7 @@ function __c114(j: number): any {
 function __c115(j: number): any {
   switch (j) {
     case 0:
-      return S.Array(__S(1184, __c74, 0));
+      return S.Array(__S(1200, __c75, 0));
     case 1:
       return S.suspend(() =>
         S.Struct({
@@ -7234,7 +7285,7 @@ function __c119(j: number): any {
           id: S.String,
           promptId: S.String,
           conversationId: S.optional(S.NullOr(S.String)),
-          promptRun: __S(1280, __c80, 0),
+          promptRun: __S(1296, __c81, 0),
           status: S.String,
           provider: S.String,
           model: S.optional(S.NullOr(S.String)),
@@ -7414,7 +7465,7 @@ function __c128(j: number): any {
           ok: S.Boolean,
           type: S.String,
           status: S.String,
-          snapshot: __S(1248, __c78, 0),
+          snapshot: __S(1264, __c79, 0),
         }),
       ).annotate({ identifier: "SaveNamedSnapshotResponse" });
   }

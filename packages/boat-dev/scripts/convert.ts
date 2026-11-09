@@ -26,7 +26,7 @@ await runOpenApiConvert({
       specPath: "specs/spec-mirror-boat-dev/specs/openapi.json",
     },
   ],
-  patchesDir: false,
+  patchesDir: "patches",
   options: {
     namespace: "com.boat.api",
     serviceName: "Boat",

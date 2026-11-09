@@ -10,7 +10,12 @@ import {
   suspendConst,
 } from "./emit.ts";
 import { orderIndex, reachableFrom, shapeDeps, topoOrder, type ShapeMap } from "./graph.ts";
-import { ADDITIONAL_PROPERTIES_TRAIT, memberBases, smithyWireName } from "./members.ts";
+import {
+  ADDITIONAL_PROPERTIES_TRAIT,
+  memberBases,
+  NDJSON_STREAM_TRAIT,
+  smithyWireName,
+} from "./members.ts";
 /**
  * The generic smithy→SDK service generator (dev-time only).
  *
@@ -692,15 +697,27 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
       ...(spec.memberExtraPipes?.(info) ?? []),
     ]);
 
+  // Set when a member carries NDJSON_STREAM_TRAIT, so the header only
+  // imports `effect/Stream` (as a type) when something uses it.
+  let usesNdjson = false;
+
   const memberTsTypeOf = (
     info: EmittedMember,
     tsRefFn: (target: string) => string,
   ): string | undefined =>
-    spec.memberTsType?.(info, tsRefFn) ??
-    (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
-      ?.tsType;
+    NDJSON_STREAM_TRAIT in info.traits
+      ? `Stream.Stream<${tsRefFn(info.target)}, ${spec.operationDecl?.commonErrorType ?? "unknown"}>`
+      : (spec.memberTsType?.(info, tsRefFn) ??
+        (spec.extraBindings ?? []).find((b) => b.binding === info.binding && b.tsType !== undefined)
+          ?.tsType);
 
   const memberExpr = (info: EmittedMember, selfIdx: number): string => {
+    // The protocol fills this member with the decoded lines; the schema
+    // only carries the line schema for it.
+    if (NDJSON_STREAM_TRAIT in info.traits) {
+      usesNdjson = true;
+      return `S.Unknown.pipe(T.NdjsonStream(${ref(info.target, selfIdx)}))`;
+    }
     let expr =
       spec.memberSchema?.(info, (target) => ref(target, selfIdx)) ?? ref(info.target, selfIdx);
     if (info.nullable) expr = `S.NullOr(${expr})`;
@@ -1539,11 +1556,12 @@ export const generateService = (model: any, spec: SdkSpec): GeneratedService => 
   })();
   // After the header's last import (imports are hoisted either way).
   const withImport = (text: string): string => {
-    if (telemetryImports.size === 0) return text;
-    const line = [...telemetryImports]
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([ns, mod]) => `import * as ${ns} from "${mod}";\n`)
-      .join("");
+    if (telemetryImports.size === 0 && !usesNdjson) return text;
+    const line =
+      [...telemetryImports]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([ns, mod]) => `import * as ${ns} from "${mod}";\n`)
+        .join("") + (usesNdjson ? `import type * as Stream from "effect/Stream";\n` : "");
     const last = [...text.matchAll(/^import [^;]*;\n/gm)].pop();
     if (last === undefined) return line + text;
     const at = last.index! + last[0].length;
