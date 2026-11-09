@@ -6434,7 +6434,7 @@ export type ListMembershipsError =
  * Lists the Deadline Cloud resource memberships associated with a specified IAM Identity Center principal, optionally filtered by the requested resource types.
  */
 export const listMemberships: API.PaginatedOperationMethod<
-  ListMembershipsRequest,
+  ListMembershipsRequest & RegionInput,
   ListMembershipsResponse,
   ListMembershipsError,
   Credentials | HttpClient.HttpClient,

@@ -7,6 +7,7 @@ import * as C from "../category.ts";
 import type { Credentials } from "../credentials.ts";
 import type { CommonErrors } from "../errors.ts";
 import { AwsProtocol } from "../protocol.ts";
+import type { RegionInput } from "../region.ts";
 import { Retry } from "../retry.ts";
 import * as T from "../traits.ts";
 // Schema table, filled on first reach (see __S at the end).
@@ -455,7 +456,7 @@ export type ExecuteSamplingOperationError =
  * Submits an asynchronous sampling operation to generate text or compute log-probabilities from the model associated with the specified training session. The session must be in `Running` or `Blocked` state. Use `GetSamplingOperationResult` to poll for the result.
  */
 export const executeSamplingOperation: API.OperationMethod<
-  ExecuteSamplingOperationInput,
+  ExecuteSamplingOperationInput & RegionInput,
   ExecuteSamplingOperationOutput,
   ExecuteSamplingOperationError,
   Credentials | HttpClient.HttpClient
@@ -487,7 +488,7 @@ export type ExecuteTrainingOperationError =
  * Submits an asynchronous training operation to the specified training session. The service executes operations in sequence number order. The session must be in `Running` or `Blocked` state. Use `GetTrainingOperationResult` to poll for the result. Supported operation types: `forward`, `forwardBackward`, `optimizerStep`, `saveWeights`, `saveState`, and `loadState`.
  */
 export const executeTrainingOperation: API.OperationMethod<
-  ExecuteTrainingOperationInput,
+  ExecuteTrainingOperationInput & RegionInput,
   ExecuteTrainingOperationOutput,
   ExecuteTrainingOperationError,
   Credentials | HttpClient.HttpClient
@@ -518,7 +519,7 @@ export type GetSamplingOperationResultError =
  * Retrieves the current status and result of a previously submitted sampling operation. Poll this operation until the status reaches a terminal state (Completed or Failed).
  */
 export const getSamplingOperationResult: API.OperationMethod<
-  GetSamplingOperationResultInput,
+  GetSamplingOperationResultInput & RegionInput,
   GetSamplingOperationResultOutput,
   GetSamplingOperationResultError,
   Credentials | HttpClient.HttpClient
@@ -548,7 +549,7 @@ export type GetTrainingOperationResultError =
  * Retrieves the current status and result of a previously submitted training operation. Poll this operation until the status reaches a terminal state (Completed, Failed, or Skipped).
  */
 export const getTrainingOperationResult: API.OperationMethod<
-  GetTrainingOperationResultInput,
+  GetTrainingOperationResultInput & RegionInput,
   GetTrainingOperationResultOutput,
   GetTrainingOperationResultError,
   Credentials | HttpClient.HttpClient
@@ -579,7 +580,7 @@ export type SampleTrainingSessionError =
  * Sends an inference request to the model associated with the specified training session and returns the response synchronously. The service passes the request and response bodies to and from the model without modification.
  */
 export const sampleTrainingSession: API.OperationMethod<
-  SampleTrainingSessionInput,
+  SampleTrainingSessionInput & RegionInput,
   SampleTrainingSessionOutput,
   SampleTrainingSessionError,
   Credentials | HttpClient.HttpClient
@@ -611,7 +612,7 @@ export type SampleTrainingSessionWithResponseStreamError =
  * Streams inference responses from the model associated with the specified training session. Use this operation for real-time token-by-token generation. The service passes the request body to the model without modification.
  */
 export const sampleTrainingSessionWithResponseStream: API.OperationMethod<
-  SampleTrainingSessionWithResponseStreamInput,
+  SampleTrainingSessionWithResponseStreamInput & RegionInput,
   SampleTrainingSessionWithResponseStreamOutput,
   SampleTrainingSessionWithResponseStreamError,
   Credentials | HttpClient.HttpClient

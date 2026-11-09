@@ -1436,7 +1436,7 @@ export type GetDomainPricesError = InvalidInput | TLDInMaintenance | Unsupported
  * over time.
  */
 export const getDomainPrices: API.OperationMethod<
-  GetDomainPricesRequest,
+  GetDomainPricesRequest & RegionInput,
   GetDomainPricesResponse,
   GetDomainPricesError,
   Credentials | HttpClient.HttpClient

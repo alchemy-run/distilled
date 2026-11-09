@@ -11050,7 +11050,7 @@ export type CreateContactFlowAliasError =
  * Creates a named alias that points to a specific version of a flow.
  */
 export const createContactFlowAlias: API.OperationMethod<
-  CreateContactFlowAliasRequest,
+  CreateContactFlowAliasRequest & RegionInput,
   CreateContactFlowAliasResponse,
   CreateContactFlowAliasError,
   Creds | HttpClient.HttpClient
@@ -12704,7 +12704,7 @@ export type DeleteContactFlowAliasError =
  * Deletes an alias from a flow without deleting the version that the alias points to.
  */
 export const deleteContactFlowAlias: API.OperationMethod<
-  DeleteContactFlowAliasRequest,
+  DeleteContactFlowAliasRequest & RegionInput,
   DeleteContactFlowAliasResponse,
   DeleteContactFlowAliasError,
   Creds | HttpClient.HttpClient
@@ -14219,7 +14219,7 @@ export type DescribeContactFlowAliasError =
  * Returns information about a specific flow alias, including the version that it points to.
  */
 export const describeContactFlowAlias: API.OperationMethod<
-  DescribeContactFlowAliasRequest,
+  DescribeContactFlowAliasRequest & RegionInput,
   DescribeContactFlowAliasResponse,
   DescribeContactFlowAliasError,
   Creds | HttpClient.HttpClient
@@ -17132,7 +17132,7 @@ export type ListContactFlowAliasesError =
  * Lists the aliases associated with a flow, including the version that each alias points to.
  */
 export const listContactFlowAliases: API.PaginatedOperationMethod<
-  ListContactFlowAliasesRequest,
+  ListContactFlowAliasesRequest & RegionInput,
   ListContactFlowAliasesResponse,
   ListContactFlowAliasesError,
   Creds | HttpClient.HttpClient,
@@ -22688,7 +22688,7 @@ export type UpdateContactFlowAliasError =
  * Updates the name, description, or flow version associated with an alias.
  */
 export const updateContactFlowAlias: API.OperationMethod<
-  UpdateContactFlowAliasRequest,
+  UpdateContactFlowAliasRequest & RegionInput,
   UpdateContactFlowAliasResponse,
   UpdateContactFlowAliasError,
   Creds | HttpClient.HttpClient

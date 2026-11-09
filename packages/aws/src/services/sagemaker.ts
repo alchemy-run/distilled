@@ -19196,7 +19196,7 @@ export type CreateTrainingSessionError =
  * - `DeleteTrainingSession`
  */
 export const createTrainingSession: API.OperationMethod<
-  CreateTrainingSessionRequest,
+  CreateTrainingSessionRequest & RegionInput,
   CreateTrainingSessionResponse,
   CreateTrainingSessionError,
   Credentials | HttpClient.HttpClient
@@ -20558,7 +20558,7 @@ export type DeleteTrainingSessionError = ResourceNotFound | CommonErrors;
  * - `StopTrainingSession`
  */
 export const deleteTrainingSession: API.OperationMethod<
-  DeleteTrainingSessionRequest,
+  DeleteTrainingSessionRequest & RegionInput,
   DeleteTrainingSessionResponse,
   DeleteTrainingSessionError,
   Credentials | HttpClient.HttpClient
@@ -22149,7 +22149,7 @@ export type DescribeTrainingSessionError = ResourceNotFound | CommonErrors;
  * - `DeleteTrainingSession`
  */
 export const describeTrainingSession: API.OperationMethod<
-  DescribeTrainingSessionRequest,
+  DescribeTrainingSessionRequest & RegionInput,
   DescribeTrainingSessionResponse,
   DescribeTrainingSessionError,
   Credentials | HttpClient.HttpClient
@@ -24804,7 +24804,7 @@ export type ListTrainingSessionsError = CommonErrors;
  * - `DescribeTrainingSession`
  */
 export const listTrainingSessions: API.PaginatedOperationMethod<
-  ListTrainingSessionsRequest,
+  ListTrainingSessionsRequest & RegionInput,
   ListTrainingSessionsResponse,
   ListTrainingSessionsError,
   Credentials | HttpClient.HttpClient,
@@ -25805,7 +25805,7 @@ export type StopTrainingSessionError = ResourceNotFound | CommonErrors;
  * - `DeleteTrainingSession`
  */
 export const stopTrainingSession: API.OperationMethod<
-  StopTrainingSessionRequest,
+  StopTrainingSessionRequest & RegionInput,
   StopTrainingSessionResponse,
   StopTrainingSessionError,
   Credentials | HttpClient.HttpClient

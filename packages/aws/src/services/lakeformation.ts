@@ -1358,7 +1358,7 @@ export type AttachRLSPolicyError =
  * Attaches a row-level security policy to a resource for a principal. When the principal queries the resource, Lake Formation applies the policy's filter expression so that only the permitted rows are returned.
  */
 export const attachRLSPolicy: API.OperationMethod<
-  AttachRLSPolicyRequest,
+  AttachRLSPolicyRequest & RegionInput,
   AttachRLSPolicyResponse,
   AttachRLSPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1703,7 +1703,7 @@ export type CreateRLSPolicyError =
  * Creates a row-level security (RLS) policy. A row-level security policy defines a filter expression that Lake Formation evaluates to determine which rows of a table a principal is allowed to see. The policy is created independently of any resource, and is later associated with a resource and principal using `AttachRLSPolicy`.
  */
 export const createRLSPolicy: API.OperationMethod<
-  CreateRLSPolicyRequest,
+  CreateRLSPolicyRequest & RegionInput,
   CreateRLSPolicyResponse,
   CreateRLSPolicyError,
   Credentials | HttpClient.HttpClient
@@ -1962,7 +1962,7 @@ export type DeleteRLSPolicyError =
  * Deletes a row-level security policy. Any active attachments of the policy are automatically removed as part of the deletion, so you do not need to detach the policy first.
  */
 export const deleteRLSPolicy: API.OperationMethod<
-  DeleteRLSPolicyRequest,
+  DeleteRLSPolicyRequest & RegionInput,
   DeleteRLSPolicyResponse,
   DeleteRLSPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2130,7 +2130,7 @@ export type DetachRLSPolicyError =
  * Detaches a row-level security policy from a resource for a principal. After the policy is detached, its filter expression is no longer applied to the principal's queries on that resource.
  */
 export const detachRLSPolicy: API.OperationMethod<
-  DetachRLSPolicyRequest,
+  DetachRLSPolicyRequest & RegionInput,
   DetachRLSPolicyResponse,
   DetachRLSPolicyError,
   Credentials | HttpClient.HttpClient
@@ -2476,7 +2476,7 @@ export type GetRLSPolicyError =
  * Returns the definition of a row-level security policy, including its attachment columns and filter expression.
  */
 export const getRLSPolicy: API.OperationMethod<
-  GetRLSPolicyRequest,
+  GetRLSPolicyRequest & RegionInput,
   GetRLSPolicyResponse,
   GetRLSPolicyError,
   Credentials | HttpClient.HttpClient
@@ -3007,7 +3007,7 @@ export type ListRLSPoliciesError =
  * Lists the row-level security policies in the Data Catalog.
  */
 export const listRLSPolicies: API.PaginatedOperationMethod<
-  ListRLSPoliciesRequest,
+  ListRLSPoliciesRequest & RegionInput,
   ListRLSPoliciesResponse,
   ListRLSPoliciesError,
   Credentials | HttpClient.HttpClient,
@@ -3046,7 +3046,7 @@ export type ListRLSPolicyAttachmentsError =
  * Lists the row-level security policy attachments in the Data Catalog. You can filter the results by resource, principal, or policy name.
  */
 export const listRLSPolicyAttachments: API.PaginatedOperationMethod<
-  ListRLSPolicyAttachmentsRequest,
+  ListRLSPolicyAttachmentsRequest & RegionInput,
   ListRLSPolicyAttachmentsResponse,
   ListRLSPolicyAttachmentsError,
   Credentials | HttpClient.HttpClient,
@@ -3607,7 +3607,7 @@ export type UpdateRLSPolicyError =
  * Updates the filter expression of an existing row-level security policy. The change applies to all attachments of the policy.
  */
 export const updateRLSPolicy: API.OperationMethod<
-  UpdateRLSPolicyRequest,
+  UpdateRLSPolicyRequest & RegionInput,
   UpdateRLSPolicyResponse,
   UpdateRLSPolicyError,
   Credentials | HttpClient.HttpClient

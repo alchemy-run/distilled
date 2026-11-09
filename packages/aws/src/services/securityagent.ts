@@ -2886,7 +2886,7 @@ export type BatchDisassociateFindingIssueError =
  * Disassociates a batch of findings from their linked issues.
  */
 export const batchDisassociateFindingIssue: API.OperationMethod<
-  BatchDisassociateFindingIssueInput,
+  BatchDisassociateFindingIssueInput & RegionInput,
   BatchDisassociateFindingIssueOutput,
   BatchDisassociateFindingIssueError,
   Credentials | HttpClient.HttpClient
@@ -2922,7 +2922,7 @@ export type BatchExportFindingsError =
  * Exports a batch of findings to the connected issue tracker as issues.
  */
 export const batchExportFindings: API.OperationMethod<
-  BatchExportFindingsInput,
+  BatchExportFindingsInput & RegionInput,
   BatchExportFindingsOutput,
   BatchExportFindingsError,
   Credentials | HttpClient.HttpClient

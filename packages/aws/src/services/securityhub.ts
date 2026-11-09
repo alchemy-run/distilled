@@ -8626,7 +8626,7 @@ export type CancelExportJobV2Error =
  * The `Status` value returned by this operation reflects the cancellation immediately, even though the job can take a short time to stop completely.
  */
 export const cancelExportJobV2: API.OperationMethod<
-  CancelExportJobV2Request,
+  CancelExportJobV2Request & RegionInput,
   CancelExportJobV2Response,
   CancelExportJobV2Error,
   Credentials | HttpClient.HttpClient
@@ -10548,7 +10548,7 @@ export type GetExportJobV2Error =
  * If the job failed, the response includes a `FailureCode` and `FailureMessage` that describe the reason. Input values such as `Scopes` and `Filters` are echoed back as they were submitted, with relative date ranges returned unresolved. If no export job matches the `ExportJobId` that you provide, this operation returns a `ResourceNotFoundException`.
  */
 export const getExportJobV2: API.OperationMethod<
-  GetExportJobV2Request,
+  GetExportJobV2Request & RegionInput,
   GetExportJobV2Response,
   GetExportJobV2Error,
   Credentials | HttpClient.HttpClient
@@ -11595,7 +11595,7 @@ export type ListExportJobsV2Error =
  * Each `ExportSummary` reports the output `Format` of the job but not its full `OutputConfiguration`. To retrieve the filters and selected fields that a job was started with, call `GetExportJobV2`.
  */
 export const listExportJobsV2: API.PaginatedOperationMethod<
-  ListExportJobsV2Request,
+  ListExportJobsV2Request & RegionInput,
   ListExportJobsV2Response,
   ListExportJobsV2Error,
   Credentials | HttpClient.HttpClient,
@@ -12096,7 +12096,7 @@ export type StartExportJobV2Error =
  * To make the request idempotent, provide a `ClientToken`. If you retry a `StartExportJobV2` request with the same `ClientToken` and the same request parameters, Security Hub returns the `ExportJobId` of the original job instead of starting a new one. If you reuse a `ClientToken` with different request parameters, this operation returns a `ConflictException`.
  */
 export const startExportJobV2: API.OperationMethod<
-  StartExportJobV2Request,
+  StartExportJobV2Request & RegionInput,
   StartExportJobV2Response,
   StartExportJobV2Error,
   Credentials | HttpClient.HttpClient

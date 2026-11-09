@@ -822,7 +822,7 @@ export type GetFindingMetricsError = CommonErrors;
  * Returns finding-lifecycle metrics for a membership over a date range.
  */
 export const getFindingMetrics: API.OperationMethod<
-  GetFindingMetricsRequest,
+  GetFindingMetricsRequest & RegionInput,
   GetFindingMetricsResponse,
   GetFindingMetricsError,
   Credentials | HttpClient.HttpClient
