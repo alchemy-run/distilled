@@ -310,8 +310,8 @@ export const applyAwsSpecPatches = (
 };
 
 /**
- * Discriminated union variant with `?: never` props for easier narrowing:
- * `{ S: string; N?: never; B?: never }` instead of just `{ S: string }`.
+ * Discriminated union variant with `?: undefined` props for easier narrowing:
+ * `{ S: string; N?: undefined; B?: undefined }` instead of just `{ S: string }`.
  */
 function generateUnionVariant(
   allMemberNames: string[],
@@ -319,7 +319,7 @@ function generateUnionVariant(
   activeMemberType: string,
 ): string {
   const props = allMemberNames.map((name) =>
-    name === activeMemberName ? `${name}: ${activeMemberType}` : `${name}?: never`,
+    name === activeMemberName ? `${name}: ${activeMemberType}` : `${name}?: undefined`,
   );
   return `{ ${props.join("; ")} }`;
 }
