@@ -95,6 +95,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "modrinth" },
   { package: "neon" },
   { package: "notion" },
+  { package: "npm" },
   { package: "okta" },
   { package: "onepassword" },
   { package: "opencode" },
