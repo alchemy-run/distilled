@@ -468,3 +468,8 @@ shallow = true
 	url = https://github.com/distilled-mirror/spec-mirror-exa.git
 	ignore = dirty
 	shallow = true
+[submodule "packages/polymarket/specs/spec-mirror-polymarket"]
+	path = packages/polymarket/specs/spec-mirror-polymarket
+	url = https://github.com/distilled-mirror/spec-mirror-polymarket.git
+	ignore = dirty
+	shallow = true

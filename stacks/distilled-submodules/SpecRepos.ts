@@ -105,6 +105,7 @@ export const SPEC_REPOS: readonly SpecRepo[] = [
   { package: "plaid" },
   { package: "planetscale" },
   { package: "polar" },
+  { package: "polymarket" },
   { package: "porkbun" },
   { package: "posthog" },
   { package: "prisma", mirror: "prisma-postgres" },
